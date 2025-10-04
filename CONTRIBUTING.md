@@ -263,9 +263,11 @@ Syntax tests in `syntax-tests/fixtures/` are the executable specification:
 mkdir -p syntax-tests/fixtures/02-inline-attributes
 
 # Create input file
-cat > syntax-tests/fixtures/02-inline-attributes/04-new-feature.tdown << 'EOF'
+cat > syntax-tests/fixtures/02-inline-attributes/04-new-feature.td << 'EOF'
 # Test heading {.class}
 EOF
+
+# Note: Taildown files use .td (primary), but .tdown and .taildown are also supported
 
 # Create expected AST
 cat > syntax-tests/fixtures/02-inline-attributes/04-new-feature.ast.json << 'EOF'

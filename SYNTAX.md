@@ -51,6 +51,7 @@ markdown_block    ::= heading | paragraph | list | code_block | blockquote | the
 **Parsing Rule 1.1.1**: Valid CommonMark documents MUST parse identically in Taildown
 ```
 Test: syntax-tests/fixtures/01-markdown-compatibility/
+Note: Taildown files use .td extension (primary), with .tdown and .taildown also accepted.
 ```
 
 **Parsing Rule 1.1.2**: Unknown extensions MUST be preserved as plain text (graceful degradation)
@@ -168,10 +169,10 @@ code block {.not-parsed}
 
 ```
 Test fixtures:
-- syntax-tests/fixtures/02-inline-attributes/01-headings.tdown
-- syntax-tests/fixtures/02-inline-attributes/02-paragraphs.tdown
-- syntax-tests/fixtures/02-inline-attributes/03-links.tdown
-- syntax-tests/fixtures/02-inline-attributes/04-edge-cases.tdown
+- syntax-tests/fixtures/02-inline-attributes/01-headings.td
+- syntax-tests/fixtures/02-inline-attributes/02-paragraphs.td
+- syntax-tests/fixtures/02-inline-attributes/03-links.td
+- syntax-tests/fixtures/02-inline-attributes/04-edge-cases.td
 ```
 
 ---
@@ -353,10 +354,10 @@ Rule: Code blocks take precedence; content inside code blocks is not parsed for 
 
 ```
 Test fixtures:
-- syntax-tests/fixtures/03-component-blocks/01-basic.tdown
-- syntax-tests/fixtures/03-component-blocks/02-attributes.tdown
-- syntax-tests/fixtures/03-component-blocks/03-nesting.tdown
-- syntax-tests/fixtures/03-component-blocks/04-edge-cases.tdown
+- syntax-tests/fixtures/03-component-blocks/01-basic.td
+- syntax-tests/fixtures/03-component-blocks/02-attributes.td
+- syntax-tests/fixtures/03-component-blocks/03-nesting.td
+- syntax-tests/fixtures/03-component-blocks/04-edge-cases.td
 ```
 
 ---
@@ -543,7 +544,7 @@ syntax-tests/fixtures/
 ```
 
 Each test case consists of:
-- **Input**: `.tdown` file with source
+- **Input**: `.td` file with source (also accepts `.tdown` and `.taildown`)
 - **Expected AST**: `.ast.json` file with expected abstract syntax tree
 - **Expected HTML**: `.html` file with expected output (Phase 1+)
 - **Expected CSS**: `.css` file with expected styles (Phase 1+)
@@ -567,10 +568,13 @@ Each test case consists of:
 Test files follow the pattern:
 ```
 NN-category-name/
-  ├── NN-test-name.tdown
+  ├── NN-test-name.td
   ├── NN-test-name.ast.json
   ├── NN-test-name.html
   └── NN-test-name.css
+
+Note: Test files use .td extension (primary). The compiler also accepts
+.tdown and .taildown extensions for backward compatibility.
 ```
 
 Where `NN` is a zero-padded number (01, 02, etc.)

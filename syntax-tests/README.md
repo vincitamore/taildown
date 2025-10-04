@@ -20,7 +20,7 @@ syntax-tests/
 
 Each test consists of multiple files with the same base name:
 
-- **`.tdown`** - Input Taildown source
+- **`.td`** - Input Taildown source (primary; `.tdown` and `.taildown` also accepted)
 - **`.ast.json`** - Expected Abstract Syntax Tree (MDAST format)
 - **`.html`** - Expected HTML output (Phase 1+)
 - **`.css`** - Expected CSS output (Phase 1+)
@@ -29,7 +29,7 @@ Each test consists of multiple files with the same base name:
 
 ```
 02-inline-attributes/
-  ├── 01-headings.tdown          # Input
+  ├── 01-headings.td             # Input
   ├── 01-headings.ast.json       # Expected AST
   ├── 01-headings.html           # Expected HTML (future)
   └── 01-headings.css            # Expected CSS (future)
@@ -58,15 +58,17 @@ All syntax tests run automatically on every commit.
 ## Adding New Tests
 
 1. **Identify the category** (01-05) or create new category
-2. **Create `.tdown` file** with test input
+2. **Create `.td` file** with test input
 3. **Create `.ast.json` file** with expected AST
-4. **Add description** in comments at top of `.tdown` file
+4. **Add description** in comments at top of `.td` file
 5. **Reference in SYNTAX.md** if testing new rule
+
+> **Note:** Test files use `.td` as the primary extension. The test runner also accepts `.tdown` and `.taildown` for backward compatibility.
 
 ### Test Naming Convention
 
 ```
-NN-descriptive-name.tdown
+NN-descriptive-name.td
 ```
 
 Where:
@@ -197,7 +199,7 @@ Implementations must pass tests according to their claimed conformance level:
 
 ### Updating Tests
 When modifying tests:
-1. Update `.tdown` input
+1. Update `.td` input (or `.tdown`/`.taildown` if using alternative extension)
 2. Update `.ast.json` expected output
 3. Update corresponding section in `SYNTAX.md`
 4. Add note to `SYNTAX.md` version history

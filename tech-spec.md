@@ -168,7 +168,7 @@ Human-readable style aliases:
 ```
 ┌─────────────────┐
 │  Taildown File  │
-│   (.tdown)      │
+│   (.td)        │
 └────────┬────────┘
          │
          ▼
@@ -710,7 +710,7 @@ const output = compile(source);
 
 :::card {.padded}
 ### Input
-Your .tdown file with styling
+Your .td file with styling
 :::
 
 :::card {.padded}
