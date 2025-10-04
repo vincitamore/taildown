@@ -27,10 +27,12 @@ Implements #
 - [ ] Version history updated
 
 ### 2. Test Fixtures Created
-- [ ] Input `.tdown` files added to `syntax-tests/fixtures/`
+- [ ] Input `.td` files added to `syntax-tests/fixtures/` (primary extension)
 - [ ] Expected `.ast.json` files created
 - [ ] Tests cover all examples from SYNTAX.md
 - [ ] Edge cases have tests
+
+> Note: Test files should use `.td` extension. The compiler also accepts `.tdown` and `.taildown`.
 
 ### 3. Implementation Complete
 - [ ] Parser implementation updated

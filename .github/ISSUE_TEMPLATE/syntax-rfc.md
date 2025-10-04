@@ -24,6 +24,7 @@ assignees: ''
 
 ```taildown
 <!-- Example Taildown code showing the proposed syntax -->
+<!-- Note: Taildown files use .td extension (primary), with .tdown and .taildown also accepted -->
 ```
 
 ## Proposed Syntax

@@ -148,7 +148,7 @@ This document defines the process for proposing, evaluating, and implementing ch
      - Examples
      - Test references
    - Create test fixtures in `syntax-tests/fixtures/`
-     - Input `.tdown` files
+     - Input `.td` files (also accepts `.tdown` and `.taildown`)
      - Expected `.ast.json` files
    - Update `SYNTAX.md` version history
 
@@ -374,7 +374,10 @@ How to update your documents:
 
 ### Automated Migration
 ```bash
-taildown migrate --from=0.X.0 --to=0.Y.0 file.tdown
+taildown migrate --from=0.X.0 --to=0.Y.0 file.td
+```
+
+> **Note:** Taildown files use the `.td` extension (primary), with `.tdown` and `.taildown` also accepted.
 ```
 
 ### Questions?
@@ -412,7 +415,7 @@ Open an issue with label `deprecated-syntax`.
 2. Discussion: 2 weeks, consensus reached
 3. Draft PR:
    - Update SYNTAX.md Rule 2.3: Add images to supported elements
-   - Create test fixtures: `02-inline-attributes/03-images.tdown`
+   - Create test fixtures: `02-inline-attributes/03-images.td`
 4. Implement in parser
 5. Update README examples
 6. Two approvals, merge, minor bump: 0.1.0 → 0.2.0

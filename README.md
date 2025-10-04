@@ -33,7 +33,7 @@ npm install -g @taildown/cli
 
 ### Create Your First Document
 
-Create a file named `hello.tdown`:
+Create a file named `hello.td`:
 
 ```taildown
 # Hello Taildown {.text-4xl .font-bold .text-center}
@@ -55,8 +55,10 @@ This card component has automatic padding, rounded corners, and shadow styling a
 ### Compile
 
 ```bash
-taildown compile hello.tdown
+taildown compile hello.td
 ```
+
+> **Note:** Taildown files use the `.td` extension (like `.md` for Markdown). The extensions `.tdown` and `.taildown` are also supported.
 
 Open the generated `hello.html` in your browser to see the styled output.
 
@@ -145,7 +147,7 @@ Use readable aliases that translate to Tailwind classes:
 ### System Components
 
 ```
-Taildown File (.tdown)
+Taildown File (.td)
         |
         v
     Parser (Lexer + AST)
@@ -226,7 +228,7 @@ taildown/
 │   └── shared/            # Shared types and utilities
 │       ├── src/
 │       └── package.json
-├── examples/              # Sample .tdown files
+├── examples/              # Sample .td files
 ├── docs/                  # Documentation
 ├── package.json           # Monorepo root
 ├── pnpm-workspace.yaml    # Workspace configuration
@@ -265,27 +267,27 @@ pnpm build
 
 **Compile a file:**
 ```bash
-taildown compile input.tdown
+taildown compile input.td
 ```
 
 **Specify output location:**
 ```bash
-taildown compile input.tdown -o output.html
+taildown compile input.td -o output.html
 ```
 
 **Inline CSS in HTML:**
 ```bash
-taildown compile input.tdown --inline
+taildown compile input.td --inline
 ```
 
 **Minify output:**
 ```bash
-taildown compile input.tdown --minify
+taildown compile input.td --minify
 ```
 
 **Custom CSS output location:**
 ```bash
-taildown compile input.tdown --css styles.css
+taildown compile input.td --css styles.css
 ```
 
 ---
@@ -294,21 +296,21 @@ taildown compile input.tdown --css styles.css
 
 The `examples/` directory contains 10 complete Taildown documents demonstrating various features:
 
-1. **01-basic.tdown** - Basic Markdown with inline styles
-2. **02-components.tdown** - Component blocks (cards, grids)
-3. **03-styled.tdown** - Plain English styling
-4. **04-landing-page.tdown** - Simple landing page layout
-5. **05-documentation.tdown** - API documentation format
-6. **06-blog-post.tdown** - Blog post layout
-7. **07-grid-layout.tdown** - Grid layout examples
-8. **08-typography.tdown** - Typography demonstrations
-9. **09-containers.tdown** - Container components
-10. **10-complete-page.tdown** - Complete portfolio page
+1. **01-basic.td** - Basic Markdown with inline styles
+2. **02-components.td** - Component blocks (cards, grids)
+3. **03-styled.td** - Plain English styling
+4. **04-landing-page.td** - Simple landing page layout
+5. **05-documentation.td** - API documentation format
+6. **06-blog-post.td** - Blog post layout
+7. **07-grid-layout.td** - Grid layout examples
+8. **08-typography.td** - Typography demonstrations
+9. **09-containers.td** - Container components
+10. **10-complete-page.td** - Complete portfolio page
 
 To compile any example:
 
 ```bash
-taildown compile examples/01-basic.tdown --inline
+taildown compile examples/01-basic.td --inline
 ```
 
 ---

@@ -24,7 +24,7 @@ This document describes the "gold standard" syntax specification system establis
 
 2. **Executable Tests** (`syntax-tests/`)
    - Test fixtures that ARE the specification
-   - Input `.tdown` files + expected `.ast.json` output
+   - Input `.td` files + expected `.ast.json` output (also accepts `.tdown` and `.taildown`)
    - Organized by conformance level
    - Impossible for implementation to drift from spec
    - Automated validation on every commit
@@ -70,7 +70,7 @@ syntax-tests/fixtures/
 ```
 
 **Each test:**
-- `NN-test-name.tdown` - Input
+- `NN-test-name.td` - Input (primary extension; `.tdown` and `.taildown` also supported)
 - `NN-test-name.ast.json` - Expected AST
 - `NN-test-name.html` - Expected HTML (Phase 1+)
 - `NN-test-name.css` - Expected CSS (Phase 1+)

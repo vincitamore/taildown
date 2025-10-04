@@ -29,14 +29,20 @@ async function loadFixtures(category: string): Promise<TestFixture[]> {
 
   try {
     const files = await readdir(categoryPath);
-    const tdownFiles = files.filter(f => f.endsWith('.tdown'));
+    // Accept .td (primary), .tdown, and .taildown extensions
+    const taildownFiles = files.filter(f => f.endsWith('.td') || f.endsWith('.tdown') || f.endsWith('.taildown'));
 
-    for (const tdownFile of tdownFiles) {
-      const baseName = basename(tdownFile, '.tdown');
+    for (const taildownFile of taildownFiles) {
+      // Determine the extension used
+      let ext = '.td';
+      if (taildownFile.endsWith('.tdown')) ext = '.tdown';
+      if (taildownFile.endsWith('.taildown')) ext = '.taildown';
+      
+      const baseName = basename(taildownFile, ext);
       const astFile = `${baseName}.ast.json`;
 
       // Read input
-      const inputPath = join(categoryPath, tdownFile);
+      const inputPath = join(categoryPath, taildownFile);
       const input = await readFile(inputPath, 'utf-8');
 
       // Read expected AST
@@ -46,7 +52,7 @@ async function loadFixtures(category: string): Promise<TestFixture[]> {
         const astContent = await readFile(astPath, 'utf-8');
         expectedAST = JSON.parse(astContent);
       } catch (error) {
-        console.warn(`No AST file for ${tdownFile}, skipping...`);
+        console.warn(`No AST file for ${taildownFile}, skipping...`);
         continue;
       }
 

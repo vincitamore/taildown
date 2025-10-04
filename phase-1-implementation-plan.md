@@ -56,7 +56,7 @@ taildown/
 │   ├── compiler/          # Core compiler logic
 │   ├── cli/               # CLI tool
 │   └── shared/            # Shared types and utilities
-├── examples/              # Sample .tdown files
+├── examples/              # Sample .td files
 ├── docs/                  # Documentation
 ├── .github/
 │   └── workflows/         # CI/CD
@@ -1616,7 +1616,7 @@ body {
    program
      .command('compile')
      .description('Compile a Taildown file to HTML')
-     .argument('<input>', 'Input .tdown or .md file')
+     .argument('<input>', 'Input .td file (also accepts .tdown, .taildown, or .md)')
      .option('-o, --output <file>', 'Output HTML file')
      .option('--css <file>', 'Output CSS file')
      .option('--inline', 'Inline CSS in HTML')
@@ -1636,8 +1636,8 @@ body {
          });
 
          // Determine output paths
-         const outputPath = options.output || input.replace(/\.(tdown|md)$/, '.html');
-         const cssPath = options.css || input.replace(/\.(tdown|md)$/, '.css');
+         const outputPath = options.output || input.replace(/\.(td|tdown|taildown|md)$/, '.html');
+         const cssPath = options.css || input.replace(/\.(td|tdown|taildown|md)$/, '.css');
 
          // Write HTML
          let htmlContent = result.html;
@@ -1749,7 +1749,7 @@ ${result.html}
 **Estimated Time:** 5 hours
 
 **Steps:**
-1. Create examples/01-basic.tdown
+1. Create examples/01-basic.td
    ```taildown
    # Hello Taildown {.text-4xl .font-bold .text-center}
 
@@ -1766,11 +1766,11 @@ ${result.html}
    Compile this file with:
 
    ```bash
-   taildown compile 01-basic.tdown
+   taildown compile 01-basic.td
    ```
    ```
 
-2. Create examples/02-components.tdown
+2. Create examples/02-components.td
    ```taildown
    # Component Examples {.text-4xl .bold .center}
 
@@ -1800,7 +1800,7 @@ ${result.html}
    :::
    ```
 
-3. Create examples/03-styled.tdown
+3. Create examples/03-styled.td
    ```taildown
    # Styled Document {.text-5xl .bold .center}
 
@@ -1817,7 +1817,7 @@ ${result.html}
    :::
    ```
 
-4. Create examples/04-landing-page.tdown
+4. Create examples/04-landing-page.td
    ```taildown
    # Welcome to Taildown {.text-6xl .bold .center}
 
@@ -1852,7 +1852,7 @@ ${result.html}
    [Get Started](#){.button .primary .large}
    ```
 
-5. Create examples/05-documentation.tdown
+5. Create examples/05-documentation.td
    ```taildown
    # API Documentation {.text-4xl .bold}
 
@@ -1895,7 +1895,7 @@ ${result.html}
    :::
    ```
 
-6. Create examples/06-blog-post.tdown
+6. Create examples/06-blog-post.td
    ```taildown
    # Introducing Taildown {.text-5xl .bold}
 
@@ -1939,7 +1939,7 @@ ${result.html}
    [View on GitHub](#){.button .primary} [Read Docs](#){.button .secondary}
    ```
 
-7. Create examples/07-grid-layout.tdown
+7. Create examples/07-grid-layout.td
    ```taildown
    # Grid Layouts {.text-4xl .bold .center}
 
@@ -2001,7 +2001,7 @@ ${result.html}
    :::
    ```
 
-8. Create examples/08-typography.tdown
+8. Create examples/08-typography.td
    ```taildown
    # Typography Examples {.text-5xl .bold}
 
@@ -2058,7 +2058,7 @@ ${result.html}
    [Styled Link](#){.text-blue-600 .font-bold}
    ```
 
-9. Create examples/09-containers.tdown
+9. Create examples/09-containers.td
    ```taildown
    # Container Examples
 
@@ -2092,7 +2092,7 @@ ${result.html}
    :::
    ```
 
-10. Create examples/10-complete-page.tdown
+10. Create examples/10-complete-page.td
     ```taildown
     # My Portfolio {.text-6xl .bold .center}
 
@@ -2165,29 +2165,29 @@ ${result.html}
 
     ## Examples
 
-    1. **01-basic.tdown** - Basic Markdown with inline styles
-    2. **02-components.tdown** - Component blocks (cards, grids)
-    3. **03-styled.tdown** - Plain English styling
-    4. **04-landing-page.tdown** - Simple landing page
-    5. **05-documentation.tdown** - API documentation
-    6. **06-blog-post.tdown** - Blog post layout
-    7. **07-grid-layout.tdown** - Grid layouts
-    8. **08-typography.tdown** - Typography examples
-    9. **09-containers.tdown** - Container components
-    10. **10-complete-page.tdown** - Complete portfolio page
+    1. **01-basic.td** - Basic Markdown with inline styles
+    2. **02-components.td** - Component blocks (cards, grids)
+    3. **03-styled.td** - Plain English styling
+    4. **04-landing-page.td** - Simple landing page
+    5. **05-documentation.td** - API documentation
+    6. **06-blog-post.td** - Blog post layout
+    7. **07-grid-layout.td** - Grid layouts
+    8. **08-typography.td** - Typography examples
+    9. **09-containers.td** - Container components
+    10. **10-complete-page.td** - Complete portfolio page
 
     ## Compiling Examples
 
     To compile any example:
 
     ```bash
-    taildown compile examples/01-basic.tdown
+    taildown compile examples/01-basic.td
     ```
 
     To compile with inline CSS:
 
     ```bash
-    taildown compile examples/01-basic.tdown --inline
+    taildown compile examples/01-basic.td --inline
     ```
 
     ## Viewing Output
@@ -2236,7 +2236,7 @@ ${result.html}
 
    ### Create Your First Document
 
-   Create a file called `hello.tdown`:
+   Create a file called `hello.td`:
 
    ```taildown
    # Hello Taildown {.text-4xl .bold .center}
@@ -2250,7 +2250,7 @@ ${result.html}
    ### Compile
 
    ```bash
-   taildown compile hello.tdown
+   taildown compile hello.td
    ```
 
    Open `hello.html` in your browser to see the result!
@@ -2637,7 +2637,7 @@ Content for section ${i + 1}.
 
 4. Test CLI with all examples
    ```bash
-   for file in examples/*.tdown; do
+   for file in examples/*.td; do
      ./packages/cli/dist/index.js compile "$file" --inline
    done
    ```
