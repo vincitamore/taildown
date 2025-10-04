@@ -1,0 +1,146 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "containerDirective",
+      "name": "card",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "This is content inside a card component."
+            }
+          ]
+        }
+      ],
+      "data": {
+        "hName": "div",
+        "hProperties": {
+          "className": ["taildown-component", "component-card"],
+          "data-component": "card"
+        }
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "grid",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Grid content here."
+            }
+          ]
+        }
+      ],
+      "data": {
+        "hName": "div",
+        "hProperties": {
+          "className": ["taildown-component", "component-grid"],
+          "data-component": "grid"
+        }
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "container",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Container content with multiple lines."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "This is a second paragraph inside the container."
+            }
+          ]
+        }
+      ],
+      "data": {
+        "hName": "div",
+        "hProperties": {
+          "className": ["taildown-component", "component-container"],
+          "data-component": "container"
+        }
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "card",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Empty line at start and end is okay."
+            }
+          ]
+        }
+      ],
+      "data": {
+        "hName": "div",
+        "hProperties": {
+          "className": ["taildown-component", "component-card"],
+          "data-component": "card"
+        }
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "card",
+      "children": [],
+      "data": {
+        "hName": "div",
+        "hProperties": {
+          "className": ["taildown-component", "component-card"],
+          "data-component": "card"
+        }
+      },
+      "comment": "Empty component is valid"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Regular paragraph between components."
+        }
+      ]
+    },
+    {
+      "type": "containerDirective",
+      "name": "grid",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Another component after regular content."
+            }
+          ]
+        }
+      ],
+      "data": {
+        "hName": "div",
+        "hProperties": {
+          "className": ["taildown-component", "component-grid"],
+          "data-component": "grid"
+        }
+      }
+    }
+  ]
+}
