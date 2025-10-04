@@ -64,6 +64,8 @@ Open the generated `hello.html` in your browser to see the styled output.
 
 ## Syntax Guide
 
+> **📖 Complete Syntax Reference**: See [`SYNTAX.md`](SYNTAX.md) for the canonical, comprehensive syntax specification.
+
 ### Inline Style Attributes
 
 Add styling to any Markdown element using curly braces with class names:
@@ -535,9 +537,12 @@ We welcome contributions from the community. Please read our contributing guidel
 
 ## Documentation
 
-- **Tech Spec**: See `tech-spec.md` for comprehensive technical specification
-- **Phase 1 Plan**: See `phase-1-implementation-plan.md` for detailed implementation guide
-- **Examples**: See `examples/` directory for sample documents
+- **Syntax Specification**: [`SYNTAX.md`](SYNTAX.md) - Canonical syntax reference (single source of truth)
+- **Tech Spec**: [`tech-spec.md`](tech-spec.md) - Comprehensive technical specification
+- **Phase 1 Plan**: [`phase-1-implementation-plan.md`](phase-1-implementation-plan.md) - Detailed implementation guide
+- **Syntax Tests**: [`syntax-tests/`](syntax-tests/) - Executable specification and test fixtures
+- **Examples**: [`examples/`](examples/) - Sample documents demonstrating features
+- **Change Process**: [`SYNTAX-CHANGES.md`](SYNTAX-CHANGES.md) - How to propose syntax changes
 - **API Docs**: Coming in Phase 2
 
 ---

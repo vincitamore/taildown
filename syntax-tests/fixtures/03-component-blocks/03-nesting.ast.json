@@ -1,0 +1,235 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "containerDirective",
+      "name": "grid",
+      "children": [
+        {
+          "type": "containerDirective",
+          "name": "card",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "First card in grid"
+                }
+              ]
+            }
+          ],
+          "data": {
+            "hName": "div",
+            "hProperties": {
+              "className": ["taildown-component", "component-card"],
+              "data-component": "card"
+            }
+          }
+        },
+        {
+          "type": "containerDirective",
+          "name": "card",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Second card in grid"
+                }
+              ]
+            }
+          ],
+          "data": {
+            "hName": "div",
+            "hProperties": {
+              "className": ["taildown-component", "component-card"],
+              "data-component": "card"
+            }
+          }
+        },
+        {
+          "type": "containerDirective",
+          "name": "card",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Third card in grid"
+                }
+              ]
+            }
+          ],
+          "data": {
+            "hName": "div",
+            "hProperties": {
+              "className": ["taildown-component", "component-card"],
+              "data-component": "card"
+            }
+          }
+        }
+      ],
+      "data": {
+        "hName": "div",
+        "hProperties": {
+          "className": ["taildown-component", "component-grid"],
+          "data-component": "grid"
+        }
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "container",
+      "children": [
+        {
+          "type": "heading",
+          "depth": 1,
+          "children": [
+            {
+              "type": "text",
+              "value": "Title inside container"
+            }
+          ]
+        },
+        {
+          "type": "containerDirective",
+          "name": "grid",
+          "children": [
+            {
+              "type": "containerDirective",
+              "name": "card",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Nested: container > grid > card"
+                    }
+                  ]
+                }
+              ],
+              "data": {
+                "hName": "div",
+                "hProperties": {
+                  "className": ["taildown-component", "component-card"],
+                  "data-component": "card"
+                }
+              }
+            }
+          ],
+          "data": {
+            "hName": "div",
+            "hProperties": {
+              "className": ["taildown-component", "component-grid"],
+              "data-component": "grid"
+            }
+          }
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Regular paragraph in container."
+            }
+          ]
+        }
+      ],
+      "data": {
+        "hName": "div",
+        "hProperties": {
+          "className": ["taildown-component", "component-container"],
+          "data-component": "container"
+        }
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "outer",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Level 1"
+            }
+          ]
+        },
+        {
+          "type": "containerDirective",
+          "name": "inner",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Level 2"
+                }
+              ]
+            },
+            {
+              "type": "containerDirective",
+              "name": "innermost",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Level 3"
+                    }
+                  ]
+                }
+              ],
+              "data": {
+                "hName": "div",
+                "hProperties": {
+                  "className": ["taildown-component", "component-innermost"],
+                  "data-component": "innermost"
+                }
+              }
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Back to level 2"
+                }
+              ]
+            }
+          ],
+          "data": {
+            "hName": "div",
+            "hProperties": {
+              "className": ["taildown-component", "component-inner"],
+              "data-component": "inner"
+            }
+          }
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Back to level 1"
+            }
+          ]
+        }
+      ],
+      "data": {
+        "hName": "div",
+        "hProperties": {
+          "className": ["taildown-component", "component-outer"],
+          "data-component": "outer"
+        }
+      }
+    }
+  ]
+}

@@ -19,12 +19,13 @@ This document provides a detailed, step-by-step implementation plan for **Phase 
 **Primary Objective:** Build a working compiler that validates the core Taildown concept
 
 **Key Deliverables:**
-1. ✅ Syntax specification finalized
-2. ✅ Basic parser (Markdown + inline styles)
-3. ✅ HTML/CSS generator
-4. ✅ CLI compiler tool
-5. ✅ 10 example documents
-6. ✅ Test suite with >80% coverage
+1. ✅ Canonical syntax specification ([`SYNTAX.md`](SYNTAX.md))
+2. ✅ Executable syntax tests ([`syntax-tests/`](syntax-tests/))
+3. ✅ Basic parser (Markdown + inline styles)
+4. ✅ HTML/CSS generator
+5. ✅ CLI compiler tool
+6. ✅ 10 example documents
+7. ✅ Test suite with >80% coverage
 
 **Success Criteria:**
 - Parse standard Markdown correctly

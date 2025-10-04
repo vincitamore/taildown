@@ -38,6 +38,8 @@ Create a human-readable markup language that bridges the gap between simple Mark
 
 ## 2. Syntax Specification
 
+> **📖 Canonical Syntax Reference**: This section provides an overview of Taildown syntax. For the complete, authoritative specification, see [`SYNTAX.md`](SYNTAX.md), which serves as the single source of truth for all syntax rules, grammar, and edge cases.
+
 ### 2.1 Core Principles
 
 1. **Backward Compatible**: Standard Markdown should work without modification
@@ -47,6 +49,8 @@ Create a human-readable markup language that bridges the gap between simple Mark
 5. **Semantic Clarity**: Syntax conveys both structure and intent
 
 ### 2.2 Syntax Extensions
+
+> **Note**: The examples below are illustrative. For precise parsing rules, grammar definitions, and edge case handling, always refer to [`SYNTAX.md`](SYNTAX.md).
 
 #### 2.2.1 Style Attributes (Inline)
 Extend Markdown with curly brace attributes inspired by Pandoc/Djot:

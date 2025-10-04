@@ -1,0 +1,124 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "This is a paragraph with attributes"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": ["text-gray-700", "leading-relaxed"]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "This paragraph has multiple classes applied"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": ["font-sans", "text-base", "mb-4"]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Plain paragraph without any attributes."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Paragraph with inline "
+        },
+        {
+          "type": "strong",
+          "children": [
+            {
+              "type": "text",
+              "value": "bold"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " and "
+        },
+        {
+          "type": "emphasis",
+          "children": [
+            {
+              "type": "text",
+              "value": "italic"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " text"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": ["prose"]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Paragraph with "
+        },
+        {
+          "type": "inlineCode",
+          "value": "inline code"
+        },
+        {
+          "type": "text",
+          "value": " and attributes"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": ["code-block"]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "{.invalid} This paragraph has attributes at the start, not the end."
+        }
+      ],
+      "comment": "Attributes at start are treated as plain text"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "This paragraph has malformed {.attributes in the middle} of the text."
+        }
+      ],
+      "comment": "Attributes in the middle are treated as plain text"
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading with single class"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": ["text-4xl"]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading with multiple classes"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": ["text-3xl", "font-bold", "text-center"]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 3,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading with hyphens and underscores"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": ["bg-blue-600", "hover_scale", "text-2xl"]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 4,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading with spaces normalized"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": ["class-one", "class-two", "class-three"]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 5,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading with spaces in braces"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": ["class-one", "class-two"]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 6,
+      "children": [
+        {
+          "type": "text",
+          "value": "Plain heading without attributes"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading with trailing space"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": ["class-one"]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "{.invalid-position} Heading Text"
+        }
+      ],
+      "comment": "Attributes at start are not parsed, treated as plain text"
+    },
+    {
+      "type": "heading",
+      "depth": 3,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading with malformed attributes {class-without-dot}"
+        }
+      ],
+      "comment": "Classes without dots are not parsed, treated as plain text"
+    },
+    {
+      "type": "heading",
+      "depth": 4,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading with unclosed brace {.unclosed"
+        }
+      ],
+      "comment": "Unclosed braces are not parsed, treated as plain text"
+    },
+    {
+      "type": "heading",
+      "depth": 5,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading with no opening brace .no-opening}"
+        }
+      ],
+      "comment": "Missing opening brace, treated as plain text"
+    }
+  ]
+}
