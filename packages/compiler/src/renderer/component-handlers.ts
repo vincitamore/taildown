@@ -18,10 +18,61 @@ import type { State } from 'mdast-util-to-hast';
 import type { Element } from 'hast';
 import type { ContainerDirectiveNode } from '../parser/directive-types';
 import type { TaildownNodeData } from '@taildown/shared';
+import { visit } from 'unist-util-visit';
+import type { Root } from 'mdast';
+import { toHast } from 'mdast-util-to-hast';
 
 // Global registry of defined modal/tooltip blocks (ID -> content)
 const modalRegistry = new Map<string, Element>();
 const tooltipRegistry = new Map<string, Element>();
+
+/**
+ * Pre-populate modal and tooltip registries before HAST conversion
+ * Scans the MDAST tree for :::modal{id="..."} and :::tooltip{id="..."} blocks
+ * and stores their content for later reference by ID
+ */
+export function prepopulateRegistries(ast: Root): void {
+  // Clear registries before populating
+  modalRegistry.clear();
+  tooltipRegistry.clear();
+  
+  // Visit all containerDirective nodes
+  visit(ast, 'containerDirective', (node: any) => {
+    const componentName = node.name;
+    const idAttr = node.attributes?.id || node.attributes?.['#'];
+    
+    if (!idAttr) return;
+    
+    // For modals and tooltips with IDs, convert their content to HAST and store
+    if (componentName === 'modal') {
+      // Convert children to HAST
+      const hastChildren = node.children?.map((child: any) => {
+        return toHast(child, { allowDangerousHtml: false });
+      }).filter(Boolean) || [];
+      
+      const modalElement: Element = {
+        type: 'element',
+        tagName: 'div',
+        properties: {},
+        children: hastChildren
+      };
+      modalRegistry.set(idAttr, modalElement);
+    } else if (componentName === 'tooltip') {
+      // Convert children to HAST
+      const hastChildren = node.children?.map((child: any) => {
+        return toHast(child, { allowDangerousHtml: false });
+      }).filter(Boolean) || [];
+      
+      const tooltipElement: Element = {
+        type: 'element',
+        tagName: 'span',
+        properties: {},
+        children: hastChildren
+      };
+      tooltipRegistry.set(idAttr, tooltipElement);
+    }
+  });
+}
 
 /**
  * Wrap an element with modal/tooltip attachment if present
@@ -179,7 +230,7 @@ function wrapWithModal(triggerElement: Element, content: string): Element {
             properties: {
               'data-modal-close': 'true',
               'aria-label': 'Close modal',
-              className: ['modal-close', 'absolute', 'top-4', 'right-4', 'p-2', 'rounded-lg', 'hover:bg-gray-100', 'dark:hover:bg-gray-800', 'transition-colors']
+              className: ['modal-close', 'absolute', 'top-4', 'right-4', 'p-2', 'rounded-lg', 'hover:bg-gray-100', 'dark:hover:bg-gray-800', 'transition-colors', 'z-10', 'bg-white/80', 'backdrop-blur-sm']
             },
             children: [
               {

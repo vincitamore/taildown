@@ -8,13 +8,25 @@ import type { ComponentBehavior } from '../index';
 
 export const tooltipBehavior: ComponentBehavior = {
   name: 'tooltip',
-  size: 800, // ~0.8KB
+  size: 850, // ~0.85KB
   code: `// Tooltip Component
-getComponents('tooltip').forEach(wrapper => {
-  const trigger = wrapper.querySelector('[data-tooltip-trigger]');
-  const tooltip = wrapper.querySelector('[data-tooltip-content]');
+// Handle both standalone :::tooltip and attachable inline tooltips
+// For attachable: trigger has data-tooltip-trigger, tooltip is next sibling with role="tooltip"
+// For standalone: wrapper has data-component="tooltip", contains trigger and content
+document.querySelectorAll('[data-tooltip-trigger]').forEach(trigger => {
+  // Find tooltip: either by aria-describedby or as next sibling
+  const tooltipId = trigger.getAttribute('aria-describedby');
+  let tooltip = tooltipId ? document.getElementById(tooltipId) : null;
   
-  if (!trigger || !tooltip) return;
+  // If no tooltip found via aria-describedby, try next sibling
+  if (!tooltip) {
+    const next = trigger.nextElementSibling;
+    if (next && next.getAttribute('role') === 'tooltip') {
+      tooltip = next;
+    }
+  }
+  
+  if (!tooltip) return;
   
   let isVisible = false;
   let hideTimeout = null;
@@ -32,10 +44,6 @@ getComponents('tooltip').forEach(wrapper => {
     requestAnimationFrame(() => {
       tooltip.style.opacity = '1';
     });
-    
-    const tooltipId = 'tooltip-' + Math.random().toString(36).substr(2, 9);
-    tooltip.id = tooltipId;
-    trigger.setAttribute('aria-describedby', tooltipId);
   }
   
   // Hide tooltip
@@ -49,8 +57,6 @@ getComponents('tooltip').forEach(wrapper => {
         tooltip.hidden = true;
         tooltip.style.display = 'none';
       }, 200);
-      
-      trigger.removeAttribute('aria-describedby');
     }, 100);
   }
   
@@ -76,6 +82,7 @@ getComponents('tooltip').forEach(wrapper => {
   tooltip.hidden = true;
   tooltip.style.display = 'none';
   tooltip.style.opacity = '0';
+  tooltip.style.transition = 'opacity 200ms ease-in-out';
 });`
 };
 

@@ -12,7 +12,7 @@ import type { Root } from 'mdast';
 import type { TaildownRoot } from '@taildown/shared';
 import { renderIcons } from '../icons/icon-renderer';
 import { rehypeRegisterTaildown } from '../prism/register-language-plugin';
-import { containerDirectiveHandler, wrapWithAttachments } from './component-handlers';
+import { containerDirectiveHandler, wrapWithAttachments, prepopulateRegistries } from './component-handlers';
 import type { TaildownNodeData } from '@taildown/shared';
 
 /**
@@ -60,6 +60,10 @@ function processAttachments(node: any): any {
  * @returns HAST tree
  */
 export function astToHast(ast: TaildownRoot): any {
+  // Pre-pass: Populate modal/tooltip registries BEFORE converting to HAST
+  // This ensures ID-referenced modals/tooltips can be looked up during conversion
+  prepopulateRegistries(ast as Root);
+  
   // First, convert MDAST to HAST using default handlers + our custom component handler
   const hast = toHast(ast as Root, { 
     allowDangerousHtml: false,

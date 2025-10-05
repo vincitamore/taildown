@@ -1,6 +1,6 @@
 # Taildown - Technical Specification
 
-**Version:** 0.1.0 (Phase 2 In Progress)  
+**Version:** 0.3.0  
 **Date:** 2025-10-05  
 **Status:** Living Document
 
@@ -21,9 +21,11 @@ Create a human-readable markup language that bridges the gap between simple Mark
 - ✅ **Readability First**: Syntax remains as readable as Markdown
 - ✅ **Plain English Styling**: Natural language replaces CSS classes (`huge-bold primary`)
 - ✅ **Zero Config Beauty**: Default styles are production-ready with glassmorphism
-- ✅ **Component Rich**: 7 pre-built components implemented (card, button, alert, badge, avatar, grid, container)
+- ✅ **Component Rich**: 18+ pre-built components implemented
+- ✅ **Interactive Components**: Tabs, accordion, carousel, modal, tooltip with zero config
+- ✅ **Attachable Components**: One-line modal/tooltip attachment to ANY element
 - ✅ **Responsive by Default**: All layouts automatically adapt (mobile → tablet → desktop)
-- ✅ **Static Output**: Compiles to standalone HTML/CSS files
+- ✅ **JavaScript Generation**: Tree-shaken vanilla JS (~2-5KB) for interactive components
 - ✅ **Fast Compilation**: Sub-100ms compile times achieved (66ms for 1000 nodes)
 - ✅ **Icon Integration**: Lucide icon support with `:icon[name]{attributes}` syntax
 - ✅ **Modern Effects**: Glassmorphism and smooth entrance animations
@@ -169,7 +171,7 @@ Human-readable style aliases:
 ```
 ┌─────────────────┐
 │  Taildown File  │
-│   (.td)        │
+│     (.td)       │
 └────────┬────────┘
          │
          ▼
@@ -181,20 +183,25 @@ Human-readable style aliases:
          ▼
 ┌─────────────────┐
 │   Transformer   │
-│ (Style Resolver)│
+│ Style Resolver  │
+│ + Registries    │
 └────────┬────────┘
          │
          ▼
 ┌─────────────────┐
-│    Renderer     │
-│  (HTML + CSS)   │
+│    Renderers    │
+│  HTML + CSS +   │
+│   JS Generator  │
 └────────┬────────┘
          │
-         ▼
-┌─────────────────┐
-│  Static Output  │
-│  (HTML + CSS)   │
-└─────────────────┘
+         ├──────────┬──────────┐
+         ▼          ▼          ▼
+    ┌────────┐ ┌────────┐ ┌────────┐
+    │  .html │ │  .css  │ │  .js   │
+    │ (HTML5)│ │(Scoped)│ │(Vanilla│
+    └────────┘ └────────┘ │Tree-   │
+                           │Shaken) │
+                           └────────┘
 ```
 
 ### 3.2 Parser Architecture
@@ -362,6 +369,117 @@ export default {
   ]
 }
 ```
+
+---
+
+### 3.5 JavaScript Generation Architecture
+
+Taildown generates optimized vanilla JavaScript for interactive components using a tree-shaking system that only includes code for components actually used.
+
+#### 3.5.1 Generation Pipeline
+
+```
+┌──────────────┐
+│  HAST Tree   │
+└──────┬───────┘
+       │
+       ▼
+┌──────────────────────────┐
+│ Component Detection      │
+│ - Scan for data-component│
+│ - Find modal/tooltip refs│
+└──────┬───────────────────┘
+       │
+       ▼
+┌──────────────────────────┐
+│ Tree-Shaking Decision    │
+│ - Which components used? │
+│ - Generate minimal set   │
+└──────┬───────────────────┘
+       │
+       ▼
+┌──────────────────────────┐
+│ Behavior Assembly        │
+│ - Include only needed JS │
+│ - Wrap in IIFE           │
+└──────┬───────────────────┘
+       │
+       ▼
+┌──────────────┐
+│ output.js    │
+│ (~2-5KB)     │
+└──────────────┘
+```
+
+**Location**: `packages/compiler/src/js-generator/`
+
+**Behavior Modules**: Each interactive component has a self-contained behavior (~700-1200 bytes each).
+
+**Tree-Shaking**: Only behaviors for components actually used are included in output.
+
+**See SYNTAX.md §3.9 for complete JavaScript generation specification.**
+
+---
+
+### 3.6 Component Registry System
+
+Registry system enables "define once, use everywhere" pattern for ID-referenced modals and tooltips.
+
+**Architecture**:
+```typescript
+const modalRegistry = new Map<string, Element>();
+const tooltipRegistry = new Map<string, Element>();
+
+// Pre-pass: populate registries before HAST conversion
+prepopulateRegistries(mdast);
+
+// Lookup: during attachment processing
+const content = modalRegistry.get(id);
+```
+
+**Two-Pass Rendering**:
+1. **Pass 1**: Scan for `:::modal{id="..."}`, convert to HAST, store
+2. **Pass 2**: Process attachments, lookup by ID, wrap triggers
+
+**See SYNTAX.md §3.8 for ID-referenced component specification.**
+
+---
+
+### 3.7 Attachment System
+
+Enables one-line modal/tooltip attachment to any element.
+
+**Syntax**: `[Element](#){modal="content"}` or `{tooltip="content"}`
+
+**Processing**:
+1. Parser extracts key-value pairs from `{...}` blocks
+2. Stored in `node.data.hProperties['data-modal-attach']`
+3. Renderer calls `wrapWithAttachments(element, nodeData)`
+4. Creates wrapper with trigger + modal/tooltip structure
+
+**Wrapper Structure**:
+- Trigger element (enhanced with data attributes)
+- Modal/tooltip element (positioned, styled, ARIA)
+- Event handlers (via generated JavaScript)
+
+**See SYNTAX.md §2.8 for attachable component specification.**
+
+---
+
+### 3.8 Compilation Pipeline (Complete)
+
+```
+1. Parse:       Markdown → MDAST (remark-parse)
+2. Directives:  Scan ::: → containerDirective nodes
+3. Attributes:  Extract {attr} → node.data.hProperties
+4. Registries:  Store :::modal{id="..."} content ⭐ NEW
+5. MDAST→HAST:  Convert with custom handlers + attachments
+6. Post-HAST:   Syntax highlighting, icons, class collection
+7. Generate:    HTML + CSS + JS (tree-shaken) ⭐ NEW
+8. Output:      .html + .css + .js (conditional) ⭐ NEW
+```
+
+**Key Innovation**: Registry pre-population (step 4) enables ID references to work correctly.
 
 ---
 

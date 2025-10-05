@@ -1,7 +1,7 @@
 # Taildown Syntax Specification
 
-**Version:** 0.2.0  
-**Date:** 2025-10-04  
+**Version:** 0.3.0  
+**Date:** 2025-10-05  
 **Status:** Canonical Reference  
 **Stability:** Experimental (Pre-1.0)
 
@@ -62,24 +62,34 @@ Note: Taildown files use .td extension (primary), with .tdown and .taildown also
 
 ### 2.1 Syntax Definition **[REQUIRED]**
 
-Inline attributes attach styling classes to block-level and inline elements using curly brace notation.
+Inline attributes attach styling classes, component variants, and key-value pairs to block-level and inline elements using curly brace notation.
 
 **Grammar:**
 ```ebnf
 element_with_attrs ::= element SPACE? attribute_block
-attribute_block    ::= "{" class_list "}"
-class_list         ::= class (SPACE class)*
-class              ::= "." class_name
+attribute_block    ::= "{" attribute_list "}"
+attribute_list     ::= attribute (SPACE attribute)*
+attribute          ::= css_class | plain_english | key_value_pair
+css_class          ::= "." class_name
+plain_english      ::= identifier ("-" identifier)*
+key_value_pair     ::= key "=" QUOTE value QUOTE
+key                ::= identifier
+value              ::= [^"']+
+identifier         ::= [a-zA-Z][a-zA-Z0-9-]*
 class_name         ::= [a-zA-Z0-9_-]+
 ```
 
 **Examples:**
 ```taildown
-# Heading with attributes {.text-4xl .font-bold .text-center}
+# Heading with CSS classes {.text-4xl .font-bold .text-center}
 
-Paragraph with attributes {.text-gray-700 .leading-relaxed}
+# Heading with plain English {huge-bold center}
 
-[Link text](url){.button .primary}
+Paragraph with component variant {button primary large}
+
+[Link](url){button modal="Click me for info!"}
+
+[Text](#){tooltip="Helpful tip" id="my-tooltip"}
 ```
 
 ### 2.2 Parsing Rules
@@ -119,6 +129,28 @@ Invalid: { .class-one
 5. Attach classes to element's metadata
 
 **Rule 2.2.6 - No Attributes Found**: If no valid attribute block is found, element has no classes
+
+**Rule 2.2.7 - Key-Value Attributes**: Attributes MAY include key-value pairs:
+```taildown
+Valid:   {id="unique-id"}
+Valid:   {modal="Simple text content"}
+Valid:   {tooltip="Helpful information"}
+Valid:   {button primary id="submit-btn"}
+Valid:   {modal="#welcome-modal" class="custom"}
+```
+
+- Keys MUST start with a letter and contain only alphanumeric characters and hyphens
+- Values MUST be quoted with double or single quotes
+- Values MAY contain any characters except the closing quote
+- Key-value pairs MAY be mixed with CSS classes and plain English shorthands
+- Common keys: `id`, `modal`, `tooltip`, `aria-*`, custom data attributes
+
+**Rule 2.2.8 - Attribute Processing Order**:
+1. Extract all key-value pairs (`key="value"`)
+2. Extract CSS classes (tokens starting with `.`)
+3. Extract plain English shorthands and component names (remaining tokens)
+4. Resolve plain English and component variants to CSS classes
+5. Merge all classes and apply to element
 
 ### 2.3 Supported Elements **[REQUIRED]**
 
@@ -609,6 +641,209 @@ Test fixtures:
 
 ---
 
+### 2.8 Attachable Components **[REQUIRED]**
+
+Attachable components allow modals and tooltips to be attached to ANY element using plain English syntax.
+
+**Philosophy**: Zero-config attachment - just add `modal="content"` or `tooltip="content"` to any element.
+
+#### 2.8.1 Modal Attachment
+
+**Inline Content**:
+```taildown
+[Click me](#){button modal="This is a simple alert!"}
+[Learn more](#){modal="Extended information about this feature"}
+Regular text can also have a [modal link](#){modal="Inline content"}
+```
+
+**ID Reference**:
+```taildown
+[Open Welcome Dialog](#){button modal="#welcome-modal"}
+
+:::modal{id="welcome-modal"}
+# Welcome to Taildown!
+
+This modal has **rich markdown** content:
+- Multiple paragraphs
+- Lists and formatting
+- Even `code blocks`
+:::
+```
+
+**Syntax Rules**:
+- `modal="text"` - Inline content (simple text or short messages)
+- `modal="#id"` - Reference to `:::modal{id="..."}` block elsewhere
+- Can be attached to links, buttons, badges, or any inline element
+- Automatically generates trigger, backdrop, and close button
+- ARIA attributes applied automatically
+- Escape key and backdrop click to close
+
+#### 2.8.2 Tooltip Attachment
+
+**Inline Content**:
+```taildown
+[Hover here](#){tooltip="Helpful tip!"}
+Learn about [important concepts](#){tooltip="Additional context"}
+```
+
+**ID Reference**:
+```taildown
+[More Info](#){button tooltip="#detailed-info"}
+
+:::tooltip{id="detailed-info"}
+This is a **detailed tooltip** with full markdown support including `code` and *emphasis*.
+:::
+```
+
+**Syntax Rules**:
+- `tooltip="text"` - Inline content (brief help text)
+- `tooltip="#id"` - Reference to `:::tooltip{id="..."}` block
+- Shows on hover (desktop) or click (mobile/touch)
+- Automatically positioned relative to trigger
+- Fade in/out animations
+- ARIA attributes for accessibility
+
+#### 2.8.3 Combined with Component Variants
+
+Attachable components work seamlessly with other attributes:
+
+```taildown
+[Submit](#){button primary large modal="Form submitted successfully!"}
+[Help](#){badge info tooltip="Click for assistance"}
+[Settings](#){button secondary modal="#settings-modal" .custom-class}
+```
+
+#### 2.8.4 Benefits
+
+**1. Natural Syntax**: Plain English, no JavaScript configuration
+```taildown
+BAD (typical JS library):  <div data-modal-target="#modal1" data-modal-show>Click</div>
+GOOD (Taildown):           [Click](#){modal="Message"}
+```
+
+**2. DRY Principle**: Define once, reference multiple times
+```taildown
+[Button 1](#){modal="#info"}
+[Button 2](#){modal="#info"}
+[Button 3](#){modal="#info"}
+
+:::modal{id="info"}
+Shared content here
+:::
+```
+
+**3. Markdown Support**: Full markdown in ID-referenced content
+```taildown
+:::modal{id="welcome"}
+# Welcome!
+
+- Feature 1
+- Feature 2
+
+[Learn more](https://example.com)
+:::
+```
+
+**4. Zero Configuration**: Works out of the box, no setup required
+
+#### 2.8.5 Test Coverage
+
+```
+Test fixtures:
+- syntax-tests/fixtures/08-components-advanced/01-attachable-modals.td
+- syntax-tests/fixtures/08-components-advanced/02-attachable-tooltips.td
+- syntax-tests/fixtures/08-components-advanced/03-id-references.td
+```
+
+---
+
+### 2.9 Component Variants **[REQUIRED]**
+
+Component variants allow natural English styling of common UI elements.
+
+**Syntax**: `{component_name variant1 variant2 ...}`
+
+#### 2.9.1 Button Variants
+
+```taildown
+[Default Button](#){button}
+[Primary Action](#){button primary}
+[Secondary Action](#){button secondary}
+[Success](#){button success}
+[Warning](#){button warning}
+[Error](#){button error}
+[Info](#){button info}
+
+[Large Button](#){button primary large}
+[Small Button](#){button secondary small}
+```
+
+**Available variants**:
+- **Colors**: `primary` `secondary` `success` `warning` `error` `info` `muted`
+- **Sizes**: `xs` `small` `base` `large` `xl`
+- **Styles**: `outline` `ghost` `link`
+
+#### 2.9.2 Badge Variants
+
+```taildown
+[New](#){badge primary}
+[Beta](#){badge info}
+[Deprecated](#){badge warning}
+[Error](#){badge error}
+```
+
+**Available variants**:
+- **Colors**: `primary` `secondary` `success` `warning` `error` `info` `muted`
+- **Sizes**: `small` `base` `large`
+
+#### 2.9.3 Alert Variants
+
+In `:::alert` blocks:
+```taildown
+:::alert{success}
+Operation completed successfully!
+:::
+
+:::alert{error}
+An error occurred. Please try again.
+:::
+```
+
+**Available variants**:
+- **Types**: `info` `success` `warning` `error`
+
+#### 2.9.4 Natural Language Philosophy
+
+Variants follow natural English word order:
+```taildown
+CORRECT: {button primary large}    # "button that is primary and large"
+CORRECT: {badge success small}     # "badge that is success-colored and small"
+
+INCORRECT: {large primary button}  # Unnatural word order
+```
+
+#### 2.9.5 Variant Resolution
+
+**Processing order**:
+1. Identify component name (first token without dot)
+2. Extract remaining tokens as variants
+3. Resolve variants to CSS classes via component registry
+4. Apply size, color, and style modifiers
+5. Merge with any explicit CSS classes
+
+**Example resolution**:
+```taildown
+{button primary large}
+↓
+component: "button"
+variants: ["primary", "large"]
+↓
+classes: ["inline-block", "px-6", "py-3", "rounded-lg", "font-medium", 
+          "bg-blue-600", "text-white", "hover:bg-blue-700", "text-lg", "px-8", "py-4"]
+```
+
+---
+
 ## 3. Component Blocks
 
 ### 3.1 Syntax Definition **[REQUIRED]**
@@ -791,6 +1026,378 @@ Test fixtures:
 - syntax-tests/fixtures/03-component-blocks/03-nesting.td
 - syntax-tests/fixtures/03-component-blocks/04-edge-cases.td
 ```
+
+---
+
+### 3.7 Interactive Components **[REQUIRED]**
+
+Taildown includes five interactive components that work with zero configuration and generate vanilla JavaScript.
+
+**Philosophy**: Intelligent parsing with sensible defaults. No explicit markup required for common patterns.
+
+#### 3.7.1 Tabs Component
+
+**Zero-Config Syntax**: Headings become tab labels, content becomes panels.
+
+```taildown
+:::tabs
+## First Tab
+Content for first tab
+
+## Second Tab
+Content for second tab
+
+## Third Tab
+Content for third tab
+:::
+```
+
+**Features**:
+- `h2` or `h3` headings automatically become clickable tabs
+- Content between headings becomes tab panels
+- First tab active by default
+- Click to switch, keyboard navigation (arrow keys)
+- ARIA roles: `tablist`, `tab`, `tabpanel`
+- Smooth transitions
+
+#### 3.7.2 Accordion Component
+
+**Zero-Config Syntax**: Bold text becomes triggers, following content becomes panels.
+
+```taildown
+:::accordion
+**First Section**
+Content for first section (open by default)
+
+**Second Section**
+Content for second section
+
+**Third Section**
+Content for third section
+:::
+```
+
+**Features**:
+- `**Bold text**` paragraphs automatically become clickable triggers
+- Content between triggers becomes accordion panels
+- First item open by default
+- Click to expand/collapse
+- Smooth expand/collapse animations
+- ARIA attributes: `aria-expanded`, `aria-controls`
+
+#### 3.7.3 Carousel Component
+
+**Zero-Config Syntax**: Horizontal rules `---` divide slides.
+
+```taildown
+:::carousel
+First slide content
+
+---
+
+Second slide content
+
+---
+
+Third slide content
+:::
+```
+
+**Features**:
+- `---` dividers automatically split content into slides
+- Navigation buttons (prev/next)
+- Indicator dots
+- Keyboard navigation (arrow keys)
+- Swipe support on touch devices
+- 3D card effects with glassmorphism
+- Auto-play (optional, via attributes)
+
+#### 3.7.4 Modal Component
+
+**Standalone Modal**:
+```taildown
+:::modal
+# Modal Title
+Modal content here
+:::
+```
+
+**ID-Referenced Modal** (recommended):
+```taildown
+[Open Modal](#){button modal="#my-modal"}
+
+:::modal{id="my-modal"}
+# Welcome!
+This content appears in the modal.
+:::
+```
+
+**Features**:
+- Backdrop with blur effect
+- Close button (top-right)
+- Escape key to close
+- Click backdrop to close
+- Focus trap (accessibility)
+- Body scroll lock when open
+- Fade in/out animations
+- Can be attached to any element (see §2.8)
+
+#### 3.7.5 Tooltip Component
+
+**Standalone Tooltip**:
+```taildown
+:::tooltip
+Tooltip content
+:::
+```
+
+**ID-Referenced Tooltip** (recommended):
+```taildown
+[Hover for info](#){tooltip="#help-text"}
+
+:::tooltip{id="help-text"}
+Detailed help information
+:::
+```
+
+**Features**:
+- Show on hover (desktop)
+- Show on click (mobile/touch)
+- Positioned relative to trigger
+- Fade in/out animations
+- `aria-describedby` for accessibility
+- Can be attached to any element (see §2.8)
+
+#### 3.7.6 Component Attributes
+
+All interactive components support attributes:
+
+```taildown
+:::tabs{.custom-class}
+Content
+:::
+
+:::accordion{id="faq-accordion"}
+Content
+:::
+
+:::carousel{auto-play interval="3000"}
+Content
+:::
+```
+
+#### 3.7.7 JavaScript Generation
+
+**Automatic**: JavaScript is generated ONLY for components actually used.
+- Tree-shaking: Only includes necessary behaviors
+- Small footprint: ~2-5KB total for all components
+- Vanilla ES6+: No framework dependencies
+- Event delegation: Efficient event handling
+- Data attributes: `data-component`, `data-tab`, etc.
+
+**Output**: `.js` file alongside `.html` and `.css`
+
+```
+input.td → compile → input.html
+                   → input.css
+                   → input.js (only if interactive components used)
+```
+
+#### 3.7.8 Accessibility
+
+All interactive components include:
+- Proper ARIA roles and attributes
+- Keyboard navigation support
+- Focus management
+- Screen reader announcements
+- Semantic HTML structure
+
+---
+
+### 3.8 ID-Referenced Components **[REQUIRED]**
+
+Components with `id` attributes can be referenced by other elements.
+
+**Syntax**: `:::component{id="unique-identifier"}`
+
+#### 3.8.1 Modal References
+
+```taildown
+[Button 1](#){button modal="#shared-modal"}
+[Button 2](#){button modal="#shared-modal"}
+[Button 3](#){button modal="#shared-modal"}
+
+:::modal{id="shared-modal"}
+# Shared Modal
+This content is shown when any of the three buttons is clicked.
+:::
+```
+
+**Benefits**:
+- DRY: Define content once, reference multiple times
+- Maintainability: Update modal content in one place
+- Performance: Content only rendered once in HTML
+
+#### 3.8.2 Tooltip References
+
+```taildown
+Technical term 1[?](#){tooltip="#glossary-term"}
+Technical term 2[?](#){tooltip="#glossary-term"}
+
+:::tooltip{id="glossary-term"}
+**Definition**: Detailed explanation of the technical term.
+:::
+```
+
+#### 3.8.3 Registry System
+
+**Implementation detail** (for parser developers):
+1. **Pre-pass**: Scan document for `:::modal{id="..."}` and `:::tooltip{id="..."}`
+2. **Storage**: Convert content to HAST and store in registry
+3. **Lookup**: When `modal="#id"` encountered, lookup from registry
+4. **Render**: Attach modal/tooltip content to trigger element
+
+**Why?**: Ensures ID-referenced content is available before attachment processing.
+
+#### 3.8.4 ID Syntax Rules
+
+- IDs MUST be unique within document
+- IDs MUST start with letter or underscore
+- IDs MAY contain letters, numbers, hyphens, underscores
+- ID references MUST start with `#` (e.g., `modal="#welcome"`)
+- Invalid ID reference falls back to inline text
+
+---
+
+### 3.9 JavaScript Output **[REQUIRED]**
+
+Taildown generates vanilla JavaScript for interactive components.
+
+#### 3.9.1 Output Format
+
+**Structure**:
+```javascript
+// Generated file: document.js
+(function() {
+  'use strict';
+  
+  // Component behaviors (only included if used)
+  // - tabsBehavior
+  // - accordionBehavior
+  // - carouselBehavior
+  // - modalBehavior
+  // - tooltipBehavior
+  
+  // Initialization
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+  
+  function init() {
+    // Initialize components
+  }
+})();
+```
+
+**Characteristics**:
+- IIFE (Immediately Invoked Function Expression)
+- Strict mode
+- Self-contained (no global pollution)
+- ES6+ syntax
+- ~2-5KB total (minified)
+
+#### 3.9.2 Tree-Shaking
+
+**Optimization**: Only includes JavaScript for components actually used in the document.
+
+| Component | Size | Included When |
+|-----------|------|---------------|
+| Tabs      | ~0.8KB | `:::tabs` found |
+| Accordion | ~0.7KB | `:::accordion` found |
+| Carousel  | ~1.2KB | `:::carousel` found |
+| Modal     | ~1.0KB | `:::modal` or `modal="..."` found |
+| Tooltip   | ~0.9KB | `:::tooltip` or `tooltip="..."` found |
+
+**Example**: Document with only tabs → generates ~0.8KB JS, not 5KB.
+
+#### 3.9.3 Data Attributes
+
+JavaScript targets elements using `data-*` attributes:
+
+```html
+<!-- Tabs -->
+<div data-component="tabs">
+  <button data-tab="0" aria-selected="true">Tab 1</button>
+  <div data-tab-panel="0">Content</div>
+</div>
+
+<!-- Modal -->
+<button data-modal-trigger="modal-id">Open</button>
+<div id="modal-id" data-component="modal">...</div>
+
+<!-- Tooltip -->
+<span data-tooltip-trigger="true" aria-describedby="tooltip-id">
+  Hover me
+</span>
+<div id="tooltip-id" role="tooltip">Tooltip content</div>
+```
+
+**Why**: Clean separation between styling (classes) and behavior (data attributes).
+
+#### 3.9.4 Event Delegation
+
+**Pattern**: Events attached to document root, delegated to targets.
+
+**Benefits**:
+- Performance: Single event listener per event type
+- Dynamic content: Works with dynamically added elements
+- Memory efficient: No per-element listeners
+
+**Example**:
+```javascript
+// Instead of: element.addEventListener('click', ...)
+// Use: document.addEventListener('click', (e) => {
+//   if (e.target.matches('[data-modal-trigger]')) { ... }
+// });
+```
+
+#### 3.9.5 Browser Compatibility
+
+**Target**: Modern browsers (ES6+ support)
+- Chrome 51+
+- Firefox 54+
+- Safari 10+
+- Edge 15+
+
+**No polyfills**: Vanilla JavaScript only, no dependencies.
+
+**Fallback**: Components degrade gracefully without JavaScript (content remains accessible).
+
+#### 3.9.6 Customization
+
+**Via CSS**: Behaviors use CSS classes, fully customizable:
+```css
+/* Override modal backdrop */
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Custom carousel card */
+.carousel-card {
+  transform: scale(1.1);
+}
+```
+
+**Via Attributes**: Some components support configuration:
+```taildown
+:::carousel{auto-play interval="3000" loop="true"}
+Content
+:::
+```
+
+**Advanced**: Modify generated JavaScript by extending compilation pipeline (see tech-spec.md).
 
 ---
 

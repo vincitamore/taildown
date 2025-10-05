@@ -138,14 +138,6 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
       }
 
       const nextSibling = parent.children[index + 1];
-      
-      // Debug: Log link processing
-      console.log('[AttributeParser] Processing link:', {
-        url: node.url,
-        hasNextSibling: !!nextSibling,
-        nextSiblingType: nextSibling?.type,
-        nextSiblingValue: nextSibling?.type === 'text' ? (nextSibling as Text).value : undefined
-      });
 
       if (nextSibling && nextSibling.type === 'text') {
         const textNode = nextSibling as Text;
@@ -155,8 +147,6 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
           textNode.value,
           resolverContext
         );
-        
-        console.log('[AttributeParser] Extracted:', { classes, modal, tooltip, remainingText });
 
         // Update text node
         textNode.value = remainingText;

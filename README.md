@@ -1,9 +1,9 @@
 # Taildown
 
-**Version:** 0.1.0 (Phase 2 - In Progress)  
+**Version:** 0.3.0  
 **Status:** Active Development
 
-A markup language that extends Markdown with Tailwind CSS-inspired styling directives and component systems. Taildown enables developers and content creators to build beautiful, responsive web layouts using plain English commands while maintaining readability.
+A revolutionary markup language that extends Markdown with plain English styling, interactive components, and zero-config interactivity. Write beautiful, responsive web applications using natural language while maintaining perfect readability.
 
 ---
 
@@ -13,15 +13,34 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 
 ### Key Features
 
+#### Core Features
 - ✅ **Markdown Compatible**: Standard Markdown works without modification
 - ✅ **Plain English Styling**: Use natural language like `{huge-bold primary center}` instead of CSS classes
 - ✅ **Icon System**: Built-in Lucide icons with `:icon[name]{size color}` syntax
 - ✅ **Modern Effects**: Glassmorphism and smooth entrance animations
-- ✅ **Component Library**: 7 pre-built components (card, button, alert, badge, avatar, grid, container)
 - ✅ **Fast Compilation**: Sub-100ms compile times for typical documents
-- ✅ **Static Output**: Generates standalone HTML and CSS with no runtime dependencies
 - ✅ **Zero Configuration**: Production-ready styles out of the box
 - ✅ **Semantic HTML5**: Clean, accessible markup generation
+
+#### Interactive Components 🎉 NEW
+- ✅ **Tabs**: Zero-config tabbed interfaces with keyboard navigation
+- ✅ **Accordion**: Collapsible sections with smooth animations
+- ✅ **Carousel**: Image/content carousels with 3D effects and swipe support
+- ✅ **Modal**: Dialog boxes with backdrop blur and focus management
+- ✅ **Tooltip**: Contextual help on hover/click with fade animations
+
+#### Attachable Components 🚀 REVOLUTIONARY
+- ✅ **One-Line Modals**: `[Click Me](#){modal="Your message here"}`
+- ✅ **Inline Tooltips**: `[Help](#){tooltip="Helpful information"}`
+- ✅ **ID References**: Define once, use everywhere with `modal="#id"`
+- ✅ **Works on Anything**: Attach to buttons, links, badges, or any element
+- ✅ **Full Markdown**: Rich content in tooltips/modals with complete markdown support
+
+#### JavaScript Generation
+- ✅ **Vanilla JS**: ~2-5KB of clean, dependency-free JavaScript
+- ✅ **Tree-Shaking**: Only includes JS for components you actually use
+- ✅ **Event Delegation**: Efficient, performant event handling
+- ✅ **Accessibility**: Full ARIA support, keyboard navigation, focus management
 
 ---
 
@@ -55,7 +74,21 @@ Welcome to the future of beautiful documents! {large muted}
 
 This card uses **glassmorphism** and **entrance animations** with plain English syntax.
 
-[Learn More :icon[arrow-right]{xs}](#){button primary}
+[Learn More :icon[arrow-right]{xs}](#){button primary modal="Welcome to Taildown! 
+Get started by exploring our examples and documentation."}
+
+[Need Help? :icon[help-circle]{xs}](#){button secondary tooltip="Click any button to see it in action!"}
+:::
+
+:::tabs
+## Features
+Taildown includes interactive tabs, modals, tooltips, and more!
+
+## Examples
+Check out the examples/ directory for comprehensive demos.
+
+## Documentation
+See SYNTAX.md for complete syntax reference.
 :::
 ```
 
@@ -65,7 +98,12 @@ This card uses **glassmorphism** and **entrance animations** with plain English 
 pnpm taildown compile hello.td
 ```
 
-This generates `hello.html` and `hello.css` in the same directory. Open `hello.html` in your browser to see the beautifully styled output.
+This generates three files:
+- `hello.html` - Semantic HTML5 markup
+- `hello.css` - Optimized, scoped styles  
+- `hello.js` - Minimal vanilla JavaScript (only if interactive components used)
+
+Open `hello.html` in your browser to see your interactive document!
 
 ---
 
@@ -173,6 +211,120 @@ Content 3
 ```
 
 Grid automatically adapts: 1 column on mobile, 2 on tablet, 3 on desktop.
+
+---
+
+## Interactive Components
+
+Taildown includes five interactive components with zero configuration required. JavaScript is automatically generated only for components you use.
+
+### Tabs
+
+```taildown
+:::tabs
+## First Tab
+Content here
+
+## Second Tab
+More content
+:::
+```
+
+### Accordion
+
+```taildown
+:::accordion
+**Section 1**
+Content (open by default)
+
+**Section 2**
+Click to expand
+:::
+```
+
+### Carousel
+
+```taildown
+:::carousel
+Slide 1
+
+---
+
+Slide 2
+:::
+```
+
+### Modal & Tooltip (Attachable)
+
+```taildown
+[Click Me](#){modal="Your message"}
+[Hover](#){tooltip="Help text"}
+
+[Open Rich Modal](#){modal="#welcome"}
+
+:::modal{id="welcome"}
+# Welcome!
+Full **markdown** support here.
+:::
+```
+
+**See [`SYNTAX.md`](SYNTAX.md) §3.7 for complete interactive component documentation.**
+
+---
+
+## Attachable Components 🚀
+
+The most revolutionary feature: attach modals and tooltips to ANY element with one line.
+
+### Quick Examples
+
+```taildown
+[Info](#){modal="Simple message"}
+[Help](#){tooltip="Quick tip"}
+[Button](#){button primary modal="#details"}
+```
+
+### ID References
+
+Define once, use everywhere:
+
+```taildown
+[Open 1](#){modal="#shared"}
+[Open 2](#){modal="#shared"}
+
+:::modal{id="shared"}
+Content defined once, used twice!
+:::
+```
+
+### Why Revolutionary
+
+**Traditional approach**: 50+ lines of HTML + JavaScript  
+**Taildown**: `[Click](#){modal="Message"}`
+
+Zero configuration. Zero complexity. Maximum readability.
+
+**See [`SYNTAX.md`](SYNTAX.md) §2.8 for complete attachable component documentation.**
+
+---
+
+## JavaScript Output
+
+Taildown generates ~2-5KB of optimized vanilla JavaScript (only for interactive components).
+
+**Tree-Shaking**: Only includes JS for components you actually use  
+**Vanilla ES6+**: No framework dependencies  
+**Accessible**: Full ARIA support, keyboard navigation  
+**Browser Support**: Chrome 51+, Firefox 54+, Safari 10+, Edge 15+
+
+**Output structure**:
+```
+document.td → document.html (HTML5)
+           → document.css (scoped CSS)
+           → document.js (only if interactive components present)
+```
+
+**See [`SYNTAX.md`](SYNTAX.md) §3.9 for complete JavaScript generation documentation.**
 
 ---
 

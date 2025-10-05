@@ -261,17 +261,34 @@ function parseFenceLine(line: string, lineNumber: number): ComponentMarker | nul
       return null;
     }
     
-    // Extract attributes as raw tokens for component system to resolve
-    // The component parser will determine if they're variants, sizes, or plain English
+    // Extract attributes - both key-value pairs and classes/variants
     const classes: string[] = [];
+    const attributes: Record<string, string | null | undefined> = {};
+    
     if (attributesStr) {
-      const tokens = attributesStr.trim().split(/\s+/).filter(t => t.length > 0);
+      const trimmed = attributesStr.trim();
+      
+      // First, extract all key="value" pairs
+      const kvRegex = /(\w+)=["']([^"']+)["']/g;
+      let cleanedStr = trimmed;
+      let match;
+      
+      while ((match = kvRegex.exec(trimmed)) !== null) {
+        const key = match[1];
+        const value = match[2];
+        attributes[key] = value;
+        // Remove this kv pair from the string
+        cleanedStr = cleanedStr.replace(match[0], ' ');
+      }
+      
+      // Then extract classes and variants from remaining tokens
+      const tokens = cleanedStr.trim().split(/\s+/).filter(t => t.length > 0);
       
       for (const token of tokens) {
         if (CLASS_NAME_REGEX.test(token)) {
           // Direct CSS class (starts with .) - strip the dot and add as-is
           classes.push(token.substring(1));
-        } else {
+        } else if (token && !token.includes('=')) {
           // Everything else (variants, sizes, plain English) - pass as raw token
           // Component parser will resolve these based on context
           classes.push(token);
@@ -283,6 +300,7 @@ function parseFenceLine(line: string, lineNumber: number): ComponentMarker | nul
       type: 'open',
       name,
       classes: classes.length > 0 ? classes : undefined,
+      attributes: Object.keys(attributes).length > 0 ? attributes : undefined,
       position: {
         start: { line: lineNumber, column: 1, offset: 0 },
         end: { line: lineNumber, column: line.length + 1, offset: 0 },

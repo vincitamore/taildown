@@ -71,8 +71,9 @@ export const CLASS_NAME_REGEX = /^\.[a-zA-Z][a-zA-Z0-9_-]*$/;
 /**
  * Attribute block pattern for extraction
  * See SYNTAX.md §2.2.5
+ * Updated: Matches attribute blocks anywhere in text, not just at end
  */
-export const ATTRIBUTE_BLOCK_REGEX = /\s*\{([^}]+)\}\s*$/;
+export const ATTRIBUTE_BLOCK_REGEX = /^\s*\{([^}]+)\}/;
 
 /**
  * Version of Taildown syntax specification
