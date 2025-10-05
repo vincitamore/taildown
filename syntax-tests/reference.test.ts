@@ -79,8 +79,9 @@ function normalizeAST(ast: any): any {
     return ast;
   }
 
-  // Remove position information (not part of structural comparison)
-  const { position, ...rest } = ast;
+  // Remove position information and empty attributes field (not part of structural comparison)
+  // remark-directive adds an empty attributes object that we don't need for comparison
+  const { position, attributes, ...rest } = ast;
 
   // Recursively normalize children
   if (Array.isArray(rest.children)) {

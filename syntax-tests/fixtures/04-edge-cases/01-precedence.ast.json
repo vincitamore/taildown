@@ -1,0 +1,444 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Edge Cases: Precedence and Ambiguity",
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 3,
+              "offset": 2
+            },
+            "end": {
+              "line": 1,
+              "column": 39,
+              "offset": 38
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 39,
+          "offset": 38
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Code blocks take precedence",
+          "position": {
+            "start": {
+              "line": 3,
+              "column": 4,
+              "offset": 45
+            },
+            "end": {
+              "line": 3,
+              "column": 31,
+              "offset": 72
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 42
+        },
+        "end": {
+          "line": 3,
+          "column": 31,
+          "offset": 72
+        }
+      }
+    },
+    {
+      "type": "code",
+      "lang": null,
+      "meta": null,
+      "value": ":::card {.class}\r\nThis looks like a component but it's inside a code block.\r\n:::",
+      "position": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 76
+        },
+        "end": {
+          "line": 9,
+          "column": 4,
+          "offset": 166
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Inline code protects attribute syntax",
+          "position": {
+            "start": {
+              "line": 11,
+              "column": 4,
+              "offset": 173
+            },
+            "end": {
+              "line": 11,
+              "column": 41,
+              "offset": 210
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 11,
+          "column": 1,
+          "offset": 170
+        },
+        "end": {
+          "line": 11,
+          "column": 41,
+          "offset": 210
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "This is ",
+          "position": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 214
+            },
+            "end": {
+              "line": 13,
+              "column": 9,
+              "offset": 222
+            }
+          }
+        },
+        {
+          "type": "inlineCode",
+          "value": "{.not-an-attribute}",
+          "position": {
+            "start": {
+              "line": 13,
+              "column": 9,
+              "offset": 222
+            },
+            "end": {
+              "line": 13,
+              "column": 30,
+              "offset": 243
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " in inline code.",
+          "position": {
+            "start": {
+              "line": 13,
+              "column": 30,
+              "offset": 243
+            },
+            "end": {
+              "line": 13,
+              "column": 46,
+              "offset": 259
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 214
+        },
+        "end": {
+          "line": 13,
+          "column": 46,
+          "offset": 259
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Escaped syntax",
+          "position": {
+            "start": {
+              "line": 15,
+              "column": 4,
+              "offset": 266
+            },
+            "end": {
+              "line": 15,
+              "column": 18,
+              "offset": 280
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 15,
+          "column": 1,
+          "offset": 263
+        },
+        "end": {
+          "line": 15,
+          "column": 18,
+          "offset": 280
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "# Not a heading"
+        }
+      ]
+    },
+    {
+      "type": "containerDirective",
+      "name": "card",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Not a component fence"
+            }
+          ]
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 19,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 19,
+          "column": 8,
+          "offset": 0
+        }
+      },
+      "data": {
+        "hName": "div",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-card",
+            "p-6",
+            "rounded-lg",
+            "shadow-md",
+            "bg-white",
+            "max-w-full",
+            "overflow-auto"
+          ],
+          "data-component": "card"
+        },
+        "component": {
+          "name": "card",
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ""
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "not-a-class"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Literal braces in text",
+          "position": {
+            "start": {
+              "line": 25,
+              "column": 4,
+              "offset": 367
+            },
+            "end": {
+              "line": 25,
+              "column": 26,
+              "offset": 389
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 25,
+          "column": 1,
+          "offset": 364
+        },
+        "end": {
+          "line": 25,
+          "column": 26,
+          "offset": 389
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Use JSON like this: {\"key\": \"value\"}"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Objects can have braces: {foo: bar}"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "But this is an attribute:"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "actual-class"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Ambiguous positioning",
+          "position": {
+            "start": {
+              "line": 33,
+              "column": 4,
+              "offset": 520
+            },
+            "end": {
+              "line": 33,
+              "column": 25,
+              "offset": 541
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 33,
+          "column": 1,
+          "offset": 517
+        },
+        "end": {
+          "line": 33,
+          "column": 25,
+          "offset": 541
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "{.at-start} This paragraph starts with braces - treated as text"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "This paragraph has {.in-middle} braces - treated as text"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "This paragraph has valid braces at end"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "valid"
+          ]
+        }
+      }
+    }
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 40,
+      "column": 1,
+      "offset": 721
+    }
+  }
+}

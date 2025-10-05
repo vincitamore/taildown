@@ -1,0 +1,247 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Sibling Components with Blank Lines",
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 3,
+              "offset": 2
+            },
+            "end": {
+              "line": 1,
+              "column": 38,
+              "offset": 37
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 38,
+          "offset": 37
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Testing that blank lines between sibling components are properly handled."
+        }
+      ]
+    },
+    {
+      "type": "containerDirective",
+      "name": "grid",
+      "children": [
+        {
+          "type": "containerDirective",
+          "name": "card",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "First card content"
+                }
+              ]
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 7,
+              "column": 8,
+              "offset": 0
+            }
+          },
+          "data": {
+            "hName": "div",
+            "hProperties": {
+              "className": [
+                "taildown-component",
+                "component-card",
+                "p-6",
+                "rounded-lg",
+                "shadow-md",
+                "bg-white",
+                "max-w-full",
+                "overflow-auto"
+              ],
+              "data-component": "card"
+            },
+            "component": {
+              "name": "card",
+              "attributes": []
+            }
+          }
+        },
+        {
+          "type": "containerDirective",
+          "name": "card",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Second card content"
+                }
+              ]
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 11,
+              "column": 8,
+              "offset": 0
+            }
+          },
+          "data": {
+            "hName": "div",
+            "hProperties": {
+              "className": [
+                "taildown-component",
+                "component-card",
+                "p-6",
+                "rounded-lg",
+                "shadow-md",
+                "bg-white",
+                "max-w-full",
+                "overflow-auto"
+              ],
+              "data-component": "card"
+            },
+            "component": {
+              "name": "card",
+              "attributes": []
+            }
+          }
+        },
+        {
+          "type": "containerDirective",
+          "name": "card",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Third card content"
+                }
+              ]
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 15,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 15,
+              "column": 8,
+              "offset": 0
+            }
+          },
+          "data": {
+            "hName": "div",
+            "hProperties": {
+              "className": [
+                "taildown-component",
+                "component-card",
+                "p-6",
+                "rounded-lg",
+                "shadow-md",
+                "bg-white",
+                "max-w-full",
+                "overflow-auto"
+              ],
+              "data-component": "card"
+            },
+            "component": {
+              "name": "card",
+              "attributes": []
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 5,
+          "column": 8,
+          "offset": 0
+        }
+      },
+      "data": {
+        "hName": "div",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-grid",
+            "grid",
+            "gap-4",
+            "grid-cols-1",
+            "sm:grid-cols-2",
+            "lg:grid-cols-3"
+          ],
+          "data-component": "grid"
+        },
+        "component": {
+          "name": "grid",
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Outside the grid."
+        }
+      ]
+    }
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 23,
+      "column": 1,
+      "offset": 266
+    }
+  }
+}

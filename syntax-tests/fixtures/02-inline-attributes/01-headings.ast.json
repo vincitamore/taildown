@@ -7,12 +7,38 @@
       "children": [
         {
           "type": "text",
-          "value": "Heading with single class"
+          "value": "Heading with single class",
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 3,
+              "offset": 2
+            },
+            "end": {
+              "line": 1,
+              "column": 40,
+              "offset": 39
+            }
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 40,
+          "offset": 39
+        }
+      },
       "data": {
         "hProperties": {
-          "className": ["text-4xl"]
+          "className": [
+            "text-4xl"
+          ]
         }
       }
     },
@@ -22,12 +48,40 @@
       "children": [
         {
           "type": "text",
-          "value": "Heading with multiple classes"
+          "value": "Heading with multiple classes",
+          "position": {
+            "start": {
+              "line": 3,
+              "column": 4,
+              "offset": 46
+            },
+            "end": {
+              "line": 3,
+              "column": 69,
+              "offset": 111
+            }
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 43
+        },
+        "end": {
+          "line": 3,
+          "column": 69,
+          "offset": 111
+        }
+      },
       "data": {
         "hProperties": {
-          "className": ["text-3xl", "font-bold", "text-center"]
+          "className": [
+            "text-3xl",
+            "font-bold",
+            "text-center"
+          ]
         }
       }
     },
@@ -37,12 +91,40 @@
       "children": [
         {
           "type": "text",
-          "value": "Heading with hyphens and underscores"
+          "value": "Heading with hyphens and underscores",
+          "position": {
+            "start": {
+              "line": 5,
+              "column": 5,
+              "offset": 119
+            },
+            "end": {
+              "line": 5,
+              "column": 79,
+              "offset": 193
+            }
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 115
+        },
+        "end": {
+          "line": 5,
+          "column": 79,
+          "offset": 193
+        }
+      },
       "data": {
         "hProperties": {
-          "className": ["bg-blue-600", "hover_scale", "text-2xl"]
+          "className": [
+            "bg-blue-600",
+            "hover_scale",
+            "text-2xl"
+          ]
         }
       }
     },
@@ -52,12 +134,40 @@
       "children": [
         {
           "type": "text",
-          "value": "Heading with spaces normalized"
+          "value": "Heading with spaces normalized",
+          "position": {
+            "start": {
+              "line": 7,
+              "column": 6,
+              "offset": 202
+            },
+            "end": {
+              "line": 7,
+              "column": 76,
+              "offset": 272
+            }
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 197
+        },
+        "end": {
+          "line": 7,
+          "column": 76,
+          "offset": 272
+        }
+      },
       "data": {
         "hProperties": {
-          "className": ["class-one", "class-two", "class-three"]
+          "className": [
+            "class-one",
+            "class-two",
+            "class-three"
+          ]
         }
       }
     },
@@ -67,12 +177,39 @@
       "children": [
         {
           "type": "text",
-          "value": "Heading with spaces in braces"
+          "value": "Heading with spaces in braces",
+          "position": {
+            "start": {
+              "line": 9,
+              "column": 7,
+              "offset": 282
+            },
+            "end": {
+              "line": 9,
+              "column": 62,
+              "offset": 337
+            }
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 276
+        },
+        "end": {
+          "line": 9,
+          "column": 62,
+          "offset": 337
+        }
+      },
       "data": {
         "hProperties": {
-          "className": ["class-one", "class-two"]
+          "className": [
+            "class-one",
+            "class-two"
+          ]
         }
       }
     },
@@ -82,9 +219,33 @@
       "children": [
         {
           "type": "text",
-          "value": "Plain heading without attributes"
+          "value": "Plain heading without attributes",
+          "position": {
+            "start": {
+              "line": 11,
+              "column": 8,
+              "offset": 348
+            },
+            "end": {
+              "line": 11,
+              "column": 40,
+              "offset": 380
+            }
+          }
         }
-      ]
+      ],
+      "position": {
+        "start": {
+          "line": 11,
+          "column": 1,
+          "offset": 341
+        },
+        "end": {
+          "line": 11,
+          "column": 40,
+          "offset": 380
+        }
+      }
     },
     {
       "type": "heading",
@@ -92,12 +253,38 @@
       "children": [
         {
           "type": "text",
-          "value": "Heading with trailing space"
+          "value": "Heading with trailing space",
+          "position": {
+            "start": {
+              "line": 13,
+              "column": 3,
+              "offset": 386
+            },
+            "end": {
+              "line": 13,
+              "column": 43,
+              "offset": 426
+            }
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 384
+        },
+        "end": {
+          "line": 13,
+          "column": 44,
+          "offset": 427
+        }
+      },
       "data": {
         "hProperties": {
-          "className": ["class-one"]
+          "className": [
+            "class-one"
+          ]
         }
       }
     },
@@ -107,10 +294,33 @@
       "children": [
         {
           "type": "text",
-          "value": "{.invalid-position} Heading Text"
+          "value": "Heading with class at start is invalid {.invalid-position} Heading Text",
+          "position": {
+            "start": {
+              "line": 15,
+              "column": 4,
+              "offset": 434
+            },
+            "end": {
+              "line": 15,
+              "column": 75,
+              "offset": 505
+            }
+          }
         }
       ],
-      "comment": "Attributes at start are not parsed, treated as plain text"
+      "position": {
+        "start": {
+          "line": 15,
+          "column": 1,
+          "offset": 431
+        },
+        "end": {
+          "line": 15,
+          "column": 75,
+          "offset": 505
+        }
+      }
     },
     {
       "type": "heading",
@@ -118,10 +328,33 @@
       "children": [
         {
           "type": "text",
-          "value": "Heading with malformed attributes {class-without-dot}"
+          "value": "Heading with malformed attributes {class-without-dot}",
+          "position": {
+            "start": {
+              "line": 17,
+              "column": 5,
+              "offset": 513
+            },
+            "end": {
+              "line": 17,
+              "column": 58,
+              "offset": 566
+            }
+          }
         }
       ],
-      "comment": "Classes without dots are not parsed, treated as plain text"
+      "position": {
+        "start": {
+          "line": 17,
+          "column": 1,
+          "offset": 509
+        },
+        "end": {
+          "line": 17,
+          "column": 58,
+          "offset": 566
+        }
+      }
     },
     {
       "type": "heading",
@@ -129,10 +362,33 @@
       "children": [
         {
           "type": "text",
-          "value": "Heading with unclosed brace {.unclosed"
+          "value": "Heading with unclosed brace {.unclosed",
+          "position": {
+            "start": {
+              "line": 19,
+              "column": 6,
+              "offset": 575
+            },
+            "end": {
+              "line": 19,
+              "column": 44,
+              "offset": 613
+            }
+          }
         }
       ],
-      "comment": "Unclosed braces are not parsed, treated as plain text"
+      "position": {
+        "start": {
+          "line": 19,
+          "column": 1,
+          "offset": 570
+        },
+        "end": {
+          "line": 19,
+          "column": 44,
+          "offset": 613
+        }
+      }
     },
     {
       "type": "heading",
@@ -140,10 +396,45 @@
       "children": [
         {
           "type": "text",
-          "value": "Heading with no opening brace .no-opening}"
+          "value": "Heading with no opening brace .no-opening}",
+          "position": {
+            "start": {
+              "line": 21,
+              "column": 7,
+              "offset": 623
+            },
+            "end": {
+              "line": 21,
+              "column": 49,
+              "offset": 665
+            }
+          }
         }
       ],
-      "comment": "Missing opening brace, treated as plain text"
+      "position": {
+        "start": {
+          "line": 21,
+          "column": 1,
+          "offset": 617
+        },
+        "end": {
+          "line": 21,
+          "column": 49,
+          "offset": 665
+        }
+      }
     }
-  ]
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 22,
+      "column": 1,
+      "offset": 667
+    }
+  }
 }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Debug Test</title>
+  <script>
+    console.log('Script loaded!');
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM loaded!');
+      
+      // Check if tabs exist
+      const tabs = document.querySelectorAll('[data-component="tabs"]');
+      console.log('Found tabs:', tabs.length);
+      
+      if (tabs.length > 0) {
+        const tab = tabs[0];
+        console.log('First tab element:', tab);
+        
+        const tabList = tab.querySelector('[role="tablist"]');
+        console.log('Tab list found:', tabList);
+        
+        const tabButtons = tab.querySelectorAll('[role="tab"]');
+        console.log('Tab buttons found:', tabButtons.length);
+        
+        const tabPanels = tab.querySelectorAll('[role="tabpanel"]');
+        console.log('Tab panels found:', tabPanels.length);
+      }
+      
+      // Check if script file exists
+      const scripts = document.getElementsByTagName('script');
+      console.log('All scripts:', scripts.length);
+      for (let s of scripts) {
+        console.log('Script src:', s.src);
+      }
+    });
+  </script>
+</head>
+<body>
+  <h1>Debug Test</h1>
+  <p>Open console to see debug info</p>
+</body>
+</html>
+

@@ -1,0 +1,2144 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "My Portfolio",
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 3,
+              "offset": 2
+            },
+            "end": {
+              "line": 1,
+              "column": 51,
+              "offset": 50
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 51,
+          "offset": 50
+        }
+      },
+      "data": {
+        "hProperties": {
+          "className": [
+            "text-6xl",
+            "font-bold",
+            "text-center"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Full Stack Developer & Designer",
+          "position": {
+            "start": {
+              "line": 3,
+              "column": 4,
+              "offset": 57
+            },
+            "end": {
+              "line": 3,
+              "column": 75,
+              "offset": 128
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 54
+        },
+        "end": {
+          "line": 3,
+          "column": 75,
+          "offset": 128
+        }
+      },
+      "data": {
+        "hProperties": {
+          "className": [
+            "text-2xl",
+            "text-center",
+            "text-gray-600"
+          ]
+        }
+      }
+    },
+    {
+      "type": "thematicBreak",
+      "position": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 132
+        },
+        "end": {
+          "line": 5,
+          "column": 4,
+          "offset": 135
+        }
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "container",
+      "children": [
+        {
+          "type": "heading",
+          "depth": 2,
+          "children": [
+            {
+              "type": "text",
+              "value": "About Me",
+              "position": {
+                "start": {
+                  "line": 8,
+                  "column": 4,
+                  "offset": 156
+                },
+                "end": {
+                  "line": 8,
+                  "column": 41,
+                  "offset": 193
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 153
+            },
+            "end": {
+              "line": 8,
+              "column": 41,
+              "offset": 193
+            }
+          },
+          "data": {
+            "hProperties": {
+              "className": [
+                "text-4xl",
+                "font-bold",
+                "mb-8"
+              ]
+            }
+          }
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Hi! I'm a developer passionate about building beautiful web experiences. I specialize in TypeScript, React, and modern web technologies."
+            }
+          ]
+        },
+        {
+          "type": "containerDirective",
+          "name": "grid",
+          "children": [
+            {
+              "type": "containerDirective",
+              "name": "card",
+              "children": [
+                {
+                  "type": "heading",
+                  "depth": 3,
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "ðŸ’» Technical Skills",
+                      "position": {
+                        "start": {
+                          "line": 14,
+                          "column": 5,
+                          "offset": 372
+                        },
+                        "end": {
+                          "line": 14,
+                          "column": 53,
+                          "offset": 420
+                        }
+                      }
+                    }
+                  ],
+                  "position": {
+                    "start": {
+                      "line": 14,
+                      "column": 1,
+                      "offset": 368
+                    },
+                    "end": {
+                      "line": 14,
+                      "column": 53,
+                      "offset": 420
+                    }
+                  },
+                  "data": {
+                    "hProperties": {
+                      "className": [
+                        "text-2xl",
+                        "font-semibold"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "start": null,
+                  "spread": false,
+                  "children": [
+                    {
+                      "type": "listItem",
+                      "spread": false,
+                      "checked": null,
+                      "children": [
+                        {
+                          "type": "paragraph",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "TypeScript & JavaScript",
+                              "position": {
+                                "start": {
+                                  "line": 16,
+                                  "column": 3,
+                                  "offset": 426
+                                },
+                                "end": {
+                                  "line": 16,
+                                  "column": 26,
+                                  "offset": 449
+                                }
+                              }
+                            }
+                          ],
+                          "position": {
+                            "start": {
+                              "line": 16,
+                              "column": 3,
+                              "offset": 426
+                            },
+                            "end": {
+                              "line": 16,
+                              "column": 26,
+                              "offset": 449
+                            }
+                          }
+                        }
+                      ],
+                      "position": {
+                        "start": {
+                          "line": 16,
+                          "column": 1,
+                          "offset": 424
+                        },
+                        "end": {
+                          "line": 16,
+                          "column": 26,
+                          "offset": 449
+                        }
+                      }
+                    },
+                    {
+                      "type": "listItem",
+                      "spread": false,
+                      "checked": null,
+                      "children": [
+                        {
+                          "type": "paragraph",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "React, Next.js, Vue",
+                              "position": {
+                                "start": {
+                                  "line": 17,
+                                  "column": 3,
+                                  "offset": 453
+                                },
+                                "end": {
+                                  "line": 17,
+                                  "column": 22,
+                                  "offset": 472
+                                }
+                              }
+                            }
+                          ],
+                          "position": {
+                            "start": {
+                              "line": 17,
+                              "column": 3,
+                              "offset": 453
+                            },
+                            "end": {
+                              "line": 17,
+                              "column": 22,
+                              "offset": 472
+                            }
+                          }
+                        }
+                      ],
+                      "position": {
+                        "start": {
+                          "line": 17,
+                          "column": 1,
+                          "offset": 451
+                        },
+                        "end": {
+                          "line": 17,
+                          "column": 22,
+                          "offset": 472
+                        }
+                      }
+                    },
+                    {
+                      "type": "listItem",
+                      "spread": false,
+                      "checked": null,
+                      "children": [
+                        {
+                          "type": "paragraph",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "Node.js & Express",
+                              "position": {
+                                "start": {
+                                  "line": 18,
+                                  "column": 3,
+                                  "offset": 476
+                                },
+                                "end": {
+                                  "line": 18,
+                                  "column": 20,
+                                  "offset": 493
+                                }
+                              }
+                            }
+                          ],
+                          "position": {
+                            "start": {
+                              "line": 18,
+                              "column": 3,
+                              "offset": 476
+                            },
+                            "end": {
+                              "line": 18,
+                              "column": 20,
+                              "offset": 493
+                            }
+                          }
+                        }
+                      ],
+                      "position": {
+                        "start": {
+                          "line": 18,
+                          "column": 1,
+                          "offset": 474
+                        },
+                        "end": {
+                          "line": 18,
+                          "column": 20,
+                          "offset": 493
+                        }
+                      }
+                    },
+                    {
+                      "type": "listItem",
+                      "spread": false,
+                      "checked": null,
+                      "children": [
+                        {
+                          "type": "paragraph",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "PostgreSQL & MongoDB\r\n:::",
+                              "position": {
+                                "start": {
+                                  "line": 19,
+                                  "column": 3,
+                                  "offset": 497
+                                },
+                                "end": {
+                                  "line": 20,
+                                  "column": 4,
+                                  "offset": 522
+                                }
+                              }
+                            }
+                          ],
+                          "position": {
+                            "start": {
+                              "line": 19,
+                              "column": 3,
+                              "offset": 497
+                            },
+                            "end": {
+                              "line": 20,
+                              "column": 4,
+                              "offset": 522
+                            }
+                          }
+                        }
+                      ],
+                      "position": {
+                        "start": {
+                          "line": 19,
+                          "column": 1,
+                          "offset": 495
+                        },
+                        "end": {
+                          "line": 20,
+                          "column": 4,
+                          "offset": 522
+                        }
+                      }
+                    }
+                  ],
+                  "position": {
+                    "start": {
+                      "line": 16,
+                      "column": 1,
+                      "offset": 424
+                    },
+                    "end": {
+                      "line": 20,
+                      "column": 4,
+                      "offset": 522
+                    }
+                  }
+                },
+                {
+                  "type": "containerDirective",
+                  "name": "card",
+                  "children": [
+                    {
+                      "type": "heading",
+                      "depth": 3,
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "ðŸŽ¨ Design Skills",
+                          "position": {
+                            "start": {
+                              "line": 23,
+                              "column": 5,
+                              "offset": 552
+                            },
+                            "end": {
+                              "line": 23,
+                              "column": 50,
+                              "offset": 597
+                            }
+                          }
+                        }
+                      ],
+                      "position": {
+                        "start": {
+                          "line": 23,
+                          "column": 1,
+                          "offset": 548
+                        },
+                        "end": {
+                          "line": 23,
+                          "column": 50,
+                          "offset": 597
+                        }
+                      },
+                      "data": {
+                        "hProperties": {
+                          "className": [
+                            "text-2xl",
+                            "font-semibold"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "type": "list",
+                      "ordered": false,
+                      "start": null,
+                      "spread": false,
+                      "children": [
+                        {
+                          "type": "listItem",
+                          "spread": false,
+                          "checked": null,
+                          "children": [
+                            {
+                              "type": "paragraph",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "value": "UI/UX Design",
+                                  "position": {
+                                    "start": {
+                                      "line": 25,
+                                      "column": 3,
+                                      "offset": 603
+                                    },
+                                    "end": {
+                                      "line": 25,
+                                      "column": 15,
+                                      "offset": 615
+                                    }
+                                  }
+                                }
+                              ],
+                              "position": {
+                                "start": {
+                                  "line": 25,
+                                  "column": 3,
+                                  "offset": 603
+                                },
+                                "end": {
+                                  "line": 25,
+                                  "column": 15,
+                                  "offset": 615
+                                }
+                              }
+                            }
+                          ],
+                          "position": {
+                            "start": {
+                              "line": 25,
+                              "column": 1,
+                              "offset": 601
+                            },
+                            "end": {
+                              "line": 25,
+                              "column": 15,
+                              "offset": 615
+                            }
+                          }
+                        },
+                        {
+                          "type": "listItem",
+                          "spread": false,
+                          "checked": null,
+                          "children": [
+                            {
+                              "type": "paragraph",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "value": "Figma & Sketch",
+                                  "position": {
+                                    "start": {
+                                      "line": 26,
+                                      "column": 3,
+                                      "offset": 619
+                                    },
+                                    "end": {
+                                      "line": 26,
+                                      "column": 17,
+                                      "offset": 633
+                                    }
+                                  }
+                                }
+                              ],
+                              "position": {
+                                "start": {
+                                  "line": 26,
+                                  "column": 3,
+                                  "offset": 619
+                                },
+                                "end": {
+                                  "line": 26,
+                                  "column": 17,
+                                  "offset": 633
+                                }
+                              }
+                            }
+                          ],
+                          "position": {
+                            "start": {
+                              "line": 26,
+                              "column": 1,
+                              "offset": 617
+                            },
+                            "end": {
+                              "line": 26,
+                              "column": 17,
+                              "offset": 633
+                            }
+                          }
+                        },
+                        {
+                          "type": "listItem",
+                          "spread": false,
+                          "checked": null,
+                          "children": [
+                            {
+                              "type": "paragraph",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "value": "Design Systems",
+                                  "position": {
+                                    "start": {
+                                      "line": 27,
+                                      "column": 3,
+                                      "offset": 637
+                                    },
+                                    "end": {
+                                      "line": 27,
+                                      "column": 17,
+                                      "offset": 651
+                                    }
+                                  }
+                                }
+                              ],
+                              "position": {
+                                "start": {
+                                  "line": 27,
+                                  "column": 3,
+                                  "offset": 637
+                                },
+                                "end": {
+                                  "line": 27,
+                                  "column": 17,
+                                  "offset": 651
+                                }
+                              }
+                            }
+                          ],
+                          "position": {
+                            "start": {
+                              "line": 27,
+                              "column": 1,
+                              "offset": 635
+                            },
+                            "end": {
+                              "line": 27,
+                              "column": 17,
+                              "offset": 651
+                            }
+                          }
+                        },
+                        {
+                          "type": "listItem",
+                          "spread": false,
+                          "checked": null,
+                          "children": [
+                            {
+                              "type": "paragraph",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "value": "Responsive Design\r\n:::",
+                                  "position": {
+                                    "start": {
+                                      "line": 28,
+                                      "column": 3,
+                                      "offset": 655
+                                    },
+                                    "end": {
+                                      "line": 29,
+                                      "column": 4,
+                                      "offset": 677
+                                    }
+                                  }
+                                }
+                              ],
+                              "position": {
+                                "start": {
+                                  "line": 28,
+                                  "column": 3,
+                                  "offset": 655
+                                },
+                                "end": {
+                                  "line": 29,
+                                  "column": 4,
+                                  "offset": 677
+                                }
+                              }
+                            }
+                          ],
+                          "position": {
+                            "start": {
+                              "line": 28,
+                              "column": 1,
+                              "offset": 653
+                            },
+                            "end": {
+                              "line": 29,
+                              "column": 4,
+                              "offset": 677
+                            }
+                          }
+                        }
+                      ],
+                      "position": {
+                        "start": {
+                          "line": 25,
+                          "column": 1,
+                          "offset": 601
+                        },
+                        "end": {
+                          "line": 29,
+                          "column": 4,
+                          "offset": 677
+                        }
+                      }
+                    },
+                    {
+                      "type": "containerDirective",
+                      "name": "card",
+                      "children": [
+                        {
+                          "type": "heading",
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "ðŸš€ Soft Skills",
+                              "position": {
+                                "start": {
+                                  "line": 32,
+                                  "column": 5,
+                                  "offset": 707
+                                },
+                                "end": {
+                                  "line": 32,
+                                  "column": 48,
+                                  "offset": 750
+                                }
+                              }
+                            }
+                          ],
+                          "position": {
+                            "start": {
+                              "line": 32,
+                              "column": 1,
+                              "offset": 703
+                            },
+                            "end": {
+                              "line": 32,
+                              "column": 48,
+                              "offset": 750
+                            }
+                          },
+                          "data": {
+                            "hProperties": {
+                              "className": [
+                                "text-2xl",
+                                "font-semibold"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "type": "list",
+                          "ordered": false,
+                          "start": null,
+                          "spread": false,
+                          "children": [
+                            {
+                              "type": "listItem",
+                              "spread": false,
+                              "checked": null,
+                              "children": [
+                                {
+                                  "type": "paragraph",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "Team Leadership",
+                                      "position": {
+                                        "start": {
+                                          "line": 34,
+                                          "column": 3,
+                                          "offset": 756
+                                        },
+                                        "end": {
+                                          "line": 34,
+                                          "column": 18,
+                                          "offset": 771
+                                        }
+                                      }
+                                    }
+                                  ],
+                                  "position": {
+                                    "start": {
+                                      "line": 34,
+                                      "column": 3,
+                                      "offset": 756
+                                    },
+                                    "end": {
+                                      "line": 34,
+                                      "column": 18,
+                                      "offset": 771
+                                    }
+                                  }
+                                }
+                              ],
+                              "position": {
+                                "start": {
+                                  "line": 34,
+                                  "column": 1,
+                                  "offset": 754
+                                },
+                                "end": {
+                                  "line": 34,
+                                  "column": 18,
+                                  "offset": 771
+                                }
+                              }
+                            },
+                            {
+                              "type": "listItem",
+                              "spread": false,
+                              "checked": null,
+                              "children": [
+                                {
+                                  "type": "paragraph",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "Technical Writing",
+                                      "position": {
+                                        "start": {
+                                          "line": 35,
+                                          "column": 3,
+                                          "offset": 775
+                                        },
+                                        "end": {
+                                          "line": 35,
+                                          "column": 20,
+                                          "offset": 792
+                                        }
+                                      }
+                                    }
+                                  ],
+                                  "position": {
+                                    "start": {
+                                      "line": 35,
+                                      "column": 3,
+                                      "offset": 775
+                                    },
+                                    "end": {
+                                      "line": 35,
+                                      "column": 20,
+                                      "offset": 792
+                                    }
+                                  }
+                                }
+                              ],
+                              "position": {
+                                "start": {
+                                  "line": 35,
+                                  "column": 1,
+                                  "offset": 773
+                                },
+                                "end": {
+                                  "line": 35,
+                                  "column": 20,
+                                  "offset": 792
+                                }
+                              }
+                            },
+                            {
+                              "type": "listItem",
+                              "spread": false,
+                              "checked": null,
+                              "children": [
+                                {
+                                  "type": "paragraph",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "Code Review",
+                                      "position": {
+                                        "start": {
+                                          "line": 36,
+                                          "column": 3,
+                                          "offset": 796
+                                        },
+                                        "end": {
+                                          "line": 36,
+                                          "column": 14,
+                                          "offset": 807
+                                        }
+                                      }
+                                    }
+                                  ],
+                                  "position": {
+                                    "start": {
+                                      "line": 36,
+                                      "column": 3,
+                                      "offset": 796
+                                    },
+                                    "end": {
+                                      "line": 36,
+                                      "column": 14,
+                                      "offset": 807
+                                    }
+                                  }
+                                }
+                              ],
+                              "position": {
+                                "start": {
+                                  "line": 36,
+                                  "column": 1,
+                                  "offset": 794
+                                },
+                                "end": {
+                                  "line": 36,
+                                  "column": 14,
+                                  "offset": 807
+                                }
+                              }
+                            },
+                            {
+                              "type": "listItem",
+                              "spread": false,
+                              "checked": null,
+                              "children": [
+                                {
+                                  "type": "paragraph",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "Mentoring\r\n:::\r\n:::",
+                                      "position": {
+                                        "start": {
+                                          "line": 37,
+                                          "column": 3,
+                                          "offset": 811
+                                        },
+                                        "end": {
+                                          "line": 39,
+                                          "column": 4,
+                                          "offset": 830
+                                        }
+                                      }
+                                    }
+                                  ],
+                                  "position": {
+                                    "start": {
+                                      "line": 37,
+                                      "column": 3,
+                                      "offset": 811
+                                    },
+                                    "end": {
+                                      "line": 39,
+                                      "column": 4,
+                                      "offset": 830
+                                    }
+                                  }
+                                }
+                              ],
+                              "position": {
+                                "start": {
+                                  "line": 37,
+                                  "column": 1,
+                                  "offset": 809
+                                },
+                                "end": {
+                                  "line": 39,
+                                  "column": 4,
+                                  "offset": 830
+                                }
+                              }
+                            }
+                          ],
+                          "position": {
+                            "start": {
+                              "line": 34,
+                              "column": 1,
+                              "offset": 754
+                            },
+                            "end": {
+                              "line": 39,
+                              "column": 4,
+                              "offset": 830
+                            }
+                          }
+                        },
+                        {
+                          "type": "heading",
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "Featured Projects",
+                              "position": {
+                                "start": {
+                                  "line": 41,
+                                  "column": 4,
+                                  "offset": 837
+                                },
+                                "end": {
+                                  "line": 41,
+                                  "column": 57,
+                                  "offset": 890
+                                }
+                              }
+                            }
+                          ],
+                          "position": {
+                            "start": {
+                              "line": 41,
+                              "column": 1,
+                              "offset": 834
+                            },
+                            "end": {
+                              "line": 41,
+                              "column": 57,
+                              "offset": 890
+                            }
+                          },
+                          "data": {
+                            "hProperties": {
+                              "className": [
+                                "text-4xl",
+                                "font-bold",
+                                "mt-16",
+                                "mb-8"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "type": "containerDirective",
+                          "name": "card",
+                          "children": [
+                            {
+                              "type": "heading",
+                              "depth": 3,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "value": "Taildown Markup Language",
+                                  "position": {
+                                    "start": {
+                                      "line": 44,
+                                      "column": 5,
+                                      "offset": 936
+                                    },
+                                    "end": {
+                                      "line": 44,
+                                      "column": 52,
+                                      "offset": 983
+                                    }
+                                  }
+                                }
+                              ],
+                              "position": {
+                                "start": {
+                                  "line": 44,
+                                  "column": 1,
+                                  "offset": 932
+                                },
+                                "end": {
+                                  "line": 44,
+                                  "column": 52,
+                                  "offset": 983
+                                }
+                              },
+                              "data": {
+                                "hProperties": {
+                                  "className": [
+                                    "text-3xl",
+                                    "font-bold"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "type": "paragraph",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "value": "A revolutionary markup language that combines Markdown simplicity with Tailwind CSS styling power."
+                                }
+                              ]
+                            },
+                            {
+                              "type": "paragraph",
+                              "children": [
+                                {
+                                  "type": "strong",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "Tech Stack:",
+                                      "position": {
+                                        "start": {
+                                          "line": 48,
+                                          "column": 3,
+                                          "offset": 1091
+                                        },
+                                        "end": {
+                                          "line": 48,
+                                          "column": 14,
+                                          "offset": 1102
+                                        }
+                                      }
+                                    }
+                                  ],
+                                  "position": {
+                                    "start": {
+                                      "line": 48,
+                                      "column": 1,
+                                      "offset": 1089
+                                    },
+                                    "end": {
+                                      "line": 48,
+                                      "column": 16,
+                                      "offset": 1104
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "text",
+                                  "value": " TypeScript, Node.js, unified/remark",
+                                  "position": {
+                                    "start": {
+                                      "line": 48,
+                                      "column": 16,
+                                      "offset": 1104
+                                    },
+                                    "end": {
+                                      "line": 48,
+                                      "column": 52,
+                                      "offset": 1140
+                                    }
+                                  }
+                                }
+                              ],
+                              "position": {
+                                "start": {
+                                  "line": 48,
+                                  "column": 1,
+                                  "offset": 1089
+                                },
+                                "end": {
+                                  "line": 48,
+                                  "column": 52,
+                                  "offset": 1140
+                                }
+                              }
+                            },
+                            {
+                              "type": "paragraph",
+                              "children": [
+                                {
+                                  "type": "link",
+                                  "title": null,
+                                  "url": "#",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "View Project",
+                                      "position": {
+                                        "start": {
+                                          "line": 50,
+                                          "column": 2,
+                                          "offset": 1145
+                                        },
+                                        "end": {
+                                          "line": 50,
+                                          "column": 14,
+                                          "offset": 1157
+                                        }
+                                      }
+                                    }
+                                  ],
+                                  "position": {
+                                    "start": {
+                                      "line": 50,
+                                      "column": 1,
+                                      "offset": 1144
+                                    },
+                                    "end": {
+                                      "line": 50,
+                                      "column": 18,
+                                      "offset": 1161
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "text",
+                                  "value": " ",
+                                  "position": {
+                                    "start": {
+                                      "line": 50,
+                                      "column": 18,
+                                      "offset": 1161
+                                    },
+                                    "end": {
+                                      "line": 50,
+                                      "column": 19,
+                                      "offset": 1162
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "link",
+                                  "title": null,
+                                  "url": "#",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "Live Demo",
+                                      "position": {
+                                        "start": {
+                                          "line": 50,
+                                          "column": 20,
+                                          "offset": 1163
+                                        },
+                                        "end": {
+                                          "line": 50,
+                                          "column": 29,
+                                          "offset": 1172
+                                        }
+                                      }
+                                    }
+                                  ],
+                                  "position": {
+                                    "start": {
+                                      "line": 50,
+                                      "column": 19,
+                                      "offset": 1162
+                                    },
+                                    "end": {
+                                      "line": 50,
+                                      "column": 33,
+                                      "offset": 1176
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "text",
+                                  "value": " ",
+                                  "position": {
+                                    "start": {
+                                      "line": 50,
+                                      "column": 33,
+                                      "offset": 1176
+                                    },
+                                    "end": {
+                                      "line": 50,
+                                      "column": 34,
+                                      "offset": 1177
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "link",
+                                  "title": null,
+                                  "url": "#",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "GitHub",
+                                      "position": {
+                                        "start": {
+                                          "line": 50,
+                                          "column": 35,
+                                          "offset": 1178
+                                        },
+                                        "end": {
+                                          "line": 50,
+                                          "column": 41,
+                                          "offset": 1184
+                                        }
+                                      }
+                                    }
+                                  ],
+                                  "position": {
+                                    "start": {
+                                      "line": 50,
+                                      "column": 34,
+                                      "offset": 1177
+                                    },
+                                    "end": {
+                                      "line": 50,
+                                      "column": 45,
+                                      "offset": 1188
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ],
+                          "position": {
+                            "start": {
+                              "line": 43,
+                              "column": 1,
+                              "offset": 0
+                            },
+                            "end": {
+                              "line": 43,
+                              "column": 37,
+                              "offset": 0
+                            }
+                          },
+                          "data": {
+                            "hProperties": {
+                              "className": [
+                                "taildown-component",
+                                "component-card",
+                                "p-6",
+                                "rounded-lg",
+                                "shadow-md",
+                                "bg-white",
+                                "max-w-full",
+                                "overflow-auto"
+                              ],
+                              "data-component": "card"
+                            },
+                            "hName": "div",
+                            "component": {
+                              "name": "card",
+                              "attributes": []
+                            }
+                          }
+                        },
+                        {
+                          "type": "containerDirective",
+                          "name": "card",
+                          "children": [
+                            {
+                              "type": "heading",
+                              "depth": 3,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "value": "Component Library",
+                                  "position": {
+                                    "start": {
+                                      "line": 54,
+                                      "column": 5,
+                                      "offset": 1239
+                                    },
+                                    "end": {
+                                      "line": 54,
+                                      "column": 45,
+                                      "offset": 1279
+                                    }
+                                  }
+                                }
+                              ],
+                              "position": {
+                                "start": {
+                                  "line": 54,
+                                  "column": 1,
+                                  "offset": 1235
+                                },
+                                "end": {
+                                  "line": 54,
+                                  "column": 45,
+                                  "offset": 1279
+                                }
+                              },
+                              "data": {
+                                "hProperties": {
+                                  "className": [
+                                    "text-3xl",
+                                    "font-bold"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "type": "paragraph",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "value": "A comprehensive React component library built with accessibility and performance in mind."
+                                }
+                              ]
+                            },
+                            {
+                              "type": "paragraph",
+                              "children": [
+                                {
+                                  "type": "strong",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "Tech Stack:",
+                                      "position": {
+                                        "start": {
+                                          "line": 58,
+                                          "column": 3,
+                                          "offset": 1378
+                                        },
+                                        "end": {
+                                          "line": 58,
+                                          "column": 14,
+                                          "offset": 1389
+                                        }
+                                      }
+                                    }
+                                  ],
+                                  "position": {
+                                    "start": {
+                                      "line": 58,
+                                      "column": 1,
+                                      "offset": 1376
+                                    },
+                                    "end": {
+                                      "line": 58,
+                                      "column": 16,
+                                      "offset": 1391
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "text",
+                                  "value": " React, TypeScript, Storybook, Jest",
+                                  "position": {
+                                    "start": {
+                                      "line": 58,
+                                      "column": 16,
+                                      "offset": 1391
+                                    },
+                                    "end": {
+                                      "line": 58,
+                                      "column": 51,
+                                      "offset": 1426
+                                    }
+                                  }
+                                }
+                              ],
+                              "position": {
+                                "start": {
+                                  "line": 58,
+                                  "column": 1,
+                                  "offset": 1376
+                                },
+                                "end": {
+                                  "line": 58,
+                                  "column": 51,
+                                  "offset": 1426
+                                }
+                              }
+                            },
+                            {
+                              "type": "paragraph",
+                              "children": [
+                                {
+                                  "type": "link",
+                                  "title": null,
+                                  "url": "#",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "View Project",
+                                      "position": {
+                                        "start": {
+                                          "line": 60,
+                                          "column": 2,
+                                          "offset": 1431
+                                        },
+                                        "end": {
+                                          "line": 60,
+                                          "column": 14,
+                                          "offset": 1443
+                                        }
+                                      }
+                                    }
+                                  ],
+                                  "position": {
+                                    "start": {
+                                      "line": 60,
+                                      "column": 1,
+                                      "offset": 1430
+                                    },
+                                    "end": {
+                                      "line": 60,
+                                      "column": 18,
+                                      "offset": 1447
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "text",
+                                  "value": " ",
+                                  "position": {
+                                    "start": {
+                                      "line": 60,
+                                      "column": 18,
+                                      "offset": 1447
+                                    },
+                                    "end": {
+                                      "line": 60,
+                                      "column": 19,
+                                      "offset": 1448
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "link",
+                                  "title": null,
+                                  "url": "#",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "Documentation",
+                                      "position": {
+                                        "start": {
+                                          "line": 60,
+                                          "column": 20,
+                                          "offset": 1449
+                                        },
+                                        "end": {
+                                          "line": 60,
+                                          "column": 33,
+                                          "offset": 1462
+                                        }
+                                      }
+                                    }
+                                  ],
+                                  "position": {
+                                    "start": {
+                                      "line": 60,
+                                      "column": 19,
+                                      "offset": 1448
+                                    },
+                                    "end": {
+                                      "line": 60,
+                                      "column": 37,
+                                      "offset": 1466
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "text",
+                                  "value": " ",
+                                  "position": {
+                                    "start": {
+                                      "line": 60,
+                                      "column": 37,
+                                      "offset": 1466
+                                    },
+                                    "end": {
+                                      "line": 60,
+                                      "column": 38,
+                                      "offset": 1467
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "link",
+                                  "title": null,
+                                  "url": "#",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "npm Package",
+                                      "position": {
+                                        "start": {
+                                          "line": 60,
+                                          "column": 39,
+                                          "offset": 1468
+                                        },
+                                        "end": {
+                                          "line": 60,
+                                          "column": 50,
+                                          "offset": 1479
+                                        }
+                                      }
+                                    }
+                                  ],
+                                  "position": {
+                                    "start": {
+                                      "line": 60,
+                                      "column": 38,
+                                      "offset": 1467
+                                    },
+                                    "end": {
+                                      "line": 60,
+                                      "column": 54,
+                                      "offset": 1483
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ],
+                          "position": {
+                            "start": {
+                              "line": 53,
+                              "column": 1,
+                              "offset": 0
+                            },
+                            "end": {
+                              "line": 53,
+                              "column": 37,
+                              "offset": 0
+                            }
+                          },
+                          "data": {
+                            "hProperties": {
+                              "className": [
+                                "taildown-component",
+                                "component-card",
+                                "p-6",
+                                "rounded-lg",
+                                "shadow-md",
+                                "bg-white",
+                                "max-w-full",
+                                "overflow-auto"
+                              ],
+                              "data-component": "card"
+                            },
+                            "hName": "div",
+                            "component": {
+                              "name": "card",
+                              "attributes": []
+                            }
+                          }
+                        },
+                        {
+                          "type": "heading",
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "Get In Touch",
+                              "position": {
+                                "start": {
+                                  "line": 63,
+                                  "column": 4,
+                                  "offset": 1495
+                                },
+                                "end": {
+                                  "line": 63,
+                                  "column": 59,
+                                  "offset": 1550
+                                }
+                              }
+                            }
+                          ],
+                          "position": {
+                            "start": {
+                              "line": 63,
+                              "column": 1,
+                              "offset": 1492
+                            },
+                            "end": {
+                              "line": 63,
+                              "column": 59,
+                              "offset": 1550
+                            }
+                          },
+                          "data": {
+                            "hProperties": {
+                              "className": [
+                                "text-4xl",
+                                "font-bold",
+                                "text-center",
+                                "mt-16"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "type": "paragraph",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "I'm always interested in hearing about new projects and opportunities."
+                            }
+                          ]
+                        },
+                        {
+                          "type": "paragraph",
+                          "children": [
+                            {
+                              "type": "link",
+                              "title": null,
+                              "url": "mailto:hello@example.com",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "value": "Email Me",
+                                  "position": {
+                                    "start": {
+                                      "line": 67,
+                                      "column": 2,
+                                      "offset": 1629
+                                    },
+                                    "end": {
+                                      "line": 67,
+                                      "column": 10,
+                                      "offset": 1637
+                                    }
+                                  }
+                                }
+                              ],
+                              "position": {
+                                "start": {
+                                  "line": 67,
+                                  "column": 1,
+                                  "offset": 1628
+                                },
+                                "end": {
+                                  "line": 67,
+                                  "column": 37,
+                                  "offset": 1664
+                                }
+                              },
+                              "data": {
+                                "hProperties": {
+                                  "className": [
+                                    "button",
+                                    "primary"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "type": "text",
+                              "value": " ",
+                              "position": {
+                                "start": {
+                                  "line": 67,
+                                  "column": 37,
+                                  "offset": 1664
+                                },
+                                "end": {
+                                  "line": 67,
+                                  "column": 56,
+                                  "offset": 1683
+                                }
+                              }
+                            },
+                            {
+                              "type": "link",
+                              "title": null,
+                              "url": "#",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "value": "LinkedIn",
+                                  "position": {
+                                    "start": {
+                                      "line": 67,
+                                      "column": 57,
+                                      "offset": 1684
+                                    },
+                                    "end": {
+                                      "line": 67,
+                                      "column": 65,
+                                      "offset": 1692
+                                    }
+                                  }
+                                }
+                              ],
+                              "position": {
+                                "start": {
+                                  "line": 67,
+                                  "column": 56,
+                                  "offset": 1683
+                                },
+                                "end": {
+                                  "line": 67,
+                                  "column": 69,
+                                  "offset": 1696
+                                }
+                              },
+                              "data": {
+                                "hProperties": {
+                                  "className": [
+                                    "button",
+                                    "secondary"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "type": "text",
+                              "value": " ",
+                              "position": {
+                                "start": {
+                                  "line": 67,
+                                  "column": 69,
+                                  "offset": 1696
+                                },
+                                "end": {
+                                  "line": 67,
+                                  "column": 90,
+                                  "offset": 1717
+                                }
+                              }
+                            },
+                            {
+                              "type": "link",
+                              "title": null,
+                              "url": "#",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "value": "GitHub",
+                                  "position": {
+                                    "start": {
+                                      "line": 67,
+                                      "column": 91,
+                                      "offset": 1718
+                                    },
+                                    "end": {
+                                      "line": 67,
+                                      "column": 97,
+                                      "offset": 1724
+                                    }
+                                  }
+                                }
+                              ],
+                              "position": {
+                                "start": {
+                                  "line": 67,
+                                  "column": 90,
+                                  "offset": 1717
+                                },
+                                "end": {
+                                  "line": 67,
+                                  "column": 101,
+                                  "offset": 1728
+                                }
+                              },
+                              "data": {
+                                "hProperties": {
+                                  "className": [
+                                    "button",
+                                    "secondary"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "type": "text",
+                              "value": "",
+                              "position": {
+                                "start": {
+                                  "line": 67,
+                                  "column": 101,
+                                  "offset": 1728
+                                },
+                                "end": {
+                                  "line": 67,
+                                  "column": 121,
+                                  "offset": 1748
+                                }
+                              }
+                            }
+                          ],
+                          "position": {
+                            "start": {
+                              "line": 67,
+                              "column": 1,
+                              "offset": 1628
+                            },
+                            "end": {
+                              "line": 67,
+                              "column": 121,
+                              "offset": 1748
+                            }
+                          }
+                        }
+                      ],
+                      "position": {
+                        "start": {
+                          "line": 31,
+                          "column": 1,
+                          "offset": 0
+                        },
+                        "end": {
+                          "line": 31,
+                          "column": 21,
+                          "offset": 0
+                        }
+                      },
+                      "data": {
+                        "hProperties": {
+                          "className": [
+                            "taildown-component",
+                            "component-card",
+                            "p-6",
+                            "rounded-lg",
+                            "shadow-md",
+                            "bg-white",
+                            "max-w-full",
+                            "overflow-auto"
+                          ],
+                          "data-component": "card"
+                        },
+                        "hName": "div",
+                        "component": {
+                          "name": "card",
+                          "attributes": []
+                        }
+                      }
+                    },
+                    {
+                      "type": "thematicBreak",
+                      "position": {
+                        "start": {
+                          "line": 71,
+                          "column": 1,
+                          "offset": 1759
+                        },
+                        "end": {
+                          "line": 71,
+                          "column": 4,
+                          "offset": 1762
+                        }
+                      }
+                    },
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "strong",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "Â© 2025 Portfolio. Built with Taildown.",
+                              "position": {
+                                "start": {
+                                  "line": 73,
+                                  "column": 3,
+                                  "offset": 1768
+                                },
+                                "end": {
+                                  "line": 73,
+                                  "column": 42,
+                                  "offset": 1807
+                                }
+                              }
+                            }
+                          ],
+                          "position": {
+                            "start": {
+                              "line": 73,
+                              "column": 1,
+                              "offset": 1766
+                            },
+                            "end": {
+                              "line": 73,
+                              "column": 44,
+                              "offset": 1809
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "value": "",
+                          "position": {
+                            "start": {
+                              "line": 73,
+                              "column": 44,
+                              "offset": 1809
+                            },
+                            "end": {
+                              "line": 73,
+                              "column": 83,
+                              "offset": 1848
+                            }
+                          }
+                        }
+                      ],
+                      "position": {
+                        "start": {
+                          "line": 73,
+                          "column": 1,
+                          "offset": 1766
+                        },
+                        "end": {
+                          "line": 73,
+                          "column": 83,
+                          "offset": 1848
+                        }
+                      },
+                      "data": {
+                        "hProperties": {
+                          "className": [
+                            "text-center",
+                            "text-gray-500",
+                            "text-sm"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "position": {
+                    "start": {
+                      "line": 22,
+                      "column": 1,
+                      "offset": 0
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 21,
+                      "offset": 0
+                    }
+                  },
+                  "data": {
+                    "hProperties": {
+                      "className": [
+                        "taildown-component",
+                        "component-card",
+                        "p-6",
+                        "rounded-lg",
+                        "shadow-md",
+                        "bg-white",
+                        "max-w-full",
+                        "overflow-auto"
+                      ],
+                      "data-component": "card"
+                    },
+                    "hName": "div",
+                    "component": {
+                      "name": "card",
+                      "attributes": []
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 13,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 13,
+                  "column": 21,
+                  "offset": 0
+                }
+              },
+              "data": {
+                "hProperties": {
+                  "className": [
+                    "taildown-component",
+                    "component-card",
+                    "p-6",
+                    "rounded-lg",
+                    "shadow-md",
+                    "bg-white",
+                    "max-w-full",
+                    "overflow-auto"
+                  ],
+                  "data-component": "card"
+                },
+                "hName": "div",
+                "component": {
+                  "name": "card",
+                  "attributes": []
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 12,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 12,
+              "column": 8,
+              "offset": 0
+            }
+          },
+          "data": {
+            "hName": "div",
+            "hProperties": {
+              "className": [
+                "taildown-component",
+                "component-grid",
+                "grid",
+                "gap-4",
+                "grid-cols-1",
+                "sm:grid-cols-2",
+                "lg:grid-cols-3"
+              ],
+              "data-component": "grid"
+            },
+            "component": {
+              "name": "grid",
+              "attributes": []
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 7,
+          "column": 13,
+          "offset": 0
+        }
+      },
+      "data": {
+        "hName": "div",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-container",
+            "max-w-screen-2xl",
+            "mx-auto",
+            "px-4",
+            "sm:px-6",
+            "lg:px-8",
+            "xl:px-12"
+          ],
+          "data-component": "container"
+        },
+        "component": {
+          "name": "container",
+          "attributes": []
+        }
+      }
+    }
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 74,
+      "column": 1,
+      "offset": 1850
+    }
+  }
+}

@@ -11,7 +11,10 @@
       ],
       "data": {
         "hProperties": {
-          "className": ["text-gray-700", "leading-relaxed"]
+          "className": [
+            "text-gray-700",
+            "leading-relaxed"
+          ]
         }
       }
     },
@@ -25,7 +28,11 @@
       ],
       "data": {
         "hProperties": {
-          "className": ["font-sans", "text-base", "mb-4"]
+          "className": [
+            "font-sans",
+            "text-base",
+            "mb-4"
+          ]
         }
       }
     },
@@ -43,38 +50,136 @@
       "children": [
         {
           "type": "text",
-          "value": "Paragraph with inline "
+          "value": "Paragraph with inline ",
+          "position": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 193
+            },
+            "end": {
+              "line": 7,
+              "column": 23,
+              "offset": 215
+            }
+          }
         },
         {
           "type": "strong",
           "children": [
             {
               "type": "text",
-              "value": "bold"
+              "value": "bold",
+              "position": {
+                "start": {
+                  "line": 7,
+                  "column": 25,
+                  "offset": 217
+                },
+                "end": {
+                  "line": 7,
+                  "column": 29,
+                  "offset": 221
+                }
+              }
             }
-          ]
+          ],
+          "position": {
+            "start": {
+              "line": 7,
+              "column": 23,
+              "offset": 215
+            },
+            "end": {
+              "line": 7,
+              "column": 31,
+              "offset": 223
+            }
+          }
         },
         {
           "type": "text",
-          "value": " and "
+          "value": " and ",
+          "position": {
+            "start": {
+              "line": 7,
+              "column": 31,
+              "offset": 223
+            },
+            "end": {
+              "line": 7,
+              "column": 36,
+              "offset": 228
+            }
+          }
         },
         {
           "type": "emphasis",
           "children": [
             {
               "type": "text",
-              "value": "italic"
+              "value": "italic",
+              "position": {
+                "start": {
+                  "line": 7,
+                  "column": 37,
+                  "offset": 229
+                },
+                "end": {
+                  "line": 7,
+                  "column": 43,
+                  "offset": 235
+                }
+              }
             }
-          ]
+          ],
+          "position": {
+            "start": {
+              "line": 7,
+              "column": 36,
+              "offset": 228
+            },
+            "end": {
+              "line": 7,
+              "column": 44,
+              "offset": 236
+            }
+          }
         },
         {
           "type": "text",
-          "value": " text"
+          "value": " text",
+          "position": {
+            "start": {
+              "line": 7,
+              "column": 44,
+              "offset": 236
+            },
+            "end": {
+              "line": 7,
+              "column": 58,
+              "offset": 250
+            }
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 193
+        },
+        "end": {
+          "line": 7,
+          "column": 58,
+          "offset": 250
+        }
+      },
       "data": {
         "hProperties": {
-          "className": ["prose"]
+          "className": [
+            "prose"
+          ]
         }
       }
     },
@@ -83,20 +188,70 @@
       "children": [
         {
           "type": "text",
-          "value": "Paragraph with "
+          "value": "Paragraph with ",
+          "position": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 254
+            },
+            "end": {
+              "line": 9,
+              "column": 16,
+              "offset": 269
+            }
+          }
         },
         {
           "type": "inlineCode",
-          "value": "inline code"
+          "value": "inline code",
+          "position": {
+            "start": {
+              "line": 9,
+              "column": 16,
+              "offset": 269
+            },
+            "end": {
+              "line": 9,
+              "column": 29,
+              "offset": 282
+            }
+          }
         },
         {
           "type": "text",
-          "value": " and attributes"
+          "value": " and attributes",
+          "position": {
+            "start": {
+              "line": 9,
+              "column": 29,
+              "offset": 282
+            },
+            "end": {
+              "line": 9,
+              "column": 58,
+              "offset": 311
+            }
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 254
+        },
+        "end": {
+          "line": 9,
+          "column": 58,
+          "offset": 311
+        }
+      },
       "data": {
         "hProperties": {
-          "className": ["code-block"]
+          "className": [
+            "code-block"
+          ]
         }
       }
     },
@@ -107,8 +262,7 @@
           "type": "text",
           "value": "{.invalid} This paragraph has attributes at the start, not the end."
         }
-      ],
-      "comment": "Attributes at start are treated as plain text"
+      ]
     },
     {
       "type": "paragraph",
@@ -117,8 +271,19 @@
           "type": "text",
           "value": "This paragraph has malformed {.attributes in the middle} of the text."
         }
-      ],
-      "comment": "Attributes in the middle are treated as plain text"
+      ]
     }
-  ]
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 14,
+      "column": 1,
+      "offset": 457
+    }
+  }
 }

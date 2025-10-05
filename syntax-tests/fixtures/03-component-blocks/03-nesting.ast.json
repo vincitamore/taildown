@@ -19,11 +19,36 @@
               ]
             }
           ],
+          "position": {
+            "start": {
+              "line": 2,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 2,
+              "column": 8,
+              "offset": 0
+            }
+          },
           "data": {
             "hName": "div",
             "hProperties": {
-              "className": ["taildown-component", "component-card"],
+              "className": [
+                "taildown-component",
+                "component-card",
+                "p-6",
+                "rounded-lg",
+                "shadow-md",
+                "bg-white",
+                "max-w-full",
+                "overflow-auto"
+              ],
               "data-component": "card"
+            },
+            "component": {
+              "name": "card",
+              "attributes": []
             }
           }
         },
@@ -41,11 +66,36 @@
               ]
             }
           ],
+          "position": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 8,
+              "offset": 0
+            }
+          },
           "data": {
             "hName": "div",
             "hProperties": {
-              "className": ["taildown-component", "component-card"],
+              "className": [
+                "taildown-component",
+                "component-card",
+                "p-6",
+                "rounded-lg",
+                "shadow-md",
+                "bg-white",
+                "max-w-full",
+                "overflow-auto"
+              ],
               "data-component": "card"
+            },
+            "component": {
+              "name": "card",
+              "attributes": []
             }
           }
         },
@@ -63,20 +113,69 @@
               ]
             }
           ],
+          "position": {
+            "start": {
+              "line": 10,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 10,
+              "column": 8,
+              "offset": 0
+            }
+          },
           "data": {
             "hName": "div",
             "hProperties": {
-              "className": ["taildown-component", "component-card"],
+              "className": [
+                "taildown-component",
+                "component-card",
+                "p-6",
+                "rounded-lg",
+                "shadow-md",
+                "bg-white",
+                "max-w-full",
+                "overflow-auto"
+              ],
               "data-component": "card"
+            },
+            "component": {
+              "name": "card",
+              "attributes": []
             }
           }
         }
       ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 8,
+          "offset": 0
+        }
+      },
       "data": {
         "hName": "div",
         "hProperties": {
-          "className": ["taildown-component", "component-grid"],
+          "className": [
+            "taildown-component",
+            "component-grid",
+            "grid",
+            "gap-4",
+            "grid-cols-1",
+            "sm:grid-cols-2",
+            "lg:grid-cols-3"
+          ],
           "data-component": "grid"
+        },
+        "component": {
+          "name": "grid",
+          "attributes": []
         }
       }
     },
@@ -90,9 +189,33 @@
           "children": [
             {
               "type": "text",
-              "value": "Title inside container"
+              "value": "Title inside container",
+              "position": {
+                "start": {
+                  "line": 16,
+                  "column": 3,
+                  "offset": 139
+                },
+                "end": {
+                  "line": 16,
+                  "column": 25,
+                  "offset": 161
+                }
+              }
             }
-          ]
+          ],
+          "position": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 137
+            },
+            "end": {
+              "line": 16,
+              "column": 25,
+              "offset": 161
+            }
+          }
         },
         {
           "type": "containerDirective",
@@ -112,20 +235,69 @@
                   ]
                 }
               ],
+              "position": {
+                "start": {
+                  "line": 19,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 19,
+                  "column": 8,
+                  "offset": 0
+                }
+              },
               "data": {
                 "hName": "div",
                 "hProperties": {
-                  "className": ["taildown-component", "component-card"],
+                  "className": [
+                    "taildown-component",
+                    "component-card",
+                    "p-6",
+                    "rounded-lg",
+                    "shadow-md",
+                    "bg-white",
+                    "max-w-full",
+                    "overflow-auto"
+                  ],
                   "data-component": "card"
+                },
+                "component": {
+                  "name": "card",
+                  "attributes": []
                 }
               }
             }
           ],
+          "position": {
+            "start": {
+              "line": 18,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 18,
+              "column": 8,
+              "offset": 0
+            }
+          },
           "data": {
             "hName": "div",
             "hProperties": {
-              "className": ["taildown-component", "component-grid"],
+              "className": [
+                "taildown-component",
+                "component-grid",
+                "grid",
+                "gap-4",
+                "grid-cols-1",
+                "sm:grid-cols-2",
+                "lg:grid-cols-3"
+              ],
               "data-component": "grid"
+            },
+            "component": {
+              "name": "grid",
+              "attributes": []
             }
           }
         },
@@ -139,11 +311,36 @@
           ]
         }
       ],
+      "position": {
+        "start": {
+          "line": 15,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 15,
+          "column": 13,
+          "offset": 0
+        }
+      },
       "data": {
         "hName": "div",
         "hProperties": {
-          "className": ["taildown-component", "component-container"],
+          "className": [
+            "taildown-component",
+            "component-container",
+            "max-w-screen-2xl",
+            "mx-auto",
+            "px-4",
+            "sm:px-6",
+            "lg:px-8",
+            "xl:px-12"
+          ],
           "data-component": "container"
+        },
+        "component": {
+          "name": "container",
+          "attributes": []
         }
       }
     },
@@ -187,11 +384,30 @@
                   ]
                 }
               ],
+              "position": {
+                "start": {
+                  "line": 31,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 31,
+                  "column": 13,
+                  "offset": 0
+                }
+              },
               "data": {
                 "hName": "div",
                 "hProperties": {
-                  "className": ["taildown-component", "component-innermost"],
+                  "className": [
+                    "taildown-component",
+                    "component-innermost"
+                  ],
                   "data-component": "innermost"
+                },
+                "component": {
+                  "name": "innermost",
+                  "attributes": []
                 }
               }
             },
@@ -205,11 +421,30 @@
               ]
             }
           ],
+          "position": {
+            "start": {
+              "line": 29,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 29,
+              "column": 9,
+              "offset": 0
+            }
+          },
           "data": {
             "hName": "div",
             "hProperties": {
-              "className": ["taildown-component", "component-inner"],
+              "className": [
+                "taildown-component",
+                "component-inner"
+              ],
               "data-component": "inner"
+            },
+            "component": {
+              "name": "inner",
+              "attributes": []
             }
           }
         },
@@ -223,13 +458,44 @@
           ]
         }
       ],
+      "position": {
+        "start": {
+          "line": 27,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 27,
+          "column": 9,
+          "offset": 0
+        }
+      },
       "data": {
         "hName": "div",
         "hProperties": {
-          "className": ["taildown-component", "component-outer"],
+          "className": [
+            "taildown-component",
+            "component-outer"
+          ],
           "data-component": "outer"
+        },
+        "component": {
+          "name": "outer",
+          "attributes": []
         }
       }
     }
-  ]
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 38,
+      "column": 1,
+      "offset": 378
+    }
+  }
 }

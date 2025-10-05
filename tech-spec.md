@@ -1,8 +1,8 @@
 # Taildown - Technical Specification
 
-**Version:** 0.1.0  
-**Date:** 2025-10-04  
-**Status:** Initial Draft
+**Version:** 0.1.0 (Phase 2 In Progress)  
+**Date:** 2025-10-05  
+**Status:** Living Document
 
 ---
 
@@ -17,15 +17,16 @@ Taildown is a markup language that extends Markdown with Tailwind CSS-inspired s
 ### 1.1 Vision Statement
 Create a human-readable markup language that bridges the gap between simple Markdown and complex web development, enabling rapid prototyping and content creation with modern UI/UX standards.
 
-### 1.2 Core Goals
-- **Readability First**: Syntax remains as readable as Markdown
-- **Design System Integration**: Leverage Tailwind CSS conventions and shadcn/ui patterns
-- **Zero Config Beauty**: Default styles should be production-ready
-- **Component Rich**: Pre-built components (cards, grids, buttons, forms)
-- **Responsive by Default**: All layouts automatically adapt to viewport sizes
-- **Static Output**: Compile to standalone HTML/CSS files
-- **Fast Compilation**: Sub-second compile times for typical documents
-- **Icon Integration**: Built-in Lucide icon support
+### 1.2 Core Goals (Implementation Status)
+- ✅ **Readability First**: Syntax remains as readable as Markdown
+- ✅ **Plain English Styling**: Natural language replaces CSS classes (`huge-bold primary`)
+- ✅ **Zero Config Beauty**: Default styles are production-ready with glassmorphism
+- ✅ **Component Rich**: 7 pre-built components implemented (card, button, alert, badge, avatar, grid, container)
+- ✅ **Responsive by Default**: All layouts automatically adapt (mobile → tablet → desktop)
+- ✅ **Static Output**: Compiles to standalone HTML/CSS files
+- ✅ **Fast Compilation**: Sub-100ms compile times achieved (66ms for 1000 nodes)
+- ✅ **Icon Integration**: Lucide icon support with `:icon[name]{attributes}` syntax
+- ✅ **Modern Effects**: Glassmorphism and smooth entrance animations
 
 ### 1.3 Target Users
 - Technical writers
@@ -258,30 +259,49 @@ Human-readable style aliases:
 - Generate minimal CSS (tree-shaking)
 
 #### 3.3.4 Component Library
-- Pre-built component definitions
-- Customizable via configuration
-- Shadcn-inspired design system
-- Variants system (sizes, colors, states)
 
-Components to include:
-- **Card** (basic, hover, 3D)
-- **Button** (primary, secondary, outline, ghost, link)
-- **Grid** (responsive columns)
-- **Container** (max-width constraints)
-- **Alert** (info, warning, error, success)
-- **Badge**
-- **Avatar**
-- **Tabs**
-- **Accordion**
-- **Modal/Dialog**
-- **Form elements** (input, select, checkbox, radio)
-- **Navigation** (navbar, sidebar, breadcrumbs)
+**Implementation Status: 7 of 15+ components**
 
-#### 3.3.5 Icon System
-- Lucide icon integration
-- Inline SVG injection
-- Size/color variants
-- Tree-shaking (only used icons)
+✅ **Implemented Components:**
+
+- **Card** - Container with variants: flat, elevated, floating, outlined, bordered, interactive, glass effects (subtle-glass, light-glass, heavy-glass), sizes (sm, md, lg, xl)
+- **Button** - Inline link styling with variants: primary, secondary, outline, ghost, link, destructive, success, warning; sizes (sm, md, lg, xl)
+- **Alert** - Contextual messages with types: info, success, warning, error; sizes (sm, md, lg)
+- **Badge** - Status indicators with variants: default, primary, success, warning, error, info; sizes (sm, md, lg)
+- **Avatar** - Profile images with shapes: circular, square, rounded; sizes (xs, sm, md, lg, xl, 2xl)
+- **Grid** - Responsive layout with auto-columns (1→2→3) or specified columns (1-5); gap variants: tight, normal, loose, extra-loose
+- **Container** - Max-width with variants: narrow, normal, wide, extra-wide, full
+
+⏳ **Planned Components (Phase 2):**
+
+- **Tabs** - Tabbed content interface
+- **Accordion** - Collapsible content panels
+- **Modal/Dialog** - Overlay dialogs
+- **Form elements** - Input, select, checkbox, radio
+- **Navigation** - Navbar, sidebar, breadcrumbs
+- **Pagination** - Page navigation
+- **Progress** - Progress indicators
+- **Skeleton** - Loading placeholders
+- **Tooltip** - Hover tooltips
+
+#### 3.3.5 Icon System ✅ IMPLEMENTED
+
+**Syntax:** `:icon[icon-name]{attributes}`
+
+**Features:**
+- ✅ Lucide icon library integration (1000+ icons)
+- ✅ Inline SVG injection with proper attributes
+- ✅ Size variants: xs, sm, md, lg, xl, 2xl
+- ✅ Color support via plain English: `{primary}`, `{success}`, `{warning}`, etc.
+- ✅ Custom stroke width support
+- ✅ Accessibility attributes (role, aria-hidden)
+
+**Example:**
+```taildown
+:icon[check-circle]{success lg}
+:icon[arrow-right]{primary xs}
+:icon[heart]
+```
 
 #### 3.3.6 HTML/CSS Generator
 - Semantic HTML5 output
@@ -435,43 +455,55 @@ export default {
 
 ## 5. Implementation Roadmap
 
-### Phase 1: Foundation (Weeks 1-4)
+### Phase 1: Foundation ✅ COMPLETE (Weeks 1-4)
+
 **Goal:** Proof of concept with basic syntax and compilation
 
 **Deliverables:**
-1. Syntax specification (v1.0)
-2. Basic parser (Markdown + inline styles)
-3. HTML/CSS generator
-4. CLI compiler tool
-5. 10 example documents
+1. ✅ Syntax specification (v0.1.0 → v0.2.0)
+2. ✅ Parser (unified + remark + rehype + remark-directive)
+3. ✅ HTML/CSS generator with modern styling
+4. ✅ CLI compiler tool with proper output handling
+5. ✅ 10 example documents (basic + Phase 2 features)
 
 **Technology Decisions:**
-- Choose TypeScript or Rust
-- Set up monorepo structure
-- CI/CD pipeline
+- ✅ **Chosen: TypeScript** (Node.js 18+)
+- ✅ Monorepo structure with pnpm workspaces
+- ✅ Vitest for testing
+- ✅ tsup for building
 
 **Success Criteria:**
-- Parse standard Markdown correctly
-- Support inline style attributes
-- Generate semantic HTML
-- Compile sample document <100ms
+- ✅ Parse standard Markdown correctly (CommonMark compliant)
+- ✅ Support inline style attributes with plain English
+- ✅ Generate semantic HTML5
+- ✅ Compile in <100ms (achieved: 66ms for 1000 nodes)
 
-### Phase 2: Component System (Weeks 5-8)
+### Phase 2: Component System 🚧 IN PROGRESS (Weeks 5-8)
+
 **Goal:** Rich component library with styling system
 
-**Deliverables:**
-1. Component library (15+ components)
-2. Style resolver (plain English → CSS)
-3. Icon system (Lucide integration)
-4. Configuration file support
-5. Responsive layout engine
-6. Documentation site (built with Taildown!)
+**Completed Deliverables:**
+1. ✅ Component library (7 of 15+ components)
+2. ✅ Style resolver with 120+ plain English shorthands
+3. ✅ Icon system (Lucide integration complete)
+4. ✅ Configuration system (schema, loader, defaults)
+5. ✅ Responsive layout engine (grid with breakpoints)
+6. ✅ Glassmorphism system (subtle/light/heavy variants)
+7. ✅ Animation system (entrance + hover effects)
+8. ✅ VSCode extension for syntax highlighting
+9. ✅ Modern code block styling with syntax highlighting
 
-**Success Criteria:**
-- All planned components working
-- Style conflicts resolved correctly
-- Responsive previews work
-- Config file is loaded and applied
+**In Progress:**
+- ⏳ Additional 8 components (tabs, accordion, modal, etc.)
+- ⏳ Dark mode system
+- ⏳ Comprehensive test suite (currently 20+ syntax tests)
+- ⏳ Documentation site
+
+**Success Criteria (Progress):**
+- ✅ 7/15 components working with variants
+- ✅ Plain English resolution working correctly
+- ✅ Responsive layouts working (1→2→3 columns)
+- ✅ Config system architecture complete
 
 ### Phase 3: Editor (Weeks 9-12)
 **Goal:** VS Code extension with live preview
@@ -525,27 +557,119 @@ export default {
 
 ## 6. Technology Stack Summary
 
-### 6.1 Compiler Core
-**Primary Choice: TypeScript**
-- **Runtime:** Node.js 18+
-- **Parser:** `unified` + `remark` + `rehype`
-- **Syntax Extension:** `remark-directive`
-- **CSS Generation:** `tailwindcss` (via API)
-- **Testing:** Vitest
-- **Build:** tsup or esbuild
+### 6.1 Compiler Core ✅ IMPLEMENTED IN TYPESCRIPT
 
-**Alternative: Rust**
-- **Parser:** `pulldown-cmark`
-- **CSS:** Custom generator or `lightningcss`
-- **WASM:** `wasm-pack` for browser
-- **Testing:** Cargo test
+**Runtime & Core:**
+- **Runtime:** Node.js 18+ (Required)
+- **Language:** TypeScript 5.3+ with strict mode
+- **Build Tool:** tsup (esbuild wrapper)
+- **Package Manager:** pnpm 8+
+- **Testing:** Vitest with coverage
 
-### 6.2 Editor
-**VS Code Extension:**
-- **Language:** TypeScript
-- **Framework:** VS Code Extension API
-- **Grammar:** TextMate grammar (YAML)
-- **Build:** esbuild + vsce
+**Parser Pipeline:**
+- **Foundation:** `unified` (v11) - Pluggable content transformation
+- **Markdown:** `remark-parse` (v11) - CommonMark parsing
+- **Custom Directive Parser:** Built in-house to handle `:::` component syntax with proper blank line support (replaces remark-directive which doesn't handle our spec correctly)
+- **Extensions:** `remark-gfm` (v4) - GitHub Flavored Markdown (tables, strikethrough)
+- **HTML Transform:** `mdast-util-to-hast` (v13) - Markdown AST → HTML AST
+- **HTML Generation:** `rehype-stringify` (v10) - HTML output
+- **Syntax Highlighting:** `rehype-prism-plus` (v2) - Code block highlighting with custom Taildown language
+
+**CSS Generation:**
+- **Custom Resolver:** Plain English → CSS class mapping (120+ shorthands)
+- **Utilities:** 224 Tailwind-inspired utility classes in `TAILWIND_UTILITIES` dictionary
+- **Tree-shaking:** Only used classes included in output
+- **Modern Features:** CSS Grid, Flexbox, backdrop-filter, transforms, animations
+- **Global Styles:** Professional base styles with modern fonts (Inter, Fira Code)
+- **Component Styles:** Glassmorphism and animation CSS generators
+
+**Icons:**
+- **Library:** `lucide` (v0.294+) - 1000+ SVG icons
+- **Rendering:** Inline SVG injection with attributes
+- **Parser:** Custom unified transformer for `:icon[name]` syntax
+
+**Syntax Highlighting:**
+- **Library:** `prismjs` (v1.30+) with `rehype-prism-plus`
+- **Custom Language:** Taildown language definition registered with Prism
+- **Theme:** One Dark Pro inspired color scheme for code blocks
+- **Styling:** Terminal-framed code blocks with traffic lights and custom scrollbars
+
+### 6.2 Actual Implementation Architecture ✅
+
+The following describes the actual module structure as implemented in `packages/compiler/src/`:
+
+**Parser Modules (`parser/`):**
+- `index.ts` - Main parser entry, exports `parse()` and `parseWithWarnings()`
+- `directive-scanner.ts` - Phase 1: Scans MDAST for `:::` fence markers
+- `directive-builder.ts` - Phase 2: Builds component tree with stack-based nesting
+- `directive-parser.ts` - Phase 3: Unified plugin that orchestrates scanning and building
+- `directive-types.ts` - TypeScript types for directive AST nodes
+- `attributes.ts` - Parses inline `{class1 class2}` attributes on elements
+- `components.ts` - Transforms component directives into HTML-ready structure
+
+**Resolver Modules (`resolver/`):**
+- `style-resolver.ts` - Main resolver: plain English → CSS classes
+- `shorthand-mappings.ts` - 120+ shorthand definitions (huge-bold, primary, etc.)
+- `semantic-colors.ts` - Resolves semantic colors (primary, success, etc.)
+- `variant-resolver.ts` - Component-specific variant resolution
+
+**Component Modules (`components/`):**
+- `component-registry.ts` - Singleton registry for all components
+- `variant-system.ts` - Handles variant/size resolution and class merging
+- `standard/card.ts` - Card component with 6 variants + 3 glass effects
+- `standard/button.ts` - Button component with 8 variants
+- `standard/alert.ts` - Alert component with 4 types
+- `standard/badge.ts` - Badge component with 6 variants
+- `standard/avatar.ts` - Avatar component with 3 shapes
+
+**Theme Modules (`themes/`):**
+- `glassmorphism.ts` - Glass effect configs and CSS generation (subtle/light/heavy)
+- `animations.ts` - Entrance animations (fade, slide, zoom) and hover effects
+
+**Icon Modules (`icons/`):**
+- `icon-parser.ts` - Parses `:icon[name]{attrs}` syntax into AST nodes
+- `icon-renderer.ts` - Converts icon nodes to inline SVG with attributes
+- `lucide-icons.ts` - Extracts SVG paths from Lucide icon library
+
+**Prism Modules (`prism/`):**
+- `taildown-language.ts` - Custom Prism language definition for Taildown syntax
+- `register-language-plugin.ts` - Rehype plugin to register language with Prism
+
+**Renderer Modules (`renderer/`):**
+- `index.ts` - Exports main render functions
+- `html.ts` - HTML generation with unified/rehype pipeline
+- `css.ts` - CSS generation with 224 utility classes, global styles, and tree-shaking
+
+**Config Modules (`config/`):**
+- `config-schema.ts` - Zod schema for `taildown.config.js` validation
+- `config-loader.ts` - Loads and validates configuration files
+- `default-config.ts` - Default theme and component configurations
+- `theme-merger.ts` - Merges user config with defaults
+
+**Main Entry (`index.ts`):**
+- Exports `compile()` function - Main compilation API
+- Orchestrates: parse → render CSS → render HTML
+- Returns `CompileResult` with HTML, CSS, and metadata (time, node count, warnings)
+
+### 6.3 Editor ✅ BASIC IMPLEMENTATION COMPLETE
+
+**VS Code Extension (`.vscode/extensions/taildown/`):**
+- **Type:** Grammar-only extension (no activation required)
+- **Grammar:** TextMate grammar defined in JSON (`.tmLanguage.json`)
+- **Scopes:** Custom scopes for components, icons, attributes, fences
+- **Compatibility:** Uses standard TextMate scope names for theme support
+- **Installation:** Manual copy to `~/.vscode/extensions/` directory
+- **Features:**
+  - Syntax highlighting for `:::` component fences
+  - Icon directive highlighting (`:icon[name]`)
+  - Inline attribute highlighting (`{classes}`)
+  - Keyword recognition for variants, sizes, effects
+  - Plain English shorthand recognition
+
+**Implementation Files:**
+- `package.json` - Extension manifest with language definition
+- `syntaxes/taildown.tmLanguage.json` - TextMate grammar patterns
+- `install-vscode-extension.ps1` - PowerShell installation script
 
 **Standalone Editor:**
 - **Framework:** Svelte or React

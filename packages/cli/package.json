@@ -1,0 +1,32 @@
+{
+  "name": "@taildown/cli",
+  "version": "0.1.0",
+  "description": "Command-line interface for Taildown compiler",
+  "type": "module",
+  "bin": {
+    "taildown": "./dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@taildown/compiler": "workspace:*",
+    "@taildown/shared": "workspace:*",
+    "commander": "^11.1.0"
+  },
+  "keywords": [
+    "taildown",
+    "cli",
+    "compiler"
+  ],
+  "license": "MIT"
+}
+

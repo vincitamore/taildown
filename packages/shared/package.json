@@ -1,0 +1,33 @@
+{
+  "name": "@taildown/shared",
+  "version": "0.1.0",
+  "description": "Shared types, constants, and utilities for Taildown",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@types/mdast": "^4.0.0"
+  },
+  "keywords": [
+    "taildown",
+    "types",
+    "shared"
+  ],
+  "license": "MIT"
+}
+

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taildown Document</title>
+  <link rel="stylesheet" href="01-basic-markdown.css">
+</head>
+<body>
+  <h1 class="huge-bold">Basic Markdown Support</h1>
+<p class="text-lg">Taildown fully supports standard Markdown (CommonMark) and GitHub Flavored Markdown (GFM).</p>
+<h2>Text Formatting</h2>
+<p>You can use <strong>bold text</strong>, <em>italic text</em>, and <em><strong>bold italic text</strong></em>.</p>
+<p>You can also use <del>strikethrough</del> and <code>inline code</code>.</p>
+<h2>Lists</h2>
+<h3>Unordered Lists</h3>
+<ul>
+<li>First item</li>
+<li>Second item</li>
+<li>Third item
+<ul>
+<li>Nested item</li>
+<li>Another nested item</li>
+</ul>
+</li>
+</ul>
+<h3>Ordered Lists</h3>
+<ol>
+<li>First step</li>
+<li>Second step</li>
+<li>Third step
+<ol>
+<li>Sub-step A</li>
+<li>Sub-step B</li>
+</ol>
+</li>
+</ol>
+<h3>Task Lists (GFM)</h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled /> Completed task</li>
+<li class="task-list-item"><input type="checkbox" disabled /> Incomplete task</li>
+<li class="task-list-item"><input type="checkbox" disabled /> Another task to do</li>
+</ul>
+<h2>Links and Images</h2>
+<p><a href="https://taildown.dev">Visit Taildown <svg class="icon icon-external-link text-xs" data-icon="external-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg></a></p>
+<p><img src="https://via.placeholder.com/150" alt="Alt text for image" /></p>
+<h2>Code Blocks</h2>
+<pre class="language-javascript"><code class="language-javascript code-highlight"><span class="code-line"><span class="token comment">// JavaScript code block</span>
+</span><span class="code-line"><span class="token keyword">function</span> <span class="token function">greet</span><span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</span><span class="code-line">  <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Hello, </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">!</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token function">greet</span><span class="token punctuation">(</span><span class="token string">"Taildown"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span></code></pre>
+<pre class="language-python"><code class="language-python code-highlight"><span class="code-line"><span class="token comment"># Python code block</span>
+</span><span class="code-line"><span class="token keyword">def</span> <span class="token function">fibonacci</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+</span><span class="code-line">    <span class="token keyword">if</span> n <span class="token operator">&#x3C;=</span> <span class="token number">1</span><span class="token punctuation">:</span>
+</span><span class="code-line">        <span class="token keyword">return</span> n
+</span><span class="code-line">    <span class="token keyword">return</span> fibonacci<span class="token punctuation">(</span>n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> fibonacci<span class="token punctuation">(</span>n<span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">)</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token keyword">print</span><span class="token punctuation">(</span>fibonacci<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</span></code></pre>
+<h2>Blockquotes</h2>
+<blockquote>
+<p>This is a blockquote.
+It can span multiple lines.</p>
+<p>And have multiple paragraphs.</p>
+</blockquote>
+<h2>Tables (GFM)</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Supported</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Headers</td>
+<td><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg></td>
+<td>H1-H6</td>
+</tr>
+<tr>
+<td>Lists</td>
+<td><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg></td>
+<td>Ordered and unordered</td>
+</tr>
+<tr>
+<td>Code</td>
+<td><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg></td>
+<td>Inline and blocks</td>
+</tr>
+<tr>
+<td>Tables</td>
+<td><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg></td>
+<td>GFM extension</td>
+</tr>
+</tbody>
+</table>
+<h2>Horizontal Rules</h2>
+<hr />
+<p>That's the basics of Markdown in Taildown!</p>
+</body>
+</html>
