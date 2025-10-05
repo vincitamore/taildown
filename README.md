@@ -1,7 +1,7 @@
 # Taildown
 
-**Version:** 0.3.0  
-**Status:** Active Development
+**Version:** 0.1.0  
+**Status:** Active Development (Phase 2 In Progress)
 
 A revolutionary markup language that extends Markdown with plain English styling, interactive components, and zero-config interactivity. Write beautiful, responsive web applications using natural language while maintaining perfect readability.
 
@@ -14,33 +14,33 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 ### Key Features
 
 #### Core Features
-- ✅ **Markdown Compatible**: Standard Markdown works without modification
-- ✅ **Plain English Styling**: Use natural language like `{huge-bold primary center}` instead of CSS classes
-- ✅ **Icon System**: Built-in Lucide icons with `:icon[name]{size color}` syntax
-- ✅ **Modern Effects**: Glassmorphism and smooth entrance animations
-- ✅ **Fast Compilation**: Sub-100ms compile times for typical documents
-- ✅ **Zero Configuration**: Production-ready styles out of the box
-- ✅ **Semantic HTML5**: Clean, accessible markup generation
+- **Markdown Compatible**: Standard Markdown works without modification
+- **Plain English Styling**: Use natural language like `{huge-bold primary center}` instead of CSS classes
+- **Icon System**: Built-in Lucide icons with `:icon[name]{size color}` syntax
+- **Modern Effects**: Glassmorphism and smooth entrance animations
+- **Fast Compilation**: Sub-100ms compile times for typical documents
+- **Zero Configuration**: Production-ready styles out of the box
+- **Semantic HTML5**: Clean, accessible markup generation
 
-#### Interactive Components 🎉 NEW
-- ✅ **Tabs**: Zero-config tabbed interfaces with keyboard navigation
-- ✅ **Accordion**: Collapsible sections with smooth animations
-- ✅ **Carousel**: Image/content carousels with 3D effects and swipe support
-- ✅ **Modal**: Dialog boxes with backdrop blur and focus management
-- ✅ **Tooltip**: Contextual help on hover/click with fade animations
+#### Interactive Components
+- **Tabs**: Zero-config tabbed interfaces with keyboard navigation
+- **Accordion**: Collapsible sections with smooth animations
+- **Carousel**: Image/content carousels with 3D effects and swipe support
+- **Modal**: Dialog boxes with backdrop blur and focus management
+- **Tooltip**: Contextual help on hover/click with fade animations
 
-#### Attachable Components 🚀 REVOLUTIONARY
-- ✅ **One-Line Modals**: `[Click Me](#){modal="Your message here"}`
-- ✅ **Inline Tooltips**: `[Help](#){tooltip="Helpful information"}`
-- ✅ **ID References**: Define once, use everywhere with `modal="#id"`
-- ✅ **Works on Anything**: Attach to buttons, links, badges, or any element
-- ✅ **Full Markdown**: Rich content in tooltips/modals with complete markdown support
+#### Attachable Components
+- **One-Line Modals**: `[Click Me](#){modal="Your message here"}`
+- **Inline Tooltips**: `[Help](#){tooltip="Helpful information"}`
+- **ID References**: Define once, use everywhere with `modal="#id"`
+- **Works on Anything**: Attach to buttons, links, badges, or any element
+- **Full Markdown**: Rich content in tooltips/modals with complete markdown support
 
 #### JavaScript Generation
-- ✅ **Vanilla JS**: ~2-5KB of clean, dependency-free JavaScript
-- ✅ **Tree-Shaking**: Only includes JS for components you actually use
-- ✅ **Event Delegation**: Efficient, performant event handling
-- ✅ **Accessibility**: Full ARIA support, keyboard navigation, focus management
+- **Vanilla JS**: ~2-5KB of clean, dependency-free JavaScript
+- **Tree-Shaking**: Only includes JS for components you actually use
+- **Event Delegation**: Efficient, performant event handling
+- **Accessibility**: Full ARIA support, keyboard navigation, focus management
 
 ---
 
@@ -109,7 +109,7 @@ Open `hello.html` in your browser to see your interactive document!
 
 ## Syntax Guide
 
-> **📖 Complete Syntax Reference**: See [`SYNTAX.md`](SYNTAX.md) for the canonical, comprehensive syntax specification.
+> **Complete Syntax Reference**: See [`SYNTAX.md`](SYNTAX.md) for the canonical, comprehensive syntax specification.
 
 ### Plain English Styling
 
@@ -272,7 +272,7 @@ Full **markdown** support here.
 
 ---
 
-## Attachable Components 🚀
+## Attachable Components
 
 The most revolutionary feature: attach modals and tooltips to ANY element with one line.
 
@@ -624,32 +624,32 @@ taildown/
 
 ## Roadmap
 
-### Phase 1: Foundation ✅ COMPLETE
+### Phase 1: Foundation (Complete)
 
-- ✅ Basic parser (Markdown + inline styles + component blocks)
-- ✅ HTML/CSS generator
-- ✅ CLI compiler tool
-- ✅ Test suite with syntax fixtures
-- ✅ 3 initial components (card, grid, container)
+- Basic parser (Markdown + inline styles + component blocks)
+- HTML/CSS generator
+- CLI compiler tool
+- Test suite with syntax fixtures
+- 3 initial components (card, grid, container)
 
-### Phase 2: Component System 🚧 IN PROGRESS
+### Phase 2: Component System (In Progress)
 
 **Completed:**
-- ✅ Plain English style resolver (120+ shorthand mappings)
-- ✅ 7 components (card, button, alert, badge, avatar, grid, container)
-- ✅ Lucide icon integration (`:icon[name]` syntax)
-- ✅ Glassmorphism system (subtle/light/heavy glass)
-- ✅ Animation system (entrance + hover animations)
-- ✅ Configuration system (schema, loader, defaults)
-- ✅ 10 example documents updated
-- ✅ VSCode extension for syntax highlighting
-- ✅ Modern code block styling with syntax highlighting
+- Plain English style resolver (120+ shorthand mappings)
+- 7 components (card, button, alert, badge, avatar, grid, container)
+- Lucide icon integration (`:icon[name]` syntax)
+- Glassmorphism system (subtle/light/heavy glass)
+- Animation system (entrance + hover animations)
+- Configuration system (schema, loader, defaults)
+- 10 example documents updated
+- VSCode extension for syntax highlighting
+- Modern code block styling with syntax highlighting
 
 **In Progress:**
-- ⏳ Dark mode system
-- ⏳ Additional components (tabs, accordion, modal, navbar, etc.)
-- ⏳ Comprehensive test suite
-- ⏳ Documentation site
+- Dark mode system
+- Additional components (tabs, accordion, modal, navbar, etc.)
+- Comprehensive test suite
+- Documentation site
 
 ### Phase 3: Editor (Planned)
 

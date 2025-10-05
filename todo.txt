@@ -1,0 +1,141 @@
+# Taildown TODO List
+# Generated: 2025-10-05
+# Status: Phase 2 In Progress
+
+## Testing & Quality Assurance
+
+### Unit Tests
+- [ ] Write unit tests for style resolver: 20+ test cases covering all shorthand categories
+- [ ] Write config system tests: test loading, validation, merging, error handling
+- [ ] Write component tests for Week 1 components (5 components)
+- [ ] Write icon parser tests with 10+ common icons
+- [ ] Write glassmorphism tests and validate browser compatibility
+- [ ] Write tests for all interactive components with vanilla JS behaviors
+
+### Syntax Test Fixtures
+- [ ] Create syntax test fixtures: syntax-tests/fixtures/06-plain-english/
+- [ ] Create syntax test fixtures: syntax-tests/fixtures/07-icons/
+- [ ] Create syntax test fixtures: syntax-tests/fixtures/08-components-advanced/ for attachable components
+- [ ] Create syntax test fixtures: syntax-tests/fixtures/09-theming/
+- [ ] Regenerate all syntax test fixtures after parser fix using scripts/regenerate-all-fixtures.ps1
+
+### Integration & Browser Testing
+- [ ] Run full test suite and ensure all tests pass
+- [ ] Validate test coverage: target 100% on new modules
+- [ ] Browser testing: Chrome, Firefox, Safari on Windows/Mac with vanilla JS components
+- [ ] Run accessibility audit on generated HTML
+- [ ] Performance benchmarks: validate <100ms for large documents
+
+## Features & Components
+
+### Dark Mode System
+- [ ] Create dark mode system: packages/compiler/src/themes/dark-mode.ts
+- [ ] Create color palette generator: packages/compiler/src/themes/color-palette.ts for CSS variables
+- [ ] Create theme resolver: packages/compiler/src/themes/theme-resolver.ts
+- [ ] Add dark mode toggle script generation (auto-injected floating button)
+- [ ] Update all existing components with dark mode classes
+- [ ] Write dark mode tests and validate toggle functionality
+
+### Component Improvements
+- [ ] Update progress component: Add actual progress bar fill element with proper width styling
+
+### CSS & Styling
+- [ ] Implement enhanced tree-shaking for CSS generation
+- [ ] Add CSS variable system for theme colors
+- [ ] Optimize CSS minification algorithm
+
+## Documentation
+
+### Core Documentation
+- [ ] Create MIGRATION-GUIDE.md for Phase 1 to Phase 2 transition
+
+### Supplementary Guides
+- [ ] Create ATTACHABLE-COMPONENTS.md: Comprehensive guide for modal/tooltip attachment
+- [ ] Create INTERACTIVE-COMPONENTS.md: Guide for tabs, accordion, carousel, modal, tooltip
+- [ ] Create JS-OUTPUT.md: Understanding generated JavaScript and customization
+
+### Documentation Site
+- [ ] Create documentation site structure: docs/ directory with index.td
+- [ ] Write getting-started.td documentation
+- [ ] Write docs/syntax/plain-english.td comprehensive guide
+- [ ] Write docs/syntax/icons.td icon usage guide
+- [ ] Write docs/theming/configuration.td for taildown.config.js
+- [ ] Write docs/theming/dark-mode.td dark mode guide
+- [ ] Write docs/theming/glassmorphism.td glassmorphism guide
+- [ ] Write individual component documentation pages (18 components including interactive behaviors)
+
+## Examples
+
+### Example Files
+- [ ] Create new example: 11-dark-mode-showcase.td demonstrating dark mode
+- [ ] Create new example: 12-glassmorphism-gallery.td showcasing glass effects
+- [ ] Create new example: 13-icon-showcase.td with 50+ icon examples
+- [ ] Create new example: 14-component-library.td showing all components with interactive behaviors
+- [ ] Create new example: 15-plain-english-guide.td tutorial document
+
+## Release Preparation
+
+### Phase 2 Release
+- [ ] Create PHASE-2-COMPLETE.md summary document
+- [ ] Update package.json version to 0.2.0
+- [ ] Build all packages: pnpm build
+- [ ] Create git tag: v0.2.0
+- [ ] Generate CHANGELOG.md for Phase 2
+- [ ] Final review and approval for Phase 2 release
+
+## Completed Tasks
+
+### Interactive Components (Phase 2 Week 3)
+- [x] Create JavaScript generation system: packages/compiler/src/js-generator/index.ts
+- [x] Create component behaviors: packages/compiler/src/js-generator/behaviors/
+- [x] Implement tabs behavior: vanilla JS for tab switching
+- [x] Implement accordion behavior: vanilla JS for expand/collapse
+- [x] Implement modal behavior: vanilla JS for open/close with backdrop
+- [x] Implement tooltip behavior: vanilla JS for hover/focus positioning
+- [x] Implement carousel behavior: vanilla JS for slide navigation
+- [x] Update CLI to output .js file alongside HTML and CSS
+
+### Attachable Components
+- [x] Fix modal close button positioning to avoid covering content
+- [x] Clarify rehype dependencies (actively used)
+
+### Documentation Updates (v0.3.0)
+- [x] SYNTAX.md: Update Section 2.1 attribute grammar to include key-value pairs
+- [x] SYNTAX.md: Add Section 2.8 Attachable Components
+- [x] SYNTAX.md: Add Section 2.9 Component Variants
+- [x] SYNTAX.md: Add Section 3.7 Interactive Components
+- [x] SYNTAX.md: Add Section 3.8 ID-Referenced Components
+- [x] SYNTAX.md: Add Section 3.9 JavaScript Output
+- [x] SYNTAX.md: Update version to 0.3.0
+- [x] README.md: Add Interactive Components and Attachable Modals/Tooltips to features
+- [x] README.md: Update examples to showcase attachable modal/tooltip syntax
+- [x] README.md: Add JavaScript generation section
+- [x] tech-spec.md: Add JavaScript Generation Architecture section
+- [x] tech-spec.md: Add Component Registry System section
+- [x] tech-spec.md: Add Attachment System section
+- [x] tech-spec.md: Update compilation pipeline diagram
+
+### Project Organization
+- [x] Organize project root: move docs to docs/, tests to test-files/, scripts to scripts/
+- [x] Create PROJECT-RULES.md with organization guidelines
+- [x] Update .gitignore to exclude test-files/ directory
+- [x] Remove all emojis and casual language from documentation
+
+---
+
+## Summary
+
+Total Tasks: 67
+- Completed: 26 (39%)
+- Pending: 41 (61%)
+
+Priority Focus:
+1. Testing (unit tests, integration tests, browser tests)
+2. Dark mode system implementation
+3. Documentation site creation
+4. Example files for all features
+5. Release preparation for Phase 2
+
+Current Version: 0.1.0
+Target Release: 0.2.0 (Phase 2 Complete)
+

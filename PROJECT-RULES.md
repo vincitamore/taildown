@@ -1,13 +1,13 @@
 # Taildown Project Organization Rules
 
 > **Last Updated**: 2025-10-05  
-> **Version**: 1.0.0
+> **Version**: 0.1.0
 
 This document defines the structure and organization rules for the Taildown project. Follow these guidelines to keep the repository clean, maintainable, and professional.
 
 ---
 
-## 📁 Directory Structure
+## Directory Structure
 
 ```
 taildown/
@@ -59,7 +59,7 @@ taildown/
 
 ---
 
-## 📋 File Placement Rules
+## File Placement Rules
 
 ### Root Level
 **ONLY** the following types of files belong at root:
@@ -109,14 +109,14 @@ taildown/
 - Keep examples polished and production-ready
 
 **What Goes Here**:
-- ✅ `01-basic-markdown.td` - Basic markdown compatibility
-- ✅ `10-complete-page.td` - Complete landing page example
-- ✅ Compiled outputs: `.html`, `.css`, `.js` files
+- `01-basic-markdown.td` - Basic markdown compatibility
+- `10-complete-page.td` - Complete landing page example
+- Compiled outputs: `.html`, `.css`, `.js` files
 
 **What Does NOT Go Here**:
-- ❌ Test files (use `test-files/`)
-- ❌ Debug files (use `test-files/`)
-- ❌ Incomplete experiments (use `test-files/`)
+- Test files (use `test-files/`)
+- Debug files (use `test-files/`)
+- Incomplete experiments (use `test-files/`)
 
 ---
 
@@ -156,10 +156,10 @@ syntax-tests/
 - Scripts should be runnable from project root
 
 **What Goes Here**:
-- ✅ `generate-fixture.ps1` - Generate test fixtures
-- ✅ `regenerate-all-fixtures.ps1` - Regenerate all fixtures
-- ✅ `install-vscode-extension.ps1` - VSCode extension installer
-- ✅ Debug scripts like `test-toHast-behavior.js`
+- `generate-fixture.ps1` - Generate test fixtures
+- `regenerate-all-fixtures.ps1` - Regenerate all fixtures
+- `install-vscode-extension.ps1` - VSCode extension installer
+- Debug scripts like `test-toHast-behavior.js`
 
 **Example Script Header**:
 ```powershell
@@ -181,16 +181,16 @@ syntax-tests/
 - Do NOT put core docs here (those stay at root)
 
 **What Goes Here**:
-- ✅ `PHASE-1-STATUS.md` - Phase status tracking
-- ✅ `SESSION-SUMMARY.md` - Development session notes
-- ✅ `BUGFIX-FENCE-WITHOUT-BLANK-LINE.md` - Bug documentation
-- ✅ `CUSTOM-DIRECTIVE-PARSER-PLAN.md` - Planning documents
-- ✅ `DOCUMENTATION-GAPS.md` - Gap analysis
+- `PHASE-1-STATUS.md` - Phase status tracking
+- `SESSION-SUMMARY.md` - Development session notes
+- `BUGFIX-FENCE-WITHOUT-BLANK-LINE.md` - Bug documentation
+- `CUSTOM-DIRECTIVE-PARSER-PLAN.md` - Planning documents
+- `DOCUMENTATION-GAPS.md` - Gap analysis
 
 **What Does NOT Go Here**:
-- ❌ `README.md` (stays at root)
-- ❌ `SYNTAX.md` (stays at root)
-- ❌ `tech-spec.md` (stays at root)
+- `README.md` (stays at root)
+- `SYNTAX.md` (stays at root)
+- `tech-spec.md` (stays at root)
 
 ---
 
@@ -205,11 +205,11 @@ syntax-tests/
 - Use descriptive names: `test-attachable-modals.td`, not `test1.td`
 
 **What Goes Here**:
-- ✅ `test-interactive.td` - Testing interactive components
-- ✅ `test-attachable.td` - Testing attachable modal/tooltip
-- ✅ `test-*.html`, `test-*.css`, `test-*.js` - Generated outputs
-- ✅ `temp-ast.json` - Debug AST output
-- ✅ `debug-simple.css` - Debug artifacts
+- `test-interactive.td` - Testing interactive components
+- `test-attachable.td` - Testing attachable modal/tooltip
+- `test-*.html`, `test-*.css`, `test-*.js` - Generated outputs
+- `temp-ast.json` - Debug AST output
+- `debug-simple.css` - Debug artifacts
 
 **Cleanup Policy**:
 - Files can be deleted once feature is validated
@@ -218,7 +218,7 @@ syntax-tests/
 
 ---
 
-## 🛠️ Workflow Guidelines
+## Workflow Guidelines
 
 ### Creating Test Files
 ```bash
@@ -269,7 +269,7 @@ touch docs/BUGFIX-tooltip-positioning.md
 
 ---
 
-## ✅ Pre-Commit Checklist
+## Pre-Commit Checklist
 
 Before committing, ensure:
 
@@ -283,9 +283,9 @@ Before committing, ensure:
 
 ---
 
-## 🚨 Common Mistakes to Avoid
+## Common Mistakes to Avoid
 
-### ❌ DON'T:
+### Incorrect:
 ```
 taildown/
 ├── test-something.td          # NO - use test-files/
@@ -295,7 +295,7 @@ taildown/
 └── temp.json                  # NO - use test-files/
 ```
 
-### ✅ DO:
+### Correct:
 ```
 taildown/
 ├── README.md                  # YES - core documentation
@@ -311,7 +311,7 @@ taildown/
 
 ---
 
-## 🔄 Maintenance Schedule
+## Maintenance Schedule
 
 ### Weekly:
 - Review `test-files/` and delete obsolete test files
@@ -325,7 +325,7 @@ taildown/
 
 ---
 
-## 📞 Questions?
+## Questions?
 
 If you're unsure where a file belongs:
 
@@ -342,7 +342,7 @@ If you're unsure where a file belongs:
 
 ---
 
-## 🏆 Enforcement
+## Enforcement
 
 These rules are enforced through:
 - Manual code review

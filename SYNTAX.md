@@ -1,6 +1,6 @@
 # Taildown Syntax Specification
 
-**Version:** 0.3.0  
+**Version:** 0.1.0  
 **Date:** 2025-10-05  
 **Status:** Canonical Reference  
 **Stability:** Experimental (Pre-1.0)
