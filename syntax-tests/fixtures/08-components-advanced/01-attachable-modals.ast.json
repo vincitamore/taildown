@@ -1282,6 +1282,10 @@
           }
         },
         {
+          "type": "text",
+          "value": " "
+        },
+        {
           "type": "strong",
           "children": [
             {
@@ -1314,7 +1318,19 @@
             }
           }
         }
-      ]
+      ],
+      "position": {
+        "start": {
+          "line": 39,
+          "column": 1,
+          "offset": 770
+        },
+        "end": {
+          "line": 40,
+          "column": 44,
+          "offset": 840
+        }
+      }
     },
     {
       "type": "paragraph",
