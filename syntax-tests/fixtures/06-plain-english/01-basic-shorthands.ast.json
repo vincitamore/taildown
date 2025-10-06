@@ -1,0 +1,998 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Plain English Basic Shorthands",
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 3,
+              "offset": 2
+            },
+            "end": {
+              "line": 1,
+              "column": 33,
+              "offset": 32
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 33,
+          "offset": 32
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Test basic shorthand mappings per SYNTAX.md §2.7"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Typography Shorthands",
+          "position": {
+            "start": {
+              "line": 5,
+              "column": 4,
+              "offset": 87
+            },
+            "end": {
+              "line": 5,
+              "column": 25,
+              "offset": 108
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 84
+        },
+        "end": {
+          "line": 5,
+          "column": 25,
+          "offset": 108
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading",
+          "position": {
+            "start": {
+              "line": 7,
+              "column": 3,
+              "offset": 112
+            },
+            "end": {
+              "line": 7,
+              "column": 22,
+              "offset": 131
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 110
+        },
+        "end": {
+          "line": 7,
+          "column": 22,
+          "offset": 131
+        }
+      },
+      "data": {
+        "hProperties": {
+          "className": [
+            "text-4xl",
+            "font-bold"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Paragraph"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "text-lg"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Text"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "text-sm"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Text"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "text-xs"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "More text"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "font-bold"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Light text"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "font-light"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Size Shorthands",
+          "position": {
+            "start": {
+              "line": 19,
+              "column": 4,
+              "offset": 218
+            },
+            "end": {
+              "line": 19,
+              "column": 19,
+              "offset": 233
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 19,
+          "column": 1,
+          "offset": 215
+        },
+        "end": {
+          "line": 19,
+          "column": 19,
+          "offset": 233
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading",
+          "position": {
+            "start": {
+              "line": 21,
+              "column": 3,
+              "offset": 237
+            },
+            "end": {
+              "line": 21,
+              "column": 15,
+              "offset": 249
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 21,
+          "column": 1,
+          "offset": 235
+        },
+        "end": {
+          "line": 21,
+          "column": 15,
+          "offset": 249
+        }
+      },
+      "data": {
+        "hProperties": {
+          "className": [
+            "text-xs"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading",
+          "position": {
+            "start": {
+              "line": 23,
+              "column": 3,
+              "offset": 253
+            },
+            "end": {
+              "line": 23,
+              "column": 18,
+              "offset": 268
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 23,
+          "column": 1,
+          "offset": 251
+        },
+        "end": {
+          "line": 23,
+          "column": 18,
+          "offset": 268
+        }
+      },
+      "data": {
+        "hProperties": {
+          "className": [
+            "text-sm"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading",
+          "position": {
+            "start": {
+              "line": 25,
+              "column": 3,
+              "offset": 272
+            },
+            "end": {
+              "line": 25,
+              "column": 17,
+              "offset": 286
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 25,
+          "column": 1,
+          "offset": 270
+        },
+        "end": {
+          "line": 25,
+          "column": 17,
+          "offset": 286
+        }
+      },
+      "data": {
+        "hProperties": {
+          "className": [
+            "text-base"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading",
+          "position": {
+            "start": {
+              "line": 27,
+              "column": 3,
+              "offset": 290
+            },
+            "end": {
+              "line": 27,
+              "column": 18,
+              "offset": 305
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 27,
+          "column": 1,
+          "offset": 288
+        },
+        "end": {
+          "line": 27,
+          "column": 18,
+          "offset": 305
+        }
+      },
+      "data": {
+        "hProperties": {
+          "className": [
+            "text-lg"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading",
+          "position": {
+            "start": {
+              "line": 29,
+              "column": 3,
+              "offset": 309
+            },
+            "end": {
+              "line": 29,
+              "column": 15,
+              "offset": 321
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 29,
+          "column": 1,
+          "offset": 307
+        },
+        "end": {
+          "line": 29,
+          "column": 15,
+          "offset": 321
+        }
+      },
+      "data": {
+        "hProperties": {
+          "className": [
+            "text-xl"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading",
+          "position": {
+            "start": {
+              "line": 31,
+              "column": 3,
+              "offset": 325
+            },
+            "end": {
+              "line": 31,
+              "column": 16,
+              "offset": 338
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 31,
+          "column": 1,
+          "offset": 323
+        },
+        "end": {
+          "line": 31,
+          "column": 16,
+          "offset": 338
+        }
+      },
+      "data": {
+        "hProperties": {
+          "className": [
+            "text-2xl"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading",
+          "position": {
+            "start": {
+              "line": 33,
+              "column": 3,
+              "offset": 342
+            },
+            "end": {
+              "line": 33,
+              "column": 16,
+              "offset": 355
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 33,
+          "column": 1,
+          "offset": 340
+        },
+        "end": {
+          "line": 33,
+          "column": 16,
+          "offset": 355
+        }
+      },
+      "data": {
+        "hProperties": {
+          "className": [
+            "text-3xl"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading",
+          "position": {
+            "start": {
+              "line": 35,
+              "column": 3,
+              "offset": 359
+            },
+            "end": {
+              "line": 35,
+              "column": 17,
+              "offset": 373
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 35,
+          "column": 1,
+          "offset": 357
+        },
+        "end": {
+          "line": 35,
+          "column": 17,
+          "offset": 373
+        }
+      },
+      "data": {
+        "hProperties": {
+          "className": [
+            "text-4xl"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading",
+          "position": {
+            "start": {
+              "line": 37,
+              "column": 3,
+              "offset": 377
+            },
+            "end": {
+              "line": 37,
+              "column": 20,
+              "offset": 394
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 37,
+          "column": 1,
+          "offset": 375
+        },
+        "end": {
+          "line": 37,
+          "column": 20,
+          "offset": 394
+        }
+      },
+      "data": {
+        "hProperties": {
+          "className": [
+            "text-6xl"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Weight Shorthands",
+          "position": {
+            "start": {
+              "line": 39,
+              "column": 4,
+              "offset": 399
+            },
+            "end": {
+              "line": 39,
+              "column": 21,
+              "offset": 416
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 39,
+          "column": 1,
+          "offset": 396
+        },
+        "end": {
+          "line": 39,
+          "column": 21,
+          "offset": 416
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Text"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "font-thin"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Text"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "font-light"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Text"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "font-normal"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Text"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "font-medium"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Text"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "font-semibold"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Text"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "font-bold"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Text"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "font-extrabold"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Text"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "font-black"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Style Shorthands",
+          "position": {
+            "start": {
+              "line": 57,
+              "column": 4,
+              "offset": 541
+            },
+            "end": {
+              "line": 57,
+              "column": 20,
+              "offset": 557
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 57,
+          "column": 1,
+          "offset": 538
+        },
+        "end": {
+          "line": 57,
+          "column": 20,
+          "offset": 557
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Text"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "italic"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Text"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "uppercase"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Text"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "lowercase"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Text"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "capitalize"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Line Height Shorthands",
+          "position": {
+            "start": {
+              "line": 67,
+              "column": 4,
+              "offset": 632
+            },
+            "end": {
+              "line": 67,
+              "column": 26,
+              "offset": 654
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 67,
+          "column": 1,
+          "offset": 629
+        },
+        "end": {
+          "line": 67,
+          "column": 26,
+          "offset": 654
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Paragraph"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "leading-tight"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Paragraph"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "leading-normal"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Paragraph"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "leading-relaxed"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Paragraph"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "leading-loose"
+          ]
+        }
+      }
+    }
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 76,
+      "column": 1,
+      "offset": 758
+    }
+  }
+}

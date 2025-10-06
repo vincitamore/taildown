@@ -33,6 +33,9 @@
           "column": 20,
           "offset": 19
         }
+      },
+      "data": {
+        "hProperties": {}
       }
     },
     {
@@ -42,7 +45,10 @@
           "type": "text",
           "value": "Testing 5+ levels of component nesting."
         }
-      ]
+      ],
+      "data": {
+        "hProperties": {}
+      }
     },
     {
       "type": "containerDirective",
@@ -59,12 +65,12 @@
                 "start": {
                   "line": 6,
                   "column": 3,
-                  "offset": 82
+                  "offset": 77
                 },
                 "end": {
                   "line": 6,
                   "column": 21,
-                  "offset": 100
+                  "offset": 95
                 }
               }
             }
@@ -73,13 +79,16 @@
             "start": {
               "line": 6,
               "column": 1,
-              "offset": 80
+              "offset": 75
             },
             "end": {
               "line": 6,
               "column": 21,
-              "offset": 100
+              "offset": 95
             }
+          },
+          "data": {
+            "hProperties": {}
           }
         },
         {
@@ -97,12 +106,12 @@
                     "start": {
                       "line": 9,
                       "column": 4,
-                      "offset": 116
+                      "offset": 108
                     },
                     "end": {
                       "line": 9,
                       "column": 17,
-                      "offset": 129
+                      "offset": 121
                     }
                   }
                 }
@@ -111,13 +120,16 @@
                 "start": {
                   "line": 9,
                   "column": 1,
-                  "offset": 113
+                  "offset": 105
                 },
                 "end": {
                   "line": 9,
                   "column": 17,
-                  "offset": 129
+                  "offset": 121
                 }
+              },
+              "data": {
+                "hProperties": {}
               }
             },
             {
@@ -135,12 +147,12 @@
                         "start": {
                           "line": 12,
                           "column": 5,
-                          "offset": 146
+                          "offset": 135
                         },
                         "end": {
                           "line": 12,
                           "column": 18,
-                          "offset": 159
+                          "offset": 148
                         }
                       }
                     }
@@ -149,13 +161,16 @@
                     "start": {
                       "line": 12,
                       "column": 1,
-                      "offset": 142
+                      "offset": 131
                     },
                     "end": {
                       "line": 12,
                       "column": 18,
-                      "offset": 159
+                      "offset": 148
                     }
+                  },
+                  "data": {
+                    "hProperties": {}
                   }
                 },
                 {
@@ -173,12 +188,12 @@
                             "start": {
                               "line": 15,
                               "column": 6,
-                              "offset": 177
+                              "offset": 163
                             },
                             "end": {
                               "line": 15,
                               "column": 19,
-                              "offset": 190
+                              "offset": 176
                             }
                           }
                         }
@@ -187,13 +202,16 @@
                         "start": {
                           "line": 15,
                           "column": 1,
-                          "offset": 172
+                          "offset": 158
                         },
                         "end": {
                           "line": 15,
                           "column": 19,
-                          "offset": 190
+                          "offset": 176
                         }
+                      },
+                      "data": {
+                        "hProperties": {}
                       }
                     },
                     {
@@ -211,12 +229,12 @@
                                 "start": {
                                   "line": 18,
                                   "column": 7,
-                                  "offset": 209
+                                  "offset": 192
                                 },
                                 "end": {
                                   "line": 18,
                                   "column": 27,
-                                  "offset": 229
+                                  "offset": 212
                                 }
                               }
                             }
@@ -225,13 +243,16 @@
                             "start": {
                               "line": 18,
                               "column": 1,
-                              "offset": 203
+                              "offset": 186
                             },
                             "end": {
                               "line": 18,
                               "column": 27,
-                              "offset": 229
+                              "offset": 212
                             }
+                          },
+                          "data": {
+                            "hProperties": {}
                           }
                         },
                         {
@@ -241,7 +262,10 @@
                               "type": "text",
                               "value": "Content at level 5"
                             }
-                          ]
+                          ],
+                          "data": {
+                            "hProperties": {}
+                          }
                         }
                       ],
                       "position": {
@@ -262,12 +286,13 @@
                           "className": [
                             "taildown-component",
                             "component-card",
-                            "p-6",
                             "rounded-lg",
-                            "shadow-md",
-                            "bg-white",
+                            "p-6",
                             "max-w-full",
-                            "overflow-auto"
+                            "overflow-x-hidden",
+                            "break-words",
+                            "bg-white",
+                            "shadow-md"
                           ],
                           "data-component": "card"
                         },
@@ -284,7 +309,10 @@
                           "type": "text",
                           "value": "Content at level 4"
                         }
-                      ]
+                      ],
+                      "data": {
+                        "hProperties": {}
+                      }
                     }
                   ],
                   "position": {
@@ -305,12 +333,13 @@
                       "className": [
                         "taildown-component",
                         "component-card",
-                        "p-6",
                         "rounded-lg",
-                        "shadow-md",
-                        "bg-white",
+                        "p-6",
                         "max-w-full",
-                        "overflow-auto"
+                        "overflow-x-hidden",
+                        "break-words",
+                        "bg-white",
+                        "shadow-md"
                       ],
                       "data-component": "card"
                     },
@@ -331,7 +360,10 @@
                           "type": "text",
                           "value": "Another level 3 card"
                         }
-                      ]
+                      ],
+                      "data": {
+                        "hProperties": {}
+                      }
                     }
                   ],
                   "position": {
@@ -352,12 +384,13 @@
                       "className": [
                         "taildown-component",
                         "component-card",
-                        "p-6",
                         "rounded-lg",
-                        "shadow-md",
-                        "bg-white",
+                        "p-6",
                         "max-w-full",
-                        "overflow-auto"
+                        "overflow-x-hidden",
+                        "break-words",
+                        "bg-white",
+                        "shadow-md"
                       ],
                       "data-component": "card"
                     },
@@ -407,7 +440,10 @@
                   "type": "text",
                   "value": "Content at level 2"
                 }
-              ]
+              ],
+              "data": {
+                "hProperties": {}
+              }
             }
           ],
           "position": {
@@ -428,12 +464,13 @@
               "className": [
                 "taildown-component",
                 "component-card",
-                "p-6",
                 "rounded-lg",
-                "shadow-md",
-                "bg-white",
+                "p-6",
                 "max-w-full",
-                "overflow-auto"
+                "overflow-x-hidden",
+                "break-words",
+                "bg-white",
+                "shadow-md"
               ],
               "data-component": "card"
             },
@@ -450,7 +487,10 @@
               "type": "text",
               "value": "Content at level 1"
             }
-          ]
+          ],
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
       "position": {
@@ -471,12 +511,11 @@
           "className": [
             "taildown-component",
             "component-container",
-            "max-w-screen-2xl",
             "mx-auto",
             "px-4",
             "sm:px-6",
             "lg:px-8",
-            "xl:px-12"
+            "max-w-6xl"
           ],
           "data-component": "container"
         },
@@ -493,7 +532,10 @@
           "type": "text",
           "value": "Outside all components."
         }
-      ]
+      ],
+      "data": {
+        "hProperties": {}
+      }
     }
   ],
   "position": {
@@ -505,7 +547,7 @@
     "end": {
       "line": 40,
       "column": 1,
-      "offset": 413
+      "offset": 374
     }
   }
 }

@@ -1,0 +1,674 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Component Block Edge Cases",
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 3,
+              "offset": 2
+            },
+            "end": {
+              "line": 1,
+              "column": 29,
+              "offset": 28
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 29,
+          "offset": 28
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Test edge cases per SYNTAX.md §3.5"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Incomplete Fences",
+          "position": {
+            "start": {
+              "line": 5,
+              "column": 4,
+              "offset": 69
+            },
+            "end": {
+              "line": 5,
+              "column": 21,
+              "offset": 86
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 66
+        },
+        "end": {
+          "line": 5,
+          "column": 21,
+          "offset": 86
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "::card"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "::::card"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "::: card"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Component Name in Content",
+          "position": {
+            "start": {
+              "line": 13,
+              "column": 4,
+              "offset": 119
+            },
+            "end": {
+              "line": 13,
+              "column": 29,
+              "offset": 144
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 116
+        },
+        "end": {
+          "line": 13,
+          "column": 29,
+          "offset": 144
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "card",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "The word :::card inside content is treated as plain text, not a fence."
+            }
+          ],
+          "data": {
+            "hProperties": {}
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 15,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 15,
+          "column": 8,
+          "offset": 0
+        }
+      },
+      "data": {
+        "hName": "div",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-card",
+            "rounded-lg",
+            "p-6",
+            "max-w-full",
+            "overflow-x-hidden",
+            "break-words",
+            "bg-white",
+            "shadow-md"
+          ],
+          "data-component": "card"
+        },
+        "component": {
+          "name": "card",
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Fence in Code Block",
+          "position": {
+            "start": {
+              "line": 19,
+              "column": 4,
+              "offset": 233
+            },
+            "end": {
+              "line": 19,
+              "column": 23,
+              "offset": 252
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 19,
+          "column": 1,
+          "offset": 230
+        },
+        "end": {
+          "line": 19,
+          "column": 23,
+          "offset": 252
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "card",
+      "children": [
+        {
+          "type": "code",
+          "lang": null,
+          "meta": null,
+          "value": "Code block can contain ::: without closing component",
+          "position": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 262
+            },
+            "end": {
+              "line": 24,
+              "column": 4,
+              "offset": 322
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 21,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 21,
+          "column": 8,
+          "offset": 0
+        }
+      },
+      "data": {
+        "hName": "div",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-card",
+            "rounded-lg",
+            "p-6",
+            "max-w-full",
+            "overflow-x-hidden",
+            "break-words",
+            "bg-white",
+            "shadow-md"
+          ],
+          "data-component": "card"
+        },
+        "component": {
+          "name": "card",
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Empty Components",
+          "position": {
+            "start": {
+              "line": 27,
+              "column": 4,
+              "offset": 331
+            },
+            "end": {
+              "line": 27,
+              "column": 20,
+              "offset": 347
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 27,
+          "column": 1,
+          "offset": 328
+        },
+        "end": {
+          "line": 27,
+          "column": 20,
+          "offset": 347
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "card",
+      "children": [],
+      "position": {
+        "start": {
+          "line": 29,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 29,
+          "column": 8,
+          "offset": 0
+        }
+      },
+      "data": {
+        "hName": "div",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-card",
+            "rounded-lg",
+            "p-6",
+            "max-w-full",
+            "overflow-x-hidden",
+            "break-words",
+            "bg-white",
+            "shadow-md"
+          ],
+          "data-component": "card"
+        },
+        "component": {
+          "name": "card",
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Unclosed Components",
+          "position": {
+            "start": {
+              "line": 32,
+              "column": 4,
+              "offset": 365
+            },
+            "end": {
+              "line": 32,
+              "column": 23,
+              "offset": 384
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 32,
+          "column": 1,
+          "offset": 362
+        },
+        "end": {
+          "line": 32,
+          "column": 23,
+          "offset": 384
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "card",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Content without closing fence"
+            }
+          ],
+          "data": {
+            "hProperties": {}
+          }
+        },
+        {
+          "type": "heading",
+          "depth": 2,
+          "children": [
+            {
+              "type": "text",
+              "value": "Multiple Consecutive Fences",
+              "position": {
+                "start": {
+                  "line": 37,
+                  "column": 4,
+                  "offset": 428
+                },
+                "end": {
+                  "line": 37,
+                  "column": 31,
+                  "offset": 455
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 37,
+              "column": 1,
+              "offset": 425
+            },
+            "end": {
+              "line": 37,
+              "column": 31,
+              "offset": 455
+            }
+          },
+          "data": {
+            "hProperties": {}
+          }
+        },
+        {
+          "type": "containerDirective",
+          "name": "card",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "First card"
+                }
+              ],
+              "data": {
+                "hProperties": {}
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 39,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 39,
+              "column": 8,
+              "offset": 0
+            }
+          },
+          "data": {
+            "hName": "div",
+            "hProperties": {
+              "className": [
+                "taildown-component",
+                "component-card",
+                "rounded-lg",
+                "p-6",
+                "max-w-full",
+                "overflow-x-hidden",
+                "break-words",
+                "bg-white",
+                "shadow-md"
+              ],
+              "data-component": "card"
+            },
+            "component": {
+              "name": "card",
+              "attributes": []
+            }
+          }
+        },
+        {
+          "type": "containerDirective",
+          "name": "card",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Second card"
+                }
+              ],
+              "data": {
+                "hProperties": {}
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 42,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 42,
+              "column": 8,
+              "offset": 0
+            }
+          },
+          "data": {
+            "hName": "div",
+            "hProperties": {
+              "className": [
+                "taildown-component",
+                "component-card",
+                "rounded-lg",
+                "p-6",
+                "max-w-full",
+                "overflow-x-hidden",
+                "break-words",
+                "bg-white",
+                "shadow-md"
+              ],
+              "data-component": "card"
+            },
+            "component": {
+              "name": "card",
+              "attributes": []
+            }
+          }
+        },
+        {
+          "type": "containerDirective",
+          "name": "card",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Third card"
+                }
+              ],
+              "data": {
+                "hProperties": {}
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 45,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 45,
+              "column": 8,
+              "offset": 0
+            }
+          },
+          "data": {
+            "hName": "div",
+            "hProperties": {
+              "className": [
+                "taildown-component",
+                "component-card",
+                "rounded-lg",
+                "p-6",
+                "max-w-full",
+                "overflow-x-hidden",
+                "break-words",
+                "bg-white",
+                "shadow-md"
+              ],
+              "data-component": "card"
+            },
+            "component": {
+              "name": "card",
+              "attributes": []
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 34,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 34,
+          "column": 8,
+          "offset": 0
+        }
+      },
+      "data": {
+        "hName": "div",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-card",
+            "rounded-lg",
+            "p-6",
+            "max-w-full",
+            "overflow-x-hidden",
+            "break-words",
+            "bg-white",
+            "shadow-md"
+          ],
+          "data-component": "card"
+        },
+        "component": {
+          "name": "card",
+          "attributes": []
+        }
+      }
+    }
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 48,
+      "column": 1,
+      "offset": 527
+    }
+  }
+}

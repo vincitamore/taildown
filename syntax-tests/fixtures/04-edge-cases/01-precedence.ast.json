@@ -33,6 +33,9 @@
           "column": 39,
           "offset": 38
         }
+      },
+      "data": {
+        "hProperties": {}
       }
     },
     {
@@ -46,12 +49,12 @@
             "start": {
               "line": 3,
               "column": 4,
-              "offset": 45
+              "offset": 43
             },
             "end": {
               "line": 3,
               "column": 31,
-              "offset": 72
+              "offset": 70
             }
           }
         }
@@ -60,30 +63,33 @@
         "start": {
           "line": 3,
           "column": 1,
-          "offset": 42
+          "offset": 40
         },
         "end": {
           "line": 3,
           "column": 31,
-          "offset": 72
+          "offset": 70
         }
+      },
+      "data": {
+        "hProperties": {}
       }
     },
     {
       "type": "code",
       "lang": null,
       "meta": null,
-      "value": ":::card {.class}\r\nThis looks like a component but it's inside a code block.\r\n:::",
+      "value": ":::card {.class}\nThis looks like a component but it's inside a code block.\n:::",
       "position": {
         "start": {
           "line": 5,
           "column": 1,
-          "offset": 76
+          "offset": 72
         },
         "end": {
           "line": 9,
           "column": 4,
-          "offset": 166
+          "offset": 158
         }
       }
     },
@@ -98,12 +104,12 @@
             "start": {
               "line": 11,
               "column": 4,
-              "offset": 173
+              "offset": 163
             },
             "end": {
               "line": 11,
               "column": 41,
-              "offset": 210
+              "offset": 200
             }
           }
         }
@@ -112,13 +118,16 @@
         "start": {
           "line": 11,
           "column": 1,
-          "offset": 170
+          "offset": 160
         },
         "end": {
           "line": 11,
           "column": 41,
-          "offset": 210
+          "offset": 200
         }
+      },
+      "data": {
+        "hProperties": {}
       }
     },
     {
@@ -131,12 +140,12 @@
             "start": {
               "line": 13,
               "column": 1,
-              "offset": 214
+              "offset": 202
             },
             "end": {
               "line": 13,
               "column": 9,
-              "offset": 222
+              "offset": 210
             }
           }
         },
@@ -147,12 +156,12 @@
             "start": {
               "line": 13,
               "column": 9,
-              "offset": 222
+              "offset": 210
             },
             "end": {
               "line": 13,
               "column": 30,
-              "offset": 243
+              "offset": 231
             }
           }
         },
@@ -163,12 +172,12 @@
             "start": {
               "line": 13,
               "column": 30,
-              "offset": 243
+              "offset": 231
             },
             "end": {
               "line": 13,
               "column": 46,
-              "offset": 259
+              "offset": 247
             }
           }
         }
@@ -177,13 +186,16 @@
         "start": {
           "line": 13,
           "column": 1,
-          "offset": 214
+          "offset": 202
         },
         "end": {
           "line": 13,
           "column": 46,
-          "offset": 259
+          "offset": 247
         }
+      },
+      "data": {
+        "hProperties": {}
       }
     },
     {
@@ -197,12 +209,12 @@
             "start": {
               "line": 15,
               "column": 4,
-              "offset": 266
+              "offset": 252
             },
             "end": {
               "line": 15,
               "column": 18,
-              "offset": 280
+              "offset": 266
             }
           }
         }
@@ -211,13 +223,16 @@
         "start": {
           "line": 15,
           "column": 1,
-          "offset": 263
+          "offset": 249
         },
         "end": {
           "line": 15,
           "column": 18,
-          "offset": 280
+          "offset": 266
         }
+      },
+      "data": {
+        "hProperties": {}
       }
     },
     {
@@ -227,7 +242,10 @@
           "type": "text",
           "value": "# Not a heading"
         }
-      ]
+      ],
+      "data": {
+        "hProperties": {}
+      }
     },
     {
       "type": "containerDirective",
@@ -240,7 +258,10 @@
               "type": "text",
               "value": "Not a component fence"
             }
-          ]
+          ],
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
       "position": {
@@ -261,12 +282,13 @@
           "className": [
             "taildown-component",
             "component-card",
-            "p-6",
             "rounded-lg",
-            "shadow-md",
-            "bg-white",
+            "p-6",
             "max-w-full",
-            "overflow-auto"
+            "overflow-x-hidden",
+            "break-words",
+            "bg-white",
+            "shadow-md"
           ],
           "data-component": "card"
         },
@@ -303,12 +325,12 @@
             "start": {
               "line": 25,
               "column": 4,
-              "offset": 367
+              "offset": 343
             },
             "end": {
               "line": 25,
               "column": 26,
-              "offset": 389
+              "offset": 365
             }
           }
         }
@@ -317,12 +339,32 @@
         "start": {
           "line": 25,
           "column": 1,
-          "offset": 364
+          "offset": 340
         },
         "end": {
           "line": 25,
           "column": 26,
-          "offset": 389
+          "offset": 365
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Use JSON like this:"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "\"key\":",
+            "\"value\""
+          ]
         }
       }
     },
@@ -331,18 +373,17 @@
       "children": [
         {
           "type": "text",
-          "value": "Use JSON like this: {\"key\": \"value\"}"
+          "value": "Objects can have braces:"
         }
-      ]
-    },
-    {
-      "type": "paragraph",
-      "children": [
-        {
-          "type": "text",
-          "value": "Objects can have braces: {foo: bar}"
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "foo:",
+            "bar"
+          ]
         }
-      ]
+      }
     },
     {
       "type": "paragraph",
@@ -371,12 +412,12 @@
             "start": {
               "line": 33,
               "column": 4,
-              "offset": 520
+              "offset": 488
             },
             "end": {
               "line": 33,
               "column": 25,
-              "offset": 541
+              "offset": 509
             }
           }
         }
@@ -385,13 +426,16 @@
         "start": {
           "line": 33,
           "column": 1,
-          "offset": 517
+          "offset": 485
         },
         "end": {
           "line": 33,
           "column": 25,
-          "offset": 541
+          "offset": 509
         }
+      },
+      "data": {
+        "hProperties": {}
       }
     },
     {
@@ -401,7 +445,10 @@
           "type": "text",
           "value": "{.at-start} This paragraph starts with braces - treated as text"
         }
-      ]
+      ],
+      "data": {
+        "hProperties": {}
+      }
     },
     {
       "type": "paragraph",
@@ -410,7 +457,10 @@
           "type": "text",
           "value": "This paragraph has {.in-middle} braces - treated as text"
         }
-      ]
+      ],
+      "data": {
+        "hProperties": {}
+      }
     },
     {
       "type": "paragraph",
@@ -438,7 +488,7 @@
     "end": {
       "line": 40,
       "column": 1,
-      "offset": 721
+      "offset": 682
     }
   }
 }

@@ -1,0 +1,738 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Inline Attributes Edge Cases",
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 3,
+              "offset": 2
+            },
+            "end": {
+              "line": 1,
+              "column": 31,
+              "offset": 30
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 31,
+          "offset": 30
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Test edge cases per SYNTAX.md §2.4"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Empty Attribute Block",
+          "position": {
+            "start": {
+              "line": 5,
+              "column": 4,
+              "offset": 71
+            },
+            "end": {
+              "line": 5,
+              "column": 25,
+              "offset": 92
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 68
+        },
+        "end": {
+          "line": 5,
+          "column": 25,
+          "offset": 92
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading {}",
+          "position": {
+            "start": {
+              "line": 7,
+              "column": 3,
+              "offset": 96
+            },
+            "end": {
+              "line": 7,
+              "column": 13,
+              "offset": 106
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 94
+        },
+        "end": {
+          "line": 7,
+          "column": 13,
+          "offset": 106
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading ",
+          "position": {
+            "start": {
+              "line": 9,
+              "column": 3,
+              "offset": 110
+            },
+            "end": {
+              "line": 9,
+              "column": 15,
+              "offset": 122
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 108
+        },
+        "end": {
+          "line": 9,
+          "column": 15,
+          "offset": 122
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Literal Braces in Code",
+          "position": {
+            "start": {
+              "line": 11,
+              "column": 4,
+              "offset": 127
+            },
+            "end": {
+              "line": 11,
+              "column": 26,
+              "offset": 149
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 11,
+          "column": 1,
+          "offset": 124
+        },
+        "end": {
+          "line": 11,
+          "column": 26,
+          "offset": 149
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Use backticks: ",
+          "position": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 151
+            },
+            "end": {
+              "line": 13,
+              "column": 16,
+              "offset": 166
+            }
+          }
+        },
+        {
+          "type": "inlineCode",
+          "value": "{.not-a-class}",
+          "position": {
+            "start": {
+              "line": 13,
+              "column": 16,
+              "offset": 166
+            },
+            "end": {
+              "line": 13,
+              "column": 32,
+              "offset": 182
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 151
+        },
+        "end": {
+          "line": 13,
+          "column": 32,
+          "offset": 182
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Code block test:"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "code",
+      "lang": null,
+      "meta": null,
+      "value": "{.not-a-class}",
+      "position": {
+        "start": {
+          "line": 16,
+          "column": 1,
+          "offset": 201
+        },
+        "end": {
+          "line": 18,
+          "column": 4,
+          "offset": 223
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Malformed Attributes",
+          "position": {
+            "start": {
+              "line": 20,
+              "column": 4,
+              "offset": 228
+            },
+            "end": {
+              "line": 20,
+              "column": 24,
+              "offset": 248
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 20,
+          "column": 1,
+          "offset": 225
+        },
+        "end": {
+          "line": 20,
+          "column": 24,
+          "offset": 248
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading",
+          "position": {
+            "start": {
+              "line": 22,
+              "column": 3,
+              "offset": 252
+            },
+            "end": {
+              "line": 22,
+              "column": 30,
+              "offset": 279
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 22,
+          "column": 1,
+          "offset": 250
+        },
+        "end": {
+          "line": 22,
+          "column": 30,
+          "offset": 279
+        }
+      },
+      "data": {
+        "hProperties": {
+          "className": [
+            "class-without-dot"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading .class}",
+          "position": {
+            "start": {
+              "line": 24,
+              "column": 3,
+              "offset": 283
+            },
+            "end": {
+              "line": 24,
+              "column": 18,
+              "offset": 298
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 24,
+          "column": 1,
+          "offset": 281
+        },
+        "end": {
+          "line": 24,
+          "column": 18,
+          "offset": 298
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Text with {.class"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Whitespace Handling",
+          "position": {
+            "start": {
+              "line": 28,
+              "column": 4,
+              "offset": 322
+            },
+            "end": {
+              "line": 28,
+              "column": 23,
+              "offset": 341
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 28,
+          "column": 1,
+          "offset": 319
+        },
+        "end": {
+          "line": 28,
+          "column": 23,
+          "offset": 341
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Valid",
+          "position": {
+            "start": {
+              "line": 30,
+              "column": 3,
+              "offset": 345
+            },
+            "end": {
+              "line": 30,
+              "column": 32,
+              "offset": 374
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 30,
+          "column": 1,
+          "offset": 343
+        },
+        "end": {
+          "line": 30,
+          "column": 32,
+          "offset": 374
+        }
+      },
+      "data": {
+        "hProperties": {
+          "className": [
+            "class-one",
+            "class-two"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Valid",
+          "position": {
+            "start": {
+              "line": 32,
+              "column": 3,
+              "offset": 378
+            },
+            "end": {
+              "line": 32,
+              "column": 33,
+              "offset": 408
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 32,
+          "column": 1,
+          "offset": 376
+        },
+        "end": {
+          "line": 32,
+          "column": 33,
+          "offset": 408
+        }
+      },
+      "data": {
+        "hProperties": {
+          "className": [
+            "class-one",
+            "class-two"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Valid",
+          "position": {
+            "start": {
+              "line": 34,
+              "column": 3,
+              "offset": 412
+            },
+            "end": {
+              "line": 34,
+              "column": 34,
+              "offset": 443
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 34,
+          "column": 1,
+          "offset": 410
+        },
+        "end": {
+          "line": 34,
+          "column": 34,
+          "offset": 443
+        }
+      },
+      "data": {
+        "hProperties": {
+          "className": [
+            "class-one",
+            "class-two"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Multiple Attribute Blocks",
+          "position": {
+            "start": {
+              "line": 36,
+              "column": 4,
+              "offset": 448
+            },
+            "end": {
+              "line": 36,
+              "column": 29,
+              "offset": 473
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 36,
+          "column": 1,
+          "offset": 445
+        },
+        "end": {
+          "line": 36,
+          "column": 29,
+          "offset": 473
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Heading",
+          "position": {
+            "start": {
+              "line": 38,
+              "column": 3,
+              "offset": 477
+            },
+            "end": {
+              "line": 38,
+              "column": 23,
+              "offset": 497
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 38,
+          "column": 1,
+          "offset": 475
+        },
+        "end": {
+          "line": 38,
+          "column": 23,
+          "offset": 497
+        }
+      },
+      "data": {
+        "hProperties": {
+          "className": [
+            "class-one"
+          ]
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Not valid: {.class-one}"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "class-two"
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Attributes in Invalid Positions",
+          "position": {
+            "start": {
+              "line": 42,
+              "column": 4,
+              "offset": 539
+            },
+            "end": {
+              "line": 42,
+              "column": 35,
+              "offset": 570
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 42,
+          "column": 1,
+          "offset": 536
+        },
+        "end": {
+          "line": 42,
+          "column": 35,
+          "offset": 570
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "{.invalid} # Heading"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Middle {.attrs} text"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    }
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 47,
+      "column": 1,
+      "offset": 615
+    }
+  }
+}

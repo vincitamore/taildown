@@ -1,0 +1,2069 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Attachable Tooltips",
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 3,
+              "offset": 2
+            },
+            "end": {
+              "line": 1,
+              "column": 22,
+              "offset": 21
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 22,
+          "offset": 21
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Test tooltip attachment per SYNTAX.md §2.8.2"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Inline Content Tooltips",
+          "position": {
+            "start": {
+              "line": 5,
+              "column": 4,
+              "offset": 72
+            },
+            "end": {
+              "line": 5,
+              "column": 27,
+              "offset": 95
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 69
+        },
+        "end": {
+          "line": 5,
+          "column": 27,
+          "offset": 95
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "text",
+              "value": "Hover here",
+              "position": {
+                "start": {
+                  "line": 7,
+                  "column": 2,
+                  "offset": 98
+                },
+                "end": {
+                  "line": 7,
+                  "column": 12,
+                  "offset": 108
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 97
+            },
+            "end": {
+              "line": 7,
+              "column": 16,
+              "offset": 112
+            }
+          },
+          "data": {
+            "hProperties": {
+              "data-tooltip-attach": "Helpful tip!"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": "",
+          "position": {
+            "start": {
+              "line": 7,
+              "column": 16,
+              "offset": 112
+            },
+            "end": {
+              "line": 7,
+              "column": 40,
+              "offset": 136
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 97
+        },
+        "end": {
+          "line": 7,
+          "column": 40,
+          "offset": 136
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Learn about ",
+          "position": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 138
+            },
+            "end": {
+              "line": 9,
+              "column": 13,
+              "offset": 150
+            }
+          }
+        },
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "text",
+              "value": "important concepts",
+              "position": {
+                "start": {
+                  "line": 9,
+                  "column": 14,
+                  "offset": 151
+                },
+                "end": {
+                  "line": 9,
+                  "column": 32,
+                  "offset": 169
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 9,
+              "column": 13,
+              "offset": 150
+            },
+            "end": {
+              "line": 9,
+              "column": 36,
+              "offset": 173
+            }
+          },
+          "data": {
+            "hProperties": {
+              "data-tooltip-attach": "Additional context"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": "",
+          "position": {
+            "start": {
+              "line": 9,
+              "column": 36,
+              "offset": 173
+            },
+            "end": {
+              "line": 9,
+              "column": 66,
+              "offset": 203
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 138
+        },
+        "end": {
+          "line": 9,
+          "column": 66,
+          "offset": 203
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "text",
+              "value": "More info",
+              "position": {
+                "start": {
+                  "line": 11,
+                  "column": 2,
+                  "offset": 206
+                },
+                "end": {
+                  "line": 11,
+                  "column": 11,
+                  "offset": 215
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 205
+            },
+            "end": {
+              "line": 11,
+              "column": 15,
+              "offset": 219
+            }
+          },
+          "data": {
+            "hProperties": {
+              "data-tooltip-attach": "Brief explanation"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": "",
+          "position": {
+            "start": {
+              "line": 11,
+              "column": 15,
+              "offset": 219
+            },
+            "end": {
+              "line": 11,
+              "column": 44,
+              "offset": 248
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 11,
+          "column": 1,
+          "offset": 205
+        },
+        "end": {
+          "line": 11,
+          "column": 44,
+          "offset": 248
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "ID-Referenced Tooltips",
+          "position": {
+            "start": {
+              "line": 13,
+              "column": 4,
+              "offset": 253
+            },
+            "end": {
+              "line": 13,
+              "column": 26,
+              "offset": 275
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 250
+        },
+        "end": {
+          "line": 13,
+          "column": 26,
+          "offset": 275
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "text",
+              "value": "More Info",
+              "position": {
+                "start": {
+                  "line": 15,
+                  "column": 2,
+                  "offset": 278
+                },
+                "end": {
+                  "line": 15,
+                  "column": 11,
+                  "offset": 287
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 15,
+              "column": 1,
+              "offset": 277
+            },
+            "end": {
+              "line": 15,
+              "column": 15,
+              "offset": 291
+            }
+          },
+          "data": {
+            "hProperties": {
+              "className": [
+                "inline-block",
+                "px-6",
+                "py-3",
+                "rounded-lg",
+                "font-medium",
+                "text-center",
+                "transition-all",
+                "duration-200",
+                "cursor-pointer",
+                "no-underline",
+                "bg-blue-600",
+                "text-white",
+                "hover:bg-blue-700",
+                "active:bg-blue-800",
+                "shadow-md",
+                "hover:shadow-lg"
+              ],
+              "data-tooltip-attach": "#detailed-info"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": "",
+          "position": {
+            "start": {
+              "line": 15,
+              "column": 15,
+              "offset": 291
+            },
+            "end": {
+              "line": 15,
+              "column": 48,
+              "offset": 324
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 15,
+          "column": 1,
+          "offset": 277
+        },
+        "end": {
+          "line": 15,
+          "column": 48,
+          "offset": 324
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "text",
+              "value": "Help",
+              "position": {
+                "start": {
+                  "line": 17,
+                  "column": 2,
+                  "offset": 327
+                },
+                "end": {
+                  "line": 17,
+                  "column": 6,
+                  "offset": 331
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 326
+            },
+            "end": {
+              "line": 17,
+              "column": 10,
+              "offset": 335
+            }
+          },
+          "data": {
+            "hProperties": {
+              "className": [
+                "inline-flex",
+                "items-center",
+                "px-3",
+                "py-1",
+                "rounded-full",
+                "font-medium",
+                "text-sm",
+                "bg-sky-100",
+                "text-sky-700"
+              ],
+              "data-tooltip-attach": "#help-text"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": "",
+          "position": {
+            "start": {
+              "line": 17,
+              "column": 10,
+              "offset": 335
+            },
+            "end": {
+              "line": 17,
+              "column": 43,
+              "offset": 368
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 17,
+          "column": 1,
+          "offset": 326
+        },
+        "end": {
+          "line": 17,
+          "column": 43,
+          "offset": 368
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "text",
+              "value": "Question",
+              "position": {
+                "start": {
+                  "line": 19,
+                  "column": 2,
+                  "offset": 371
+                },
+                "end": {
+                  "line": 19,
+                  "column": 10,
+                  "offset": 379
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 19,
+              "column": 1,
+              "offset": 370
+            },
+            "end": {
+              "line": 19,
+              "column": 14,
+              "offset": 383
+            }
+          },
+          "data": {
+            "hProperties": {
+              "data-tooltip-attach": "#explanation"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": "",
+          "position": {
+            "start": {
+              "line": 19,
+              "column": 14,
+              "offset": 383
+            },
+            "end": {
+              "line": 19,
+              "column": 38,
+              "offset": 407
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 19,
+          "column": 1,
+          "offset": 370
+        },
+        "end": {
+          "line": 19,
+          "column": 38,
+          "offset": 407
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "tooltip",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "This is a "
+            },
+            {
+              "type": "strong",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "detailed tooltip",
+                  "position": {
+                    "start": {
+                      "line": 22,
+                      "column": 13,
+                      "offset": 452
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 29,
+                      "offset": 468
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 22,
+                  "column": 11,
+                  "offset": 450
+                },
+                "end": {
+                  "line": 22,
+                  "column": 31,
+                  "offset": 470
+                }
+              }
+            },
+            {
+              "type": "text",
+              "value": " with full markdown support including ",
+              "position": {
+                "start": {
+                  "line": 22,
+                  "column": 31,
+                  "offset": 470
+                },
+                "end": {
+                  "line": 22,
+                  "column": 69,
+                  "offset": 508
+                }
+              }
+            },
+            {
+              "type": "inlineCode",
+              "value": "code",
+              "position": {
+                "start": {
+                  "line": 22,
+                  "column": 69,
+                  "offset": 508
+                },
+                "end": {
+                  "line": 22,
+                  "column": 75,
+                  "offset": 514
+                }
+              }
+            },
+            {
+              "type": "text",
+              "value": " and ",
+              "position": {
+                "start": {
+                  "line": 22,
+                  "column": 75,
+                  "offset": 514
+                },
+                "end": {
+                  "line": 22,
+                  "column": 80,
+                  "offset": 519
+                }
+              }
+            },
+            {
+              "type": "emphasis",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "emphasis",
+                  "position": {
+                    "start": {
+                      "line": 22,
+                      "column": 81,
+                      "offset": 520
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 89,
+                      "offset": 528
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 22,
+                  "column": 80,
+                  "offset": 519
+                },
+                "end": {
+                  "line": 22,
+                  "column": 90,
+                  "offset": 529
+                }
+              }
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ],
+          "data": {
+            "hProperties": {}
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 21,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 21,
+          "column": 31,
+          "offset": 0
+        }
+      },
+      "attributes": {
+        "id": "detailed-info"
+      },
+      "data": {
+        "hName": "span",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-tooltip",
+            "tooltip",
+            "inline-block",
+            "px-3",
+            "py-2",
+            "text-sm",
+            "text-white",
+            "bg-gray-900",
+            "rounded",
+            "shadow-lg"
+          ],
+          "data-component": "tooltip"
+        },
+        "component": {
+          "name": "tooltip",
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "tooltip",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "strong",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Help",
+                  "position": {
+                    "start": {
+                      "line": 26,
+                      "column": 3,
+                      "offset": 565
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 7,
+                      "offset": 569
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 26,
+                  "column": 1,
+                  "offset": 563
+                },
+                "end": {
+                  "line": 26,
+                  "column": 9,
+                  "offset": 571
+                }
+              }
+            },
+            {
+              "type": "text",
+              "value": ": This feature allows you to do X, Y, and Z."
+            }
+          ],
+          "data": {
+            "hProperties": {}
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 25,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 25,
+          "column": 27,
+          "offset": 0
+        }
+      },
+      "attributes": {
+        "id": "help-text"
+      },
+      "data": {
+        "hName": "span",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-tooltip",
+            "tooltip",
+            "inline-block",
+            "px-3",
+            "py-2",
+            "text-sm",
+            "text-white",
+            "bg-gray-900",
+            "rounded",
+            "shadow-lg"
+          ],
+          "data-component": "tooltip"
+        },
+        "component": {
+          "name": "tooltip",
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "tooltip",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "A comprehensive explanation with:"
+            }
+          ],
+          "data": {
+            "hProperties": {}
+          }
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "start": null,
+          "spread": false,
+          "children": [
+            {
+              "type": "listItem",
+              "spread": false,
+              "checked": null,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Point 1",
+                      "position": {
+                        "start": {
+                          "line": 31,
+                          "column": 3,
+                          "offset": 686
+                        },
+                        "end": {
+                          "line": 31,
+                          "column": 10,
+                          "offset": 693
+                        }
+                      }
+                    }
+                  ],
+                  "position": {
+                    "start": {
+                      "line": 31,
+                      "column": 3,
+                      "offset": 686
+                    },
+                    "end": {
+                      "line": 31,
+                      "column": 10,
+                      "offset": 693
+                    }
+                  },
+                  "data": {
+                    "hProperties": {}
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 31,
+                  "column": 1,
+                  "offset": 684
+                },
+                "end": {
+                  "line": 31,
+                  "column": 10,
+                  "offset": 693
+                }
+              }
+            },
+            {
+              "type": "listItem",
+              "spread": false,
+              "checked": null,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Point 2",
+                      "position": {
+                        "start": {
+                          "line": 32,
+                          "column": 3,
+                          "offset": 696
+                        },
+                        "end": {
+                          "line": 32,
+                          "column": 10,
+                          "offset": 703
+                        }
+                      }
+                    }
+                  ],
+                  "position": {
+                    "start": {
+                      "line": 32,
+                      "column": 3,
+                      "offset": 696
+                    },
+                    "end": {
+                      "line": 32,
+                      "column": 10,
+                      "offset": 703
+                    }
+                  },
+                  "data": {
+                    "hProperties": {}
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 32,
+                  "column": 1,
+                  "offset": 694
+                },
+                "end": {
+                  "line": 32,
+                  "column": 10,
+                  "offset": 703
+                }
+              }
+            },
+            {
+              "type": "listItem",
+              "spread": false,
+              "checked": null,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Point 3"
+                    }
+                  ],
+                  "data": {
+                    "hProperties": {}
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 33,
+                  "column": 1,
+                  "offset": 704
+                },
+                "end": {
+                  "line": 34,
+                  "column": 4,
+                  "offset": 717
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 31,
+              "column": 1,
+              "offset": 684
+            },
+            "end": {
+              "line": 34,
+              "column": 4,
+              "offset": 717
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 29,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 29,
+          "column": 29,
+          "offset": 0
+        }
+      },
+      "attributes": {
+        "id": "explanation"
+      },
+      "data": {
+        "hName": "span",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-tooltip",
+            "tooltip",
+            "inline-block",
+            "px-3",
+            "py-2",
+            "text-sm",
+            "text-white",
+            "bg-gray-900",
+            "rounded",
+            "shadow-lg"
+          ],
+          "data-component": "tooltip"
+        },
+        "component": {
+          "name": "tooltip",
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Multiple Triggers for Same Tooltip",
+          "position": {
+            "start": {
+              "line": 36,
+              "column": 4,
+              "offset": 722
+            },
+            "end": {
+              "line": 36,
+              "column": 38,
+              "offset": 756
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 36,
+          "column": 1,
+          "offset": 719
+        },
+        "end": {
+          "line": 36,
+          "column": 38,
+          "offset": 756
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Technical term 1",
+          "position": {
+            "start": {
+              "line": 38,
+              "column": 1,
+              "offset": 758
+            },
+            "end": {
+              "line": 38,
+              "column": 17,
+              "offset": 774
+            }
+          }
+        },
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "text",
+              "value": "?",
+              "position": {
+                "start": {
+                  "line": 38,
+                  "column": 18,
+                  "offset": 775
+                },
+                "end": {
+                  "line": 38,
+                  "column": 19,
+                  "offset": 776
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 38,
+              "column": 17,
+              "offset": 774
+            },
+            "end": {
+              "line": 38,
+              "column": 23,
+              "offset": 780
+            }
+          },
+          "data": {
+            "hProperties": {
+              "data-tooltip-attach": "#glossary-term"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": "",
+          "position": {
+            "start": {
+              "line": 38,
+              "column": 23,
+              "offset": 780
+            },
+            "end": {
+              "line": 38,
+              "column": 49,
+              "offset": 806
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 38,
+          "column": 1,
+          "offset": 758
+        },
+        "end": {
+          "line": 38,
+          "column": 49,
+          "offset": 806
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Technical term 2",
+          "position": {
+            "start": {
+              "line": 40,
+              "column": 1,
+              "offset": 808
+            },
+            "end": {
+              "line": 40,
+              "column": 17,
+              "offset": 824
+            }
+          }
+        },
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "text",
+              "value": "?",
+              "position": {
+                "start": {
+                  "line": 40,
+                  "column": 18,
+                  "offset": 825
+                },
+                "end": {
+                  "line": 40,
+                  "column": 19,
+                  "offset": 826
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 40,
+              "column": 17,
+              "offset": 824
+            },
+            "end": {
+              "line": 40,
+              "column": 23,
+              "offset": 830
+            }
+          },
+          "data": {
+            "hProperties": {
+              "data-tooltip-attach": "#glossary-term"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": "",
+          "position": {
+            "start": {
+              "line": 40,
+              "column": 23,
+              "offset": 830
+            },
+            "end": {
+              "line": 40,
+              "column": 49,
+              "offset": 856
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 40,
+          "column": 1,
+          "offset": 808
+        },
+        "end": {
+          "line": 40,
+          "column": 49,
+          "offset": 856
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Technical term 3",
+          "position": {
+            "start": {
+              "line": 42,
+              "column": 1,
+              "offset": 858
+            },
+            "end": {
+              "line": 42,
+              "column": 17,
+              "offset": 874
+            }
+          }
+        },
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "text",
+              "value": "?",
+              "position": {
+                "start": {
+                  "line": 42,
+                  "column": 18,
+                  "offset": 875
+                },
+                "end": {
+                  "line": 42,
+                  "column": 19,
+                  "offset": 876
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 42,
+              "column": 17,
+              "offset": 874
+            },
+            "end": {
+              "line": 42,
+              "column": 23,
+              "offset": 880
+            }
+          },
+          "data": {
+            "hProperties": {
+              "data-tooltip-attach": "#glossary-term"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": "",
+          "position": {
+            "start": {
+              "line": 42,
+              "column": 23,
+              "offset": 880
+            },
+            "end": {
+              "line": 42,
+              "column": 49,
+              "offset": 906
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 42,
+          "column": 1,
+          "offset": 858
+        },
+        "end": {
+          "line": 42,
+          "column": 49,
+          "offset": 906
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "tooltip",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "strong",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Definition",
+                  "position": {
+                    "start": {
+                      "line": 45,
+                      "column": 3,
+                      "offset": 941
+                    },
+                    "end": {
+                      "line": 45,
+                      "column": 13,
+                      "offset": 951
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 45,
+                  "column": 1,
+                  "offset": 939
+                },
+                "end": {
+                  "line": 45,
+                  "column": 15,
+                  "offset": 953
+                }
+              }
+            },
+            {
+              "type": "text",
+              "value": ": Detailed explanation of the technical term."
+            }
+          ],
+          "data": {
+            "hProperties": {}
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 44,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 44,
+          "column": 31,
+          "offset": 0
+        }
+      },
+      "attributes": {
+        "id": "glossary-term"
+      },
+      "data": {
+        "hName": "span",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-tooltip",
+            "tooltip",
+            "inline-block",
+            "px-3",
+            "py-2",
+            "text-sm",
+            "text-white",
+            "bg-gray-900",
+            "rounded",
+            "shadow-lg"
+          ],
+          "data-component": "tooltip"
+        },
+        "component": {
+          "name": "tooltip",
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Combined with Other Attributes",
+          "position": {
+            "start": {
+              "line": 48,
+              "column": 4,
+              "offset": 1007
+            },
+            "end": {
+              "line": 48,
+              "column": 34,
+              "offset": 1037
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 48,
+          "column": 1,
+          "offset": 1004
+        },
+        "end": {
+          "line": 48,
+          "column": 34,
+          "offset": 1037
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "text",
+              "value": "Submit",
+              "position": {
+                "start": {
+                  "line": 50,
+                  "column": 2,
+                  "offset": 1040
+                },
+                "end": {
+                  "line": 50,
+                  "column": 8,
+                  "offset": 1046
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 50,
+              "column": 1,
+              "offset": 1039
+            },
+            "end": {
+              "line": 50,
+              "column": 12,
+              "offset": 1050
+            }
+          },
+          "data": {
+            "hProperties": {
+              "className": [
+                "inline-block",
+                "px-6",
+                "py-3",
+                "rounded-lg",
+                "font-medium",
+                "text-center",
+                "transition-all",
+                "duration-200",
+                "cursor-pointer",
+                "no-underline",
+                "bg-blue-600",
+                "text-white",
+                "hover:bg-blue-700",
+                "active:bg-blue-800",
+                "shadow-md",
+                "hover:shadow-lg"
+              ],
+              "data-tooltip-attach": "Click to submit the form"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": "",
+          "position": {
+            "start": {
+              "line": 50,
+              "column": 12,
+              "offset": 1050
+            },
+            "end": {
+              "line": 50,
+              "column": 63,
+              "offset": 1101
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 50,
+          "column": 1,
+          "offset": 1039
+        },
+        "end": {
+          "line": 50,
+          "column": 63,
+          "offset": 1101
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "text",
+              "value": "Help "
+            },
+            {
+              "type": "icon",
+              "name": "help-circle",
+              "data": {
+                "hName": "svg",
+                "hProperties": {
+                  "className": [
+                    "icon",
+                    "icon-help-circle"
+                  ],
+                  "data-icon": "help-circle"
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 52,
+              "column": 1,
+              "offset": 1103
+            },
+            "end": {
+              "line": 52,
+              "column": 29,
+              "offset": 1131
+            }
+          },
+          "data": {
+            "hProperties": {
+              "data-tooltip-attach": "Get assistance"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": "",
+          "position": {
+            "start": {
+              "line": 52,
+              "column": 29,
+              "offset": 1131
+            },
+            "end": {
+              "line": 52,
+              "column": 55,
+              "offset": 1157
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 52,
+          "column": 1,
+          "offset": 1103
+        },
+        "end": {
+          "line": 52,
+          "column": 55,
+          "offset": 1157
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "text",
+              "value": "Info",
+              "position": {
+                "start": {
+                  "line": 54,
+                  "column": 2,
+                  "offset": 1160
+                },
+                "end": {
+                  "line": 54,
+                  "column": 6,
+                  "offset": 1164
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 54,
+              "column": 1,
+              "offset": 1159
+            },
+            "end": {
+              "line": 54,
+              "column": 10,
+              "offset": 1168
+            }
+          },
+          "data": {
+            "hProperties": {
+              "className": [
+                "inline-flex",
+                "items-center",
+                "px-3",
+                "py-1",
+                "rounded-full",
+                "font-medium",
+                "text-sm",
+                "bg-gray-100",
+                "text-gray-700",
+                "text-secondary-600",
+                "hover:text-secondary-700"
+              ],
+              "data-tooltip-attach": "#more-info"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": "",
+          "position": {
+            "start": {
+              "line": 54,
+              "column": 10,
+              "offset": 1168
+            },
+            "end": {
+              "line": 54,
+              "column": 48,
+              "offset": 1206
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 54,
+          "column": 1,
+          "offset": 1159
+        },
+        "end": {
+          "line": 54,
+          "column": 48,
+          "offset": 1206
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "tooltip",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Additional information about this feature."
+            }
+          ],
+          "data": {
+            "hProperties": {}
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 56,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 56,
+          "column": 27,
+          "offset": 0
+        }
+      },
+      "attributes": {
+        "id": "more-info"
+      },
+      "data": {
+        "hName": "span",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-tooltip",
+            "tooltip",
+            "inline-block",
+            "px-3",
+            "py-2",
+            "text-sm",
+            "text-white",
+            "bg-gray-900",
+            "rounded",
+            "shadow-lg"
+          ],
+          "data-component": "tooltip"
+        },
+        "component": {
+          "name": "tooltip",
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Tooltips with Icons",
+          "position": {
+            "start": {
+              "line": 60,
+              "column": 4,
+              "offset": 1286
+            },
+            "end": {
+              "line": 60,
+              "column": 23,
+              "offset": 1305
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 60,
+          "column": 1,
+          "offset": 1283
+        },
+        "end": {
+          "line": 60,
+          "column": 23,
+          "offset": 1305
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "text",
+              "value": "Help "
+            },
+            {
+              "type": "icon",
+              "name": "help-circle",
+              "data": {
+                "hName": "svg",
+                "hProperties": {
+                  "className": [
+                    "icon",
+                    "icon-help-circle",
+                    "sm"
+                  ],
+                  "data-icon": "help-circle"
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 62,
+              "column": 1,
+              "offset": 1307
+            },
+            "end": {
+              "line": 62,
+              "column": 33,
+              "offset": 1339
+            }
+          },
+          "data": {
+            "hProperties": {
+              "data-tooltip-attach": "Click for help"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": "",
+          "position": {
+            "start": {
+              "line": 62,
+              "column": 33,
+              "offset": 1339
+            },
+            "end": {
+              "line": 62,
+              "column": 59,
+              "offset": 1365
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 62,
+          "column": 1,
+          "offset": 1307
+        },
+        "end": {
+          "line": 62,
+          "column": 59,
+          "offset": 1365
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "icon",
+              "name": "info",
+              "data": {
+                "hName": "svg",
+                "hProperties": {
+                  "className": [
+                    "icon",
+                    "icon-info",
+                    "text-primary-600",
+                    "hover:text-primary-700"
+                  ],
+                  "data-icon": "info"
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 64,
+              "column": 1,
+              "offset": 1367
+            },
+            "end": {
+              "line": 64,
+              "column": 26,
+              "offset": 1392
+            }
+          },
+          "data": {
+            "hProperties": {
+              "data-tooltip-attach": "Information"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": "",
+          "position": {
+            "start": {
+              "line": 64,
+              "column": 26,
+              "offset": 1392
+            },
+            "end": {
+              "line": 64,
+              "column": 49,
+              "offset": 1415
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 64,
+          "column": 1,
+          "offset": 1367
+        },
+        "end": {
+          "line": 64,
+          "column": 49,
+          "offset": 1415
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    }
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 65,
+      "column": 1,
+      "offset": 1416
+    }
+  }
+}

@@ -1,0 +1,310 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Component Blocks with Attributes",
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 3,
+              "offset": 2
+            },
+            "end": {
+              "line": 1,
+              "column": 35,
+              "offset": 34
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 35,
+          "offset": 34
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Test component attributes per SYNTAX.md §3.2.3"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Components with CSS Classes",
+          "position": {
+            "start": {
+              "line": 5,
+              "column": 4,
+              "offset": 87
+            },
+            "end": {
+              "line": 5,
+              "column": 31,
+              "offset": 114
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 84
+        },
+        "end": {
+          "line": 5,
+          "column": 31,
+          "offset": 114
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":::card {.shadow-xl .rounded-lg}\nCard with custom attributes"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":::card {.custom-class}\nAnother card with class"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Components with Variants",
+          "position": {
+            "start": {
+              "line": 15,
+              "column": 4,
+              "offset": 238
+            },
+            "end": {
+              "line": 15,
+              "column": 28,
+              "offset": 262
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 15,
+          "column": 1,
+          "offset": 235
+        },
+        "end": {
+          "line": 15,
+          "column": 28,
+          "offset": 262
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":::card {subtle-glass padded-lg rounded-xl}\nCard with plain English shorthands"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":::alert {success}\nSuccess alert with variant"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":::alert {error}\nError alert with variant"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Components with Multiple Attributes",
+          "position": {
+            "start": {
+              "line": 29,
+              "column": 4,
+              "offset": 449
+            },
+            "end": {
+              "line": 29,
+              "column": 39,
+              "offset": 484
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 29,
+          "column": 1,
+          "offset": 446
+        },
+        "end": {
+          "line": 29,
+          "column": 39,
+          "offset": 484
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":::card {primary .custom-class padded}\nCard with mixed attributes"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Empty Attributes",
+          "position": {
+            "start": {
+              "line": 35,
+              "column": 4,
+              "offset": 560
+            },
+            "end": {
+              "line": 35,
+              "column": 20,
+              "offset": 576
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 35,
+          "column": 1,
+          "offset": 557
+        },
+        "end": {
+          "line": 35,
+          "column": 20,
+          "offset": 576
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":::card {}\nCard with empty attribute block"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":::card {  }\nCard with whitespace-only attribute block"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    }
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 44,
+      "column": 1,
+      "offset": 685
+    }
+  }
+}
