@@ -729,10 +729,15 @@ pre .token.symbol {
   color: #56b6c2;
 }
 
-pre .token.punctuation,
-pre .token.delimiter,
-pre .token.tag {
+/* Punctuation - brackets, braces, etc. - made more visible */
+pre .token.punctuation {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+pre .token.delimiter {
   color: #abb2bf;
+  font-weight: 600;
 }
 
 /* Special tokens */
@@ -825,6 +830,72 @@ pre .highlight-line {
   margin: 0 -1.5rem;
   padding: 0 1.5rem;
   border-left: 3px solid #61afef;
+}
+
+/* ========================================
+ * TAILDOWN-SPECIFIC SYNTAX HIGHLIGHTING
+ * Additional token types for Taildown language features
+ * ======================================== */
+
+/* Taildown component names */
+pre .token.tag {
+  color: #56b6c2;
+  font-weight: 600;
+}
+
+/* Taildown keywords (icon, button, badge, modal, tooltip) */
+pre .token.keyword {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+/* Typography modifiers (bold, large-bold, xl-bold, etc.) */
+pre .token.emphasis {
+  color: #e06c75;
+  font-weight: 500;
+}
+
+/* Markdown headings */
+pre .token.title {
+  color: #61afef;
+  font-weight: 700;
+}
+
+pre .token.title.punctuation {
+  color: #abb2bf;
+  font-weight: 400;
+}
+
+/* Inline code */
+pre .token.code {
+  color: #98c379;
+  background: rgba(152, 195, 121, 0.1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+/* Horizontal rules */
+pre .token.hr {
+  color: #5c6370;
+  font-weight: 700;
+}
+
+/* Escape sequences */
+pre .token.escape {
+  color: #56b6c2;
+  font-weight: 600;
+}
+
+/* Language tags for code blocks */
+pre .token.language-tag {
+  color: #e5c07b;
+  font-style: italic;
+}
+
+/* Link components */
+pre .token.url {
+  color: #56b6c2;
+  text-decoration: underline;
 }
 
 /* ========================================
