@@ -36,10 +36,10 @@ export interface ResolverContext {
  * It processes an array of attribute strings and returns resolved CSS classes.
  * 
  * Resolution order:
- * 1. Check if already a CSS class (contains '-' and not a known shorthand)
- * 2. Check shorthand mappings (SHORTHAND_MAPPINGS)
- * 3. Check semantic colors (primary, secondary, accent with prefixes)
- * 4. Check component variants (if in component context)
+ * 1. Check shorthand mappings (SHORTHAND_MAPPINGS) - highest priority
+ * 2. Check semantic colors (primary, secondary, accent with prefixes)
+ * 3. Check component variants (if in component context)
+ * 4. Check if already a CSS class (contains '-' and not a known shorthand)
  * 5. Pass through as-is (could be custom class)
  * 
  * @param attributes - Array of plain English attribute strings
@@ -68,14 +68,8 @@ export function resolveAttributes(
 
     const trimmedAttr = attr.trim();
 
-    // 1. Already a CSS class (contains '-' and not a shorthand)
-    // e.g., 'text-4xl', 'bg-blue-600', 'hover:shadow-xl'
-    if (isCSSClass(trimmedAttr)) {
-      resolved.push(trimmedAttr);
-      continue;
-    }
-
-    // 2. Check shorthand mappings
+    // 1. Check shorthand mappings FIRST (before CSS class check)
+    // This ensures compound shorthands like 'huge-bold' are resolved correctly
     const shorthand = SHORTHAND_MAPPINGS[trimmedAttr];
     if (shorthand) {
       const resolvedClasses = resolveShorthand(shorthand, context);
@@ -83,20 +77,27 @@ export function resolveAttributes(
       continue;
     }
 
-    // 3. Check semantic colors (primary, secondary, accent, bg-primary, etc.)
+    // 2. Check semantic colors (primary, secondary, accent, bg-primary, etc.)
     const colorClasses = resolveSemanticColor(trimmedAttr, context);
     if (colorClasses && colorClasses.length > 0) {
       resolved.push(...colorClasses);
       continue;
     }
 
-    // 4. Check component-specific variants
+    // 3. Check component-specific variants
     if (context.component) {
       const variantClasses = resolveVariant(trimmedAttr, context);
       if (variantClasses && variantClasses.length > 0) {
         resolved.push(...variantClasses);
         continue;
       }
+    }
+
+    // 4. Already a CSS class (contains '-' and not a shorthand)
+    // e.g., 'text-4xl', 'bg-blue-600', 'hover:shadow-xl'
+    if (isCSSClass(trimmedAttr)) {
+      resolved.push(trimmedAttr);
+      continue;
     }
 
     // 5. Unknown attribute - pass through as-is

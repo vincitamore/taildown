@@ -4,19 +4,1202 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Taildown Document</title>
-  <link rel="stylesheet" href="ASSESSMENT.css">
+  <style>
+/* Taildown Generated Styles */
+*, ::before, ::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: currentColor;
+}
+
+body {
+  margin: 0;
+  padding: 2rem;
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
+  min-height: 100vh;
+  /* Clean light background */
+  background: #f5f5f7;
+  background-attachment: fixed;
+}
+
+/* NO overlay - keep it simple */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: none;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Default spacing for all direct children of body */
+body > * {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 1.5rem;
+}
+
+body > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Add breathing room to components */
+.taildown-component {
+  margin-bottom: 1.5rem;
+}
+
+.taildown-component:last-child {
+  margin-bottom: 0;
+}
+
+/* ========================================
+ * CODE BLOCK STYLING
+ * Modern, terminal-inspired code blocks with syntax highlighting support
+ * ======================================== */
+
+/* Inline code */
+code {
+  background-color: rgba(30, 41, 59, 0.05);
+  color: rgb(219, 39, 119);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Fira Code', monospace;
+  font-size: 0.875em;
+  font-weight: 500;
+}
+
+/* Code blocks - Terminal-inspired modern design */
+pre {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 0.75rem;
+  padding: 0;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.3),
+    0 10px 10px -5px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+/* Terminal header bar */
+pre::before {
+  content: '';
+  display: block;
+  height: 2.5rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+/* Terminal traffic lights */
+pre::after {
+  content: '';
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: #ef4444;
+  border-radius: 50%;
+  box-shadow:
+    1.25rem 0 0 #f59e0b,
+    2.5rem 0 0 #10b981;
+}
+
+/* Code inside pre */
+pre > code {
+  display: block;
+  padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+  background: transparent;
+  color: #e2e8f0;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Fira Code', monospace;
+  font-size: inherit;
+  font-weight: 400;
+  line-height: inherit;
+  overflow-x: auto;
+  border-radius: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Scrollbar styling for code blocks */
+pre > code::-webkit-scrollbar {
+  height: 0.5rem;
+}
+
+pre > code::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.25rem;
+}
+
+pre > code::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 0.25rem;
+}
+
+pre > code::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Line highlighting */
+pre .line-highlight {
+  background: rgba(255, 255, 255, 0.05);
+  display: inline-block;
+  width: 100%;
+}
+
+/* ========================================
+ * SYNTAX HIGHLIGHTING - One Dark Pro Theme
+ * Modern, professional color scheme inspired by VS Code
+ * ======================================== */
+
+/* Comments */
+pre .token.comment,
+pre .token.prolog,
+pre .token.doctype,
+pre .token.cdata {
+  color: #5c6370;
+  font-style: italic;
+}
+
+/* Strings */
+pre .token.string,
+pre .token.attr-value {
+  color: #98c379;
+}
+
+/* Keywords & Control Flow */
+pre .token.keyword,
+pre .token.control,
+pre .token.directive,
+pre .token.unit,
+pre .token.statement,
+pre .token.regex,
+pre .token.at-rule {
+  color: #c678dd;
+  font-weight: 500;
+}
+
+/* Functions */
+pre .token.function,
+pre .token.method,
+pre .token.function-name {
+  color: #61afef;
+}
+
+/* Classes & Types */
+pre .token.class-name,
+pre .token.type-annotation,
+pre .token.type,
+pre .token.builtin,
+pre .token.maybe-class-name {
+  color: #e5c07b;
+}
+
+/* Variables & Properties */
+pre .token.variable,
+pre .token.property,
+pre .token.attr-name,
+pre .token.constant {
+  color: #e06c75;
+}
+
+/* Numbers */
+pre .token.number,
+pre .token.boolean,
+pre .token.hexcode {
+  color: #d19a66;
+}
+
+/* Operators & Punctuation */
+pre .token.operator,
+pre .token.entity,
+pre .token.url,
+pre .token.symbol {
+  color: #56b6c2;
+}
+
+pre .token.punctuation,
+pre .token.delimiter,
+pre .token.tag {
+  color: #abb2bf;
+}
+
+/* Special tokens */
+pre .token.selector,
+pre .token.important,
+pre .token.atrule {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+pre .token.important {
+  font-weight: 700;
+}
+
+/* Markup languages (HTML, XML, etc.) */
+pre .token.tag .token.punctuation {
+  color: #abb2bf;
+}
+
+pre .token.tag .token.tag,
+pre .token.tag .token.tag .token.punctuation {
+  color: #e06c75;
+}
+
+pre .token.attr-name {
+  color: #d19a66;
+}
+
+/* CSS-specific */
+pre .language-css .token.property {
+  color: #56b6c2;
+}
+
+pre .language-css .token.selector {
+  color: #d19a66;
+}
+
+/* JavaScript/TypeScript specific */
+pre .token.imports .token.maybe-class-name {
+  color: #e5c07b;
+}
+
+pre .token.console {
+  color: #61afef;
+}
+
+pre .token.parameter {
+  color: #e06c75;
+}
+
+/* JSON-specific */
+pre .language-json .token.property {
+  color: #e06c75;
+}
+
+pre .language-json .token.string {
+  color: #98c379;
+}
+
+/* Shell/Bash-specific */
+pre .language-bash .token.function,
+pre .language-sh .token.function {
+  color: #61afef;
+}
+
+/* Diff highlighting */
+pre .token.inserted {
+  color: #98c379;
+  background: rgba(152, 195, 121, 0.1);
+}
+
+pre .token.deleted {
+  color: #e06c75;
+  background: rgba(224, 108, 117, 0.1);
+}
+
+/* Bold and italic */
+pre .token.bold {
+  font-weight: 700;
+}
+
+pre .token.italic {
+  font-style: italic;
+}
+
+/* Line highlighting (for specific line emphasis) */
+pre .highlight-line {
+  background: rgba(255, 255, 255, 0.05);
+  display: block;
+  margin: 0 -1.5rem;
+  padding: 0 1.5rem;
+  border-left: 3px solid #61afef;
+}
+
+/* Icon Utilities */
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.icon-missing,
+.icon-error {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background-color: rgb(254 202 202);
+  color: rgb(153 27 27);
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-family: monospace;
+}
+
+/* Icon size utilities */
+.icon.tiny { width: 12px; height: 12px; }
+.icon.xs { width: 16px; height: 16px; }
+.icon.sm { width: 20px; height: 20px; }
+.icon.md { width: 24px; height: 24px; }
+.icon.lg { width: 32px; height: 32px; }
+.icon.xl { width: 40px; height: 40px; }
+.icon.\32xl { width: 48px; height: 48px; }
+.icon.huge { width: 64px; height: 64px; }
+
+/* Glassmorphism Effects */
+.glass-effect {
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturation, 110%));
+  backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturation, 110%));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glass intensity variants - each includes full effect */
+.glass-subtle {
+  background: rgba(248, 250, 252, 0.9);
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(4px) saturate(100%);
+  backdrop-filter: blur(4px) saturate(100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-light {
+  background: rgba(241, 245, 249, 0.75);
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(8px) saturate(105%);
+  backdrop-filter: blur(8px) saturate(105%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-medium {
+  background: rgba(226, 232, 240, 0.6);
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(12px) saturate(110%);
+  backdrop-filter: blur(12px) saturate(110%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-heavy {
+  background: rgba(203, 213, 225, 0.4);
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-extreme {
+  --glass-blur: 24px;
+  --glass-saturation: 130%;
+}
+
+/* Glass hover effects - subtle interactive feedback */
+.glass-effect:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+}
+
+.glass-effect:active {
+  transform: translateY(0);
+}
+
+/* Browser fallbacks for older browsers */
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.85);
+  }
+  
+  .dark .glass-effect {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* Backdrop blur utilities (non-standard values) */
+.backdrop-blur-4 {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.backdrop-blur-8 {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.backdrop-blur-12 {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.backdrop-blur-16 {
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.backdrop-blur-24 {
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+
+/* Saturation utilities */
+.saturate-105 {
+  filter: saturate(105%);
+}
+
+.saturate-110 {
+  filter: saturate(110%);
+}
+
+.saturate-120 {
+  filter: saturate(120%);
+}
+
+.saturate-130 {
+  filter: saturate(130%);
+}
+
+/* Background opacity utilities */
+.bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.bg-white\/20 {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.bg-white\/70 {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Border opacity utilities */
+.border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Dark mode overrides */
+.dark .bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.dark .border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Entrance Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5); // Twice as far away (0.7 -> 0.5)
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Entrance animation classes - slower, more elegant */
+/* Set initial state to prevent flash before animation starts */
+/* GPU acceleration for smooth rendering */
+.animate-fade-in {
+  opacity: 0;
+  will-change: opacity;
+  backface-visibility: hidden;
+  animation: fadeIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-up {
+  opacity: 0;
+  transform: translateY(40px);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: slideUp 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-down {
+  opacity: 0;
+  transform: translateY(-40px);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: slideDown 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-left {
+  opacity: 0;
+  transform: translateX(16px);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: slideLeft 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-right {
+  opacity: 0;
+  transform: translateX(-16px);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: slideRight 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in {
+  opacity: 0;
+  transform: scale(0.8);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: scaleIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-zoom-in {
+  opacity: 0;
+  transform: scale(0.5); // Twice as far away (0.7 -> 0.5)
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: zoomIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Animation delays for staggered effects */
+.animation-delay-75 {
+  animation-delay: 75ms;
+}
+
+.animation-delay-150 {
+  animation-delay: 150ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Hover Animations */
+.hover-lift {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1),
+              0 4px 8px -2px rgba(0, 0, 0, 0.05);
+}
+
+.hover-lift:active {
+  transform: translateY(0);
+}
+
+.hover-glow {
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4),
+              0 0 40px rgba(59, 130, 246, 0.2);
+}
+
+.hover-scale {
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.6, 1);
+  /* Prevent scale from causing horizontal scroll - critical for good UX */
+  overflow: hidden;
+  will-change: transform;
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.hover-scale:active {
+  transform: scale(0.99);
+}
+
+.hover-brighten {
+  transition: filter 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-brighten:hover {
+  filter: brightness(1.1);
+}
+
+.hover-tilt {
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+.hover-tilt:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(2deg);
+}
+
+/* Loading Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 1000ms ease infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 2s linear infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* Interactive State Animations */
+.transition-smooth {
+  transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-fast {
+  transition: all 150ms cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.transition-colors {
+  transition: color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-transform {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-shadow {
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Focus ring with smooth animation */
+.focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              outline-offset 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.focus-ring:focus {
+  outline-color: rgb(59, 130, 246);
+  outline-offset: 4px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+.font-bold { font-weight: 700; }
+.text-center { text-align: center; }
+.text-primary-600 { color: rgb(37 99 235); }
+.hover\:text-primary-700:hover { color: rgb(29 78 216); }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-green-600 { color: rgb(22 163 74); }
+.text-red-600 { color: rgb(220 38 38); }
+.inline-flex { display: inline-flex; }
+.items-center { align-items: center; }
+.px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.rounded-full { border-radius: 9999px; }
+.font-medium { font-weight: 500; }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.bg-green-100 { background-color: rgb(220 252 231); }
+.text-green-700 { color: rgb(21 128 61); }
+.text-yellow-600 { color: rgb(202 138 4); }
+.bg-amber-100 { background-color: rgb(254 243 199); }
+.text-amber-700 { color: rgb(180 83 9); }
+.bg-red-100 { background-color: rgb(254 226 226); }
+.text-red-700 { color: rgb(185 28 28); }
+.bg-sky-100 { background-color: rgb(224 242 254); }
+.text-sky-700 { color: rgb(3 105 161); }
+
+/* ========================================
+ * COMPONENT STYLES
+ * ======================================== */
+
+/* Base Component */
+.taildown-component {
+  /* Base component styles */
+}
+
+/* Card Component */
+.component-card {
+  /* Additional card-specific styles */
+}
+
+.component-card .component-card {
+  padding: 1rem;
+}
+
+.component-card .component-card .component-card {
+  padding: 0.75rem;
+}
+
+.component-card .component-card .component-card .component-card {
+  padding: 0.5rem;
+}
+
+.component-grid {
+  /* Additional grid-specific styles */
+}
+
+.component-container {
+  /* Additional container-specific styles */
+}
+
+/* ========================================
+ * TABS COMPONENT
+ * ======================================== */
+
+.component-tabs {
+  width: 100%;
+}
+
+.tabs-list {
+  position: relative;
+}
+
+.tab-button {
+  position: relative;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.tab-button[aria-selected="true"] {
+  color: rgb(37 99 235);
+  border-color: rgb(37 99 235) !important;
+}
+
+.tab-button[aria-selected="false"]:hover {
+  color: rgb(17 24 39);
+  border-color: rgb(209 213 219);
+}
+
+.tab-panel[hidden] {
+  display: none;
+}
+
+/* ========================================
+ * ACCORDION COMPONENT
+ * ======================================== */
+
+.component-accordion {
+  border: 1px solid rgb(229 231 235);
+}
+
+.accordion-item {
+  position: relative;
+}
+
+.accordion-trigger {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 1rem;
+}
+
+.accordion-trigger:hover {
+  background-color: rgb(249 250 251);
+}
+
+.accordion-content[hidden] {
+  display: none;
+}
+
+.accordion-content {
+  padding: 0 1rem 1rem 1rem;
+  overflow: hidden;
+}
+
+.accordion-icon {
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-item.open .accordion-icon {
+  transform: rotate(180deg);
+}
+
+/* ========================================
+ * CAROUSEL COMPONENT
+ * ======================================== */
+
+.carousel-container {
+  perspective: 1200px;
+  perspective-origin: center;
+}
+
+.component-carousel {
+  position: relative;
+  width: 100%;
+}
+
+.carousel-track {
+  display: flex;
+  transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  flex-shrink: 0;
+  padding: 0 2rem;
+}
+
+.carousel-slide[hidden] {
+  display: none;
+}
+
+.carousel-card {
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+}
+
+/* Beautiful glassmorphism cards with depth */
+.carousel-card:hover {
+  transform: scale(1.02) translateZ(20px) !important;
+  box-shadow: 0 35px 60px -15px rgb(0 0 0 / 0.3) !important;
+}
+
+.carousel-prev,
+.carousel-next {
+  position: absolute;
+  z-index: 10;
+  background: white;
+  border: 1px solid rgb(229 231 235);
+  cursor: pointer;
+  outline: none;
+}
+
+.carousel-prev:hover,
+.carousel-next:hover {
+  background-color: rgb(243 244 246);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.carousel-prev:disabled,
+.carousel-next:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.carousel-indicators {
+  display: flex;
+  gap: 0.5rem;
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.carousel-indicator {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.carousel-indicator[aria-current="true"] {
+  background-color: rgb(17 24 39);
+  width: 2rem;
+}
+
+.carousel-indicator[aria-current="false"] {
+  background-color: rgb(156 163 175);
+}
+
+.carousel-indicator:hover {
+  background-color: rgb(75 85 99);
+}
+
+/* ========================================
+ * MODAL COMPONENT
+ * ======================================== */
+
+.modal-backdrop {
+  transition: opacity 200ms ease-in-out;
+}
+
+.modal-backdrop[hidden] {
+  display: none;
+}
+
+.modal-content {
+  position: relative;
+  animation: modalSlideIn 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-close {
+  z-index: 10;
+}
+
+.modal-close:hover {
+  transform: scale(1.1);
+}
+
+/* ========================================
+ * TOOLTIP COMPONENT
+ * ======================================== */
+
+.component-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-content {
+  position: absolute;
+  z-index: 50;
+  background-color: rgb(17 24 39);
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tooltip-content.visible {
+  opacity: 1;
+}
+
+.tooltip-content[data-position="top"] {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-0.5rem);
+}
+
+.tooltip-content[data-position="bottom"] {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(0.5rem);
+}
+
+.tooltip-content[data-position="left"] {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(-0.5rem);
+}
+
+.tooltip-content[data-position="right"] {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(0.5rem);
+}
+
+/* Button Styles - shadcn-inspired */
+a.bg-blue-600 {
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  transform: translateY(0);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a.bg-blue-600:hover {
+  background-color: rgb(37 99 235); /* blue-700 */
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transform: translateY(-1px);
+}
+
+a.bg-blue-600:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+a.bg-gray-200 {
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  transform: translateY(0);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a.bg-gray-200:hover {
+  background-color: rgb(229 231 235); /* gray-300 */
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transform: translateY(-1px);
+}
+
+a.bg-gray-200:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+</style>
   
 </head>
 <body>
-  <h1>Taildown Project Implementation Assessment {huge-bold center primary}</h1>
+  <h1 class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700">Taildown Project Implementation Assessment</h1>
 <p><strong>Assessment Date:</strong> 2025-10-06<br />
 <strong>Version Under Review:</strong> 0.1.0<br />
 <strong>Status:</strong> Phase 2 In Progress (39% Complete)<br />
 <strong>Assessor:</strong> Automated Code Review Agent</p>
 <hr />
-<h2>Executive Summary {large-bold primary}</h2>
+<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Executive Summary</h2>
 <p>This assessment reviews the Taildown project implementation against its stated goals in README.md, SYNTAX.md, and todo.txt. The project demonstrates a <strong>well-architected, feature-rich markup language compiler</strong> with solid foundational work completed. The codebase shows high quality, comprehensive documentation, and careful attention to design principles.</p>
-<p class="large-bold text-green-600"><strong>Overall Grade: A- (85/100)</strong></p>
+<p class="text-lg font-bold text-green-600"><strong>Overall Grade: A- (85/100)</strong></p>
 <p><strong>Key Strengths:</strong></p>
 <ul>
 <li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Strong architectural foundation with clean separation of concerns</li>
@@ -37,8 +1220,8 @@
 <li><svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> No example files demonstrating all features</li>
 </ul>
 <hr />
-<h2>1. Architecture &#x26; Code Quality {large-bold}</h2>
-<h3>1.1 Project Structure {bold}</h3>
+<h2 class="text-lg font-bold">1. Architecture &#x26; Code Quality</h2>
+<h3 class="font-bold">1.1 Project Structure</h3>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Grade: A (95/100)</strong></p>
 <p>The project follows a clean monorepo structure using pnpm workspaces:</p>
 <pre><code class="code-highlight"><span class="code-line">taildown/
@@ -65,7 +1248,7 @@
 <li>3 rendering modules (HTML, CSS, component handlers)</li>
 </ul>
 <hr />
-<h3>1.2 Code Organization {bold}</h3>
+<h3 class="font-bold">1.2 Code Organization</h3>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Grade: A (90/100)</strong></p>
 <p><strong>Parser Architecture:</strong></p>
 <ul>
@@ -102,7 +1285,7 @@
 <li>CSS generation with proper escaping and minification</li>
 </ul>
 <hr />
-<h3>1.3 Code Quality Indicators {bold}</h3>
+<h3 class="font-bold">1.3 Code Quality Indicators</h3>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Grade: A- (88/100)</strong></p>
 <p><strong>Positive Indicators:</strong></p>
 <ul>
@@ -121,8 +1304,8 @@
 <li><svg class="icon icon-alert-triangle text-yellow-600" data-icon="alert-triangle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg> No explicit performance benchmarks in code (mentioned in docs but not verified)</li>
 </ul>
 <hr />
-<h2>2. Feature Implementation Status {large-bold}</h2>
-<h3>2.1 Core Features (Phase 1) {bold}</h3>
+<h2 class="text-lg font-bold">2. Feature Implementation Status</h2>
+<h3 class="font-bold">2.1 Core Features (Phase 1)</h3>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Grade: A+ (98/100)</strong></p>
 <p>All Phase 1 features are <strong>fully implemented</strong> and working:</p>
 <table>
@@ -188,10 +1371,10 @@
 <li>Return unified result object</li>
 </ol>
 <hr />
-<h3>2.2 Phase 2 Features {bold}</h3>
+<h3 class="font-bold">2.2 Phase 2 Features</h3>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-amber-100 text-amber-700"><strong>Grade: B+ (85/100)</strong></p>
 <p>Phase 2 features show <strong>significant progress</strong> with some gaps:</p>
-<h4>2.2.1 Plain English Style System {medium-bold}</h4>
+<h4 class="medium-bold">2.2.1 Plain English Style System</h4>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Status: <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Complete</strong></p>
 <ul>
 <li>120+ shorthand mappings implemented in <code>resolver/shorthand-mappings.ts</code></li>
@@ -205,7 +1388,7 @@
 </span><span class="code-line"><span class="token string-property property">'subtle-glass'</span><span class="token operator">:</span> <span class="token operator">&#x3C;</span><span class="token keyword">function</span> <span class="token keyword">for</span> glass effect<span class="token operator">></span><span class="token punctuation">,</span>
 </span><span class="code-line"><span class="token string-property property">'hover-lift'</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'transition-transform'</span><span class="token punctuation">,</span> <span class="token string">'hover:-translate-y-1'</span><span class="token punctuation">]</span>
 </span></code></pre>
-<h4>2.2.2 Icon System {medium-bold}</h4>
+<h4 class="medium-bold">2.2.2 Icon System</h4>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Status: <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Complete</strong></p>
 <ul>
 <li>Icon parser fully implemented (<code>icons/icon-parser.ts</code>)</li>
@@ -215,7 +1398,7 @@
 <li>Color and style attributes supported</li>
 <li>SVG rendering with accessibility attributes</li>
 </ul>
-<h4>2.2.3 Glassmorphism Effects {medium-bold}</h4>
+<h4 class="medium-bold">2.2.3 Glassmorphism Effects</h4>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Status: <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Complete</strong></p>
 <ul>
 <li>6 intensity levels: subtle, light, medium, heavy, extreme, dark variants</li>
@@ -224,7 +1407,7 @@
 <li>Integration with component variants</li>
 <li>CSS output includes full glassmorphism stylesheet</li>
 </ul>
-<h4>2.2.4 Animation System {medium-bold}</h4>
+<h4 class="medium-bold">2.2.4 Animation System</h4>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Status: <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Complete</strong></p>
 <ul>
 <li>Entrance animations: fade-in, slide-up, slide-down, zoom-in, scale-in</li>
@@ -232,7 +1415,7 @@
 <li>CSS keyframes generated automatically</li>
 <li>Integration with shorthand system</li>
 </ul>
-<h4>2.2.5 Interactive Components {medium-bold}</h4>
+<h4 class="medium-bold">2.2.5 Interactive Components</h4>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Status: <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Complete</strong></p>
 <p>All 5 interactive components implemented with JavaScript behaviors:</p>
 <table>
@@ -284,7 +1467,7 @@
 <li>Vanilla ES6+ (no dependencies)</li>
 <li>IIFE wrapper for scope isolation</li>
 </ul>
-<h4>2.2.6 Attachable Components {medium-bold}</h4>
+<h4 class="medium-bold">2.2.6 Attachable Components</h4>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Status: <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Complete</strong></p>
 <p>Revolutionary feature allowing modal/tooltip attachment to any element:</p>
 <p><strong>Evidence from <code>parser/attributes.ts</code>:</strong></p>
@@ -299,7 +1482,7 @@
 <li>Works on buttons, links, badges, any element</li>
 <li>Full markdown support in ID-referenced content</li>
 </ul>
-<h4>2.2.7 Component Library {medium-bold}</h4>
+<h4 class="medium-bold">2.2.7 Component Library</h4>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Status: <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Excellent</strong></p>
 <p>16 components registered in component registry:</p>
 <ol>
@@ -326,9 +1509,9 @@
 <li>Container (max-width centering)</li>
 </ul>
 <hr />
-<h3>2.3 Missing Phase 2 Features {bold}</h3>
+<h3 class="font-bold">2.3 Missing Phase 2 Features</h3>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-red-100 text-red-700"><strong>Grade: C (60/100)</strong></p>
-<h4>2.3.1 Dark Mode System {medium-bold}</h4>
+<h4 class="medium-bold">2.3.1 Dark Mode System</h4>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-red-100 text-red-700"><strong>Status: <svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Not Implemented</strong></p>
 <p><strong>Expected location:</strong> <code>packages/compiler/src/themes/dark-mode.ts</code><br />
 <strong>Actual:</strong> File does not exist</p>
@@ -342,7 +1525,7 @@
 <li>Write dark mode tests</li>
 </ul>
 <p><strong>Impact:</strong> Medium - Feature promised in README but not delivered</p>
-<h4>2.3.2 Unit Test Suite {medium-bold}</h4>
+<h4 class="medium-bold">2.3.2 Unit Test Suite</h4>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-red-100 text-red-700"><strong>Status: <svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Incomplete</strong></p>
 <p><strong>Test infrastructure exists:</strong></p>
 <ul>
@@ -360,7 +1543,7 @@
 <li>Interactive component tests with vanilla JS behaviors</li>
 </ul>
 <p><strong>Impact:</strong> High - Testing is critical for production readiness</p>
-<h4>2.3.3 Syntax Test Fixtures {medium-bold}</h4>
+<h4 class="medium-bold">2.3.3 Syntax Test Fixtures</h4>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-amber-100 text-amber-700"><strong>Status: <svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Incomplete</strong></p>
 <p><strong>Missing fixture directories:</strong></p>
 <ul>
@@ -378,7 +1561,7 @@
 <li>05-integration/ <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg></li>
 </ul>
 <p><strong>Impact:</strong> Medium - Test coverage is incomplete</p>
-<h4>2.3.4 Documentation Site {medium-bold}</h4>
+<h4 class="medium-bold">2.3.4 Documentation Site</h4>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-red-100 text-red-700"><strong>Status: <svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Not Started</strong></p>
 <p><strong>Todo items pending:</strong></p>
 <ul>
@@ -390,7 +1573,7 @@
 <li>Individual component documentation pages (18 components)</li>
 </ul>
 <p><strong>Impact:</strong> Low - README and SYNTAX.md provide good documentation</p>
-<h4>2.3.5 Additional Examples {medium-bold}</h4>
+<h4 class="medium-bold">2.3.5 Additional Examples</h4>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-red-100 text-red-700"><strong>Status: <svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Not Started</strong></p>
 <p><strong>Existing examples:</strong> 10 files (01-10)</p>
 <p><strong>Missing examples (from todo.txt):</strong></p>
@@ -403,9 +1586,9 @@
 </ul>
 <p><strong>Impact:</strong> Medium - Examples are crucial for user onboarding</p>
 <hr />
-<h2>3. Documentation Quality {large-bold}</h2>
+<h2 class="text-lg font-bold">3. Documentation Quality</h2>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Grade: A+ (96/100)</strong></p>
-<h3>3.1 Core Documentation {bold}</h3>
+<h3 class="font-bold">3.1 Core Documentation</h3>
 <p class="medium-bold"><strong>README.md</strong></p>
 <ul>
 <li>Length: 743 lines</li>
@@ -438,7 +1621,7 @@
 <li>Priority focus defined</li>
 <li>Summary statistics provided</li>
 </ul>
-<h3>3.2 Technical Documentation {bold}</h3>
+<h3 class="font-bold">3.2 Technical Documentation</h3>
 <p><strong>docs/ Directory Contents:</strong></p>
 <ul>
 <li>18 markdown files covering various aspects</li>
@@ -470,10 +1653,10 @@
 <li>Contributing guide (CONTRIBUTING.md) could be expanded</li>
 </ul>
 <hr />
-<h2>4. Syntax Specification Compliance {large-bold}</h2>
+<h2 class="text-lg font-bold">4. Syntax Specification Compliance</h2>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Grade: A (92/100)</strong></p>
 <p>Reviewing implementation against SYNTAX.md v0.1.0:</p>
-<h3>4.1 Section 1: Document Model {bold}</h3>
+<h3 class="font-bold">4.1 Section 1: Document Model</h3>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Status: <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Fully Compliant</strong></p>
 <ul>
 <li>CommonMark compatibility maintained</li>
@@ -481,7 +1664,7 @@
 <li>Unknown extensions preserved as plain text</li>
 <li>File extensions: .td (primary), .tdown, .taildown supported</li>
 </ul>
-<h3>4.2 Section 2: Inline Attributes {bold}</h3>
+<h3 class="font-bold">4.2 Section 2: Inline Attributes</h3>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Status: <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Fully Compliant</strong></p>
 <p>All rules implemented:</p>
 <ul>
@@ -495,7 +1678,7 @@
 <li>§2.9 Component Variants <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg></li>
 </ul>
 <p><strong>Evidence:</strong> <code>parser/attributes.ts</code> implements all extraction logic with key-value pairs, CSS classes, and plain English shorthands.</p>
-<h3>4.3 Section 3: Component Blocks {bold}</h3>
+<h3 class="font-bold">4.3 Section 3: Component Blocks</h3>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Status: <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Fully Compliant</strong></p>
 <p>All rules implemented:</p>
 <ul>
@@ -509,7 +1692,7 @@
 <li>§3.9 JavaScript Output <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg></li>
 </ul>
 <p><strong>Evidence:</strong> Custom directive parser in <code>parser/directive-scanner.ts</code> handles all component block syntax including nesting, blank lines, and fence detection.</p>
-<h3>4.4 Sections 4-10: Specification Details {bold}</h3>
+<h3 class="font-bold">4.4 Sections 4-10: Specification Details</h3>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Status: <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Compliant</strong></p>
 <ul>
 <li>Character encoding (UTF-8) <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg></li>
@@ -518,8 +1701,8 @@
 <li>Error handling (robustness principle) <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg></li>
 </ul>
 <hr />
-<h2>5. Implementation Highlights {large-bold}</h2>
-<h3>5.1 Technical Achievements {bold}</h3>
+<h2 class="text-lg font-bold">5. Implementation Highlights</h2>
+<h3 class="font-bold">5.1 Technical Achievements</h3>
 <p class="medium-bold"><strong>Custom Directive Parser</strong></p>
 <p>The project implements a <strong>custom directive parser</strong> rather than using <code>remark-directive</code>. This was a deliberate architectural decision documented in <code>docs/CUSTOM-DIRECTIVE-PARSER-PLAN.md</code>.</p>
 <p><strong>Advantages realized:</strong></p>
@@ -579,7 +1762,7 @@
 <li>No CSS property names: <code>tight-lines</code> not <code>leading-tight</code></li>
 </ul>
 <p>This is enforced in <code>resolver/shorthand-mappings.ts</code> with 120+ mappings.</p>
-<h3>5.2 Code Architecture Patterns {bold}</h3>
+<h3 class="font-bold">5.2 Code Architecture Patterns</h3>
 <p class="medium-bold"><strong>Registry Pattern</strong></p>
 <p>Component registry (<code>components/component-registry.ts</code>) uses singleton pattern:</p>
 <ul>
@@ -605,8 +1788,8 @@
 <li>Escape special characters properly</li>
 </ul>
 <hr />
-<h2>6. Critical Issues &#x26; Risks {large-bold}</h2>
-<h3>6.1 High Priority Issues {bold}</h3>
+<h2 class="text-lg font-bold">6. Critical Issues &#x26; Risks</h2>
+<h3 class="font-bold">6.1 High Priority Issues</h3>
 <p class="medium-bold"><strong>Issue #1: Missing Test Suite</strong></p>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-red-100 text-red-700"><strong>Severity: HIGH</strong></p>
 <p><strong>Description:</strong> While test infrastructure exists, the majority of unit tests are not written. This is explicitly called out in todo.txt with 20+ pending test tasks.</p>
@@ -650,7 +1833,7 @@
 <li>Component library (demonstrates all interactive components)</li>
 <li>Glassmorphism gallery (demonstrates glass effects)</li>
 </ul>
-<h3>6.2 Medium Priority Issues {bold}</h3>
+<h3 class="font-bold">6.2 Medium Priority Issues</h3>
 <p class="medium-bold"><strong>Issue #4: Dependencies Not Installed</strong></p>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-sky-100 text-sky-700"><strong>Severity: LOW</strong></p>
 <p><strong>Description:</strong> During assessment, <code>node_modules</code> was missing. This is expected in a new environment but should be addressed.</p>
@@ -660,8 +1843,8 @@
 <p><strong>Description:</strong> 4 fixture directories promised in SYNTAX.md are missing (06-09).</p>
 <p><strong>Recommendation:</strong> Create missing fixture directories per todo.txt regeneration plan.</p>
 <hr />
-<h2>7. Comparison to Stated Goals {large-bold}</h2>
-<h3>7.1 README.md Claims Verification {bold}</h3>
+<h2 class="text-lg font-bold">7. Comparison to Stated Goals</h2>
+<h3 class="font-bold">7.1 README.md Claims Verification</h3>
 <table>
 <thead>
 <tr>
@@ -744,7 +1927,7 @@
 </tbody>
 </table>
 <p><strong>Verdict:</strong> <strong>All major claims are substantiated by implementation.</strong> <svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> No false advertising detected.</p>
-<h3>7.2 SYNTAX.md Conformance {bold}</h3>
+<h3 class="font-bold">7.2 SYNTAX.md Conformance</h3>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Conformance Level Achieved: Level 3 - Full Conformance</strong></p>
 <ul>
 <li>All [REQUIRED] features: <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Implemented</li>
@@ -759,8 +1942,8 @@
 <li>Extended attributes: Partially implemented (modal="..." tooltip="...")</li>
 </ul>
 <hr />
-<h2>8. Strengths &#x26; Innovations {large-bold}</h2>
-<h3>8.1 Architectural Strengths {bold}</h3>
+<h2 class="text-lg font-bold">8. Strengths &#x26; Innovations</h2>
+<h3 class="font-bold">8.1 Architectural Strengths</h3>
 <ol>
 <li><strong>Modular Design</strong> - Clean separation between parser, resolver, renderer</li>
 <li><strong>Extensibility</strong> - Component registry allows easy addition of new components</li>
@@ -768,7 +1951,7 @@
 <li><strong>Type Safety</strong> - TypeScript throughout with proper interfaces</li>
 <li><strong>Standards Compliance</strong> - Built on unified/remark/rehype ecosystem</li>
 </ol>
-<h3>8.2 Innovative Features {bold}</h3>
+<h3 class="font-bold">8.2 Innovative Features</h3>
 <ol>
 <li><strong>Plain English Grammar</strong> - Revolutionary approach to styling that reads like natural language</li>
 <li><strong>Attachable Components</strong> - One-line modal/tooltip attachment is genuinely novel</li>
@@ -776,7 +1959,7 @@
 <li><strong>Custom Directive Parser</strong> - Solves problems that off-the-shelf parsers couldn't</li>
 <li><strong>Glassmorphism System</strong> - Professional-grade glass effects with proper browser support</li>
 </ol>
-<h3>8.3 Documentation Excellence {bold}</h3>
+<h3 class="font-bold">8.3 Documentation Excellence</h3>
 <ol>
 <li><strong>SYNTAX.md Specification</strong> - Rivals CommonMark spec in thoroughness</li>
 <li><strong>Comprehensive README</strong> - Everything a user needs to get started</li>
@@ -785,8 +1968,8 @@
 <li><strong>Change Management</strong> - Syntax change process defined</li>
 </ol>
 <hr />
-<h2>9. Recommendations {large-bold}</h2>
-<h3>9.1 Before v0.2.0 Release {bold}</h3>
+<h2 class="text-lg font-bold">9. Recommendations</h2>
+<h3 class="font-bold">9.1 Before v0.2.0 Release</h3>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-red-100 text-red-700"><strong>CRITICAL</strong></p>
 <ol>
 <li><strong>Write Unit Tests</strong> - Achieve at least 80% coverage</li>
@@ -803,7 +1986,7 @@
 <li><strong>Migration Guide</strong> - Document Phase 1 to Phase 2 changes</li>
 <li><strong>Contributing Guidelines</strong> - Expand CONTRIBUTING.md</li>
 </ol>
-<h3>9.2 Technical Debt {bold}</h3>
+<h3 class="font-bold">9.2 Technical Debt</h3>
 <p><strong>Refactoring Opportunities:</strong></p>
 <ol>
 <li><code>component-handlers.ts</code> may be too large - consider splitting</li>
@@ -811,7 +1994,7 @@
 <li>Test infrastructure needs activation - install dependencies and run tests</li>
 <li>Some duplicate code in behavior modules - extract common patterns</li>
 </ol>
-<h3>9.3 Future Enhancements {bold}</h3>
+<h3 class="font-bold">9.3 Future Enhancements</h3>
 <p><strong>Phase 3 Priorities (from Roadmap):</strong></p>
 <ol>
 <li>VS Code extension enhancements</li>
@@ -827,8 +2010,8 @@
 <li>Standalone editor (Tauri app)</li>
 </ol>
 <hr />
-<h2>10. Conclusion {large-bold}</h2>
-<h3>10.1 Final Assessment {bold}</h3>
+<h2 class="text-lg font-bold">10. Conclusion</h2>
+<h3 class="font-bold">10.1 Final Assessment</h3>
 <p>Taildown is a <strong>well-crafted, innovative markup language compiler</strong> with solid foundations and significant potential. The implementation demonstrates:</p>
 <ul>
 <li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Strong architectural design</li>
@@ -840,7 +2023,7 @@
 <li><svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Testing gaps that need addressing</li>
 <li><svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Some promised features incomplete</li>
 </ul>
-<p class="huge-bold text-green-600"><strong>Overall Grade: A- (85/100)</strong></p>
+<p class="text-4xl font-bold text-green-600"><strong>Overall Grade: A- (85/100)</strong></p>
 <p><strong>Grade Breakdown:</strong></p>
 <ul>
 <li>Architecture &#x26; Code Quality: A (95/100)</li>
@@ -849,7 +2032,7 @@
 <li>Syntax Compliance: A (92/100)</li>
 <li>Test Coverage: C (60/100)</li>
 </ul>
-<h3>10.2 Production Readiness {bold}</h3>
+<h3 class="font-bold">10.2 Production Readiness</h3>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-amber-100 text-amber-700"><strong>Current Status: Not Production Ready</strong></p>
 <p><strong>Blockers:</strong></p>
 <ol>
@@ -860,8 +2043,8 @@
 <li>Performance benchmarks not formalized</li>
 </ol>
 <p><strong>Recommendation:</strong> Complete testing tasks in todo.txt before considering production use.</p>
-<h3>10.3 Is This a Quality Project? {bold}</h3>
-<p class="huge-bold text-green-600"><strong>YES, absolutely.</strong> <svg class="icon icon-check-circle text-green-600 text-4xl" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg></p>
+<h3 class="font-bold">10.3 Is This a Quality Project?</h3>
+<p class="text-4xl font-bold text-green-600"><strong>YES, absolutely.</strong> <svg class="icon icon-check-circle text-green-600 text-4xl" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg></p>
 <p>This is a <strong>high-quality project</strong> that demonstrates:</p>
 <ul>
 <li>Professional software engineering practices</li>
@@ -871,7 +2054,7 @@
 <li>Clean, maintainable code</li>
 </ul>
 <p>The main gap is testing, which is acknowledged in the project's own todo.txt. With the planned test suite completed, this would be an <strong>exceptional project</strong> worthy of production deployment.</p>
-<h3>10.4 Next Steps {bold}</h3>
+<h3 class="font-bold">10.4 Next Steps</h3>
 <p><strong>Immediate Actions:</strong></p>
 <ol>
 <li>Install dependencies: <code>pnpm install</code></li>
@@ -892,8 +2075,8 @@
 13. Advanced theming
 14. Community building</p>
 <hr />
-<h2>Appendix A: Metrics Summary {large-bold}</h2>
-<h3>Code Metrics {bold}</h3>
+<h2 class="text-lg font-bold">Appendix A: Metrics Summary</h2>
+<h3 class="font-bold">Code Metrics</h3>
 <ul>
 <li><strong>Total TypeScript Files:</strong> 51 (compiler package)</li>
 <li><strong>Components Implemented:</strong> 16 standard components</li>
@@ -903,13 +2086,13 @@
 <li><strong>Example Files:</strong> 10 complete examples</li>
 <li><strong>Test Fixtures:</strong> 5 categories (4 more planned)</li>
 </ul>
-<h3>Implementation Status {bold}</h3>
+<h3 class="font-bold">Implementation Status</h3>
 <ul>
 <li><strong>Phase 1 Completion:</strong> 100% <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg></li>
 <li><strong>Phase 2 Completion:</strong> 39% (26/67 tasks)</li>
 <li><strong>Overall Project Completion:</strong> ~65%</li>
 </ul>
-<h3>Quality Metrics {bold}</h3>
+<h3 class="font-bold">Quality Metrics</h3>
 <ul>
 <li><strong>Documentation Quality:</strong> Exceptional</li>
 <li><strong>Code Organization:</strong> Excellent</li>
@@ -918,7 +2101,7 @@
 <li><strong>Browser Support:</strong> Unknown (testing needed)</li>
 </ul>
 <hr />
-<p class="text-center large-bold text-primary-600 hover:text-primary-700"><strong>Assessment Complete</strong></p>
+<p class="text-center text-lg font-bold text-primary-600 hover:text-primary-700"><strong>Assessment Complete</strong></p>
 <p><strong>Reviewed by:</strong> Automated Assessment Agent<br />
 <strong>Date:</strong> 2025-10-06<br />
 <strong>Version:</strong> 0.1.0<br />
