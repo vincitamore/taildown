@@ -1631,6 +1631,7 @@ ${generateAnimationCSS()}
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
   transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
 }
 
 .flow-container li:hover {
@@ -1680,8 +1681,9 @@ ${generateAnimationCSS()}
 
 .flow-stepped li {
   counter-increment: step-counter;
-  padding-left: 3rem;
+  padding-left: 3.5rem;
   border-left: 4px solid rgb(59 130 246);
+  text-align: left;
 }
 
 .flow-stepped li::before {
@@ -1700,6 +1702,24 @@ ${generateAnimationCSS()}
   justify-content: center;
   font-weight: 600;
   font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+/* Mobile adjustments for stepped flow */
+@media (max-width: 640px) {
+  .flow-stepped li {
+    padding-left: 3rem;
+    padding-right: 0.75rem;
+    padding-top: 0.875rem;
+    padding-bottom: 0.875rem;
+  }
+  
+  .flow-stepped li::before {
+    left: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.75rem;
+  }
 }
 
 /* Branching flow - decision tree style */
