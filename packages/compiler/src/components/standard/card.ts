@@ -44,11 +44,13 @@ export const cardComponent: ComponentDefinition = defineComponent({
   htmlElement: 'div',
   
   // Base classes applied to all cards
+  // Mobile-first: prevent horizontal scroll, allow natural wrapping
   defaultClasses: [
     'rounded-lg',
     'p-6',
     'max-w-full',
-    'overflow-auto',
+    'overflow-x-hidden', // Prevent horizontal scroll on mobile
+    'break-words',       // Break long words to prevent overflow
   ],
   
   // Default variant if none specified

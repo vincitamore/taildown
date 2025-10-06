@@ -21,6 +21,10 @@ import type { TaildownNodeData } from '@taildown/shared';
 import { visit } from 'unist-util-visit';
 import type { Root } from 'mdast';
 import { toHast } from 'mdast-util-to-hast';
+import { registry, registryInitialized } from '../components/component-registry';
+
+// Ensure registry is initialized (this promise resolves when auto-init completes)
+await registryInitialized;
 
 // Global registry of defined modal/tooltip blocks (ID -> content)
 const modalRegistry = new Map<string, Element>();
@@ -802,9 +806,77 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
     case 'tooltip':
       return renderTooltip(state, node);
     default:
-      // For non-interactive components, use default behavior
-      // This preserves existing component rendering (card, alert, etc.)
-      return undefined;
+      // For other components (card, alert, grid, etc.), use generic renderer
+      return renderGenericComponent(state, node);
   }
+}
+
+/**
+ * Generic component renderer for non-interactive components
+ * Handles card, alert, grid, container, and other standard components
+ */
+function renderGenericComponent(state: State, node: ContainerDirectiveNode): Element {
+  const componentName = node.name;
+  const attributes = node.attributes || {};
+  
+  // Get component definition from registry
+  const component = registry.get(componentName);
+  
+  // Build classes array
+  const classes: string[] = [];
+  
+  // Add component default classes if found in registry
+  if (component) {
+    classes.push(...component.defaultClasses);
+    
+    // Handle variant attribute
+    const variant = attributes.variant || attributes.type;
+    if (variant && component.variants[variant]) {
+      classes.push(...component.variants[variant]);
+    } else if (component.defaultVariant && component.variants[component.defaultVariant]) {
+      classes.push(...component.variants[component.defaultVariant]);
+    }
+    
+    // Handle size attribute  
+    const size = attributes.size || attributes.cols;
+    if (size && component.sizes[size]) {
+      classes.push(...component.sizes[size]);
+    }
+  }
+  
+  // Add any additional classes from attributes
+  if (attributes.class || attributes.className) {
+    const additionalClasses = (attributes.class || attributes.className).split(/\s+/);
+    classes.push(...additionalClasses);
+  }
+  
+  // Convert children to HAST
+  const children = state.all(node);
+  
+  // Determine HTML element (use component definition or default to div)
+  const tagName = component?.htmlElement || 'div';
+  
+  // Filter out semantic attributes that shouldn't become HTML attributes
+  const htmlAttributes: Record<string, any> = {};
+  const semanticAttributes = new Set(['variant', 'type', 'size', 'cols', 'class', 'className']);
+  
+  for (const [key, value] of Object.entries(attributes)) {
+    if (!semanticAttributes.has(key)) {
+      htmlAttributes[key] = value;
+    }
+  }
+  
+  // Build the element
+  const element: Element = {
+    type: 'element',
+    tagName,
+    properties: {
+      className: classes.length > 0 ? classes : undefined,
+      ...htmlAttributes
+    },
+    children
+  };
+  
+  return element;
 }
 

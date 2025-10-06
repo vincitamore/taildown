@@ -39,6 +39,7 @@ export async function compileCommand(
     const shouldInline = !options.separate;
     const compileOptions: CompileOptions = {
       inlineStyles: shouldInline,
+      inlineScripts: shouldInline,
       minify: options.minify,
       cssFilename: basename(outputCss), // Pass CSS filename for <link> tag
       jsFilename: basename(outputJs), // Pass JS filename for <script> tag
@@ -56,13 +57,13 @@ export async function compileCommand(
       const cssPath = resolve(outputCss);
       await writeFile(cssPath, result.css, 'utf-8');
       console.log(`✓ CSS written to ${outputCss}`);
-    }
-
-    // Write JavaScript (only if there are interactive components)
-    if (result.js && result.js.length > 0) {
-      const jsPath = resolve(outputJs);
-      await writeFile(jsPath, result.js, 'utf-8');
-      console.log(`✓ JavaScript written to ${outputJs}`);
+      
+      // Write JavaScript separately too (only if there are interactive components)
+      if (result.js && result.js.length > 0) {
+        const jsPath = resolve(outputJs);
+        await writeFile(jsPath, result.js, 'utf-8');
+        console.log(`✓ JavaScript written to ${outputJs}`);
+      }
     }
 
     // Display metadata

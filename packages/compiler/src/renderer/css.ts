@@ -179,6 +179,8 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   // Overflow
   'overflow-auto': 'overflow: auto;',
   'overflow-hidden': 'overflow: hidden;',
+  'overflow-x-hidden': 'overflow-x: hidden;',
+  'overflow-x-auto': 'overflow-x: auto;',
   'overflow-y-auto': 'overflow-y: auto;',
   
   // Cursor
@@ -298,6 +300,8 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'text-right': 'text-align: right;',
   'text-white': 'color: rgb(255 255 255);',
   'whitespace-nowrap': 'white-space: nowrap;',
+  'break-words': 'overflow-wrap: break-word; word-wrap: break-word;',
+  'break-all': 'word-break: break-all;',
   
   // Text decoration
   'underline': 'text-decoration: underline;',
@@ -567,6 +571,9 @@ code {
   font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Fira Code', monospace;
   font-size: 0.875em;
   font-weight: 500;
+  /* Mobile-friendly: break long paths/strings to prevent overflow */
+  word-break: break-all;
+  overflow-wrap: anywhere;
 }
 
 /* Code blocks - Terminal-inspired modern design */

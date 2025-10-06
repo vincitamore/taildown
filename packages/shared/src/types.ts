@@ -12,6 +12,9 @@ export interface CompileOptions {
   /** Inline CSS in HTML output (default: false) */
   inlineStyles?: boolean;
 
+  /** Inline JavaScript in HTML output (default: false) */
+  inlineScripts?: boolean;
+
   /** Minify HTML and CSS output (default: false) */
   minify?: boolean;
 

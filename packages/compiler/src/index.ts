@@ -89,9 +89,11 @@ export async function compile(
   // Render HTML - Always create a complete HTML document
   const html = await renderHTMLDocument(ast, {
     css: css,
+    js: js,
     cssFilename: options.cssFilename,
     jsFilename: options.jsFilename,
     inlineStyles: options.inlineStyles,
+    inlineScripts: options.inlineScripts,
     minify: options.minify,
     hasInteractiveComponents: js.length > 0,
   });

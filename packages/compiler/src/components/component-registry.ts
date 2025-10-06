@@ -318,10 +318,8 @@ export async function initializeRegistry(): Promise<void> {
 }
 
 // Auto-initialize registry on module load
-// Use IIFE to handle async initialization
-(async () => {
-  await initializeRegistry();
-})();
+// Store the promise so we can await it if needed
+export const registryInitialized = initializeRegistry();
 
 /**
  * Get component definition by name with fallback

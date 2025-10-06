@@ -45,6 +45,54 @@ Taildown is a **professional project** with a sophisticated icon system. We do N
 
 ---
 
+## DOCUMENTATION FORMAT POLICY
+
+**ALL PROJECT DOCUMENTATION MUST BE WRITTEN IN TAILDOWN FORMAT**
+
+Starting with version 0.1.0, all project documentation should be:
+- Written as `.td` files (Taildown format)
+- Compiled to HTML for distribution
+- Taking full advantage of Taildown's enhanced features
+
+**This applies to:**
+- Session summaries and reports in `docs/`
+- Implementation documentation
+- Status reports and assessments
+- Technical documentation
+- Planning and design documents
+
+**Why?**
+- Dogfooding: We use our own tool for our own documentation
+- Showcases Taildown's capabilities in real-world use
+- Provides professional, styled documentation output
+- Demonstrates best practices for users
+- Tests our features in production-like scenarios
+
+**Format Requirements:**
+- Use Taildown components (cards, alerts, grids)
+- Use plain English shorthands for styling
+- Use icon syntax for visual indicators
+- Compile to HTML for final output
+- Include both .td source and .html output in repository
+
+**Example:**
+```taildown
+# My Document {huge-bold center primary}
+
+:::alert{type="success"}
+This is a success message with proper Taildown formatting.
+:::
+
+:icon[check]{success} Feature complete
+```
+
+**Exceptions:**
+- Core documentation that must be readable on GitHub (README.md, SYNTAX.md)
+- Configuration files (package.json, tsconfig.json, etc.)
+- Legacy documentation (can be migrated gradually)
+
+---
+
 ## Directory Structure
 
 ```
