@@ -1679,21 +1679,21 @@ ${generateAnimationCSS()}
   counter-reset: step-counter;
 }
 
+/* Reset counter for nested lists */
+.flow-stepped ul {
+  counter-reset: step-counter;
+}
+
 .flow-stepped li {
   counter-increment: step-counter;
-  padding-left: 4.5rem;
-  padding-right: 1rem;
+  padding-left: 3rem;
   border-left: 4px solid rgb(59 130 246);
-  text-align: left;
-  display: flex;
-  align-items: center;
-  min-height: 3rem;
 }
 
 .flow-stepped li::before {
   content: counter(step-counter);
   position: absolute;
-  left: 0.875rem;
+  left: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
   width: 1.75rem;
@@ -1706,22 +1706,16 @@ ${generateAnimationCSS()}
   justify-content: center;
   font-weight: 600;
   font-size: 0.875rem;
-  flex-shrink: 0;
-  margin-right: 1rem;
 }
 
-/* Mobile adjustments for stepped flow */
+/* Mobile-only adjustments for stepped flow - give text more space */
 @media (max-width: 640px) {
   .flow-stepped li {
-    padding-left: 3.75rem;
-    padding-right: 0.75rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    min-height: 2.75rem;
+    padding-left: 4.5rem;
   }
   
   .flow-stepped li::before {
-    left: 0.625rem;
+    left: 0.75rem;
     width: 1.5rem;
     height: 1.5rem;
     font-size: 0.75rem;
