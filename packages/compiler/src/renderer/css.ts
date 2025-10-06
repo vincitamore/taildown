@@ -1454,6 +1454,360 @@ ${generateAnimationCSS()}
   transform: translateY(-50%) translateX(0.5rem);
 }
 
+/* ========================================
+ * TREE COMPONENT - Directory/Hierarchy Visualization
+ * ======================================== */
+
+.tree-container {
+  position: relative;
+  overflow-x: auto;
+}
+
+/* Remove default list styling */
+.tree-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tree-container li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin: 0.25rem 0;
+  line-height: 1.6;
+}
+
+/* Tree connectors - vertical and horizontal lines */
+.tree-default li::before,
+.tree-boxed li::before,
+.tree-rounded li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1rem;
+  height: 100%;
+  border-left: 2px solid rgb(209 213 219);
+  border-bottom: 2px solid rgb(209 213 219);
+}
+
+.tree-default li::before {
+  border-left: 1px solid rgb(209 213 219);
+  border-bottom: 1px solid rgb(209 213 219);
+}
+
+.tree-rounded li::before {
+  border-bottom-left-radius: 0.5rem;
+  border-left: 2px solid rgb(147 197 253);
+  border-bottom: 2px solid rgb(147 197 253);
+}
+
+/* Last child connector stops before the bottom */
+.tree-default li:last-child::before,
+.tree-boxed li:last-child::before,
+.tree-rounded li:last-child::before {
+  height: 0.8rem;
+}
+
+/* Node indicators */
+.tree-default li::after,
+.tree-boxed li::after,
+.tree-rounded li::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65rem;
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 50%;
+  background-color: rgb(59 130 246);
+}
+
+/* Nested lists inherit tree styling */
+.tree-container ul ul {
+  margin-left: 0;
+}
+
+/* Directory icons via text */
+.tree-container li:has(ul)::after {
+  content: '📁';
+  left: -0.125rem;
+  top: 0.25rem;
+  width: auto;
+  height: auto;
+  background: none;
+  font-size: 0.75rem;
+}
+
+/* File indicators (leaves without children) */
+.tree-container li:not(:has(ul))::after {
+  background-color: rgb(99 102 241);
+}
+
+/* Colored variant - depth-based coloring */
+.tree-colored li {
+  color: rgb(31 41 55);
+}
+
+.tree-colored ul li {
+  color: rgb(59 130 246);
+}
+
+.tree-colored ul ul li {
+  color: rgb(139 92 246);
+}
+
+.tree-colored ul ul ul li {
+  color: rgb(236 72 153);
+}
+
+/* Minimal variant - clean, no visual clutter */
+.tree-minimal li::before,
+.tree-minimal li::after {
+  display: none;
+}
+
+.tree-minimal li {
+  padding-left: 1rem;
+  opacity: 0.9;
+}
+
+.tree-minimal ul li {
+  opacity: 0.8;
+  font-size: 0.95em;
+}
+
+/* Dark variant */
+.tree-dark li::before {
+  border-color: rgb(55 65 81);
+}
+
+.tree-dark li::after {
+  background-color: rgb(96 165 250);
+}
+
+/* Glass variant - modern frosted look */
+.tree-glass {
+  backdrop-filter: blur(12px);
+}
+
+/* Mobile optimization */
+@media (max-width: 640px) {
+  .tree-container {
+    font-size: 0.813rem;
+  }
+  
+  .tree-container li {
+    padding-left: 1rem;
+    margin: 0.125rem 0;
+  }
+  
+  .tree-container li::before {
+    width: 0.75rem;
+  }
+}
+
+/* ========================================
+ * FLOW COMPONENT - Process/Flow Diagrams
+ * ======================================== */
+
+.flow-container {
+  position: relative;
+}
+
+/* Remove default list styling */
+.flow-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.flow-container li {
+  position: relative;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  background: white;
+  border: 2px solid rgb(229 231 235);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.flow-container li:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  transform: translateX(4px);
+}
+
+/* Vertical flow arrows */
+.flow-vertical li:not(:last-child)::after {
+  content: '↓';
+  position: absolute;
+  left: 50%;
+  bottom: -1.25rem;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  color: rgb(147 197 253);
+  z-index: 1;
+}
+
+/* Horizontal flow */
+.flow-horizontal ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.flow-horizontal li {
+  flex: 0 1 auto;
+  min-width: 150px;
+}
+
+.flow-horizontal li:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  right: -1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: rgb(147 197 253);
+}
+
+/* Stepped flow with numbers */
+.flow-stepped {
+  counter-reset: step-counter;
+}
+
+.flow-stepped li {
+  counter-increment: step-counter;
+  padding-left: 3rem;
+  border-left: 4px solid rgb(59 130 246);
+}
+
+.flow-stepped li::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.75rem;
+  height: 1.75rem;
+  background: rgb(59 130 246);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* Branching flow - decision tree style */
+.flow-branching ul ul {
+  margin-left: 2rem;
+  border-left: 3px solid rgb(196 181 253);
+  padding-left: 1rem;
+}
+
+.flow-branching li {
+  border-color: rgb(196 181 253);
+}
+
+.flow-branching ul li {
+  border-color: rgb(167 139 250);
+}
+
+.flow-branching ul ul li {
+  border-color: rgb(139 92 246);
+}
+
+/* Timeline variant */
+.flow-timeline li {
+  border-left-width: 4px;
+  border-left-color: rgb(59 130 246);
+  background: linear-gradient(to right, rgb(239 246 255), white);
+}
+
+.flow-timeline li::before {
+  content: '';
+  position: absolute;
+  left: -0.625rem;
+  top: 1rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: rgb(59 130 246);
+  border: 3px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgb(59 130 246);
+}
+
+/* Minimal flow - clean styling */
+.flow-minimal li {
+  border: 1px solid rgb(229 231 235);
+  background: transparent;
+  box-shadow: none;
+}
+
+.flow-minimal li:hover {
+  border-color: rgb(59 130 246);
+  background: rgb(239 246 255);
+}
+
+/* Dark theme */
+.flow-dark li {
+  background: rgb(31 41 55);
+  border-color: rgb(55 65 81);
+  color: rgb(243 244 246);
+}
+
+.flow-dark li:hover {
+  background: rgb(55 65 81);
+  border-color: rgb(96 165 250);
+}
+
+/* Glass variant */
+.flow-glass {
+  backdrop-filter: blur(12px);
+}
+
+.flow-glass li {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Mobile optimization for horizontal flows */
+@media (max-width: 640px) {
+  .flow-horizontal ul {
+    flex-direction: column;
+  }
+  
+  .flow-horizontal li:not(:last-child)::after {
+    content: '↓';
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: -1.25rem;
+    transform: translateX(-50%);
+  }
+  
+  .flow-container li {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+/* Nested flows get indentation */
+.flow-container ul ul {
+  margin-left: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.flow-container ul ul li {
+  opacity: 0.9;
+  border-width: 1px;
+}
+
 /* Button Styles - shadcn-inspired */
 a.bg-blue-600 {
   display: inline-block;

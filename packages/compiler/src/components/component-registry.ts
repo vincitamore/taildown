@@ -241,6 +241,8 @@ export async function registerStandardComponents(): Promise<void> {
   const { skeletonComponent } = await import('./standard/skeleton.js');
   const { tooltipComponent } = await import('./standard/tooltip.js');
   const { carouselComponent } = await import('./standard/carousel.js');
+  const { treeComponent } = await import('./standard/tree.js');
+  const { flowComponent } = await import('./standard/flow.js');
   
   // Register all components
   registry.register(cardComponent);
@@ -259,6 +261,8 @@ export async function registerStandardComponents(): Promise<void> {
   registry.register(skeletonComponent);
   registry.register(tooltipComponent);
   registry.register(carouselComponent);
+  registry.register(treeComponent);
+  registry.register(flowComponent);
   
   // Grid Component
   registry.register(
