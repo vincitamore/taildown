@@ -14,6 +14,32 @@ import { renderIcons } from '../icons/icon-renderer';
 import { rehypeRegisterTaildown } from '../prism/register-language-plugin';
 import { containerDirectiveHandler, wrapWithAttachments, prepopulateRegistries } from './component-handlers';
 import type { TaildownNodeData } from '@taildown/shared';
+import { visit } from 'unist-util-visit';
+
+/**
+ * Rehype plugin to wrap tables in a scrollable container
+ * This ensures tables work properly on mobile like code blocks do
+ */
+function rehypeWrapTables() {
+  return (tree: any) => {
+    visit(tree, 'element', (node, index, parent) => {
+      if (node.tagName === 'table' && parent && typeof index === 'number') {
+        // Create wrapper div
+        const wrapper = {
+          type: 'element',
+          tagName: 'div',
+          properties: {
+            className: ['table-wrapper']
+          },
+          children: [node]
+        };
+        
+        // Replace table with wrapper
+        parent.children[index] = wrapper;
+      }
+    });
+  };
+}
 
 /**
  * Walk HAST tree and wrap elements with modal/tooltip attachments
@@ -100,6 +126,7 @@ export async function renderHTML(ast: TaildownRoot, minify: boolean = false): Pr
     .use(rehypeRegisterTaildown) // Register Taildown language BEFORE rehype-prism
     .use(rehypePrism, { ignoreMissing: true, showLineNumbers: false }) // Syntax highlighting
     .use(renderIcons) // Render icon nodes as SVG
+    .use(rehypeWrapTables) // Wrap tables in scrollable container
     .use(rehypeStringify, {
       allowDangerousHtml: false,
       closeSelfClosing: true,

@@ -344,30 +344,47 @@ pre .highlight-line {
 /* ========================================
  * RESPONSIVE TABLE STYLING
  * Beautiful tables that work on all devices
+ * Similar to code block implementation with wrapper
  * ======================================== */
 
-/* Table - Constrain to viewport to prevent page scroll */
-table {
+/* Table wrapper - handles overflow scrolling like pre wraps code */
+.table-wrapper {
   width: 100%;
   max-width: 100%;
-  border-collapse: collapse;
   margin: 1.5rem 0;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
-  border-radius: 0.5rem;
-  /* Table scrolls within viewport on mobile, never causes page scroll */
-  display: block;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
 }
 
-/* Reset table display on larger screens */
-@media (min-width: 768px) {
-  table {
-    display: table;
-    overflow-x: visible;
-  }
+/* Scrollbar styling for table wrapper */
+.table-wrapper::-webkit-scrollbar {
+  height: 0.5rem;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 0.25rem;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0.25rem;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Table - always display as table, wrapper handles overflow */
+table {
+  width: 100%;
+  min-width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 /* Table structure */
@@ -439,19 +456,31 @@ td {
   color: #334155;
 }
 
-/* First column styling (usually labels) */
-th:first-child, td:first-child {
+/* First column styling (sticky on mobile) */
+thead th:first-child {
   position: sticky;
   left: 0;
-  background: inherit;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  z-index: 2;
+  box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+tbody td:first-child {
+  position: sticky;
+  left: 0;
+  background: white;
   z-index: 1;
-  /* Add subtle shadow to indicate sticky column */
   box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.05);
 }
 
-/* Remove shadow on larger screens where sticky isn't needed */
+tbody tr:hover td:first-child {
+  background: #f9fafb;
+}
+
+/* Remove sticky on larger screens where it's not needed */
 @media (min-width: 768px) {
-  th:first-child, td:first-child {
+  thead th:first-child,
+  tbody td:first-child {
     position: static;
     box-shadow: none;
   }
@@ -476,7 +505,7 @@ td svg.icon {
 
 /* Responsive scroll indicator */
 @media (max-width: 767px) {
-  table::after {
+  .table-wrapper::after {
     content: '← Scroll to see more →';
     display: block;
     text-align: center;
@@ -486,11 +515,6 @@ td svg.icon {
     font-size: 0.75rem;
     font-weight: 500;
     border-top: 1px solid #e2e8f0;
-  }
-  
-  /* Hide indicator if table fits in viewport */
-  table:not([style*="overflow"]) {
-    overflow-x: visible;
   }
 }
 
@@ -1477,7 +1501,7 @@ a.bg-gray-200:active {
 <h3 class="font-bold">2.1 Core Features (Phase 1)</h3>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Grade: A+ (98/100)</strong></p>
 <p>All Phase 1 features are <strong>fully implemented</strong> and working:</p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th>Feature</th>
@@ -1524,7 +1548,7 @@ a.bg-gray-200:active {
 <td>commander.js</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p><strong>Evidence:</strong></p>
 <pre class="language-typescript"><code class="language-typescript code-highlight"><span class="code-line"><span class="token comment">// From packages/compiler/src/index.ts</span>
 </span><span class="code-line"><span class="token keyword">export</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">compile</span><span class="token punctuation">(</span>
@@ -1587,7 +1611,7 @@ a.bg-gray-200:active {
 <h4 class="medium-bold">2.2.5 Interactive Components</h4>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Status: <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Complete</strong></p>
 <p>All 5 interactive components implemented with JavaScript behaviors:</p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th>Component</th>
@@ -1628,7 +1652,7 @@ a.bg-gray-200:active {
 <td><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Yes</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>JavaScript generation includes:</p>
 <ul>
 <li>Tree-shaking (only includes used components)</li>
@@ -2014,7 +2038,7 @@ a.bg-gray-200:active {
 <hr />
 <h2 class="text-lg font-bold">7. Comparison to Stated Goals</h2>
 <h3 class="font-bold">7.1 README.md Claims Verification</h3>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th>Claim</th>
@@ -2094,7 +2118,7 @@ a.bg-gray-200:active {
 <td>ARIA attributes throughout</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p><strong>Verdict:</strong> <strong>All major claims are substantiated by implementation.</strong> <svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> No false advertising detected.</p>
 <h3 class="font-bold">7.2 SYNTAX.md Conformance</h3>
 <p class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-green-100 text-green-700"><strong>Conformance Level Achieved: Level 3 - Full Conformance</strong></p>
