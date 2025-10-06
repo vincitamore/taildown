@@ -8,6 +8,8 @@ import type { TaildownRoot, TaildownNodeData } from '@taildown/shared';
 import { generateIconCSS } from '../icons/icon-renderer';
 import { generateGlassmorphismCSS } from '../themes/glassmorphism';
 import { generateAnimationCSS } from '../themes/animations';
+import { createThemeResolver } from '../themes/theme-resolver';
+import { getDefaultConfig } from '../config/default-config';
 
 /**
  * Tailwind CSS utility class definitions
@@ -483,6 +485,15 @@ export function collectClassesFromHast(hast: any): Set<string> {
  * @param minify - Whether to minify CSS
  * @returns Generated CSS string
  */
+/**
+ * Generate theme CSS (dark mode, color palette)
+ */
+function generateThemeCSS(): string {
+  const config = getDefaultConfig();
+  const themeResolver = createThemeResolver(config);
+  return themeResolver.generateThemeCSS();
+}
+
 export function generateCSS(classes: Set<string>, minify: boolean = false): string {
   const cssRules: string[] = [];
 
@@ -1158,6 +1169,8 @@ ${generateIconCSS()}
 ${generateGlassmorphismCSS()}
 
 ${generateAnimationCSS()}
+
+${generateThemeCSS()}
 `);
 
   // Generate utility classes

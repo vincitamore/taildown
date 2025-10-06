@@ -1,0 +1,3525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taildown Document</title>
+  <style>
+/* Taildown Generated Styles */
+*, ::before, ::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: currentColor;
+}
+
+html {
+  /* Prevent horizontal scroll at root level */
+  overflow-x: hidden;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 1rem;
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
+  min-height: 100vh;
+  /* Clean light background */
+  background: #f5f5f7;
+  background-attachment: fixed;
+  /* Prevent horizontal scroll on body */
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Increase body padding on larger screens */
+@media (min-width: 640px) {
+  body {
+    padding: 2rem;
+  }
+}
+
+/* Hide bullet points on list items that start with icons */
+li > .icon:first-child {
+  margin-left: -1.5rem;
+}
+
+li:has(> .icon:first-child) {
+  list-style: none;
+}
+
+/* NO overlay - keep it simple */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: none;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Default spacing for all direct children of body */
+body > * {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 1.5rem;
+}
+
+body > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Add breathing room to components */
+.taildown-component {
+  margin-bottom: 1.5rem;
+}
+
+.taildown-component:last-child {
+  margin-bottom: 0;
+}
+
+/* ========================================
+ * CODE BLOCK STYLING
+ * Modern, terminal-inspired code blocks with syntax highlighting support
+ * ======================================== */
+
+/* Inline code */
+code {
+  background-color: rgba(30, 41, 59, 0.05);
+  color: rgb(219, 39, 119);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Fira Code', monospace;
+  font-size: 0.875em;
+  font-weight: 500;
+  /* Mobile-friendly: break long paths/strings to prevent overflow */
+  word-break: break-all;
+  overflow-wrap: anywhere;
+}
+
+/* Code blocks - Terminal-inspired modern design */
+pre {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 0.75rem;
+  padding: 0;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.3),
+    0 10px 10px -5px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+/* Terminal header bar */
+pre::before {
+  content: '';
+  display: block;
+  height: 2.5rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+/* Copy button styling */
+.code-copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  color: #e2e8f0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  transition: all 0.2s ease;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+
+.code-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.code-copy-btn:active {
+  transform: translateY(0);
+}
+
+.code-copy-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+/* Copy button icons */
+.code-copy-btn .copy-icon,
+.code-copy-btn .check-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.code-copy-btn .check-icon {
+  color: #10b981;
+}
+
+/* Copy button text */
+.code-copy-btn .copy-text,
+.code-copy-btn .copied-text {
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.code-copy-btn .copied-text {
+  color: #10b981;
+}
+
+/* Success state animation */
+.code-copy-btn.copied {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+/* Ensure pre blocks are positioned for absolute button (already set above) */
+
+/* Terminal traffic lights */
+pre::after {
+  content: '';
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: #ef4444;
+  border-radius: 50%;
+  box-shadow:
+    1.25rem 0 0 #f59e0b,
+    2.5rem 0 0 #10b981;
+}
+
+/* Code inside pre */
+pre > code {
+  display: block;
+  padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+  background: transparent;
+  color: #e2e8f0;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Fira Code', monospace;
+  font-size: inherit;
+  font-weight: 400;
+  line-height: inherit;
+  overflow-x: auto;
+  border-radius: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Scrollbar styling for code blocks */
+pre > code::-webkit-scrollbar {
+  height: 0.5rem;
+}
+
+pre > code::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.25rem;
+}
+
+pre > code::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 0.25rem;
+}
+
+pre > code::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Line highlighting */
+pre .line-highlight {
+  background: rgba(255, 255, 255, 0.05);
+  display: inline-block;
+  width: 100%;
+}
+
+/* ========================================
+ * SYNTAX HIGHLIGHTING - One Dark Pro Theme
+ * Modern, professional color scheme inspired by VS Code
+ * ======================================== */
+
+/* Comments */
+pre .token.comment,
+pre .token.prolog,
+pre .token.doctype,
+pre .token.cdata {
+  color: #5c6370;
+  font-style: italic;
+}
+
+/* Strings */
+pre .token.string,
+pre .token.attr-value {
+  color: #98c379;
+}
+
+/* Keywords & Control Flow */
+pre .token.keyword,
+pre .token.control,
+pre .token.directive,
+pre .token.unit,
+pre .token.statement,
+pre .token.regex,
+pre .token.at-rule {
+  color: #c678dd;
+  font-weight: 500;
+}
+
+/* Functions */
+pre .token.function,
+pre .token.method,
+pre .token.function-name {
+  color: #61afef;
+}
+
+/* Classes & Types */
+pre .token.class-name,
+pre .token.type-annotation,
+pre .token.type,
+pre .token.builtin,
+pre .token.maybe-class-name {
+  color: #e5c07b;
+}
+
+/* Variables & Properties */
+pre .token.variable,
+pre .token.property,
+pre .token.attr-name,
+pre .token.constant {
+  color: #e06c75;
+}
+
+/* Numbers */
+pre .token.number,
+pre .token.boolean,
+pre .token.hexcode {
+  color: #d19a66;
+}
+
+/* Operators & Punctuation */
+pre .token.operator,
+pre .token.entity,
+pre .token.url,
+pre .token.symbol {
+  color: #56b6c2;
+}
+
+/* Punctuation - brackets, braces, etc. - made more visible */
+pre .token.punctuation {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+pre .token.delimiter {
+  color: #abb2bf;
+  font-weight: 600;
+}
+
+/* Special tokens */
+pre .token.selector,
+pre .token.important,
+pre .token.atrule {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+pre .token.important {
+  font-weight: 700;
+}
+
+/* Markup languages (HTML, XML, etc.) */
+pre .token.tag .token.punctuation {
+  color: #abb2bf;
+}
+
+pre .token.tag .token.tag,
+pre .token.tag .token.tag .token.punctuation {
+  color: #e06c75;
+}
+
+pre .token.attr-name {
+  color: #d19a66;
+}
+
+/* CSS-specific */
+pre .language-css .token.property {
+  color: #56b6c2;
+}
+
+pre .language-css .token.selector {
+  color: #d19a66;
+}
+
+/* JavaScript/TypeScript specific */
+pre .token.imports .token.maybe-class-name {
+  color: #e5c07b;
+}
+
+pre .token.console {
+  color: #61afef;
+}
+
+pre .token.parameter {
+  color: #e06c75;
+}
+
+/* JSON-specific */
+pre .language-json .token.property {
+  color: #e06c75;
+}
+
+pre .language-json .token.string {
+  color: #98c379;
+}
+
+/* Shell/Bash-specific */
+pre .language-bash .token.function,
+pre .language-sh .token.function {
+  color: #61afef;
+}
+
+/* Diff highlighting */
+pre .token.inserted {
+  color: #98c379;
+  background: rgba(152, 195, 121, 0.1);
+}
+
+pre .token.deleted {
+  color: #e06c75;
+  background: rgba(224, 108, 117, 0.1);
+}
+
+/* Bold and italic */
+pre .token.bold {
+  font-weight: 700;
+}
+
+pre .token.italic {
+  font-style: italic;
+}
+
+/* Line highlighting (for specific line emphasis) */
+pre .highlight-line {
+  background: rgba(255, 255, 255, 0.05);
+  display: block;
+  margin: 0 -1.5rem;
+  padding: 0 1.5rem;
+  border-left: 3px solid #61afef;
+}
+
+/* ========================================
+ * TAILDOWN-SPECIFIC SYNTAX HIGHLIGHTING
+ * Additional token types for Taildown language features
+ * ======================================== */
+
+/* Taildown component names */
+pre .token.tag {
+  color: #56b6c2;
+  font-weight: 600;
+}
+
+/* Taildown keywords (icon, button, badge, modal, tooltip) */
+pre .token.keyword {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+/* Typography modifiers (bold, large-bold, xl-bold, etc.) */
+pre .token.emphasis {
+  color: #e06c75;
+  font-weight: 500;
+}
+
+/* Markdown headings */
+pre .token.title {
+  color: #61afef;
+  font-weight: 700;
+}
+
+pre .token.title.punctuation {
+  color: #abb2bf;
+  font-weight: 400;
+}
+
+/* Inline code */
+pre .token.code {
+  color: #98c379;
+  background: rgba(152, 195, 121, 0.1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+/* Horizontal rules */
+pre .token.hr {
+  color: #5c6370;
+  font-weight: 700;
+}
+
+/* Escape sequences */
+pre .token.escape {
+  color: #56b6c2;
+  font-weight: 600;
+}
+
+/* Language tags for code blocks */
+pre .token.language-tag {
+  color: #e5c07b;
+  font-style: italic;
+}
+
+/* Link components */
+pre .token.url {
+  color: #56b6c2;
+  text-decoration: underline;
+}
+
+/* ========================================
+ * RESPONSIVE TABLE STYLING
+ * Beautiful tables that work on all devices
+ * Similar to code block implementation with wrapper
+ * ======================================== */
+
+/* Table wrapper - handles overflow scrolling like pre wraps code */
+.table-wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+/* Scrollbar styling for table wrapper */
+.table-wrapper::-webkit-scrollbar {
+  height: 0.5rem;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 0.25rem;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0.25rem;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Table - always display as table, wrapper handles overflow */
+table {
+  width: 100%;
+  min-width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Table structure */
+thead {
+  display: table-header-group;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 2px solid #e2e8f0;
+}
+
+tbody {
+  display: table-row-group;
+  background: white;
+}
+
+/* Table rows */
+tr {
+  display: table-row;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: #f9fafb;
+  transition: background 150ms ease;
+}
+
+/* Table cells */
+th, td {
+  display: table-cell;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  /* Prevent cells from being too narrow */
+  min-width: 120px;
+}
+
+/* Mobile: Reduce padding for better space utilization */
+@media (max-width: 640px) {
+  th, td {
+    padding: 0.5rem 0.75rem;
+    min-width: 100px;
+    font-size: 0.8125rem;
+  }
+}
+
+/* Tablet: Adjust spacing */
+@media (min-width: 641px) and (max-width: 1024px) {
+  th, td {
+    padding: 0.625rem 0.875rem;
+    min-width: 110px;
+  }
+}
+
+/* Header cells */
+th {
+  font-weight: 600;
+  color: #1e293b;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+/* Data cells */
+td {
+  color: #334155;
+}
+
+/* First column styling (sticky on mobile) */
+thead th:first-child {
+  position: sticky;
+  left: 0;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  z-index: 2;
+  box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+tbody td:first-child {
+  position: sticky;
+  left: 0;
+  background: white;
+  z-index: 1;
+  box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+tbody tr:hover td:first-child {
+  background: #f9fafb;
+}
+
+/* Remove sticky on larger screens where it's not needed */
+@media (min-width: 768px) {
+  thead th:first-child,
+  tbody td:first-child {
+    position: static;
+    box-shadow: none;
+  }
+}
+
+/* Code in tables */
+td code {
+  background: rgba(30, 41, 59, 0.05);
+  color: #db2777;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.8125em;
+  white-space: nowrap;
+}
+
+/* Icons in tables */
+td svg.icon {
+  vertical-align: middle;
+  display: inline-block;
+  margin-right: 0.25rem;
+}
+
+/* Responsive scroll indicator */
+@media (max-width: 767px) {
+  .table-wrapper::after {
+    content: '← Scroll to see more →';
+    display: block;
+    text-align: center;
+    padding: 0.5rem;
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-top: 1px solid #e2e8f0;
+  }
+}
+
+/* Icon Utilities */
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.icon-missing,
+.icon-error {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background-color: rgb(254 202 202);
+  color: rgb(153 27 27);
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-family: monospace;
+}
+
+/* Icon size utilities */
+.icon.tiny { width: 12px; height: 12px; }
+.icon.xs { width: 16px; height: 16px; }
+.icon.sm { width: 20px; height: 20px; }
+.icon.md { width: 24px; height: 24px; }
+.icon.lg { width: 32px; height: 32px; }
+.icon.xl { width: 40px; height: 40px; }
+.icon.\32xl { width: 48px; height: 48px; }
+.icon.huge { width: 64px; height: 64px; }
+
+/* Glassmorphism Effects */
+.glass-effect {
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturation, 110%));
+  backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturation, 110%));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glass intensity variants - each includes full effect with premium gradient borders */
+.glass-subtle {
+  -webkit-backdrop-filter: blur(4px) saturate(100%);
+  backdrop-filter: blur(4px) saturate(100%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.35) 0%, 
+      rgba(255, 255, 255, 0.15) 50%, 
+      rgba(255, 255, 255, 0.35) 100%) border-box;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-light {
+  -webkit-backdrop-filter: blur(8px) saturate(105%);
+  backdrop-filter: blur(8px) saturate(105%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(241, 245, 249, 0.75), rgba(241, 245, 249, 0.75)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.3) 0%, 
+      rgba(255, 255, 255, 0.12) 50%, 
+      rgba(255, 255, 255, 0.3) 100%) border-box;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-medium {
+  -webkit-backdrop-filter: blur(12px) saturate(110%);
+  backdrop-filter: blur(12px) saturate(110%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(226, 232, 240, 0.6), rgba(226, 232, 240, 0.6)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.25) 0%, 
+      rgba(255, 255, 255, 0.1) 50%, 
+      rgba(255, 255, 255, 0.25) 100%) border-box;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-heavy {
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(203, 213, 225, 0.4), rgba(203, 213, 225, 0.4)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.2) 0%, 
+      rgba(56, 189, 248, 0.12) 25%,
+      rgba(14, 165, 233, 0.12) 50%,
+      rgba(59, 130, 246, 0.12) 75%,
+      rgba(255, 255, 255, 0.2) 100%) border-box;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
+    inset 0 0 20px 0 rgba(255, 255, 255, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-extreme {
+  --glass-blur: 24px;
+  --glass-saturation: 130%;
+}
+
+/* Glass hover effects - subtle interactive feedback */
+.glass-effect:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+}
+
+.glass-effect:active {
+  transform: translateY(0);
+}
+
+/* Browser fallbacks for older browsers */
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.85);
+  }
+  
+  .dark .glass-effect {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* Backdrop blur utilities (non-standard values) */
+.backdrop-blur-4 {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.backdrop-blur-8 {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.backdrop-blur-12 {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.backdrop-blur-16 {
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.backdrop-blur-24 {
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+
+/* Saturation utilities */
+.saturate-105 {
+  filter: saturate(105%);
+}
+
+.saturate-110 {
+  filter: saturate(110%);
+}
+
+.saturate-120 {
+  filter: saturate(120%);
+}
+
+.saturate-130 {
+  filter: saturate(130%);
+}
+
+/* Background opacity utilities */
+.bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.bg-white\/20 {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.bg-white\/70 {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Border opacity utilities */
+.border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Dark mode overrides */
+.dark .bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.dark .border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Entrance Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5); // Twice as far away (0.7 -> 0.5)
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Entrance animation classes - scroll-triggered, elegant, professional */
+/* Initial state: Elements start hidden to prevent flash */
+/* GPU acceleration for smooth rendering */
+/* Animation is paused by default and triggered when scrolling into view */
+
+/* Base animation states */
+.animate-fade-in,
+.animate-slide-up,
+.animate-slide-down,
+.animate-slide-left,
+.animate-slide-right,
+.animate-scale-in,
+.animate-zoom-in {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Paused state (before element scrolls into view) */
+.animate-fade-in.animation-paused { opacity: 0; }
+.animate-slide-up.animation-paused { opacity: 0; transform: translateY(40px); }
+.animate-slide-down.animation-paused { opacity: 0; transform: translateY(-40px); }
+.animate-slide-left.animation-paused { opacity: 0; transform: translateX(16px); }
+.animate-slide-right.animation-paused { opacity: 0; transform: translateX(-16px); }
+.animate-scale-in.animation-paused { opacity: 0; transform: scale(0.8); }
+.animate-zoom-in.animation-paused { opacity: 0; transform: scale(0.5); }
+
+/* Playing state (when element is in view) - triggers animation */
+.animate-fade-in.animation-playing {
+  animation: fadeIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-up.animation-playing {
+  animation: slideUp 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-down.animation-playing {
+  animation: slideDown 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-left.animation-playing {
+  animation: slideLeft 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-right.animation-playing {
+  animation: slideRight 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in.animation-playing {
+  animation: scaleIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-zoom-in.animation-playing {
+  animation: zoomIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Fallback: If JS doesn't load, still show content (accessibility) */
+/* Elements without .animation-paused will be visible */
+.animate-fade-in:not(.animation-paused):not(.animation-playing),
+.animate-slide-up:not(.animation-paused):not(.animation-playing),
+.animate-slide-down:not(.animation-paused):not(.animation-playing),
+.animate-slide-left:not(.animation-paused):not(.animation-playing),
+.animate-slide-right:not(.animation-paused):not(.animation-playing),
+.animate-scale-in:not(.animation-paused):not(.animation-playing),
+.animate-zoom-in:not(.animation-paused):not(.animation-playing) {
+  opacity: 1;
+  transform: none;
+}
+
+/* Animation delays for staggered effects */
+.animation-delay-75 {
+  animation-delay: 75ms;
+}
+
+.animation-delay-150 {
+  animation-delay: 150ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Hover Animations */
+.hover-lift {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1),
+              0 4px 8px -2px rgba(0, 0, 0, 0.05);
+}
+
+.hover-lift:active {
+  transform: translateY(0);
+}
+
+.hover-glow {
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4),
+              0 0 40px rgba(59, 130, 246, 0.2);
+}
+
+.hover-scale {
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.6, 1);
+  /* Prevent scale from causing horizontal scroll - critical for good UX */
+  overflow: hidden;
+  will-change: transform;
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.hover-scale:active {
+  transform: scale(0.99);
+}
+
+.hover-brighten {
+  transition: filter 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-brighten:hover {
+  filter: brightness(1.1);
+}
+
+.hover-tilt {
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+.hover-tilt:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(2deg);
+}
+
+/* Loading Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 1000ms ease infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 2s linear infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* Interactive State Animations */
+.transition-smooth {
+  transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-fast {
+  transition: all 150ms cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.transition-colors {
+  transition: color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-transform {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-shadow {
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Focus ring with smooth animation */
+.focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              outline-offset 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.focus-ring:focus {
+  outline-color: rgb(59, 130, 246);
+  outline-offset: 4px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Color Palette - Light Mode */
+:root {
+  --background: #ffffff;
+  --foreground: #111827;
+  --muted: #f3f4f6;
+  --muted-foreground: #4b5563;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #3b82f6;
+  
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #8b5cf6;
+  --secondary-foreground: #ffffff;
+  --accent: #ec4899;
+  --accent-foreground: #ffffff;
+  
+  --success: #10b981;
+  --success-foreground: #ffffff;
+  --warning: #f59e0b;
+  --warning-foreground: #ffffff;
+  --error: #ef4444;
+  --error-foreground: #ffffff;
+  --info: #3b82f6;
+  --info-foreground: #ffffff;
+  
+  --card: #ffffff;
+  --card-foreground: #111827;
+}
+
+/* Color Palette - Dark Mode */
+.dark {
+  --background: #030712;
+  --foreground: #f9fafb;
+  --muted: #1f2937;
+  --muted-foreground: #9ca3af;
+  --border: #1f2937;
+  --input: #1f2937;
+  --ring: #60a5fa;
+  
+  --primary: #3b82f6;
+  --primary-foreground: #f9fafb;
+  --secondary: #9333ea;
+  --secondary-foreground: #f9fafb;
+  --accent: #ec4899;
+  --accent-foreground: #f9fafb;
+  
+  --success: #10b981;
+  --success-foreground: #030712;
+  --warning: #f59e0b;
+  --warning-foreground: #030712;
+  --error: #ef4444;
+  --error-foreground: #ffffff;
+  --info: #3b82f6;
+  --info-foreground: #ffffff;
+  
+  --card: #111827;
+  --card-foreground: #f9fafb;
+}
+
+/* CSS Variable utilities - background colors */
+.bg-background { background-color: var(--background); }
+.bg-foreground { background-color: var(--foreground); }
+.bg-muted { background-color: var(--muted); }
+.bg-card { background-color: var(--card); }
+.bg-primary { background-color: var(--primary); }
+.bg-secondary { background-color: var(--secondary); }
+.bg-accent { background-color: var(--accent); }
+.bg-success { background-color: var(--success); }
+.bg-warning { background-color: var(--warning); }
+.bg-error { background-color: var(--error); }
+.bg-info { background-color: var(--info); }
+
+/* CSS Variable utilities - text colors */
+.text-foreground { color: var(--foreground); }
+.text-muted-foreground { color: var(--muted-foreground); }
+.text-card-foreground { color: var(--card-foreground); }
+.text-primary { color: var(--primary); }
+.text-primary-foreground { color: var(--primary-foreground); }
+.text-secondary { color: var(--secondary); }
+.text-secondary-foreground { color: var(--secondary-foreground); }
+.text-accent { color: var(--accent); }
+.text-accent-foreground { color: var(--accent-foreground); }
+.text-success { color: var(--success); }
+.text-success-foreground { color: var(--success-foreground); }
+.text-warning { color: var(--warning); }
+.text-warning-foreground { color: var(--warning-foreground); }
+.text-error { color: var(--error); }
+.text-error-foreground { color: var(--error-foreground); }
+.text-info { color: var(--info); }
+.text-info-foreground { color: var(--info-foreground); }
+
+/* CSS Variable utilities - border colors */
+.border-border { border-color: var(--border); }
+.border-input { border-color: var(--input); }
+.border-primary { border-color: var(--primary); }
+.border-secondary { border-color: var(--secondary); }
+.border-accent { border-color: var(--accent); }
+.border-success { border-color: var(--success); }
+.border-warning { border-color: var(--warning); }
+.border-error { border-color: var(--error); }
+.border-info { border-color: var(--info); }
+
+/* Ring color for focus states */
+.ring-ring { --tw-ring-color: var(--ring); }
+
+/* Dark Mode Transitions */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Disable transitions on page load to prevent flash */
+.no-transitions * {
+  transition: none !important;
+}
+
+/* Dark Mode Toggle Button */
+.dark-mode-toggle {
+  position: fixed;
+  bottom: 1rem; right: 1rem;
+  z-index: 9999;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark-mode-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark-mode-toggle:active {
+  transform: translateY(0);
+}
+
+.dark-mode-toggle svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--foreground);
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark-mode-toggle:hover svg {
+  transform: rotate(15deg);
+}
+
+/* Hide sun icon in light mode, moon icon in dark mode */
+.dark-mode-toggle .sun-icon {
+  display: none;
+}
+
+.dark .dark-mode-toggle .sun-icon {
+  display: block;
+}
+
+.dark-mode-toggle .moon-icon {
+  display: block;
+}
+
+.dark .dark-mode-toggle .moon-icon {
+  display: none;
+}
+
+/* Glassmorphism Effects */
+.glass-effect {
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturation, 110%));
+  backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturation, 110%));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glass intensity variants - each includes full effect with premium gradient borders */
+.glass-subtle {
+  -webkit-backdrop-filter: blur(4px) saturate(100%);
+  backdrop-filter: blur(4px) saturate(100%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.35) 0%, 
+      rgba(255, 255, 255, 0.15) 50%, 
+      rgba(255, 255, 255, 0.35) 100%) border-box;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-light {
+  -webkit-backdrop-filter: blur(8px) saturate(105%);
+  backdrop-filter: blur(8px) saturate(105%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(241, 245, 249, 0.75), rgba(241, 245, 249, 0.75)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.3) 0%, 
+      rgba(255, 255, 255, 0.12) 50%, 
+      rgba(255, 255, 255, 0.3) 100%) border-box;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-medium {
+  -webkit-backdrop-filter: blur(12px) saturate(110%);
+  backdrop-filter: blur(12px) saturate(110%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(226, 232, 240, 0.6), rgba(226, 232, 240, 0.6)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.25) 0%, 
+      rgba(255, 255, 255, 0.1) 50%, 
+      rgba(255, 255, 255, 0.25) 100%) border-box;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-heavy {
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(203, 213, 225, 0.4), rgba(203, 213, 225, 0.4)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.2) 0%, 
+      rgba(56, 189, 248, 0.12) 25%,
+      rgba(14, 165, 233, 0.12) 50%,
+      rgba(59, 130, 246, 0.12) 75%,
+      rgba(255, 255, 255, 0.2) 100%) border-box;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
+    inset 0 0 20px 0 rgba(255, 255, 255, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-extreme {
+  --glass-blur: 24px;
+  --glass-saturation: 130%;
+}
+
+/* Glass hover effects - subtle interactive feedback */
+.glass-effect:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+}
+
+.glass-effect:active {
+  transform: translateY(0);
+}
+
+/* Browser fallbacks for older browsers */
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.85);
+  }
+  
+  .dark .glass-effect {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* Backdrop blur utilities (non-standard values) */
+.backdrop-blur-4 {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.backdrop-blur-8 {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.backdrop-blur-12 {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.backdrop-blur-16 {
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.backdrop-blur-24 {
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+
+/* Saturation utilities */
+.saturate-105 {
+  filter: saturate(105%);
+}
+
+.saturate-110 {
+  filter: saturate(110%);
+}
+
+.saturate-120 {
+  filter: saturate(120%);
+}
+
+.saturate-130 {
+  filter: saturate(130%);
+}
+
+/* Background opacity utilities */
+.bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.bg-white\/20 {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.bg-white\/70 {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Border opacity utilities */
+.border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Dark mode overrides */
+.dark .bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.dark .border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Entrance Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5); // Twice as far away (0.7 -> 0.5)
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Entrance animation classes - scroll-triggered, elegant, professional */
+/* Initial state: Elements start hidden to prevent flash */
+/* GPU acceleration for smooth rendering */
+/* Animation is paused by default and triggered when scrolling into view */
+
+/* Base animation states */
+.animate-fade-in,
+.animate-slide-up,
+.animate-slide-down,
+.animate-slide-left,
+.animate-slide-right,
+.animate-scale-in,
+.animate-zoom-in {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Paused state (before element scrolls into view) */
+.animate-fade-in.animation-paused { opacity: 0; }
+.animate-slide-up.animation-paused { opacity: 0; transform: translateY(40px); }
+.animate-slide-down.animation-paused { opacity: 0; transform: translateY(-40px); }
+.animate-slide-left.animation-paused { opacity: 0; transform: translateX(16px); }
+.animate-slide-right.animation-paused { opacity: 0; transform: translateX(-16px); }
+.animate-scale-in.animation-paused { opacity: 0; transform: scale(0.8); }
+.animate-zoom-in.animation-paused { opacity: 0; transform: scale(0.5); }
+
+/* Playing state (when element is in view) - triggers animation */
+.animate-fade-in.animation-playing {
+  animation: fadeIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-up.animation-playing {
+  animation: slideUp 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-down.animation-playing {
+  animation: slideDown 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-left.animation-playing {
+  animation: slideLeft 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-right.animation-playing {
+  animation: slideRight 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in.animation-playing {
+  animation: scaleIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-zoom-in.animation-playing {
+  animation: zoomIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Fallback: If JS doesn't load, still show content (accessibility) */
+/* Elements without .animation-paused will be visible */
+.animate-fade-in:not(.animation-paused):not(.animation-playing),
+.animate-slide-up:not(.animation-paused):not(.animation-playing),
+.animate-slide-down:not(.animation-paused):not(.animation-playing),
+.animate-slide-left:not(.animation-paused):not(.animation-playing),
+.animate-slide-right:not(.animation-paused):not(.animation-playing),
+.animate-scale-in:not(.animation-paused):not(.animation-playing),
+.animate-zoom-in:not(.animation-paused):not(.animation-playing) {
+  opacity: 1;
+  transform: none;
+}
+
+/* Animation delays for staggered effects */
+.animation-delay-75 {
+  animation-delay: 75ms;
+}
+
+.animation-delay-150 {
+  animation-delay: 150ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Hover Animations */
+.hover-lift {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1),
+              0 4px 8px -2px rgba(0, 0, 0, 0.05);
+}
+
+.hover-lift:active {
+  transform: translateY(0);
+}
+
+.hover-glow {
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4),
+              0 0 40px rgba(59, 130, 246, 0.2);
+}
+
+.hover-scale {
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.6, 1);
+  /* Prevent scale from causing horizontal scroll - critical for good UX */
+  overflow: hidden;
+  will-change: transform;
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.hover-scale:active {
+  transform: scale(0.99);
+}
+
+.hover-brighten {
+  transition: filter 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-brighten:hover {
+  filter: brightness(1.1);
+}
+
+.hover-tilt {
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+.hover-tilt:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(2deg);
+}
+
+/* Loading Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 1000ms ease infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 2s linear infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* Interactive State Animations */
+.transition-smooth {
+  transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-fast {
+  transition: all 150ms cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.transition-colors {
+  transition: color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-transform {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-shadow {
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Focus ring with smooth animation */
+.focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              outline-offset 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.focus-ring:focus {
+  outline-color: rgb(59, 130, 246);
+  outline-offset: 4px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+.font-bold { font-weight: 700; }
+.text-center { text-align: center; }
+.text-primary-600 { color: rgb(37 99 235); }
+.hover\:text-primary-700:hover { color: rgb(29 78 216); }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-gray-500 { color: rgb(107 114 128); }
+.inline-block { display: inline-block; }
+.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+.rounded-lg { border-radius: 0.5rem; }
+.font-medium { font-weight: 500; }
+.transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+.cursor-pointer { cursor: pointer; }
+.no-underline { text-decoration: none; }
+.bg-blue-600 { background-color: rgb(37 99 235); }
+.text-white { color: rgb(255 255 255); }
+.hover\:bg-blue-700:hover { background-color: rgb(29 78 216); }
+.active\:bg-blue-800:active { background-color: rgb(30 64 175); }
+.shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+.hover\:shadow-lg:hover { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
+.hover\:transform:hover { transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+.duration-200 { transition-duration: 200ms; }
+.bg-purple-600 { background-color: rgb(147 51 234); }
+.hover\:bg-purple-700:hover { background-color: rgb(126 34 206); }
+.active\:bg-purple-800:active { background-color: rgb(107 33 168); }
+.text-blue-600 { color: rgb(37 99 235); }
+.bg-glass-light { background-color: rgba(241, 245, 249, 0.75); }
+.text-yellow-600 { color: rgb(202 138 4); }
+.text-accent-600 { color: rgb(219 39 119); }
+.hover\:text-accent-700:hover { color: rgb(190 24 93); }
+.bg-glass-subtle { background-color: rgba(248, 250, 252, 0.9); }
+.text-green-600 { color: rgb(22 163 74); }
+.text-xs { font-size: 0.75rem; line-height: 1rem; }
+.text-red-600 { color: rgb(220 38 38); }
+.border-b { border-bottom-width: 1px; border-style: solid; }
+.border-gray-200 { border-color: rgb(229 231 235); }
+.inline-flex { display: inline-flex; }
+.h-10 { height: 2.5rem; }
+.items-center { align-items: center; }
+.justify-start { justify-content: flex-start; }
+.bg-transparent { background-color: transparent; }
+.text-gray-600 { color: rgb(75 85 99); }
+.w-full { width: 100%; }
+.justify-center { justify-content: center; }
+.whitespace-nowrap { white-space: nowrap; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.py-2.5 { padding-top: 0.625rem; padding-bottom: 0.625rem; }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.border-b-2 { border-bottom-width: 2px; border-style: solid; }
+.border-blue-600 { border-color: rgb(37 99 235); }
+.-mb-px { margin-bottom: -1px; }
+.border-transparent { border-color: transparent; }
+.hover\:text-gray-900:hover { color: rgb(17 24 39); }
+.hover\:border-gray-300:hover { border-color: rgb(209 213 219); }
+.mt-6 { margin-top: 1.5rem; }
+.focus-visible\:outline-none:focus-visible { outline: 2px solid transparent; outline-offset: 2px; }
+.focus-visible\:ring-2:focus-visible { box-shadow: 0 0 0 2px rgb(59 130 246 / 0.5); }
+.focus-visible\:ring-offset-2:focus-visible { box-shadow: 0 0 0 2px white, 0 0 0 4px rgb(59 130 246 / 0.5); }
+.bg-glass-heavy { background-color: rgba(203, 213, 225, 0.4); }
+.p-6 { padding: 1.5rem; }
+.shadow-xl { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+
+/* ========================================
+ * COMPONENT STYLES
+ * ======================================== */
+
+/* Base Component */
+.taildown-component {
+  /* Base component styles */
+}
+
+/* Card Component */
+.component-card {
+  /* Additional card-specific styles */
+}
+
+.component-card .component-card {
+  padding: 1rem;
+}
+
+.component-card .component-card .component-card {
+  padding: 0.75rem;
+}
+
+.component-card .component-card .component-card .component-card {
+  padding: 0.5rem;
+}
+
+.component-grid {
+  /* Ensure grid items stretch to equal heights */
+  align-items: stretch;
+}
+
+/* Make all direct children of grid stretch to full height */
+.component-grid > * {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure cards in grids stretch to equal heights */
+.component-grid .component-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.component-container {
+  /* Additional container-specific styles */
+}
+
+/* Alert Component - Mobile Optimization */
+.component-alert {
+  /* On mobile, stack icon and content vertically for better readability */
+}
+
+@media (max-width: 640px) {
+  .component-alert {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  /* Reduce large icon sizes on mobile for better proportions */
+  .component-alert .icon.huge {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .component-alert .icon.xl {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* ========================================
+ * TABS COMPONENT
+ * ======================================== */
+
+.component-tabs {
+  width: 100%;
+}
+
+.tabs-list {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(209 213 219) transparent;
+}
+
+.tabs-list::-webkit-scrollbar {
+  height: 4px;
+}
+
+.tabs-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tabs-list::-webkit-scrollbar-thumb {
+  background: rgb(209 213 219);
+  border-radius: 2px;
+}
+
+.tabs-list::-webkit-scrollbar-thumb:hover {
+  background: rgb(156 163 175);
+}
+
+.tab-button {
+  position: relative;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .tab-button {
+    font-size: 0.813rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+.tab-button[aria-selected="true"] {
+  color: rgb(37 99 235);
+  border-color: rgb(37 99 235) !important;
+}
+
+.tab-button[aria-selected="false"]:hover {
+  color: rgb(17 24 39);
+  border-color: rgb(209 213 219);
+}
+
+.tab-panel[hidden] {
+  display: none;
+}
+
+/* ========================================
+ * ACCORDION COMPONENT
+ * ======================================== */
+
+.component-accordion {
+  border: 1px solid rgb(229 231 235);
+}
+
+.accordion-item {
+  position: relative;
+}
+
+.accordion-trigger {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 1rem;
+}
+
+.accordion-trigger:hover {
+  background-color: rgb(249 250 251);
+}
+
+.accordion-content[hidden] {
+  display: none;
+}
+
+.accordion-content {
+  padding: 0 1rem 1rem 1rem;
+  overflow: hidden;
+}
+
+.accordion-icon {
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-item.open .accordion-icon {
+  transform: rotate(180deg);
+}
+
+/* ========================================
+ * CAROUSEL COMPONENT
+ * ======================================== */
+
+.carousel-container {
+  perspective: 1200px;
+  perspective-origin: center;
+}
+
+.component-carousel {
+  position: relative;
+  width: 100%;
+}
+
+.carousel-track {
+  display: flex;
+  transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  flex-shrink: 0;
+  padding: 0 2rem;
+}
+
+.carousel-slide[hidden] {
+  display: none;
+}
+
+.carousel-card {
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+}
+
+/* Beautiful glassmorphism cards with depth */
+.carousel-card:hover {
+  transform: scale(1.02) translateZ(20px) !important;
+  box-shadow: 0 35px 60px -15px rgb(0 0 0 / 0.3) !important;
+}
+
+.carousel-prev,
+.carousel-next {
+  position: absolute;
+  z-index: 10;
+  background: white;
+  border: 1px solid rgb(229 231 235);
+  cursor: pointer;
+  outline: none;
+}
+
+.carousel-prev:hover,
+.carousel-next:hover {
+  background-color: rgb(243 244 246);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.carousel-prev:disabled,
+.carousel-next:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.carousel-indicators {
+  display: flex;
+  gap: 0.5rem;
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.carousel-indicator {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.carousel-indicator[aria-current="true"] {
+  background-color: rgb(17 24 39);
+  width: 2rem;
+}
+
+.carousel-indicator[aria-current="false"] {
+  background-color: rgb(156 163 175);
+}
+
+.carousel-indicator:hover {
+  background-color: rgb(75 85 99);
+}
+
+/* ========================================
+ * MODAL COMPONENT
+ * ======================================== */
+
+.modal-backdrop {
+  transition: opacity 200ms ease-in-out;
+}
+
+.modal-backdrop[hidden] {
+  display: none;
+}
+
+.modal-content {
+  position: relative;
+  animation: modalSlideIn 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-close {
+  z-index: 10;
+}
+
+.modal-close:hover {
+  transform: scale(1.1);
+}
+
+/* ========================================
+ * TOOLTIP COMPONENT
+ * ======================================== */
+
+.component-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-content {
+  position: absolute;
+  z-index: 50;
+  background-color: rgb(17 24 39);
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tooltip-content.visible {
+  opacity: 1;
+}
+
+.tooltip-content[data-position="top"] {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-0.5rem);
+}
+
+.tooltip-content[data-position="bottom"] {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(0.5rem);
+}
+
+.tooltip-content[data-position="left"] {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(-0.5rem);
+}
+
+.tooltip-content[data-position="right"] {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(0.5rem);
+}
+
+/* ========================================
+ * TREE COMPONENT - Directory/Hierarchy Visualization
+ * ======================================== */
+
+.tree-container {
+  position: relative;
+  overflow-x: auto;
+}
+
+/* Remove default list styling */
+.tree-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tree-container li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin: 0.25rem 0;
+  line-height: 1.6;
+}
+
+/* VS Code variant - clean tree with box-drawing characters */
+.tree-vscode li {
+  padding-left: 1.5rem;
+  position: relative;
+  line-height: 1.5;
+  margin: 0.125rem 0;
+}
+
+/* Box-drawing characters for root level items */
+.tree-vscode > ul > li::before {
+  content: '├── ';
+  position: absolute;
+  left: 0;
+  color: rgb(156 163 175);
+  font-weight: 300;
+  display: block;
+}
+
+.tree-vscode > ul > li:last-child::before {
+  content: '└── ';
+}
+
+.tree-vscode > ul > li::after {
+  display: none;
+}
+
+/* Nested level 1 (direct children of root) */
+.tree-vscode > ul > li > ul > li::before {
+  content: '│   ├── ';
+  position: absolute;
+  left: -1.5rem;
+  color: rgb(156 163 175);
+  font-weight: 300;
+  display: block;
+}
+
+.tree-vscode > ul > li > ul > li:last-child::before {
+  content: '│   └── ';
+}
+
+.tree-vscode > ul > li > ul > li::after {
+  display: none;
+}
+
+/* Nested level 2 */
+.tree-vscode > ul > li > ul > li > ul > li::before {
+  content: '│   │   ├── ';
+  position: absolute;
+  left: -3rem;
+  color: rgb(156 163 175);
+  font-weight: 300;
+  display: block;
+}
+
+.tree-vscode > ul > li > ul > li > ul > li:last-child::before {
+  content: '│   │   └── ';
+}
+
+.tree-vscode > ul > li > ul > li > ul > li::after {
+  display: none;
+}
+
+/* Nested level 3 */
+.tree-vscode > ul > li > ul > li > ul > li > ul > li::before {
+  content: '│   │   │   ├── ';
+  position: absolute;
+  left: -4.5rem;
+  color: rgb(156 163 175);
+  font-weight: 300;
+  display: block;
+}
+
+.tree-vscode > ul > li > ul > li > ul > li > ul > li:last-child::before {
+  content: '│   │   │   └── ';
+}
+
+.tree-vscode > ul > li > ul > li > ul > li > ul > li::after {
+  display: none;
+}
+
+/* Folder and file visual distinction */
+.tree-vscode li:has(ul) {
+  font-weight: 500;
+  color: rgb(37 99 235);
+}
+
+.tree-vscode li:not(:has(ul)) {
+  color: rgb(75 85 99);
+  font-weight: 400;
+}
+
+/* Tree connectors - vertical and horizontal lines */
+.tree-default li::before,
+.tree-boxed li::before,
+.tree-rounded li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1rem;
+  height: 100%;
+  border-left: 2px solid rgb(209 213 219);
+  border-bottom: 2px solid rgb(209 213 219);
+}
+
+.tree-default li::before {
+  border-left: 1px solid rgb(209 213 219);
+  border-bottom: 1px solid rgb(209 213 219);
+}
+
+.tree-rounded li::before {
+  border-bottom-left-radius: 0.5rem;
+  border-left: 2px solid rgb(147 197 253);
+  border-bottom: 2px solid rgb(147 197 253);
+}
+
+/* Last child connector stops before the bottom */
+.tree-default li:last-child::before,
+.tree-boxed li:last-child::before,
+.tree-rounded li:last-child::before {
+  height: 0.8rem;
+}
+
+/* Node indicators */
+.tree-default li::after,
+.tree-boxed li::after,
+.tree-rounded li::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65rem;
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 50%;
+  background-color: rgb(59 130 246);
+}
+
+/* Nested lists inherit tree styling */
+.tree-container ul ul {
+  margin-left: 0;
+}
+
+/* Directory indicators - folders shown as larger amber squares */
+.tree-container li:has(ul)::after,
+.tree-container li[data-tree-folder]::after {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: rgb(251 191 36);
+  border-radius: 0.125rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* File indicators (leaves without children and not marked as folder) - smaller blue dots */
+.tree-container li:not(:has(ul)):not([data-tree-folder])::after {
+  width: 0.375rem;
+  height: 0.375rem;
+  background-color: rgb(59 130 246);
+  border-radius: 50%;
+}
+
+/* Colored variant - depth-based coloring */
+.tree-colored li {
+  color: rgb(31 41 55);
+}
+
+.tree-colored ul li {
+  color: rgb(59 130 246);
+}
+
+.tree-colored ul ul li {
+  color: rgb(139 92 246);
+}
+
+.tree-colored ul ul ul li {
+  color: rgb(236 72 153);
+}
+
+/* Minimal variant - clean, no visual clutter */
+.tree-minimal li::before,
+.tree-minimal li::after {
+  display: none;
+}
+
+.tree-minimal li {
+  padding-left: 1rem;
+  opacity: 0.9;
+}
+
+.tree-minimal ul li {
+  opacity: 0.8;
+  font-size: 0.95em;
+}
+
+/* Dark variant */
+.tree-dark li::before {
+  border-color: rgb(55 65 81);
+}
+
+.tree-dark li::after {
+  background-color: rgb(96 165 250);
+}
+
+/* Glass variant - modern frosted look */
+.tree-glass {
+  backdrop-filter: blur(12px);
+}
+
+/* Mobile optimization */
+@media (max-width: 640px) {
+  .tree-container {
+    font-size: 0.813rem;
+  }
+  
+  .tree-container li {
+    padding-left: 1rem;
+    margin: 0.125rem 0;
+  }
+  
+  .tree-container li::before {
+    width: 0.75rem;
+  }
+}
+
+/* ========================================
+ * FLOW COMPONENT - Process/Flow Diagrams
+ * ======================================== */
+
+.flow-container {
+  position: relative;
+}
+
+/* Remove default list styling */
+.flow-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.flow-container li {
+  position: relative;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  background: white;
+  border: 2px solid rgb(229 231 235);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+}
+
+.flow-container li:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  transform: translateX(4px);
+}
+
+/* Vertical flow arrows */
+.flow-vertical li:not(:last-child)::after {
+  content: '↓';
+  position: absolute;
+  left: 50%;
+  bottom: -1.25rem;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  color: rgb(147 197 253);
+  z-index: 1;
+}
+
+/* Horizontal flow */
+.flow-horizontal ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.flow-horizontal li {
+  flex: 0 1 auto;
+  min-width: 150px;
+}
+
+.flow-horizontal li:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  right: -1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: rgb(147 197 253);
+}
+
+/* Stepped flow with numbers */
+.flow-stepped {
+  counter-reset: step-counter;
+}
+
+/* Reset counter for nested lists */
+.flow-stepped ul {
+  counter-reset: step-counter;
+}
+
+.flow-stepped li {
+  counter-increment: step-counter;
+  position: relative;
+  margin-left: 3rem;
+  padding: 0.75rem 0.5rem 0.75rem 1rem;
+  border-left: 4px solid rgb(59 130 246);
+  min-height: 3rem;
+  line-height: 1.6;
+}
+
+.flow-stepped li::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: -3rem;
+  top: 0.75rem;
+  width: 2rem;
+  height: 2rem;
+  background: rgb(59 130 246);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+/* Mobile-only adjustments for stepped flow */
+@media (max-width: 640px) {
+  .flow-stepped li {
+    margin-left: 2.5rem;
+    padding: 0.5rem 0.25rem 0.5rem 0.75rem;
+    min-height: 2.75rem;
+    line-height: 1.5;
+  }
+  
+  .flow-stepped li::before {
+    left: -2.5rem;
+    top: 0.5rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Branching flow - decision tree style */
+.flow-branching ul ul {
+  margin-left: 2rem;
+  border-left: 3px solid rgb(196 181 253);
+  padding-left: 1rem;
+}
+
+.flow-branching li {
+  border-color: rgb(196 181 253);
+}
+
+.flow-branching ul li {
+  border-color: rgb(167 139 250);
+}
+
+.flow-branching ul ul li {
+  border-color: rgb(139 92 246);
+}
+
+/* Mobile optimization for branching - prevent overflow and horizontal scroll */
+@media (max-width: 640px) {
+  /* Dramatically reduce nesting indentation on mobile */
+  .flow-branching ul ul {
+    margin-left: 0.5rem;
+    padding-left: 0.375rem;
+    border-left-width: 1px;
+  }
+  
+  /* Smaller text and padding for branching items */
+  .flow-branching li {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.5rem;
+    margin: 0.25rem 0;
+    line-height: 1.3;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  /* Reduce container padding to maximize space */
+  .flow-branching.flow-container {
+    padding: 0.75rem;
+    overflow-x: hidden;
+  }
+  
+  /* Deep nesting (4+ levels) - even more aggressive */
+  .flow-branching ul ul ul ul {
+    margin-left: 0.25rem;
+    padding-left: 0.25rem;
+  }
+  
+  .flow-branching ul ul ul ul li {
+    font-size: 0.688rem;
+    padding: 0.25rem 0.375rem;
+  }
+}
+
+/* Timeline variant */
+.flow-timeline li {
+  border-left-width: 4px;
+  border-left-color: rgb(59 130 246);
+  background: linear-gradient(to right, rgb(239 246 255), white);
+}
+
+.flow-timeline li::before {
+  content: '';
+  position: absolute;
+  left: -0.625rem;
+  top: 1rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: rgb(59 130 246);
+  border: 3px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgb(59 130 246);
+}
+
+/* Minimal flow - clean styling */
+.flow-minimal li {
+  border: 1px solid rgb(229 231 235);
+  background: transparent;
+  box-shadow: none;
+}
+
+.flow-minimal li:hover {
+  border-color: rgb(59 130 246);
+  background: rgb(239 246 255);
+}
+
+/* Dark theme */
+.flow-dark li {
+  background: rgb(31 41 55);
+  border-color: rgb(55 65 81);
+  color: rgb(243 244 246);
+}
+
+.flow-dark li:hover {
+  background: rgb(55 65 81);
+  border-color: rgb(96 165 250);
+}
+
+/* Glass variant */
+.flow-glass {
+  backdrop-filter: blur(12px);
+}
+
+.flow-glass li {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Mobile optimization for horizontal flows */
+@media (max-width: 640px) {
+  .flow-horizontal ul {
+    flex-direction: column;
+  }
+  
+  .flow-horizontal li:not(:last-child)::after {
+    content: '↓';
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: -1.25rem;
+    transform: translateX(-50%);
+  }
+  
+  /* General mobile optimizations for all flow types */
+  .flow-container li {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+  
+  /* Ensure container doesn't cause horizontal scroll */
+  .flow-container {
+    padding: 1rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Nested flows get indentation */
+.flow-container ul ul {
+  margin-left: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.flow-container ul ul li {
+  opacity: 0.9;
+  border-width: 1px;
+}
+
+/* Button Styles - shadcn-inspired */
+a.bg-blue-600 {
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  transform: translateY(0);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a.bg-blue-600:hover {
+  background-color: rgb(37 99 235); /* blue-700 */
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transform: translateY(-1px);
+}
+
+a.bg-blue-600:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+a.bg-gray-200 {
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  transform: translateY(0);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a.bg-gray-200:hover {
+  background-color: rgb(229 231 235); /* gray-300 */
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transform: translateY(-1px);
+}
+
+a.bg-gray-200:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+</style>
+  <script>// Taildown Interactive Components
+// Generated by Taildown compiler
+// Total size: ~4.69KB
+
+(function() {
+  'use strict';
+
+  console.log('[Taildown] JavaScript loaded');
+
+  // Initialize all components when DOM is ready
+  if (document.readyState === 'loading') {
+    console.log('[Taildown] Waiting for DOMContentLoaded');
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    console.log('[Taildown] DOM already ready, initializing now');
+    init();
+  }
+
+  function init() {
+    console.log('[Taildown] Initializing interactive components');
+    // Tabs Component
+    const tabElements = getComponents('tabs');
+    console.log('[Taildown Tabs] Found', tabElements.length, 'tabs components');
+    tabElements.forEach(tabs => {
+      console.log('[Taildown Tabs] Initializing tabs component', tabs);
+      const tabList = tabs.querySelector('[role="tablist"]');
+      console.log('[Taildown Tabs] Tab list:', tabList);
+      if (!tabList) {
+        console.warn('[Taildown Tabs] No tablist found, skipping');
+        return;
+      }
+      
+      const tabButtons = Array.from(tabList.querySelectorAll('[role="tab"]'));
+      console.log('[Taildown Tabs] Found', tabButtons.length, 'tab buttons');
+      const tabPanels = Array.from(tabs.querySelectorAll('[role="tabpanel"]'));
+      console.log('[Taildown Tabs] Found', tabPanels.length, 'tab panels');
+      
+      // Set initial active tab
+      let activeIndex = tabButtons.findIndex(btn => btn.getAttribute('aria-selected') === 'true');
+      console.log('[Taildown Tabs] Initial active index:', activeIndex);
+      if (activeIndex === -1) activeIndex = 0;
+      
+      // Switch to tab
+      function switchTab(index) {
+        // Update buttons
+        tabButtons.forEach((btn, i) => {
+          const isActive = i === index;
+          btn.setAttribute('aria-selected', isActive);
+          btn.setAttribute('tabindex', isActive ? '0' : '-1');
+          toggleClass(btn, 'active', isActive);
+        });
+        
+        // Update panels
+        tabPanels.forEach((panel, i) => {
+          const isActive = i === index;
+          panel.hidden = !isActive;
+          toggleClass(panel, 'active', isActive);
+        });
+        
+        activeIndex = index;
+      }
+      
+      // Click handlers
+      console.log('[Taildown Tabs] Attaching click handlers to', tabButtons.length, 'buttons');
+      tabButtons.forEach((btn, index) => {
+        console.log('[Taildown Tabs] Attaching handler to button', index);
+        btn.addEventListener('click', () => {
+          console.log('[Taildown Tabs] Tab clicked:', index);
+          switchTab(index);
+        });
+      });
+      console.log('[Taildown Tabs] Click handlers attached');
+      
+      // Keyboard navigation
+      tabList.addEventListener('keydown', (e) => {
+        let newIndex = activeIndex;
+        
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          newIndex = activeIndex > 0 ? activeIndex - 1 : tabButtons.length - 1;
+          e.preventDefault();
+        } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          newIndex = activeIndex < tabButtons.length - 1 ? activeIndex + 1 : 0;
+          e.preventDefault();
+        } else if (e.key === 'Home') {
+          newIndex = 0;
+          e.preventDefault();
+        } else if (e.key === 'End') {
+          newIndex = tabButtons.length - 1;
+          e.preventDefault();
+        }
+        
+        if (newIndex !== activeIndex) {
+          switchTab(newIndex);
+          tabButtons[newIndex].focus();
+        }
+      });
+      
+      // Initialize
+      switchTab(activeIndex);
+    });
+
+    // Scroll-Triggered Animations
+    // Zero-config: Automatically animates elements when they scroll into view
+
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Animation class selectors
+    const animationClasses = [
+      '.animate-fade-in',
+      '.animate-slide-up',
+      '.animate-slide-down',
+      '.animate-slide-left',
+      '.animate-slide-right',
+      '.animate-scale-in',
+      '.animate-zoom-in'
+    ];
+
+    // Find all elements with animation classes
+    const animatedElements = document.querySelectorAll(animationClasses.join(', '));
+
+    if (animatedElements.length > 0 && !prefersReducedMotion) {
+      console.log(`[Taildown] Found ${animatedElements.length} animated elements`);
+
+      // Add initial class to prevent animation on page load
+      animatedElements.forEach(el => {
+        el.classList.add('animation-paused');
+      });
+
+      // Create Intersection Observer
+      const observerOptions = {
+        root: null, // viewport
+        rootMargin: '0px 0px -10% 0px', // Trigger slightly before entering viewport
+        threshold: 0.15 // Trigger when 15% visible
+      };
+
+      const animationObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            // Element is in view - trigger animation
+            const element = entry.target;
+            
+            // Add a small stagger delay for multiple elements
+            const delay = index * 75; // 75ms between elements
+            
+            setTimeout(() => {
+              element.classList.remove('animation-paused');
+              element.classList.add('animation-playing');
+            }, delay);
+            
+            // Stop observing this element (animate only once)
+            animationObserver.unobserve(element);
+          }
+        });
+      }, observerOptions);
+
+      // Observe all animated elements
+      animatedElements.forEach(el => {
+        animationObserver.observe(el);
+      });
+      
+      console.log('[Taildown] Scroll animations initialized');
+    } else if (prefersReducedMotion) {
+      console.log('[Taildown] Reduced motion preferred - animations disabled');
+      // Remove animation classes if reduced motion preferred
+      animatedElements.forEach(el => {
+        animationClasses.forEach(className => {
+          el.classList.remove(className.slice(1)); // Remove leading dot
+        });
+      });
+    }
+
+    // Copy Code Functionality
+        function initCopyCode() {
+          console.log('[Taildown] Initializing copy code buttons');
+          
+          const copyButtons = document.querySelectorAll('.code-copy-btn');
+          console.log(`[Taildown] Found ${copyButtons.length} copy buttons`);
+          
+          copyButtons.forEach((button, index) => {
+            button.addEventListener('click', async function() {
+              const codeText = this.getAttribute('data-code-text');
+              if (!codeText) {
+                console.warn('[Taildown] No code text found for copy button');
+                return;
+              }
+              
+              console.log(`[Taildown] Copying code block ${index + 1}`);
+              
+              try {
+                // Use modern clipboard API if available
+                if (navigator.clipboard && window.isSecureContext) {
+                  await navigator.clipboard.writeText(codeText);
+                } else {
+                  // Fallback for older browsers
+                  const textArea = document.createElement('textarea');
+                  textArea.value = codeText;
+                  textArea.style.position = 'fixed';
+                  textArea.style.left = '-999999px';
+                  textArea.style.top = '-999999px';
+                  document.body.appendChild(textArea);
+                  textArea.focus();
+                  textArea.select();
+                  document.execCommand('copy');
+                  textArea.remove();
+                }
+                
+                // Show success feedback
+                showCopySuccess(this);
+                
+              } catch (err) {
+                console.warn('[Taildown] Failed to copy code:', err);
+                // Still show feedback even if copy failed
+                showCopySuccess(this);
+              }
+            });
+          });
+        }
+        
+        function showCopySuccess(button) {
+          // Get elements
+          const copyIcon = button.querySelector('.copy-icon');
+          const checkIcon = button.querySelector('.check-icon');
+          const copyText = button.querySelector('.copy-text');
+          const copiedText = button.querySelector('.copied-text');
+          
+          // Add success class
+          button.classList.add('copied');
+          
+          // Switch icons and text
+          if (copyIcon) copyIcon.style.display = 'none';
+          if (checkIcon) checkIcon.style.display = 'block';
+          if (copyText) copyText.style.display = 'none';
+          if (copiedText) copiedText.style.display = 'block';
+          
+          // Reset after 2 seconds
+          setTimeout(() => {
+            button.classList.remove('copied');
+            if (copyIcon) copyIcon.style.display = 'block';
+            if (checkIcon) checkIcon.style.display = 'none';
+            if (copyText) copyText.style.display = 'block';
+            if (copiedText) copiedText.style.display = 'none';
+          }, 2000);
+        }
+        
+        // Initialize copy code functionality
+        initCopyCode();
+
+    // Dark Mode Toggle
+    const STORAGE_KEY = 'taildown-dark-mode';
+    const DARK_CLASS = 'dark';
+
+    // Get initial theme from localStorage or system preference
+    function getInitialTheme() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        return stored === 'dark';
+      }
+      
+      // Check system preference
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return true;
+      }
+      
+      return false;
+    }
+
+    // Apply theme
+    function applyTheme(isDark) {
+      if (isDark) {
+        document.documentElement.classList.add(DARK_CLASS);
+      } else {
+        document.documentElement.classList.remove(DARK_CLASS);
+      }
+    }
+
+    // Toggle theme
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.contains(DARK_CLASS);
+      const newTheme = !isDark;
+      
+      applyTheme(newTheme);
+      localStorage.setItem(STORAGE_KEY, newTheme ? 'dark' : 'light');
+    }
+
+    // Apply initial theme immediately (prevent flash)
+    applyTheme(getInitialTheme());
+
+    // Initialize toggle button
+    const toggleButton = document.querySelector('.dark-mode-toggle');
+    if (toggleButton) {
+      toggleButton.addEventListener('click', toggleTheme);
+    }
+
+    // Listen for system preference changes
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        // Only auto-switch if user hasn't set a preference
+        if (!localStorage.getItem(STORAGE_KEY)) {
+          applyTheme(e.matches);
+        }
+      });
+    }
+
+    console.log('[Taildown] Dark mode initialized');
+    console.log('[Taildown] Initialization complete');
+  }
+
+  // Utility: Get all elements with data-component attribute
+  function getComponents(name) {
+    return document.querySelectorAll(`[data-component="${name}"]`);
+  }
+
+  // Utility: Toggle class on element
+  function toggleClass(el, className, force) {
+    el.classList.toggle(className, force);
+  }
+
+  // Utility: Set multiple attributes
+  function setAttrs(el, attrs) {
+    for (const [key, value] of Object.entries(attrs)) {
+      el.setAttribute(key, value);
+    }
+  }
+})();
+</script>
+</head>
+<body>
+  <h1 class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700">Taildown</h1>
+<p class="text-center text-lg text-gray-500"><strong>Beautiful documents. Zero configuration. Plain English.</strong></p>
+<p class="text-center text-gray-500">The revolutionary markup language that makes creating stunning, interactive web content as simple as writing.</p>
+<p><a href="#get-started" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">Get Started</a><a href="#examples" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">View Examples</a><a href="#dark-mode" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-blue-600 text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">Dark Mode Guide</a></p>
+<hr />
+<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Why Taildown?</h2>
+<p class="glass-effect glass-light bg-glass-light animate-fade-in hover:transform hover:-translate-y-1 transition-transform duration-200">:::grid{3}
+:::card</p>
+<h3 class="medium-bold text-center"><svg class="icon icon-zap text-yellow-600 text-4xl" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Zero Config Beauty</h3>
+<p>Beautiful, professional styling right out of the box. No setup, no configuration files, no build steps. Just write and compile.</p>
+<p><strong>Perfect for:</strong></p>
+<ul>
+<li>Rapid prototyping</li>
+<li>Documentation sites</li>
+<li>Landing pages</li>
+<li>Blog posts</li>
+</ul>
+<p class="glass-effect glass-light bg-glass-light animate-fade-in hover:transform hover:-translate-y-1 transition-transform duration-200">:::card</p>
+<h3 class="medium-bold text-center"><svg class="icon icon-type text-primary-600 hover:text-primary-700 text-4xl" data-icon="type" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16" /><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2" /><path d="M9 20h6" /></svg> Plain English Syntax</h3>
+<p>Use natural language like <code>{huge-bold primary center}</code> instead of cryptic CSS classes. Reads like English, compiles to beautiful HTML and CSS.</p>
+<p><strong>Features:</strong></p>
+<ul>
+<li>Natural grammar</li>
+<li>Intuitive styling</li>
+<li>Zero learning curve</li>
+<li>Self-documenting</li>
+</ul>
+<p class="glass-effect glass-light bg-glass-light animate-fade-in hover:transform hover:-translate-y-1 transition-transform duration-200">:::card</p>
+<h3 class="medium-bold text-center"><svg class="icon icon-moon text-accent-600 hover:text-accent-700 text-4xl" data-icon="moon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" /></svg> Dark Mode Built-in</h3>
+<p>Automatic dark mode with smooth transitions, localStorage persistence, and system preference detection. Works everywhere, instantly.</p>
+<p><strong>Includes:</strong></p>
+<ul>
+<li>Auto-toggle button</li>
+<li>Smooth transitions</li>
+<li>System detection</li>
+<li>Zero JavaScript needed</li>
+</ul>
+<hr />
+<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Key Features</h2>
+<p class="glass-effect glass-subtle bg-glass-subtle animate-slide-up">:::grid{2}
+:::card</p>
+<h3 class="medium-bold"><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> Core Capabilities</h3>
+<ul>
+<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Markdown Compatible</strong> - Standard Markdown works without modification</li>
+<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Plain English Styling</strong> - Natural language attributes like <code>{large-bold primary}</code></li>
+<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Icon System</strong> - Built-in Lucide icons with <code>:icon[name]</code> syntax</li>
+<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Modern Effects</strong> - Glassmorphism, animations, and smooth transitions</li>
+<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Fast Compilation</strong> - Sub-100ms compile times for instant feedback</li>
+<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Semantic HTML5</strong>- Clean, accessible markup generation</li>
+</ul>
+<p class="glass-effect glass-subtle bg-glass-subtle animate-slide-up">:::card</p>
+<h3 class="medium-bold"><svg class="icon icon-layers text-accent-600 hover:text-accent-700" data-icon="layers" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg> Interactive Components</h3>
+<ul>
+<li><svg class="icon icon-layout text-primary-600 hover:text-primary-700 text-xs" data-icon="layout" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M9 21V9" /></svg> <strong>Tabs</strong> - Zero-config tabbed interfaces</li>
+<li><svg class="icon icon-list text-primary-600 hover:text-primary-700 text-xs" data-icon="list" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h.01" /><path d="M3 12h.01" /><path d="M3 19h.01" /><path d="M8 5h13" /><path d="M8 12h13" /><path d="M8 19h13" /></svg> <strong>Accordion</strong> - Collapsible sections</li>
+<li><svg class="icon icon-image text-primary-600 hover:text-primary-700 text-xs" data-icon="image" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></svg> <strong>Carousel</strong> - Image/content sliders with 3D effects</li>
+<li><svg class="icon icon-message-square text-primary-600 hover:text-primary-700 text-xs" data-icon="message-square" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" /></svg> <strong>Modal</strong> - Dialog boxes with backdrop blur</li>
+<li><svg class="icon icon-info text-primary-600 hover:text-primary-700 text-xs" data-icon="info" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg> <strong>Tooltip</strong> - Contextual help on hover/click</li>
+<li><svg class="icon icon-code text-primary-600 hover:text-primary-700 text-xs" data-icon="code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg> <strong>Syntax Highlighting</strong>- Beautiful code blocks with copy button</li>
+</ul>
+<p class="glass-effect glass-subtle bg-glass-subtle animate-slide-up">:::card</p>
+<h3 class="medium-bold"><svg class="icon icon-sparkles text-yellow-600" data-icon="sparkles" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /><path d="M20 2v4" /><path d="M22 4h-4" /><circle cx="4" cy="20" r="2" /></svg> Attachable Components</h3>
+<p>Revolutionary one-line modals and tooltips:</p>
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">[</span>Click Me<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token attr-name">modal</span>=<span class="token string">&quot;Simple message!&quot;</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">[</span>Help<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token attr-name">tooltip</span>=<span class="token string">&quot;Quick tip&quot;</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-6rmzkyoiv" data-code-text="[Click Me](#){button modal=&#x26;quot;Simple message!&#x26;quot;}
+[Help](#){tooltip=&#x26;quot;Quick tip&#x26;quot;}
+
+" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+        </svg>
+        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+        <span class="copy-text">Copy</span>
+        <span class="copied-text" style="display: none;">Copied!</span></button></pre>
+<ul>
+<li>Attach to ANY element</li>
+<li>Full Markdown support</li>
+<li>ID references for reusability</li>
+<li>Zero JavaScript configuration</li>
+</ul>
+<p class="glass-effect glass-subtle bg-glass-subtle animate-slide-up">:::card</p>
+<h3 class="medium-bold"><svg class="icon icon-zap text-blue-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Smart Defaults</h3>
+<ul>
+<li><svg class="icon icon-palette text-accent-600 hover:text-accent-700 text-xs" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg> <strong>Semantic Colors</strong> - <code>primary</code>, <code>success</code>, <code>warning</code>, <code>error</code></li>
+<li><svg class="icon icon-wind text-primary-600 hover:text-primary-700 text-xs" data-icon="wind" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.8 19.6A2 2 0 1 0 14 16H2" /><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2" /><path d="M9.8 4.4A2 2 0 1 1 11 8H2" /></svg> <strong>Glassmorphism</strong> - Frosted glass effects with variants</li>
+<li><svg class="icon icon-move text-green-600 text-xs" data-icon="move" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20" /><path d="m15 19-3 3-3-3" /><path d="m19 9 3 3-3 3" /><path d="M2 12h20" /><path d="m5 9-3 3 3 3" /><path d="m9 5 3-3 3 3" /></svg> <strong>Scroll Animations</strong> - Entrance animations on scroll</li>
+<li><svg class="icon icon-grid-3x3 text-yellow-600 text-xs" data-icon="grid-3x3" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M3 15h18" /><path d="M9 3v18" /><path d="M15 3v18" /></svg> <strong>Responsive Grids</strong> - Mobile-first, adaptive layouts</li>
+<li><svg class="icon icon-sun text-red-600 text-xs" data-icon="sun" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" /></svg> <strong>Dark Mode</strong> - Automatic with smooth transitions</li>
+<li><svg class="icon icon-accessibility text-blue-600 text-xs" data-icon="accessibility" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="4" r="1" /><path d="m18 19 1-7-6 1" /><path d="m5 8 3-3 5.5 3-2.36 3.5" /><path d="M4.24 14.5a5 5 0 0 0 6.88 6" /><path d="M13.76 17.5a5 5 0 0 0-6.88-6" /></svg> <strong>Accessible</strong>- ARIA support, keyboard navigation</li>
+</ul>
+<hr />
+<h2 class="id=&#x22;get-started&#x22; text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Quick Start</h2>
+<p class="text-center text-gray-500">Get up and running in under 2 minutes:</p>
+<div class="taildown-component component-tabs tabs border-b border-gray-200" data-component="tabs"><div role="tablist" class="tabs-list inline-flex h-10 items-center justify-start rounded-none bg-transparent p-0 text-gray-600 border-b border-gray-200 w-full"><button role="tab" aria-selected="true" tabindex="0" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-blue-600 text-blue-600 -mb-px"><svg class="icon icon-download text-primary-600 hover:text-primary-700 text-xs" data-icon="download" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3" /><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="m7 10 5 5 5-5" /></svg> Installation</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px"><svg class="icon icon-file-text text-accent-600 hover:text-accent-700 text-xs" data-icon="file-text" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></svg> Create Document</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px"><svg class="icon icon-terminal text-green-600 text-xs" data-icon="terminal" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19h8" /><path d="m4 17 6-6-6-6" /></svg> Compile</button></div><div role="tabpanel" class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><p>Install Taildown from npm or clone the repository:</p><pre data-copyable="true"><code class="language-bash code-highlight"># Via npm (coming soon)
+npm install -g taildown
+
+# Or clone the repository
+git clone https://github.com/taildown/taildown.git
+cd taildown
+
+# Install dependencies
+pnpm install
+
+# Build packages
+pnpm build
+</code><button class="code-copy-btn" data-code-id="code-2lhx35w72" data-code-text="# Via npm (coming soon)
+npm install -g taildown
+
+# Or clone the repository
+git clone https://github.com/taildown/taildown.git
+cd taildown
+
+# Install dependencies
+pnpm install
+
+# Build packages
+pnpm build
+" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+        </svg>
+        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+        <span class="copy-text">Copy</span>
+        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><p>Create a file named <code>hello.td</code>:</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span>Welcome to Taildown <span class="token punctuation">{</span><span class="token emphasis">huge-bold</span> <span class="token property">center</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span><span class="code-line">Build beautiful documents with plain English syntax! <span class="token punctuation">{</span><span class="token number">large</span> <span class="token class-name">muted</span> <span class="token property">center</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span><span class="token punctuation">{</span><span class="token attr-name">light-glass</span> <span class="token function">slide-up</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token title punctuation">### </span><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">heart</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">error</span><span class="token punctuation">}</span> Why You&#39;ll Love It <span class="token punctuation">{</span>medium-bold<span class="token punctuation">}</span>
+</span><span class="code-line">
+</span><span class="code-line">- <span class="token punctuation">**</span><span class="token bold">Zero configuration</span><span class="token punctuation">**</span> - Beautiful by default
+</span><span class="code-line">- <span class="token punctuation">**</span><span class="token bold">Plain English</span><span class="token punctuation">**</span> - No CSS knowledge needed
+</span><span class="code-line">- <span class="token punctuation">**</span><span class="token bold">Dark mode</span><span class="token punctuation">**</span> - Built-in and automatic
+</span><span class="code-line">- <span class="token punctuation">**</span><span class="token bold">Fast</span><span class="token punctuation">**</span> - Compile in milliseconds
+</span><span class="code-line">
+</span><span class="code-line"><span class="token punctuation">[</span>Get Started<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-siqaze4tx" data-code-text="# Welcome to Taildown {huge-bold center primary}
+
+Build beautiful documents with plain English syntax! {large muted center}
+
+:::card{light-glass slide-up}
+### :icon[heart]{error} Why You&#x26;#39;ll Love It {medium-bold}
+
+- **Zero configuration** - Beautiful by default
+- **Plain English** - No CSS knowledge needed
+- **Dark mode** - Built-in and automatic
+- **Fast** - Compile in milliseconds
+
+[Get Started](#){button primary hover-lift}
+:::
+
+" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+        </svg>
+        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+        <span class="copy-text">Copy</span>
+        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><p>Compile your document to HTML:</p><pre data-copyable="true"><code class="language-bash code-highlight"># Basic compilation
+pnpm taildown compile hello.td
+
+# With dark mode (enabled by default)
+pnpm taildown compile hello.td
+
+# Separate CSS file
+pnpm taildown compile hello.td --separate
+</code><button class="code-copy-btn" data-code-id="code-s2qvv0nu9" data-code-text="# Basic compilation
+pnpm taildown compile hello.td
+
+# With dark mode (enabled by default)
+pnpm taildown compile hello.td
+
+# Separate CSS file
+pnpm taildown compile hello.td --separate
+" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+        </svg>
+        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+        <span class="copy-text">Copy</span>
+        <span class="copied-text" style="display: none;">Copied!</span></button></pre><p><strong>Output:</strong></p><ul>
+<li><code>hello.html</code> - Self-contained HTML with embedded CSS</li>
+<li>JavaScript automatically included inline if interactive components used</li>
+</ul><p>Open <code>hello.html</code>in your browser to see your beautiful, dark-mode-enabled document!</p></div></div>
+<hr />
+<h2 class="id=&#x22;dark-mode&#x22; text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Dark Mode Showcase</h2>
+<p class="text-center text-gray-500">Taildown includes automatic dark mode with zero configuration:</p>
+<p class="glass-effect glass-heavy bg-glass-heavy p-6">:::card</p>
+<h3 class="text-lg font-bold text-center"><svg class="icon icon-moon text-accent-600 hover:text-accent-700" data-icon="moon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" /></svg> How It Works</h3>
+<p class="shadow-xl">:::grid{3}
+:::card</p>
+<h3 class="medium-bold text-center">1. Auto-Detection</h3>
+<p>Automatically detects system preference on first visit using <code>prefers-color-scheme</code>.</p>
+<p class="shadow-xl">:::card</p>
+<h3 class="medium-bold text-center">2. Toggle Button</h3>
+<p>Floating toggle button (bottom-right by default) with smooth icon transitions.</p>
+<p class="shadow-xl">:::card</p>
+<h3 class="medium-bold text-center">3. Persistence</h3>
+<p>Saves preference to localStorage for consistent experience across visits.</p>
+<p><strong>Features:</strong></p>
+<ul>
+<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Smooth 300ms transitions between themes</li>
+<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> CSS variables for dynamic theming</li>
+<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Auto-injected toggle button</li>
+<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> System preference detection</li>
+<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> LocalStorage persistence</li>
+<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Zero configuration required</li>
+</ul>
+<p>:::alert{info}
+<svg class="icon icon-lightbulb text-blue-600" data-icon="lightbulb" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /><path d="M9 18h6" /><path d="M10 22h4" /></svg> <strong>Try it now!</strong>Click the moon/sun icon in the bottom-right corner to toggle between light and dark modes. Your preference will be saved automatically.</p>
+<hr />
+<h2 class="id=&#x22;examples&#x22; text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Examples</h2>
+<p class="text-center text-gray-500">Explore real-world examples showcasing Taildown's capabilities:</p>
+<p class="glass-effect glass-light bg-glass-light animate-zoom-in interactive">:::grid{3}
+:::card</p>
+<h3 class="medium-bold"><svg class="icon icon-home text-primary-600 hover:text-primary-700" data-icon="home" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> Landing Page</h3>
+<p>Complete SaaS landing page with hero section, features grid, and call-to-action. Demonstrates glassmorphism and scroll animations.</p>
+<p><a href="examples/landing-page.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-sm">View Example</a></p>
+<p class="glass-effect glass-light bg-glass-light animate-zoom-in interactive">:::card</p>
+<h3 class="medium-bold"><svg class="icon icon-book text-accent-600 hover:text-accent-700" data-icon="book" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" /></svg> Documentation</h3>
+<p>Technical documentation with syntax highlighting, code examples, and interactive tabs. Shows component organization.</p>
+<p><a href="examples/documentation.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-sm">View Example</a></p>
+<p class="glass-effect glass-light bg-glass-light animate-zoom-in interactive">:::card</p>
+<h3 class="medium-bold"><svg class="icon icon-file-text text-green-600" data-icon="file-text" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></svg> Blog Post</h3>
+<p>Long-form blog post with images, code blocks, and beautiful typography. Demonstrates content-focused design.</p>
+<p><a href="examples/blog-post.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-blue-600 text-sm">View Example</a></p>
+<p class="glass-effect glass-light bg-glass-light animate-zoom-in interactive">:::card</p>
+<h3 class="medium-bold"><svg class="icon icon-briefcase text-yellow-600" data-icon="briefcase" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /><rect width="20" height="14" x="2" y="6" rx="2" /></svg> Portfolio</h3>
+<p>Personal portfolio with project showcase, glass effects, and interactive hover states.</p>
+<p><a href="examples/portfolio.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-sm">View Example</a></p>
+<p class="glass-effect glass-light bg-glass-light animate-zoom-in interactive">:::card</p>
+<h3 class="medium-bold"><svg class="icon icon-palette text-red-600" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg> Component Library</h3>
+<p>Complete showcase of all 18+ Taildown components with variants and customization options.</p>
+<p><a href="examples/components.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-sm">View Example</a></p>
+<p class="glass-effect glass-light bg-glass-light animate-zoom-in interactive">:::card</p>
+<h3 class="medium-bold"><svg class="icon icon-zap text-blue-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Interactive Demo</h3>
+<p>Tabs, accordions, carousels, modals, and tooltips in action. Full interactivity showcase.</p>
+<p><a href="examples/interactive.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-blue-600 text-sm">View Example</a></p>
+<hr />
+<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Documentation</h2>
+<p class="text-center text-gray-500">Comprehensive guides to master Taildown:</p>
+<p class="shadow-xl hover:transform hover:-translate-y-1 transition-transform duration-200">:::grid{2}
+:::card</p>
+<h3 class="text-lg font-bold"><svg class="icon icon-book-open text-primary-600 hover:text-primary-700" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg> Syntax Guide</h3>
+<p>Learn the complete Taildown syntax from basics to advanced features.</p>
+<p><a href="syntax-guide.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg">Read Syntax Guide</a></p>
+<p class="shadow-xl hover:transform hover:-translate-y-1 transition-transform duration-200">:::card</p>
+<h3 class="text-lg font-bold"><svg class="icon icon-type text-accent-600 hover:text-accent-700" data-icon="type" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16" /><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2" /><path d="M9 20h6" /></svg> Plain English Reference</h3>
+<p>Complete reference of all plain English styling shorthands.</p>
+<p><a href="plain-english.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg">View Reference</a></p>
+<p class="shadow-xl hover:transform hover:-translate-y-1 transition-transform duration-200">:::card</p>
+<h3 class="text-lg font-bold"><svg class="icon icon-package text-green-600" data-icon="package" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path d="m7.5 4.27 9 5.15" /></svg> Components</h3>
+<p>Documentation for all 18+ built-in components with examples.</p>
+<p><a href="components.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-blue-600">Browse Components</a></p>
+<p class="shadow-xl hover:transform hover:-translate-y-1 transition-transform duration-200">:::card</p>
+<h3 class="text-lg font-bold"><svg class="icon icon-settings text-yellow-600" data-icon="settings" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></svg> Configuration</h3>
+<p>Customize colors, fonts, and defaults with <code>taildown.config.js</code>.</p>
+<p><a href="configuration.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg">Configuration Guide</a></p>
+<hr />
+<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Community &#x26; Support</h2>
+<p class="glass-effect glass-subtle bg-glass-subtle p-6">:::card</p>
+<h3 class="text-lg font-bold text-center">Get Help &#x26; Contribute</h3>
+<p class="text-center">:::grid{4}
+:::card{elevated}
+<svg class="icon icon-github text-primary-600 hover:text-primary-700 text-4xl" data-icon="github" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" /></svg></p>
+<p class="text-lg font-bold text-center"><strong>GitHub</strong></p>
+<p>Star, fork, and contribute on GitHub.</p>
+<p><a href="https://github.com/taildown/taildown" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-sm">Repository</a></p>
+<p class="text-center">:::card{elevated}
+<svg class="icon icon-message-circle text-accent-600 hover:text-accent-700 text-4xl" data-icon="message-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg></p>
+<p class="text-lg font-bold text-center"><strong>Discussions</strong></p>
+<p>Ask questions and share ideas.</p>
+<p><a href="https://github.com/taildown/taildown/discussions" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-sm">Join Discussion</a></p>
+<p class="text-center">:::card{elevated}
+<svg class="icon icon-bug text-red-600 text-4xl" data-icon="bug" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-9" /><path d="M14 7a4 4 0 0 1 4 4v3a6 6 0 0 1-12 0v-3a4 4 0 0 1 4-4z" /><path d="M14.12 3.88 16 2" /><path d="M21 21a4 4 0 0 0-3.81-4" /><path d="M21 5a4 4 0 0 1-3.55 3.97" /><path d="M22 13h-4" /><path d="M3 21a4 4 0 0 1 3.81-4" /><path d="M3 5a4 4 0 0 0 3.55 3.97" /><path d="M6 13H2" /><path d="m8 2 1.88 1.88" /><path d="M9 7.13V6a3 3 0 1 1 6 0v1.13" /></svg></p>
+<p class="text-lg font-bold text-center"><strong>Issues</strong></p>
+<p>Report bugs and request features.</p>
+<p><a href="https://github.com/taildown/taildown/issues" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-blue-600 text-sm">Open Issue</a></p>
+<p class="text-center">:::card{elevated}
+<svg class="icon icon-book text-green-600 text-4xl" data-icon="book" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" /></svg></p>
+<p class="text-lg font-bold text-center"><strong>Documentation</strong></p>
+<p>Read the full documentation.</p>
+<p><a href="docs/" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-sm">Read Docs</a></p>
+<hr />
+<p class="text-center">:::card{heavy-glass padded}
+<svg class="icon icon-heart text-red-600 text-4xl" data-icon="heart" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" /></svg></p>
+<p class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700"><strong>Made with Taildown</strong></p>
+<p class="text-lg text-center text-gray-500">This entire documentation site is written in Taildown syntax and compiled to static HTML with dark mode, glassmorphism, and scroll animations. View the source to see how it's done!</p>
+<p><a href="https://github.com/taildown/taildown/tree/main/docs-site" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-accent-600 hover:text-accent-700 text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">View Source</a></p>
+</body>
+</html>

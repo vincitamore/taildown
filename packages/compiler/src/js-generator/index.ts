@@ -19,6 +19,7 @@ import { tooltipBehavior } from './behaviors/tooltip';
 import { carouselBehavior } from './behaviors/carousel';
 import { scrollAnimationsBehavior } from './behaviors/scroll-animations';
 import { copyCodeBehavior } from './behaviors/copy-code';
+import { darkModeBehavior } from './behaviors/dark-mode';
 
 /**
  * Component behavior definition
@@ -43,6 +44,7 @@ const BEHAVIORS: Map<string, ComponentBehavior> = new Map([
   ['carousel', carouselBehavior],
   ['scroll-animations', scrollAnimationsBehavior],
   ['copy-code', copyCodeBehavior],
+  ['dark-mode', darkModeBehavior],
 ]);
 
 /**
@@ -52,8 +54,13 @@ const BEHAVIORS: Map<string, ComponentBehavior> = new Map([
  * @param usedComponents - Set of component names used in the document
  * @returns Minified JavaScript code string
  */
-export function generateJavaScript(usedComponents: Set<string>): string {
+export function generateJavaScript(usedComponents: Set<string>, includeDarkMode: boolean = true): string {
   const behaviors: ComponentBehavior[] = [];
+  
+  // Always include dark mode by default
+  if (includeDarkMode) {
+    usedComponents.add('dark-mode');
+  }
   
   // Tree-shake: only include behaviors for components actually used
   for (const componentName of usedComponents) {
