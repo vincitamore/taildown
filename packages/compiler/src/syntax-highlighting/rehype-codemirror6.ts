@@ -65,243 +65,223 @@ function highlightCode(code: string, language: string): HighlightResult {
 }
 
 /**
- * Highlight a single line of Taildown code
+ * Highlight a single line of Taildown code using regex patterns
  */
 function highlightLine(line: string): string {
   if (!line.trim()) {
-    return '';
+    return escapeHtml(line);
   }
 
-  // Create a simple stream-like interface for our parser
-  let pos = 0;
-  const tokens: Array<{ type: string; text: string }> = [];
-  
-  // Initialize parser state
-  const state = {
-    inComponent: false,
-    componentStack: [],
-    inCodeBlock: false,
-    codeBlockFence: '',
-    inAttributes: false,
-    attributeDepth: 0,
-  };
+  let result = line;
+  const tokens: Array<{ start: number; end: number; type: string }> = [];
 
-  // Simple stream interface
-  const stream = {
-    pos,
-    string: line,
-    
-    sol() {
-      return this.pos === 0;
-    },
-    
-    match(pattern: RegExp | string): string | null {
-      const regex = typeof pattern === 'string' ? new RegExp('^' + escapeRegex(pattern)) : pattern;
-      const match = this.string.slice(this.pos).match(regex);
-      if (match) {
-        this.pos += match[0].length;
-        return match[0];
-      }
-      return null;
-    },
-    
-    current(): string {
-      return this.string.slice(pos, this.pos);
-    },
-    
-    next(): string {
-      if (this.pos < this.string.length) {
-        return this.string[this.pos++] || '';
-      }
-      return '';
-    },
-    
-    skipToEnd(): void {
-      this.pos = this.string.length;
-    },
-  };
-
-  // Tokenize the line
-  while (stream.pos < line.length) {
-    const startPos = stream.pos;
-    
-    // Component blocks
-    if (stream.sol() && stream.match(/^:::/)) {
-      if (stream.match(/\s*$/)) {
-        tokens.push({ type: 'punctuation', text: stream.current() });
-        continue;
-      } else {
-        tokens.push({ type: 'punctuation', text: ':::' });
-        stream.match(/\s+/);
-        if (stream.match(/[a-z][a-z0-9-]*/)) {
-          tokens.push({ type: 'tagName', text: stream.current() });
+  // Component blocks - :::component {attributes}
+  const componentMatch = result.match(/^(:::)([a-z][a-z0-9-]*)(\s*)(\{[^}]*\})?/);
+  if (componentMatch && componentMatch[2]) {
+    let pos = 0;
+    tokens.push({ start: pos, end: pos + 3, type: 'punctuation' }); // :::
+    pos += 3;
+    tokens.push({ start: pos, end: pos + componentMatch[2].length, type: 'tagName' }); // component name
+    pos += componentMatch[2].length;
+    if (componentMatch[4] && componentMatch[3]) { // attributes
+      pos += componentMatch[3].length; // whitespace
+      tokens.push({ start: pos, end: pos + componentMatch[4].length, type: 'attributes' });
+    }
+  }
+  // Component closing
+  else if (result.match(/^:::$/)) {
+    tokens.push({ start: 0, end: 3, type: 'punctuation' });
+  }
+  // Icon syntax - :icon[name]{attributes}
+  else {
+    const iconRegex = /:icon\[([a-z][a-z0-9-]*)\](\{[^}]*\})?/g;
+    let iconMatch: RegExpExecArray | null;
+    while ((iconMatch = iconRegex.exec(result)) !== null) {
+      const start = iconMatch.index;
+      const iconName = iconMatch[1];
+      if (iconName) {
+        tokens.push({ start, end: start + 5, type: 'keyword' }); // :icon
+        tokens.push({ start: start + 5, end: start + 6, type: 'punctuation' }); // [
+        tokens.push({ start: start + 6, end: start + 6 + iconName.length, type: 'function' }); // name
+        tokens.push({ start: start + 6 + iconName.length, end: start + 7 + iconName.length, type: 'punctuation' }); // ]
+        if (iconMatch[2]) {
+          tokens.push({ start: start + 7 + iconName.length, end: start + 7 + iconName.length + iconMatch[2].length, type: 'attributes' });
         }
-        continue;
       }
     }
-    
-    // Icon syntax
-    if (stream.match(/:icon/)) {
-      tokens.push({ type: 'keyword', text: stream.current() });
-      continue;
-    }
-    
-    if (stream.match(/\[([a-z][a-z0-9-]*)\]/)) {
-      const iconName = stream.current();
-      tokens.push({ type: 'squareBracket', text: '[' });
-      tokens.push({ type: 'function', text: iconName.slice(1, -1) });
-      tokens.push({ type: 'squareBracket', text: ']' });
-      continue;
-    }
-    
-    // Attribute blocks
-    if (stream.match(/\{/)) {
-      tokens.push({ type: 'brace', text: stream.current() });
-      state.inAttributes = true;
-      state.attributeDepth = 1;
-      continue;
-    }
-    
-    if (state.inAttributes && stream.match(/\}/)) {
-      tokens.push({ type: 'brace', text: stream.current() });
-      state.attributeDepth--;
-      if (state.attributeDepth === 0) {
-        state.inAttributes = false;
-      }
-      continue;
-    }
-    
-    if (state.inAttributes) {
-      // CSS classes
-      if (stream.match(/\.[a-zA-Z0-9_-]+/)) {
-        tokens.push({ type: 'className', text: stream.current() });
-        continue;
-      }
-      
-      // Component variants
-      if (stream.match(/\b(primary|secondary|accent|success|warning|error|info|muted|ghost|link|destructive)\b/)) {
-        tokens.push({ type: 'className', text: stream.current() });
-        continue;
-      }
-      
-      // Size keywords
-      if (stream.match(/\b(xs|tiny|small|sm|md|base|large|lg|xl|2xl|3xl|huge|massive)\b/)) {
-        tokens.push({ type: 'number', text: stream.current() });
-        continue;
-      }
-      
-      // Animation keywords
-      if (stream.match(/\b(fade-in|slide-up|slide-down|zoom-in|hover-lift|hover-glow|hover-scale)\b/)) {
-        tokens.push({ type: 'function', text: stream.current() });
-        continue;
-      }
-      
-      // Typography keywords
-      if (stream.match(/\b(bold|italic|huge-bold|large-bold|xl-bold|bold-primary|large-muted|small-light|tight-lines|relaxed-lines)\b/)) {
-        tokens.push({ type: 'emphasis', text: stream.current() });
-        continue;
-      }
-      
-      // Layout keywords
-      if (stream.match(/\b(center|left|right|padded|gap|flex|grid|center-x|center-y)\b/)) {
-        tokens.push({ type: 'propertyName', text: stream.current() });
-        continue;
-      }
-      
-      // Decoration keywords
-      if (stream.match(/\b(rounded|shadow|elevated|floating|glass|subtle-glass|light-glass|heavy-glass)\b/)) {
-        tokens.push({ type: 'attributeName', text: stream.current() });
-        continue;
-      }
-      
-      // Component keywords
-      if (stream.match(/\b(button|badge|alert|modal|tooltip)\b/)) {
-        tokens.push({ type: 'keyword', text: stream.current() });
-        continue;
-      }
-      
-      // Key-value attributes
-      if (stream.match(/([a-zA-Z][a-zA-Z0-9-]*)\s*=\s*["']([^"']+)["']/)) {
-        tokens.push({ type: 'string', text: stream.current() });
-        continue;
+
+    // Attribute blocks - {content}
+    const attrRegex = /\{([^}]*)\}/g;
+    let attrMatch: RegExpExecArray | null;
+    while ((attrMatch = attrRegex.exec(result)) !== null) {
+      // Skip if already processed as part of icon or component
+      const isPartOfIcon = tokens.some(token => 
+        token.type === 'attributes' && 
+        attrMatch!.index >= token.start && 
+        attrMatch!.index < token.end
+      );
+      if (!isPartOfIcon) {
+        tokens.push({ start: attrMatch.index, end: attrMatch.index + attrMatch[0].length, type: 'attributes' });
       }
     }
-    
+
     // Headings
-    if (stream.sol() && stream.match(/^#{1,6}\s/)) {
-      tokens.push({ type: 'heading', text: stream.current() });
-      stream.skipToEnd();
-      tokens.push({ type: 'heading', text: stream.current() });
-      continue;
+    const headingMatch = result.match(/^(#{1,6})\s/);
+    if (headingMatch) {
+      tokens.push({ start: 0, end: headingMatch[0].length, type: 'heading' });
     }
-    
+
     // Strong text
-    if (stream.match(/\*\*([^*]+)\*\*/)) {
-      const match = stream.current();
-      tokens.push({ type: 'strong', text: '**' });
-      tokens.push({ type: 'strong', text: match.slice(2, -2) });
-      tokens.push({ type: 'strong', text: '**' });
-      continue;
+    const strongRegex = /\*\*([^*]+)\*\*/g;
+    let strongMatch: RegExpExecArray | null;
+    while ((strongMatch = strongRegex.exec(result)) !== null) {
+      tokens.push({ start: strongMatch.index, end: strongMatch.index + strongMatch[0].length, type: 'strong' });
     }
-    
+
     // Emphasis
-    if (stream.match(/\*([^*]+)\*/)) {
-      const match = stream.current();
-      tokens.push({ type: 'emphasis', text: '*' });
-      tokens.push({ type: 'emphasis', text: match.slice(1, -1) });
-      tokens.push({ type: 'emphasis', text: '*' });
-      continue;
+    const emphasisRegex = /\*([^*]+)\*/g;
+    let emphasisMatch: RegExpExecArray | null;
+    while ((emphasisMatch = emphasisRegex.exec(result)) !== null) {
+      // Skip if part of strong text
+      const isPartOfStrong = tokens.some(token => 
+        token.type === 'strong' && 
+        emphasisMatch!.index >= token.start && 
+        emphasisMatch!.index < token.end
+      );
+      if (!isPartOfStrong) {
+        tokens.push({ start: emphasisMatch.index, end: emphasisMatch.index + emphasisMatch[0].length, type: 'emphasis' });
+      }
     }
-    
+
     // Inline code
-    if (stream.match(/`([^`]+)`/)) {
-      tokens.push({ type: 'monospace', text: stream.current() });
-      continue;
+    const codeRegex = /`([^`]+)`/g;
+    let codeMatch: RegExpExecArray | null;
+    while ((codeMatch = codeRegex.exec(result)) !== null) {
+      tokens.push({ start: codeMatch.index, end: codeMatch.index + codeMatch[0].length, type: 'monospace' });
     }
-    
+
     // Links
-    if (stream.match(/\[([^\]]+)\]\(([^)]+)\)/)) {
-      const match = stream.current();
-        const linkMatch = match.match(/\[([^\]]+)\]\(([^)]+)\)/);
-        if (linkMatch) {
-          tokens.push({ type: 'punctuation', text: '[' });
-          tokens.push({ type: 'linkText', text: linkMatch[1] || '' });
-          tokens.push({ type: 'punctuation', text: '](' });
-          tokens.push({ type: 'url', text: linkMatch[2] || '' });
-          tokens.push({ type: 'punctuation', text: ')' });
-        }
-      continue;
+    const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    let linkMatch: RegExpExecArray | null;
+    while ((linkMatch = linkRegex.exec(result)) !== null) {
+      tokens.push({ start: linkMatch.index, end: linkMatch.index + linkMatch[0].length, type: 'link' });
     }
-    
-    // Lists
-    if (stream.sol() && stream.match(/^[\s]*[-*+]\s/)) {
-      tokens.push({ type: 'list', text: stream.current() });
-      continue;
+
+    // List markers
+    const listMatch = result.match(/^(\s*)([-*+]|\d+\.)\s/);
+    if (listMatch && listMatch[1] && listMatch[2]) {
+      const start = listMatch[1].length;
+      tokens.push({ start, end: start + listMatch[2].length, type: 'list' });
     }
-    
-    if (stream.sol() && stream.match(/^[\s]*\d+\.\s/)) {
-      tokens.push({ type: 'list', text: stream.current() });
-      continue;
-    }
-    
+
     // Blockquotes
-    if (stream.sol() && stream.match(/^>\s*/)) {
-      tokens.push({ type: 'quote', text: stream.current() });
-      continue;
-    }
-    
-    // Default: consume one character
-    if (stream.pos === startPos) {
-      stream.next();
+    const quoteMatch = result.match(/^>\s*/);
+    if (quoteMatch) {
+      tokens.push({ start: 0, end: quoteMatch[0].length, type: 'quote' });
     }
   }
 
-  // Convert tokens to HTML
-  return tokens.map(token => {
-    const className = getTokenClassName(token.type);
-    const escapedText = escapeHtml(token.text);
-    return className ? `<span class="${className}">${escapedText}</span>` : escapedText;
-  }).join('');
+  // Sort tokens by start position
+  tokens.sort((a, b) => a.start - b.start);
+
+  // Build highlighted HTML
+  let html = '';
+  let lastEnd = 0;
+
+  for (const token of tokens) {
+    // Add unhighlighted text before token
+    if (token.start > lastEnd) {
+      html += escapeHtml(result.slice(lastEnd, token.start));
+    }
+
+    // Add highlighted token
+    const tokenText = result.slice(token.start, token.end);
+    if (token.type === 'attributes') {
+      html += highlightAttributes(tokenText);
+    } else {
+      const className = getTokenClassName(token.type);
+      html += className 
+        ? `<span class="${className}">${escapeHtml(tokenText)}</span>`
+        : escapeHtml(tokenText);
+    }
+
+    lastEnd = token.end;
+  }
+
+  // Add remaining unhighlighted text
+  if (lastEnd < result.length) {
+    html += escapeHtml(result.slice(lastEnd));
+  }
+
+  return html;
+}
+
+/**
+ * Highlight content inside attribute blocks
+ */
+function highlightAttributes(attrBlock: string): string {
+  const content = attrBlock.slice(1, -1); // Remove { }
+  if (!content.trim()) {
+    return `<span class="token punctuation">{</span><span class="token punctuation">}</span>`;
+  }
+
+  let html = '<span class="token punctuation">{</span>';
+  
+  // Split by whitespace but preserve the original spacing
+  const parts = content.split(/(\s+)/);
+  
+  for (const part of parts) {
+    if (!part.trim()) {
+      html += part; // Preserve whitespace
+      continue;
+    }
+
+    // CSS classes
+    if (part.startsWith('.')) {
+      html += `<span class="token class-name">${escapeHtml(part)}</span>`;
+    }
+    // Key-value pairs
+    else if (part.includes('=')) {
+      const [key, ...valueParts] = part.split('=');
+      const value = valueParts.join('=');
+      html += `<span class="token attr-name">${escapeHtml(key || '')}</span>=<span class="token string">${escapeHtml(value || '')}</span>`;
+    }
+    // Component variants
+    else if (/^(primary|secondary|accent|success|warning|error|info|muted|ghost|link|destructive)$/.test(part)) {
+      html += `<span class="token class-name">${escapeHtml(part)}</span>`;
+    }
+    // Size keywords
+    else if (/^(xs|tiny|small|sm|md|base|large|lg|xl|2xl|3xl|huge|massive)$/.test(part)) {
+      html += `<span class="token number">${escapeHtml(part)}</span>`;
+    }
+    // Animation keywords
+    else if (/^(fade-in|slide-up|slide-down|slide-left|slide-right|zoom-in|scale-in|hover-lift|hover-glow|hover-scale|fast|smooth|slow)$/.test(part)) {
+      html += `<span class="token function">${escapeHtml(part)}</span>`;
+    }
+    // Typography keywords
+    else if (/^(bold|italic|thin|light|medium|semibold|extra-bold|black|uppercase|lowercase|capitalize|underline|strike|huge-bold|large-bold|xl-bold|bold-primary|large-muted|small-light|tight-lines|normal-lines|relaxed-lines|loose-lines)$/.test(part)) {
+      html += `<span class="token emphasis">${escapeHtml(part)}</span>`;
+    }
+    // Layout keywords
+    else if (/^(center|left|right|justify|flex|grid|inline|block|padded|padded-sm|padded-lg|padded-xl|gap|gap-sm|gap-lg|gap-xl|center-x|center-y|center-both|flex-center|grid-2|grid-3|grid-4)$/.test(part)) {
+      html += `<span class="token property">${escapeHtml(part)}</span>`;
+    }
+    // Decoration keywords
+    else if (/^(rounded|rounded-sm|rounded-lg|rounded-full|shadow|shadow-sm|shadow-lg|shadow-xl|elevated|floating|glass|subtle-glass|light-glass|heavy-glass)$/.test(part)) {
+      html += `<span class="token attr-name">${escapeHtml(part)}</span>`;
+    }
+    // Component keywords
+    else if (/^(button|badge|alert|modal|tooltip|elevated|floating|outlined|interactive)$/.test(part)) {
+      html += `<span class="token keyword">${escapeHtml(part)}</span>`;
+    }
+    // Default
+    else {
+      html += escapeHtml(part);
+    }
+  }
+  
+  html += '<span class="token punctuation">}</span>';
+  return html;
 }
 
 /**
@@ -345,12 +325,6 @@ function escapeHtml(text: string): string {
     .replace(/'/g, '&#39;');
 }
 
-/**
- * Escape regex special characters
- */
-function escapeRegex(text: string): string {
-  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
 
 /**
  * Rehype plugin for CodeMirror6-based syntax highlighting
