@@ -246,10 +246,15 @@ pre .token.symbol {
   color: #56b6c2;
 }
 
-pre .token.punctuation,
-pre .token.delimiter,
-pre .token.tag {
+/* Punctuation - brackets, braces, etc. - made more visible */
+pre .token.punctuation {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+pre .token.delimiter {
   color: #abb2bf;
+  font-weight: 600;
 }
 
 /* Special tokens */
@@ -342,6 +347,72 @@ pre .highlight-line {
   margin: 0 -1.5rem;
   padding: 0 1.5rem;
   border-left: 3px solid #61afef;
+}
+
+/* ========================================
+ * TAILDOWN-SPECIFIC SYNTAX HIGHLIGHTING
+ * Additional token types for Taildown language features
+ * ======================================== */
+
+/* Taildown component names */
+pre .token.tag {
+  color: #56b6c2;
+  font-weight: 600;
+}
+
+/* Taildown keywords (icon, button, badge, modal, tooltip) */
+pre .token.keyword {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+/* Typography modifiers (bold, large-bold, xl-bold, etc.) */
+pre .token.emphasis {
+  color: #e06c75;
+  font-weight: 500;
+}
+
+/* Markdown headings */
+pre .token.title {
+  color: #61afef;
+  font-weight: 700;
+}
+
+pre .token.title.punctuation {
+  color: #abb2bf;
+  font-weight: 400;
+}
+
+/* Inline code */
+pre .token.code {
+  color: #98c379;
+  background: rgba(152, 195, 121, 0.1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+/* Horizontal rules */
+pre .token.hr {
+  color: #5c6370;
+  font-weight: 700;
+}
+
+/* Escape sequences */
+pre .token.escape {
+  color: #56b6c2;
+  font-weight: 600;
+}
+
+/* Language tags for code blocks */
+pre .token.language-tag {
+  color: #e5c07b;
+  font-style: italic;
+}
+
+/* Link components */
+pre .token.url {
+  color: #56b6c2;
+  text-decoration: underline;
 }
 
 /* ========================================
@@ -557,44 +628,74 @@ td svg.icon {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Glass intensity variants - each includes full effect */
+/* Glass intensity variants - each includes full effect with premium gradient borders */
 .glass-subtle {
-  background: rgba(248, 250, 252, 0.9);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(4px) saturate(100%);
   backdrop-filter: blur(4px) saturate(100%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.35) 0%, 
+      rgba(255, 255, 255, 0.15) 50%, 
+      rgba(255, 255, 255, 0.35) 100%) border-box;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-light {
-  background: rgba(241, 245, 249, 0.75);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(8px) saturate(105%);
   backdrop-filter: blur(8px) saturate(105%);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(241, 245, 249, 0.75), rgba(241, 245, 249, 0.75)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.3) 0%, 
+      rgba(255, 255, 255, 0.12) 50%, 
+      rgba(255, 255, 255, 0.3) 100%) border-box;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-medium {
-  background: rgba(226, 232, 240, 0.6);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(12px) saturate(110%);
   backdrop-filter: blur(12px) saturate(110%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(226, 232, 240, 0.6), rgba(226, 232, 240, 0.6)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.25) 0%, 
+      rgba(255, 255, 255, 0.1) 50%, 
+      rgba(255, 255, 255, 0.25) 100%) border-box;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-heavy {
-  background: rgba(203, 213, 225, 0.4);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(16px) saturate(120%);
   backdrop-filter: blur(16px) saturate(120%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(203, 213, 225, 0.4), rgba(203, 213, 225, 0.4)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.2) 0%, 
+      rgba(56, 189, 248, 0.12) 25%,
+      rgba(14, 165, 233, 0.12) 50%,
+      rgba(59, 130, 246, 0.12) 75%,
+      rgba(255, 255, 255, 0.2) 100%) border-box;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
+    inset 0 0 20px 0 rgba(255, 255, 255, 0.03);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -794,62 +895,72 @@ td svg.icon {
   }
 }
 
-/* Entrance animation classes - slower, more elegant */
-/* Set initial state to prevent flash before animation starts */
+/* Entrance animation classes - scroll-triggered, elegant, professional */
+/* Initial state: Elements start hidden to prevent flash */
 /* GPU acceleration for smooth rendering */
-.animate-fade-in {
-  opacity: 0;
-  will-change: opacity;
+/* Animation is paused by default and triggered when scrolling into view */
+
+/* Base animation states */
+.animate-fade-in,
+.animate-slide-up,
+.animate-slide-down,
+.animate-slide-left,
+.animate-slide-right,
+.animate-scale-in,
+.animate-zoom-in {
+  will-change: transform, opacity;
   backface-visibility: hidden;
+}
+
+/* Paused state (before element scrolls into view) */
+.animate-fade-in.animation-paused { opacity: 0; }
+.animate-slide-up.animation-paused { opacity: 0; transform: translateY(40px); }
+.animate-slide-down.animation-paused { opacity: 0; transform: translateY(-40px); }
+.animate-slide-left.animation-paused { opacity: 0; transform: translateX(16px); }
+.animate-slide-right.animation-paused { opacity: 0; transform: translateX(-16px); }
+.animate-scale-in.animation-paused { opacity: 0; transform: scale(0.8); }
+.animate-zoom-in.animation-paused { opacity: 0; transform: scale(0.5); }
+
+/* Playing state (when element is in view) - triggers animation */
+.animate-fade-in.animation-playing {
   animation: fadeIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slide-up {
-  opacity: 0;
-  transform: translateY(40px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-up.animation-playing {
   animation: slideUp 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slide-down {
-  opacity: 0;
-  transform: translateY(-40px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-down.animation-playing {
   animation: slideDown 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slide-left {
-  opacity: 0;
-  transform: translateX(16px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-left.animation-playing {
   animation: slideLeft 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slide-right {
-  opacity: 0;
-  transform: translateX(-16px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-right.animation-playing {
   animation: slideRight 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-scale-in {
-  opacity: 0;
-  transform: scale(0.8);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-scale-in.animation-playing {
   animation: scaleIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-zoom-in {
-  opacity: 0;
-  transform: scale(0.5); // Twice as far away (0.7 -> 0.5)
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-zoom-in.animation-playing {
   animation: zoomIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Fallback: If JS doesn't load, still show content (accessibility) */
+/* Elements without .animation-paused will be visible */
+.animate-fade-in:not(.animation-paused):not(.animation-playing),
+.animate-slide-up:not(.animation-paused):not(.animation-playing),
+.animate-slide-down:not(.animation-paused):not(.animation-playing),
+.animate-slide-left:not(.animation-paused):not(.animation-playing),
+.animate-slide-right:not(.animation-paused):not(.animation-playing),
+.animate-scale-in:not(.animation-paused):not(.animation-playing),
+.animate-zoom-in:not(.animation-paused):not(.animation-playing) {
+  opacity: 1;
+  transform: none;
 }
 
 /* Animation delays for staggered effects */
@@ -1894,7 +2005,117 @@ a.bg-gray-200:active {
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
 </style>
-  
+  <script>// Taildown Interactive Components
+// Generated by Taildown compiler
+// Total size: ~1.17KB
+
+(function() {
+  'use strict';
+
+  console.log('[Taildown] JavaScript loaded');
+
+  // Initialize all components when DOM is ready
+  if (document.readyState === 'loading') {
+    console.log('[Taildown] Waiting for DOMContentLoaded');
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    console.log('[Taildown] DOM already ready, initializing now');
+    init();
+  }
+
+  function init() {
+    console.log('[Taildown] Initializing interactive components');
+    // Scroll-Triggered Animations
+    // Zero-config: Automatically animates elements when they scroll into view
+
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Animation class selectors
+    const animationClasses = [
+      '.animate-fade-in',
+      '.animate-slide-up',
+      '.animate-slide-down',
+      '.animate-slide-left',
+      '.animate-slide-right',
+      '.animate-scale-in',
+      '.animate-zoom-in'
+    ];
+
+    // Find all elements with animation classes
+    const animatedElements = document.querySelectorAll(animationClasses.join(', '));
+
+    if (animatedElements.length > 0 && !prefersReducedMotion) {
+      console.log(`[Taildown] Found ${animatedElements.length} animated elements`);
+
+      // Add initial class to prevent animation on page load
+      animatedElements.forEach(el => {
+        el.classList.add('animation-paused');
+      });
+
+      // Create Intersection Observer
+      const observerOptions = {
+        root: null, // viewport
+        rootMargin: '0px 0px -10% 0px', // Trigger slightly before entering viewport
+        threshold: 0.15 // Trigger when 15% visible
+      };
+
+      const animationObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            // Element is in view - trigger animation
+            const element = entry.target;
+            
+            // Add a small stagger delay for multiple elements
+            const delay = index * 75; // 75ms between elements
+            
+            setTimeout(() => {
+              element.classList.remove('animation-paused');
+              element.classList.add('animation-playing');
+            }, delay);
+            
+            // Stop observing this element (animate only once)
+            animationObserver.unobserve(element);
+          }
+        });
+      }, observerOptions);
+
+      // Observe all animated elements
+      animatedElements.forEach(el => {
+        animationObserver.observe(el);
+      });
+      
+      console.log('[Taildown] Scroll animations initialized');
+    } else if (prefersReducedMotion) {
+      console.log('[Taildown] Reduced motion preferred - animations disabled');
+      // Remove animation classes if reduced motion preferred
+      animatedElements.forEach(el => {
+        animationClasses.forEach(className => {
+          el.classList.remove(className.slice(1)); // Remove leading dot
+        });
+      });
+    }
+    console.log('[Taildown] Initialization complete');
+  }
+
+  // Utility: Get all elements with data-component attribute
+  function getComponents(name) {
+    return document.querySelectorAll(`[data-component="${name}"]`);
+  }
+
+  // Utility: Toggle class on element
+  function toggleClass(el, className, force) {
+    el.classList.toggle(className, force);
+  }
+
+  // Utility: Set multiple attributes
+  function setAttrs(el, attrs) {
+    for (const [key, value] of Object.entries(attrs)) {
+      el.setAttribute(key, value);
+    }
+  }
+})();
+</script>
 </head>
 <body>
   <h1 class="text-4xl font-bold text-center">Grid Layouts</h1>

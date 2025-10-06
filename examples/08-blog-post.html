@@ -246,10 +246,15 @@ pre .token.symbol {
   color: #56b6c2;
 }
 
-pre .token.punctuation,
-pre .token.delimiter,
-pre .token.tag {
+/* Punctuation - brackets, braces, etc. - made more visible */
+pre .token.punctuation {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+pre .token.delimiter {
   color: #abb2bf;
+  font-weight: 600;
 }
 
 /* Special tokens */
@@ -342,6 +347,72 @@ pre .highlight-line {
   margin: 0 -1.5rem;
   padding: 0 1.5rem;
   border-left: 3px solid #61afef;
+}
+
+/* ========================================
+ * TAILDOWN-SPECIFIC SYNTAX HIGHLIGHTING
+ * Additional token types for Taildown language features
+ * ======================================== */
+
+/* Taildown component names */
+pre .token.tag {
+  color: #56b6c2;
+  font-weight: 600;
+}
+
+/* Taildown keywords (icon, button, badge, modal, tooltip) */
+pre .token.keyword {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+/* Typography modifiers (bold, large-bold, xl-bold, etc.) */
+pre .token.emphasis {
+  color: #e06c75;
+  font-weight: 500;
+}
+
+/* Markdown headings */
+pre .token.title {
+  color: #61afef;
+  font-weight: 700;
+}
+
+pre .token.title.punctuation {
+  color: #abb2bf;
+  font-weight: 400;
+}
+
+/* Inline code */
+pre .token.code {
+  color: #98c379;
+  background: rgba(152, 195, 121, 0.1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+/* Horizontal rules */
+pre .token.hr {
+  color: #5c6370;
+  font-weight: 700;
+}
+
+/* Escape sequences */
+pre .token.escape {
+  color: #56b6c2;
+  font-weight: 600;
+}
+
+/* Language tags for code blocks */
+pre .token.language-tag {
+  color: #e5c07b;
+  font-style: italic;
+}
+
+/* Link components */
+pre .token.url {
+  color: #56b6c2;
+  text-decoration: underline;
 }
 
 /* ========================================
@@ -557,44 +628,74 @@ td svg.icon {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Glass intensity variants - each includes full effect */
+/* Glass intensity variants - each includes full effect with premium gradient borders */
 .glass-subtle {
-  background: rgba(248, 250, 252, 0.9);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(4px) saturate(100%);
   backdrop-filter: blur(4px) saturate(100%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.35) 0%, 
+      rgba(255, 255, 255, 0.15) 50%, 
+      rgba(255, 255, 255, 0.35) 100%) border-box;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-light {
-  background: rgba(241, 245, 249, 0.75);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(8px) saturate(105%);
   backdrop-filter: blur(8px) saturate(105%);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(241, 245, 249, 0.75), rgba(241, 245, 249, 0.75)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.3) 0%, 
+      rgba(255, 255, 255, 0.12) 50%, 
+      rgba(255, 255, 255, 0.3) 100%) border-box;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-medium {
-  background: rgba(226, 232, 240, 0.6);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(12px) saturate(110%);
   backdrop-filter: blur(12px) saturate(110%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(226, 232, 240, 0.6), rgba(226, 232, 240, 0.6)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.25) 0%, 
+      rgba(255, 255, 255, 0.1) 50%, 
+      rgba(255, 255, 255, 0.25) 100%) border-box;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-heavy {
-  background: rgba(203, 213, 225, 0.4);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(16px) saturate(120%);
   backdrop-filter: blur(16px) saturate(120%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(203, 213, 225, 0.4), rgba(203, 213, 225, 0.4)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.2) 0%, 
+      rgba(56, 189, 248, 0.12) 25%,
+      rgba(14, 165, 233, 0.12) 50%,
+      rgba(59, 130, 246, 0.12) 75%,
+      rgba(255, 255, 255, 0.2) 100%) border-box;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
+    inset 0 0 20px 0 rgba(255, 255, 255, 0.03);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -794,62 +895,72 @@ td svg.icon {
   }
 }
 
-/* Entrance animation classes - slower, more elegant */
-/* Set initial state to prevent flash before animation starts */
+/* Entrance animation classes - scroll-triggered, elegant, professional */
+/* Initial state: Elements start hidden to prevent flash */
 /* GPU acceleration for smooth rendering */
-.animate-fade-in {
-  opacity: 0;
-  will-change: opacity;
+/* Animation is paused by default and triggered when scrolling into view */
+
+/* Base animation states */
+.animate-fade-in,
+.animate-slide-up,
+.animate-slide-down,
+.animate-slide-left,
+.animate-slide-right,
+.animate-scale-in,
+.animate-zoom-in {
+  will-change: transform, opacity;
   backface-visibility: hidden;
+}
+
+/* Paused state (before element scrolls into view) */
+.animate-fade-in.animation-paused { opacity: 0; }
+.animate-slide-up.animation-paused { opacity: 0; transform: translateY(40px); }
+.animate-slide-down.animation-paused { opacity: 0; transform: translateY(-40px); }
+.animate-slide-left.animation-paused { opacity: 0; transform: translateX(16px); }
+.animate-slide-right.animation-paused { opacity: 0; transform: translateX(-16px); }
+.animate-scale-in.animation-paused { opacity: 0; transform: scale(0.8); }
+.animate-zoom-in.animation-paused { opacity: 0; transform: scale(0.5); }
+
+/* Playing state (when element is in view) - triggers animation */
+.animate-fade-in.animation-playing {
   animation: fadeIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slide-up {
-  opacity: 0;
-  transform: translateY(40px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-up.animation-playing {
   animation: slideUp 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slide-down {
-  opacity: 0;
-  transform: translateY(-40px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-down.animation-playing {
   animation: slideDown 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slide-left {
-  opacity: 0;
-  transform: translateX(16px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-left.animation-playing {
   animation: slideLeft 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slide-right {
-  opacity: 0;
-  transform: translateX(-16px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-right.animation-playing {
   animation: slideRight 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-scale-in {
-  opacity: 0;
-  transform: scale(0.8);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-scale-in.animation-playing {
   animation: scaleIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-zoom-in {
-  opacity: 0;
-  transform: scale(0.5); // Twice as far away (0.7 -> 0.5)
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-zoom-in.animation-playing {
   animation: zoomIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Fallback: If JS doesn't load, still show content (accessibility) */
+/* Elements without .animation-paused will be visible */
+.animate-fade-in:not(.animation-paused):not(.animation-playing),
+.animate-slide-up:not(.animation-paused):not(.animation-playing),
+.animate-slide-down:not(.animation-paused):not(.animation-playing),
+.animate-slide-left:not(.animation-paused):not(.animation-playing),
+.animate-slide-right:not(.animation-paused):not(.animation-playing),
+.animate-scale-in:not(.animation-paused):not(.animation-playing),
+.animate-zoom-in:not(.animation-paused):not(.animation-playing) {
+  opacity: 1;
+  transform: none;
 }
 
 /* Animation delays for staggered effects */
@@ -1035,11 +1146,19 @@ td svg.icon {
 .mx-auto { margin-left: auto; margin-right: auto; }
 .px-4 { padding-left: 1rem; padding-right: 1rem; }
 .max-w-6xl { max-width: 72rem; }
+.p-4 { padding: 1rem; }
+.rounded-lg { border-radius: 0.5rem; }
+.border { border-width: 1px; border-style: solid; }
+.flex { display: flex; }
+.items-start { align-items: flex-start; }
+.gap-3 { gap: 0.75rem; }
+.bg-blue-50 { background-color: rgb(239 246 255); }
+.border-blue-200 { border-color: rgb(191 219 254); }
+.text-blue-800 { color: rgb(30 64 175); }
 .text-blue-600 { color: rgb(37 99 235); }
 .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
 .text-primary-600 { color: rgb(37 99 235); }
 .hover\:text-primary-700:hover { color: rgb(29 78 216); }
-.rounded-lg { border-radius: 0.5rem; }
 .p-6 { padding: 1.5rem; }
 .max-w-full { max-width: 100%; }
 .overflow-x-hidden { overflow-x: hidden; }
@@ -1066,13 +1185,8 @@ td svg.icon {
 .bg-white { background-color: rgb(255 255 255); }
 .overflow-x-auto { overflow-x: auto; }
 .bg-gray-50 { background-color: rgb(249 250 251); }
-.border { border-width: 1px; border-style: solid; }
 .border-gray-200 { border-color: rgb(229 231 235); }
 .text-gray-900 { color: rgb(17 24 39); }
-.p-4 { padding: 1rem; }
-.flex { display: flex; }
-.items-start { align-items: flex-start; }
-.gap-3 { gap: 0.75rem; }
 .bg-amber-50 { background-color: rgb(255 251 235); }
 .border-amber-200 { border-color: rgb(253 230 138); }
 .text-amber-800 { color: rgb(146 64 14); }
@@ -1118,7 +1232,22 @@ td svg.icon {
 }
 
 .component-grid {
-  /* Additional grid-specific styles */
+  /* Ensure grid items stretch to equal heights */
+  align-items: stretch;
+}
+
+/* Make all direct children of grid stretch to full height */
+.component-grid > * {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure cards in grids stretch to equal heights */
+.component-grid .component-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .component-container {
@@ -1899,69 +2028,150 @@ a.bg-gray-200:active {
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
 </style>
-  
+  <script>// Taildown Interactive Components
+// Generated by Taildown compiler
+// Total size: ~1.17KB
+
+(function() {
+  'use strict';
+
+  console.log('[Taildown] JavaScript loaded');
+
+  // Initialize all components when DOM is ready
+  if (document.readyState === 'loading') {
+    console.log('[Taildown] Waiting for DOMContentLoaded');
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    console.log('[Taildown] DOM already ready, initializing now');
+    init();
+  }
+
+  function init() {
+    console.log('[Taildown] Initializing interactive components');
+    // Scroll-Triggered Animations
+    // Zero-config: Automatically animates elements when they scroll into view
+
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Animation class selectors
+    const animationClasses = [
+      '.animate-fade-in',
+      '.animate-slide-up',
+      '.animate-slide-down',
+      '.animate-slide-left',
+      '.animate-slide-right',
+      '.animate-scale-in',
+      '.animate-zoom-in'
+    ];
+
+    // Find all elements with animation classes
+    const animatedElements = document.querySelectorAll(animationClasses.join(', '));
+
+    if (animatedElements.length > 0 && !prefersReducedMotion) {
+      console.log(`[Taildown] Found ${animatedElements.length} animated elements`);
+
+      // Add initial class to prevent animation on page load
+      animatedElements.forEach(el => {
+        el.classList.add('animation-paused');
+      });
+
+      // Create Intersection Observer
+      const observerOptions = {
+        root: null, // viewport
+        rootMargin: '0px 0px -10% 0px', // Trigger slightly before entering viewport
+        threshold: 0.15 // Trigger when 15% visible
+      };
+
+      const animationObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            // Element is in view - trigger animation
+            const element = entry.target;
+            
+            // Add a small stagger delay for multiple elements
+            const delay = index * 75; // 75ms between elements
+            
+            setTimeout(() => {
+              element.classList.remove('animation-paused');
+              element.classList.add('animation-playing');
+            }, delay);
+            
+            // Stop observing this element (animate only once)
+            animationObserver.unobserve(element);
+          }
+        });
+      }, observerOptions);
+
+      // Observe all animated elements
+      animatedElements.forEach(el => {
+        animationObserver.observe(el);
+      });
+      
+      console.log('[Taildown] Scroll animations initialized');
+    } else if (prefersReducedMotion) {
+      console.log('[Taildown] Reduced motion preferred - animations disabled');
+      // Remove animation classes if reduced motion preferred
+      animatedElements.forEach(el => {
+        animationClasses.forEach(className => {
+          el.classList.remove(className.slice(1)); // Remove leading dot
+        });
+      });
+    }
+    console.log('[Taildown] Initialization complete');
+  }
+
+  // Utility: Get all elements with data-component attribute
+  function getComponents(name) {
+    return document.querySelectorAll(`[data-component="${name}"]`);
+  }
+
+  // Utility: Toggle class on element
+  function toggleClass(el, className, force) {
+    el.classList.toggle(className, force);
+  }
+
+  // Utility: Set multiple attributes
+  function setAttrs(el, attrs) {
+    for (const [key, value] of Object.entries(attrs)) {
+      el.setAttribute(key, value);
+    }
+  }
+})();
+</script>
 </head>
 <body>
   <h1 class="text-4xl font-bold">Building Scalable Web Applications in 2025</h1>
 <h2 class="text-xl text-gray-500 leading-relaxed">A comprehensive guide to modern architecture patterns</h2>
 <p class="text-sm text-gray-500"><strong>By Sarah Johnson</strong> • October 4, 2025 • 12 min read</p>
 <hr />
-<div class="taildown-component component-container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl"><p>:::alert {info}
-<svg class="icon icon-book-open text-blue-600" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg> <strong>TL;DR</strong> - This article covers modern web architecture patterns including microservices, serverless, and edge computing. We'll explore when to use each approach and provide real-world examples.</p></div>
-<h2 class="xl-bold">Introduction</h2>
-<p class="text-lg leading-relaxed">The landscape of web development has evolved dramatically over the past decade. What worked five years ago might not be the best approach today.</p>
-<p>In this article, we'll explore three major architectural patterns and when to use each:</p>
-<ol>
+<div class="taildown-component component-container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl"><div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-blue-50 border-blue-200 text-blue-800"><p><svg class="icon icon-book-open text-blue-600" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg><strong>TL;DR</strong>- This article covers modern web architecture patterns including microservices, serverless, and edge computing. We'll explore when to use each approach and provide real-world examples.</p></div><h2 class="xl-bold">Introduction</h2><p class="text-lg leading-relaxed">The landscape of web development has evolved dramatically over the past decade. What worked five years ago might not be the best approach today.</p><p>In this article, we'll explore three major architectural patterns and when to use each:</p><ol>
 <li>Monolithic Architecture</li>
 <li>Microservices Architecture</li>
 <li>Serverless Architecture</li>
-</ol>
-<p class="text-lg leading-relaxed">Let's dive in!</p>
-<hr />
-<h2 class="xl-bold animate-fade-in"><svg class="icon icon-box text-primary-600 hover:text-primary-700" data-icon="box" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg> Monolithic Architecture</h2>
-<h3 class="text-lg font-bold">What It Is</h3>
-<p class="leading-relaxed">A monolithic application is a single, unified codebase that handles all functionality.</p>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md"><h3><svg class="icon icon-thumbs-up text-green-600" data-icon="thumbs-up" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12" /><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z" /></svg> Pros</h3><ul>
+</ol><p class="text-lg leading-relaxed">Let's dive in!</p><hr /><h2 class="xl-bold animate-fade-in"><svg class="icon icon-box text-primary-600 hover:text-primary-700" data-icon="box" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg> Monolithic Architecture</h2><h3 class="text-lg font-bold">What It Is</h3><p class="leading-relaxed">A monolithic application is a single, unified codebase that handles all functionality.</p><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md"><h3><svg class="icon icon-thumbs-up text-green-600" data-icon="thumbs-up" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12" /><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z" /></svg> Pros</h3><ul>
 <li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Simple to develop</strong> - Everything in one place</li>
 <li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Easy to deploy</strong> - Single deployment unit</li>
 <li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Strong consistency</strong> - Direct database access</li>
 <li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Better for small teams</strong>- Less coordination needed</li>
-</ul></div>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm"><h3><svg class="icon icon-thumbs-down text-red-600" data-icon="thumbs-down" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2" /><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z" /></svg> Cons</h3><ul>
+</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm"><h3><svg class="icon icon-thumbs-down text-red-600" data-icon="thumbs-down" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2" /><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z" /></svg> Cons</h3><ul>
 <li><svg class="icon icon-x text-red-600 text-xs" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> <strong>Difficult to scale</strong> - Must scale entire application</li>
 <li><svg class="icon icon-x text-red-600 text-xs" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> <strong>Technology lock-in</strong> - One framework/language for everything</li>
 <li><svg class="icon icon-x text-red-600 text-xs" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> <strong>Slower deployments</strong> - Small changes require full rebuild</li>
 <li><svg class="icon icon-x text-red-600 text-xs" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> <strong>Harder to maintain</strong>- Codebase grows complex over time</li>
-</ul></div>
-<h3 class="text-lg font-bold">When to Use</h3>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-rocket text-yellow-600" data-icon="rocket" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" /><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" /><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" /><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /></svg> Early Stage Startups</h3><p>When you need to move fast and validate ideas quickly.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-users text-blue-600" data-icon="users" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><path d="M16 3.128a4 4 0 0 1 0 7.744" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><circle cx="9" cy="7" r="4" /></svg> Small Teams</h3><p>When you have &#x3C; 10 developers working on the project.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-target text-green-600" data-icon="target" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg> Simple Applications</h3><p>When requirements are straightforward and unlikely to change.</p></div></div>
-<hr />
-<h2 class="xl-bold animate-fade-in"><svg class="icon icon-grid text-secondary-600 hover:text-secondary-700" data-icon="grid" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M3 15h18" /><path d="M9 3v18" /><path d="M15 3v18" /></svg> Microservices Architecture</h2>
-<h3 class="text-lg font-bold">What It Is</h3>
-<p class="leading-relaxed">Microservices break an application into small, independent services that communicate via APIs.</p>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3>Example Architecture</h3><div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-stepped bg-white text-gray-900"><ul>
+</ul></div><h3 class="text-lg font-bold">When to Use</h3><div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-rocket text-yellow-600" data-icon="rocket" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" /><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" /><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" /><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /></svg> Early Stage Startups</h3><p>When you need to move fast and validate ideas quickly.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-users text-blue-600" data-icon="users" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><path d="M16 3.128a4 4 0 0 1 0 7.744" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><circle cx="9" cy="7" r="4" /></svg> Small Teams</h3><p>When you have &#x3C; 10 developers working on the project.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-target text-green-600" data-icon="target" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg> Simple Applications</h3><p>When requirements are straightforward and unlikely to change.</p></div></div><hr /><h2 class="xl-bold animate-fade-in"><svg class="icon icon-grid text-secondary-600 hover:text-secondary-700" data-icon="grid" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M3 15h18" /><path d="M9 3v18" /><path d="M15 3v18" /></svg> Microservices Architecture</h2><h3 class="text-lg font-bold">What It Is</h3><p class="leading-relaxed">Microservices break an application into small, independent services that communicate via APIs.</p><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3>Example Architecture</h3><div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-stepped bg-white text-gray-900"><ul>
 <li>API Gateway</li>
 <li>Auth / Users / Orders / Payment</li>
 <li>Database Layer</li>
-</ul></div></div>
-<h3 class="text-lg font-bold">Benefits</h3>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h4><svg class="icon icon-trending-up text-green-600 lg" data-icon="trending-up" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6" /><path d="m22 7-8.5 8.5-5-5L2 17" /></svg> Independent Scaling</h4><p>Scale services based on demand. Payment service getting hammered? Scale it independently.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h4><svg class="icon icon-layers text-blue-600 lg" data-icon="layers" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg> Technology Flexibility</h4><p>Use the best tool for each job. Node.js for real-time, Go for high-throughput, Python for ML.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h4><svg class="icon icon-package text-primary-600 hover:text-primary-700 lg" data-icon="package" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path d="m7.5 4.27 9 5.15" /></svg> Isolated Deployments</h4><p>Deploy services independently. Bug fix in auth service? Deploy it without touching anything else.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h4><svg class="icon icon-users text-secondary-600 hover:text-secondary-700 lg" data-icon="users" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><path d="M16 3.128a4 4 0 0 1 0 7.744" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><circle cx="9" cy="7" r="4" /></svg> Team Autonomy</h4><p>Teams own services end-to-end. Less coordination, faster decisions.</p></div></div>
-<h3 class="text-lg font-bold">Challenges</h3>
-<blockquote>
+</ul></div></div><h3 class="text-lg font-bold">Benefits</h3><div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h4><svg class="icon icon-trending-up text-green-600 lg" data-icon="trending-up" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6" /><path d="m22 7-8.5 8.5-5-5L2 17" /></svg> Independent Scaling</h4><p>Scale services based on demand. Payment service getting hammered? Scale it independently.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h4><svg class="icon icon-layers text-blue-600 lg" data-icon="layers" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg> Technology Flexibility</h4><p>Use the best tool for each job. Node.js for real-time, Go for high-throughput, Python for ML.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h4><svg class="icon icon-package text-primary-600 hover:text-primary-700 lg" data-icon="package" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path d="m7.5 4.27 9 5.15" /></svg> Isolated Deployments</h4><p>Deploy services independently. Bug fix in auth service? Deploy it without touching anything else.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h4><svg class="icon icon-users text-secondary-600 hover:text-secondary-700 lg" data-icon="users" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><path d="M16 3.128a4 4 0 0 1 0 7.744" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><circle cx="9" cy="7" r="4" /></svg> Team Autonomy</h4><p>Teams own services end-to-end. Less coordination, faster decisions.</p></div></div><h3 class="text-lg font-bold">Challenges</h3><blockquote>
 <p>"With microservices, you're trading one set of problems for another. Make sure the tradeoff is worth it."
 — Martin Fowler</p>
-</blockquote>
-<div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-amber-50 border-amber-200 text-amber-800"><p><svg class="icon icon-alert-triangle text-yellow-600" data-icon="alert-triangle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg> <strong>Key Challenges:</strong></p><ul>
+</blockquote><div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-amber-50 border-amber-200 text-amber-800"><p><svg class="icon icon-alert-triangle text-yellow-600" data-icon="alert-triangle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg> <strong>Key Challenges:</strong></p><ul>
 <li><strong>Distributed Complexity</strong> - Network calls can fail, latency increases</li>
 <li><strong>Data Consistency</strong> - Maintaining consistency across services is hard</li>
 <li><strong>Operational Overhead</strong> - More services = more to monitor and maintain</li>
 <li><strong>Testing Difficulty</strong>- Integration testing becomes more complex</li>
-</ul></div>
-<hr />
-<h2 class="xl-bold animate-fade-in"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Serverless Architecture</h2>
-<h3 class="text-lg font-bold">What It Is</h3>
-<p class="leading-relaxed">Serverless lets you run code without managing servers. You write functions, and the cloud provider handles everything else.</p>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3>Popular Serverless Platforms</h3><div class="table-wrapper"><table>
+</ul></div><hr /><h2 class="xl-bold animate-fade-in"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Serverless Architecture</h2><h3 class="text-lg font-bold">What It Is</h3><p class="leading-relaxed">Serverless lets you run code without managing servers. You write functions, and the cloud provider handles everything else.</p><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3>Popular Serverless Platforms</h3><div class="table-wrapper"><table>
 <thead>
 <tr>
 <th>Platform</th>
@@ -2015,7 +2225,6 @@ a.bg-gray-200:active {
 Started with Rails monolith, 3 developers, 1K users. Deployed to Heroku. Simple and fast.</p><p><strong>2022 - Hybrid</strong> <svg class="icon icon-git-branch text-blue-600" data-icon="git-branch" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="6" y1="3" y2="15" /><circle cx="18" cy="6" r="3" /><circle cx="6" cy="18" r="3" /><path d="M18 9a9 9 0 0 1-9 9" /></svg><br />
 Split image processing into separate service (Node.js). Still monolith for core features. 50K users, 12 developers.</p><p><strong>2024 - Microservices</strong> <svg class="icon icon-grid text-green-600" data-icon="grid" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M3 15h18" /><path d="M9 3v18" /><path d="M15 3v18" /></svg><br />
 Full microservices for auth, users, photos, social, notifications. 500K users, 45 developers across 6 teams.</p><p><strong>2025 - Serverless Functions</strong> <svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg><br />
-Added serverless functions for image thumbnails, video transcoding, and AI features. Edge functions for image delivery.</p><div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-green-50 border-green-200 text-green-800"><p><svg class="icon icon-lightbulb text-green-600" data-icon="lightbulb" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /><path d="M9 18h6" /><path d="M10 22h4" /></svg> <strong>Key Lesson:</strong> Evolution, not revolution. They didn't rewrite everything at once.
-:::</p></div><hr /><h2 class="xl-bold">Conclusion</h2><p class="text-lg leading-relaxed">There's no one-size-fits-all architecture. The best choice depends on your team size, scale requirements, and operational maturity.</p><p class="text-lg leading-relaxed font-bold">Start simple, measure everything, and evolve as needed.</p><hr /><div class="taildown-component component-container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl"><h3 class="text-lg font-bold"><svg class="icon icon-user text-primary-600 hover:text-primary-700" data-icon="user" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg> About the Author</h3><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm"><p><strong>Sarah Johnson</strong> is a Principal Engineer at TechCorp with 15 years of experience building scalable systems. She's helped dozens of companies transition from monoliths to microservices.</p><p><a href="#">Follow on Twitter</a> <svg class="icon icon-twitter text-xs" data-icon="twitter" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" /></svg> | <a href="#">Read more articles</a> <svg class="icon icon-book-open text-xs" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg> | <a href="#">Subscribe to newsletter</a><svg class="icon icon-mail text-xs" data-icon="mail" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /><rect x="2" y="4" width="20" height="16" rx="2" /></svg></p></div></div></div></div>
+Added serverless functions for image thumbnails, video transcoding, and AI features. Edge functions for image delivery.</p><div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-green-50 border-green-200 text-green-800"><p><svg class="icon icon-lightbulb text-green-600" data-icon="lightbulb" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /><path d="M9 18h6" /><path d="M10 22h4" /></svg><strong>Key Lesson:</strong>Evolution, not revolution. They didn't rewrite everything at once.</p></div></div><hr /><h2 class="xl-bold">Conclusion</h2><p class="text-lg leading-relaxed">There's no one-size-fits-all architecture. The best choice depends on your team size, scale requirements, and operational maturity.</p><p class="text-lg leading-relaxed font-bold">Start simple, measure everything, and evolve as needed.</p><hr /><div class="taildown-component component-container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl"><h3 class="text-lg font-bold"><svg class="icon icon-user text-primary-600 hover:text-primary-700" data-icon="user" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg> About the Author</h3><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm"><p><strong>Sarah Johnson</strong> is a Principal Engineer at TechCorp with 15 years of experience building scalable systems. She's helped dozens of companies transition from monoliths to microservices.</p><p><a href="#">Follow on Twitter</a> <svg class="icon icon-twitter text-xs" data-icon="twitter" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" /></svg> | <a href="#">Read more articles</a> <svg class="icon icon-book-open text-xs" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg> | <a href="#">Subscribe to newsletter</a><svg class="icon icon-mail text-xs" data-icon="mail" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /><rect x="2" y="4" width="20" height="16" rx="2" /></svg></p></div></div></div></div>
 </body>
 </html>

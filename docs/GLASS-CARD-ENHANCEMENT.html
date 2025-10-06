@@ -246,10 +246,15 @@ pre .token.symbol {
   color: #56b6c2;
 }
 
-pre .token.punctuation,
-pre .token.delimiter,
-pre .token.tag {
+/* Punctuation - brackets, braces, etc. - made more visible */
+pre .token.punctuation {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+pre .token.delimiter {
   color: #abb2bf;
+  font-weight: 600;
 }
 
 /* Special tokens */
@@ -342,6 +347,72 @@ pre .highlight-line {
   margin: 0 -1.5rem;
   padding: 0 1.5rem;
   border-left: 3px solid #61afef;
+}
+
+/* ========================================
+ * TAILDOWN-SPECIFIC SYNTAX HIGHLIGHTING
+ * Additional token types for Taildown language features
+ * ======================================== */
+
+/* Taildown component names */
+pre .token.tag {
+  color: #56b6c2;
+  font-weight: 600;
+}
+
+/* Taildown keywords (icon, button, badge, modal, tooltip) */
+pre .token.keyword {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+/* Typography modifiers (bold, large-bold, xl-bold, etc.) */
+pre .token.emphasis {
+  color: #e06c75;
+  font-weight: 500;
+}
+
+/* Markdown headings */
+pre .token.title {
+  color: #61afef;
+  font-weight: 700;
+}
+
+pre .token.title.punctuation {
+  color: #abb2bf;
+  font-weight: 400;
+}
+
+/* Inline code */
+pre .token.code {
+  color: #98c379;
+  background: rgba(152, 195, 121, 0.1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+/* Horizontal rules */
+pre .token.hr {
+  color: #5c6370;
+  font-weight: 700;
+}
+
+/* Escape sequences */
+pre .token.escape {
+  color: #56b6c2;
+  font-weight: 600;
+}
+
+/* Language tags for code blocks */
+pre .token.language-tag {
+  color: #e5c07b;
+  font-style: italic;
+}
+
+/* Link components */
+pre .token.url {
+  color: #56b6c2;
+  text-decoration: underline;
 }
 
 /* ========================================
@@ -1086,12 +1157,12 @@ td svg.icon {
 .bg-glass-light { background-color: rgba(241, 245, 249, 0.75); }
 .border-white/50 { border-color: rgb(255 255 255 / 0.5); }
 .shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
-.bg-white { background-color: rgb(255 255 255); }
 .bg-glass-medium { background-color: rgba(226, 232, 240, 0.6); }
 .bg-glass-heavy { background-color: rgba(203, 213, 225, 0.4); }
 .border-white/60 { border-color: rgb(255 255 255 / 0.6); }
 .shadow-xl { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
 .shadow-lg { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
+.bg-white { background-color: rgb(255 255 255); }
 .text-green-600 { color: rgb(22 163 74); }
 @media (min-width: 640px) {
   .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1938,7 +2009,7 @@ The <code>heavy-glass</code> card variant had a plain white border due to confli
 <li>Removed duplicate <code>background-clip</code> properties</li>
 </ul><p><strong>Result:</strong>Clean, professional gradient borders with no visual artifacts</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md"><h3>Medium-Glass Missing Variant</h3><p><strong>Problem:</strong><br />
 No <code>medium-glass</code> variant existed. Users could use <code>{glass}</code> but not <code>{medium-glass}</code> for consistency with other glass variants.</p><p><strong>Solution:</strong><br />
-Added <code>medium-glass</code> as an alias for the <code>glass</code> variant in both component definition and shorthand mappings.</p><p><strong>Result:</strong>Consistent naming across all glass variants</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md glass-effect glass-medium bg-glass-medium hover-lift transition-smooth"><h3>Premium Gradient Borders</h3><p><strong>Problem:</strong><br />
+Added <code>medium-glass</code> as an alias for the <code>glass</code> variant in both component definition and shorthand mappings.</p><p><strong>Result:</strong>Consistent naming across all glass variants</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-subtle bg-glass-subtle border-white/40 shadow-sm glass-effect glass-medium bg-glass-medium hover-lift transition-smooth"><h3>Premium Gradient Borders</h3><p><strong>Problem:</strong><br />
 Glass variants used plain solid white borders lacking professional aesthetic quality.</p><p><strong>Solution:</strong><br />
 Implemented premium gradient borders:</p><ul>
 <li><strong>Subtle-Glass:</strong> White shimmer gradient (35% → 15% → 35%)</li>
@@ -1948,13 +2019,13 @@ Implemented premium gradient borders:</p><ul>
 </ul><p><strong>Result:</strong>High-grade professional UI/UX standards achieved</p></div></div>
 <hr />
 <h2 class="text-lg font-bold">Technical Implementation</h2>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy bg-glass-heavy border-white/60 shadow-xl"><h3>CSS Gradient Border Technique</h3><p>The premium borders use proper CSS shorthand syntax:</p><pre class="language-css"><code class="language-css code-highlight"><span class="code-line"><span class="token selector"><span class="token class">.glass-heavy</span></span> <span class="token punctuation">{</span>
-</span><span class="code-line">  <span class="token property">border</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token unit">px</span> solid <span class="token color">transparent</span><span class="token punctuation">;</span>
-</span><span class="code-line">  <span class="token property">background</span><span class="token punctuation">:</span> 
-</span><span class="code-line">    <span class="token function">linear-gradient</span><span class="token punctuation">(</span><span class="token function">rgba</span><span class="token punctuation">(</span>...<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">rgba</span><span class="token punctuation">(</span>...<span class="token punctuation">)</span><span class="token punctuation">)</span> padding-box<span class="token punctuation">,</span>
-</span><span class="code-line">    <span class="token function">linear-gradient</span><span class="token punctuation">(</span><span class="token number">135</span><span class="token unit">deg</span><span class="token punctuation">,</span> ...<span class="token punctuation">)</span> border-box<span class="token punctuation">;</span>
-</span><span class="code-line"><span class="token punctuation">}</span>
-</span></code></pre><p><strong>Key improvements:</strong></p><ul>
+<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy bg-glass-heavy border-white/60 shadow-xl"><h3>CSS Gradient Border Technique</h3><p>The premium borders use proper CSS shorthand syntax:</p><pre><code class="language-css code-highlight">.glass-heavy {
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(...), rgba(...)) padding-box,
+    linear-gradient(135deg, ...) border-box;
+}
+</code></pre><p><strong>Key improvements:</strong></p><ul>
 <li>Single <code>background</code> property with dual gradients</li>
 <li>Proper <code>padding-box</code> and <code>border-box</code> application</li>
 <li>No duplicate <code>background-clip</code> declarations</li>

@@ -246,10 +246,15 @@ pre .token.symbol {
   color: #56b6c2;
 }
 
-pre .token.punctuation,
-pre .token.delimiter,
-pre .token.tag {
+/* Punctuation - brackets, braces, etc. - made more visible */
+pre .token.punctuation {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+pre .token.delimiter {
   color: #abb2bf;
+  font-weight: 600;
 }
 
 /* Special tokens */
@@ -342,6 +347,72 @@ pre .highlight-line {
   margin: 0 -1.5rem;
   padding: 0 1.5rem;
   border-left: 3px solid #61afef;
+}
+
+/* ========================================
+ * TAILDOWN-SPECIFIC SYNTAX HIGHLIGHTING
+ * Additional token types for Taildown language features
+ * ======================================== */
+
+/* Taildown component names */
+pre .token.tag {
+  color: #56b6c2;
+  font-weight: 600;
+}
+
+/* Taildown keywords (icon, button, badge, modal, tooltip) */
+pre .token.keyword {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+/* Typography modifiers (bold, large-bold, xl-bold, etc.) */
+pre .token.emphasis {
+  color: #e06c75;
+  font-weight: 500;
+}
+
+/* Markdown headings */
+pre .token.title {
+  color: #61afef;
+  font-weight: 700;
+}
+
+pre .token.title.punctuation {
+  color: #abb2bf;
+  font-weight: 400;
+}
+
+/* Inline code */
+pre .token.code {
+  color: #98c379;
+  background: rgba(152, 195, 121, 0.1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+/* Horizontal rules */
+pre .token.hr {
+  color: #5c6370;
+  font-weight: 700;
+}
+
+/* Escape sequences */
+pre .token.escape {
+  color: #56b6c2;
+  font-weight: 600;
+}
+
+/* Language tags for code blocks */
+pre .token.language-tag {
+  color: #e5c07b;
+  font-style: italic;
+}
+
+/* Link components */
+pre .token.url {
+  color: #56b6c2;
+  text-decoration: underline;
 }
 
 /* ========================================
@@ -557,44 +628,74 @@ td svg.icon {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Glass intensity variants - each includes full effect */
+/* Glass intensity variants - each includes full effect with premium gradient borders */
 .glass-subtle {
-  background: rgba(248, 250, 252, 0.9);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(4px) saturate(100%);
   backdrop-filter: blur(4px) saturate(100%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.35) 0%, 
+      rgba(255, 255, 255, 0.15) 50%, 
+      rgba(255, 255, 255, 0.35) 100%) border-box;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-light {
-  background: rgba(241, 245, 249, 0.75);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(8px) saturate(105%);
   backdrop-filter: blur(8px) saturate(105%);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(241, 245, 249, 0.75), rgba(241, 245, 249, 0.75)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.3) 0%, 
+      rgba(255, 255, 255, 0.12) 50%, 
+      rgba(255, 255, 255, 0.3) 100%) border-box;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-medium {
-  background: rgba(226, 232, 240, 0.6);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(12px) saturate(110%);
   backdrop-filter: blur(12px) saturate(110%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(226, 232, 240, 0.6), rgba(226, 232, 240, 0.6)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.25) 0%, 
+      rgba(255, 255, 255, 0.1) 50%, 
+      rgba(255, 255, 255, 0.25) 100%) border-box;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-heavy {
-  background: rgba(203, 213, 225, 0.4);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(16px) saturate(120%);
   backdrop-filter: blur(16px) saturate(120%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(203, 213, 225, 0.4), rgba(203, 213, 225, 0.4)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.2) 0%, 
+      rgba(56, 189, 248, 0.12) 25%,
+      rgba(14, 165, 233, 0.12) 50%,
+      rgba(59, 130, 246, 0.12) 75%,
+      rgba(255, 255, 255, 0.2) 100%) border-box;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
+    inset 0 0 20px 0 rgba(255, 255, 255, 0.03);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -794,62 +895,72 @@ td svg.icon {
   }
 }
 
-/* Entrance animation classes - slower, more elegant */
-/* Set initial state to prevent flash before animation starts */
+/* Entrance animation classes - scroll-triggered, elegant, professional */
+/* Initial state: Elements start hidden to prevent flash */
 /* GPU acceleration for smooth rendering */
-.animate-fade-in {
-  opacity: 0;
-  will-change: opacity;
+/* Animation is paused by default and triggered when scrolling into view */
+
+/* Base animation states */
+.animate-fade-in,
+.animate-slide-up,
+.animate-slide-down,
+.animate-slide-left,
+.animate-slide-right,
+.animate-scale-in,
+.animate-zoom-in {
+  will-change: transform, opacity;
   backface-visibility: hidden;
+}
+
+/* Paused state (before element scrolls into view) */
+.animate-fade-in.animation-paused { opacity: 0; }
+.animate-slide-up.animation-paused { opacity: 0; transform: translateY(40px); }
+.animate-slide-down.animation-paused { opacity: 0; transform: translateY(-40px); }
+.animate-slide-left.animation-paused { opacity: 0; transform: translateX(16px); }
+.animate-slide-right.animation-paused { opacity: 0; transform: translateX(-16px); }
+.animate-scale-in.animation-paused { opacity: 0; transform: scale(0.8); }
+.animate-zoom-in.animation-paused { opacity: 0; transform: scale(0.5); }
+
+/* Playing state (when element is in view) - triggers animation */
+.animate-fade-in.animation-playing {
   animation: fadeIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slide-up {
-  opacity: 0;
-  transform: translateY(40px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-up.animation-playing {
   animation: slideUp 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slide-down {
-  opacity: 0;
-  transform: translateY(-40px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-down.animation-playing {
   animation: slideDown 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slide-left {
-  opacity: 0;
-  transform: translateX(16px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-left.animation-playing {
   animation: slideLeft 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slide-right {
-  opacity: 0;
-  transform: translateX(-16px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-right.animation-playing {
   animation: slideRight 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-scale-in {
-  opacity: 0;
-  transform: scale(0.8);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-scale-in.animation-playing {
   animation: scaleIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-zoom-in {
-  opacity: 0;
-  transform: scale(0.5); // Twice as far away (0.7 -> 0.5)
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-zoom-in.animation-playing {
   animation: zoomIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Fallback: If JS doesn't load, still show content (accessibility) */
+/* Elements without .animation-paused will be visible */
+.animate-fade-in:not(.animation-paused):not(.animation-playing),
+.animate-slide-up:not(.animation-paused):not(.animation-playing),
+.animate-slide-down:not(.animation-paused):not(.animation-playing),
+.animate-slide-left:not(.animation-paused):not(.animation-playing),
+.animate-slide-right:not(.animation-paused):not(.animation-playing),
+.animate-scale-in:not(.animation-paused):not(.animation-playing),
+.animate-zoom-in:not(.animation-paused):not(.animation-playing) {
+  opacity: 1;
+  transform: none;
 }
 
 /* Animation delays for staggered effects */
@@ -1082,7 +1193,22 @@ td svg.icon {
 }
 
 .component-grid {
-  /* Additional grid-specific styles */
+  /* Ensure grid items stretch to equal heights */
+  align-items: stretch;
+}
+
+/* Make all direct children of grid stretch to full height */
+.component-grid > * {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure cards in grids stretch to equal heights */
+.component-grid .component-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .component-container {
@@ -1579,6 +1705,7 @@ td svg.icon {
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
   transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
 }
 
 .flow-container li:hover {
@@ -1626,6 +1753,11 @@ td svg.icon {
   counter-reset: step-counter;
 }
 
+/* Reset counter for nested lists */
+.flow-stepped ul {
+  counter-reset: step-counter;
+}
+
 .flow-stepped li {
   counter-increment: step-counter;
   padding-left: 3rem;
@@ -1650,6 +1782,20 @@ td svg.icon {
   font-size: 0.875rem;
 }
 
+/* Mobile-only adjustments for stepped flow - give text more space */
+@media (max-width: 640px) {
+  .flow-stepped li {
+    padding-left: 4.5rem;
+  }
+  
+  .flow-stepped li::before {
+    left: 0.75rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.75rem;
+  }
+}
+
 /* Branching flow - decision tree style */
 .flow-branching ul ul {
   margin-left: 2rem;
@@ -1667,6 +1813,44 @@ td svg.icon {
 
 .flow-branching ul ul li {
   border-color: rgb(139 92 246);
+}
+
+/* Mobile optimization for branching - prevent overflow and horizontal scroll */
+@media (max-width: 640px) {
+  /* Dramatically reduce nesting indentation on mobile */
+  .flow-branching ul ul {
+    margin-left: 0.5rem;
+    padding-left: 0.375rem;
+    border-left-width: 1px;
+  }
+  
+  /* Smaller text and padding for branching items */
+  .flow-branching li {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.5rem;
+    margin: 0.25rem 0;
+    line-height: 1.3;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  /* Reduce container padding to maximize space */
+  .flow-branching.flow-container {
+    padding: 0.75rem;
+    overflow-x: hidden;
+  }
+  
+  /* Deep nesting (4+ levels) - even more aggressive */
+  .flow-branching ul ul ul ul {
+    margin-left: 0.25rem;
+    padding-left: 0.25rem;
+  }
+  
+  .flow-branching ul ul ul ul li {
+    font-size: 0.688rem;
+    padding: 0.25rem 0.375rem;
+  }
 }
 
 /* Timeline variant */
@@ -1739,9 +1923,17 @@ td svg.icon {
     transform: translateX(-50%);
   }
   
+  /* General mobile optimizations for all flow types */
   .flow-container li {
     font-size: 0.875rem;
     padding: 0.5rem 0.75rem;
+  }
+  
+  /* Ensure container doesn't cause horizontal scroll */
+  .flow-container {
+    padding: 1rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -1830,153 +2022,170 @@ a.bg-gray-200:active {
 <hr />
 <h2 class="text-lg font-bold">Tree Component</h2>
 <h3>Basic Usage</h3>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::tree
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">tree</span>
 </span><span class="code-line">- project/
-</span><span class="code-line">  - src/
-</span><span class="code-line">    - components/
-</span><span class="code-line">    - utils/
-</span><span class="code-line">  - tests/
-</span><span class="code-line">  - package.json
-</span><span class="code-line">:::
+</span><span class="code-line">  <span class="token punctuation">-</span> src/
+</span><span class="code-line">    <span class="token punctuation">-</span> components/
+</span><span class="code-line">    <span class="token punctuation">-</span> utils/
+</span><span class="code-line">  <span class="token punctuation">-</span> tests/
+</span><span class="code-line">  <span class="token punctuation">-</span> package.json
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <h3>Variants</h3>
 <h4>Default Variant</h4>
 <p>Clean modern tree with subtle borders and connectors.</p>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::tree
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">tree</span>
 </span><span class="code-line">- root/
-</span><span class="code-line">  - folder1/
-</span><span class="code-line">  - folder2/
-</span><span class="code-line">:::
+</span><span class="code-line">  <span class="token punctuation">-</span> folder1/
+</span><span class="code-line">  <span class="token punctuation">-</span> folder2/
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <h4>Minimal Variant</h4>
 <p>Ultra-clean with no visual clutter, perfect for dense documentation.</p>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::tree {minimal}
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">tree</span> <span class="token punctuation">{</span>minimal<span class="token punctuation">}</span>
 </span><span class="code-line">- app/
-</span><span class="code-line">  - components/
-</span><span class="code-line">  - pages/
-</span><span class="code-line">:::
+</span><span class="code-line">  <span class="token punctuation">-</span> components/
+</span><span class="code-line">  <span class="token punctuation">-</span> pages/
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <h4>Colored Variant</h4>
 <p>Color-coded by depth for better visual hierarchy.</p>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::tree {colored}
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">tree</span> <span class="token punctuation">{</span>colored<span class="token punctuation">}</span>
 </span><span class="code-line">- monorepo/
-</span><span class="code-line">  - packages/
-</span><span class="code-line">    - ui/
-</span><span class="code-line">    - utils/
-</span><span class="code-line">  - apps/
-</span><span class="code-line">    - web/
-</span><span class="code-line">    - mobile/
-</span><span class="code-line">:::
+</span><span class="code-line">  <span class="token punctuation">-</span> packages/
+</span><span class="code-line">    <span class="token punctuation">-</span> ui/
+</span><span class="code-line">    <span class="token punctuation">-</span> utils/
+</span><span class="code-line">  <span class="token punctuation">-</span> apps/
+</span><span class="code-line">    <span class="token punctuation">-</span> web/
+</span><span class="code-line">    <span class="token punctuation">-</span> mobile/
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <h4>Rounded Variant</h4>
 <p>Soft rounded connectors with blue accents.</p>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::tree {rounded}
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">tree</span> <span class="token punctuation">{</span><span class="token attr-name">rounded</span><span class="token punctuation">}</span>
 </span><span class="code-line">- website/
-</span><span class="code-line">  - public/
-</span><span class="code-line">  - src/
-</span><span class="code-line">:::
+</span><span class="code-line">  <span class="token punctuation">-</span> public/
+</span><span class="code-line">  <span class="token punctuation">-</span> src/
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <h4>Glass Variant</h4>
 <p>Modern glassmorphism effect.</p>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::tree {glass}
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">tree</span> <span class="token punctuation">{</span><span class="token attr-name">glass</span><span class="token punctuation">}</span>
 </span><span class="code-line">- design-system/
-</span><span class="code-line">  - tokens/
-</span><span class="code-line">  - components/
-</span><span class="code-line">:::
+</span><span class="code-line">  <span class="token punctuation">-</span> tokens/
+</span><span class="code-line">  <span class="token punctuation">-</span> components/
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <h4>Dark Variant</h4>
 <p>Dark theme optimized styling.</p>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::tree {dark}
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">tree</span> <span class="token punctuation">{</span>dark<span class="token punctuation">}</span>
 </span><span class="code-line">- project/
-</span><span class="code-line">  - src/
-</span><span class="code-line">  - dist/
-</span><span class="code-line">:::
+</span><span class="code-line">  <span class="token punctuation">-</span> src/
+</span><span class="code-line">  <span class="token punctuation">-</span> dist/
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <h3>Size Variants</h3>
-<pre><code class="language-taildown code-highlight"><span class="code-line">Small:  :::tree {sm}
-</span><span class="code-line">Medium: :::tree {md}
-</span><span class="code-line">Large:  :::tree {lg}
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line">Small:  :::tree <span class="token punctuation">{</span><span class="token number">sm</span><span class="token punctuation">}</span>
+</span><span class="code-line">Medium: :::tree <span class="token punctuation">{</span><span class="token number">md</span><span class="token punctuation">}</span>
+</span><span class="code-line">Large:  :::tree <span class="token punctuation">{</span><span class="token number">lg</span><span class="token punctuation">}</span>
+</span><span class="code-line">
 </span></code></pre>
 <hr />
 <h2 class="text-lg font-bold">Flow Component</h2>
 <h3>Basic Usage</h3>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">flow</span>
 </span><span class="code-line">- Start
 </span><span class="code-line">- Process
 </span><span class="code-line">- Validate
 </span><span class="code-line">- Complete
-</span><span class="code-line">:::
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <h3>Variants</h3>
 <h4>Default (Vertical Flow)</h4>
 <p>Vertical flow with connecting arrows.</p>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">flow</span>
 </span><span class="code-line">- Initialize
 </span><span class="code-line">- Load Data
 </span><span class="code-line">- Process
 </span><span class="code-line">- Save Results
-</span><span class="code-line">:::
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <h4>Horizontal Flow</h4>
 <p>Left-to-right process flow.</p>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow {horizontal}
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">flow</span> <span class="token punctuation">{</span>horizontal<span class="token punctuation">}</span>
 </span><span class="code-line">- Input
 </span><span class="code-line">- Transform
 </span><span class="code-line">- Output
-</span><span class="code-line">:::
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <h4>Stepped Flow</h4>
 <p>Step-by-step with automatic numbering.</p>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow {stepped}
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">flow</span> <span class="token punctuation">{</span>stepped<span class="token punctuation">}</span>
 </span><span class="code-line">- Create Account
 </span><span class="code-line">- Verify Email
 </span><span class="code-line">- Set Password
 </span><span class="code-line">- Complete Setup
-</span><span class="code-line">:::
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <h4>Branching Flow</h4>
 <p>Decision tree with nested branches.</p>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow {branching}
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">flow</span> <span class="token punctuation">{</span>branching<span class="token punctuation">}</span>
 </span><span class="code-line">- Request
-</span><span class="code-line">  - Validate
-</span><span class="code-line">    - Valid
-</span><span class="code-line">      - Process
-</span><span class="code-line">    - Invalid
-</span><span class="code-line">      - Reject
-</span><span class="code-line">:::
+</span><span class="code-line">  <span class="token punctuation">-</span> Validate
+</span><span class="code-line">    <span class="token punctuation">-</span> Valid
+</span><span class="code-line">      <span class="token punctuation">-</span> Process
+</span><span class="code-line">    <span class="token punctuation">-</span> Invalid
+</span><span class="code-line">      <span class="token punctuation">-</span> Reject
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <h4>Timeline Flow</h4>
 <p>Timeline-style presentation.</p>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow {timeline}
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">flow</span> <span class="token punctuation">{</span>timeline<span class="token punctuation">}</span>
 </span><span class="code-line">- Planning
 </span><span class="code-line">- Development
 </span><span class="code-line">- Testing
 </span><span class="code-line">- Deployment
-</span><span class="code-line">:::
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <h4>Minimal Flow</h4>
 <p>Clean minimal styling.</p>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow {minimal}
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">flow</span> <span class="token punctuation">{</span>minimal<span class="token punctuation">}</span>
 </span><span class="code-line">- Step 1
 </span><span class="code-line">- Step 2
 </span><span class="code-line">- Step 3
-</span><span class="code-line">:::
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <h4>Glass Flow</h4>
 <p>Glassmorphism effect.</p>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow {glass}
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">flow</span> <span class="token punctuation">{</span><span class="token attr-name">glass</span><span class="token punctuation">}</span>
 </span><span class="code-line">- Start
 </span><span class="code-line">- Process
 </span><span class="code-line">- End
-</span><span class="code-line">:::
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <h4>Dark Flow</h4>
 <p>Dark theme optimized.</p>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow {dark}
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">flow</span> <span class="token punctuation">{</span>dark<span class="token punctuation">}</span>
 </span><span class="code-line">- Input
 </span><span class="code-line">- Process
 </span><span class="code-line">- Output
-</span><span class="code-line">:::
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <hr />
 <h2 class="text-lg font-bold">Real-World Examples</h2>
