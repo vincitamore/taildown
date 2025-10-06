@@ -1614,15 +1614,17 @@ ${generateAnimationCSS()}
   margin-left: 0;
 }
 
-/* Directory icons via text */
+/* Directory indicators (folders with children) */
 .tree-container li:has(ul)::after {
-  content: '📁';
+  content: '▸';
   left: -0.125rem;
   top: 0.25rem;
   width: auto;
   height: auto;
   background: none;
   font-size: 0.75rem;
+  color: rgb(59 130 246);
+  font-weight: bold;
 }
 
 /* File indicators (leaves without children) */
@@ -1797,14 +1799,20 @@ ${generateAnimationCSS()}
 /* Mobile-only adjustments for stepped flow - give text more space */
 @media (max-width: 640px) {
   .flow-stepped li {
-    padding-left: 4.5rem;
+    padding-left: 5.5rem;
+    min-height: 3.5rem;
+    display: flex;
+    align-items: center;
   }
   
   .flow-stepped li::before {
-    left: 0.75rem;
-    width: 1.5rem;
-    height: 1.5rem;
-    font-size: 0.75rem;
+    left: 1rem;
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
