@@ -698,6 +698,7 @@ pnpm taildown compile input.td --separate --minify -o dist/output.html --css dis
 ## Examples {large-bold primary}
 
 The `examples/` directory contains 10 complete Taildown documents demonstrating Phase 2 features: {center muted}
+
 :::card {elevated}
 **1. [01-basic-markdown.td](https://github.com/vincitamore/taildown/blob/main/examples/01-basic-markdown.td)** :icon[file]{xs}  
 Markdown basics with icons
