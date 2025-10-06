@@ -200,6 +200,23 @@ Professional portfolio with:
 **Features:** Everything - Plain English, icons, glass, animations  
 **Use Case:** Comprehensive Phase 2 feature demonstration
 
+### 11. Text-Based Illustrations (`11-text-illustrations.td`)
+**Complexity:** Intermediate  
+**Features:** Tree and flow components with multiple variants  
+**Use Case:** Directory structures, process flows, hierarchical diagrams
+
+Professional text-based illustration components with:
+- Directory tree visualizations (7 variants)
+- Process flow diagrams (8 variants)
+- Mobile-optimized responsive layouts
+- Glassmorphism effects
+- Color-coded hierarchies
+- Step-by-step flows with numbering
+- Branching decision trees
+- Timeline-style presentations
+
+### 10. Complete Page (Kitchen Sink)
+
 Kitchen-sink example showcasing:
 - All Markdown features
 - All inline attribute styles
@@ -227,8 +244,9 @@ Kitchen-sink example showcasing:
 | 08-blog-post.td | 265 | 7.7 KB | ~12ms |
 | 09-portfolio-page.td | 215 | 5.7 KB | ~11ms |
 | 10-complete-page.td | 289 | 7.9 KB | ~13ms |
+| 11-text-illustrations.td | 334 | 8.9 KB | ~14ms |
 
-**Total:** 1,377 lines • 35.5 KB
+**Total:** 1,711 lines • 44.4 KB
 
 ## Learning Path
 
@@ -289,6 +307,9 @@ Get-ChildItem examples/*.td | ForEach-Object {
 ### Best Structure
 **07-documentation-page.td** - Well-organized technical content
 
+### Most Innovative
+**11-text-illustrations.td** - Modern replacement for ASCII diagrams
+
 ## Common Patterns
 
 ### Hero Section with Icons
@@ -343,6 +364,31 @@ Description with plain English classes.
 
 [Choose Plan](#){button primary large hover-glow}
 :::
+:::
+```
+
+### Directory Tree with Flow Diagram
+
+```taildown
+## Project Structure
+
+:::tree {colored}
+- project/
+  - src/
+    - components/
+    - pages/
+  - tests/
+  - docs/
+:::
+
+## Build Process
+
+:::flow {stepped}
+- Install Dependencies
+- Run Linter
+- Execute Tests
+- Build Application
+- Deploy to Production
 :::
 ```
 

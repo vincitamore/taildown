@@ -415,11 +415,13 @@ Full ARIA support, keyboard navigation, focus management built-in.
 **Browser Support:** Chrome 51+, Firefox 54+, Safari 10+, Edge 15+ {center large}
 
 **Output structure:**
-```
-document.td → document.html (HTML5)
-           → document.css (scoped CSS)
-           → document.js (only if interactive components present)
-```
+
+:::flow {horizontal}
+- document.td
+- document.html (HTML5)
+- document.css (scoped CSS)
+- document.js (if interactive)
+:::
 :::
 
 :::alert {info}
@@ -764,21 +766,13 @@ pnpm taildown compile examples/10-complete-page.td
 :::card {elevated padded}
 ### System Components {medium-bold primary}
 
-```
-Taildown File (.td)
-        |
-        v
-    Parser (unified + custom directive parser)
-        |
-        v
-  Transformer (Style Resolver + Components)
-        |
-        v
-   Renderer (HTML + CSS Generator)
-        |
-        v
- Static Output (HTML + CSS + JS)
-```
+:::flow {stepped}
+- Taildown File (.td)
+- Parser (unified + custom directive parser)
+- Transformer (Style Resolver + Components)
+- Renderer (HTML + CSS Generator)
+- Static Output (HTML + CSS + JS)
+:::
 :::
 
 :::grid {cols="2"}
@@ -843,25 +837,25 @@ pnpm format
 :::card {light-glass padded}
 ### :icon[folder]{accent} Project Structure {medium-bold}
 
-```
-taildown/
-├── packages/
-│   ├── compiler/          # Core compiler
-│   │   ├── src/
-│   │   │   ├── parser/    # Markdown + directive parsing
-│   │   │   ├── renderer/  # HTML and CSS generation
-│   │   │   ├── resolver/  # Plain English → CSS resolution
-│   │   │   ├── components/# Component definitions
-│   │   │   ├── themes/    # Glassmorphism + animations
-│   │   │   ├── icons/     # Icon parser and renderer
-│   │   │   └── config/    # Configuration system
-│   │   └── package.json
-│   ├── cli/               # CLI tool
-│   └── shared/            # Shared types
-├── examples/              # Sample .td files
-├── syntax-tests/          # Syntax test fixtures
-└── .vscode/extensions/    # VSCode syntax highlighting
-```
+:::tree {rounded}
+- taildown/
+  - packages/
+    - compiler/
+      - src/
+        - parser/
+        - renderer/
+        - resolver/
+        - components/
+        - themes/
+        - icons/
+        - config/
+      - package.json
+    - cli/
+    - shared/
+  - examples/
+  - syntax-tests/
+  - .vscode/extensions/
+:::
 :::
 
 ---

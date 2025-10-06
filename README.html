@@ -1085,6 +1085,13 @@ td svg.icon {
 .bg-blue-50 { background-color: rgb(239 246 255); }
 .border-blue-200 { border-color: rgb(191 219 254); }
 .text-blue-800 { color: rgb(30 64 175); }
+.overflow-x-auto { overflow-x: auto; }
+.bg-gray-50 { background-color: rgb(249 250 251); }
+.text-gray-800 { color: rgb(31 41 55); }
+.text-gray-900 { color: rgb(17 24 39); }
+.bg-gradient-to-br { background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)); }
+.from-gray-50 { --tw-gradient-from: rgb(249 250 251); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(249 250 251 / 0)); }
+.to-gray-100 { --tw-gradient-to: rgb(243 244 246); }
 .last\:border-b-0:last-child { border-bottom-width: 0; }
 .flex-1 { flex: 1 1 0%; }
 .justify-between { justify-content: space-between; }
@@ -1134,7 +1141,22 @@ td svg.icon {
 }
 
 .component-grid {
-  /* Additional grid-specific styles */
+  /* Ensure grid items stretch to equal heights */
+  align-items: stretch;
+}
+
+/* Make all direct children of grid stretch to full height */
+.component-grid > * {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure cards in grids stretch to equal heights */
+.component-grid .component-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .component-container {
@@ -1452,6 +1474,426 @@ td svg.icon {
   left: 100%;
   top: 50%;
   transform: translateY(-50%) translateX(0.5rem);
+}
+
+/* ========================================
+ * TREE COMPONENT - Directory/Hierarchy Visualization
+ * ======================================== */
+
+.tree-container {
+  position: relative;
+  overflow-x: auto;
+}
+
+/* Remove default list styling */
+.tree-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tree-container li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin: 0.25rem 0;
+  line-height: 1.6;
+}
+
+/* Tree connectors - vertical and horizontal lines */
+.tree-default li::before,
+.tree-boxed li::before,
+.tree-rounded li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1rem;
+  height: 100%;
+  border-left: 2px solid rgb(209 213 219);
+  border-bottom: 2px solid rgb(209 213 219);
+}
+
+.tree-default li::before {
+  border-left: 1px solid rgb(209 213 219);
+  border-bottom: 1px solid rgb(209 213 219);
+}
+
+.tree-rounded li::before {
+  border-bottom-left-radius: 0.5rem;
+  border-left: 2px solid rgb(147 197 253);
+  border-bottom: 2px solid rgb(147 197 253);
+}
+
+/* Last child connector stops before the bottom */
+.tree-default li:last-child::before,
+.tree-boxed li:last-child::before,
+.tree-rounded li:last-child::before {
+  height: 0.8rem;
+}
+
+/* Node indicators */
+.tree-default li::after,
+.tree-boxed li::after,
+.tree-rounded li::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65rem;
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 50%;
+  background-color: rgb(59 130 246);
+}
+
+/* Nested lists inherit tree styling */
+.tree-container ul ul {
+  margin-left: 0;
+}
+
+/* Directory icons via text */
+.tree-container li:has(ul)::after {
+  content: '📁';
+  left: -0.125rem;
+  top: 0.25rem;
+  width: auto;
+  height: auto;
+  background: none;
+  font-size: 0.75rem;
+}
+
+/* File indicators (leaves without children) */
+.tree-container li:not(:has(ul))::after {
+  background-color: rgb(99 102 241);
+}
+
+/* Colored variant - depth-based coloring */
+.tree-colored li {
+  color: rgb(31 41 55);
+}
+
+.tree-colored ul li {
+  color: rgb(59 130 246);
+}
+
+.tree-colored ul ul li {
+  color: rgb(139 92 246);
+}
+
+.tree-colored ul ul ul li {
+  color: rgb(236 72 153);
+}
+
+/* Minimal variant - clean, no visual clutter */
+.tree-minimal li::before,
+.tree-minimal li::after {
+  display: none;
+}
+
+.tree-minimal li {
+  padding-left: 1rem;
+  opacity: 0.9;
+}
+
+.tree-minimal ul li {
+  opacity: 0.8;
+  font-size: 0.95em;
+}
+
+/* Dark variant */
+.tree-dark li::before {
+  border-color: rgb(55 65 81);
+}
+
+.tree-dark li::after {
+  background-color: rgb(96 165 250);
+}
+
+/* Glass variant - modern frosted look */
+.tree-glass {
+  backdrop-filter: blur(12px);
+}
+
+/* Mobile optimization */
+@media (max-width: 640px) {
+  .tree-container {
+    font-size: 0.813rem;
+  }
+  
+  .tree-container li {
+    padding-left: 1rem;
+    margin: 0.125rem 0;
+  }
+  
+  .tree-container li::before {
+    width: 0.75rem;
+  }
+}
+
+/* ========================================
+ * FLOW COMPONENT - Process/Flow Diagrams
+ * ======================================== */
+
+.flow-container {
+  position: relative;
+}
+
+/* Remove default list styling */
+.flow-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.flow-container li {
+  position: relative;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  background: white;
+  border: 2px solid rgb(229 231 235);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+}
+
+.flow-container li:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  transform: translateX(4px);
+}
+
+/* Vertical flow arrows */
+.flow-vertical li:not(:last-child)::after {
+  content: '↓';
+  position: absolute;
+  left: 50%;
+  bottom: -1.25rem;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  color: rgb(147 197 253);
+  z-index: 1;
+}
+
+/* Horizontal flow */
+.flow-horizontal ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.flow-horizontal li {
+  flex: 0 1 auto;
+  min-width: 150px;
+}
+
+.flow-horizontal li:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  right: -1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: rgb(147 197 253);
+}
+
+/* Stepped flow with numbers */
+.flow-stepped {
+  counter-reset: step-counter;
+}
+
+/* Reset counter for nested lists */
+.flow-stepped ul {
+  counter-reset: step-counter;
+}
+
+.flow-stepped li {
+  counter-increment: step-counter;
+  padding-left: 3rem;
+  border-left: 4px solid rgb(59 130 246);
+}
+
+.flow-stepped li::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.75rem;
+  height: 1.75rem;
+  background: rgb(59 130 246);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* Mobile-only adjustments for stepped flow - give text more space */
+@media (max-width: 640px) {
+  .flow-stepped li {
+    padding-left: 4.5rem;
+  }
+  
+  .flow-stepped li::before {
+    left: 0.75rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Branching flow - decision tree style */
+.flow-branching ul ul {
+  margin-left: 2rem;
+  border-left: 3px solid rgb(196 181 253);
+  padding-left: 1rem;
+}
+
+.flow-branching li {
+  border-color: rgb(196 181 253);
+}
+
+.flow-branching ul li {
+  border-color: rgb(167 139 250);
+}
+
+.flow-branching ul ul li {
+  border-color: rgb(139 92 246);
+}
+
+/* Mobile optimization for branching - prevent overflow and horizontal scroll */
+@media (max-width: 640px) {
+  /* Dramatically reduce nesting indentation on mobile */
+  .flow-branching ul ul {
+    margin-left: 0.5rem;
+    padding-left: 0.375rem;
+    border-left-width: 1px;
+  }
+  
+  /* Smaller text and padding for branching items */
+  .flow-branching li {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.5rem;
+    margin: 0.25rem 0;
+    line-height: 1.3;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  /* Reduce container padding to maximize space */
+  .flow-branching.flow-container {
+    padding: 0.75rem;
+    overflow-x: hidden;
+  }
+  
+  /* Deep nesting (4+ levels) - even more aggressive */
+  .flow-branching ul ul ul ul {
+    margin-left: 0.25rem;
+    padding-left: 0.25rem;
+  }
+  
+  .flow-branching ul ul ul ul li {
+    font-size: 0.688rem;
+    padding: 0.25rem 0.375rem;
+  }
+}
+
+/* Timeline variant */
+.flow-timeline li {
+  border-left-width: 4px;
+  border-left-color: rgb(59 130 246);
+  background: linear-gradient(to right, rgb(239 246 255), white);
+}
+
+.flow-timeline li::before {
+  content: '';
+  position: absolute;
+  left: -0.625rem;
+  top: 1rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: rgb(59 130 246);
+  border: 3px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgb(59 130 246);
+}
+
+/* Minimal flow - clean styling */
+.flow-minimal li {
+  border: 1px solid rgb(229 231 235);
+  background: transparent;
+  box-shadow: none;
+}
+
+.flow-minimal li:hover {
+  border-color: rgb(59 130 246);
+  background: rgb(239 246 255);
+}
+
+/* Dark theme */
+.flow-dark li {
+  background: rgb(31 41 55);
+  border-color: rgb(55 65 81);
+  color: rgb(243 244 246);
+}
+
+.flow-dark li:hover {
+  background: rgb(55 65 81);
+  border-color: rgb(96 165 250);
+}
+
+/* Glass variant */
+.flow-glass {
+  backdrop-filter: blur(12px);
+}
+
+.flow-glass li {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Mobile optimization for horizontal flows */
+@media (max-width: 640px) {
+  .flow-horizontal ul {
+    flex-direction: column;
+  }
+  
+  .flow-horizontal li:not(:last-child)::after {
+    content: '↓';
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: -1.25rem;
+    transform: translateX(-50%);
+  }
+  
+  /* General mobile optimizations for all flow types */
+  .flow-container li {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+  
+  /* Ensure container doesn't cause horizontal scroll */
+  .flow-container {
+    padding: 1rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Nested flows get indentation */
+.flow-container ul ul {
+  margin-left: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.flow-container ul ul li {
+  opacity: 0.9;
+  border-width: 1px;
 }
 
 /* Button Styles - shadcn-inspired */
@@ -1855,10 +2297,12 @@ a.bg-gray-200:active {
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">JavaScript Output</h2>
 <div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-file-code text-primary-600 hover:text-primary-700" data-icon="file-code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 12.5 8 15l2 2.5" /><path d="m14 12.5 2 2.5-2 2.5" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" /></svg> Tree-Shaking</h3><p>Only includes JS for components you actually use. Empty documents generate zero JavaScript!</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-code text-accent-600 hover:text-accent-700" data-icon="code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg> Vanilla ES6+</h3><p>No framework dependencies. Clean, modern JavaScript that works everywhere.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-accessibility text-green-600" data-icon="accessibility" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="4" r="1" /><path d="m18 19 1-7-6 1" /><path d="m5 8 3-3 5.5 3-2.36 3.5" /><path d="M4.24 14.5a5 5 0 0 0 6.88 6" /><path d="M13.76 17.5a5 5 0 0 0-6.88-6" /></svg> Accessible</h3><p>Full ARIA support, keyboard navigation, focus management built-in.</p></div></div>
-<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md p-6"><p class="text-center text-lg"><strong>Browser Support:</strong> Chrome 51+, Firefox 54+, Safari 10+, Edge 15+</p><p><strong>Output structure:</strong></p><pre><code class="code-highlight"><span class="code-line">document.td → document.html (HTML5)
-</span><span class="code-line">           → document.css (scoped CSS)
-</span><span class="code-line">           → document.js (only if interactive components present)
-</span></code></pre></div>
+<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md p-6"><p class="text-center text-lg"><strong>Browser Support:</strong> Chrome 51+, Firefox 54+, Safari 10+, Edge 15+</p><p><strong>Output structure:</strong></p><div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-horizontal text-gray-800"><ul>
+<li>document.td</li>
+<li>document.html (HTML5)</li>
+<li>document.css (scoped CSS)</li>
+<li>document.js (if interactive)</li>
+</ul></div></div>
 <div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-blue-50 border-blue-200 text-blue-800"><p><svg class="icon icon-book-open text-blue-600" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg> <strong>See <a href="SYNTAX.md"><code>SYNTAX.md</code></a> §3.9 for complete JavaScript generation documentation.</strong></p></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Implemented Components</h2>
@@ -1967,20 +2411,13 @@ Ultimate feature showcase (1000+ nodes)</p></div>
 </span></code></pre></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Technical Architecture</h2>
-<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words bg-white shadow-md p-6"><h3 class="medium-bold text-primary-600 hover:text-primary-700">System Components</h3><pre><code class="code-highlight"><span class="code-line">Taildown File (.td)
-</span><span class="code-line">        |
-</span><span class="code-line">        v
-</span><span class="code-line">    Parser (unified + custom directive parser)
-</span><span class="code-line">        |
-</span><span class="code-line">        v
-</span><span class="code-line">  Transformer (Style Resolver + Components)
-</span><span class="code-line">        |
-</span><span class="code-line">        v
-</span><span class="code-line">   Renderer (HTML + CSS Generator)
-</span><span class="code-line">        |
-</span><span class="code-line">        v
-</span><span class="code-line"> Static Output (HTML + CSS + JS)
-</span></code></pre></div>
+<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words bg-white shadow-md p-6"><h3 class="medium-bold text-primary-600 hover:text-primary-700">System Components</h3><div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-stepped bg-white text-gray-900"><ul>
+<li>Taildown File (.td)</li>
+<li>Parser (unified + custom directive parser)</li>
+<li>Transformer (Style Resolver + Components)</li>
+<li>Renderer (HTML + CSS Generator)</li>
+<li>Static Output (HTML + CSS + JS)</li>
+</ul></div></div>
 <div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md"><h3 class="medium-bold"><svg class="icon icon-layers text-primary-600 hover:text-primary-700" data-icon="layers" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg> Technology Stack</h3><p><strong>Core Implementation:</strong> TypeScript + Node.js 18+</p><ul>
 <li><strong>Parser:</strong> <code>unified</code> + <code>remark</code> + <code>rehype</code> ecosystem</li>
 <li><strong>Custom Directive Parser:</strong> In-house <code>:::</code> component syntax parser</li>
@@ -2015,24 +2452,37 @@ Shared types and utilities</p></div></div>
 </span><span class="code-line"><span class="token comment"># Format code</span>
 </span><span class="code-line"><span class="token function">pnpm</span> <span class="token function">format</span>
 </span></code></pre></div>
-<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md p-6"><h3 class="medium-bold"><svg class="icon icon-folder text-accent-600 hover:text-accent-700" data-icon="folder" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /></svg> Project Structure</h3><pre><code class="code-highlight"><span class="code-line">taildown/
-</span><span class="code-line">├── packages/
-</span><span class="code-line">│   ├── compiler/          # Core compiler
-</span><span class="code-line">│   │   ├── src/
-</span><span class="code-line">│   │   │   ├── parser/    # Markdown + directive parsing
-</span><span class="code-line">│   │   │   ├── renderer/  # HTML and CSS generation
-</span><span class="code-line">│   │   │   ├── resolver/  # Plain English → CSS resolution
-</span><span class="code-line">│   │   │   ├── components/# Component definitions
-</span><span class="code-line">│   │   │   ├── themes/    # Glassmorphism + animations
-</span><span class="code-line">│   │   │   ├── icons/     # Icon parser and renderer
-</span><span class="code-line">│   │   │   └── config/    # Configuration system
-</span><span class="code-line">│   │   └── package.json
-</span><span class="code-line">│   ├── cli/               # CLI tool
-</span><span class="code-line">│   └── shared/            # Shared types
-</span><span class="code-line">├── examples/              # Sample .td files
-</span><span class="code-line">├── syntax-tests/          # Syntax test fixtures
-</span><span class="code-line">└── .vscode/extensions/    # VSCode syntax highlighting
-</span></code></pre></div>
+<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md p-6"><h3 class="medium-bold"><svg class="icon icon-folder text-accent-600 hover:text-accent-700" data-icon="folder" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /></svg> Project Structure</h3><div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-rounded bg-gradient-to-br from-gray-50 to-gray-100"><ul>
+<li>taildown/
+<ul>
+<li>packages/
+<ul>
+<li>compiler/
+<ul>
+<li>src/
+<ul>
+<li>parser/</li>
+<li>renderer/</li>
+<li>resolver/</li>
+<li>components/</li>
+<li>themes/</li>
+<li>icons/</li>
+<li>config/</li>
+</ul>
+</li>
+<li>package.json</li>
+</ul>
+</li>
+<li>cli/</li>
+<li>shared/</li>
+</ul>
+</li>
+<li>examples/</li>
+<li>syntax-tests/</li>
+<li>.vscode/extensions/</li>
+</ul>
+</li>
+</ul></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Roadmap</h2>
 <p class="text-center text-gray-500">Track our progress through each development phase:</p>

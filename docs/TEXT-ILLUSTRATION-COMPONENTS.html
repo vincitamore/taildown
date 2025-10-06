@@ -1,0 +1,2240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taildown Document</title>
+  <style>
+/* Taildown Generated Styles */
+*, ::before, ::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: currentColor;
+}
+
+html {
+  /* Prevent horizontal scroll at root level */
+  overflow-x: hidden;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 1rem;
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
+  min-height: 100vh;
+  /* Clean light background */
+  background: #f5f5f7;
+  background-attachment: fixed;
+  /* Prevent horizontal scroll on body */
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Increase body padding on larger screens */
+@media (min-width: 640px) {
+  body {
+    padding: 2rem;
+  }
+}
+
+/* NO overlay - keep it simple */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: none;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Default spacing for all direct children of body */
+body > * {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 1.5rem;
+}
+
+body > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Add breathing room to components */
+.taildown-component {
+  margin-bottom: 1.5rem;
+}
+
+.taildown-component:last-child {
+  margin-bottom: 0;
+}
+
+/* ========================================
+ * CODE BLOCK STYLING
+ * Modern, terminal-inspired code blocks with syntax highlighting support
+ * ======================================== */
+
+/* Inline code */
+code {
+  background-color: rgba(30, 41, 59, 0.05);
+  color: rgb(219, 39, 119);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Fira Code', monospace;
+  font-size: 0.875em;
+  font-weight: 500;
+  /* Mobile-friendly: break long paths/strings to prevent overflow */
+  word-break: break-all;
+  overflow-wrap: anywhere;
+}
+
+/* Code blocks - Terminal-inspired modern design */
+pre {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 0.75rem;
+  padding: 0;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.3),
+    0 10px 10px -5px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+/* Terminal header bar */
+pre::before {
+  content: '';
+  display: block;
+  height: 2.5rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+/* Terminal traffic lights */
+pre::after {
+  content: '';
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: #ef4444;
+  border-radius: 50%;
+  box-shadow:
+    1.25rem 0 0 #f59e0b,
+    2.5rem 0 0 #10b981;
+}
+
+/* Code inside pre */
+pre > code {
+  display: block;
+  padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+  background: transparent;
+  color: #e2e8f0;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Fira Code', monospace;
+  font-size: inherit;
+  font-weight: 400;
+  line-height: inherit;
+  overflow-x: auto;
+  border-radius: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Scrollbar styling for code blocks */
+pre > code::-webkit-scrollbar {
+  height: 0.5rem;
+}
+
+pre > code::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.25rem;
+}
+
+pre > code::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 0.25rem;
+}
+
+pre > code::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Line highlighting */
+pre .line-highlight {
+  background: rgba(255, 255, 255, 0.05);
+  display: inline-block;
+  width: 100%;
+}
+
+/* ========================================
+ * SYNTAX HIGHLIGHTING - One Dark Pro Theme
+ * Modern, professional color scheme inspired by VS Code
+ * ======================================== */
+
+/* Comments */
+pre .token.comment,
+pre .token.prolog,
+pre .token.doctype,
+pre .token.cdata {
+  color: #5c6370;
+  font-style: italic;
+}
+
+/* Strings */
+pre .token.string,
+pre .token.attr-value {
+  color: #98c379;
+}
+
+/* Keywords & Control Flow */
+pre .token.keyword,
+pre .token.control,
+pre .token.directive,
+pre .token.unit,
+pre .token.statement,
+pre .token.regex,
+pre .token.at-rule {
+  color: #c678dd;
+  font-weight: 500;
+}
+
+/* Functions */
+pre .token.function,
+pre .token.method,
+pre .token.function-name {
+  color: #61afef;
+}
+
+/* Classes & Types */
+pre .token.class-name,
+pre .token.type-annotation,
+pre .token.type,
+pre .token.builtin,
+pre .token.maybe-class-name {
+  color: #e5c07b;
+}
+
+/* Variables & Properties */
+pre .token.variable,
+pre .token.property,
+pre .token.attr-name,
+pre .token.constant {
+  color: #e06c75;
+}
+
+/* Numbers */
+pre .token.number,
+pre .token.boolean,
+pre .token.hexcode {
+  color: #d19a66;
+}
+
+/* Operators & Punctuation */
+pre .token.operator,
+pre .token.entity,
+pre .token.url,
+pre .token.symbol {
+  color: #56b6c2;
+}
+
+pre .token.punctuation,
+pre .token.delimiter,
+pre .token.tag {
+  color: #abb2bf;
+}
+
+/* Special tokens */
+pre .token.selector,
+pre .token.important,
+pre .token.atrule {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+pre .token.important {
+  font-weight: 700;
+}
+
+/* Markup languages (HTML, XML, etc.) */
+pre .token.tag .token.punctuation {
+  color: #abb2bf;
+}
+
+pre .token.tag .token.tag,
+pre .token.tag .token.tag .token.punctuation {
+  color: #e06c75;
+}
+
+pre .token.attr-name {
+  color: #d19a66;
+}
+
+/* CSS-specific */
+pre .language-css .token.property {
+  color: #56b6c2;
+}
+
+pre .language-css .token.selector {
+  color: #d19a66;
+}
+
+/* JavaScript/TypeScript specific */
+pre .token.imports .token.maybe-class-name {
+  color: #e5c07b;
+}
+
+pre .token.console {
+  color: #61afef;
+}
+
+pre .token.parameter {
+  color: #e06c75;
+}
+
+/* JSON-specific */
+pre .language-json .token.property {
+  color: #e06c75;
+}
+
+pre .language-json .token.string {
+  color: #98c379;
+}
+
+/* Shell/Bash-specific */
+pre .language-bash .token.function,
+pre .language-sh .token.function {
+  color: #61afef;
+}
+
+/* Diff highlighting */
+pre .token.inserted {
+  color: #98c379;
+  background: rgba(152, 195, 121, 0.1);
+}
+
+pre .token.deleted {
+  color: #e06c75;
+  background: rgba(224, 108, 117, 0.1);
+}
+
+/* Bold and italic */
+pre .token.bold {
+  font-weight: 700;
+}
+
+pre .token.italic {
+  font-style: italic;
+}
+
+/* Line highlighting (for specific line emphasis) */
+pre .highlight-line {
+  background: rgba(255, 255, 255, 0.05);
+  display: block;
+  margin: 0 -1.5rem;
+  padding: 0 1.5rem;
+  border-left: 3px solid #61afef;
+}
+
+/* ========================================
+ * RESPONSIVE TABLE STYLING
+ * Beautiful tables that work on all devices
+ * Similar to code block implementation with wrapper
+ * ======================================== */
+
+/* Table wrapper - handles overflow scrolling like pre wraps code */
+.table-wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+/* Scrollbar styling for table wrapper */
+.table-wrapper::-webkit-scrollbar {
+  height: 0.5rem;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 0.25rem;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0.25rem;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Table - always display as table, wrapper handles overflow */
+table {
+  width: 100%;
+  min-width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Table structure */
+thead {
+  display: table-header-group;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 2px solid #e2e8f0;
+}
+
+tbody {
+  display: table-row-group;
+  background: white;
+}
+
+/* Table rows */
+tr {
+  display: table-row;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: #f9fafb;
+  transition: background 150ms ease;
+}
+
+/* Table cells */
+th, td {
+  display: table-cell;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  /* Prevent cells from being too narrow */
+  min-width: 120px;
+}
+
+/* Mobile: Reduce padding for better space utilization */
+@media (max-width: 640px) {
+  th, td {
+    padding: 0.5rem 0.75rem;
+    min-width: 100px;
+    font-size: 0.8125rem;
+  }
+}
+
+/* Tablet: Adjust spacing */
+@media (min-width: 641px) and (max-width: 1024px) {
+  th, td {
+    padding: 0.625rem 0.875rem;
+    min-width: 110px;
+  }
+}
+
+/* Header cells */
+th {
+  font-weight: 600;
+  color: #1e293b;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+/* Data cells */
+td {
+  color: #334155;
+}
+
+/* First column styling (sticky on mobile) */
+thead th:first-child {
+  position: sticky;
+  left: 0;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  z-index: 2;
+  box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+tbody td:first-child {
+  position: sticky;
+  left: 0;
+  background: white;
+  z-index: 1;
+  box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+tbody tr:hover td:first-child {
+  background: #f9fafb;
+}
+
+/* Remove sticky on larger screens where it's not needed */
+@media (min-width: 768px) {
+  thead th:first-child,
+  tbody td:first-child {
+    position: static;
+    box-shadow: none;
+  }
+}
+
+/* Code in tables */
+td code {
+  background: rgba(30, 41, 59, 0.05);
+  color: #db2777;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.8125em;
+  white-space: nowrap;
+}
+
+/* Icons in tables */
+td svg.icon {
+  vertical-align: middle;
+  display: inline-block;
+  margin-right: 0.25rem;
+}
+
+/* Responsive scroll indicator */
+@media (max-width: 767px) {
+  .table-wrapper::after {
+    content: '← Scroll to see more →';
+    display: block;
+    text-align: center;
+    padding: 0.5rem;
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-top: 1px solid #e2e8f0;
+  }
+}
+
+/* Icon Utilities */
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.icon-missing,
+.icon-error {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background-color: rgb(254 202 202);
+  color: rgb(153 27 27);
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-family: monospace;
+}
+
+/* Icon size utilities */
+.icon.tiny { width: 12px; height: 12px; }
+.icon.xs { width: 16px; height: 16px; }
+.icon.sm { width: 20px; height: 20px; }
+.icon.md { width: 24px; height: 24px; }
+.icon.lg { width: 32px; height: 32px; }
+.icon.xl { width: 40px; height: 40px; }
+.icon.\32xl { width: 48px; height: 48px; }
+.icon.huge { width: 64px; height: 64px; }
+
+/* Glassmorphism Effects */
+.glass-effect {
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturation, 110%));
+  backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturation, 110%));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glass intensity variants - each includes full effect */
+.glass-subtle {
+  background: rgba(248, 250, 252, 0.9);
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(4px) saturate(100%);
+  backdrop-filter: blur(4px) saturate(100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-light {
+  background: rgba(241, 245, 249, 0.75);
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(8px) saturate(105%);
+  backdrop-filter: blur(8px) saturate(105%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-medium {
+  background: rgba(226, 232, 240, 0.6);
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(12px) saturate(110%);
+  backdrop-filter: blur(12px) saturate(110%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-heavy {
+  background: rgba(203, 213, 225, 0.4);
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-extreme {
+  --glass-blur: 24px;
+  --glass-saturation: 130%;
+}
+
+/* Glass hover effects - subtle interactive feedback */
+.glass-effect:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+}
+
+.glass-effect:active {
+  transform: translateY(0);
+}
+
+/* Browser fallbacks for older browsers */
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.85);
+  }
+  
+  .dark .glass-effect {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* Backdrop blur utilities (non-standard values) */
+.backdrop-blur-4 {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.backdrop-blur-8 {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.backdrop-blur-12 {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.backdrop-blur-16 {
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.backdrop-blur-24 {
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+
+/* Saturation utilities */
+.saturate-105 {
+  filter: saturate(105%);
+}
+
+.saturate-110 {
+  filter: saturate(110%);
+}
+
+.saturate-120 {
+  filter: saturate(120%);
+}
+
+.saturate-130 {
+  filter: saturate(130%);
+}
+
+/* Background opacity utilities */
+.bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.bg-white\/20 {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.bg-white\/70 {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Border opacity utilities */
+.border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Dark mode overrides */
+.dark .bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.dark .border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Entrance Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5); // Twice as far away (0.7 -> 0.5)
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Entrance animation classes - slower, more elegant */
+/* Set initial state to prevent flash before animation starts */
+/* GPU acceleration for smooth rendering */
+.animate-fade-in {
+  opacity: 0;
+  will-change: opacity;
+  backface-visibility: hidden;
+  animation: fadeIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-up {
+  opacity: 0;
+  transform: translateY(40px);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: slideUp 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-down {
+  opacity: 0;
+  transform: translateY(-40px);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: slideDown 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-left {
+  opacity: 0;
+  transform: translateX(16px);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: slideLeft 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-right {
+  opacity: 0;
+  transform: translateX(-16px);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: slideRight 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in {
+  opacity: 0;
+  transform: scale(0.8);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: scaleIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-zoom-in {
+  opacity: 0;
+  transform: scale(0.5); // Twice as far away (0.7 -> 0.5)
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: zoomIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Animation delays for staggered effects */
+.animation-delay-75 {
+  animation-delay: 75ms;
+}
+
+.animation-delay-150 {
+  animation-delay: 150ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Hover Animations */
+.hover-lift {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1),
+              0 4px 8px -2px rgba(0, 0, 0, 0.05);
+}
+
+.hover-lift:active {
+  transform: translateY(0);
+}
+
+.hover-glow {
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4),
+              0 0 40px rgba(59, 130, 246, 0.2);
+}
+
+.hover-scale {
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.6, 1);
+  /* Prevent scale from causing horizontal scroll - critical for good UX */
+  overflow: hidden;
+  will-change: transform;
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.hover-scale:active {
+  transform: scale(0.99);
+}
+
+.hover-brighten {
+  transition: filter 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-brighten:hover {
+  filter: brightness(1.1);
+}
+
+.hover-tilt {
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+.hover-tilt:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(2deg);
+}
+
+/* Loading Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 1000ms ease infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 2s linear infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* Interactive State Animations */
+.transition-smooth {
+  transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-fast {
+  transition: all 150ms cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.transition-colors {
+  transition: color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-transform {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-shadow {
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Focus ring with smooth animation */
+.focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              outline-offset 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.focus-ring:focus {
+  outline-color: rgb(59, 130, 246);
+  outline-offset: 4px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+.font-bold { font-weight: 700; }
+.text-center { text-align: center; }
+.text-primary-600 { color: rgb(37 99 235); }
+.hover\:text-primary-700:hover { color: rgb(29 78 216); }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-gray-500 { color: rgb(107 114 128); }
+.p-4 { padding: 1rem; }
+.rounded-lg { border-radius: 0.5rem; }
+.border { border-width: 1px; border-style: solid; }
+.flex { display: flex; }
+.items-start { align-items: flex-start; }
+.gap-3 { gap: 0.75rem; }
+.bg-blue-50 { background-color: rgb(239 246 255); }
+.border-blue-200 { border-color: rgb(191 219 254); }
+.text-blue-800 { color: rgb(30 64 175); }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.overflow-x-auto { overflow-x: auto; }
+.bg-gray-50 { background-color: rgb(249 250 251); }
+.border-gray-200 { border-color: rgb(229 231 235); }
+.bg-white { background-color: rgb(255 255 255); }
+.text-base { font-size: 1rem; line-height: 1.5rem; }
+.p-6 { padding: 1.5rem; }
+.leading-loose { line-height: 2; }
+.text-gray-900 { color: rgb(17 24 39); }
+.bg-gradient-to-br { background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)); }
+.text-green-600 { color: rgb(22 163 74); }
+.text-red-600 { color: rgb(220 38 38); }
+
+/* ========================================
+ * COMPONENT STYLES
+ * ======================================== */
+
+/* Base Component */
+.taildown-component {
+  /* Base component styles */
+}
+
+/* Card Component */
+.component-card {
+  /* Additional card-specific styles */
+}
+
+.component-card .component-card {
+  padding: 1rem;
+}
+
+.component-card .component-card .component-card {
+  padding: 0.75rem;
+}
+
+.component-card .component-card .component-card .component-card {
+  padding: 0.5rem;
+}
+
+.component-grid {
+  /* Additional grid-specific styles */
+}
+
+.component-container {
+  /* Additional container-specific styles */
+}
+
+/* Alert Component - Mobile Optimization */
+.component-alert {
+  /* On mobile, stack icon and content vertically for better readability */
+}
+
+@media (max-width: 640px) {
+  .component-alert {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  /* Reduce large icon sizes on mobile for better proportions */
+  .component-alert .icon.huge {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .component-alert .icon.xl {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* ========================================
+ * TABS COMPONENT
+ * ======================================== */
+
+.component-tabs {
+  width: 100%;
+}
+
+.tabs-list {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(209 213 219) transparent;
+}
+
+.tabs-list::-webkit-scrollbar {
+  height: 4px;
+}
+
+.tabs-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tabs-list::-webkit-scrollbar-thumb {
+  background: rgb(209 213 219);
+  border-radius: 2px;
+}
+
+.tabs-list::-webkit-scrollbar-thumb:hover {
+  background: rgb(156 163 175);
+}
+
+.tab-button {
+  position: relative;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .tab-button {
+    font-size: 0.813rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+.tab-button[aria-selected="true"] {
+  color: rgb(37 99 235);
+  border-color: rgb(37 99 235) !important;
+}
+
+.tab-button[aria-selected="false"]:hover {
+  color: rgb(17 24 39);
+  border-color: rgb(209 213 219);
+}
+
+.tab-panel[hidden] {
+  display: none;
+}
+
+/* ========================================
+ * ACCORDION COMPONENT
+ * ======================================== */
+
+.component-accordion {
+  border: 1px solid rgb(229 231 235);
+}
+
+.accordion-item {
+  position: relative;
+}
+
+.accordion-trigger {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 1rem;
+}
+
+.accordion-trigger:hover {
+  background-color: rgb(249 250 251);
+}
+
+.accordion-content[hidden] {
+  display: none;
+}
+
+.accordion-content {
+  padding: 0 1rem 1rem 1rem;
+  overflow: hidden;
+}
+
+.accordion-icon {
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-item.open .accordion-icon {
+  transform: rotate(180deg);
+}
+
+/* ========================================
+ * CAROUSEL COMPONENT
+ * ======================================== */
+
+.carousel-container {
+  perspective: 1200px;
+  perspective-origin: center;
+}
+
+.component-carousel {
+  position: relative;
+  width: 100%;
+}
+
+.carousel-track {
+  display: flex;
+  transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  flex-shrink: 0;
+  padding: 0 2rem;
+}
+
+.carousel-slide[hidden] {
+  display: none;
+}
+
+.carousel-card {
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+}
+
+/* Beautiful glassmorphism cards with depth */
+.carousel-card:hover {
+  transform: scale(1.02) translateZ(20px) !important;
+  box-shadow: 0 35px 60px -15px rgb(0 0 0 / 0.3) !important;
+}
+
+.carousel-prev,
+.carousel-next {
+  position: absolute;
+  z-index: 10;
+  background: white;
+  border: 1px solid rgb(229 231 235);
+  cursor: pointer;
+  outline: none;
+}
+
+.carousel-prev:hover,
+.carousel-next:hover {
+  background-color: rgb(243 244 246);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.carousel-prev:disabled,
+.carousel-next:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.carousel-indicators {
+  display: flex;
+  gap: 0.5rem;
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.carousel-indicator {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.carousel-indicator[aria-current="true"] {
+  background-color: rgb(17 24 39);
+  width: 2rem;
+}
+
+.carousel-indicator[aria-current="false"] {
+  background-color: rgb(156 163 175);
+}
+
+.carousel-indicator:hover {
+  background-color: rgb(75 85 99);
+}
+
+/* ========================================
+ * MODAL COMPONENT
+ * ======================================== */
+
+.modal-backdrop {
+  transition: opacity 200ms ease-in-out;
+}
+
+.modal-backdrop[hidden] {
+  display: none;
+}
+
+.modal-content {
+  position: relative;
+  animation: modalSlideIn 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-close {
+  z-index: 10;
+}
+
+.modal-close:hover {
+  transform: scale(1.1);
+}
+
+/* ========================================
+ * TOOLTIP COMPONENT
+ * ======================================== */
+
+.component-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-content {
+  position: absolute;
+  z-index: 50;
+  background-color: rgb(17 24 39);
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tooltip-content.visible {
+  opacity: 1;
+}
+
+.tooltip-content[data-position="top"] {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-0.5rem);
+}
+
+.tooltip-content[data-position="bottom"] {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(0.5rem);
+}
+
+.tooltip-content[data-position="left"] {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(-0.5rem);
+}
+
+.tooltip-content[data-position="right"] {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(0.5rem);
+}
+
+/* ========================================
+ * TREE COMPONENT - Directory/Hierarchy Visualization
+ * ======================================== */
+
+.tree-container {
+  position: relative;
+  overflow-x: auto;
+}
+
+/* Remove default list styling */
+.tree-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tree-container li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin: 0.25rem 0;
+  line-height: 1.6;
+}
+
+/* Tree connectors - vertical and horizontal lines */
+.tree-default li::before,
+.tree-boxed li::before,
+.tree-rounded li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1rem;
+  height: 100%;
+  border-left: 2px solid rgb(209 213 219);
+  border-bottom: 2px solid rgb(209 213 219);
+}
+
+.tree-default li::before {
+  border-left: 1px solid rgb(209 213 219);
+  border-bottom: 1px solid rgb(209 213 219);
+}
+
+.tree-rounded li::before {
+  border-bottom-left-radius: 0.5rem;
+  border-left: 2px solid rgb(147 197 253);
+  border-bottom: 2px solid rgb(147 197 253);
+}
+
+/* Last child connector stops before the bottom */
+.tree-default li:last-child::before,
+.tree-boxed li:last-child::before,
+.tree-rounded li:last-child::before {
+  height: 0.8rem;
+}
+
+/* Node indicators */
+.tree-default li::after,
+.tree-boxed li::after,
+.tree-rounded li::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65rem;
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 50%;
+  background-color: rgb(59 130 246);
+}
+
+/* Nested lists inherit tree styling */
+.tree-container ul ul {
+  margin-left: 0;
+}
+
+/* Directory icons via text */
+.tree-container li:has(ul)::after {
+  content: '📁';
+  left: -0.125rem;
+  top: 0.25rem;
+  width: auto;
+  height: auto;
+  background: none;
+  font-size: 0.75rem;
+}
+
+/* File indicators (leaves without children) */
+.tree-container li:not(:has(ul))::after {
+  background-color: rgb(99 102 241);
+}
+
+/* Colored variant - depth-based coloring */
+.tree-colored li {
+  color: rgb(31 41 55);
+}
+
+.tree-colored ul li {
+  color: rgb(59 130 246);
+}
+
+.tree-colored ul ul li {
+  color: rgb(139 92 246);
+}
+
+.tree-colored ul ul ul li {
+  color: rgb(236 72 153);
+}
+
+/* Minimal variant - clean, no visual clutter */
+.tree-minimal li::before,
+.tree-minimal li::after {
+  display: none;
+}
+
+.tree-minimal li {
+  padding-left: 1rem;
+  opacity: 0.9;
+}
+
+.tree-minimal ul li {
+  opacity: 0.8;
+  font-size: 0.95em;
+}
+
+/* Dark variant */
+.tree-dark li::before {
+  border-color: rgb(55 65 81);
+}
+
+.tree-dark li::after {
+  background-color: rgb(96 165 250);
+}
+
+/* Glass variant - modern frosted look */
+.tree-glass {
+  backdrop-filter: blur(12px);
+}
+
+/* Mobile optimization */
+@media (max-width: 640px) {
+  .tree-container {
+    font-size: 0.813rem;
+  }
+  
+  .tree-container li {
+    padding-left: 1rem;
+    margin: 0.125rem 0;
+  }
+  
+  .tree-container li::before {
+    width: 0.75rem;
+  }
+}
+
+/* ========================================
+ * FLOW COMPONENT - Process/Flow Diagrams
+ * ======================================== */
+
+.flow-container {
+  position: relative;
+}
+
+/* Remove default list styling */
+.flow-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.flow-container li {
+  position: relative;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  background: white;
+  border: 2px solid rgb(229 231 235);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.flow-container li:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  transform: translateX(4px);
+}
+
+/* Vertical flow arrows */
+.flow-vertical li:not(:last-child)::after {
+  content: '↓';
+  position: absolute;
+  left: 50%;
+  bottom: -1.25rem;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  color: rgb(147 197 253);
+  z-index: 1;
+}
+
+/* Horizontal flow */
+.flow-horizontal ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.flow-horizontal li {
+  flex: 0 1 auto;
+  min-width: 150px;
+}
+
+.flow-horizontal li:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  right: -1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: rgb(147 197 253);
+}
+
+/* Stepped flow with numbers */
+.flow-stepped {
+  counter-reset: step-counter;
+}
+
+.flow-stepped li {
+  counter-increment: step-counter;
+  padding-left: 3rem;
+  border-left: 4px solid rgb(59 130 246);
+}
+
+.flow-stepped li::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.75rem;
+  height: 1.75rem;
+  background: rgb(59 130 246);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* Branching flow - decision tree style */
+.flow-branching ul ul {
+  margin-left: 2rem;
+  border-left: 3px solid rgb(196 181 253);
+  padding-left: 1rem;
+}
+
+.flow-branching li {
+  border-color: rgb(196 181 253);
+}
+
+.flow-branching ul li {
+  border-color: rgb(167 139 250);
+}
+
+.flow-branching ul ul li {
+  border-color: rgb(139 92 246);
+}
+
+/* Timeline variant */
+.flow-timeline li {
+  border-left-width: 4px;
+  border-left-color: rgb(59 130 246);
+  background: linear-gradient(to right, rgb(239 246 255), white);
+}
+
+.flow-timeline li::before {
+  content: '';
+  position: absolute;
+  left: -0.625rem;
+  top: 1rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: rgb(59 130 246);
+  border: 3px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgb(59 130 246);
+}
+
+/* Minimal flow - clean styling */
+.flow-minimal li {
+  border: 1px solid rgb(229 231 235);
+  background: transparent;
+  box-shadow: none;
+}
+
+.flow-minimal li:hover {
+  border-color: rgb(59 130 246);
+  background: rgb(239 246 255);
+}
+
+/* Dark theme */
+.flow-dark li {
+  background: rgb(31 41 55);
+  border-color: rgb(55 65 81);
+  color: rgb(243 244 246);
+}
+
+.flow-dark li:hover {
+  background: rgb(55 65 81);
+  border-color: rgb(96 165 250);
+}
+
+/* Glass variant */
+.flow-glass {
+  backdrop-filter: blur(12px);
+}
+
+.flow-glass li {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Mobile optimization for horizontal flows */
+@media (max-width: 640px) {
+  .flow-horizontal ul {
+    flex-direction: column;
+  }
+  
+  .flow-horizontal li:not(:last-child)::after {
+    content: '↓';
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: -1.25rem;
+    transform: translateX(-50%);
+  }
+  
+  .flow-container li {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+/* Nested flows get indentation */
+.flow-container ul ul {
+  margin-left: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.flow-container ul ul li {
+  opacity: 0.9;
+  border-width: 1px;
+}
+
+/* Button Styles - shadcn-inspired */
+a.bg-blue-600 {
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  transform: translateY(0);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a.bg-blue-600:hover {
+  background-color: rgb(37 99 235); /* blue-700 */
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transform: translateY(-1px);
+}
+
+a.bg-blue-600:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+a.bg-gray-200 {
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  transform: translateY(0);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a.bg-gray-200:hover {
+  background-color: rgb(229 231 235); /* gray-300 */
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transform: translateY(-1px);
+}
+
+a.bg-gray-200:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+</style>
+  
+</head>
+<body>
+  <h1 class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700">Text-Based Illustration Components</h1>
+<p class="text-lg text-gray-500 text-center">Modern professional components for directory trees and flow diagrams.</p>
+<hr />
+<h2 class="text-lg font-bold">Overview</h2>
+<p>Taildown now includes two specialized components for text-based illustrations:</p>
+<ul>
+<li><strong>Tree Component</strong> - Directory structures and hierarchical visualizations</li>
+<li><strong>Flow Component</strong> - Process flows and decision diagrams</li>
+</ul>
+<p>These components replace crude ASCII diagrams with professional, mobile-optimized styling that matches our modern UI/UX standards.</p>
+<hr />
+<h2 class="text-lg font-bold">Design Philosophy</h2>
+<div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-blue-50 border-blue-200 text-blue-800"><p><svg class="icon icon-info text-primary-600 hover:text-primary-700" data-icon="info" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg> These components follow Taildown's core principles:</p><ul>
+<li>Plain English syntax for variants</li>
+<li>Mobile-first responsive design</li>
+<li>Professional glassmorphism effects</li>
+<li>Zero configuration required</li>
+<li>Fully accessible HTML output</li>
+</ul></div>
+<h3>Key Features</h3>
+<ul>
+<li><strong>Mobile Optimized</strong> - Responsive layouts adapt from phone to desktop</li>
+<li><strong>Professional Styling</strong> - Modern visual design with subtle animations</li>
+<li><strong>Multiple Variants</strong> - Different styles for different use cases</li>
+<li><strong>Semantic HTML</strong> - Uses proper list markup for accessibility</li>
+<li><strong>CSS-Only</strong> - No JavaScript required for basic functionality</li>
+</ul>
+<hr />
+<h2 class="text-lg font-bold">Tree Component</h2>
+<h3>Basic Usage</h3>
+<pre><code class="language-taildown code-highlight"><span class="code-line">:::tree
+</span><span class="code-line">- project/
+</span><span class="code-line">  - src/
+</span><span class="code-line">    - components/
+</span><span class="code-line">    - utils/
+</span><span class="code-line">  - tests/
+</span><span class="code-line">  - package.json
+</span><span class="code-line">:::
+</span></code></pre>
+<h3>Variants</h3>
+<h4>Default Variant</h4>
+<p>Clean modern tree with subtle borders and connectors.</p>
+<pre><code class="language-taildown code-highlight"><span class="code-line">:::tree
+</span><span class="code-line">- root/
+</span><span class="code-line">  - folder1/
+</span><span class="code-line">  - folder2/
+</span><span class="code-line">:::
+</span></code></pre>
+<h4>Minimal Variant</h4>
+<p>Ultra-clean with no visual clutter, perfect for dense documentation.</p>
+<pre><code class="language-taildown code-highlight"><span class="code-line">:::tree {minimal}
+</span><span class="code-line">- app/
+</span><span class="code-line">  - components/
+</span><span class="code-line">  - pages/
+</span><span class="code-line">:::
+</span></code></pre>
+<h4>Colored Variant</h4>
+<p>Color-coded by depth for better visual hierarchy.</p>
+<pre><code class="language-taildown code-highlight"><span class="code-line">:::tree {colored}
+</span><span class="code-line">- monorepo/
+</span><span class="code-line">  - packages/
+</span><span class="code-line">    - ui/
+</span><span class="code-line">    - utils/
+</span><span class="code-line">  - apps/
+</span><span class="code-line">    - web/
+</span><span class="code-line">    - mobile/
+</span><span class="code-line">:::
+</span></code></pre>
+<h4>Rounded Variant</h4>
+<p>Soft rounded connectors with blue accents.</p>
+<pre><code class="language-taildown code-highlight"><span class="code-line">:::tree {rounded}
+</span><span class="code-line">- website/
+</span><span class="code-line">  - public/
+</span><span class="code-line">  - src/
+</span><span class="code-line">:::
+</span></code></pre>
+<h4>Glass Variant</h4>
+<p>Modern glassmorphism effect.</p>
+<pre><code class="language-taildown code-highlight"><span class="code-line">:::tree {glass}
+</span><span class="code-line">- design-system/
+</span><span class="code-line">  - tokens/
+</span><span class="code-line">  - components/
+</span><span class="code-line">:::
+</span></code></pre>
+<h4>Dark Variant</h4>
+<p>Dark theme optimized styling.</p>
+<pre><code class="language-taildown code-highlight"><span class="code-line">:::tree {dark}
+</span><span class="code-line">- project/
+</span><span class="code-line">  - src/
+</span><span class="code-line">  - dist/
+</span><span class="code-line">:::
+</span></code></pre>
+<h3>Size Variants</h3>
+<pre><code class="language-taildown code-highlight"><span class="code-line">Small:  :::tree {sm}
+</span><span class="code-line">Medium: :::tree {md}
+</span><span class="code-line">Large:  :::tree {lg}
+</span></code></pre>
+<hr />
+<h2 class="text-lg font-bold">Flow Component</h2>
+<h3>Basic Usage</h3>
+<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow
+</span><span class="code-line">- Start
+</span><span class="code-line">- Process
+</span><span class="code-line">- Validate
+</span><span class="code-line">- Complete
+</span><span class="code-line">:::
+</span></code></pre>
+<h3>Variants</h3>
+<h4>Default (Vertical Flow)</h4>
+<p>Vertical flow with connecting arrows.</p>
+<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow
+</span><span class="code-line">- Initialize
+</span><span class="code-line">- Load Data
+</span><span class="code-line">- Process
+</span><span class="code-line">- Save Results
+</span><span class="code-line">:::
+</span></code></pre>
+<h4>Horizontal Flow</h4>
+<p>Left-to-right process flow.</p>
+<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow {horizontal}
+</span><span class="code-line">- Input
+</span><span class="code-line">- Transform
+</span><span class="code-line">- Output
+</span><span class="code-line">:::
+</span></code></pre>
+<h4>Stepped Flow</h4>
+<p>Step-by-step with automatic numbering.</p>
+<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow {stepped}
+</span><span class="code-line">- Create Account
+</span><span class="code-line">- Verify Email
+</span><span class="code-line">- Set Password
+</span><span class="code-line">- Complete Setup
+</span><span class="code-line">:::
+</span></code></pre>
+<h4>Branching Flow</h4>
+<p>Decision tree with nested branches.</p>
+<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow {branching}
+</span><span class="code-line">- Request
+</span><span class="code-line">  - Validate
+</span><span class="code-line">    - Valid
+</span><span class="code-line">      - Process
+</span><span class="code-line">    - Invalid
+</span><span class="code-line">      - Reject
+</span><span class="code-line">:::
+</span></code></pre>
+<h4>Timeline Flow</h4>
+<p>Timeline-style presentation.</p>
+<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow {timeline}
+</span><span class="code-line">- Planning
+</span><span class="code-line">- Development
+</span><span class="code-line">- Testing
+</span><span class="code-line">- Deployment
+</span><span class="code-line">:::
+</span></code></pre>
+<h4>Minimal Flow</h4>
+<p>Clean minimal styling.</p>
+<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow {minimal}
+</span><span class="code-line">- Step 1
+</span><span class="code-line">- Step 2
+</span><span class="code-line">- Step 3
+</span><span class="code-line">:::
+</span></code></pre>
+<h4>Glass Flow</h4>
+<p>Glassmorphism effect.</p>
+<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow {glass}
+</span><span class="code-line">- Start
+</span><span class="code-line">- Process
+</span><span class="code-line">- End
+</span><span class="code-line">:::
+</span></code></pre>
+<h4>Dark Flow</h4>
+<p>Dark theme optimized.</p>
+<pre><code class="language-taildown code-highlight"><span class="code-line">:::flow {dark}
+</span><span class="code-line">- Input
+</span><span class="code-line">- Process
+</span><span class="code-line">- Output
+</span><span class="code-line">:::
+</span></code></pre>
+<hr />
+<h2 class="text-lg font-bold">Real-World Examples</h2>
+<h3>Monorepo Structure</h3>
+<div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-colored bg-white text-base p-6 leading-loose"><ul>
+<li>monorepo/
+<ul>
+<li>apps/
+<ul>
+<li>web/
+<ul>
+<li>src/
+<ul>
+<li>app/</li>
+<li>components/</li>
+</ul>
+</li>
+<li>public/</li>
+</ul>
+</li>
+<li>mobile/
+<ul>
+<li>src/
+<ul>
+<li>screens/</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>packages/
+<ul>
+<li>ui/
+<ul>
+<li>src/</li>
+</ul>
+</li>
+<li>utils/
+<ul>
+<li>src/</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>tools/</li>
+<li>pnpm-workspace.yaml</li>
+</ul>
+</li>
+</ul></div>
+<h3>API Request Pipeline</h3>
+<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-stepped bg-white text-gray-900"><ul>
+<li>Client Request</li>
+<li>API Gateway</li>
+<li>Authentication</li>
+<li>Route Handler</li>
+<li>Service Layer</li>
+<li>Database Query</li>
+<li>Response Formatting</li>
+<li>Client Response</li>
+</ul></div>
+<h3>CI/CD Pipeline</h3>
+<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-branching bg-gradient-to-br from-blue-50 to-purple-50"><ul>
+<li>Code Push
+<ul>
+<li>Linter
+<ul>
+<li>Pass
+<ul>
+<li>Tests
+<ul>
+<li>Pass
+<ul>
+<li>Build</li>
+</ul>
+</li>
+<li>Fail
+<ul>
+<li>Block</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Fail
+<ul>
+<li>Reject</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></div>
+<hr />
+<h2 class="text-lg font-bold">Mobile Optimization</h2>
+<p>All components are fully responsive:</p>
+<ul>
+<li><strong>Phone</strong> - Compact spacing, reduced font sizes</li>
+<li><strong>Tablet</strong> - Balanced layout with comfortable spacing</li>
+<li><strong>Desktop</strong> - Full spacing and visual effects</li>
+</ul>
+<p>Horizontal flows automatically convert to vertical on mobile devices.</p>
+<hr />
+<h2 class="text-lg font-bold">Accessibility</h2>
+<p>Both components generate semantic HTML:</p>
+<ul>
+<li>Proper <code>ul</code> and <code>li</code> elements</li>
+<li>Logical document structure</li>
+<li>Screen reader friendly</li>
+<li>Keyboard navigable (for interactive variants)</li>
+</ul>
+<hr />
+<h2 class="text-lg font-bold">CSS Classes Reference</h2>
+<h3>Tree Component Classes</h3>
+<ul>
+<li><code>.tree-container</code> - Main container</li>
+<li><code>.tree-default</code> - Default variant</li>
+<li><code>.tree-minimal</code> - Minimal variant</li>
+<li><code>.tree-colored</code> - Colored variant</li>
+<li><code>.tree-rounded</code> - Rounded variant</li>
+<li><code>.tree-glass</code> - Glass variant</li>
+<li><code>.tree-dark</code> - Dark variant</li>
+</ul>
+<h3>Flow Component Classes</h3>
+<ul>
+<li><code>.flow-container</code> - Main container</li>
+<li><code>.flow-vertical</code> - Vertical flow (default)</li>
+<li><code>.flow-horizontal</code> - Horizontal flow</li>
+<li><code>.flow-stepped</code> - Stepped with numbers</li>
+<li><code>.flow-branching</code> - Decision tree</li>
+<li><code>.flow-timeline</code> - Timeline style</li>
+<li><code>.flow-minimal</code> - Minimal variant</li>
+<li><code>.flow-glass</code> - Glass variant</li>
+<li><code>.flow-dark</code> - Dark variant</li>
+</ul>
+<hr />
+<h2 class="text-lg font-bold">Browser Support</h2>
+<p>Fully supported in all modern browsers:</p>
+<ul>
+<li>Chrome 90+</li>
+<li>Firefox 88+</li>
+<li>Safari 14+</li>
+<li>Edge 90+</li>
+</ul>
+<p>Uses CSS features:</p>
+<ul>
+<li>CSS Grid</li>
+<li>Flexbox</li>
+<li>CSS Custom Properties</li>
+<li>Pseudo-elements</li>
+<li>Backdrop filters (for glass variants)</li>
+</ul>
+<hr />
+<h2 class="text-lg font-bold">Best Practices</h2>
+<h3>Tree Components</h3>
+<p><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Do:</strong></p>
+<ul>
+<li>Use for directory structures</li>
+<li>Use for hierarchical data</li>
+<li>Keep nesting reasonable (max 4-5 levels)</li>
+<li>Use descriptive file/folder names</li>
+</ul>
+<p><svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> <strong>Don't:</strong></p>
+<ul>
+<li>Use for non-hierarchical data</li>
+<li>Create overly deep nesting (hard to read)</li>
+<li>Mix with other content types</li>
+</ul>
+<h3>Flow Components</h3>
+<p><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Do:</strong></p>
+<ul>
+<li>Use for sequential processes</li>
+<li>Use for decision trees</li>
+<li>Keep steps concise and clear</li>
+<li>Use appropriate variant for context</li>
+</ul>
+<p><svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> <strong>Don't:</strong></p>
+<ul>
+<li>Use for complex multi-dimensional flows</li>
+<li>Create circular flows (use branching instead)</li>
+<li>Overload with too many steps</li>
+</ul>
+<hr />
+<h2 class="text-lg font-bold">Performance</h2>
+<p>Both components are highly optimized:</p>
+<ul>
+<li><strong>Zero JavaScript</strong> - Pure CSS rendering</li>
+<li><strong>Tree-Shaken CSS</strong> - Only used classes included</li>
+<li><strong>Minimal DOM</strong> - Efficient HTML structure</li>
+<li><strong>Hardware Accelerated</strong> - CSS transforms for animations</li>
+</ul>
+<hr />
+<h2 class="text-lg font-bold">Future Enhancements</h2>
+<p>Planned features for future versions:</p>
+<ul>
+<li>Interactive tree collapse/expand</li>
+<li>Searchable trees</li>
+<li>Flow diagram export to image</li>
+<li>Custom icons per node</li>
+<li>Drag-and-drop reordering</li>
+<li>Connection line customization</li>
+</ul>
+<hr />
+<h2 class="text-lg font-bold">Examples in This Repository</h2>
+<p>See complete examples:</p>
+<ul>
+<li><code>examples/11-text-illustrations.td</code> - Comprehensive showcase</li>
+<li><code>test-files/test-tree-flow.td</code> - Quick test file</li>
+</ul>
+<hr />
+<h2 class="text-lg font-bold">Component Implementation</h2>
+<h3>File Locations</h3>
+<ul>
+<li>
+<p>Component Definitions:</p>
+<ul>
+<li><code>packages/compiler/src/components/standard/tree.ts</code></li>
+<li><code>packages/compiler/src/components/standard/flow.ts</code></li>
+</ul>
+</li>
+<li>
+<p>CSS Styling:</p>
+<ul>
+<li><code>packages/compiler/src/renderer/css.ts</code> (lines 1457-1810)</li>
+</ul>
+</li>
+<li>
+<p>Component Registry:</p>
+<ul>
+<li><code>packages/compiler/src/components/component-registry.ts</code></li>
+</ul>
+</li>
+</ul>
+<h3>Technical Details</h3>
+<p>Both components:</p>
+<ul>
+<li>Use <code>div</code> as container element</li>
+<li>Apply variant classes automatically</li>
+<li>Support all size modifiers</li>
+<li>Work with standard markdown lists</li>
+<li>Generate semantic HTML</li>
+</ul>
+<hr />
+<h2 class="text-lg font-bold">Changelog</h2>
+<h3>Version 0.1.0 (2025-10-06)</h3>
+<p><svg class="icon icon-plus text-green-600" data-icon="plus" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></svg> <strong>Added:</strong></p>
+<ul>
+<li>Tree component with 7 variants</li>
+<li>Flow component with 8 variants</li>
+<li>Responsive mobile layouts</li>
+<li>Glassmorphism effects</li>
+<li>Dark theme support</li>
+<li>Comprehensive documentation</li>
+<li>Real-world examples</li>
+</ul>
+<hr />
+<p class="text-center text-gray-500">Built with Taildown <svg class="icon icon-heart text-red-600" data-icon="heart" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" /></svg></p>
+</body>
+</html>

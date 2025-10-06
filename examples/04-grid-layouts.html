@@ -1,493 +1,10 @@
-/**
- * CSS Generator for Taildown
- * Collects classes from AST and generates CSS
- */
-
-import { visit } from 'unist-util-visit';
-import type { TaildownRoot, TaildownNodeData } from '@taildown/shared';
-import { generateIconCSS } from '../icons/icon-renderer';
-import { generateGlassmorphismCSS } from '../themes/glassmorphism';
-import { generateAnimationCSS } from '../themes/animations';
-
-/**
- * Tailwind CSS utility class definitions
- * Phase 1: Basic utilities needed for standard components
- */
-const TAILWIND_UTILITIES: Record<string, string> = {
-  // Padding
-  'p-2': 'padding: 0.5rem;',
-  'p-3': 'padding: 0.75rem;',
-  'p-4': 'padding: 1rem;',
-  'p-5': 'padding: 1.25rem;',
-  'p-6': 'padding: 1.5rem;',
-  'p-8': 'padding: 2rem;',
-  'p-10': 'padding: 2.5rem;',
-  'p-12': 'padding: 3rem;',
-  'px-2': 'padding-left: 0.5rem; padding-right: 0.5rem;',
-  'px-3': 'padding-left: 0.75rem; padding-right: 0.75rem;',
-  'px-4': 'padding-left: 1rem; padding-right: 1rem;',
-  'px-6': 'padding-left: 1.5rem; padding-right: 1.5rem;',
-  'px-8': 'padding-left: 2rem; padding-right: 2rem;',
-  'px-10': 'padding-left: 2.5rem; padding-right: 2.5rem;',
-  'px-12': 'padding-left: 3rem; padding-right: 3rem;',
-  'py-0.5': 'padding-top: 0.125rem; padding-bottom: 0.125rem;',
-  'py-1': 'padding-top: 0.25rem; padding-bottom: 0.25rem;',
-  'py-1.5': 'padding-top: 0.375rem; padding-bottom: 0.375rem;',
-  'py-2': 'padding-top: 0.5rem; padding-bottom: 0.5rem;',
-  'py-2.5': 'padding-top: 0.625rem; padding-bottom: 0.625rem;',
-  'py-3': 'padding-top: 0.75rem; padding-bottom: 0.75rem;',
-  'py-4': 'padding-top: 1rem; padding-bottom: 1rem;',
-  'py-5': 'padding-top: 1.25rem; padding-bottom: 1.25rem;',
-  'py-6': 'padding-top: 1.5rem; padding-bottom: 1.5rem;',
-  'pb-4': 'padding-bottom: 1rem;',
-  'pt-0': 'padding-top: 0;',
-
-  // Margin
-  'mx-auto': 'margin-left: auto; margin-right: auto;',
-  'm-4': 'margin: 1rem;',
-  'm-6': 'margin: 1.5rem;',
-  'mt-6': 'margin-top: 1.5rem;',
-  'ml-2': 'margin-left: 0.5rem;',
-  '-mb-px': 'margin-bottom: -1px;',
-
-  // Width & Height
-  'w-2': 'width: 0.5rem;',
-  'w-4': 'width: 1rem;',
-  'w-6': 'width: 1.5rem;',
-  'w-8': 'width: 2rem;',
-  'w-10': 'width: 2.5rem;',
-  'w-12': 'width: 3rem;',
-  'w-16': 'width: 4rem;',
-  'w-20': 'width: 5rem;',
-  'w-full': 'width: 100%;',
-  'h-2': 'height: 0.5rem;',
-  'h-4': 'height: 1rem;',
-  'h-6': 'height: 1.5rem;',
-  'h-8': 'height: 2rem;',
-  'h-10': 'height: 2.5rem;',
-  'h-12': 'height: 3rem;',
-  'h-16': 'height: 4rem;',
-  'h-20': 'height: 5rem;',
-  'min-h-[400px]': 'min-height: 400px;',
-  'max-h-[90vh]': 'max-height: 90vh;',
-  'inset-0': 'top: 0; right: 0; bottom: 0; left: 0;',
-  'max-w-6xl': 'max-width: 72rem;',
-  'max-w-4xl': 'max-width: 56rem;',
-  'max-w-2xl': 'max-width: 42rem;',
-  'max-w-screen-2xl': 'max-width: 1536px;',
-  'max-w-full': 'max-width: 100%;',
-  'min-w-[200px]': 'min-width: 200px;',
-
-  // Display
-  grid: 'display: grid;',
-  flex: 'display: flex;',
-  'inline-flex': 'display: inline-flex;',
-  block: 'display: block;',
-  'inline-block': 'display: inline-block;',
-  
-  // Position
-  relative: 'position: relative;',
-  absolute: 'position: absolute;',
-  fixed: 'position: fixed;',
-  
-  // Z-index
-  'z-10': 'z-index: 10;',
-  'z-50': 'z-index: 50;',
-  
-  // Flexbox
-  'items-center': 'align-items: center;',
-  'items-start': 'align-items: flex-start;',
-  'justify-center': 'justify-content: center;',
-  'justify-between': 'justify-content: space-between;',
-  'justify-start': 'justify-content: flex-start;',
-  'flex-col': 'flex-direction: column;',
-  'flex-1': 'flex: 1 1 0%;',
-  'shrink-0': 'flex-shrink: 0;',
-  'flex-shrink-0': 'flex-shrink: 0;',
-
-  // Grid
-  'grid-cols-1': 'grid-template-columns: repeat(1, minmax(0, 1fr));',
-  'grid-cols-2': 'grid-template-columns: repeat(2, minmax(0, 1fr));',
-  'grid-cols-3': 'grid-template-columns: repeat(3, minmax(0, 1fr));',
-  'grid-cols-4': 'grid-template-columns: repeat(4, minmax(0, 1fr));',
-  'grid-cols-5': 'grid-template-columns: repeat(5, minmax(0, 1fr));',
-  'gap-2': 'gap: 0.5rem;',
-  'gap-3': 'gap: 0.75rem;',
-  'gap-4': 'gap: 1rem;',
-  'gap-6': 'gap: 1.5rem;',
-  'gap-8': 'gap: 2rem;',
-
-  // Border radius
-  rounded: 'border-radius: 0.25rem;',
-  'rounded-md': 'border-radius: 0.375rem;',
-  'rounded-lg': 'border-radius: 0.5rem;',
-  'rounded-xl': 'border-radius: 0.75rem;',
-  'rounded-2xl': 'border-radius: 1rem;',
-  'rounded-full': 'border-radius: 9999px;',
-  'rounded-t-lg': 'border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;',
-  
-  // Borders
-  border: 'border-width: 1px; border-style: solid;',
-  'border-2': 'border-width: 2px; border-style: solid;',
-  'border-b': 'border-bottom-width: 1px; border-style: solid;',
-  'border-b-2': 'border-bottom-width: 2px; border-style: solid;',
-  'border-b-0': 'border-bottom-width: 0;',
-  'border-gray-200': 'border-color: rgb(229 231 235);',
-  'border-gray-300': 'border-color: rgb(209 213 219);',
-  'border-blue-600': 'border-color: rgb(37 99 235);',
-  'border-transparent': 'border-color: transparent;',
-  'border-gray-200/50': 'border-color: rgb(229 231 235 / 0.5);',
-  'border-gray-300/50': 'border-color: rgb(209 213 219 / 0.5);',
-  'border-blue-200': 'border-color: rgb(191 219 254);',
-  'border-green-200': 'border-color: rgb(187 247 208);',
-  'border-amber-200': 'border-color: rgb(253 230 138);',
-  'border-red-200': 'border-color: rgb(254 202 202);',
-  'border-white/10': 'border-color: rgb(255 255 255 / 0.1);',
-  'border-white/20': 'border-color: rgb(255 255 255 / 0.2);',
-  'border-white/30': 'border-color: rgb(255 255 255 / 0.3);',
-  'border-white/40': 'border-color: rgb(255 255 255 / 0.4);',
-  'border-white/50': 'border-color: rgb(255 255 255 / 0.5);',
-  'border-white/60': 'border-color: rgb(255 255 255 / 0.6);',
-  'shadow-none': 'box-shadow: none;',
-
-  // Shadow
-  shadow: 'box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);',
-  'shadow-md':
-    'box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);',
-  'shadow-lg':
-    'box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);',
-  'shadow-xl':
-    'box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);',
-  'shadow-2xl':
-    'box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);',
-  'shadow-3xl':
-    'box-shadow: 0 35px 60px -15px rgb(0 0 0 / 0.3);',
-
-  // Transitions
-  transition:
-    'transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;',
-  'transition-all':
-    'transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;',
-  'duration-150': 'transition-duration: 150ms;',
-  'duration-200': 'transition-duration: 200ms;',
-  'duration-300': 'transition-duration: 300ms;',
-  'duration-500': 'transition-duration: 500ms;',
-  'ease-in': 'transition-timing-function: cubic-bezier(0.4, 0, 1, 1);',
-  'ease-out': 'transition-timing-function: cubic-bezier(0, 0, 0.2, 1);',
-  'ease-in-out': 'transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);',
-
-  // Overflow
-  'overflow-auto': 'overflow: auto;',
-  'overflow-hidden': 'overflow: hidden;',
-  'overflow-x-hidden': 'overflow-x: hidden;',
-  'overflow-x-auto': 'overflow-x: auto;',
-  'overflow-y-auto': 'overflow-y: auto;',
-  
-  // Cursor
-  'cursor-pointer': 'cursor: pointer;',
-  'cursor-default': 'cursor: default;',
-  'cursor-not-allowed': 'cursor: not-allowed;',
-  
-  // Opacity
-  'opacity-0': 'opacity: 0;',
-  'opacity-50': 'opacity: 0.5;',
-  'opacity-100': 'opacity: 1;',
-  
-  // Focus/Ring States
-  'outline-none': 'outline: 2px solid transparent; outline-offset: 2px;',
-  'ring-2': 'box-shadow: 0 0 0 2px rgb(59 130 246 / 0.5);',
-  'ring-offset-2': 'box-shadow: 0 0 0 2px white, 0 0 0 4px rgb(59 130 246 / 0.5);',
-  
-  // Transform
-  transform: 'transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));',
-  'scale-110': 'transform: scale(1.1);',
-  'scale-100': 'transform: scale(1);',
-  'scale-[1.02]': 'transform: scale(1.02);',
-  'rotate-180': 'transform: rotate(180deg);',
-  '-translate-y-1/2': 'transform: translateY(-50%);',
-  '-translate-x-1/2': 'transform: translateX(-50%);',
-  'translate-x-0': 'transform: translateX(0);',
-  
-  // SVG
-  'stroke-current': 'stroke: currentColor;',
-  'fill-none': 'fill: none;',
-  'fill-current': 'fill: currentColor;',
-  
-  // Backdrop Filters (for glassmorphism)
-  'backdrop-blur-sm': 'backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);',
-  'backdrop-blur-md': 'backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);',
-  'backdrop-blur-lg': 'backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);',
-  'backdrop-blur-xl': 'backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);',
-
-  // Background - Neutral
-  'bg-white': 'background-color: rgb(255 255 255);',
-  'bg-gray-50': 'background-color: rgb(249 250 251);',
-  'bg-gray-100': 'background-color: rgb(243 244 246);',
-  'bg-gray-200': 'background-color: rgb(229 231 235);',
-  'bg-gray-300': 'background-color: rgb(209 213 219);',
-  'bg-gray-400': 'background-color: rgb(156 163 175);',
-  'bg-black': 'background-color: rgb(0 0 0);',
-  'bg-opacity-50': 'background-color: rgba(0, 0, 0, 0.5);',
-  'bg-gradient-to-br': 'background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));',
-  'from-gray-50': '--tw-gradient-from: rgb(249 250 251); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(249 250 251 / 0));',
-  'to-gray-100': '--tw-gradient-to: rgb(243 244 246);',
-  
-  // Background - Blue
-  'bg-blue-50': 'background-color: rgb(239 246 255);',
-  'bg-blue-100': 'background-color: rgb(219 234 254);',
-  'bg-blue-600': 'background-color: rgb(37 99 235);',
-  'bg-blue-700': 'background-color: rgb(29 78 216);',
-  'bg-blue-800': 'background-color: rgb(30 64 175);',
-  
-  // Background - Green
-  'bg-green-50': 'background-color: rgb(240 253 244);',
-  'bg-green-100': 'background-color: rgb(220 252 231);',
-  'bg-green-200': 'background-color: rgb(187 247 208);',
-  'bg-green-600': 'background-color: rgb(22 163 74);',
-  'bg-green-700': 'background-color: rgb(21 128 61);',
-  'bg-green-800': 'background-color: rgb(22 101 52);',
-  
-  // Background - Red
-  'bg-red-50': 'background-color: rgb(254 242 242);',
-  'bg-red-100': 'background-color: rgb(254 226 226);',
-  'bg-red-200': 'background-color: rgb(254 202 202);',
-  'bg-red-600': 'background-color: rgb(220 38 38);',
-  'bg-red-700': 'background-color: rgb(185 28 28);',
-  'bg-red-800': 'background-color: rgb(153 27 27);',
-  
-  // Background - Amber
-  'bg-amber-50': 'background-color: rgb(255 251 235);',
-  'bg-amber-100': 'background-color: rgb(254 243 199);',
-  'bg-amber-200': 'background-color: rgb(253 230 138);',
-  'bg-amber-600': 'background-color: rgb(217 119 6);',
-  'bg-amber-700': 'background-color: rgb(180 83 9);',
-  'bg-amber-800': 'background-color: rgb(146 64 14);',
-  
-  // Background - Sky (Light Blue)
-  'bg-sky-50': 'background-color: rgb(240 249 255);',
-  'bg-sky-100': 'background-color: rgb(224 242 254);',
-  'bg-sky-700': 'background-color: rgb(3 105 161);',
-  
-  // Background - Purple
-  'bg-purple-600': 'background-color: rgb(147 51 234);',
-  'bg-purple-700': 'background-color: rgb(126 34 206);',
-  'bg-purple-800': 'background-color: rgb(107 33 168);',
-  
-  // Background - Opacity (for glass effects)
-  'bg-white/25': 'background-color: rgb(255 255 255 / 0.25);',
-  'bg-white/30': 'background-color: rgb(255 255 255 / 0.3);',
-  'bg-white/40': 'background-color: rgb(255 255 255 / 0.4);',
-  'bg-white/45': 'background-color: rgb(255 255 255 / 0.45);',
-  'bg-white/50': 'background-color: rgb(255 255 255 / 0.5);',
-  'bg-white/65': 'background-color: rgb(255 255 255 / 0.65);',
-  'bg-white/70': 'background-color: rgb(255 255 255 / 0.7);',
-  'bg-white/80': 'background-color: rgb(255 255 255 / 0.8);',
-  'bg-white/85': 'background-color: rgb(255 255 255 / 0.85);',
-  'bg-white/90': 'background-color: rgb(255 255 255 / 0.9);',
-  'bg-white/95': 'background-color: rgb(255 255 255 / 0.95);',
-  'bg-white/98': 'background-color: rgb(255 255 255 / 0.98);',
-  'bg-transparent': 'background-color: transparent;',
-  
-  // Tinted glass backgrounds (blue-tinted for professional glassmorphism)
-  'bg-glass-subtle': 'background-color: rgba(248, 250, 252, 0.9);',
-  'bg-glass-light': 'background-color: rgba(241, 245, 249, 0.75);',
-  'bg-glass-medium': 'background-color: rgba(226, 232, 240, 0.6);',
-  'bg-glass-heavy': 'background-color: rgba(203, 213, 225, 0.4);',
-
-  // Text
-  'text-center': 'text-align: center;',
-  'text-left': 'text-align: left;',
-  'text-right': 'text-align: right;',
-  'text-white': 'color: rgb(255 255 255);',
-  'whitespace-nowrap': 'white-space: nowrap;',
-  'break-words': 'overflow-wrap: break-word; word-wrap: break-word;',
-  'break-all': 'word-break: break-all;',
-  
-  // Text decoration
-  'underline': 'text-decoration: underline;',
-  'no-underline': 'text-decoration: none;',
-
-  // Typography
-  'text-xs': 'font-size: 0.75rem; line-height: 1rem;',
-  'text-sm': 'font-size: 0.875rem; line-height: 1.25rem;',
-  'text-base': 'font-size: 1rem; line-height: 1.5rem;',
-  'text-lg': 'font-size: 1.125rem; line-height: 1.75rem;',
-  'text-xl': 'font-size: 1.25rem; line-height: 1.75rem;',
-  'text-2xl': 'font-size: 1.5rem; line-height: 2rem;',
-  'text-3xl': 'font-size: 1.875rem; line-height: 2.25rem;',
-  'text-4xl': 'font-size: 2.25rem; line-height: 2.5rem;',
-  'text-5xl': 'font-size: 3rem; line-height: 1;',
-  'text-6xl': 'font-size: 3.75rem; line-height: 1;',
-  'font-normal': 'font-weight: 400;',
-  'font-medium': 'font-weight: 500;',
-  'font-semibold': 'font-weight: 600;',
-  'font-bold': 'font-weight: 700;',
-  'font-extrabold': 'font-weight: 800;',
-
-  // Text color - Gray scale
-  'text-gray-400': 'color: rgb(156 163 175);',
-  'text-gray-500': 'color: rgb(107 114 128);',
-  'text-gray-600': 'color: rgb(75 85 99);',
-  'text-gray-700': 'color: rgb(55 65 81);',
-  'text-gray-800': 'color: rgb(31 41 55);',
-  'text-gray-900': 'color: rgb(17 24 39);',
-
-  // Text color - Primary (Blue)
-  'text-primary-500': 'color: rgb(59 130 246);',
-  'text-primary-600': 'color: rgb(37 99 235);',
-  'text-primary-700': 'color: rgb(29 78 216);',
-  'text-blue-500': 'color: rgb(59 130 246);',
-  'text-blue-600': 'color: rgb(37 99 235);',
-  'text-blue-700': 'color: rgb(29 78 216);',
-  'text-blue-800': 'color: rgb(30 64 175);',
-  'text-blue-900': 'color: rgb(30 58 138);',
-
-  // Text color - Secondary (Purple)
-  'text-secondary-500': 'color: rgb(168 85 247);',
-  'text-secondary-600': 'color: rgb(147 51 234);',
-  'text-secondary-700': 'color: rgb(126 34 206);',
-  'text-purple-500': 'color: rgb(168 85 247);',
-  'text-purple-600': 'color: rgb(147 51 234);',
-  'text-purple-700': 'color: rgb(126 34 206);',
-
-  // Text color - Accent (Pink)
-  'text-accent-500': 'color: rgb(236 72 153);',
-  'text-accent-600': 'color: rgb(219 39 119);',
-  'text-accent-700': 'color: rgb(190 24 93);',
-  'text-pink-500': 'color: rgb(236 72 153);',
-  'text-pink-600': 'color: rgb(219 39 119);',
-  'text-pink-700': 'color: rgb(190 24 93);',
-
-  // Text color - Success (Green)
-  'text-success-500': 'color: rgb(34 197 94);',
-  'text-success-600': 'color: rgb(22 163 74);',
-  'text-success-700': 'color: rgb(21 128 61);',
-  'text-green-500': 'color: rgb(34 197 94);',
-  'text-green-600': 'color: rgb(22 163 74);',
-  'text-green-700': 'color: rgb(21 128 61);',
-  'text-green-800': 'color: rgb(22 101 52);',
-  'text-green-900': 'color: rgb(20 83 45);',
-
-  // Text color - Warning (Yellow/Amber)
-  'text-warning-500': 'color: rgb(245 158 11);',
-  'text-warning-600': 'color: rgb(217 119 6);',
-  'text-warning-700': 'color: rgb(180 83 9);',
-  'text-yellow-500': 'color: rgb(234 179 8);',
-  'text-yellow-600': 'color: rgb(202 138 4);',
-  'text-amber-500': 'color: rgb(245 158 11);',
-  'text-amber-600': 'color: rgb(217 119 6);',
-  'text-amber-700': 'color: rgb(180 83 9);',
-  'text-amber-800': 'color: rgb(146 64 14);',
-  'text-amber-900': 'color: rgb(120 53 15);',
-  
-  // Text color - Info (Sky)
-  'text-sky-600': 'color: rgb(2 132 199);',
-  'text-sky-700': 'color: rgb(3 105 161);',
-
-  // Text color - Error/Danger (Red)
-  'text-error-500': 'color: rgb(239 68 68);',
-  'text-error-600': 'color: rgb(220 38 38);',
-  'text-error-700': 'color: rgb(185 28 28);',
-  'text-red-500': 'color: rgb(239 68 68);',
-  'text-red-600': 'color: rgb(220 38 38);',
-  'text-red-700': 'color: rgb(185 28 28);',
-  'text-red-800': 'color: rgb(153 27 27);',
-  'text-red-900': 'color: rgb(127 29 29);',
-
-  // NOTE: Hover states are generated dynamically (see generateCSS function)
-  // DO NOT add hover: prefixed classes here - they're handled automatically
-
-  // Leading (line-height)
-  'leading-relaxed': 'line-height: 1.625;',
-  'leading-loose': 'line-height: 2;',
-
-  // Responsive breakpoints (simplified for Phase 1)
-  'sm:px-6': '@media (min-width: 640px) { padding-left: 1.5rem; padding-right: 1.5rem; }',
-  'sm:grid-cols-2':
-    '@media (min-width: 640px) { grid-template-columns: repeat(2, minmax(0, 1fr)); }',
-  'md:grid-cols-2':
-    '@media (min-width: 768px) { grid-template-columns: repeat(2, minmax(0, 1fr)); }',
-  'lg:px-8': '@media (min-width: 1024px) { padding-left: 2rem; padding-right: 2rem; }',
-  'lg:grid-cols-3':
-    '@media (min-width: 1024px) { grid-template-columns: repeat(3, minmax(0, 1fr)); }',
-  'xl:px-12': '@media (min-width: 1280px) { padding-left: 3rem; padding-right: 3rem; }',
-  'xl:grid-cols-4':
-    '@media (min-width: 1280px) { grid-template-columns: repeat(4, minmax(0, 1fr)); }',
-  '2xl:grid-cols-5':
-    '@media (min-width: 1536px) { grid-template-columns: repeat(5, minmax(0, 1fr)); }',
-};
-
-/**
- * Collect all CSS classes used in the AST
- * 
- * @param ast - Taildown AST
- * @returns Set of unique class names
- */
-export function collectClasses(ast: TaildownRoot): Set<string> {
-  const classes = new Set<string>();
-
-  visit(ast, (node) => {
-    if (node.data) {
-      const data = node.data as TaildownNodeData;
-      if (data.hProperties?.className) {
-        for (const className of data.hProperties.className) {
-          classes.add(className);
-        }
-      }
-    }
-  });
-
-  return classes;
-}
-
-/**
- * Collect all CSS classes from HAST (HTML AST)
- * 
- * @param hast - HAST node
- * @returns Set of unique class names
- */
-export function collectClassesFromHast(hast: any): Set<string> {
-  const classes = new Set<string>();
-  
-  function traverse(node: any) {
-    if (node.properties?.className) {
-      const classNames = Array.isArray(node.properties.className)
-        ? node.properties.className
-        : [node.properties.className];
-      for (const className of classNames) {
-        // Handle both string and array formats
-        if (typeof className === 'string') {
-          // Split space-separated classes
-          className.split(/\s+/).forEach(cls => {
-            if (cls) classes.add(cls);
-          });
-        }
-      }
-    }
-    
-    if (node.children) {
-      for (const child of node.children) {
-        traverse(child);
-      }
-    }
-  }
-  
-  traverse(hast);
-  return classes;
-}
-
-/**
- * Generate CSS from collected classes
- * 
- * @param classes - Set of class names to generate CSS for
- * @param minify - Whether to minify CSS
- * @returns Generated CSS string
- */
-export function generateCSS(classes: Set<string>, minify: boolean = false): string {
-  const cssRules: string[] = [];
-
-  // Add base reset/normalization
-  cssRules.push(`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taildown Document</title>
+  <style>
 /* Taildown Generated Styles */
 *, ::before, ::after {
   box-sizing: border-box;
@@ -1004,109 +521,556 @@ td svg.icon {
   }
 }
 
-${generateIconCSS()}
+/* Icon Utilities */
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
 
-${generateGlassmorphismCSS()}
+.icon-missing,
+.icon-error {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background-color: rgb(254 202 202);
+  color: rgb(153 27 27);
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-family: monospace;
+}
 
-${generateAnimationCSS()}
-`);
+/* Icon size utilities */
+.icon.tiny { width: 12px; height: 12px; }
+.icon.xs { width: 16px; height: 16px; }
+.icon.sm { width: 20px; height: 20px; }
+.icon.md { width: 24px; height: 24px; }
+.icon.lg { width: 32px; height: 32px; }
+.icon.xl { width: 40px; height: 40px; }
+.icon.\32xl { width: 48px; height: 48px; }
+.icon.huge { width: 64px; height: 64px; }
 
-  // Generate utility classes
-  const utilityRules: string[] = [];
-  const mediaQueries: Map<string, string[]> = new Map();
+/* Glassmorphism Effects */
+.glass-effect {
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturation, 110%));
+  backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturation, 110%));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  for (const className of classes) {
-    let cssDeclarations = TAILWIND_UTILITIES[className];
+/* Glass intensity variants - each includes full effect */
+.glass-subtle {
+  background: rgba(248, 250, 252, 0.9);
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(4px) saturate(100%);
+  backdrop-filter: blur(4px) saturate(100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-    // Handle hover: prefix dynamically
-    if (!cssDeclarations && className.startsWith('hover:')) {
-      const baseClass = className.substring(6); // Remove 'hover:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
-      if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
-        // Generate hover variant
-        const escapedClassName = className.replace(/:/g, '\\:');
-        utilityRules.push(`.${escapedClassName}:hover { ${baseDeclarations} }`);
-        continue;
-      }
-    }
-    
-    // Handle active: prefix dynamically
-    if (!cssDeclarations && className.startsWith('active:')) {
-      const baseClass = className.substring(7); // Remove 'active:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
-      if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
-        // Generate active variant
-        const escapedClassName = className.replace(/:/g, '\\:');
-        utilityRules.push(`.${escapedClassName}:active { ${baseDeclarations} }`);
-        continue;
-      }
-    }
-    
-    // Handle focus-visible: prefix dynamically
-    if (!cssDeclarations && className.startsWith('focus-visible:')) {
-      const baseClass = className.substring(14); // Remove 'focus-visible:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
-      if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
-        const escapedClassName = className.replace(/:/g, '\\:');
-        utilityRules.push(`.${escapedClassName}:focus-visible { ${baseDeclarations} }`);
-        continue;
-      }
-    }
-    
-    // Handle disabled: prefix dynamically
-    if (!cssDeclarations && className.startsWith('disabled:')) {
-      const baseClass = className.substring(9); // Remove 'disabled:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
-      if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
-        const escapedClassName = className.replace(/:/g, '\\:');
-        utilityRules.push(`.${escapedClassName}:disabled { ${baseDeclarations} }`);
-        continue;
-      }
-    }
-    
-    // Handle last: prefix dynamically
-    if (!cssDeclarations && className.startsWith('last:')) {
-      const baseClass = className.substring(5); // Remove 'last:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
-      if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
-        const escapedClassName = className.replace(/:/g, '\\:');
-        utilityRules.push(`.${escapedClassName}:last-child { ${baseDeclarations} }`);
-        continue;
-      }
-    }
+.glass-light {
+  background: rgba(241, 245, 249, 0.75);
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(8px) saturate(105%);
+  backdrop-filter: blur(8px) saturate(105%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-    if (cssDeclarations) {
-      // Escape special CSS characters in class names
-      // Colons (:) in class names (like md:grid-cols-2) must be escaped as \:
-      // See: https://www.w3.org/TR/CSS21/syndata.html#characters
-      const escapedClassName = className.replace(/:/g, '\\:');
+.glass-medium {
+  background: rgba(226, 232, 240, 0.6);
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(12px) saturate(110%);
+  backdrop-filter: blur(12px) saturate(110%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-      if (cssDeclarations.startsWith('@media')) {
-        // Extract media query and content
-        const match = cssDeclarations.match(/@media ([^{]+) \{ (.+) \}/);
-        if (match && match[1] && match[2]) {
-          const mediaQuery = match[1];
-          const declarations = match[2];
-          if (!mediaQueries.has(mediaQuery)) {
-            mediaQueries.set(mediaQuery, []);
-          }
-          mediaQueries.get(mediaQuery)!.push(`.${escapedClassName} { ${declarations} }`);
-        }
-      } else {
-        utilityRules.push(`.${escapedClassName} { ${cssDeclarations} }`);
-      }
-    }
+.glass-heavy {
+  background: rgba(203, 213, 225, 0.4);
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-extreme {
+  --glass-blur: 24px;
+  --glass-saturation: 130%;
+}
+
+/* Glass hover effects - subtle interactive feedback */
+.glass-effect:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+}
+
+.glass-effect:active {
+  transform: translateY(0);
+}
+
+/* Browser fallbacks for older browsers */
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.85);
   }
-
-  cssRules.push(utilityRules.join('\n'));
-
-  // Add media queries
-  for (const [mediaQuery, rules] of mediaQueries) {
-    cssRules.push(`@media ${mediaQuery} {\n  ${rules.join('\n  ')}\n}`);
+  
+  .dark .glass-effect {
+    background: rgba(0, 0, 0, 0.7);
   }
+}
 
-  // Add component-specific styles
-  cssRules.push(`
+/* Backdrop blur utilities (non-standard values) */
+.backdrop-blur-4 {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.backdrop-blur-8 {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.backdrop-blur-12 {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.backdrop-blur-16 {
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.backdrop-blur-24 {
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+
+/* Saturation utilities */
+.saturate-105 {
+  filter: saturate(105%);
+}
+
+.saturate-110 {
+  filter: saturate(110%);
+}
+
+.saturate-120 {
+  filter: saturate(120%);
+}
+
+.saturate-130 {
+  filter: saturate(130%);
+}
+
+/* Background opacity utilities */
+.bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.bg-white\/20 {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.bg-white\/70 {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Border opacity utilities */
+.border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Dark mode overrides */
+.dark .bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.dark .border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Entrance Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5); // Twice as far away (0.7 -> 0.5)
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Entrance animation classes - slower, more elegant */
+/* Set initial state to prevent flash before animation starts */
+/* GPU acceleration for smooth rendering */
+.animate-fade-in {
+  opacity: 0;
+  will-change: opacity;
+  backface-visibility: hidden;
+  animation: fadeIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-up {
+  opacity: 0;
+  transform: translateY(40px);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: slideUp 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-down {
+  opacity: 0;
+  transform: translateY(-40px);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: slideDown 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-left {
+  opacity: 0;
+  transform: translateX(16px);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: slideLeft 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-right {
+  opacity: 0;
+  transform: translateX(-16px);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: slideRight 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in {
+  opacity: 0;
+  transform: scale(0.8);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: scaleIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-zoom-in {
+  opacity: 0;
+  transform: scale(0.5); // Twice as far away (0.7 -> 0.5)
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: zoomIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Animation delays for staggered effects */
+.animation-delay-75 {
+  animation-delay: 75ms;
+}
+
+.animation-delay-150 {
+  animation-delay: 150ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Hover Animations */
+.hover-lift {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1),
+              0 4px 8px -2px rgba(0, 0, 0, 0.05);
+}
+
+.hover-lift:active {
+  transform: translateY(0);
+}
+
+.hover-glow {
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4),
+              0 0 40px rgba(59, 130, 246, 0.2);
+}
+
+.hover-scale {
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.6, 1);
+  /* Prevent scale from causing horizontal scroll - critical for good UX */
+  overflow: hidden;
+  will-change: transform;
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.hover-scale:active {
+  transform: scale(0.99);
+}
+
+.hover-brighten {
+  transition: filter 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-brighten:hover {
+  filter: brightness(1.1);
+}
+
+.hover-tilt {
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+.hover-tilt:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(2deg);
+}
+
+/* Loading Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 1000ms ease infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 2s linear infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* Interactive State Animations */
+.transition-smooth {
+  transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-fast {
+  transition: all 150ms cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.transition-colors {
+  transition: color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-transform {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-shadow {
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Focus ring with smooth animation */
+.focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              outline-offset 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.focus-ring:focus {
+  outline-color: rgb(59, 130, 246);
+  outline-offset: 4px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+.font-bold { font-weight: 700; }
+.text-center { text-align: center; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-gray-500 { color: rgb(107 114 128); }
+.leading-relaxed { line-height: 1.625; }
+.grid { display: grid; }
+.gap-4 { gap: 1rem; }
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.rounded-lg { border-radius: 0.5rem; }
+.p-6 { padding: 1.5rem; }
+.max-w-full { max-width: 100%; }
+.overflow-x-hidden { overflow-x: hidden; }
+.break-words { overflow-wrap: break-word; word-wrap: break-word; }
+.bg-white { background-color: rgb(255 255 255); }
+.shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+.bg-glass-light { background-color: rgba(241, 245, 249, 0.75); }
+.border-white/50 { border-color: rgb(255 255 255 / 0.5); }
+.text-primary-600 { color: rgb(37 99 235); }
+.hover\:text-primary-700:hover { color: rgb(29 78 216); }
+.gap-8 { gap: 2rem; }
+.bg-glass-subtle { background-color: rgba(248, 250, 252, 0.9); }
+.border-white/40 { border-color: rgb(255 255 255 / 0.4); }
+.text-green-600 { color: rgb(22 163 74); }
+.text-blue-600 { color: rgb(37 99 235); }
+.bg-glass-heavy { background-color: rgba(203, 213, 225, 0.4); }
+.border-white/60 { border-color: rgb(255 255 255 / 0.6); }
+.shadow-xl { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+.text-secondary-600 { color: rgb(147 51 234); }
+.hover\:text-secondary-700:hover { color: rgb(126 34 206); }
+.transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+.duration-300 { transition-duration: 300ms; }
+.cursor-pointer { cursor: pointer; }
+.hover\:transform:hover { transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+.duration-200 { transition-duration: 200ms; }
+.text-red-600 { color: rgb(220 38 38); }
+.text-yellow-600 { color: rgb(202 138 4); }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+@media (min-width: 640px) {
+  .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
 /* ========================================
  * COMPONENT STYLES
  * ======================================== */
@@ -1929,30 +1893,27 @@ a.bg-gray-200:active {
   transform: translateY(0);
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
-`);
-
-  const css = cssRules.join('\n');
-
-  if (minify) {
-    return css
-      .replace(/\/\*[^*]*\*\//g, '') // Remove comments
-      .replace(/\s+/g, ' ') // Collapse whitespace
-      .replace(/\s*([{}:;,])\s*/g, '$1') // Remove whitespace around punctuation
-      .trim();
-  }
-
-  return css;
-}
-
-/**
- * Generate CSS from AST
- * 
- * @param ast - Taildown AST
- * @param minify - Whether to minify CSS
- * @returns Generated CSS string
- */
-export function renderCSS(ast: TaildownRoot, minify: boolean = false): string {
-  const classes = collectClasses(ast);
-  return generateCSS(classes, minify);
-}
-
+</style>
+  
+</head>
+<body>
+  <h1 class="text-4xl font-bold text-center">Grid Layouts</h1>
+<p class="text-lg text-gray-500 text-center leading-relaxed">The grid component creates responsive layouts that adapt to screen size.</p>
+<h2>Basic Grid</h2>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md animate-fade-in"><h3 class="text-lg font-bold">Item 1</h3><p>First item in the grid with elegant elevation.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md animate-fade-in"><h3 class="text-lg font-bold">Item 2</h3><p>Second item in the grid with elegant elevation.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md animate-fade-in"><h3 class="text-lg font-bold">Item 3</h3><p>Third item in the grid with elegant elevation.</p></div></div>
+<p>The grid automatically adjusts:</p>
+<ul>
+<li><strong>Mobile:</strong> 1 column</li>
+<li><strong>Tablet:</strong> 2 columns</li>
+<li><strong>Desktop:</strong> 3 columns</li>
+</ul>
+<h2>Feature Grid with Icons</h2>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-zap text-primary-600 hover:text-primary-700" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Fast</h3><p>Compiles in milliseconds with zero configuration.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-palette text-primary-600 hover:text-primary-700" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg> Beautiful</h3><p>Tailwind CSS styling with glassmorphism.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-feather text-primary-600 hover:text-primary-700" data-icon="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.67 19a2 2 0 0 0 1.416-.588l6.154-6.172a6 6 0 0 0-8.49-8.49L5.586 9.914A2 2 0 0 0 5 11.328V18a1 1 0 0 0 1 1z" /><path d="M16 8 2 22" /><path d="M17.5 15H9" /></svg> Simple</h3><p>Just write Markdown, we handle the rest.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-layout text-primary-600 hover:text-primary-700" data-icon="layout" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M9 21V9" /></svg> Flexible</h3><p>Customize everything with plain English.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-smartphone text-primary-600 hover:text-primary-700" data-icon="smartphone" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg> Responsive</h3><p>Mobile-first design out of the box.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-check-circle text-primary-600 hover:text-primary-700" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> Spec-Compliant</h3><p>Follows CommonMark standards exactly.</p></div></div>
+<h2>Grid with Glassmorphism Variants</h2>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm animate-zoom-in"><h3><svg class="icon icon-shield text-green-600 lg" data-icon="shield" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /></svg> Subtle Glass</h3><p>The lightest glass effect for minimal UI.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-zoom-in"><h3><svg class="icon icon-droplet text-blue-600 lg" data-icon="droplet" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z" /></svg> Light Glass</h3><p>Moderate transparency with frosted edges.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy bg-glass-heavy border-white/60 shadow-xl animate-zoom-in"><h3><svg class="icon icon-cloud text-secondary-600 hover:text-secondary-700 lg" data-icon="cloud" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" /></svg> Heavy Glass</h3><p>Maximum blur for dramatic depth effect.</p></div></div>
+<h2>Interactive Grid</h2>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-target text-red-600" data-icon="target" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg> Click Me</h3><p>Cards with interactive styling respond on hover.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-trending-up text-green-600" data-icon="trending-up" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6" /><path d="m22 7-8.5 8.5-5-5L2 17" /></svg> Hover Effect</h3><p>Smooth lift animation on mouse over.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-star text-yellow-600" data-icon="star" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></svg> Beautiful</h3><p>Combines elevation with hover states.</p></div></div>
+<hr />
+<p class="text-sm text-gray-500 text-center"><strong>Pro Tip:</strong> Blank lines between cards are fine! The parser handles them correctly. Grid layouts automatically adapt from 1 to 3 columns based on screen size.</p>
+</body>
+</html>

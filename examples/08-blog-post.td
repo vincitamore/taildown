@@ -79,15 +79,11 @@ Microservices break an application into small, independent services that communi
 :::card {elevated}
 ### Example Architecture
 
-```
-         API Gateway                 
-         ↓    ↓    ↓    ↓                                  
-      ┌──────┬───────┬───────┬─────────┐
-      │ Auth │ Users │Orders │ Payment │
-      └──────┴───────┴───────┴─────────┘
-         ↓      ↓       ↓        ↓              
-         Database Layer
-```
+:::flow {stepped}
+- API Gateway
+- Auth / Users / Orders / Payment
+- Database Layer
+:::
 :::
 
 ### Benefits {large-bold}
