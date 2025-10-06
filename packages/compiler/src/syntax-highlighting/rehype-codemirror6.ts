@@ -92,8 +92,9 @@ function highlightLine(line: string): string {
   else if (result.match(/^:::$/)) {
     tokens.push({ start: 0, end: 3, type: 'punctuation' });
   }
-  // Icon syntax - :icon[name]{attributes}
+  // For all other lines, process various patterns
   else {
+    // Process icons FIRST (highest priority for inline elements)
     const iconRegex = /:icon\[([a-z][a-z0-9-]*)\](\{[^}]*\})?/g;
     let iconMatch: RegExpExecArray | null;
     while ((iconMatch = iconRegex.exec(result)) !== null) {
@@ -110,28 +111,25 @@ function highlightLine(line: string): string {
       }
     }
 
-    // Attribute blocks - {content}
+    // Process standalone attribute blocks (not part of icons or components)
     const attrRegex = /\{([^}]*)\}/g;
     let attrMatch: RegExpExecArray | null;
     while ((attrMatch = attrRegex.exec(result)) !== null) {
       // Skip if already processed as part of icon or component
-      const isPartOfIcon = tokens.some(token => 
+      const isAlreadyProcessed = tokens.some(token => 
         token.type === 'attributes' && 
         attrMatch!.index >= token.start && 
         attrMatch!.index < token.end
       );
-      if (!isPartOfIcon) {
+      if (!isAlreadyProcessed) {
         tokens.push({ start: attrMatch.index, end: attrMatch.index + attrMatch[0].length, type: 'attributes' });
       }
     }
 
-    // Headings with full markdown support
-    const headingMatch = result.match(/^(#{1,6})\s+(.+?)(\s*\{[^}]*\})?$/);
+    // Headings with full markdown support - but don't capture the full text
+    const headingMatch = result.match(/^(#{1,6})\s/);
     if (headingMatch && headingMatch[1]) {
-      tokens.push({ start: 0, end: headingMatch[1].length, type: 'heading-marker' });
-      const textStart = headingMatch[1].length + 1; // +1 for space
-      const textEnd = headingMatch[3] ? result.length - headingMatch[3].length : result.length;
-      tokens.push({ start: textStart, end: textEnd, type: 'heading-text' });
+      tokens.push({ start: 0, end: headingMatch[0].length, type: 'heading-marker' });
     }
 
     // Code blocks (fenced)
@@ -267,14 +265,27 @@ function highlightLine(line: string): string {
     }
   }
 
-  // Sort tokens by start position
+  // Sort tokens by start position and remove overlaps
   tokens.sort((a, b) => a.start - b.start);
+  
+  // Remove overlapping tokens (keep first one)
+  const cleanTokens: Array<{ start: number; end: number; type: string }> = [];
+  for (const token of tokens) {
+    const hasOverlap = cleanTokens.some(existing => 
+      (token.start >= existing.start && token.start < existing.end) ||
+      (token.end > existing.start && token.end <= existing.end) ||
+      (token.start <= existing.start && token.end >= existing.end)
+    );
+    if (!hasOverlap) {
+      cleanTokens.push(token);
+    }
+  }
 
   // Build highlighted HTML
   let html = '';
   let lastEnd = 0;
 
-  for (const token of tokens) {
+  for (const token of cleanTokens) {
     // Add unhighlighted text before token
     if (token.start > lastEnd) {
       html += escapeHtml(result.slice(lastEnd, token.start));
