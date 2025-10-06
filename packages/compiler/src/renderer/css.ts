@@ -1785,20 +1785,22 @@ ${generateAnimationCSS()}
 .flow-stepped li {
   counter-increment: step-counter;
   position: relative;
-  padding-left: 3.5rem;
+  padding-left: 4rem;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
+  padding-right: 0.5rem;
   border-left: 4px solid rgb(59 130 246);
   min-height: 3rem;
+  line-height: 1.6;
 }
 
 .flow-stepped li::before {
   content: counter(step-counter);
   position: absolute;
-  left: 0.75rem;
+  left: 0.5rem;
   top: 0.75rem;
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 2rem;
+  height: 2rem;
   background: rgb(59 130 246);
   color: white;
   border-radius: 50%;
@@ -1813,15 +1815,17 @@ ${generateAnimationCSS()}
 /* Mobile-only adjustments for stepped flow */
 @media (max-width: 640px) {
   .flow-stepped li {
-    padding-left: 3.25rem;
+    padding-left: 3.75rem;
+    padding-right: 0.25rem;
     min-height: 2.75rem;
+    line-height: 1.5;
   }
   
   .flow-stepped li::before {
-    left: 0.5rem;
+    left: 0.375rem;
     top: 0.5rem;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.75rem;
+    height: 1.75rem;
     font-size: 0.75rem;
   }
 }
