@@ -7,9 +7,15 @@
   border-color: currentColor;
 }
 
+html {
+  /* Prevent horizontal scroll at root level */
+  overflow-x: hidden;
+  width: 100%;
+}
+
 body {
   margin: 0;
-  padding: 2rem;
+  padding: 1rem;
   font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
@@ -17,6 +23,16 @@ body {
   /* Clean light background */
   background: #f5f5f7;
   background-attachment: fixed;
+  /* Prevent horizontal scroll on body */
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Increase body padding on larger screens */
+@media (min-width: 640px) {
+  body {
+    padding: 2rem;
+  }
 }
 
 /* NO overlay - keep it simple */
@@ -324,20 +340,20 @@ pre .highlight-line {
  * Beautiful tables that work on all devices
  * ======================================== */
 
-/* Table wrapper for horizontal scroll on mobile */
+/* Table - Constrain to viewport to prevent page scroll */
 table {
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
   margin: 1.5rem 0;
   font-size: 0.875rem;
   line-height: 1.5;
-  /* Ensure table doesn't cause horizontal scroll */
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  border-radius: 0.5rem;
+  /* Table scrolls within viewport on mobile, never causes page scroll */
   display: block;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  /* Add subtle shadow to indicate scrollability */
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
-  border-radius: 0.5rem;
 }
 
 /* Reset table display on larger screens */

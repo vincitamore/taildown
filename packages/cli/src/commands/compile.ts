@@ -11,9 +11,8 @@ interface CompileCommandOptions {
   output?: string;
   css?: string;
   js?: string;
-  inline?: boolean;
+  separate?: boolean;
   minify?: boolean;
-  noCss?: boolean;
 }
 
 export async function compileCommand(
@@ -36,9 +35,10 @@ export async function compileCommand(
     const outputCss = options.css || join(inputDir, `${inputBase}.css`);
     const outputJs = options.js || join(inputDir, `${inputBase}.js`);
 
-    // Compile
+    // Compile - inline by default, separate only if --separate flag is used
+    const shouldInline = !options.separate;
     const compileOptions: CompileOptions = {
-      inlineStyles: options.inline,
+      inlineStyles: shouldInline,
       minify: options.minify,
       cssFilename: basename(outputCss), // Pass CSS filename for <link> tag
       jsFilename: basename(outputJs), // Pass JS filename for <script> tag
@@ -51,8 +51,8 @@ export async function compileCommand(
     await writeFile(htmlPath, result.html, 'utf-8');
     console.log(`✓ HTML written to ${outputHtml}`);
 
-    // Write CSS (unless --no-css or --inline)
-    if (!options.noCss && !options.inline) {
+    // Write CSS only if --separate flag is used
+    if (options.separate) {
       const cssPath = resolve(outputCss);
       await writeFile(cssPath, result.css, 'utf-8');
       console.log(`✓ CSS written to ${outputCss}`);
