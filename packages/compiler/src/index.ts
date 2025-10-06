@@ -139,7 +139,7 @@ export async function compile(
 
   // Generate JavaScript for interactive components
   const interactiveComponents = Array.from(usedComponents).filter(hasInteractiveBehavior);
-  const js = generateJavaScript(new Set(interactiveComponents));
+  const js = generateJavaScript(new Set(interactiveComponents), options.darkMode !== false);
 
   // Render HTML - Always create a complete HTML document
   const html = await renderHTMLDocument(ast, {
