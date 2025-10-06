@@ -30,9 +30,9 @@
 
 **Fixes Applied:**
 
-1. **Increased desktop padding** - Changed from `3rem` to `3.5rem` left padding for more breathing room
+1. **Increased desktop padding** - Changed from `3rem` to `4rem` left padding for more breathing room
 2. **Override alignment** - Set `text-align: left;` specifically for stepped flow (since numbers are on the left)
-3. **Mobile responsive adjustments** - Added media query to reduce number size and adjust spacing on mobile
+3. **Mobile responsive adjustments** - Added media query to reduce number size and adjust spacing on mobile (3.5rem)
 
 ```css
 /* Stepped flow with numbers */
@@ -42,7 +42,7 @@
 
 .flow-stepped li {
   counter-increment: step-counter;
-  padding-left: 3.5rem;           /* ← INCREASED from 3rem */
+  padding-left: 4rem;              /* ← INCREASED from 3rem to 4rem */
   border-left: 4px solid rgb(59 130 246);
   text-align: left;                /* ← ADDED for proper alignment */
 }
@@ -69,7 +69,7 @@
 /* Mobile adjustments for stepped flow */
 @media (max-width: 640px) {
   .flow-stepped li {
-    padding-left: 3rem;            /* ← REDUCED for mobile */
+    padding-left: 3.5rem;          /* ← OPTIMIZED for mobile (3.5rem) */
     padding-right: 0.75rem;        /* ← BALANCED padding */
     padding-top: 0.875rem;         /* ← VERTICAL breathing room */
     padding-bottom: 0.875rem;

@@ -1681,7 +1681,7 @@ ${generateAnimationCSS()}
 
 .flow-stepped li {
   counter-increment: step-counter;
-  padding-left: 3.5rem;
+  padding-left: 4rem;
   border-left: 4px solid rgb(59 130 246);
   text-align: left;
 }
@@ -1708,7 +1708,7 @@ ${generateAnimationCSS()}
 /* Mobile adjustments for stepped flow */
 @media (max-width: 640px) {
   .flow-stepped li {
-    padding-left: 3rem;
+    padding-left: 3.5rem;
     padding-right: 0.75rem;
     padding-top: 0.875rem;
     padding-bottom: 0.875rem;
