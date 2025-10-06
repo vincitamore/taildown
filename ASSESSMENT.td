@@ -42,16 +42,16 @@ This assessment reviews the Taildown project implementation against its stated g
 
 The project follows a clean monorepo structure using pnpm workspaces:
 
-```
-taildown/
-├── packages/
-│   ├── compiler/     # Core compilation engine (51 TypeScript files)
-│   ├── cli/          # Command-line interface
-│   └── shared/       # Shared types and utilities
-├── examples/         # 10 example documents
-├── syntax-tests/     # Syntax test fixtures
-└── docs/            # Comprehensive documentation
-```
+:::tree {colored}
+- taildown/
+  - packages/
+    - compiler/
+    - cli/
+    - shared/
+  - examples/
+  - syntax-tests/
+  - docs/
+:::
 
 **Strengths:**
 - Clear separation between compiler, CLI, and shared code
