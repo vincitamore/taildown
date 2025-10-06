@@ -201,18 +201,23 @@ function highlightLine(line: string): string {
       tokens.push({ start: codeMatch.index + codeMatch[0].length - 1, end: codeMatch.index + codeMatch[0].length, type: 'code-marker' });
     }
 
-    // Links with detailed parsing
-    const linkRegex = /\[([^\]]+?)\]\(([^)]+?)\)/g;
+    // Links with detailed parsing - handle full link including attributes
+    const linkWithAttrsRegex = /\[([^\]]+?)\]\(([^)]+?)\)(\{[^}]*\})?/g;
     let linkMatch: RegExpExecArray | null;
-    while ((linkMatch = linkRegex.exec(result)) !== null) {
+    while ((linkMatch = linkWithAttrsRegex.exec(result)) !== null) {
       const linkText = linkMatch[1] || '';
       const linkUrl = linkMatch[2] || '';
+      const linkAttrs = linkMatch[3] || '';
       
       tokens.push({ start: linkMatch.index, end: linkMatch.index + 1, type: 'link-bracket' }); // [
       tokens.push({ start: linkMatch.index + 1, end: linkMatch.index + 1 + linkText.length, type: 'link-text' });
       tokens.push({ start: linkMatch.index + 1 + linkText.length, end: linkMatch.index + 1 + linkText.length + 2, type: 'link-bracket' }); // ](
       tokens.push({ start: linkMatch.index + 1 + linkText.length + 2, end: linkMatch.index + 1 + linkText.length + 2 + linkUrl.length, type: 'link-url' });
-      tokens.push({ start: linkMatch.index + linkMatch[0].length - 1, end: linkMatch.index + linkMatch[0].length, type: 'link-bracket' }); // )
+      tokens.push({ start: linkMatch.index + 1 + linkText.length + 2 + linkUrl.length, end: linkMatch.index + 1 + linkText.length + 2 + linkUrl.length + 1, type: 'link-bracket' }); // )
+      
+      if (linkAttrs) {
+        tokens.push({ start: linkMatch.index + linkMatch[0].length - linkAttrs.length, end: linkMatch.index + linkMatch[0].length, type: 'attributes' });
+      }
     }
 
     // Images
@@ -351,20 +356,20 @@ function highlightAttributes(attrBlock: string): string {
     else if (/^(xs|tiny|small|sm|md|base|large|lg|xl|2xl|3xl|huge|massive)$/.test(part)) {
       html += `<span class="token number">${escapeHtml(part)}</span>`;
     }
-    // Animation keywords
-    else if (/^(fade-in|slide-up|slide-down|slide-left|slide-right|zoom-in|scale-in|hover-lift|hover-glow|hover-scale|fast|smooth|slow)$/.test(part)) {
-      html += `<span class="token function">${escapeHtml(part)}</span>`;
-    }
-    // Typography keywords
-    else if (/^(bold|italic|thin|light|medium|semibold|extra-bold|black|uppercase|lowercase|capitalize|underline|strike|huge-bold|large-bold|xl-bold|bold-primary|large-muted|small-light|tight-lines|normal-lines|relaxed-lines|loose-lines)$/.test(part)) {
+    // Typography keywords (comprehensive list including compound variants)
+    else if (/^(bold|italic|thin|light|medium|semibold|extra-bold|black|uppercase|lowercase|capitalize|underline|strike|huge-bold|large-bold|xl-bold|massive-bold|bold-primary|large-muted|small-light|xl-muted|huge-muted|tight-lines|normal-lines|relaxed-lines|loose-lines|massive|huge|xl|2xl|3xl)$/.test(part)) {
       html += `<span class="token emphasis">${escapeHtml(part)}</span>`;
     }
-    // Layout keywords
+    // Animation and interaction keywords (comprehensive list)
+    else if (/^(fade-in|slide-up|slide-down|slide-left|slide-right|zoom-in|scale-in|hover-lift|hover-glow|hover-scale|hover-grow|interactive|fast|smooth|slow)$/.test(part)) {
+      html += `<span class="token function">${escapeHtml(part)}</span>`;
+    }
+    // Layout keywords (comprehensive list)
     else if (/^(center|left|right|justify|flex|grid|inline|block|padded|padded-sm|padded-lg|padded-xl|gap|gap-sm|gap-lg|gap-xl|center-x|center-y|center-both|flex-center|grid-2|grid-3|grid-4)$/.test(part)) {
       html += `<span class="token property">${escapeHtml(part)}</span>`;
     }
-    // Decoration keywords
-    else if (/^(rounded|rounded-sm|rounded-lg|rounded-full|shadow|shadow-sm|shadow-lg|shadow-xl|elevated|floating|glass|subtle-glass|light-glass|heavy-glass)$/.test(part)) {
+    // Decoration keywords (comprehensive list with all glass variants)
+    else if (/^(rounded|rounded-sm|rounded-lg|rounded-full|shadow|shadow-sm|shadow-lg|shadow-xl|elevated|floating|glass|subtle-glass|light-glass|heavy-glass|outlined|bordered)$/.test(part)) {
       html += `<span class="token attr-name">${escapeHtml(part)}</span>`;
     }
     // Component keywords
