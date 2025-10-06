@@ -129,7 +129,7 @@ Success Rate: 99.7%
 
 ### Known Issue {bold}
 
-:::alert{warning}
+:::alert {warning}
 **Test:** `02-inline-attributes/03-links`  
 **Status:** False negative (test comparison issue, not parser issue)
 
@@ -217,7 +217,7 @@ If desired, the following could be addressed:
 
 ## Conclusion {large-bold primary}
 
-:::alert{success}
+:::alert {success}
 :icon[check-circle]{success huge} **Task Successfully Completed**
 
 - All required syntax test fixtures created per SYNTAX.md
