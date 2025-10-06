@@ -1572,6 +1572,97 @@ ${generateAnimationCSS()}
   line-height: 1.6;
 }
 
+/* VS Code variant - clean tree with box-drawing characters */
+.tree-vscode li {
+  padding-left: 1.5rem;
+  position: relative;
+  line-height: 1.5;
+  margin: 0.125rem 0;
+}
+
+/* Box-drawing characters for root level items */
+.tree-vscode > ul > li::before {
+  content: '├── ';
+  position: absolute;
+  left: 0;
+  color: rgb(156 163 175);
+  font-weight: 300;
+  display: block;
+}
+
+.tree-vscode > ul > li:last-child::before {
+  content: '└── ';
+}
+
+.tree-vscode > ul > li::after {
+  display: none;
+}
+
+/* Nested level 1 (direct children of root) */
+.tree-vscode > ul > li > ul > li::before {
+  content: '│   ├── ';
+  position: absolute;
+  left: -1.5rem;
+  color: rgb(156 163 175);
+  font-weight: 300;
+  display: block;
+}
+
+.tree-vscode > ul > li > ul > li:last-child::before {
+  content: '│   └── ';
+}
+
+.tree-vscode > ul > li > ul > li::after {
+  display: none;
+}
+
+/* Nested level 2 */
+.tree-vscode > ul > li > ul > li > ul > li::before {
+  content: '│   │   ├── ';
+  position: absolute;
+  left: -3rem;
+  color: rgb(156 163 175);
+  font-weight: 300;
+  display: block;
+}
+
+.tree-vscode > ul > li > ul > li > ul > li:last-child::before {
+  content: '│   │   └── ';
+}
+
+.tree-vscode > ul > li > ul > li > ul > li::after {
+  display: none;
+}
+
+/* Nested level 3 */
+.tree-vscode > ul > li > ul > li > ul > li > ul > li::before {
+  content: '│   │   │   ├── ';
+  position: absolute;
+  left: -4.5rem;
+  color: rgb(156 163 175);
+  font-weight: 300;
+  display: block;
+}
+
+.tree-vscode > ul > li > ul > li > ul > li > ul > li:last-child::before {
+  content: '│   │   │   └── ';
+}
+
+.tree-vscode > ul > li > ul > li > ul > li > ul > li::after {
+  display: none;
+}
+
+/* Folder and file visual distinction */
+.tree-vscode li:has(ul) {
+  font-weight: 500;
+  color: rgb(37 99 235);
+}
+
+.tree-vscode li:not(:has(ul)) {
+  color: rgb(75 85 99);
+  font-weight: 400;
+}
+
 /* Tree connectors - vertical and horizontal lines */
 .tree-default li::before,
 .tree-boxed li::before,

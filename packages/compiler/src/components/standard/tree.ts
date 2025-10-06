@@ -7,6 +7,7 @@
  * 
  * Variants:
  * - default: Clean modern tree with subtle borders
+ * - vscode: VS Code style with chevrons (▸) and connecting lines
  * - minimal: Ultra-clean with minimal visual indicators
  * - boxed: Uses box drawing characters (├─└│)
  * - rounded: Soft rounded connectors
@@ -74,6 +75,13 @@ export const treeComponent: ComponentDefinition = defineComponent({
     default: [
       'tree-default',
       'text-gray-800',
+    ],
+    
+    // VS Code: Chevrons and connecting lines like VS Code's file tree
+    vscode: [
+      'tree-vscode',
+      'bg-white',
+      'border-gray-300',
     ],
     
     // Minimal: Ultra-clean with minimal visual clutter
