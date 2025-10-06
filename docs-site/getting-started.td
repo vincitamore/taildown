@@ -69,7 +69,7 @@ This is a card with glassmorphism and a slide-up animation!
 
 ## Compile Your Document {large-bold primary}
 
-:::card{elevated padded}
+:::card {elevated padded}
 ### Basic Compilation
 
 ```bash
@@ -100,8 +100,8 @@ pnpm taildown compile my-first-document.td -o output/index.html --css output/sty
 
 ## Understanding the Output {large-bold primary}
 
-:::grid{2}
-:::card{light-glass}
+:::grid {2}
+:::card {light-glass}
 ### :icon[file]{primary} HTML Output {medium-bold}
 
 - Semantic HTML5 structure
@@ -126,7 +126,7 @@ pnpm taildown compile my-first-document.td -o output/index.html --css output/sty
 ```
 :::
 
-:::card{light-glass}
+:::card {light-glass}
 ### :icon[palette]{accent} CSS Output {medium-bold}
 
 - Tailwind-inspired utilities
@@ -193,7 +193,7 @@ Use the `:icon[]` syntax for Lucide icons:
 Use `:::component` syntax for component blocks:
 
 ```taildown
-:::card{elevated hover-lift}
+:::card {elevated hover-lift}
 ## Card Title {large-bold}
 
 Card content with automatic styling.
@@ -236,7 +236,7 @@ All glass effects include:
 
 ## Dark Mode Guide {large-bold primary}
 
-:::card{heavy-glass padded}
+:::card {heavy-glass padded}
 ### :icon[moon]{accent huge} Dark Mode is Automatic {large-bold center}
 
 Every Taildown document includes dark mode by default:
@@ -313,7 +313,7 @@ Explore all 18+ built-in components.
 
 ---
 
-:::alert{success}
+:::alert {success}
 :icon[check-circle]{success} **You're ready to start!** Create your first document and see the magic happen. Remember, dark mode works automatically - just try clicking the toggle button!
 :::
 

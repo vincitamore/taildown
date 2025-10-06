@@ -64,7 +64,7 @@ Automatic dark mode with smooth transitions, localStorage persistence, and syste
 - :icon[check]{success xs} **Semantic HTML5** - Clean, accessible markup generation
 :::
 
-:::card{subtle-glass slide-up}
+:::card {subtle-glass slide-up}
 ### :icon[layers]{accent} Interactive Components {medium-bold}
 
 - :icon[layout]{primary xs} **Tabs** - Zero-config tabbed interfaces
@@ -91,7 +91,7 @@ Revolutionary one-line modals and tooltips:
 - Zero JavaScript configuration
 :::
 
-:::card{subtle-glass slide-up}
+:::card {subtle-glass slide-up}
 ### :icon[zap]{info} Smart Defaults {medium-bold}
 
 - :icon[palette]{accent xs} **Semantic Colors** - `primary`, `success`, `warning`, `error`
@@ -138,7 +138,7 @@ Create a file named `hello.td`:
 
 Build beautiful documents with plain English syntax! {large muted center}
 
-:::card{light-glass slide-up}
+:::card {light-glass slide-up}
 ### :icon[heart]{error} Why You'll Love It {medium-bold}
 
 - **Zero configuration** - Beautiful by default
@@ -178,23 +178,23 @@ Open `hello.html` in your browser to see your beautiful, dark-mode-enabled docum
 
 Taildown includes automatic dark mode with zero configuration: {center muted}
 
-:::card{heavy-glass padded}
+:::card {heavy-glass padded}
 ### :icon[moon]{accent} How It Works {large-bold center}
 
-:::grid{3}
-:::card{elevated}
+:::grid {3}
+:::card {elevated}
 ### 1. Auto-Detection {medium-bold center}
 
 Automatically detects system preference on first visit using `prefers-color-scheme`.
 :::
 
-:::card{elevated}
+:::card {elevated}
 ### 2. Toggle Button {medium-bold center}
 
 Floating toggle button (bottom-right by default) with smooth icon transitions.
 :::
 
-:::card{elevated}
+:::card {elevated}
 ### 3. Persistence {medium-bold center}
 
 Saves preference to localStorage for consistent experience across visits.
@@ -209,7 +209,7 @@ Saves preference to localStorage for consistent experience across visits.
 - :icon[check]{success xs} LocalStorage persistence
 - :icon[check]{success xs} Zero configuration required
 
-:::alert{info}
+:::alert {info}
 :icon[lightbulb]{info} **Try it now!** Click the moon/sun icon in the bottom-right corner to toggle between light and dark modes. Your preference will be saved automatically.
 :::
 :::
@@ -220,8 +220,8 @@ Saves preference to localStorage for consistent experience across visits.
 
 Explore real-world examples showcasing Taildown's capabilities: {center muted}
 
-:::grid{3}
-:::card{light-glass zoom-in interactive}
+:::grid {3}
+:::card {light-glass zoom-in interactive}
 ### :icon[home]{primary} Landing Page {medium-bold}
 
 Complete SaaS landing page with hero section, features grid, and call-to-action. Demonstrates glassmorphism and scroll animations.
@@ -245,7 +245,7 @@ Long-form blog post with images, code blocks, and beautiful typography. Demonstr
 [View Example](examples/blog-post.html){button info small}
 :::
 
-:::card{light-glass zoom-in interactive}
+:::card {light-glass zoom-in interactive}
 ### :icon[briefcase]{warning} Portfolio {medium-bold}
 
 Personal portfolio with project showcase, glass effects, and interactive hover states.
@@ -253,7 +253,7 @@ Personal portfolio with project showcase, glass effects, and interactive hover s
 [View Example](examples/portfolio.html){button primary small}
 :::
 
-:::card{light-glass zoom-in interactive}
+:::card {light-glass zoom-in interactive}
 ### :icon[palette]{error} Component Library {medium-bold}
 
 Complete showcase of all 18+ Taildown components with variants and customization options.
@@ -301,7 +301,7 @@ Documentation for all 18+ built-in components with examples.
 [Browse Components](components.html){button info}
 :::
 
-:::card{elevated hover-lift}
+:::card {elevated hover-lift}
 ### :icon[settings]{warning} Configuration {large-bold}
 
 Customize colors, fonts, and defaults with `taildown.config.js`.
@@ -314,11 +314,11 @@ Customize colors, fonts, and defaults with `taildown.config.js`.
 
 ## Community & Support {large-bold primary center}
 
-:::card{subtle-glass padded}
+:::card {subtle-glass padded}
 ### Get Help & Contribute {large-bold center}
 
-:::grid{4}
-:::card{elevated}
+:::grid {4}
+:::card {elevated}
 :icon[github]{primary huge} {center}
 
 **GitHub** {large-bold center}
@@ -328,7 +328,7 @@ Star, fork, and contribute on GitHub.
 [Repository](https://github.com/taildown/taildown){button primary small}
 :::
 
-:::card{elevated}
+:::card {elevated}
 :icon[message-circle]{accent huge} {center}
 
 **Discussions** {large-bold center}
@@ -338,7 +338,7 @@ Ask questions and share ideas.
 [Join Discussion](https://github.com/taildown/taildown/discussions){button secondary small}
 :::
 
-:::card{elevated}
+:::card {elevated}
 :icon[bug]{error huge} {center}
 
 **Issues** {large-bold center}
@@ -348,7 +348,7 @@ Report bugs and request features.
 [Open Issue](https://github.com/taildown/taildown/issues){button info small}
 :::
 
-:::card{elevated}
+:::card {elevated}
 :icon[book]{success huge} {center}
 
 **Documentation** {large-bold center}
@@ -371,3 +371,4 @@ This entire documentation site is written in Taildown syntax and compiled to sta
 
 [View Source](https://github.com/taildown/taildown/tree/main/docs-site){button accent large hover-lift}
 :::
+
