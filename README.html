@@ -1084,9 +1084,8 @@ td svg.icon {
 .max-w-full { max-width: 100%; }
 .overflow-x-hidden { overflow-x: hidden; }
 .break-words { overflow-wrap: break-word; word-wrap: break-word; }
-.bg-white { background-color: rgb(255 255 255); }
-.shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
-.bg-glass-medium { background-color: rgba(226, 232, 240, 0.6); }
+.bg-glass-subtle { background-color: rgba(248, 250, 252, 0.9); }
+.border-white/40 { border-color: rgb(255 255 255 / 0.4); }
 .text-green-600 { color: rgb(22 163 74); }
 .text-yellow-600 { color: rgb(202 138 4); }
 .border-b { border-bottom-width: 1px; border-style: solid; }
@@ -1124,6 +1123,8 @@ td svg.icon {
 .bg-blue-50 { background-color: rgb(239 246 255); }
 .border-blue-200 { border-color: rgb(191 219 254); }
 .text-blue-800 { color: rgb(30 64 175); }
+.bg-white { background-color: rgb(255 255 255); }
+.shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
 .bg-glass-light { background-color: rgba(241, 245, 249, 0.75); }
 .border-white/50 { border-color: rgb(255 255 255 / 0.5); }
 .overflow-x-auto { overflow-x: auto; }
@@ -2219,7 +2220,7 @@ a.bg-gray-200:active {
 <p>Taildown bridges the gap between simple Markdown and complex web development, enabling rapid prototyping and content creation with modern UI/UX standards. Write content in familiar Markdown syntax, add styling with intuitive plain English commands, and leverage pre-built components to create production-ready HTML and CSS.</p>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Key Features</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md glass-effect glass-medium bg-glass-medium hover-lift transition-smooth animate-zoom-in"><h3 class="medium-bold"><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> Core Features</h3><ul>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm animate-zoom-in"><h3 class="medium-bold"><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> Core Features</h3><ul>
 <li><strong>Markdown Compatible</strong> - Standard Markdown works without modification</li>
 <li><strong>Plain English Styling</strong> - Use natural language like <code>{huge-bold primary center}</code></li>
 <li><strong>Icon System</strong> - Built-in Lucide icons with <code>:icon[name]</code> syntax</li>
@@ -2227,25 +2228,25 @@ a.bg-gray-200:active {
 <li><strong>Fast Compilation</strong> - Sub-100ms compile times</li>
 <li><strong>Zero Configuration</strong> - Production-ready styles out of the box</li>
 <li><strong>Semantic HTML5</strong>- Clean, accessible markup generation</li>
-</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md glass-effect glass-medium bg-glass-medium hover-lift transition-smooth animate-zoom-in"><h3 class="medium-bold"><svg class="icon icon-layers text-accent-600 hover:text-accent-700" data-icon="layers" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg> Interactive Components</h3><ul>
+</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm animate-zoom-in"><h3 class="medium-bold"><svg class="icon icon-layers text-accent-600 hover:text-accent-700" data-icon="layers" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg> Interactive Components</h3><ul>
 <li><strong>Tabs</strong> - Zero-config tabbed interfaces with keyboard navigation</li>
 <li><strong>Accordion</strong> - Collapsible sections with smooth animations</li>
 <li><strong>Carousel</strong> - Image/content carousels with 3D effects</li>
 <li><strong>Modal</strong> - Dialog boxes with backdrop blur</li>
 <li><strong>Tooltip</strong>- Contextual help on hover/click</li>
-</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md glass-effect glass-medium bg-glass-medium hover-lift transition-smooth animate-zoom-in"><h3 class="medium-bold"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Attachable Components</h3><ul>
+</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm animate-zoom-in"><h3 class="medium-bold"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Attachable Components</h3><ul>
 <li><strong>One-Line Modals</strong> - <code>[Click](#){modal="Message"}</code></li>
 <li><strong>Inline Tooltips</strong> - <code>[Help](#){tooltip="Info"}</code></li>
 <li><strong>ID References</strong> - Define once, use everywhere</li>
 <li><strong>Works on Anything</strong> - Attach to any element</li>
 <li><strong>Full Markdown</strong>- Rich content in tooltips/modals</li>
 </ul></div></div>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md glass-effect glass-medium bg-glass-medium hover-lift transition-smooth animate-zoom-in"><h3 class="medium-bold"><svg class="icon icon-code text-primary-600 hover:text-primary-700" data-icon="code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg> JavaScript Generation</h3><ul>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm animate-zoom-in"><h3 class="medium-bold"><svg class="icon icon-code text-primary-600 hover:text-primary-700" data-icon="code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg> JavaScript Generation</h3><ul>
 <li><strong>Vanilla JS</strong> - ~2-5KB of clean, dependency-free code</li>
 <li><strong>Tree-Shaking</strong> - Only includes JS for components you use</li>
 <li><strong>Event Delegation</strong> - Efficient, performant event handling</li>
 <li><strong>Accessibility</strong>- Full ARIA support, keyboard navigation</li>
-</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md glass-effect glass-medium bg-glass-medium hover-lift transition-smooth animate-zoom-in"><h3 class="medium-bold"><svg class="icon icon-sparkles text-accent-600 hover:text-accent-700" data-icon="sparkles" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /><path d="M20 2v4" /><path d="M22 4h-4" /><circle cx="4" cy="20" r="2" /></svg> Zero Config Beauty</h3><ul>
+</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm animate-zoom-in"><h3 class="medium-bold"><svg class="icon icon-sparkles text-accent-600 hover:text-accent-700" data-icon="sparkles" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /><path d="M20 2v4" /><path d="M22 4h-4" /><circle cx="4" cy="20" r="2" /></svg> Zero Config Beauty</h3><ul>
 <li><strong>Professional Defaults</strong> - Beautiful out of the box</li>
 <li><strong>Responsive Design</strong> - Mobile-first, adaptive layouts</li>
 <li><strong>Semantic Colors</strong> - <code>primary</code>, <code>success</code>, <code>warning</code>, <code>error</code></li>
@@ -2297,7 +2298,7 @@ a.bg-gray-200:active {
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Syntax Guide</h2>
 <div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-blue-50 border-blue-200 text-blue-800"><p><svg class="icon icon-book-open text-blue-600" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg> <strong>Complete Syntax Reference:</strong> See <a href="SYNTAX.md"><code>SYNTAX.md</code></a> for the canonical, comprehensive syntax specification.</p></div>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-type text-primary-600 hover:text-primary-700" data-icon="type" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16" /><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2" /><path d="M9 20h6" /></svg> Plain English Styling</h3><p>Use natural language that reads like English instead of CSS classes:</p><pre><code class="language-taildown code-highlight"><span class="code-line"># Large Bold Primary Heading {huge-bold primary}
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm"><h3 class="medium-bold"><svg class="icon icon-type text-primary-600 hover:text-primary-700" data-icon="type" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16" /><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2" /><path d="M9 20h6" /></svg> Plain English Styling</h3><p>Use natural language that reads like English instead of CSS classes:</p><pre><code class="language-taildown code-highlight"><span class="code-line"># Large Bold Primary Heading {huge-bold primary}
 </span><span class="code-line">
 </span><span class="code-line">This paragraph is muted with relaxed line spacing. {large muted relaxed-lines}
 </span><span class="code-line">

@@ -15,7 +15,7 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 ## Key Features {large-bold primary}
 
 :::grid {cols="3"}
-:::card {medium-glass zoom-in}
+:::card {subtle-glass zoom-in}
 ### :icon[check-circle]{success} Core Features {medium-bold}
 
 - **Markdown Compatible** - Standard Markdown works without modification
@@ -27,7 +27,7 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 - **Semantic HTML5** - Clean, accessible markup generation
 :::
 
-:::card {medium-glass zoom-in}
+:::card {subtle-glass zoom-in}
 ### :icon[layers]{accent} Interactive Components {medium-bold}
 
 - **Tabs** - Zero-config tabbed interfaces with keyboard navigation
@@ -37,7 +37,7 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 - **Tooltip** - Contextual help on hover/click
 :::
 
-:::card {medium-glass zoom-in}
+:::card {subtle-glass zoom-in}
 ### :icon[zap]{warning} Attachable Components {medium-bold}
 
 - **One-Line Modals** - `[Click](#){modal="Message"}`
@@ -49,7 +49,7 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 :::
 
 :::grid {cols="2"}
-:::card {medium-glass zoom-in}
+:::card {subtle-glass zoom-in}
 ### :icon[code]{primary} JavaScript Generation {medium-bold}
 
 - **Vanilla JS** - ~2-5KB of clean, dependency-free code
@@ -58,7 +58,7 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 - **Accessibility** - Full ARIA support, keyboard navigation
 :::
 
-:::card {medium-glass zoom-in}
+:::card {subtle-glass zoom-in}
 ### :icon[sparkles]{accent} Zero Config Beauty {medium-bold}
 
 - **Professional Defaults** - Beautiful out of the box
@@ -148,7 +148,7 @@ Open `hello.html` in your browser to see your interactive document!
 :::
 
 :::grid {cols="2"}
-:::card {elevated}
+:::card {subtle-glass}
 ### :icon[type]{primary} Plain English Styling {medium-bold}
 
 Use natural language that reads like English instead of CSS classes:

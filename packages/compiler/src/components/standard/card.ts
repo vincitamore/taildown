@@ -54,7 +54,7 @@ export const cardComponent: ComponentDefinition = defineComponent({
   ],
   
   // Default variant if none specified
-  defaultVariant: 'elevated',
+  defaultVariant: 'subtle-glass',
   
   // Visual variants
   variants: {
@@ -209,7 +209,7 @@ export const cardVariants = {
   },
   elevated: {
     name: 'Elevated',
-    description: 'Medium shadow creating subtle depth (default variant)',
+    description: 'Medium shadow creating subtle depth',
     example: ':::card {elevated}\nContent\n:::',
   },
   floating: {
