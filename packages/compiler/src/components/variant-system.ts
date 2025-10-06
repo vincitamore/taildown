@@ -222,6 +222,9 @@ export function applyVariantAndSize(
     } else if (options.warnOnUnknown !== false) {
       warnings.push(`Unknown size "${size}" for component "${componentName}"`);
     }
+  } else if (component.defaultSize && component.sizes[component.defaultSize]) {
+    classes.push(...component.sizes[component.defaultSize]);
+    appliedSize = component.defaultSize;
   }
   
   // Add custom classes last

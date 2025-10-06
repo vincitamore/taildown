@@ -291,8 +291,11 @@
                             "max-w-full",
                             "overflow-x-hidden",
                             "break-words",
-                            "bg-white",
-                            "shadow-md"
+                            "glass-effect",
+                            "glass-subtle",
+                            "bg-glass-subtle",
+                            "border-white/40",
+                            "shadow-sm"
                           ],
                           "data-component": "card"
                         },
@@ -338,8 +341,11 @@
                         "max-w-full",
                         "overflow-x-hidden",
                         "break-words",
-                        "bg-white",
-                        "shadow-md"
+                        "glass-effect",
+                        "glass-subtle",
+                        "bg-glass-subtle",
+                        "border-white/40",
+                        "shadow-sm"
                       ],
                       "data-component": "card"
                     },
@@ -389,8 +395,11 @@
                         "max-w-full",
                         "overflow-x-hidden",
                         "break-words",
-                        "bg-white",
-                        "shadow-md"
+                        "glass-effect",
+                        "glass-subtle",
+                        "bg-glass-subtle",
+                        "border-white/40",
+                        "shadow-sm"
                       ],
                       "data-component": "card"
                     },
@@ -469,8 +478,11 @@
                 "max-w-full",
                 "overflow-x-hidden",
                 "break-words",
-                "bg-white",
-                "shadow-md"
+                "glass-effect",
+                "glass-subtle",
+                "bg-glass-subtle",
+                "border-white/40",
+                "shadow-sm"
               ],
               "data-component": "card"
             },

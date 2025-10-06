@@ -24,6 +24,9 @@ export interface ComponentDefinition {
   /** Default variant (if none specified) */
   defaultVariant?: string;
   
+  /** Default size (if none specified) */
+  defaultSize?: string;
+  
   /** Available variants and their classes */
   variants: Record<string, string[]>;
   
@@ -183,6 +186,11 @@ class ComponentRegistry {
       existing.defaultVariant = config.defaultVariant;
     }
     
+    // Override default size
+    if (config.defaultSize) {
+      existing.defaultSize = config.defaultSize;
+    }
+    
     // Merge variants
     if (config.variants) {
       for (const [variantName, variant] of Object.entries(config.variants)) {
@@ -269,7 +277,8 @@ export async function registerStandardComponents(): Promise<void> {
     defineComponent({
       name: 'grid',
       htmlElement: 'div',
-      defaultClasses: ['grid', 'gap-4', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3'],
+      defaultClasses: ['grid', 'gap-4'],
+      defaultSize: '3', // Default to 3-column responsive grid
       variants: {
         tight: ['gap-2'],
         normal: ['gap-4'],

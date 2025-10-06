@@ -14,7 +14,7 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 
 ## Key Features {large-bold primary}
 
-:::grid {cols="3"}
+:::grid {3}
 :::card {subtle-glass zoom-in}
 ### :icon[check-circle]{success} Core Features {medium-bold}
 
@@ -48,7 +48,7 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 :::
 :::
 
-:::grid {cols="2"}
+:::grid {2}
 :::card {subtle-glass zoom-in}
 ### :icon[code]{primary} JavaScript Generation {medium-bold}
 
@@ -148,7 +148,7 @@ Open `hello.html` in your browser to see your interactive document!
 :::
 
 :::grid {cols="2"}
-:::card {subtle-glass}
+:::card
 ### :icon[type]{primary} Plain English Styling {medium-bold}
 
 Use natural language that reads like English instead of CSS classes:
@@ -167,7 +167,7 @@ This text is centered. {center}
 - Readable combinations: `huge-bold` combines naturally
 :::
 
-:::card {elevated}
+:::card
 ### :icon[smile]{accent} Icon Integration {medium-bold}
 
 Simple syntax for Lucide icons:
@@ -183,7 +183,7 @@ Simple syntax for Lucide icons:
 **20+ built-in icons** from Lucide library with natural size attributes: `xs`, `small`, `large`, `huge`
 :::
 
-:::card {elevated}
+:::card
 ### :icon[box]{warning} Component Blocks {medium-bold}
 
 Use triple-colon syntax for component blocks:
@@ -201,7 +201,7 @@ Card content with automatic styling.
 **Components:** card, alert, badge, grid, container, tabs, accordion, carousel, modal, tooltip
 :::
 
-:::card {elevated}
+:::card
 ### :icon[wind]{info} Glassmorphism {medium-bold}
 
 Modern frosted glass effects:
@@ -221,7 +221,7 @@ Heavy frosted glass with 60% transparency
 ```
 :::
 
-:::card {elevated}
+:::card
 ### :icon[sparkles]{success} Scroll-Triggered Animations {medium-bold}
 
 Zero-config animations that trigger when scrolling into view:
@@ -248,7 +248,7 @@ Zooms in on scroll, lifts on hover
 **Features:** Respects `prefers-reduced-motion`, staggered timing for multiple elements, smooth 4.5s duration
 :::
 
-:::card {elevated}
+:::card
 ### :icon[grid-3x3]{primary} Grid Layouts {medium-bold}
 
 Create responsive grid layouts easily:
@@ -279,7 +279,7 @@ Grid automatically adapts: **1 column on mobile, 2 on tablet, 3 on desktop**.
 
 Taildown includes five interactive components with zero configuration required. JavaScript is automatically generated only for components you use. {center muted}
 
-:::grid {cols="2"}
+:::grid {2}
 :::card {light-glass}
 ### :icon[layout]{primary} Tabs {medium-bold}
 
@@ -436,7 +436,7 @@ Full ARIA support, keyboard navigation, focus management built-in.
 
 ## Implemented Components {large-bold primary}
 
-:::grid {cols="2"}
+:::grid {3}
 :::card {elevated}
 ### :icon[square]{primary} Card {medium-bold}
 
@@ -579,8 +579,8 @@ See [`SYNTAX.md`](SYNTAX.md) §3.7 for complete documentation.
 
 ## Plain English Style System {large-bold primary}
 
-:::grid {cols="3"}
-:::card {light-glass}
+:::grid {3}
+:::card
 ### :icon[palette]{primary} Colors {medium-bold}
 
 **Semantic colors:**
@@ -596,7 +596,7 @@ See [`SYNTAX.md`](SYNTAX.md) §3.7 for complete documentation.
 All colors support prefixes: `text-`, `bg-`, `border-`
 :::
 
-:::card {light-glass}
+:::card
 ### :icon[type]{accent} Typography {medium-bold}
 
 **Sizes:** `xs`, `small`, `large`, `xl`, `2xl`, `3xl`, `huge`, `massive`
@@ -606,7 +606,7 @@ All colors support prefixes: `text-`, `bg-`, `border-`
 **Combinations:** `huge-bold`, `large-bold`, `xl-bold`, `small-light`
 :::
 
-:::card {light-glass}
+:::card
 ### :icon[move]{warning} Spacing {medium-bold}
 
 **Padding:** `padded`, `padded-sm`, `padded-lg`, `padded-xl`
@@ -616,7 +616,7 @@ All colors support prefixes: `text-`, `bg-`, `border-`
 **Line Height:** `tight-lines`, `normal-lines`, `relaxed-lines`, `loose-lines`
 :::
 
-:::card {light-glass}
+:::card
 ### :icon[layout]{info} Layout {medium-bold}
 
 **Alignment:** `center`, `left`, `right`, `justify`
@@ -626,7 +626,7 @@ All colors support prefixes: `text-`, `bg-`, `border-`
 **Position:** `relative`, `absolute`, `fixed`, `sticky`
 :::
 
-:::card {light-glass}
+:::card
 ### :icon[sun]{success} Effects {medium-bold}
 
 **Shadows:** `shadow`, `shadow-sm`, `shadow-lg`, `shadow-xl`, `elevated`, `floating`
@@ -636,7 +636,7 @@ All colors support prefixes: `text-`, `bg-`, `border-`
 **Glass:** `subtle-glass`, `light-glass`, `heavy-glass`
 :::
 
-:::card {light-glass}
+:::card
 ### :icon[zap]{primary} Animations {medium-bold}
 
 **Entrance:** `fade-in`, `slide-up`, `slide-down`, `zoom-in`, `scale-in`
@@ -705,54 +705,56 @@ pnpm taildown compile input.td --separate --minify -o dist/output.html --css dis
 
 The `examples/` directory contains 10 complete Taildown documents demonstrating Phase 2 features: {center muted}
 
+:::grid {2}
 :::card {elevated}
-**:icon[file]{xs} [01-basic-markdown.td](https://github.com/vincitamore/taildown/blob/main/examples/01-basic-markdown.td)**   
+:icon[file]{primary} **[01-basic-markdown.td](https://github.com/vincitamore/taildown/blob/main/examples/01-basic-markdown.td)**   
 Markdown basics with icons
 :::
 
 :::card {elevated}
-**2. [02-inline-attributes.td](https://github.com/vincitamore/taildown/blob/main/examples/02-inline-attributes.td)** :icon[palette]{xs}  
+:icon[palette]{secondary} **[02-inline-attributes.td](https://github.com/vincitamore/taildown/blob/main/examples/02-inline-attributes.td)**  
 Plain English styling showcase
 :::
 
 :::card {elevated}
-**3. [03-component-basics.td](https://github.com/vincitamore/taildown/blob/main/examples/03-component-basics.td)** :icon[box]{xs}  
+:icon[box]{info} **[03-component-basics.td](https://github.com/vincitamore/taildown/blob/main/examples/03-component-basics.td)**  
 All components and variants
 :::
 
 :::card {elevated}
-**4. [04-grid-layouts.td](https://github.com/vincitamore/taildown/blob/main/examples/04-grid-layouts.td)** :icon[grid-3x3]{xs}  
+:icon[grid-3x3]{success} **[04-grid-layouts.td](https://github.com/vincitamore/taildown/blob/main/examples/04-grid-layouts.td)**  
 Responsive grids with glassmorphism
 :::
 
 :::card {elevated}
-**5. [05-nested-components.td](https://github.com/vincitamore/taildown/blob/main/examples/05-nested-components.td)** :icon[layers]{xs}  
+:icon[layers]{primary} **[05-nested-components.td](https://github.com/vincitamore/taildown/blob/main/examples/05-nested-components.td)**  
 Deep nesting with glass effects
 :::
 
 :::card {elevated}
-**6. [06-real-world-landing.td](https://github.com/vincitamore/taildown/blob/main/examples/06-real-world-landing.td)** :icon[home]{xs}  
+:icon[home]{secondary} **[06-real-world-landing.td](https://github.com/vincitamore/taildown/blob/main/examples/06-real-world-landing.td)**  
 Complete SaaS landing page
 :::
 
 :::card {elevated}
-**7. [07-documentation-page.td](https://github.com/vincitamore/taildown/blob/main/examples/07-documentation-page.td)** :icon[book]{xs}  
+:icon[book]{info} **[07-documentation-page.td](https://github.com/vincitamore/taildown/blob/main/examples/07-documentation-page.td)**  
 API documentation with alerts
 :::
 
 :::card {elevated}
-**8. [08-blog-post.td](https://github.com/vincitamore/taildown/blob/main/examples/08-blog-post.td)** :icon[file-text]{xs}  
+:icon[file-text]{success} **[08-blog-post.td](https://github.com/vincitamore/taildown/blob/main/examples/08-blog-post.td)**  
 Long-form blog with icons and glass
 :::
 
 :::card {elevated}
-**9. [09-portfolio-page.td](https://github.com/vincitamore/taildown/blob/main/examples/09-portfolio-page.td)** :icon[briefcase]{xs}  
+:icon[briefcase]{primary} **[09-portfolio-page.td](https://github.com/vincitamore/taildown/blob/main/examples/09-portfolio-page.td)**  
 Portfolio with heavy glassmorphism
 :::
 
 :::card {elevated}
-**10. [10-complete-page.td](https://github.com/vincitamore/taildown/blob/main/examples/10-complete-page.td)** :icon[star]{xs}  
+:icon[star]{warning} **[10-complete-page.td](https://github.com/vincitamore/taildown/blob/main/examples/10-complete-page.td)**  
 Ultimate feature showcase (1000+ nodes)
+:::
 :::
 
 :::card {light-glass padded}
