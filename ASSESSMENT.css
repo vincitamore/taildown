@@ -338,30 +338,47 @@ pre .highlight-line {
 /* ========================================
  * RESPONSIVE TABLE STYLING
  * Beautiful tables that work on all devices
+ * Similar to code block implementation with wrapper
  * ======================================== */
 
-/* Table - Constrain to viewport to prevent page scroll */
-table {
+/* Table wrapper - handles overflow scrolling like pre wraps code */
+.table-wrapper {
   width: 100%;
   max-width: 100%;
-  border-collapse: collapse;
   margin: 1.5rem 0;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
-  border-radius: 0.5rem;
-  /* Table scrolls within viewport on mobile, never causes page scroll */
-  display: block;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
 }
 
-/* Reset table display on larger screens */
-@media (min-width: 768px) {
-  table {
-    display: table;
-    overflow-x: visible;
-  }
+/* Scrollbar styling for table wrapper */
+.table-wrapper::-webkit-scrollbar {
+  height: 0.5rem;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 0.25rem;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0.25rem;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Table - always display as table, wrapper handles overflow */
+table {
+  width: 100%;
+  min-width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 /* Table structure */
@@ -433,19 +450,31 @@ td {
   color: #334155;
 }
 
-/* First column styling (usually labels) */
-th:first-child, td:first-child {
+/* First column styling (sticky on mobile) */
+thead th:first-child {
   position: sticky;
   left: 0;
-  background: inherit;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  z-index: 2;
+  box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+tbody td:first-child {
+  position: sticky;
+  left: 0;
+  background: white;
   z-index: 1;
-  /* Add subtle shadow to indicate sticky column */
   box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.05);
 }
 
-/* Remove shadow on larger screens where sticky isn't needed */
+tbody tr:hover td:first-child {
+  background: #f9fafb;
+}
+
+/* Remove sticky on larger screens where it's not needed */
 @media (min-width: 768px) {
-  th:first-child, td:first-child {
+  thead th:first-child,
+  tbody td:first-child {
     position: static;
     box-shadow: none;
   }
@@ -470,7 +499,7 @@ td svg.icon {
 
 /* Responsive scroll indicator */
 @media (max-width: 767px) {
-  table::after {
+  .table-wrapper::after {
     content: '← Scroll to see more →';
     display: block;
     text-align: center;
@@ -480,11 +509,6 @@ td svg.icon {
     font-size: 0.75rem;
     font-weight: 500;
     border-top: 1px solid #e2e8f0;
-  }
-  
-  /* Hide indicator if table fits in viewport */
-  table:not([style*="overflow"]) {
-    overflow-x: visible;
   }
 }
 
