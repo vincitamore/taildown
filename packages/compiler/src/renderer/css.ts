@@ -8,6 +8,7 @@ import type { TaildownRoot, TaildownNodeData } from '@taildown/shared';
 import { generateIconCSS } from '../icons/icon-renderer';
 import { generateGlassmorphismCSS } from '../themes/glassmorphism';
 import { generateAnimationCSS } from '../themes/animations';
+import { generateTextIllustrationsCSS } from '../themes/text-illustrations';
 
 /**
  * Tailwind CSS utility class definitions
@@ -1009,6 +1010,8 @@ ${generateIconCSS()}
 ${generateGlassmorphismCSS()}
 
 ${generateAnimationCSS()}
+
+${generateTextIllustrationsCSS()}
 `);
 
   // Generate utility classes

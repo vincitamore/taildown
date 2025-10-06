@@ -1,6 +1,6 @@
 # Taildown Examples
 
-This directory contains 10 example documents demonstrating progressively more complex features of Taildown.
+This directory contains 11 example documents demonstrating progressively more complex features of Taildown.
 
 ## Quick Start
 
@@ -213,6 +213,19 @@ Kitchen-sink example showcasing:
 - Statistics display
 - Technical specifications
 
+### 11. Text Illustrations (`11-text-illustrations.td`)
+**Complexity:** Intermediate  
+**Features:** File trees, flow diagrams, ASCII art  
+**Use Case:** Technical documentation, project structures, process diagrams
+
+Professional text-based illustration components:
+- File/directory tree visualization with syntax highlighting
+- Flow diagrams with vertical and horizontal layouts
+- ASCII art with modern styling and glassmorphism
+- Unicode box-drawing characters
+- Mobile-optimized with horizontal scroll
+- Multiple variants for each component type
+
 ## File Sizes
 
 | Example | Lines | Size | Compile Time |
@@ -227,8 +240,9 @@ Kitchen-sink example showcasing:
 | 08-blog-post.td | 265 | 7.7 KB | ~12ms |
 | 09-portfolio-page.td | 215 | 5.7 KB | ~11ms |
 | 10-complete-page.td | 289 | 7.9 KB | ~13ms |
+| 11-text-illustrations.td | 202 | 6.7 KB | ~11ms |
 
-**Total:** 1,377 lines • 35.5 KB
+**Total:** 1,579 lines • 42.2 KB
 
 ## Learning Path
 
@@ -372,5 +386,5 @@ Have a great example to share? Please contribute!
 
 ---
 
-**Generated with Taildown** • Examples last updated: October 4, 2025
+**Generated with Taildown** • Examples last updated: October 6, 2025
 
