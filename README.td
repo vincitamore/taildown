@@ -701,52 +701,52 @@ The `examples/` directory contains 10 complete Taildown documents demonstrating 
 
 :::grid {cols="2"}
 :::card {elevated}
-**1. 01-basic-markdown.td** :icon[file]{xs}  
+**1. [01-basic-markdown.td](https://github.com/taildown/taildown/blob/main/examples/01-basic-markdown.td)** :icon[file]{xs}  
 Markdown basics with icons
 :::
 
 :::card {elevated}
-**2. 02-inline-attributes.td** :icon[palette]{xs}  
+**2. [02-inline-attributes.td](https://github.com/taildown/taildown/blob/main/examples/02-inline-attributes.td)** :icon[palette]{xs}  
 Plain English styling showcase
 :::
 
 :::card {elevated}
-**3. 03-component-basics.td** :icon[box]{xs}  
+**3. [03-component-basics.td](https://github.com/taildown/taildown/blob/main/examples/03-component-basics.td)** :icon[box]{xs}  
 All components and variants
 :::
 
 :::card {elevated}
-**4. 04-grid-layouts.td** :icon[grid-3x3]{xs}  
+**4. [04-grid-layouts.td](https://github.com/taildown/taildown/blob/main/examples/04-grid-layouts.td)** :icon[grid-3x3]{xs}  
 Responsive grids with glassmorphism
 :::
 
 :::card {elevated}
-**5. 05-nested-components.td** :icon[layers]{xs}  
+**5. [05-nested-components.td](https://github.com/taildown/taildown/blob/main/examples/05-nested-components.td)** :icon[layers]{xs}  
 Deep nesting with glass effects
 :::
 
 :::card {elevated}
-**6. 06-real-world-landing.td** :icon[home]{xs}  
+**6. [06-real-world-landing.td](https://github.com/taildown/taildown/blob/main/examples/06-real-world-landing.td)** :icon[home]{xs}  
 Complete SaaS landing page
 :::
 
 :::card {elevated}
-**7. 07-documentation-page.td** :icon[book]{xs}  
+**7. [07-documentation-page.td](https://github.com/taildown/taildown/blob/main/examples/07-documentation-page.td)** :icon[book]{xs}  
 API documentation with alerts
 :::
 
 :::card {elevated}
-**8. 08-blog-post.td** :icon[file-text]{xs}  
+**8. [08-blog-post.td](https://github.com/taildown/taildown/blob/main/examples/08-blog-post.td)** :icon[file-text]{xs}  
 Long-form blog with icons and glass
 :::
 
 :::card {elevated}
-**9. 09-portfolio-page.td** :icon[briefcase]{xs}  
+**9. [09-portfolio-page.td](https://github.com/taildown/taildown/blob/main/examples/09-portfolio-page.td)** :icon[briefcase]{xs}  
 Portfolio with heavy glassmorphism
 :::
 
 :::card {elevated}
-**10. 10-complete-page.td** :icon[star]{xs}  
+**10. [10-complete-page.td](https://github.com/taildown/taildown/blob/main/examples/10-complete-page.td)** :icon[star]{xs}  
 Ultimate feature showcase (1000+ nodes)
 :::
 :::
@@ -883,6 +883,8 @@ Track our progress through each development phase: {center muted}
 
 **Status:** All deliverables complete and production-ready :icon[check]{success xs}
 
+---
+
 **:icon[code]{accent} Phase 2: Component System (In Progress)**
 
 **Completed:**
@@ -904,6 +906,8 @@ Track our progress through each development phase: {center muted}
 
 **Status:** Core features complete, polish in progress :icon[loader]{accent xs}
 
+---
+
 **:icon[edit]{warning} Phase 3: Editor (Planned)**
 
 - VS Code extension enhancements
@@ -914,6 +918,8 @@ Track our progress through each development phase: {center muted}
 - Error highlighting and diagnostics
 
 **Status:** Design phase, implementation Q2 2025 :icon[calendar]{warning xs}
+
+---
 
 **:icon[zap]{info} Phase 4: Enhancement (Future)**
 
