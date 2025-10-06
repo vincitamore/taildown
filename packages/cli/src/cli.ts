@@ -17,14 +17,13 @@ program
 // Compile command
 program
   .command('compile')
-  .description('Compile Taildown file to HTML, CSS, and JavaScript')
+  .description('Compile Taildown file to HTML (inline CSS by default)')
   .argument('<input>', 'Input Taildown file (.td, .tdown, or .taildown)')
   .option('-o, --output <file>', 'Output HTML file')
-  .option('--css <file>', 'Output CSS file (default: <output>.css)')
+  .option('--separate', 'Generate separate CSS and JS files instead of inline')
+  .option('--css <file>', 'Output CSS file (default: <output>.css, requires --separate)')
   .option('--js <file>', 'Output JavaScript file (default: <output>.js)')
-  .option('--inline', 'Inline CSS in HTML output')
   .option('--minify', 'Minify HTML and CSS output')
-  .option('--no-css', 'Skip CSS file generation')
   .action(compileCommand);
 
 program.parse();
