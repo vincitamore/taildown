@@ -7,6 +7,44 @@ This document defines the structure and organization rules for the Taildown proj
 
 ---
 
+## NO EMOJIS POLICY
+
+**CRITICAL RULE: ABSOLUTELY NO EMOJIS IN ANY PROJECT FILES**
+
+Taildown is a **professional project** with a sophisticated icon system. We do NOT use emojis anywhere in:
+- Documentation files (README.md, SYNTAX.md, tech-spec.md, etc.)
+- Code files (TypeScript, JavaScript)
+- Example files (.td, .html, .css)
+- Test files
+- Comments or commit messages
+
+**Instead, use the icon system:**
+```taildown
+✓ WRONG:  ✓ Feature complete
+✗ WRONG:  ✗ Not implemented
+⚠ WRONG:  ⚠ Warning
+
+✓ CORRECT: :icon[check]{success} Feature complete
+✓ CORRECT: :icon[x]{error} Not implemented
+✓ CORRECT: :icon[alert-triangle]{warning} Warning
+```
+
+**Why?**
+- Emojis are unprofessional and inconsistent across platforms
+- We have a comprehensive icon system with 1000+ Lucide icons
+- Icons are semantic, accessible, and styleable
+- Maintains professional aesthetic throughout project
+
+**This rule applies to:**
+- All contributors
+- All documentation
+- All code and examples
+- All commit messages and PRs
+
+**No exceptions.** Use `:icon[name]{attributes}` syntax for all visual indicators.
+
+---
+
 ## Directory Structure
 
 ```

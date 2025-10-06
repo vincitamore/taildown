@@ -825,6 +825,7 @@ pre .highlight-line {
 }
 
 .text-green-600 { color: rgb(22 163 74); }
+.text-red-600 { color: rgb(220 38 38); }
 .inline-flex { display: inline-flex; }
 .items-center { align-items: center; }
 .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
@@ -834,12 +835,14 @@ pre .highlight-line {
 .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
 .bg-green-100 { background-color: rgb(220 252 231); }
 .text-green-700 { color: rgb(21 128 61); }
+.text-yellow-600 { color: rgb(202 138 4); }
 .bg-amber-100 { background-color: rgb(254 243 199); }
 .text-amber-700 { color: rgb(180 83 9); }
 .bg-red-100 { background-color: rgb(254 226 226); }
 .text-red-700 { color: rgb(185 28 28); }
 .bg-sky-100 { background-color: rgb(224 242 254); }
 .text-sky-700 { color: rgb(3 105 161); }
+.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
 .text-center { text-align: center; }
 .text-primary-600 { color: rgb(37 99 235); }
 .hover\:text-primary-700:hover { color: rgb(29 78 216); }
