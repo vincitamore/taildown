@@ -1614,22 +1614,21 @@ ${generateAnimationCSS()}
   margin-left: 0;
 }
 
-/* Directory indicators (folders with children) */
+/* Directory indicators (folders with children) - use folder icon */
 .tree-container li:has(ul)::after {
-  content: '▸';
-  left: -0.125rem;
-  top: 0.25rem;
-  width: auto;
-  height: auto;
-  background: none;
-  font-size: 0.75rem;
-  color: rgb(59 130 246);
-  font-weight: bold;
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: rgb(251 191 36);
+  border-radius: 0.125rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* File indicators (leaves without children) */
+/* File indicators (leaves without children) - use smaller dot */
 .tree-container li:not(:has(ul))::after {
-  background-color: rgb(99 102 241);
+  width: 0.375rem;
+  height: 0.375rem;
+  background-color: rgb(59 130 246);
 }
 
 /* Colored variant - depth-based coloring */
@@ -1775,7 +1774,12 @@ ${generateAnimationCSS()}
 .flow-stepped li {
   counter-increment: step-counter;
   padding-left: 3rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
   border-left: 4px solid rgb(59 130 246);
+  display: flex;
+  align-items: center;
+  min-height: 3rem;
 }
 
 .flow-stepped li::before {
@@ -1796,23 +1800,18 @@ ${generateAnimationCSS()}
   font-size: 0.875rem;
 }
 
-/* Mobile-only adjustments for stepped flow - give text more space */
+/* Mobile-only adjustments for stepped flow */
 @media (max-width: 640px) {
   .flow-stepped li {
-    padding-left: 5.5rem;
-    min-height: 3.5rem;
-    display: flex;
-    align-items: center;
+    padding-left: 3.5rem;
+    min-height: 3rem;
   }
   
   .flow-stepped li::before {
-    left: 1rem;
-    width: 2rem;
-    height: 2rem;
-    font-size: 0.875rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    left: 0.5rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.75rem;
   }
 }
 
