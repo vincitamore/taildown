@@ -162,9 +162,11 @@ export async function renderHTMLDocument(
   options: {
     title?: string;
     css?: string;
+    js?: string;
     cssFilename?: string;
     jsFilename?: string;
     inlineStyles?: boolean;
+    inlineScripts?: boolean;
     minify?: boolean;
     hasInteractiveComponents?: boolean;
   } = {}
@@ -178,7 +180,9 @@ export async function renderHTMLDocument(
     : '';
 
   const scriptTag = options.hasInteractiveComponents
-    ? `<script src="${options.jsFilename || 'script.js'}" defer></script>`
+    ? options.inlineScripts && options.js
+      ? `<script>${options.js}</script>`
+      : `<script src="${options.jsFilename || 'script.js'}" defer></script>`
     : '';
 
   const html = `<!DOCTYPE html>
