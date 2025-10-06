@@ -4,7 +4,7 @@
 
 The revolutionary markup language that makes creating stunning, interactive web content as simple as writing. {center muted}
 
-[Get Started](#get-started){button primary large hover-lift} [View Examples](#examples){button secondary large hover-lift} [Dark Mode Guide](#dark-mode){button info large hover-lift}
+[Get Started](getting-started.html){button primary large hover-lift} [View Examples](#examples){button secondary large hover-lift} [Deploy to Vercel](vercel-deployment.html){button accent large hover-lift}
 
 ---
 

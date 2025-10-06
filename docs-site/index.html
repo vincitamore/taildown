@@ -1931,11 +1931,10 @@ td svg.icon {
 .bg-purple-600 { background-color: rgb(147 51 234); }
 .hover\:bg-purple-700:hover { background-color: rgb(126 34 206); }
 .active\:bg-purple-800:active { background-color: rgb(107 33 168); }
-.text-blue-600 { color: rgb(37 99 235); }
-.bg-glass-light { background-color: rgba(241, 245, 249, 0.75); }
-.text-yellow-600 { color: rgb(202 138 4); }
 .text-accent-600 { color: rgb(219 39 119); }
 .hover\:text-accent-700:hover { color: rgb(190 24 93); }
+.bg-glass-light { background-color: rgba(241, 245, 249, 0.75); }
+.text-yellow-600 { color: rgb(202 138 4); }
 .bg-glass-subtle { background-color: rgba(248, 250, 252, 0.9); }
 .text-green-600 { color: rgb(22 163 74); }
 .text-xs { font-size: 0.75rem; line-height: 1rem; }
@@ -1944,6 +1943,7 @@ td svg.icon {
 .overflow-x-hidden { overflow-x: hidden; }
 .break-words { overflow-wrap: break-word; word-wrap: break-word; }
 .border-white/40 { border-color: rgb(255 255 255 / 0.4); }
+.text-blue-600 { color: rgb(37 99 235); }
 .text-red-600 { color: rgb(220 38 38); }
 .border-b { border-bottom-width: 1px; border-style: solid; }
 .border-gray-200 { border-color: rgb(229 231 235); }
@@ -3248,7 +3248,7 @@ a.bg-gray-200:active {
   <h1 class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700">Taildown</h1>
 <p class="text-center text-lg text-gray-500"><strong>Beautiful documents. Zero configuration. Plain English.</strong></p>
 <p class="text-center text-gray-500">The revolutionary markup language that makes creating stunning, interactive web content as simple as writing.</p>
-<p><a href="#get-started" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">Get Started</a><a href="#examples" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">View Examples</a><a href="#dark-mode" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-blue-600 text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">Dark Mode Guide</a></p>
+<p><a href="getting-started.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">Get Started</a><a href="#examples" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">View Examples</a><a href="vercel-deployment.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-accent-600 hover:text-accent-700 text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">Deploy to Vercel</a></p>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Why Taildown?</h2>
 <p class="glass-effect glass-light bg-glass-light animate-fade-in hover:transform hover:-translate-y-1 transition-transform duration-200">:::grid{3}
@@ -3309,7 +3309,7 @@ a.bg-gray-200:active {
 <pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">[</span>Click Me<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token attr-name">modal</span>=<span class="token string">&quot;Simple message!&quot;</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">[</span>Help<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token attr-name">tooltip</span>=<span class="token string">&quot;Quick tip&quot;</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-9swsrnkrc" data-code-text="[Click Me](#){button modal=&#x26;quot;Simple message!&#x26;quot;}
+</span></code><button class="code-copy-btn" data-code-id="code-ufu19d3fl" data-code-text="[Click Me](#){button modal=&#x26;quot;Simple message!&#x26;quot;}
 [Help](#){tooltip=&#x26;quot;Quick tip&#x26;quot;}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -3350,7 +3350,7 @@ pnpm install
 
 # Build packages
 pnpm build
-</code><button class="code-copy-btn" data-code-id="code-u65gbwugu" data-code-text="# Via npm (coming soon)
+</code><button class="code-copy-btn" data-code-id="code-rdi3cxx3f" data-code-text="# Via npm (coming soon)
 npm install -g taildown
 
 # Or clone the repository
@@ -3385,7 +3385,7 @@ pnpm build
 </span><span class="code-line"><span class="token punctuation">[</span>Get Started<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-caaigpnoe" data-code-text="# Welcome to Taildown {huge-bold center primary}
+</span></code><button class="code-copy-btn" data-code-id="code-zk9dru165" data-code-text="# Welcome to Taildown {huge-bold center primary}
 
 Build beautiful documents with plain English syntax! {large muted center}
 
@@ -3416,7 +3416,7 @@ pnpm taildown compile hello.td
 
 # Separate CSS file
 pnpm taildown compile hello.td --separate
-</code><button class="code-copy-btn" data-code-id="code-sgktbb516" data-code-text="# Basic compilation
+</code><button class="code-copy-btn" data-code-id="code-787trzlr9" data-code-text="# Basic compilation
 pnpm taildown compile hello.td
 
 # With dark mode (enabled by default)
