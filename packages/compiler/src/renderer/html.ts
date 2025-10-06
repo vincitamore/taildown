@@ -11,6 +11,7 @@ import type { Root } from 'mdast';
 import type { TaildownRoot } from '@taildown/shared';
 import { renderIcons } from '../icons/icon-renderer';
 import { rehypeCodeMirror6 } from '../syntax-highlighting/rehype-codemirror6';
+import { rehypeCopyCode } from './rehype-copy-code';
 import { containerDirectiveHandler, wrapWithAttachments, prepopulateRegistries } from './component-handlers';
 import type { TaildownNodeData } from '@taildown/shared';
 import { visit } from 'unist-util-visit';
@@ -164,6 +165,7 @@ export async function renderHTML(ast: TaildownRoot, minify: boolean = false): Pr
   // Convert HAST to HTML string
   const processor = unified()
     .use(rehypeCodeMirror6) // CodeMirror6-based syntax highlighting
+    .use(rehypeCopyCode) // Add copy buttons to code blocks
     .use(renderIcons) // Render icon nodes as SVG
     .use(rehypeWrapTables) // Wrap tables in scrollable container
     .use(rehypeMarkTreeFolders) // Mark folder items in tree components
