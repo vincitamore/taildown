@@ -804,6 +804,159 @@ pre .highlight-line {
   border-left: 3px solid #61afef;
 }
 
+/* ========================================
+ * RESPONSIVE TABLE STYLING
+ * Beautiful tables that work on all devices
+ * ======================================== */
+
+/* Table wrapper for horizontal scroll on mobile */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  /* Ensure table doesn't cause horizontal scroll */
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  /* Add subtle shadow to indicate scrollability */
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  border-radius: 0.5rem;
+}
+
+/* Reset table display on larger screens */
+@media (min-width: 768px) {
+  table {
+    display: table;
+    overflow-x: visible;
+  }
+}
+
+/* Table structure */
+thead {
+  display: table-header-group;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 2px solid #e2e8f0;
+}
+
+tbody {
+  display: table-row-group;
+  background: white;
+}
+
+/* Table rows */
+tr {
+  display: table-row;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: #f9fafb;
+  transition: background 150ms ease;
+}
+
+/* Table cells */
+th, td {
+  display: table-cell;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  /* Prevent cells from being too narrow */
+  min-width: 120px;
+}
+
+/* Mobile: Reduce padding for better space utilization */
+@media (max-width: 640px) {
+  th, td {
+    padding: 0.5rem 0.75rem;
+    min-width: 100px;
+    font-size: 0.8125rem;
+  }
+}
+
+/* Tablet: Adjust spacing */
+@media (min-width: 641px) and (max-width: 1024px) {
+  th, td {
+    padding: 0.625rem 0.875rem;
+    min-width: 110px;
+  }
+}
+
+/* Header cells */
+th {
+  font-weight: 600;
+  color: #1e293b;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+/* Data cells */
+td {
+  color: #334155;
+}
+
+/* First column styling (usually labels) */
+th:first-child, td:first-child {
+  position: sticky;
+  left: 0;
+  background: inherit;
+  z-index: 1;
+  /* Add subtle shadow to indicate sticky column */
+  box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Remove shadow on larger screens where sticky isn't needed */
+@media (min-width: 768px) {
+  th:first-child, td:first-child {
+    position: static;
+    box-shadow: none;
+  }
+}
+
+/* Code in tables */
+td code {
+  background: rgba(30, 41, 59, 0.05);
+  color: #db2777;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.8125em;
+  white-space: nowrap;
+}
+
+/* Icons in tables */
+td svg.icon {
+  vertical-align: middle;
+  display: inline-block;
+  margin-right: 0.25rem;
+}
+
+/* Responsive scroll indicator */
+@media (max-width: 767px) {
+  table::after {
+    content: '← Scroll to see more →';
+    display: block;
+    text-align: center;
+    padding: 0.5rem;
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-top: 1px solid #e2e8f0;
+  }
+  
+  /* Hide indicator if table fits in viewport */
+  table:not([style*="overflow"]) {
+    overflow-x: visible;
+  }
+}
+
 ${generateIconCSS()}
 
 ${generateGlassmorphismCSS()}
