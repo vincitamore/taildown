@@ -75,6 +75,13 @@ Starting with version 0.1.0, all project documentation should be:
 - Compile to HTML for final output
 - Include both .td source and .html output in repository
 
+**Documentation Styling Standards:**
+- **Default card style**: Use `:::card` (with glassmorphism) to exemplify zero-config beauty
+- **Visual variety**: Use different glass variants (`subtle-glass`, `light-glass`, `heavy-glass`) for aesthetic appeal
+- **Showcase features**: Demonstrate various shorthand styles to highlight capabilities
+- **Professional aesthetics**: Maintain skillful, aesthetically pleasing standards throughout
+- **Avoid overuse of elevated**: `:::card {elevated}` should be used sparingly; prefer glass variants
+
 **Example:**
 ```taildown
 # My Document {huge-bold center primary}

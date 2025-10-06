@@ -23,11 +23,10 @@
   "dependencies": {
     "@taildown/shared": "workspace:*",
     "@types/mdast": "^4.0.0",
-    "@types/prismjs": "^1.26.5",
+    "@codemirror/language": "^6.10.0",
+    "@lezer/highlight": "^1.2.0",
     "lucide": "^0.544.0",
     "mdast-util-to-hast": "^13.0.0",
-    "prismjs": "^1.30.0",
-    "rehype-prism-plus": "^2.0.1",
     "rehype-stringify": "^10.0.0",
     "remark-gfm": "^4.0.0",
     "remark-parse": "^11.0.0",

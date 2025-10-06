@@ -134,6 +134,15 @@ export { renderHTML, renderHTMLDocument, renderCSS } from './renderer';
 // Re-export JavaScript generator
 export { generateJavaScript, getInteractiveComponents, hasInteractiveBehavior } from './js-generator';
 
+// Re-export syntax highlighting
+export {
+  taildownLanguage,
+  taildown,
+  taildownHighlightStyle,
+  taildownDarkHighlightStyle,
+  rehypeCodeMirror6,
+} from './syntax-highlighting';
+
 // Re-export types from shared
 export type {
   CompileOptions,
