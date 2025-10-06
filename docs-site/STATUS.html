@@ -2873,11 +2873,13 @@ a.bg-gray-200:active {
 
     // Apply theme
     function applyTheme(isDark) {
+      console.log('[Dark Mode] Applying theme:', isDark ? 'dark' : 'light');
       if (isDark) {
         document.documentElement.classList.add(DARK_CLASS);
       } else {
         document.documentElement.classList.remove(DARK_CLASS);
       }
+      console.log('[Dark Mode] HTML classes:', document.documentElement.className);
     }
 
     // Toggle theme

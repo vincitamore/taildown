@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Mode Test</title>
+  <style>
+    :root {
+      --background: #ffffff;
+      --foreground: #111827;
+      --border: #e5e7eb;
+    }
+    
+    .dark {
+      --background: #030712;
+      --foreground: #f9fafb;
+      --border: #1f2937;
+    }
+    
+    * {
+      transition: background-color 300ms, color 300ms, border-color 300ms;
+    }
+    
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--background);
+      color: var(--foreground);
+      min-height: 100vh;
+    }
+    
+    .dark-mode-toggle {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 9999;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      background: var(--background);
+      border: 2px solid var(--border);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .dark-mode-toggle:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .dark-mode-toggle svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: var(--foreground);
+    }
+    
+    .dark-mode-toggle .sun-icon {
+      display: none;
+    }
+    
+    .dark .dark-mode-toggle .sun-icon {
+      display: block;
+    }
+    
+    .dark-mode-toggle .moon-icon {
+      display: block;
+    }
+    
+    .dark .dark-mode-toggle .moon-icon {
+      display: none;
+    }
+    
+    h1 {
+      margin: 0 0 1rem 0;
+    }
+    
+    .status {
+      padding: 1rem;
+      background: var(--border);
+      border-radius: 0.5rem;
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Dark Mode Test</h1>
+  <p>Click the button in the bottom-right corner to toggle dark mode.</p>
+  
+  <div class="status">
+    <p><strong>Current theme:</strong> <span id="theme-status">Loading...</span></p>
+    <p><strong>HTML class:</strong> <span id="html-class">Loading...</span></p>
+    <p><strong>LocalStorage:</strong> <span id="storage-value">Loading...</span></p>
+  </div>
+  
+  <p>Open the browser console to see debug logs.</p>
+  
+  <script>
+    (function() {
+      'use strict';
+      
+      const STORAGE_KEY = 'taildown-dark-mode';
+      const DARK_CLASS = 'dark';
+      
+      function updateStatus() {
+        const isDark = document.documentElement.classList.contains(DARK_CLASS);
+        document.getElementById('theme-status').textContent = isDark ? 'Dark' : 'Light';
+        document.getElementById('html-class').textContent = document.documentElement.className || '(none)';
+        document.getElementById('storage-value').textContent = localStorage.getItem(STORAGE_KEY) || '(none)';
+      }
+      
+      function getInitialTheme() {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          console.log('[Initial] Loaded from storage:', stored);
+          return stored === 'dark';
+        }
+        
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          console.log('[Initial] Using system preference: dark');
+          return true;
+        }
+        
+        console.log('[Initial] Using default: light');
+        return false;
+      }
+      
+      function applyTheme(isDark) {
+        console.log('[Apply] Theme:', isDark ? 'dark' : 'light');
+        if (isDark) {
+          document.documentElement.classList.add(DARK_CLASS);
+        } else {
+          document.documentElement.classList.remove(DARK_CLASS);
+        }
+        console.log('[Apply] HTML classes:', document.documentElement.className);
+        updateStatus();
+      }
+      
+      function toggleTheme() {
+        console.log('[Toggle] Button clicked!');
+        const isDark = document.documentElement.classList.contains(DARK_CLASS);
+        console.log('[Toggle] Current state:', isDark ? 'dark' : 'light');
+        const newTheme = !isDark;
+        
+        applyTheme(newTheme);
+        localStorage.setItem(STORAGE_KEY, newTheme ? 'dark' : 'light');
+        console.log('[Toggle] Switched to:', newTheme ? 'dark' : 'light');
+        updateStatus();
+      }
+      
+      function createToggleButton() {
+        const button = document.createElement('button');
+        button.className = 'dark-mode-toggle';
+        button.setAttribute('aria-label', 'Toggle dark mode');
+        button.innerHTML = `
+          <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        `;
+        return button;
+      }
+      
+      // Apply initial theme
+      const initial = getInitialTheme();
+      console.log('[Init] Initial theme:', initial ? 'dark' : 'light');
+      applyTheme(initial);
+      
+      // Create and add button
+      const toggleButton = createToggleButton();
+      document.body.appendChild(toggleButton);
+      toggleButton.addEventListener('click', function(e) {
+        console.log('[Event] Click event received:', e);
+        toggleTheme();
+      });
+      
+      console.log('[Init] Dark mode initialized');
+      
+      // Listen for system changes
+      if (window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+          if (!localStorage.getItem(STORAGE_KEY)) {
+            console.log('[System] Preference changed:', e.matches ? 'dark' : 'light');
+            applyTheme(e.matches);
+          }
+        });
+      }
+      
+      // Update status initially and on changes
+      updateStatus();
+    })();
+  </script>
+</body>
+</html>
