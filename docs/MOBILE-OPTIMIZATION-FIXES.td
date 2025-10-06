@@ -130,6 +130,10 @@ This covers:
 - Smaller devices
 - Tablets in portrait (partial)
 
+### Deep Nesting Optimization
+
+For very deep branching flows (4+ levels), additional aggressive optimizations apply to prevent overflow on the smallest mobile devices.
+
 ---
 
 ## Desktop vs Mobile Comparison {large-bold}
@@ -144,14 +148,14 @@ This covers:
 
 ### Branching Flow
 
-| Property | Desktop | Mobile |
-|----------|---------|--------|
-| Nest Margin | 2rem | 0.75rem |
-| Nest Padding | 1rem | 0.5rem |
-| Font Size | 1rem | 0.813rem |
-| Item Padding | 0.75rem 1rem | 0.5rem 0.625rem |
-| Container Padding | 1.5rem | 1rem |
-| Border Width | 3px | 2px |
+| Property | Desktop | Mobile (1-3 levels) | Mobile (4+ levels) |
+|----------|---------|---------------------|---------------------|
+| Nest Margin | 2rem | 0.5rem | 0.25rem |
+| Nest Padding | 1rem | 0.375rem | 0.25rem |
+| Font Size | 1rem | 0.75rem | 0.688rem |
+| Item Padding | 0.75rem 1rem | 0.375rem 0.5rem | 0.25rem 0.375rem |
+| Container Padding | 1.5rem | 0.75rem | 0.75rem |
+| Border Width | 3px | 1px | 1px |
 
 ### General Flow
 

@@ -1745,21 +1745,37 @@ ${generateAnimationCSS()}
 @media (max-width: 640px) {
   /* Dramatically reduce nesting indentation on mobile */
   .flow-branching ul ul {
-    margin-left: 0.75rem;
-    padding-left: 0.5rem;
-    border-left-width: 2px;
+    margin-left: 0.5rem;
+    padding-left: 0.375rem;
+    border-left-width: 1px;
   }
   
   /* Smaller text and padding for branching items */
   .flow-branching li {
-    font-size: 0.813rem;
-    padding: 0.5rem 0.625rem;
-    margin: 0.375rem 0;
+    font-size: 0.75rem;
+    padding: 0.375rem 0.5rem;
+    margin: 0.25rem 0;
+    line-height: 1.3;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
   
   /* Reduce container padding to maximize space */
   .flow-branching.flow-container {
-    padding: 1rem;
+    padding: 0.75rem;
+    overflow-x: hidden;
+  }
+  
+  /* Deep nesting (4+ levels) - even more aggressive */
+  .flow-branching ul ul ul ul {
+    margin-left: 0.25rem;
+    padding-left: 0.25rem;
+  }
+  
+  .flow-branching ul ul ul ul li {
+    font-size: 0.688rem;
+    padding: 0.25rem 0.375rem;
   }
 }
 
