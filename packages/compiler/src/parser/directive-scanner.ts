@@ -11,13 +11,15 @@ import { COMPONENT_NAME_REGEX, CLASS_NAME_REGEX } from '@taildown/shared';
 /**
  * Regular expression to match component fence markers
  * See SYNTAX.md §3.2.1 - Fence Markers
+ * See SYNTAX.md §3.2.3 - Attributes on Components (one space required)
  * 
  * Pattern: :::component-name {.class1 .class2} or :::component-name{id="value"}
  * - Must start at beginning of line
  * - Three colons followed by optional name and attributes
+ * - One space required between component name and attribute block (per §3.2.3)
  * - Attributes can be classes (.class) or key-value pairs (key="value")
  */
-const FENCE_OPEN_REGEX = /^:::([a-z][a-z0-9-]*)(?:\{([^}]+)\})?$/;
+const FENCE_OPEN_REGEX = /^:::([a-z][a-z0-9-]*)(?: \{([^}]+)\})?$/;
 const FENCE_CLOSE_REGEX = /^:::$/;
 
 /**
@@ -82,7 +84,9 @@ function extractMarkersFromParagraph(node: Paragraph): Array<{
     }
   }
   
-  // Then check if ANY text node (starting from end) contains fence markers
+  // Then check if ANY text node (starting from end) contains CLOSING fence markers
+  // Note: We specifically check for closing fences (:::) not opening fences (:::component)
+  // to distinguish between paragraphs that are complete directives vs those that only start one
   let foundFence = false;
   let fenceChildIndex = -1;
   
@@ -90,11 +94,17 @@ function extractMarkersFromParagraph(node: Paragraph): Array<{
     const child = node.children[i];
     if (child && child.type === 'text') {
       const textValue = (child as Text).value;
-      // Check if this text contains ANY fence markers
+      // Check if this text contains fence markers (opening OR closing)
       if (textValue.includes(':::')) {
-        foundFence = true;
-        fenceChildIndex = i;
-        break;
+        // Check if it contains a closing fence (standalone :::)
+        const lines = textValue.split(/\r?\n/);
+        const hasClosingFence = lines.some(line => FENCE_CLOSE_REGEX.test(line.trim()));
+        if (hasClosingFence) {
+          foundFence = true;
+          fenceChildIndex = i;
+          break;
+        }
+        // If it only has opening fences, keep looking for closing ones
       }
     }
   }
@@ -163,6 +173,55 @@ function extractMarkersFromParagraph(node: Paragraph): Array<{
           result.push({ type: 'marker', marker: closeMarker });
           return result;
         }
+      }
+    }
+  }
+  
+  // Case: Opening fence at the start, but no closing fence in this paragraph
+  // Example: :::card {padded}\n:icon[check]{success} **Style Resolver Tests**
+  // The formatted content should be treated as content INSIDE the directive
+  if (hasOpeningFence && !foundFence && firstTextIndex === 0) {
+    const firstText = node.children[0] as Text;
+    const firstLines = firstText.value.split(/\r?\n/);
+    const openingLine = firstLines[0]?.trim();
+    
+    if (openingLine && FENCE_OPEN_REGEX.test(openingLine)) {
+      // Parse opening marker
+      const openMarker = parseFenceLine(openingLine, node.position.start.line);
+      
+      if (openMarker) {
+        // Build content from all children except the opening fence line
+        const contentChildren: (Text | any)[] = [];
+        
+        // Add remaining text from first node (after opening fence)
+        if (firstLines.length > 1) {
+          const remainingFirst = firstLines.slice(1).join('\n');
+          if (remainingFirst) {
+            contentChildren.push({ type: 'text', value: remainingFirst } as Text);
+          }
+        }
+        
+        // Add all remaining children (formatted text, links, etc.)
+        for (let i = 1; i < node.children.length; i++) {
+          contentChildren.push(node.children[i]);
+        }
+        
+        // Return opening marker and content paragraph
+        const result = [];
+        result.push({ type: 'marker', marker: openMarker });
+        
+        if (contentChildren.length > 0) {
+          result.push({
+            type: 'content',
+            contentNode: {
+              type: 'paragraph',
+              children: contentChildren,
+              position: node.position,
+            } as Paragraph,
+          });
+        }
+        
+        return result;
       }
     }
   }

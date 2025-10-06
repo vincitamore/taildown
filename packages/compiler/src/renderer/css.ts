@@ -1141,6 +1141,29 @@ ${generateAnimationCSS()}
   /* Additional container-specific styles */
 }
 
+/* Alert Component - Mobile Optimization */
+.component-alert {
+  /* On mobile, stack icon and content vertically for better readability */
+}
+
+@media (max-width: 640px) {
+  .component-alert {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  /* Reduce large icon sizes on mobile for better proportions */
+  .component-alert .icon.huge {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .component-alert .icon.xl {
+    width: 24px;
+    height: 24px;
+  }
+}
+
 /* ========================================
  * TABS COMPONENT
  * ======================================== */
@@ -1151,6 +1174,28 @@ ${generateAnimationCSS()}
 
 .tabs-list {
   position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(209 213 219) transparent;
+}
+
+.tabs-list::-webkit-scrollbar {
+  height: 4px;
+}
+
+.tabs-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tabs-list::-webkit-scrollbar-thumb {
+  background: rgb(209 213 219);
+  border-radius: 2px;
+}
+
+.tabs-list::-webkit-scrollbar-thumb:hover {
+  background: rgb(156 163 175);
 }
 
 .tab-button {
@@ -1159,6 +1204,16 @@ ${generateAnimationCSS()}
   background: transparent;
   border: none;
   outline: none;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .tab-button {
+    font-size: 0.813rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
 }
 
 .tab-button[aria-selected="true"] {

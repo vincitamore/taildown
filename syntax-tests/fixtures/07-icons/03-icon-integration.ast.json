@@ -196,143 +196,65 @@
       }
     },
     {
-      "type": "containerDirective",
-      "name": "alert",
+      "type": "paragraph",
       "children": [
         {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "icon",
-              "name": "check",
-              "data": {
-                "hName": "svg",
-                "hProperties": {
-                  "className": [
-                    "icon",
-                    "icon-check",
-                    "text-green-600"
-                  ],
-                  "data-icon": "check"
-                }
-              }
-            },
-            {
-              "type": "text",
-              "value": " Operation completed successfully!"
-            }
-          ],
+          "type": "text",
+          "value": ":::alert{success}\n"
+        },
+        {
+          "type": "icon",
+          "name": "check",
           "data": {
-            "hProperties": {}
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-check",
+                "text-green-600"
+              ],
+              "data-icon": "check"
+            }
           }
+        },
+        {
+          "type": "text",
+          "value": " Operation completed successfully!"
         }
       ],
-      "position": {
-        "start": {
-          "line": 12,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 12,
-          "column": 18,
-          "offset": 0
-        }
-      },
       "data": {
-        "hProperties": {
-          "className": [
-            "taildown-component",
-            "component-alert",
-            "p-4",
-            "rounded-lg",
-            "border",
-            "flex",
-            "items-start",
-            "gap-3",
-            "bg-green-50",
-            "border-green-200",
-            "text-green-800"
-          ],
-          "data-component": "alert"
-        },
-        "hName": "div",
-        "component": {
-          "name": "alert",
-          "attributes": [
-            "success"
-          ]
-        }
+        "hProperties": {}
       }
     },
     {
-      "type": "containerDirective",
-      "name": "alert",
+      "type": "paragraph",
       "children": [
         {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "icon",
-              "name": "x-circle",
-              "data": {
-                "hName": "svg",
-                "hProperties": {
-                  "className": [
-                    "icon",
-                    "icon-x-circle",
-                    "text-red-600"
-                  ],
-                  "data-icon": "x-circle"
-                }
-              }
-            },
-            {
-              "type": "text",
-              "value": " An error occurred."
-            }
-          ],
+          "type": "text",
+          "value": ":::alert{error}\n"
+        },
+        {
+          "type": "icon",
+          "name": "x-circle",
           "data": {
-            "hProperties": {}
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-x-circle",
+                "text-red-600"
+              ],
+              "data-icon": "x-circle"
+            }
           }
+        },
+        {
+          "type": "text",
+          "value": " An error occurred."
         }
       ],
-      "position": {
-        "start": {
-          "line": 16,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 16,
-          "column": 16,
-          "offset": 0
-        }
-      },
       "data": {
-        "hProperties": {
-          "className": [
-            "taildown-component",
-            "component-alert",
-            "p-4",
-            "rounded-lg",
-            "border",
-            "flex",
-            "items-start",
-            "gap-3",
-            "bg-red-50",
-            "border-red-200",
-            "text-red-800"
-          ],
-          "data-component": "alert"
-        },
-        "hName": "div",
-        "component": {
-          "name": "alert",
-          "attributes": [
-            "error"
-          ]
-        }
+        "hProperties": {}
       }
     },
     {

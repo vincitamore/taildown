@@ -670,115 +670,64 @@
       }
     },
     {
-      "type": "containerDirective",
-      "name": "modal",
+      "type": "paragraph",
       "children": [
         {
-          "type": "heading",
-          "depth": 1,
-          "children": [
-            {
-              "type": "text",
-              "value": "Welcome to Taildown!",
-              "position": {
-                "start": {
-                  "line": 22,
-                  "column": 3,
-                  "offset": 501
-                },
-                "end": {
-                  "line": 22,
-                  "column": 23,
-                  "offset": 521
-                }
-              }
-            }
-          ],
+          "type": "text",
+          "value": ":::modal"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "id=\"welcome-modal\""
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Welcome to Taildown!",
           "position": {
             "start": {
               "line": 22,
-              "column": 1,
-              "offset": 499
+              "column": 3,
+              "offset": 501
             },
             "end": {
               "line": 22,
               "column": 23,
               "offset": 521
             }
-          },
-          "data": {
-            "hProperties": {}
           }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 22,
+          "column": 1,
+          "offset": 499
         },
+        "end": {
+          "line": 22,
+          "column": 23,
+          "offset": 521
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
         {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "This modal has ",
-              "position": {
-                "start": {
-                  "line": 24,
-                  "column": 1,
-                  "offset": 523
-                },
-                "end": {
-                  "line": 24,
-                  "column": 16,
-                  "offset": 538
-                }
-              }
-            },
-            {
-              "type": "strong",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "rich markdown",
-                  "position": {
-                    "start": {
-                      "line": 24,
-                      "column": 18,
-                      "offset": 540
-                    },
-                    "end": {
-                      "line": 24,
-                      "column": 31,
-                      "offset": 553
-                    }
-                  }
-                }
-              ],
-              "position": {
-                "start": {
-                  "line": 24,
-                  "column": 16,
-                  "offset": 538
-                },
-                "end": {
-                  "line": 24,
-                  "column": 33,
-                  "offset": 555
-                }
-              }
-            },
-            {
-              "type": "text",
-              "value": " content:",
-              "position": {
-                "start": {
-                  "line": 24,
-                  "column": 33,
-                  "offset": 555
-                },
-                "end": {
-                  "line": 24,
-                  "column": 42,
-                  "offset": 564
-                }
-              }
-            }
-          ],
+          "type": "text",
+          "value": "This modal has ",
           "position": {
             "start": {
               "line": 24,
@@ -787,45 +736,94 @@
             },
             "end": {
               "line": 24,
-              "column": 42,
-              "offset": 564
+              "column": 16,
+              "offset": 538
             }
-          },
-          "data": {
-            "hProperties": {}
           }
         },
         {
-          "type": "list",
-          "ordered": false,
-          "start": null,
-          "spread": false,
+          "type": "strong",
           "children": [
             {
-              "type": "listItem",
-              "spread": false,
-              "checked": null,
+              "type": "text",
+              "value": "rich markdown",
+              "position": {
+                "start": {
+                  "line": 24,
+                  "column": 18,
+                  "offset": 540
+                },
+                "end": {
+                  "line": 24,
+                  "column": 31,
+                  "offset": 553
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 24,
+              "column": 16,
+              "offset": 538
+            },
+            "end": {
+              "line": 24,
+              "column": 33,
+              "offset": 555
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " content:",
+          "position": {
+            "start": {
+              "line": 24,
+              "column": 33,
+              "offset": 555
+            },
+            "end": {
+              "line": 24,
+              "column": 42,
+              "offset": 564
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 24,
+          "column": 1,
+          "offset": 523
+        },
+        "end": {
+          "line": 24,
+          "column": 42,
+          "offset": 564
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "start": null,
+      "spread": false,
+      "children": [
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
               "children": [
                 {
-                  "type": "paragraph",
-                  "children": [
-                    {
-                      "type": "text",
-                      "value": "Multiple paragraphs",
-                      "position": {
-                        "start": {
-                          "line": 25,
-                          "column": 3,
-                          "offset": 567
-                        },
-                        "end": {
-                          "line": 25,
-                          "column": 22,
-                          "offset": 586
-                        }
-                      }
-                    }
-                  ],
+                  "type": "text",
+                  "value": "Multiple paragraphs",
                   "position": {
                     "start": {
                       "line": 25,
@@ -837,50 +835,50 @@
                       "column": 22,
                       "offset": 586
                     }
-                  },
-                  "data": {
-                    "hProperties": {}
                   }
                 }
               ],
               "position": {
                 "start": {
                   "line": 25,
-                  "column": 1,
-                  "offset": 565
+                  "column": 3,
+                  "offset": 567
                 },
                 "end": {
                   "line": 25,
                   "column": 22,
                   "offset": 586
                 }
+              },
+              "data": {
+                "hProperties": {}
               }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 25,
+              "column": 1,
+              "offset": 565
             },
+            "end": {
+              "line": 25,
+              "column": 22,
+              "offset": 586
+            }
+          }
+        },
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
             {
-              "type": "listItem",
-              "spread": false,
-              "checked": null,
+              "type": "paragraph",
               "children": [
                 {
-                  "type": "paragraph",
-                  "children": [
-                    {
-                      "type": "text",
-                      "value": "Lists and formatting",
-                      "position": {
-                        "start": {
-                          "line": 26,
-                          "column": 3,
-                          "offset": 589
-                        },
-                        "end": {
-                          "line": 26,
-                          "column": 23,
-                          "offset": 609
-                        }
-                      }
-                    }
-                  ],
+                  "type": "text",
+                  "value": "Lists and formatting",
                   "position": {
                     "start": {
                       "line": 26,
@@ -892,87 +890,87 @@
                       "column": 23,
                       "offset": 609
                     }
-                  },
-                  "data": {
-                    "hProperties": {}
                   }
                 }
               ],
               "position": {
                 "start": {
                   "line": 26,
-                  "column": 1,
-                  "offset": 587
+                  "column": 3,
+                  "offset": 589
                 },
                 "end": {
                   "line": 26,
                   "column": 23,
                   "offset": 609
                 }
-              }
-            },
-            {
-              "type": "listItem",
-              "spread": false,
-              "checked": null,
-              "children": [
-                {
-                  "type": "paragraph",
-                  "children": [
-                    {
-                      "type": "text",
-                      "value": "Even ",
-                      "position": {
-                        "start": {
-                          "line": 27,
-                          "column": 3,
-                          "offset": 612
-                        },
-                        "end": {
-                          "line": 27,
-                          "column": 8,
-                          "offset": 617
-                        }
-                      }
-                    },
-                    {
-                      "type": "inlineCode",
-                      "value": "code blocks",
-                      "position": {
-                        "start": {
-                          "line": 27,
-                          "column": 8,
-                          "offset": 617
-                        },
-                        "end": {
-                          "line": 27,
-                          "column": 21,
-                          "offset": 630
-                        }
-                      }
-                    }
-                  ]
-                }
-              ],
-              "position": {
-                "start": {
-                  "line": 27,
-                  "column": 1,
-                  "offset": 610
-                },
-                "end": {
-                  "line": 28,
-                  "column": 4,
-                  "offset": 634
-                }
+              },
+              "data": {
+                "hProperties": {}
               }
             }
           ],
           "position": {
             "start": {
-              "line": 25,
+              "line": 26,
               "column": 1,
-              "offset": 565
+              "offset": 587
+            },
+            "end": {
+              "line": 26,
+              "column": 23,
+              "offset": 609
+            }
+          }
+        },
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Even ",
+                  "position": {
+                    "start": {
+                      "line": 27,
+                      "column": 3,
+                      "offset": 612
+                    },
+                    "end": {
+                      "line": 27,
+                      "column": 8,
+                      "offset": 617
+                    }
+                  }
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "code blocks",
+                  "position": {
+                    "start": {
+                      "line": 27,
+                      "column": 8,
+                      "offset": 617
+                    },
+                    "end": {
+                      "line": 27,
+                      "column": 21,
+                      "offset": 630
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 27,
+              "column": 1,
+              "offset": 610
             },
             "end": {
               "line": 28,
@@ -984,125 +982,99 @@
       ],
       "position": {
         "start": {
-          "line": 21,
+          "line": 25,
           "column": 1,
-          "offset": 0
+          "offset": 565
         },
         "end": {
-          "line": 21,
-          "column": 29,
-          "offset": 0
-        }
-      },
-      "attributes": {
-        "id": "welcome-modal"
-      },
-      "data": {
-        "hName": "div",
-        "hProperties": {
-          "className": [
-            "taildown-component",
-            "component-modal",
-            "modal",
-            "bg-white",
-            "rounded-lg",
-            "shadow-xl",
-            "p-6",
-            "max-w-2xl",
-            "mx-auto"
-          ],
-          "data-component": "modal"
-        },
-        "component": {
-          "name": "modal",
-          "attributes": []
+          "line": 28,
+          "column": 4,
+          "offset": 634
         }
       }
     },
     {
-      "type": "containerDirective",
-      "name": "modal",
+      "type": "paragraph",
       "children": [
         {
-          "type": "heading",
-          "depth": 2,
-          "children": [
-            {
-              "type": "text",
-              "value": "Information",
-              "position": {
-                "start": {
-                  "line": 31,
-                  "column": 4,
-                  "offset": 665
-                },
-                "end": {
-                  "line": 31,
-                  "column": 15,
-                  "offset": 676
-                }
-              }
-            }
-          ],
+          "type": "text",
+          "value": ":::modal"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "id=\"info-modal\""
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Information",
           "position": {
             "start": {
               "line": 31,
-              "column": 1,
-              "offset": 662
+              "column": 4,
+              "offset": 665
             },
             "end": {
               "line": 31,
               "column": 15,
               "offset": 676
             }
-          },
-          "data": {
-            "hProperties": {}
           }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 31,
+          "column": 1,
+          "offset": 662
         },
+        "end": {
+          "line": 31,
+          "column": 15,
+          "offset": 676
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
         {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "This is detailed information with:"
-            }
-          ],
-          "data": {
-            "hProperties": {}
-          }
-        },
+          "type": "text",
+          "value": "This is detailed information with:"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "start": 1,
+      "spread": false,
+      "children": [
         {
-          "type": "list",
-          "ordered": true,
-          "start": 1,
+          "type": "listItem",
           "spread": false,
+          "checked": null,
           "children": [
             {
-              "type": "listItem",
-              "spread": false,
-              "checked": null,
+              "type": "paragraph",
               "children": [
                 {
-                  "type": "paragraph",
-                  "children": [
-                    {
-                      "type": "text",
-                      "value": "Numbered lists",
-                      "position": {
-                        "start": {
-                          "line": 34,
-                          "column": 4,
-                          "offset": 716
-                        },
-                        "end": {
-                          "line": 34,
-                          "column": 18,
-                          "offset": 730
-                        }
-                      }
-                    }
-                  ],
+                  "type": "text",
+                  "value": "Numbered lists",
                   "position": {
                     "start": {
                       "line": 34,
@@ -1114,63 +1086,63 @@
                       "column": 18,
                       "offset": 730
                     }
-                  },
-                  "data": {
-                    "hProperties": {}
                   }
                 }
               ],
               "position": {
                 "start": {
                   "line": 34,
-                  "column": 1,
-                  "offset": 713
+                  "column": 4,
+                  "offset": 716
                 },
                 "end": {
                   "line": 34,
                   "column": 18,
                   "offset": 730
                 }
+              },
+              "data": {
+                "hProperties": {}
               }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 34,
+              "column": 1,
+              "offset": 713
             },
+            "end": {
+              "line": 34,
+              "column": 18,
+              "offset": 730
+            }
+          }
+        },
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
             {
-              "type": "listItem",
-              "spread": false,
-              "checked": null,
+              "type": "paragraph",
               "children": [
                 {
-                  "type": "paragraph",
+                  "type": "strong",
                   "children": [
                     {
-                      "type": "strong",
-                      "children": [
-                        {
-                          "type": "text",
-                          "value": "Bold text",
-                          "position": {
-                            "start": {
-                              "line": 35,
-                              "column": 6,
-                              "offset": 736
-                            },
-                            "end": {
-                              "line": 35,
-                              "column": 15,
-                              "offset": 745
-                            }
-                          }
-                        }
-                      ],
+                      "type": "text",
+                      "value": "Bold text",
                       "position": {
                         "start": {
                           "line": 35,
-                          "column": 4,
-                          "offset": 734
+                          "column": 6,
+                          "offset": 736
                         },
                         "end": {
                           "line": 35,
-                          "column": 17,
-                          "offset": 747
+                          "column": 15,
+                          "offset": 745
                         }
                       }
                     }
@@ -1192,8 +1164,8 @@
               "position": {
                 "start": {
                   "line": 35,
-                  "column": 1,
-                  "offset": 731
+                  "column": 4,
+                  "offset": 734
                 },
                 "end": {
                   "line": 35,
@@ -1201,70 +1173,70 @@
                   "offset": 747
                 }
               }
-            },
-            {
-              "type": "listItem",
-              "spread": false,
-              "checked": null,
-              "children": [
-                {
-                  "type": "paragraph",
-                  "children": [
-                    {
-                      "type": "emphasis",
-                      "children": [
-                        {
-                          "type": "text",
-                          "value": "Italic text",
-                          "position": {
-                            "start": {
-                              "line": 36,
-                              "column": 5,
-                              "offset": 752
-                            },
-                            "end": {
-                              "line": 36,
-                              "column": 16,
-                              "offset": 763
-                            }
-                          }
-                        }
-                      ],
-                      "position": {
-                        "start": {
-                          "line": 36,
-                          "column": 4,
-                          "offset": 751
-                        },
-                        "end": {
-                          "line": 36,
-                          "column": 17,
-                          "offset": 764
-                        }
-                      }
-                    }
-                  ]
-                }
-              ],
-              "position": {
-                "start": {
-                  "line": 36,
-                  "column": 1,
-                  "offset": 748
-                },
-                "end": {
-                  "line": 37,
-                  "column": 4,
-                  "offset": 768
-                }
-              }
             }
           ],
           "position": {
             "start": {
-              "line": 34,
+              "line": 35,
               "column": 1,
-              "offset": 713
+              "offset": 731
+            },
+            "end": {
+              "line": 35,
+              "column": 17,
+              "offset": 747
+            }
+          }
+        },
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "emphasis",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Italic text",
+                      "position": {
+                        "start": {
+                          "line": 36,
+                          "column": 5,
+                          "offset": 752
+                        },
+                        "end": {
+                          "line": 36,
+                          "column": 16,
+                          "offset": 763
+                        }
+                      }
+                    }
+                  ],
+                  "position": {
+                    "start": {
+                      "line": 36,
+                      "column": 4,
+                      "offset": 751
+                    },
+                    "end": {
+                      "line": 36,
+                      "column": 17,
+                      "offset": 764
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 36,
+              "column": 1,
+              "offset": 748
             },
             "end": {
               "line": 37,
@@ -1276,44 +1248,43 @@
       ],
       "position": {
         "start": {
-          "line": 30,
+          "line": 34,
           "column": 1,
-          "offset": 0
+          "offset": 713
         },
         "end": {
-          "line": 30,
-          "column": 26,
-          "offset": 0
-        }
-      },
-      "attributes": {
-        "id": "info-modal"
-      },
-      "data": {
-        "hName": "div",
-        "hProperties": {
-          "className": [
-            "taildown-component",
-            "component-modal",
-            "modal",
-            "bg-white",
-            "rounded-lg",
-            "shadow-xl",
-            "p-6",
-            "max-w-2xl",
-            "mx-auto"
-          ],
-          "data-component": "modal"
-        },
-        "component": {
-          "name": "modal",
-          "attributes": []
+          "line": 37,
+          "column": 4,
+          "offset": 768
         }
       }
     },
     {
       "type": "paragraph",
       "children": [
+        {
+          "type": "text",
+          "value": ":::modal{id=\"alert-modal\"}\n"
+        },
+        {
+          "type": "icon",
+          "name": "alert-triangle",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-alert-triangle",
+                "text-yellow-600"
+              ],
+              "data-icon": "alert-triangle"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
         {
           "type": "strong",
           "children": [
@@ -1347,80 +1318,30 @@
             }
           }
         }
-      ]
-    },
-    {
-      "type": "containerDirective",
-      "name": "modal",
-      "children": [
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "icon",
-              "name": "alert-triangle",
-              "data": {
-                "hName": "svg",
-                "hProperties": {
-                  "className": [
-                    "icon",
-                    "icon-alert-triangle",
-                    "text-yellow-600"
-                  ],
-                  "data-icon": "alert-triangle"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "This action cannot be undone."
-            }
-          ],
-          "data": {
-            "hProperties": {}
-          }
-        }
       ],
       "position": {
         "start": {
           "line": 39,
           "column": 1,
-          "offset": 0
+          "offset": 770
         },
         "end": {
-          "line": 39,
-          "column": 27,
-          "offset": 0
+          "line": 40,
+          "column": 44,
+          "offset": 840
         }
-      },
-      "attributes": {
-        "id": "alert-modal"
-      },
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "This action cannot be undone."
+        }
+      ],
       "data": {
-        "hName": "div",
-        "hProperties": {
-          "className": [
-            "taildown-component",
-            "component-modal",
-            "modal",
-            "bg-white",
-            "rounded-lg",
-            "shadow-xl",
-            "p-6",
-            "max-w-2xl",
-            "mx-auto"
-          ],
-          "data-component": "modal"
-        },
-        "component": {
-          "name": "modal",
-          "attributes": []
-        }
+        "hProperties": {}
       }
     },
     {
@@ -1743,94 +1664,68 @@
       }
     },
     {
-      "type": "containerDirective",
-      "name": "modal",
+      "type": "paragraph",
       "children": [
         {
-          "type": "heading",
-          "depth": 1,
-          "children": [
-            {
-              "type": "text",
-              "value": "Shared Modal",
-              "position": {
-                "start": {
-                  "line": 54,
-                  "column": 3,
-                  "offset": 1079
-                },
-                "end": {
-                  "line": 54,
-                  "column": 15,
-                  "offset": 1091
-                }
-              }
-            }
-          ],
+          "type": "text",
+          "value": ":::modal"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "id=\"shared-modal\""
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Shared Modal",
           "position": {
             "start": {
               "line": 54,
-              "column": 1,
-              "offset": 1077
+              "column": 3,
+              "offset": 1079
             },
             "end": {
               "line": 54,
               "column": 15,
               "offset": 1091
             }
-          },
-          "data": {
-            "hProperties": {}
-          }
-        },
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "This content is shown when any of the three buttons is clicked."
-            }
-          ],
-          "data": {
-            "hProperties": {}
           }
         }
       ],
       "position": {
         "start": {
-          "line": 53,
+          "line": 54,
           "column": 1,
-          "offset": 0
+          "offset": 1077
         },
         "end": {
-          "line": 53,
-          "column": 28,
-          "offset": 0
+          "line": 54,
+          "column": 15,
+          "offset": 1091
         }
-      },
-      "attributes": {
-        "id": "shared-modal"
       },
       "data": {
-        "hName": "div",
-        "hProperties": {
-          "className": [
-            "taildown-component",
-            "component-modal",
-            "modal",
-            "bg-white",
-            "rounded-lg",
-            "shadow-xl",
-            "p-6",
-            "max-w-2xl",
-            "mx-auto"
-          ],
-          "data-component": "modal"
-        },
-        "component": {
-          "name": "modal",
-          "attributes": []
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "This content is shown when any of the three buttons is clicked."
         }
+      ],
+      "data": {
+        "hProperties": {}
       }
     },
     {
@@ -2148,94 +2043,68 @@
       }
     },
     {
-      "type": "containerDirective",
-      "name": "modal",
+      "type": "paragraph",
       "children": [
         {
-          "type": "heading",
-          "depth": 2,
-          "children": [
-            {
-              "type": "text",
-              "value": "Settings",
-              "position": {
-                "start": {
-                  "line": 68,
-                  "column": 4,
-                  "offset": 1425
-                },
-                "end": {
-                  "line": 68,
-                  "column": 12,
-                  "offset": 1433
-                }
-              }
-            }
-          ],
+          "type": "text",
+          "value": ":::modal"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "id=\"settings-modal\""
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Settings",
           "position": {
             "start": {
               "line": 68,
-              "column": 1,
-              "offset": 1422
+              "column": 4,
+              "offset": 1425
             },
             "end": {
               "line": 68,
               "column": 12,
               "offset": 1433
             }
-          },
-          "data": {
-            "hProperties": {}
-          }
-        },
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "Configure your preferences here."
-            }
-          ],
-          "data": {
-            "hProperties": {}
           }
         }
       ],
       "position": {
         "start": {
-          "line": 67,
+          "line": 68,
           "column": 1,
-          "offset": 0
+          "offset": 1422
         },
         "end": {
-          "line": 67,
-          "column": 30,
-          "offset": 0
+          "line": 68,
+          "column": 12,
+          "offset": 1433
         }
-      },
-      "attributes": {
-        "id": "settings-modal"
       },
       "data": {
-        "hName": "div",
-        "hProperties": {
-          "className": [
-            "taildown-component",
-            "component-modal",
-            "modal",
-            "bg-white",
-            "rounded-lg",
-            "shadow-xl",
-            "p-6",
-            "max-w-2xl",
-            "mx-auto"
-          ],
-          "data-component": "modal"
-        },
-        "component": {
-          "name": "modal",
-          "attributes": []
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Configure your preferences here."
         }
+      ],
+      "data": {
+        "hProperties": {}
       }
     }
   ],

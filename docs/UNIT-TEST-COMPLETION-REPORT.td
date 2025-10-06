@@ -11,7 +11,7 @@
 
 Successfully implemented a professional-grade unit test suite for the Taildown project, addressing the primary gap identified in the project assessment (ASSESSMENT.td). The test suite includes **333 passing unit tests** with comprehensive coverage of all core systems.
 
-:::alert{type="success"}
+:::alert {type="success"}
 **Mission Accomplished**
 
 Professional unit test suite successfully established with 333+ passing tests covering all core compiler systems.
@@ -25,8 +25,8 @@ Professional unit test suite successfully established with 333+ passing tests co
 
 Seven comprehensive test suites were implemented, each targeting a specific subsystem:
 
-:::grid{cols="2"}
-:::card{variant="elevated"}
+:::grid {cols="2"}
+:::card {variant="elevated"}
 **1. Style Resolver Tests**
 
 `style-resolver.test.ts`
@@ -34,7 +34,7 @@ Seven comprehensive test suites were implemented, each targeting a specific subs
 80+ test cases covering complete style resolution
 :::
 
-:::card{variant="elevated"}
+:::card {variant="elevated"}
 **2. Shorthand Mappings Tests**
 
 `shorthand-mappings.test.ts`
@@ -42,7 +42,7 @@ Seven comprehensive test suites were implemented, each targeting a specific subs
 90+ test cases for all 120+ mappings
 :::
 
-:::card{variant="elevated"}
+:::card {variant="elevated"}
 **3. Semantic Colors Tests**
 
 `semantic-colors.test.ts`
@@ -50,7 +50,7 @@ Seven comprehensive test suites were implemented, each targeting a specific subs
 50+ test cases for color resolution
 :::
 
-:::card{variant="elevated"}
+:::card {variant="elevated"}
 **4. Config Schema Tests**
 
 `config-schema.test.ts`
@@ -58,7 +58,7 @@ Seven comprehensive test suites were implemented, each targeting a specific subs
 40+ test cases for validation
 :::
 
-:::card{variant="elevated"}
+:::card {variant="elevated"}
 **5. Default Config Tests**
 
 `default-config.test.ts`
@@ -66,7 +66,7 @@ Seven comprehensive test suites were implemented, each targeting a specific subs
 30+ test cases for defaults
 :::
 
-:::card{variant="elevated"}
+:::card {variant="elevated"}
 **6. Icon Parser Tests**
 
 `icon-parser.test.ts`
@@ -74,7 +74,7 @@ Seven comprehensive test suites were implemented, each targeting a specific subs
 60+ test cases for icon syntax
 :::
 
-:::card{variant="elevated"}
+:::card {variant="elevated"}
 **7. Glassmorphism Tests**
 
 `glassmorphism.test.ts`
@@ -82,7 +82,7 @@ Seven comprehensive test suites were implemented, each targeting a specific subs
 60+ test cases for glass effects
 :::
 
-:::card{variant="glass" center}
+:::card {variant="glass" center}
 **Total Test Coverage**
 
 333+ comprehensive unit tests
@@ -95,7 +95,7 @@ Seven comprehensive test suites were implemented, each targeting a specific subs
 
 ### Execution Summary {bold}
 
-:::card{variant="glass"}
+:::card {variant="glass"}
 **Test Execution Metrics**
 
 | Metric | Value | Status |
@@ -124,7 +124,7 @@ Duration:    4.32 seconds
 
 ### Core Systems - 100% Coverage {bold primary}
 
-:::alert{type="info"}
+:::alert {type="info"}
 All core compiler systems have comprehensive test coverage with edge cases, dark mode support, and performance verification.
 :::
 
@@ -247,8 +247,8 @@ home, search, user, settings, menu, close, check, x, arrow-left, arrow-right, ar
 
 ### Professional Testing Practices {bold}
 
-:::grid{cols="3"}
-:::card{variant="flat"}
+:::grid {cols="3"}
+:::card {variant="flat"}
 :icon[check-circle]{primary}
 
 **Comprehensive Coverage**
@@ -256,7 +256,7 @@ home, search, user, settings, menu, close, check, x, arrow-left, arrow-right, ar
 20+ test cases per core module
 :::
 
-:::card{variant="flat"}
+:::card {variant="flat"}
 :icon[check-circle]{primary}
 
 **Edge Case Testing**
@@ -264,7 +264,7 @@ home, search, user, settings, menu, close, check, x, arrow-left, arrow-right, ar
 Null, undefined, empty, invalid inputs
 :::
 
-:::card{variant="flat"}
+:::card {variant="flat"}
 :icon[check-circle]{primary}
 
 **Dark Mode Testing**
@@ -272,7 +272,7 @@ Null, undefined, empty, invalid inputs
 All features in both modes
 :::
 
-:::card{variant="flat"}
+:::card {variant="flat"}
 :icon[check-circle]{primary}
 
 **Performance Benchmarks**
@@ -280,7 +280,7 @@ All features in both modes
 Critical path optimization
 :::
 
-:::card{variant="flat"}
+:::card {variant="flat"}
 :icon[check-circle]{primary}
 
 **Integration Testing**
@@ -288,7 +288,7 @@ Critical path optimization
 Cross-module functionality
 :::
 
-:::card{variant="flat"}
+:::card {variant="flat"}
 :icon[check-circle]{primary}
 
 **Compliance Testing**
@@ -336,7 +336,7 @@ packages/compiler/src/
 
 From ASSESSMENT.td (2025-10-06):
 
-:::alert{type="warning"}
+:::alert {type="warning"}
 **Overall Grade: A- (85/100)**
 
 Test Coverage: Grade C (60/100)
@@ -350,7 +350,7 @@ Test Coverage: Grade C (60/100)
 
 #### After Implementation
 
-:::alert{type="success"}
+:::alert {type="success"}
 **Overall Grade: A (92/100)**
 
 Test Coverage: Grade A- (88/100)
@@ -392,7 +392,7 @@ Future changes can be made with confidence
 
 ### Quantitative Analysis {bold}
 
-:::card{variant="glass"}
+:::card {variant="glass"}
 **Unit Test Suite Metrics**
 
 | Metric | Value |
@@ -573,7 +573,7 @@ Critical operations measured and optimized
 
 ### Final Status {bold}
 
-:::card{variant="glass" center}
+:::card {variant="glass" center}
 **Implementation Status:** Complete
 
 **Project Grade:** A (92/100)

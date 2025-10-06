@@ -822,32 +822,40 @@ function renderGenericComponent(state: State, node: ContainerDirectiveNode): Ele
   // Get component definition from registry
   const component = registry.get(componentName);
   
-  // Build classes array
-  const classes: string[] = [];
+  // Use classes that were already resolved by the component processor
+  // The component processor (parser/components.ts) already ran resolveComponentClasses
+  // and stored the fully resolved classes in node.data.hProperties.className
+  let classes: string[] = [];
   
-  // Add component default classes if found in registry
-  if (component) {
-    classes.push(...component.defaultClasses);
-    
-    // Handle variant attribute
-    const variant = attributes.variant || attributes.type;
-    if (variant && component.variants[variant]) {
-      classes.push(...component.variants[variant]);
-    } else if (component.defaultVariant && component.variants[component.defaultVariant]) {
-      classes.push(...component.variants[component.defaultVariant]);
+  if (node.data?.hProperties?.className) {
+    // Use pre-resolved classes from component processor
+    const existingClasses = node.data.hProperties.className;
+    classes = Array.isArray(existingClasses) ? [...existingClasses] : [existingClasses];
+  } else {
+    // Fallback: build classes if they weren't pre-resolved (shouldn't happen normally)
+    if (component) {
+      classes.push(...component.defaultClasses);
+      
+      // Handle variant attribute
+      const variant = attributes.variant || attributes.type;
+      if (variant && component.variants[variant]) {
+        classes.push(...component.variants[variant]);
+      } else if (component.defaultVariant && component.variants[component.defaultVariant]) {
+        classes.push(...component.variants[component.defaultVariant]);
+      }
+      
+      // Handle size attribute  
+      const size = attributes.size || attributes.cols;
+      if (size && component.sizes[size]) {
+        classes.push(...component.sizes[size]);
+      }
     }
     
-    // Handle size attribute  
-    const size = attributes.size || attributes.cols;
-    if (size && component.sizes[size]) {
-      classes.push(...component.sizes[size]);
+    // Add any additional classes from attributes
+    if (attributes.class || attributes.className) {
+      const additionalClasses = (attributes.class || attributes.className).split(/\s+/);
+      classes.push(...additionalClasses);
     }
-  }
-  
-  // Add any additional classes from attributes
-  if (attributes.class || attributes.className) {
-    const additionalClasses = (attributes.class || attributes.className).split(/\s+/);
-    classes.push(...additionalClasses);
   }
   
   // Convert children to HAST

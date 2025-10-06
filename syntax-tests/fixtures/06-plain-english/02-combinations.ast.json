@@ -624,27 +624,117 @@
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "card",
       "children": [
         {
-          "type": "text",
-          "value": ":::card {flex-center padded}\nContent"
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Content"
+            }
+          ],
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 43,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 43,
+          "column": 29,
+          "offset": 0
+        }
+      },
       "data": {
-        "hProperties": {}
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-card",
+            "rounded-lg",
+            "max-w-full",
+            "overflow-x-hidden",
+            "break-words",
+            "bg-white",
+            "shadow-md",
+            "flex",
+            "items-center",
+            "justify-center",
+            "p-6"
+          ],
+          "data-component": "card"
+        },
+        "hName": "div",
+        "component": {
+          "name": "card",
+          "attributes": [
+            "flex-center",
+            "padded"
+          ]
+        }
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "card",
       "children": [
         {
-          "type": "text",
-          "value": ":::card {grid-2 gap}\nContent"
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Content"
+            }
+          ],
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 47,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 47,
+          "column": 21,
+          "offset": 0
+        }
+      },
       "data": {
-        "hProperties": {}
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-card",
+            "rounded-lg",
+            "p-6",
+            "max-w-full",
+            "overflow-x-hidden",
+            "break-words",
+            "bg-white",
+            "shadow-md",
+            "grid",
+            "grid-cols-2",
+            "gap-4"
+          ],
+          "data-component": "card"
+        },
+        "hName": "div",
+        "component": {
+          "name": "card",
+          "attributes": [
+            "grid-2",
+            "gap"
+          ]
+        }
       }
     },
     {
@@ -685,27 +775,116 @@
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "card",
       "children": [
         {
-          "type": "text",
-          "value": ":::card {subtle-glass rounded-xl}\nGlassmorphism card"
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Glassmorphism card"
+            }
+          ],
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 53,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 53,
+          "column": 34,
+          "offset": 0
+        }
+      },
       "data": {
-        "hProperties": {}
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-card",
+            "rounded-lg",
+            "p-6",
+            "max-w-full",
+            "overflow-x-hidden",
+            "break-words",
+            "glass-effect",
+            "glass-subtle",
+            "bg-glass-subtle",
+            "border-white/40",
+            "shadow-sm",
+            "rounded-xl"
+          ],
+          "data-component": "card"
+        },
+        "hName": "div",
+        "component": {
+          "name": "card",
+          "attributes": [
+            "subtle-glass",
+            "rounded-xl"
+          ]
+        }
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "card",
       "children": [
         {
-          "type": "text",
-          "value": ":::card {shadow elevated rounded}\nElevated card"
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Elevated card"
+            }
+          ],
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 57,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 57,
+          "column": 34,
+          "offset": 0
+        }
+      },
       "data": {
-        "hProperties": {}
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-card",
+            "p-6",
+            "max-w-full",
+            "overflow-x-hidden",
+            "break-words",
+            "bg-white",
+            "shadow-md",
+            "rounded-lg"
+          ],
+          "data-component": "card"
+        },
+        "hName": "div",
+        "component": {
+          "name": "card",
+          "attributes": [
+            "shadow",
+            "elevated",
+            "rounded"
+          ]
+        }
       }
     }
   ],

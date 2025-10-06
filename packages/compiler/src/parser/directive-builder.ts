@@ -109,11 +109,51 @@ export function buildComponentTree(
         }
       }
     } else if (item.type === 'content') {
-      // Add content to current component's children or root
-      if (stack.length > 0) {
-        stack[stack.length - 1]!.children.push(item.node);
+      // Check if this content node might contain nested components
+      // If so, recursively process it
+      const needsRecursion = item.node.type === 'paragraph' || 
+                            item.node.type === 'list' ||
+                            item.node.type === 'listItem' ||
+                            item.node.type === 'blockquote';
+      
+      if (needsRecursion && item.node.type === 'paragraph') {
+        // Import scanner at runtime to avoid circular dependency
+        const { scanForMarkers } = require('./directive-scanner');
+        const scanned = scanForMarkers([item.node]);
+        
+        if (scanned.markers.length > 0) {
+          // Found nested components, recursively build their tree
+          const nestedItems = scanned.items.map((scanItem) => {
+            if (scanItem.type === 'marker') {
+              return { type: 'marker', marker: scanItem.marker };
+            } else {
+              return { type: 'content', node: scanItem.node };
+            }
+          });
+          
+          const nestedChildren = buildComponentTree(nestedItems, options);
+          
+          // Add all nested children
+          if (stack.length > 0) {
+            stack[stack.length - 1]!.children.push(...nestedChildren);
+          } else {
+            rootChildren.push(...nestedChildren);
+          }
+        } else {
+          // No nested components, add content as-is
+          if (stack.length > 0) {
+            stack[stack.length - 1]!.children.push(item.node);
+          } else {
+            rootChildren.push(item.node);
+          }
+        }
       } else {
-        rootChildren.push(item.node);
+        // Add content to current component's children or root
+        if (stack.length > 0) {
+          stack[stack.length - 1]!.children.push(item.node);
+        } else {
+          rootChildren.push(item.node);
+        }
       }
     }
   }

@@ -1039,26 +1039,19 @@ td svg.icon {
 .flex { display: flex; }
 .items-start { align-items: flex-start; }
 .gap-3 { gap: 0.75rem; }
-.bg-amber-50 { background-color: rgb(255 251 235); }
-.border-amber-200 { border-color: rgb(253 230 138); }
-.text-amber-800 { color: rgb(146 64 14); }
+.bg-blue-50 { background-color: rgb(239 246 255); }
+.border-blue-200 { border-color: rgb(191 219 254); }
+.text-blue-800 { color: rgb(30 64 175); }
 .grid { display: grid; }
 .gap-4 { gap: 1rem; }
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .p-6 { padding: 1.5rem; }
 .max-w-full { max-width: 100%; }
+.overflow-x-hidden { overflow-x: hidden; }
+.break-words { overflow-wrap: break-word; word-wrap: break-word; }
 .bg-white { background-color: rgb(255 255 255); }
 .shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
-.bg-green-50 { background-color: rgb(240 253 244); }
-.border-green-200 { border-color: rgb(187 247 208); }
-.text-green-800 { color: rgb(22 101 52); }
-.bg-red-50 { background-color: rgb(254 242 242); }
-.border-red-200 { border-color: rgb(254 202 202); }
-.text-red-800 { color: rgb(153 27 27); }
 .text-red-600 { color: rgb(220 38 38); }
-.bg-glass-medium { background-color: rgba(226, 232, 240, 0.6); }
-.border-white/50 { border-color: rgb(255 255 255 / 0.5); }
-.shadow-lg { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
 @media (min-width: 640px) {
   .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -1098,6 +1091,29 @@ td svg.icon {
 
 .component-container {
   /* Additional container-specific styles */
+}
+
+/* Alert Component - Mobile Optimization */
+.component-alert {
+  /* On mobile, stack icon and content vertically for better readability */
+}
+
+@media (max-width: 640px) {
+  .component-alert {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  /* Reduce large icon sizes on mobile for better proportions */
+  .component-alert .icon.huge {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .component-alert .icon.xl {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 /* ========================================
@@ -1408,8 +1424,7 @@ a.bg-gray-200:active {
 <strong>Status:</strong> <svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> Fixed and Verified</p>
 <hr />
 <h2 class="text-lg font-bold">Issue Description</h2>
-<p><strong>Problem Identified</strong></p>
-<div class="p-4 rounded-lg border flex items-start gap-3 bg-amber-50 border-amber-200 text-amber-800"><p>When viewing compiled Taildown documentation on mobile devices, all component syntax (card, alert, grid) appeared to be completely missing. The HTML files compiled but components were not rendering.</p></div>
+<div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-blue-50 border-blue-200 text-blue-800"><p><strong>Problem Identified</strong></p><p>When viewing compiled Taildown documentation on mobile devices, all component syntax (card, alert, grid) appeared to be completely missing. The HTML files compiled but components were not rendering.</p></div>
 <h3 class="font-bold">Symptoms</h3>
 <ul>
 <li>Component syntax present in source <code>.td</code> files</li>
@@ -1422,7 +1437,7 @@ a.bg-gray-200:active {
 <h2 class="text-lg font-bold">Root Cause Analysis</h2>
 <h3 class="font-bold">Investigation Process</h3>
 <p><strong>Step 1: Verify Component Syntax</strong><br />
-Confirmed <code>.td</code> files contain proper component syntax: <code>:::card{variant="elevated"}</code>, <code>:::alert{type="success"}</code>, etc.</p>
+Confirmed <code>.td</code> files contain proper component syntax: <code>:::card{variant="elevated"}</code>, <code>:::alert {type="success"}</code>, etc.</p>
 <p><strong>Step 2: Parser Testing</strong><br />
 Verified directive scanner successfully identifies components in AST</p>
 <p><strong>Step 3: HTML Inspection</strong><br />
@@ -1493,9 +1508,12 @@ When <code>mdast-util-to-hast</code> receives <code>undefined</code> from a hand
 <hr />
 <h2 class="text-lg font-bold">Verification Results</h2>
 <h3 class="font-bold text-primary-600 hover:text-primary-700">Components Now Rendering</h3>
-<p><strong>Card Components</strong></p>
-<div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-cols-1 sm:grid-cols-2"><div class="rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p>11 cards in TEST-SUITE-SUMMARY<br />
-5 cards in UNIT-TEST-COMPLETION</p><p>Classes applied: <code>rounded-lg p-6 max-w-full overflow-auto bg-white shadow-md</code></p></div><p><strong>Grid Components</strong></p><div class="rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p>Multiple responsive grids</p><p>Classes applied: <code>grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3</code></p></div><p><strong>Alert Components</strong></p><div class="rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p>Multiple success and info alerts</p><p>Classes applied: <code>bg-blue-50 border-blue-500 text-blue-900</code></p></div><p><strong>Icon Components</strong></p><div class="rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p>Rendered as SVG elements</p><p>Proper sizing and color classes</p></div></div>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><p>:::card {variant="elevated"}
+<strong>Card Components</strong></p><p>11 cards in TEST-SUITE-SUMMARY<br />
+5 cards in UNIT-TEST-COMPLETION</p><p>Classes applied: <code>rounded-lg p-6 max-w-full overflow-auto bg-white shadow-md</code></p></div>
+<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p><strong>Grid Components</strong></p><p>Multiple responsive grids</p><p>Classes applied: <code>grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3</code></p></div>
+<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p><strong>Alert Components</strong></p><p>Multiple success and info alerts</p><p>Classes applied: <code>bg-blue-50 border-blue-500 text-blue-900</code></p></div>
+<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p><strong>Icon Components</strong></p><p>Rendered as SVG elements</p><p>Proper sizing and color classes</p></div>
 <h3 class="font-bold">File Sizes</h3>
 <div class="table-wrapper"><table>
 <thead>
@@ -1521,8 +1539,7 @@ When <code>mdast-util-to-hast</code> receives <code>undefined</code> from a hand
 <p><strong>Previous Size:</strong> 28KB-42KB (missing component styles)<br />
 <strong>New Size:</strong> 54KB-61KB (complete with all components)</p>
 <h3 class="font-bold">Mobile Device Support</h3>
-<p><strong>Mobile Compatibility Confirmed</strong></p>
-<div class="p-4 rounded-lg border flex items-start gap-3 bg-green-50 border-green-200 text-green-800"><p><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> All components visible and styled<br />
+<div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-blue-50 border-blue-200 text-blue-800"><p><strong>Mobile Compatibility Confirmed</strong></p><p><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> All components visible and styled<br />
 <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Interactive components will function (JS inline)<br />
 <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Responsive layouts work correctly<br />
 <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> No network requests needed for assets<br />
@@ -1598,16 +1615,14 @@ Single self-contained HTML file with all assets embedded</p>
 <hr />
 <h2 class="text-lg font-bold">Impact</h2>
 <h3 class="font-bold">Before Fix</h3>
-<p><strong>Broken State</strong></p>
-<div class="p-4 rounded-lg border flex items-start gap-3 bg-red-50 border-red-200 text-red-800"><p><svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Card components invisible<br />
+<div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-blue-50 border-blue-200 text-blue-800"><p><strong>Broken State</strong></p><p><svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Card components invisible<br />
 <svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Alert components invisible<br />
 <svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Grid components invisible<br />
 <svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Only plain markdown rendered<br />
 <svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Documentation unusable on mobile<br />
 <svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Interactive features unavailable (external JS)</p></div>
 <h3 class="font-bold">After Fix</h3>
-<p><strong>Working State</strong></p>
-<div class="p-4 rounded-lg border flex items-start gap-3 bg-green-50 border-green-200 text-green-800"><p><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Card components render with proper styling<br />
+<div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-blue-50 border-blue-200 text-blue-800"><p><strong>Working State</strong></p><p><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Card components render with proper styling<br />
 <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Alert components show semantic colors<br />
 <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Grid components create responsive layouts<br />
 <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Full Taildown feature set available<br />
@@ -1686,8 +1701,7 @@ Compiled to 61KB HTML with all components</p>
 </ol>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Conclusion</h2>
-<p><strong>Status:</strong> Issue Resolved</p>
-<div class="rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-medium bg-glass-medium border-white/50 shadow-lg hover-lift transition-smooth"><p>All Taildown components now render correctly in compiled HTML files. Documentation is properly formatted, fully featured, and works perfectly on mobile devices with all assets inlined.</p></div>
+<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md text-center"><p><strong>Status:</strong> Issue Resolved</p><p>All Taildown components now render correctly in compiled HTML files. Documentation is properly formatted, fully featured, and works perfectly on mobile devices with all assets inlined.</p></div>
 <p><strong>Implementation Date:</strong> 2025-10-06<br />
 <strong>Files Modified:</strong> 9<br />
 <strong>Tests Passing:</strong> 333+<br />
