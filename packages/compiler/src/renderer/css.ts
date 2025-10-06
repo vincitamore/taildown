@@ -524,6 +524,15 @@ body {
   }
 }
 
+/* Hide bullet points on list items that start with icons */
+li > .icon:first-child {
+  margin-left: -1.5rem;
+}
+
+li:has(> .icon:first-child) {
+  list-style: none;
+}
+
 /* NO overlay - keep it simple */
 body::before {
   content: '';
@@ -1776,7 +1785,7 @@ ${generateAnimationCSS()}
 .flow-stepped li {
   counter-increment: step-counter;
   position: relative;
-  padding-left: 3rem;
+  padding-left: 3.5rem;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   border-left: 4px solid rgb(59 130 246);
@@ -1804,7 +1813,7 @@ ${generateAnimationCSS()}
 /* Mobile-only adjustments for stepped flow */
 @media (max-width: 640px) {
   .flow-stepped li {
-    padding-left: 3rem;
+    padding-left: 3.25rem;
     min-height: 2.75rem;
   }
   

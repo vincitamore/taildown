@@ -790,7 +790,7 @@ pnpm taildown compile examples/10-complete-page.td
 - **Parser:** `unified` + `remark` + `rehype` ecosystem
 - **Custom Directive Parser:** In-house `:::` component syntax parser
 - **Extensions:** `remark-gfm`
-- **Syntax Highlighting:** `rehype-prism-plus` with custom Taildown language
+- **Syntax Highlighting:** CodeMirror 6 with custom Taildown language support
 - **Icons:** `lucide` (Lucide icon library)
 - **CSS Generation:** Custom resolver with Tailwind-inspired utilities
 - **Testing:** Vitest
@@ -1057,9 +1057,9 @@ Beautiful icon library
 :::card {elevated}
 :icon[code-2]{primary} {center}
 
-**Prism.js**
+**CodeMirror**
 
-Syntax highlighting
+Syntax highlighting and editor framework
 :::
 :::
 
