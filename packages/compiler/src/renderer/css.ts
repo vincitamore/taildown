@@ -1741,6 +1741,28 @@ ${generateAnimationCSS()}
   border-color: rgb(139 92 246);
 }
 
+/* Mobile optimization for branching - prevent overflow and horizontal scroll */
+@media (max-width: 640px) {
+  /* Dramatically reduce nesting indentation on mobile */
+  .flow-branching ul ul {
+    margin-left: 0.75rem;
+    padding-left: 0.5rem;
+    border-left-width: 2px;
+  }
+  
+  /* Smaller text and padding for branching items */
+  .flow-branching li {
+    font-size: 0.813rem;
+    padding: 0.5rem 0.625rem;
+    margin: 0.375rem 0;
+  }
+  
+  /* Reduce container padding to maximize space */
+  .flow-branching.flow-container {
+    padding: 1rem;
+  }
+}
+
 /* Timeline variant */
 .flow-timeline li {
   border-left-width: 4px;
@@ -1811,9 +1833,17 @@ ${generateAnimationCSS()}
     transform: translateX(-50%);
   }
   
+  /* General mobile optimizations for all flow types */
   .flow-container li {
     font-size: 0.875rem;
     padding: 0.5rem 0.75rem;
+  }
+  
+  /* Ensure container doesn't cause horizontal scroll */
+  .flow-container {
+    padding: 1rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
