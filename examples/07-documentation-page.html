@@ -1139,30 +1139,53 @@ td svg.icon {
 
 .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
 .font-bold { font-weight: 700; }
-.text-center { text-align: center; }
-.text-primary-600 { color: rgb(37 99 235); }
-.hover\:text-primary-700:hover { color: rgb(29 78 216); }
-.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
 .text-gray-500 { color: rgb(107 114 128); }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.max-w-6xl { max-width: 72rem; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
 .rounded-lg { border-radius: 0.5rem; }
 .p-6 { padding: 1.5rem; }
 .max-w-full { max-width: 100%; }
 .overflow-x-hidden { overflow-x: hidden; }
 .break-words { overflow-wrap: break-word; word-wrap: break-word; }
-.bg-glass-medium { background-color: rgba(226, 232, 240, 0.6); }
+.bg-glass-light { background-color: rgba(241, 245, 249, 0.75); }
 .border-white/50 { border-color: rgb(255 255 255 / 0.5); }
-.shadow-lg { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
-.p-8 { padding: 2rem; }
+.shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+.text-yellow-600 { color: rgb(202 138 4); }
+.p-4 { padding: 1rem; }
+.border { border-width: 1px; border-style: solid; }
+.flex { display: flex; }
+.items-start { align-items: flex-start; }
+.gap-3 { gap: 0.75rem; }
+.bg-amber-50 { background-color: rgb(255 251 235); }
+.border-amber-200 { border-color: rgb(253 230 138); }
+.text-amber-800 { color: rgb(146 64 14); }
+.text-primary-600 { color: rgb(37 99 235); }
+.hover\:text-primary-700:hover { color: rgb(29 78 216); }
+.text-blue-600 { color: rgb(37 99 235); }
+.bg-white { background-color: rgb(255 255 255); }
+.text-green-600 { color: rgb(22 163 74); }
+.text-xs { font-size: 0.75rem; line-height: 1rem; }
+.text-red-600 { color: rgb(220 38 38); }
+.bg-blue-50 { background-color: rgb(239 246 255); }
+.border-blue-200 { border-color: rgb(191 219 254); }
+.text-blue-800 { color: rgb(30 64 175); }
 .grid { display: grid; }
 .gap-4 { gap: 1rem; }
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .bg-glass-subtle { background-color: rgba(248, 250, 252, 0.9); }
 .border-white/40 { border-color: rgb(255 255 255 / 0.4); }
-.p-12 { padding: 3rem; }
+.text-secondary-600 { color: rgb(147 51 234); }
+.hover\:text-secondary-700:hover { color: rgb(126 34 206); }
 @media (min-width: 640px) {
+  .sm\:px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
   .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (min-width: 1024px) {
+  .lg\:px-8 { padding-left: 2rem; padding-right: 2rem; }
   .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
@@ -2102,71 +2125,156 @@ a.bg-gray-200:active {
 </script>
 </head>
 <body>
-  <h1 class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700">Scroll-Triggered Animations</h1>
-<p class="text-lg text-center text-gray-500">Experience the magic of zero-config scroll animations.</p>
+  <h1 class="text-4xl font-bold">API Documentation</h1>
+<h2 class="text-xl text-gray-500">Version 2.0</h2>
+<p class="text-sm text-gray-500">Last updated: October 4, 2025</p>
 <hr />
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-medium bg-glass-medium border-white/50 shadow-lg hover-lift transition-smooth p-8 animate-slide-up"><h2 class="text-lg font-bold">Fade In Effect</h2><p>This card uses the <strong>fade-in</strong> animation. It elegantly appears as you scroll it into view.</p><p>Features:</p><ul>
-<li>Zero configuration required</li>
-<li>Automatic scroll detection</li>
-<li>Respects reduced motion preferences</li>
-<li>Professional timing and easing</li>
-</ul></div>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-medium bg-glass-medium border-white/50 shadow-lg hover-lift transition-smooth p-8 animate-fade-in"><h2 class="text-lg font-bold">Slide Up Animation</h2><p>Cards can slide up from below with a smooth entrance animation.</p><p>This creates a sense of depth and motion that feels natural and professional.</p></div>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-medium bg-glass-medium border-white/50 shadow-lg hover-lift transition-smooth p-8 animate-slide-down"><h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Slide Down</h2><p>Elements can also slide down from above, creating variety in your page animations.</p><p>Mix and match different animation types for visual interest.</p></div>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm p-6 animate-zoom-in"><h3 class="font-bold">Zoom In</h3><p>This card zooms in when scrolled into view, creating an engaging entrance effect.</p></div><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm p-6 slide-right"><h3 class="font-bold">Slide Right</h3><p>Scale animations provide subtle growth effects that feel organic.</p></div><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm p-6 slide-left"><h3 class="font-bold">Slide Left</h3><p>Elements can slide in from the right, perfect for side-by-side layouts.</p></div></div>
-<h2 class="text-4xl font-bold text-center">How It Works</h2>
-<p>The scroll animation system uses the <strong>Intersection Observer API</strong> - a modern, performant web standard that efficiently detects when elements enter the viewport.</p>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm glass-dark p-8 animate-slide-up"><h3 class="text-lg font-bold">Key Features</h3><ol>
-<li><strong>Zero Configuration</strong>: Just add animation classes - no JavaScript setup needed</li>
-<li><strong>Automatic Detection</strong>: The compiler detects animation classes and includes the behavior</li>
-<li><strong>Performance First</strong>: Uses Intersection Observer for efficient scroll tracking</li>
-<li><strong>Accessibility</strong>: Respects <code>prefers-reduced-motion</code> system preference</li>
-<li><strong>Progressive Enhancement</strong>: Content remains visible if JavaScript fails</li>
-<li><strong>Staggered Timing</strong>: Multiple elements animate with slight delays for polish</li>
-</ol></div>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm p-12 animate-fade-in"><h3 class="text-lg font-bold text-center">Available Animations</h3><div class="table-wrapper"><table>
+<div class="taildown-component component-container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl"><h1 class="text-4xl font-bold animate-fade-in">Getting Started</h1><h2 class="xl-bold">Authentication</h2><p class="text-lg">All API requests require authentication using Bearer tokens.</p><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md"><h3><svg class="icon icon-key text-yellow-600" data-icon="key" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4" /><path d="m21 2-9.6 9.6" /><circle cx="7.5" cy="15.5" r="5.5" /></svg> Obtaining an API Key</h3><ol>
+<li>Log in to your dashboard</li>
+<li>Navigate to Settings → API Keys</li>
+<li>Click "Create New Key"</li>
+<li>Copy your key and store it securely</li>
+</ol><div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-amber-50 border-amber-200 text-amber-800"><p><svg class="icon icon-alert-triangle text-yellow-600" data-icon="alert-triangle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg><strong>Important:</strong>Never share your API key or commit it to version control!</p></div></div><h3><svg class="icon icon-lock text-primary-600 hover:text-primary-700" data-icon="lock" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg> Making Authenticated Requests</h3><p>Include your API key in the <code>Authorization</code> header:</p><pre><code class="language-bash code-highlight">curl https://api.example.com/v2/users \
+  -H &quot;Authorization: Bearer YOUR_API_KEY&quot;
+</code></pre><hr /><h1 class="text-4xl font-bold animate-fade-in">Endpoints</h1><h2 class="xl-bold">Users</h2><h3><svg class="icon icon-users text-blue-600" data-icon="users" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><path d="M16 3.128a4 4 0 0 1 0 7.744" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><circle cx="9" cy="7" r="4" /></svg> GET /users</h3><p>Retrieve a list of all users.</p><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p><strong>Request</strong></p><pre><code class="language-bash code-highlight">GET /v2/users?page=1&amp;limit=10
+</code></pre><p><strong>Query Parameters</strong></p><div class="table-wrapper"><table>
 <thead>
 <tr>
-<th>Animation Class</th>
-<th>Effect</th>
-<th>Best For</th>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>fade-in</code></td>
-<td>Gentle opacity fade</td>
-<td>Subtle entrances</td>
+<td><code>page</code></td>
+<td>integer</td>
+<td>Page number (default: 1)</td>
 </tr>
 <tr>
-<td><code>slide-up</code></td>
-<td>Slide from below</td>
-<td>Cards, content blocks</td>
+<td><code>limit</code></td>
+<td>integer</td>
+<td>Items per page (default: 10, max: 100)</td>
 </tr>
 <tr>
-<td><code>slide-down</code></td>
-<td>Slide from above</td>
-<td>Headers, alerts</td>
+<td><code>sort</code></td>
+<td>string</td>
+<td>Sort field (default: created_at)</td>
+</tr>
+</tbody>
+</table></div><p><strong>Response</strong></p><pre><code class="language-json code-highlight">{
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: &quot;usr_123&quot;,
+      &quot;name&quot;: &quot;John Doe&quot;,
+      &quot;email&quot;: &quot;john@example.com&quot;,
+      &quot;created_at&quot;: &quot;2025-01-15T10:30:00Z&quot;
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;page&quot;: 1,
+    &quot;limit&quot;: 10,
+    &quot;total&quot;: 42
+  }
+}
+</code></pre></div><h3><svg class="icon icon-user-plus text-green-600" data-icon="user-plus" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" x2="19" y1="8" y2="14" /><line x1="22" x2="16" y1="11" y2="11" /></svg> POST /users</h3><p>Create a new user.</p><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p><strong>Request</strong></p><pre><code class="language-bash code-highlight">POST /v2/users
+Content-Type: application/json
+
+{
+  &quot;name&quot;: &quot;Jane Smith&quot;,
+  &quot;email&quot;: &quot;jane@example.com&quot;,
+  &quot;role&quot;: &quot;admin&quot;
+}
+</code></pre><p><strong>Request Body</strong></p><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>Yes</td>
+<td>User's full name</td>
 </tr>
 <tr>
-<td><code>slide-left</code></td>
-<td>Slide from right</td>
-<td>Horizontal layouts</td>
+<td><code>email</code></td>
+<td>string</td>
+<td>Yes</td>
+<td>Valid email address</td>
 </tr>
 <tr>
-<td><code>slide-right</code></td>
-<td>Slide from left</td>
-<td>Horizontal layouts</td>
+<td><code>role</code></td>
+<td>string</td>
+<td>No</td>
+<td>User role (default: user)</td>
+</tr>
+</tbody>
+</table></div><p><strong>Response</strong></p><pre><code class="language-json code-highlight">{
+  &quot;id&quot;: &quot;usr_124&quot;,
+  &quot;name&quot;: &quot;Jane Smith&quot;,
+  &quot;email&quot;: &quot;jane@example.com&quot;,
+  &quot;role&quot;: &quot;admin&quot;,
+  &quot;created_at&quot;: &quot;2025-10-04T14:22:00Z&quot;
+}
+</code></pre><p><strong>Status Codes</strong></p><ul>
+<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <code>201 Created</code> - User created successfully</li>
+<li><svg class="icon icon-x text-red-600 text-xs" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> <code>400 Bad Request</code> - Invalid input</li>
+<li><svg class="icon icon-alert-circle text-yellow-600 text-xs" data-icon="alert-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" x2="12" y1="8" y2="12" /><line x1="12" x2="12.01" y1="16" y2="16" /></svg> <code>409 Conflict</code>- Email already exists</li>
+</ul></div><hr /><h2 class="xl-bold"><svg class="icon icon-alert-octagon text-red-600" data-icon="alert-octagon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16h.01" /><path d="M12 8v4" /><path d="M15.312 2a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586l-4.688-4.688A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2z" /></svg> Error Handling</h2><p>The API uses standard HTTP status codes and returns errors in a consistent format.</p><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md"><h3>Error Response Format</h3><pre><code class="language-json code-highlight">{
+  &quot;error&quot;: {
+    &quot;code&quot;: &quot;INVALID_REQUEST&quot;,
+    &quot;message&quot;: &quot;The request body is invalid&quot;,
+    &quot;details&quot;: [
+      {
+        &quot;field&quot;: &quot;email&quot;,
+        &quot;message&quot;: &quot;Email is required&quot;
+      }
+    ]
+  }
+}
+</code></pre><h3>Common Error Codes</h3><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>INVALID_REQUEST</code></td>
+<td>400</td>
+<td>Request validation failed</td>
 </tr>
 <tr>
-<td><code>scale-in</code></td>
-<td>Grow from center</td>
-<td>Emphasis, callouts</td>
+<td><code>UNAUTHORIZED</code></td>
+<td>401</td>
+<td>Invalid or missing API key</td>
 </tr>
 <tr>
-<td><code>zoom-in</code></td>
-<td>Dramatic zoom</td>
-<td>Hero elements</td>
+<td><code>FORBIDDEN</code></td>
+<td>403</td>
+<td>Insufficient permissions</td>
+</tr>
+<tr>
+<td><code>NOT_FOUND</code></td>
+<td>404</td>
+<td>Resource not found</td>
+</tr>
+<tr>
+<td><code>RATE_LIMIT</code></td>
+<td>429</td>
+<td>Too many requests</td>
+</tr>
+<tr>
+<td><code>SERVER_ERROR</code></td>
+<td>500</td>
+<td>Internal server error</td>
 </tr>
 <tr>
 <td>:::</td>
@@ -2174,26 +2282,43 @@ a.bg-gray-200:active {
 <td></td>
 </tr>
 </tbody>
-</table></div><h2 class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700">Usage Example</h2><p>Simply add animation classes to any element using Taildown's plain English syntax:</p><pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">glass</span> <span class="token property">padded</span> <span class="token function">slide-up</span><span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token title punctuation">## </span>My Animated Card
-</span><span class="code-line">
-</span><span class="code-line">This card will slide up when scrolled into view!
-</span><span class="code-line"><span class="token punctuation">:::</span>
-</span><span class="code-line">
-</span></code></pre><p>:::alert{success slide-down}
-<strong>Professional UX Standards</strong></p><p>These animations follow industry best practices:</p><ul>
-<li>Duration: 4.5 seconds for elegant, noticeable effects</li>
-<li>Easing: Smooth cubic-bezier curves for organic motion</li>
-<li>Threshold: Triggers at 15% visibility for early engagement</li>
-<li>Stagger: 75ms delay between multiple elements</li>
-<li>Accessibility: Instant visibility for reduced-motion users</li>
-</ul></div>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm glass-dark p-12 animate-zoom-in"><h2 class="text-4xl font-bold text-center">The Taildown Philosophy</h2><p>Beautiful animations should be:</p><ul>
-<li><strong>Effortless</strong> - No configuration or JavaScript knowledge required</li>
-<li><strong>Professional</strong> - Following modern UX best practices</li>
-<li><strong>Performant</strong> - Using cutting-edge web APIs</li>
-<li><strong>Accessible</strong> - Respecting user preferences</li>
-<li><strong>Graceful</strong> - Degrading elegantly without JavaScript</li>
-</ul><p class="text-lg text-center text-gray-500">That's the Taildown way.</p></div>
+</table></div><hr /><h1 class="text-4xl font-bold animate-fade-in"><svg class="icon icon-clock text-yellow-600" data-icon="clock" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2" /><circle cx="12" cy="12" r="10" /></svg> Rate Limiting</h1><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p>API requests are limited by plan:</p><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>Plan</th>
+<th>Requests per Minute</th>
+<th>Burst Limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Free</td>
+<td>60</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Pro</td>
+<td>600</td>
+<td>1,000</td>
+</tr>
+<tr>
+<td>Enterprise</td>
+<td>6,000</td>
+<td>10,000</td>
+</tr>
+</tbody>
+</table></div><p>Rate limit information is included in response headers:</p><pre><code>X-RateLimit-Limit: 600
+X-RateLimit-Remaining: 587
+X-RateLimit-Reset: 1696425600
+</code></pre><div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-blue-50 border-blue-200 text-blue-800"><p><svg class="icon icon-info text-blue-600" data-icon="info" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg> When rate limits are exceeded, the API returns a<code>429 Too Many Requests</code>status code.</p></div></div><hr /><h1 class="text-4xl font-bold animate-fade-in"><svg class="icon icon-package text-primary-600 hover:text-primary-700" data-icon="package" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path d="m7.5 4.27 9 5.15" /></svg> SDKs and Libraries</h1><div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-code text-yellow-600 lg" data-icon="code" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg> JavaScript/TypeScript</h3><pre><code class="language-bash code-highlight">npm install @example/sdk
+</code></pre><p><a href="#">View Docs</a> <svg class="icon icon-external-link text-xs" data-icon="external-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg> | <a href="#">GitHub</a><svg class="icon icon-github text-xs" data-icon="github" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" /></svg></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-code text-blue-600 lg" data-icon="code" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg> Python</h3><pre><code class="language-bash code-highlight">pip install example-sdk
+</code></pre><p><a href="#">View Docs</a> <svg class="icon icon-external-link text-xs" data-icon="external-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg> | <a href="#">GitHub</a><svg class="icon icon-github text-xs" data-icon="github" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" /></svg></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-code text-primary-600 hover:text-primary-700 lg" data-icon="code" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg> Go</h3><pre><code class="language-bash code-highlight">go get github.com/example/sdk-go
+</code></pre><p><a href="#">View Docs</a> <svg class="icon icon-external-link text-xs" data-icon="external-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg> | <a href="#">GitHub</a><svg class="icon icon-github text-xs" data-icon="github" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" /></svg></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-code text-red-600 lg" data-icon="code" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg> Ruby</h3><pre><code class="language-bash code-highlight">gem install example-sdk
+</code></pre><p><a href="#">View Docs</a> <svg class="icon icon-external-link text-xs" data-icon="external-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg> | <a href="#">GitHub</a><svg class="icon icon-github text-xs" data-icon="github" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" /></svg></p></div></div><hr /><h1 class="text-4xl font-bold animate-fade-in"><svg class="icon icon-life-buoy text-green-600" data-icon="life-buoy" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="m4.93 4.93 4.24 4.24" /><path d="m14.83 9.17 4.24-4.24" /><path d="m14.83 14.83 4.24 4.24" /><path d="m9.17 14.83-4.24 4.24" /><circle cx="12" cy="12" r="4" /></svg> Support</h1><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm"><p>Need help? We're here for you!</p><ul>
+<li><svg class="icon icon-mail text-primary-600 hover:text-primary-700" data-icon="mail" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /><rect x="2" y="4" width="20" height="16" rx="2" /></svg> Email: <a href="mailto:api@example.com">api@example.com</a></li>
+<li><svg class="icon icon-message-circle text-secondary-600 hover:text-secondary-700" data-icon="message-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg> Discord: <a href="#">Join our community</a></li>
+<li><svg class="icon icon-book-open text-blue-600" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg> More docs: <a href="#">docs.example.com</a></li>
+<li><svg class="icon icon-bug text-red-600" data-icon="bug" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-9" /><path d="M14 7a4 4 0 0 1 4 4v3a6 6 0 0 1-12 0v-3a4 4 0 0 1 4-4z" /><path d="M14.12 3.88 16 2" /><path d="M21 21a4 4 0 0 0-3.81-4" /><path d="M21 5a4 4 0 0 1-3.55 3.97" /><path d="M22 13h-4" /><path d="M3 21a4 4 0 0 1 3.81-4" /><path d="M3 5a4 4 0 0 0 3.55 3.97" /><path d="M6 13H2" /><path d="m8 2 1.88 1.88" /><path d="M9 7.13V6a3 3 0 1 1 6 0v1.13" /></svg> Report bugs: <a href="#">GitHub Issues</a></li>
+</ul></div></div></div>
 </body>
 </html>

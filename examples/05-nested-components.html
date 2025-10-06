@@ -1140,29 +1140,49 @@ td svg.icon {
 .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
 .font-bold { font-weight: 700; }
 .text-center { text-align: center; }
-.text-primary-600 { color: rgb(37 99 235); }
-.hover\:text-primary-700:hover { color: rgb(29 78 216); }
 .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
 .text-gray-500 { color: rgb(107 114 128); }
+.leading-relaxed { line-height: 1.625; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.max-w-6xl { max-width: 72rem; }
 .rounded-lg { border-radius: 0.5rem; }
 .p-6 { padding: 1.5rem; }
 .max-w-full { max-width: 100%; }
 .overflow-x-hidden { overflow-x: hidden; }
 .break-words { overflow-wrap: break-word; word-wrap: break-word; }
-.bg-glass-medium { background-color: rgba(226, 232, 240, 0.6); }
+.bg-white { background-color: rgb(255 255 255); }
+.shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+.text-primary-600 { color: rgb(37 99 235); }
+.hover\:text-primary-700:hover { color: rgb(29 78 216); }
+.bg-glass-light { background-color: rgba(241, 245, 249, 0.75); }
 .border-white/50 { border-color: rgb(255 255 255 / 0.5); }
-.shadow-lg { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
-.p-8 { padding: 2rem; }
+.text-yellow-600 { color: rgb(202 138 4); }
+.text-green-600 { color: rgb(22 163 74); }
+.text-red-600 { color: rgb(220 38 38); }
 .grid { display: grid; }
 .gap-4 { gap: 1rem; }
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+.duration-300 { transition-duration: 300ms; }
+.cursor-pointer { cursor: pointer; }
+.hover\:transform:hover { transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+.duration-200 { transition-duration: 200ms; }
+.bg-glass-heavy { background-color: rgba(203, 213, 225, 0.4); }
+.border-white/60 { border-color: rgb(255 255 255 / 0.6); }
+.shadow-xl { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+.text-secondary-600 { color: rgb(147 51 234); }
+.hover\:text-secondary-700:hover { color: rgb(126 34 206); }
 .bg-glass-subtle { background-color: rgba(248, 250, 252, 0.9); }
 .border-white/40 { border-color: rgb(255 255 255 / 0.4); }
-.p-12 { padding: 3rem; }
+.text-blue-600 { color: rgb(37 99 235); }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
 @media (min-width: 640px) {
+  .sm\:px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
   .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (min-width: 1024px) {
+  .lg\:px-8 { padding-left: 2rem; padding-right: 2rem; }
   .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
@@ -2102,98 +2122,19 @@ a.bg-gray-200:active {
 </script>
 </head>
 <body>
-  <h1 class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700">Scroll-Triggered Animations</h1>
-<p class="text-lg text-center text-gray-500">Experience the magic of zero-config scroll animations.</p>
+  <h1 class="text-4xl font-bold text-center">Nested Components</h1>
+<p class="text-lg text-gray-500 text-center leading-relaxed">Components can be nested to create complex layouts.</p>
+<h2>Card Inside Container</h2>
+<div class="taildown-component component-container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md animate-fade-in"><h3 class="text-lg font-bold"><svg class="icon icon-box text-primary-600 hover:text-primary-700" data-icon="box" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg> Centered Card</h3><p>This card is inside a container, so it's centered on the page with consistent spacing.</p><p>Perfect for focused content sections!</p></div></div>
+<h2>Multiple Cards in Container</h2>
+<div class="taildown-component component-container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl"><h1 class="xl-bold">Featured Content</h1><p>Below are some featured items:</p><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-star text-yellow-600" data-icon="star" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></svg> First Feature</h3><p>Description of the first feature with beautiful glass styling.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-award text-green-600" data-icon="award" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526" /><circle cx="12" cy="8" r="6" /></svg> Second Feature</h3><p>Description of the second feature with elegant transparency.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-trophy text-red-600" data-icon="trophy" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978" /><path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978" /><path d="M18 9h1.5a1 1 0 0 0 0-5H18" /><path d="M4 22h16" /><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z" /><path d="M6 9H4.5a1 1 0 0 1 0-5H6" /></svg> Third Feature</h3><p>Description of the third feature with frosted glass effect.</p></div></div>
+<h2>Grid Inside Container</h2>
+<div class="taildown-component component-container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl"><h1 class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700">Product Showcase</h1><div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-package text-primary-600 hover:text-primary-700" data-icon="package" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path d="m7.5 4.27 9 5.15" /></svg> Product A</h3><p>Amazing features with interactive hover.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-layers text-primary-600 hover:text-primary-700" data-icon="layers" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg> Product B</h3><p>Incredible design and smooth animations.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-box text-primary-600 hover:text-primary-700" data-icon="box" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg> Product C</h3><p>Outstanding quality with modern UI.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-gift text-primary-600 hover:text-primary-700" data-icon="gift" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1" /><path d="M12 8v13" /><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7" /><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5" /></svg> Product D</h3><p>Perfect solution for your needs.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-shopping-bag text-primary-600 hover:text-primary-700" data-icon="shopping-bag" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 10a4 4 0 0 1-8 0" /><path d="M3.103 6.034h17.794" /><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z" /></svg> Product E</h3><p>Best choice with proven results.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-tag text-primary-600 hover:text-primary-700" data-icon="tag" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" /><circle cx="7.5" cy="7.5" r=".5" fill="currentColor" /></svg> Product F</h3><p>Top rated by customers worldwide.</p></div></div></div>
+<h2>Deep Nesting with Glass Effects</h2>
+<div class="taildown-component component-container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy bg-glass-heavy border-white/60 shadow-xl animate-fade-in"><h3 class="text-lg font-bold"><svg class="icon icon-layers text-secondary-600 hover:text-secondary-700 lg" data-icon="layers" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg> Outer Card</h3><p>This is the outer card with heavy glass effect.</p><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm animate-zoom-in"><h4 class="font-bold"><svg class="icon icon-box text-blue-600" data-icon="box" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg> Inner Card</h4><p>This is nested inside the outer card with subtle glass!</p><p>You can nest as deep as needed for complex layouts.</p></div><p>Back to outer card content with beautiful depth.</p></div></div>
+<h2>Complex Nested Structure</h2>
+<div class="taildown-component component-container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3 class="text-lg font-bold"><svg class="icon icon-grid text-primary-600 hover:text-primary-700" data-icon="grid" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M3 15h18" /><path d="M9 3v18" /><path d="M15 3v18" /></svg> Parent Container</h3><p>Content before nested grid.</p><div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h4><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Nested A</h4><p>Grid inside a card works perfectly.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h4><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Nested B</h4><p>Supports unlimited nesting depth.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h4><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Nested C</h4><p>Maintains clean hierarchy.</p></div></div><p>Content after nested grid.</p></div></div>
 <hr />
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-medium bg-glass-medium border-white/50 shadow-lg hover-lift transition-smooth p-8 animate-slide-up"><h2 class="text-lg font-bold">Fade In Effect</h2><p>This card uses the <strong>fade-in</strong> animation. It elegantly appears as you scroll it into view.</p><p>Features:</p><ul>
-<li>Zero configuration required</li>
-<li>Automatic scroll detection</li>
-<li>Respects reduced motion preferences</li>
-<li>Professional timing and easing</li>
-</ul></div>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-medium bg-glass-medium border-white/50 shadow-lg hover-lift transition-smooth p-8 animate-fade-in"><h2 class="text-lg font-bold">Slide Up Animation</h2><p>Cards can slide up from below with a smooth entrance animation.</p><p>This creates a sense of depth and motion that feels natural and professional.</p></div>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-medium bg-glass-medium border-white/50 shadow-lg hover-lift transition-smooth p-8 animate-slide-down"><h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Slide Down</h2><p>Elements can also slide down from above, creating variety in your page animations.</p><p>Mix and match different animation types for visual interest.</p></div>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm p-6 animate-zoom-in"><h3 class="font-bold">Zoom In</h3><p>This card zooms in when scrolled into view, creating an engaging entrance effect.</p></div><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm p-6 slide-right"><h3 class="font-bold">Slide Right</h3><p>Scale animations provide subtle growth effects that feel organic.</p></div><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm p-6 slide-left"><h3 class="font-bold">Slide Left</h3><p>Elements can slide in from the right, perfect for side-by-side layouts.</p></div></div>
-<h2 class="text-4xl font-bold text-center">How It Works</h2>
-<p>The scroll animation system uses the <strong>Intersection Observer API</strong> - a modern, performant web standard that efficiently detects when elements enter the viewport.</p>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm glass-dark p-8 animate-slide-up"><h3 class="text-lg font-bold">Key Features</h3><ol>
-<li><strong>Zero Configuration</strong>: Just add animation classes - no JavaScript setup needed</li>
-<li><strong>Automatic Detection</strong>: The compiler detects animation classes and includes the behavior</li>
-<li><strong>Performance First</strong>: Uses Intersection Observer for efficient scroll tracking</li>
-<li><strong>Accessibility</strong>: Respects <code>prefers-reduced-motion</code> system preference</li>
-<li><strong>Progressive Enhancement</strong>: Content remains visible if JavaScript fails</li>
-<li><strong>Staggered Timing</strong>: Multiple elements animate with slight delays for polish</li>
-</ol></div>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm p-12 animate-fade-in"><h3 class="text-lg font-bold text-center">Available Animations</h3><div class="table-wrapper"><table>
-<thead>
-<tr>
-<th>Animation Class</th>
-<th>Effect</th>
-<th>Best For</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>fade-in</code></td>
-<td>Gentle opacity fade</td>
-<td>Subtle entrances</td>
-</tr>
-<tr>
-<td><code>slide-up</code></td>
-<td>Slide from below</td>
-<td>Cards, content blocks</td>
-</tr>
-<tr>
-<td><code>slide-down</code></td>
-<td>Slide from above</td>
-<td>Headers, alerts</td>
-</tr>
-<tr>
-<td><code>slide-left</code></td>
-<td>Slide from right</td>
-<td>Horizontal layouts</td>
-</tr>
-<tr>
-<td><code>slide-right</code></td>
-<td>Slide from left</td>
-<td>Horizontal layouts</td>
-</tr>
-<tr>
-<td><code>scale-in</code></td>
-<td>Grow from center</td>
-<td>Emphasis, callouts</td>
-</tr>
-<tr>
-<td><code>zoom-in</code></td>
-<td>Dramatic zoom</td>
-<td>Hero elements</td>
-</tr>
-<tr>
-<td>:::</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table></div><h2 class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700">Usage Example</h2><p>Simply add animation classes to any element using Taildown's plain English syntax:</p><pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">glass</span> <span class="token property">padded</span> <span class="token function">slide-up</span><span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token title punctuation">## </span>My Animated Card
-</span><span class="code-line">
-</span><span class="code-line">This card will slide up when scrolled into view!
-</span><span class="code-line"><span class="token punctuation">:::</span>
-</span><span class="code-line">
-</span></code></pre><p>:::alert{success slide-down}
-<strong>Professional UX Standards</strong></p><p>These animations follow industry best practices:</p><ul>
-<li>Duration: 4.5 seconds for elegant, noticeable effects</li>
-<li>Easing: Smooth cubic-bezier curves for organic motion</li>
-<li>Threshold: Triggers at 15% visibility for early engagement</li>
-<li>Stagger: 75ms delay between multiple elements</li>
-<li>Accessibility: Instant visibility for reduced-motion users</li>
-</ul></div>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm glass-dark p-12 animate-zoom-in"><h2 class="text-4xl font-bold text-center">The Taildown Philosophy</h2><p>Beautiful animations should be:</p><ul>
-<li><strong>Effortless</strong> - No configuration or JavaScript knowledge required</li>
-<li><strong>Professional</strong> - Following modern UX best practices</li>
-<li><strong>Performant</strong> - Using cutting-edge web APIs</li>
-<li><strong>Accessible</strong> - Respecting user preferences</li>
-<li><strong>Graceful</strong> - Degrading elegantly without JavaScript</li>
-</ul><p class="text-lg text-center text-gray-500">That's the Taildown way.</p></div>
+<p class="text-sm text-gray-500 text-center"><strong>Note:</strong> The closing <code>:::</code> always closes the most recently opened component. Nesting depth is unlimited and maintains proper hierarchy.</p>
 </body>
 </html>

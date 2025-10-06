@@ -1142,6 +1142,15 @@ td svg.icon {
 .hover\:text-primary-700:hover { color: rgb(29 78 216); }
 .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
 .text-gray-500 { color: rgb(107 114 128); }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.max-w-6xl { max-width: 72rem; }
+@media (min-width: 640px) {
+  .sm\:px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+}
+@media (min-width: 1024px) {
+  .lg\:px-8 { padding-left: 2rem; padding-right: 2rem; }
+}
 
 /* ========================================
  * COMPONENT STYLES
@@ -1972,7 +1981,7 @@ a.bg-gray-200:active {
   <h1 class="massive-bold text-center text-primary-600 hover:text-primary-700"><svg class="icon icon-code-2 text-primary-600 hover:text-primary-700 text-xl" data-icon="code-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4" /><path d="m6 8-4 4 4 4" /><path d="m14.5 4-5 16" /></svg> Complete Taildown Syntax</h1>
 <p class="text-xl text-center text-gray-500">Every feature with professional syntax highlighting.</p>
 <hr />
-<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">sparkles</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">warning</span> <span class="token number">lg</span><span class="token punctuation">}</span> Taildown Feature Gallery <span class="token punctuation">{</span><span class="token emphasis">huge-bold</span> <span class="token property">center</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
+<div class="taildown-component component-container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl text-center"><pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">sparkles</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">warning</span> <span class="token number">lg</span><span class="token punctuation">}</span> Taildown Feature Gallery <span class="token punctuation">{</span><span class="token emphasis">huge-bold</span> <span class="token property">center</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
 </span><span class="code-line">
 </span><span class="code-line">Beautiful documents with plain English syntax. <span class="token punctuation">{</span><span class="token number">large</span> <span class="token property">center</span> <span class="token class-name">muted</span><span class="token punctuation">}</span>
 </span><span class="code-line">
@@ -2034,11 +2043,11 @@ a.bg-gray-200:active {
 </span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">carousel</span><span class="token punctuation">{</span><span class="token function">auto-play</span> <span class="token attr-name">interval</span>=<span class="token string">&quot;4000&quot;</span><span class="token punctuation">}</span>
 </span><span class="code-line">First slide with <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">star</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">warning</span><span class="token punctuation">}</span> icons and <span class="token punctuation">**</span><span class="token bold">rich formatting</span><span class="token punctuation">**</span>.
 </span><span class="code-line">
-</span><span class="code-line"><span class="token hr">---</span>
+</span><span class="code-line"><span class="token hr">---</span>
 </span><span class="code-line">
 </span><span class="code-line">Second slide showcasing <span class="token punctuation">[</span>interactive buttons <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">arrow-right</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">xs</span><span class="token punctuation">}</span><span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>.
 </span><span class="code-line">
-</span><span class="code-line"><span class="token hr">---</span>
+</span><span class="code-line"><span class="token hr">---</span>
 </span><span class="code-line">
 </span><span class="code-line">Final slide with <span class="token punctuation">`</span><span class="token punctuation">{</span><span class="token attr-name">glass</span> effects<span class="token punctuation">}</span><span class="token punctuation">`</span> and modern design principles!
 </span><span class="code-line"><span class="token punctuation">:::</span>
@@ -2073,6 +2082,6 @@ a.bg-gray-200:active {
 </span><span class="code-line"><span class="token punctuation">[</span>Documentation <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">book-open</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">xs</span><span class="token punctuation">}</span><span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">secondary</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">[</span>GitHub <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">github</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">xs</span><span class="token punctuation">}</span><span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">ghost</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code></pre>
+</span></code></pre></div>
 </body>
 </html>

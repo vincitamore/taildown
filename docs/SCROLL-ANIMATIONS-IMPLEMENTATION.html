@@ -246,10 +246,15 @@ pre .token.symbol {
   color: #56b6c2;
 }
 
-pre .token.punctuation,
-pre .token.delimiter,
-pre .token.tag {
+/* Punctuation - brackets, braces, etc. - made more visible */
+pre .token.punctuation {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+pre .token.delimiter {
   color: #abb2bf;
+  font-weight: 600;
 }
 
 /* Special tokens */
@@ -342,6 +347,72 @@ pre .highlight-line {
   margin: 0 -1.5rem;
   padding: 0 1.5rem;
   border-left: 3px solid #61afef;
+}
+
+/* ========================================
+ * TAILDOWN-SPECIFIC SYNTAX HIGHLIGHTING
+ * Additional token types for Taildown language features
+ * ======================================== */
+
+/* Taildown component names */
+pre .token.tag {
+  color: #56b6c2;
+  font-weight: 600;
+}
+
+/* Taildown keywords (icon, button, badge, modal, tooltip) */
+pre .token.keyword {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+/* Typography modifiers (bold, large-bold, xl-bold, etc.) */
+pre .token.emphasis {
+  color: #e06c75;
+  font-weight: 500;
+}
+
+/* Markdown headings */
+pre .token.title {
+  color: #61afef;
+  font-weight: 700;
+}
+
+pre .token.title.punctuation {
+  color: #abb2bf;
+  font-weight: 400;
+}
+
+/* Inline code */
+pre .token.code {
+  color: #98c379;
+  background: rgba(152, 195, 121, 0.1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+/* Horizontal rules */
+pre .token.hr {
+  color: #5c6370;
+  font-weight: 700;
+}
+
+/* Escape sequences */
+pre .token.escape {
+  color: #56b6c2;
+  font-weight: 600;
+}
+
+/* Language tags for code blocks */
+pre .token.language-tag {
+  color: #e5c07b;
+  font-style: italic;
+}
+
+/* Link components */
+pre .token.url {
+  color: #56b6c2;
+  text-decoration: underline;
 }
 
 /* ========================================
@@ -557,44 +628,74 @@ td svg.icon {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Glass intensity variants - each includes full effect */
+/* Glass intensity variants - each includes full effect with premium gradient borders */
 .glass-subtle {
-  background: rgba(248, 250, 252, 0.9);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(4px) saturate(100%);
   backdrop-filter: blur(4px) saturate(100%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.35) 0%, 
+      rgba(255, 255, 255, 0.15) 50%, 
+      rgba(255, 255, 255, 0.35) 100%) border-box;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-light {
-  background: rgba(241, 245, 249, 0.75);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(8px) saturate(105%);
   backdrop-filter: blur(8px) saturate(105%);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(241, 245, 249, 0.75), rgba(241, 245, 249, 0.75)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.3) 0%, 
+      rgba(255, 255, 255, 0.12) 50%, 
+      rgba(255, 255, 255, 0.3) 100%) border-box;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-medium {
-  background: rgba(226, 232, 240, 0.6);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(12px) saturate(110%);
   backdrop-filter: blur(12px) saturate(110%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(226, 232, 240, 0.6), rgba(226, 232, 240, 0.6)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.25) 0%, 
+      rgba(255, 255, 255, 0.1) 50%, 
+      rgba(255, 255, 255, 0.25) 100%) border-box;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-heavy {
-  background: rgba(203, 213, 225, 0.4);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(16px) saturate(120%);
   backdrop-filter: blur(16px) saturate(120%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(203, 213, 225, 0.4), rgba(203, 213, 225, 0.4)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.2) 0%, 
+      rgba(56, 189, 248, 0.12) 25%,
+      rgba(14, 165, 233, 0.12) 50%,
+      rgba(59, 130, 246, 0.12) 75%,
+      rgba(255, 255, 255, 0.2) 100%) border-box;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
+    inset 0 0 20px 0 rgba(255, 255, 255, 0.03);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -1058,6 +1159,8 @@ td svg.icon {
 .text-green-600 { color: rgb(22 163 74); }
 .text-accent-600 { color: rgb(219 39 119); }
 .hover\:text-accent-700:hover { color: rgb(190 24 93); }
+.bg-glass-subtle { background-color: rgba(248, 250, 252, 0.9); }
+.border-white/40 { border-color: rgb(255 255 255 / 0.4); }
 .bg-glass-medium { background-color: rgba(226, 232, 240, 0.6); }
 .border-white/50 { border-color: rgb(255 255 255 / 0.5); }
 .shadow-lg { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
@@ -1995,107 +2098,110 @@ a.bg-gray-200:active {
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Usage Examples</h2>
 <h3>Basic Card Animation</h3>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::card {glass slide-up}
-</span><span class="code-line">## My Animated Card
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">glass</span> <span class="token function">slide-up</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token title punctuation">## </span>My Animated Card
 </span><span class="code-line">
 </span><span class="code-line">This will slide up when scrolled into view!
-</span><span class="code-line">:::
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <h3>Mixed Animations</h3>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::grid
-</span><span class="code-line">:::card {fade-in}
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">grid</span>
+</span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token function">fade-in</span><span class="token punctuation">}</span>
 </span><span class="code-line">First card fades in
-</span><span class="code-line">:::
+</span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span><span class="code-line">:::card {zoom-in}
+</span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token function">zoom-in</span><span class="token punctuation">}</span>
 </span><span class="code-line">Second card zooms in
-</span><span class="code-line">:::
+</span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span><span class="code-line">:::card {slide-left}
+</span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token function">slide-left</span><span class="token punctuation">}</span>
 </span><span class="code-line">Third card slides from right
-</span><span class="code-line">:::
-</span><span class="code-line">:::
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <h3>Combined with Hover Effects</h3>
-<pre><code class="language-taildown code-highlight"><span class="code-line">:::card {elevated slide-up hover-lift}
-</span><span class="code-line">## Interactive Card
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">elevated</span> <span class="token function">slide-up</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token title punctuation">## </span>Interactive Card
 </span><span class="code-line">
 </span><span class="code-line">Slides up on scroll, lifts on hover!
-</span><span class="code-line">:::
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
 </span></code></pre>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Implementation Details</h2>
 <h3>CSS Structure</h3>
-<pre class="language-css"><code class="language-css code-highlight"><span class="code-line"><span class="token comment">/* Paused state (before visibility) */</span>
-</span><span class="code-line"><span class="token selector"><span class="token class">.animate-slide-up</span><span class="token class">.animation-paused</span></span> <span class="token punctuation">{</span>
-</span><span class="code-line">  <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
-</span><span class="code-line">  <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span><span class="token number">40</span><span class="token unit">px</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</span><span class="code-line"><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token comment">/* Playing state (in viewport) */</span>
-</span><span class="code-line"><span class="token selector"><span class="token class">.animate-slide-up</span><span class="token class">.animation-playing</span></span> <span class="token punctuation">{</span>
-</span><span class="code-line">  <span class="token property">animation</span><span class="token punctuation">:</span> slideUp <span class="token number">4500</span><span class="token unit">ms</span> <span class="token function">cubic-bezier</span><span class="token punctuation">(</span><span class="token number">0.16</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0.3</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span> forwards<span class="token punctuation">;</span>
-</span><span class="code-line"><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token comment">/* Fallback (if JS fails) */</span>
-</span><span class="code-line"><span class="token selector"><span class="token class">.animate-slide-up</span><span class="token pseudo-class">:not</span><span class="token punctuation">(</span><span class="token class">.animation-paused</span><span class="token punctuation">)</span><span class="token pseudo-class">:not</span><span class="token punctuation">(</span><span class="token class">.animation-playing</span><span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
-</span><span class="code-line">  <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">;</span>
-</span><span class="code-line">  <span class="token property">transform</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
-</span><span class="code-line"><span class="token punctuation">}</span>
-</span></code></pre>
+<pre><code class="language-css code-highlight">/* Paused state (before visibility) */
+.animate-slide-up.animation-paused {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+/* Playing state (in viewport) */
+.animate-slide-up.animation-playing {
+  animation: slideUp 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Fallback (if JS fails) */
+.animate-slide-up:not(.animation-paused):not(.animation-playing) {
+  opacity: 1;
+  transform: none;
+}
+</code></pre>
 <h3>JavaScript Behavior</h3>
-<pre class="language-javascript"><code class="language-javascript code-highlight"><span class="code-line"><span class="token comment">// Intersection Observer with smart defaults</span>
-</span><span class="code-line"><span class="token keyword">const</span> observerOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
-</span><span class="code-line">  <span class="token literal-property property">root</span><span class="token operator">:</span> <span class="token keyword null nil">null</span><span class="token punctuation">,</span> <span class="token comment">// viewport</span>
-</span><span class="code-line">  <span class="token literal-property property">rootMargin</span><span class="token operator">:</span> <span class="token string">'0px 0px -10% 0px'</span><span class="token punctuation">,</span> <span class="token comment">// Early trigger</span>
-</span><span class="code-line">  <span class="token literal-property property">threshold</span><span class="token operator">:</span> <span class="token number">0.15</span> <span class="token comment">// 15% visible</span>
-</span><span class="code-line"><span class="token punctuation">}</span><span class="token punctuation">;</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token keyword">const</span> animationObserver <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">IntersectionObserver</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">entries</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
-</span><span class="code-line">  entries<span class="token punctuation">.</span><span class="token method function property-access">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">entry<span class="token punctuation">,</span> index</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
-</span><span class="code-line">    <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>entry<span class="token punctuation">.</span><span class="token property-access">isIntersecting</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">      <span class="token keyword">const</span> delay <span class="token operator">=</span> index <span class="token operator">*</span> <span class="token number">75</span><span class="token punctuation">;</span> <span class="token comment">// Stagger</span>
-</span><span class="code-line">      <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
-</span><span class="code-line">        entry<span class="token punctuation">.</span><span class="token property-access">target</span><span class="token punctuation">.</span><span class="token property-access">classList</span><span class="token punctuation">.</span><span class="token method function property-access">remove</span><span class="token punctuation">(</span><span class="token string">'animation-paused'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</span><span class="code-line">        entry<span class="token punctuation">.</span><span class="token property-access">target</span><span class="token punctuation">.</span><span class="token property-access">classList</span><span class="token punctuation">.</span><span class="token method function property-access">add</span><span class="token punctuation">(</span><span class="token string">'animation-playing'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</span><span class="code-line">      <span class="token punctuation">}</span><span class="token punctuation">,</span> delay<span class="token punctuation">)</span><span class="token punctuation">;</span>
-</span><span class="code-line">      animationObserver<span class="token punctuation">.</span><span class="token method function property-access">unobserve</span><span class="token punctuation">(</span>entry<span class="token punctuation">.</span><span class="token property-access">target</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Animate once</span>
-</span><span class="code-line">    <span class="token punctuation">}</span>
-</span><span class="code-line">  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</span><span class="code-line"><span class="token punctuation">}</span><span class="token punctuation">,</span> observerOptions<span class="token punctuation">)</span><span class="token punctuation">;</span>
-</span></code></pre>
+<pre><code class="language-javascript code-highlight">// Intersection Observer with smart defaults
+const observerOptions = {
+  root: null, // viewport
+  rootMargin: &#39;0px 0px -10% 0px&#39;, // Early trigger
+  threshold: 0.15 // 15% visible
+};
+
+const animationObserver = new IntersectionObserver((entries) =&gt; {
+  entries.forEach((entry, index) =&gt; {
+    if (entry.isIntersecting) {
+      const delay = index * 75; // Stagger
+      setTimeout(() =&gt; {
+        entry.target.classList.remove(&#39;animation-paused&#39;);
+        entry.target.classList.add(&#39;animation-playing&#39;);
+      }, delay);
+      animationObserver.unobserve(entry.target); // Animate once
+    }
+  });
+}, observerOptions);
+</code></pre>
 <h3>Compiler Integration</h3>
-<pre class="language-typescript"><code class="language-typescript code-highlight"><span class="code-line"><span class="token comment">// Auto-detect animation classes</span>
-</span><span class="code-line"><span class="token keyword">const</span> animationClasses <span class="token operator">=</span> <span class="token punctuation">[</span>
-</span><span class="code-line">  <span class="token string">'animate-fade-in'</span><span class="token punctuation">,</span>
-</span><span class="code-line">  <span class="token string">'animate-slide-up'</span><span class="token punctuation">,</span>
-</span><span class="code-line">  <span class="token comment">// ... all animation classes</span>
-</span><span class="code-line"><span class="token punctuation">]</span><span class="token punctuation">;</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token keyword">const</span> hasAnimations <span class="token operator">=</span> animationClasses<span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span>
-</span><span class="code-line">  animClass <span class="token operator">=></span> classes<span class="token punctuation">.</span><span class="token function">has</span><span class="token punctuation">(</span>animClass<span class="token punctuation">)</span>
-</span><span class="code-line"><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token keyword">if</span> <span class="token punctuation">(</span>hasAnimations<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">  usedComponents<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">'scroll-animations'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</span><span class="code-line"><span class="token punctuation">}</span>
-</span></code></pre>
+<pre><code class="language-typescript code-highlight">// Auto-detect animation classes
+const animationClasses = [
+  &#39;animate-fade-in&#39;,
+  &#39;animate-slide-up&#39;,
+  // ... all animation classes
+];
+
+const hasAnimations = animationClasses.some(
+  animClass =&gt; classes.has(animClass)
+);
+
+if (hasAnimations) {
+  usedComponents.add(&#39;scroll-animations&#39;);
+}
+</code></pre>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Accessibility &#x26; Best Practices</h2>
 <h3>Reduced Motion Support</h3>
-<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words bg-white shadow-md glass-dark p-6"><pre class="language-javascript"><code class="language-javascript code-highlight"><span class="code-line"><span class="token keyword">const</span> prefersReducedMotion <span class="token operator">=</span> <span class="token dom variable">window</span><span class="token punctuation">.</span><span class="token method function property-access">matchMedia</span><span class="token punctuation">(</span>
-</span><span class="code-line">  <span class="token string">'(prefers-reduced-motion: reduce)'</span>
-</span><span class="code-line"><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token property-access">matches</span><span class="token punctuation">;</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>prefersReducedMotion<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">  <span class="token comment">// Remove animation classes, show content immediately</span>
-</span><span class="code-line">  animatedElements<span class="token punctuation">.</span><span class="token method function property-access">forEach</span><span class="token punctuation">(</span><span class="token parameter">el</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
-</span><span class="code-line">    animationClasses<span class="token punctuation">.</span><span class="token method function property-access">forEach</span><span class="token punctuation">(</span><span class="token parameter">className</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
-</span><span class="code-line">      el<span class="token punctuation">.</span><span class="token property-access">classList</span><span class="token punctuation">.</span><span class="token method function property-access">remove</span><span class="token punctuation">(</span>className<span class="token punctuation">.</span><span class="token method function property-access">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</span><span class="code-line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</span><span class="code-line">  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</span><span class="code-line"><span class="token punctuation">}</span>
-</span></code></pre></div>
+<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm glass-dark p-6"><pre><code class="language-javascript code-highlight">const prefersReducedMotion = window.matchMedia(
+  &#39;(prefers-reduced-motion: reduce)&#39;
+).matches;
+
+if (prefersReducedMotion) {
+  // Remove animation classes, show content immediately
+  animatedElements.forEach(el =&gt; {
+    animationClasses.forEach(className =&gt; {
+      el.classList.remove(className.slice(1));
+    });
+  });
+}
+</code></pre></div>
 <h3>Progressive Enhancement</h3>
 <ul>
 <li><strong>Without JavaScript</strong>: Content visible via CSS fallback</li>
@@ -2133,12 +2239,12 @@ a.bg-gray-200:active {
 <li>Professional documentation</li>
 </ul>
 <h3>Compilation Success</h3>
-<pre><code class="code-highlight"><span class="code-line">✓ Compiled successfully
-</span><span class="code-line">✓ JavaScript automatically included
-</span><span class="code-line">✓ 225 nodes processed
-</span><span class="code-line">✓ ~1.2KB JS behavior added
-</span><span class="code-line">✓ Professional CSS states generated
-</span></code></pre>
+<pre><code>✓ Compiled successfully
+✓ JavaScript automatically included
+✓ 225 nodes processed
+✓ ~1.2KB JS behavior added
+✓ Professional CSS states generated
+</code></pre>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Files Modified</h2>
 <div class="table-wrapper"><table>

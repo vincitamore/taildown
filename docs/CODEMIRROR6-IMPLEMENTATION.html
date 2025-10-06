@@ -246,10 +246,15 @@ pre .token.symbol {
   color: #56b6c2;
 }
 
-pre .token.punctuation,
-pre .token.delimiter,
-pre .token.tag {
+/* Punctuation - brackets, braces, etc. - made more visible */
+pre .token.punctuation {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+pre .token.delimiter {
   color: #abb2bf;
+  font-weight: 600;
 }
 
 /* Special tokens */
@@ -342,6 +347,72 @@ pre .highlight-line {
   margin: 0 -1.5rem;
   padding: 0 1.5rem;
   border-left: 3px solid #61afef;
+}
+
+/* ========================================
+ * TAILDOWN-SPECIFIC SYNTAX HIGHLIGHTING
+ * Additional token types for Taildown language features
+ * ======================================== */
+
+/* Taildown component names */
+pre .token.tag {
+  color: #56b6c2;
+  font-weight: 600;
+}
+
+/* Taildown keywords (icon, button, badge, modal, tooltip) */
+pre .token.keyword {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+/* Typography modifiers (bold, large-bold, xl-bold, etc.) */
+pre .token.emphasis {
+  color: #e06c75;
+  font-weight: 500;
+}
+
+/* Markdown headings */
+pre .token.title {
+  color: #61afef;
+  font-weight: 700;
+}
+
+pre .token.title.punctuation {
+  color: #abb2bf;
+  font-weight: 400;
+}
+
+/* Inline code */
+pre .token.code {
+  color: #98c379;
+  background: rgba(152, 195, 121, 0.1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+/* Horizontal rules */
+pre .token.hr {
+  color: #5c6370;
+  font-weight: 700;
+}
+
+/* Escape sequences */
+pre .token.escape {
+  color: #56b6c2;
+  font-weight: 600;
+}
+
+/* Language tags for code blocks */
+pre .token.language-tag {
+  color: #e5c07b;
+  font-style: italic;
+}
+
+/* Link components */
+pre .token.url {
+  color: #56b6c2;
+  text-decoration: underline;
 }
 
 /* ========================================
@@ -2150,37 +2221,41 @@ Successfully implemented a comprehensive CodeMirror6-based syntax highlighting s
 <h2 class="xl-bold">Implementation Highlights</h2>
 <h3 class="text-lg font-bold">Complex Nested Structure Support</h3>
 <p>The parser correctly handles deep nesting scenarios:</p>
-<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">container</span></span>
-<span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">heavy-glass</span> <span class="token function">fade-in</span><span class="token punctuation">}</span></span>
-<span class="code-line"><span class="token title">### </span><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">layers</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">info</span> <span class="token number">lg</span><span class="token punctuation">}</span> Outer Card <span class="token punctuation">{</span><span class="token emphasis">xl-bold</span><span class="token punctuation">}</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">subtle-glass</span> <span class="token function">zoom-in</span><span class="token punctuation">}</span></span>
-<span class="code-line"><span class="token title">#### </span><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">box</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span> Inner Card <span class="token punctuation">{</span><span class="token emphasis">bold</span><span class="token punctuation">}</span></span>
-<span class="code-line">Content with proper highlighting at all levels.</span>
-<span class="code-line"><span class="token punctuation">:::</span></span>
-<span class="code-line"><span class="token punctuation">:::</span></span>
-<span class="code-line"><span class="token punctuation">:::</span></span>
-<span class="code-line"></span></code></pre>
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">container</span>
+</span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">heavy-glass</span> <span class="token function">fade-in</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token title punctuation">### </span><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">layers</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">info</span> <span class="token number">lg</span><span class="token punctuation">}</span> Outer Card <span class="token punctuation">{</span><span class="token emphasis">xl-bold</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">subtle-glass</span> <span class="token function">zoom-in</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token title punctuation">#### </span><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">box</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span> Inner Card <span class="token punctuation">{</span><span class="token emphasis">bold</span><span class="token punctuation">}</span>
+</span><span class="code-line">Content with proper highlighting at all levels.
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
+</span></code></pre>
 <h3 class="text-lg font-bold">Plain English Grammar Rules</h3>
 <p>Follows natural English word order (not CSS conventions):</p>
-<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token emphasis">huge-bold</span> <span class="token property">center</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>     # Natural: &quot;huge bold centered primary text&quot;</span>
-<span class="code-line"><span class="token punctuation">{</span><span class="token emphasis">large-muted</span> <span class="token emphasis">relaxed-lines</span><span class="token punctuation">}</span>    # Natural: &quot;large muted text with relaxed lines&quot;</span>
-<span class="code-line"></span></code></pre>
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token emphasis">huge-bold</span> <span class="token property">center</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>     # Natural: &quot;huge bold centered primary text&quot;
+</span><span class="code-line"><span class="token punctuation">{</span><span class="token emphasis">large-muted</span> <span class="token emphasis">relaxed-lines</span><span class="token punctuation">}</span>    # Natural: &quot;large muted text with relaxed lines&quot;
+</span><span class="code-line">
+</span></code></pre>
 <h3 class="text-lg font-bold">Icon Syntax with Attributes</h3>
 <p>Comprehensive icon support with size and color variants:</p>
-<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">star</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">warning</span> <span class="token number">large</span><span class="token punctuation">}</span>     # Icon with color and size</span>
-<span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span>          # Icon with color only  </span>
-<span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">home</span><span class="token punctuation">]</span>                    # Basic icon</span>
-<span class="code-line"></span></code></pre>
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">star</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">warning</span> <span class="token number">large</span><span class="token punctuation">}</span>     # Icon with color and size
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span>          # Icon with color only  
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">home</span><span class="token punctuation">]</span>                    # Basic icon
+</span><span class="code-line">
+</span></code></pre>
 <h3 class="text-lg font-bold">Attachable Components</h3>
 <p>Modal and tooltip attachments with both inline and ID reference support:</p>
-<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line">[Button](#)<span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token attr-name">modal</span>=<span class="token string">&quot;Simple</span> message&quot;<span class="token punctuation">}</span></span>
-<span class="code-line">[Help](#)<span class="token punctuation">{</span><span class="token keyword">badge</span> <span class="token attr-name">tooltip</span>=<span class="token string">&quot;#detailed-help&quot;</span><span class="token punctuation">}</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="token punctuation">:::</span><span class="token tag">tooltip</span>{id=&quot;detailed-help&quot;}</span>
-<span class="code-line">Detailed help content with <span class="token bold">**formatting**</span>.</span>
-<span class="code-line"><span class="token punctuation">:::</span></span>
-<span class="code-line"></span></code></pre>
+<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">[</span>Button<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token attr-name">modal</span>=<span class="token string">&quot;Simple message&quot;</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">[</span>Help<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">badge</span> <span class="token attr-name">tooltip</span>=<span class="token string">&quot;#detailed-help&quot;</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">tooltip</span><span class="token punctuation">{</span><span class="token attr-name">id</span>=<span class="token string">&quot;detailed-help&quot;</span><span class="token punctuation">}</span>
+</span><span class="code-line">Detailed help content with <span class="token punctuation">**</span><span class="token bold">formatting</span><span class="token punctuation">**</span>.
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
+</span></code></pre>
 <h2 class="xl-bold">Testing Results</h2>
 <p>:::alert{info}
 <strong>Performance Metrics</strong></p>
