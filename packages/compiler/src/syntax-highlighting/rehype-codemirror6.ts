@@ -125,59 +125,145 @@ function highlightLine(line: string): string {
       }
     }
 
-    // Headings
-    const headingMatch = result.match(/^(#{1,6})\s/);
-    if (headingMatch) {
-      tokens.push({ start: 0, end: headingMatch[0].length, type: 'heading' });
+    // Headings with full markdown support
+    const headingMatch = result.match(/^(#{1,6})\s+(.+?)(\s*\{[^}]*\})?$/);
+    if (headingMatch && headingMatch[1]) {
+      tokens.push({ start: 0, end: headingMatch[1].length, type: 'heading-marker' });
+      const textStart = headingMatch[1].length + 1; // +1 for space
+      const textEnd = headingMatch[3] ? result.length - headingMatch[3].length : result.length;
+      tokens.push({ start: textStart, end: textEnd, type: 'heading-text' });
     }
 
-    // Strong text
-    const strongRegex = /\*\*([^*]+)\*\*/g;
+    // Code blocks (fenced)
+    const codeBlockMatch = result.match(/^(```|~~~)(\w+)?/);
+    if (codeBlockMatch && codeBlockMatch[1]) {
+      tokens.push({ start: 0, end: codeBlockMatch[1].length, type: 'code-fence' });
+      if (codeBlockMatch[2]) {
+        tokens.push({ start: codeBlockMatch[1].length, end: codeBlockMatch[0].length, type: 'code-language' });
+      }
+    }
+
+    // Horizontal rules
+    const hrMatch = result.match(/^(\s*)(---+|===+|\*\*\*+)(\s*)$/);
+    if (hrMatch) {
+      tokens.push({ start: 0, end: result.length, type: 'horizontal-rule' });
+    }
+
+    // Tables
+    const tableMatch = result.match(/^\s*\|/);
+    if (tableMatch) {
+      const pipeRegex = /\|/g;
+      let pipeMatch: RegExpExecArray | null;
+      while ((pipeMatch = pipeRegex.exec(result)) !== null) {
+        tokens.push({ start: pipeMatch.index, end: pipeMatch.index + 1, type: 'table-delimiter' });
+      }
+    }
+
+    // Strong text (bold)
+    const strongRegex = /\*\*([^*]+?)\*\*/g;
     let strongMatch: RegExpExecArray | null;
     while ((strongMatch = strongRegex.exec(result)) !== null) {
-      tokens.push({ start: strongMatch.index, end: strongMatch.index + strongMatch[0].length, type: 'strong' });
+      tokens.push({ start: strongMatch.index, end: strongMatch.index + 2, type: 'strong-marker' });
+      tokens.push({ start: strongMatch.index + 2, end: strongMatch.index + strongMatch[0].length - 2, type: 'strong-text' });
+      tokens.push({ start: strongMatch.index + strongMatch[0].length - 2, end: strongMatch.index + strongMatch[0].length, type: 'strong-marker' });
     }
 
-    // Emphasis
-    const emphasisRegex = /\*([^*]+)\*/g;
+    // Emphasis (italic)
+    const emphasisRegex = /(?<!\*)\*([^*]+?)\*(?!\*)/g;
     let emphasisMatch: RegExpExecArray | null;
     while ((emphasisMatch = emphasisRegex.exec(result)) !== null) {
       // Skip if part of strong text
       const isPartOfStrong = tokens.some(token => 
-        token.type === 'strong' && 
+        (token.type === 'strong-marker' || token.type === 'strong-text') && 
         emphasisMatch!.index >= token.start && 
         emphasisMatch!.index < token.end
       );
       if (!isPartOfStrong) {
-        tokens.push({ start: emphasisMatch.index, end: emphasisMatch.index + emphasisMatch[0].length, type: 'emphasis' });
+        tokens.push({ start: emphasisMatch.index, end: emphasisMatch.index + 1, type: 'emphasis-marker' });
+        tokens.push({ start: emphasisMatch.index + 1, end: emphasisMatch.index + emphasisMatch[0].length - 1, type: 'emphasis-text' });
+        tokens.push({ start: emphasisMatch.index + emphasisMatch[0].length - 1, end: emphasisMatch.index + emphasisMatch[0].length, type: 'emphasis-marker' });
       }
     }
 
+    // Strikethrough
+    const strikeRegex = /~~([^~]+?)~~/g;
+    let strikeMatch: RegExpExecArray | null;
+    while ((strikeMatch = strikeRegex.exec(result)) !== null) {
+      tokens.push({ start: strikeMatch.index, end: strikeMatch.index + 2, type: 'strike-marker' });
+      tokens.push({ start: strikeMatch.index + 2, end: strikeMatch.index + strikeMatch[0].length - 2, type: 'strike-text' });
+      tokens.push({ start: strikeMatch.index + strikeMatch[0].length - 2, end: strikeMatch.index + strikeMatch[0].length, type: 'strike-marker' });
+    }
+
     // Inline code
-    const codeRegex = /`([^`]+)`/g;
+    const codeRegex = /`([^`]+?)`/g;
     let codeMatch: RegExpExecArray | null;
     while ((codeMatch = codeRegex.exec(result)) !== null) {
-      tokens.push({ start: codeMatch.index, end: codeMatch.index + codeMatch[0].length, type: 'monospace' });
+      tokens.push({ start: codeMatch.index, end: codeMatch.index + 1, type: 'code-marker' });
+      tokens.push({ start: codeMatch.index + 1, end: codeMatch.index + codeMatch[0].length - 1, type: 'code-text' });
+      tokens.push({ start: codeMatch.index + codeMatch[0].length - 1, end: codeMatch.index + codeMatch[0].length, type: 'code-marker' });
     }
 
-    // Links
-    const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    // Links with detailed parsing
+    const linkRegex = /\[([^\]]+?)\]\(([^)]+?)\)/g;
     let linkMatch: RegExpExecArray | null;
     while ((linkMatch = linkRegex.exec(result)) !== null) {
-      tokens.push({ start: linkMatch.index, end: linkMatch.index + linkMatch[0].length, type: 'link' });
+      const linkText = linkMatch[1] || '';
+      const linkUrl = linkMatch[2] || '';
+      
+      tokens.push({ start: linkMatch.index, end: linkMatch.index + 1, type: 'link-bracket' }); // [
+      tokens.push({ start: linkMatch.index + 1, end: linkMatch.index + 1 + linkText.length, type: 'link-text' });
+      tokens.push({ start: linkMatch.index + 1 + linkText.length, end: linkMatch.index + 1 + linkText.length + 2, type: 'link-bracket' }); // ](
+      tokens.push({ start: linkMatch.index + 1 + linkText.length + 2, end: linkMatch.index + 1 + linkText.length + 2 + linkUrl.length, type: 'link-url' });
+      tokens.push({ start: linkMatch.index + linkMatch[0].length - 1, end: linkMatch.index + linkMatch[0].length, type: 'link-bracket' }); // )
     }
 
-    // List markers
-    const listMatch = result.match(/^(\s*)([-*+]|\d+\.)\s/);
-    if (listMatch && listMatch[1] && listMatch[2]) {
-      const start = listMatch[1].length;
-      tokens.push({ start, end: start + listMatch[2].length, type: 'list' });
+    // Images
+    const imageRegex = /!\[([^\]]*?)\]\(([^)]+?)\)/g;
+    let imageMatch: RegExpExecArray | null;
+    while ((imageMatch = imageRegex.exec(result)) !== null) {
+      const altText = imageMatch[1] || '';
+      const imageUrl = imageMatch[2] || '';
+      
+      tokens.push({ start: imageMatch.index, end: imageMatch.index + 2, type: 'image-marker' }); // ![
+      tokens.push({ start: imageMatch.index + 2, end: imageMatch.index + 2 + altText.length, type: 'image-alt' });
+      tokens.push({ start: imageMatch.index + 2 + altText.length, end: imageMatch.index + 2 + altText.length + 2, type: 'image-marker' }); // ](
+      tokens.push({ start: imageMatch.index + 2 + altText.length + 2, end: imageMatch.index + 2 + altText.length + 2 + imageUrl.length, type: 'image-url' });
+      tokens.push({ start: imageMatch.index + imageMatch[0].length - 1, end: imageMatch.index + imageMatch[0].length, type: 'image-marker' }); // )
     }
 
-    // Blockquotes
-    const quoteMatch = result.match(/^>\s*/);
+    // List markers with better detection
+    const unorderedListMatch = result.match(/^(\s*)([-*+])\s/);
+    if (unorderedListMatch && unorderedListMatch[1] && unorderedListMatch[2]) {
+      const start = unorderedListMatch[1].length;
+      tokens.push({ start, end: start + unorderedListMatch[2].length, type: 'list-marker' });
+    }
+
+    const orderedListMatch = result.match(/^(\s*)(\d+\.)\s/);
+    if (orderedListMatch && orderedListMatch[1] && orderedListMatch[2]) {
+      const start = orderedListMatch[1].length;
+      tokens.push({ start, end: start + orderedListMatch[2].length, type: 'list-marker' });
+    }
+
+    // Task list items
+    const taskListMatch = result.match(/^(\s*)([-*+])\s+(\[[ xX]\])\s/);
+    if (taskListMatch && taskListMatch[1] && taskListMatch[2] && taskListMatch[3]) {
+      const start = taskListMatch[1].length;
+      tokens.push({ start, end: start + taskListMatch[2].length, type: 'list-marker' });
+      const checkboxStart = start + taskListMatch[2].length + 1; // +1 for space
+      tokens.push({ start: checkboxStart, end: checkboxStart + taskListMatch[3].length, type: 'task-checkbox' });
+    }
+
+    // Blockquotes with nested support
+    const quoteMatch = result.match(/^(>\s*)+/);
     if (quoteMatch) {
-      tokens.push({ start: 0, end: quoteMatch[0].length, type: 'quote' });
+      tokens.push({ start: 0, end: quoteMatch[0].length, type: 'quote-marker' });
+    }
+
+    // Escape sequences
+    const escapeRegex = /\\([\\`*_{}[\]()#+\-.!])/g;
+    let escapeMatch: RegExpExecArray | null;
+    while ((escapeMatch = escapeRegex.exec(result)) !== null) {
+      tokens.push({ start: escapeMatch.index, end: escapeMatch.index + escapeMatch[0].length, type: 'escape-sequence' });
     }
   }
 
@@ -289,6 +375,7 @@ function highlightAttributes(attrBlock: string): string {
  */
 function getTokenClassName(tokenType: string): string | null {
   const classMap: Record<string, string> = {
+    // Taildown-specific tokens
     'punctuation': 'token punctuation',
     'tagName': 'token tag',
     'keyword': 'token keyword',
@@ -301,13 +388,53 @@ function getTokenClassName(tokenType: string): string | null {
     'string': 'token string',
     'brace': 'token punctuation',
     'squareBracket': 'token punctuation',
+    
+    // Markdown heading tokens
+    'heading-marker': 'token title punctuation',
+    'heading-text': 'token title',
+    
+    // Markdown code tokens
+    'code-fence': 'token punctuation',
+    'code-language': 'token language-tag',
+    'code-marker': 'token punctuation',
+    'code-text': 'token code',
+    
+    // Markdown text formatting tokens
+    'strong-marker': 'token punctuation',
+    'strong-text': 'token bold',
+    'emphasis-marker': 'token punctuation',
+    'emphasis-text': 'token italic',
+    'strike-marker': 'token punctuation',
+    'strike-text': 'token deleted',
+    
+    // Markdown link tokens
+    'link-bracket': 'token punctuation',
+    'link-text': 'token string',
+    'link-url': 'token url',
+    
+    // Markdown image tokens
+    'image-marker': 'token punctuation',
+    'image-alt': 'token string',
+    'image-url': 'token url',
+    
+    // Markdown list tokens
+    'list-marker': 'token punctuation',
+    'task-checkbox': 'token boolean',
+    
+    // Markdown structure tokens
+    'quote-marker': 'token punctuation',
+    'table-delimiter': 'token punctuation',
+    'horizontal-rule': 'token hr',
+    'escape-sequence': 'token escape',
+    
+    // Legacy tokens for backward compatibility
     'heading': 'token title',
     'strong': 'token bold',
     'monospace': 'token code',
-    'linkText': 'token url',
+    'linkText': 'token string',
     'url': 'token url',
-    'list': 'token list',
-    'quote': 'token blockquote',
+    'list': 'token punctuation',
+    'quote': 'token punctuation',
   };
   
   return classMap[tokenType] || null;
