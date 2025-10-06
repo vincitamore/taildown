@@ -11,7 +11,7 @@ import type {
   ContainerDirectiveNode,
   ValidationError 
 } from './directive-types';
-import { isValidComponentName } from './directive-scanner';
+import { isValidComponentName, scanForMarkers } from './directive-scanner';
 
 /**
  * Build component tree from markers and content
@@ -117,8 +117,7 @@ export function buildComponentTree(
                             item.node.type === 'blockquote';
       
       if (needsRecursion && item.node.type === 'paragraph') {
-        // Import scanner at runtime to avoid circular dependency
-        const { scanForMarkers } = require('./directive-scanner');
+        // Scan for nested component markers within the paragraph
         const scanned = scanForMarkers([item.node]);
         
         if (scanned.markers.length > 0) {

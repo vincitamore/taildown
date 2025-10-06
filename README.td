@@ -15,7 +15,7 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 ## Key Features {large-bold primary}
 
 :::grid {cols="3"}
-:::card {elevated}
+:::card {medium-glass zoom-in}
 ### :icon[check-circle]{success} Core Features {medium-bold}
 
 - **Markdown Compatible** - Standard Markdown works without modification
@@ -27,7 +27,7 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 - **Semantic HTML5** - Clean, accessible markup generation
 :::
 
-:::card {elevated}
+:::card {medium-glass zoom-in}
 ### :icon[layers]{accent} Interactive Components {medium-bold}
 
 - **Tabs** - Zero-config tabbed interfaces with keyboard navigation
@@ -37,7 +37,7 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 - **Tooltip** - Contextual help on hover/click
 :::
 
-:::card {elevated}
+:::card {medium-glass zoom-in}
 ### :icon[zap]{warning} Attachable Components {medium-bold}
 
 - **One-Line Modals** - `[Click](#){modal="Message"}`
@@ -49,7 +49,7 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 :::
 
 :::grid {cols="2"}
-:::card {light-glass}
+:::card {medium-glass zoom-in}
 ### :icon[code]{primary} JavaScript Generation {medium-bold}
 
 - **Vanilla JS** - ~2-5KB of clean, dependency-free code
@@ -58,7 +58,7 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 - **Accessibility** - Full ARIA support, keyboard navigation
 :::
 
-:::card {light-glass}
+:::card {medium-glass zoom-in}
 ### :icon[sparkles]{accent} Zero Config Beauty {medium-bold}
 
 - **Professional Defaults** - Beautiful out of the box
@@ -222,26 +222,30 @@ Heavy frosted glass with 60% transparency
 :::
 
 :::card {elevated}
-### :icon[sparkles]{success} Animations {medium-bold}
+### :icon[sparkles]{success} Scroll-Triggered Animations {medium-bold}
 
-Smooth entrance and hover animations:
+Zero-config animations that trigger when scrolling into view:
 
 ```taildown
 :::card {elevated fade-in}
-Fades in smoothly on page load
+Fades in when scrolled into view
 :::
 
 :::card {light-glass slide-up}
 Slides up from below with fade
 :::
 
-:::card {elevated zoom-in interactive hover-lift}
-Zooms in, then lifts on hover
+:::card {elevated zoom-in hover-lift}
+Zooms in on scroll, lifts on hover
 :::
 ```
 
-**Entrance:** `fade-in`, `slide-up`, `slide-down`, `zoom-in`, `scale-in`  
+**Zero Configuration:** Just add animation classes - the compiler automatically includes the Intersection Observer behavior!
+
+**Entrance:** `fade-in`, `slide-up`, `slide-down`, `slide-left`, `slide-right`, `zoom-in`, `scale-in`  
 **Hover:** `hover-lift`, `hover-glow`, `hover-scale`
+
+**Features:** Respects `prefers-reduced-motion`, staggered timing for multiple elements, smooth 4.5s duration
 :::
 
 :::card {elevated}
@@ -395,7 +399,7 @@ Zero configuration. Zero complexity. Maximum readability. {center large}
 :::card {elevated}
 ### :icon[file-code]{primary} Tree-Shaking {medium-bold}
 
-Only includes JS for components you actually use. Empty documents generate zero JavaScript!
+Only includes JS for components you actually use. Animation classes automatically trigger scroll behavior inclusion!
 :::
 
 :::card {elevated}
@@ -702,7 +706,7 @@ pnpm taildown compile input.td --separate --minify -o dist/output.html --css dis
 The `examples/` directory contains 10 complete Taildown documents demonstrating Phase 2 features: {center muted}
 
 :::card {elevated}
-**1. [01-basic-markdown.td](https://github.com/vincitamore/taildown/blob/main/examples/01-basic-markdown.td)** :icon[file]{xs}  
+**:icon[file]{xs} [01-basic-markdown.td](https://github.com/vincitamore/taildown/blob/main/examples/01-basic-markdown.td)**   
 Markdown basics with icons
 :::
 

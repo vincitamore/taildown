@@ -49,12 +49,12 @@
             "start": {
               "line": 3,
               "column": 4,
-              "offset": 43
+              "offset": 45
             },
             "end": {
               "line": 3,
               "column": 31,
-              "offset": 70
+              "offset": 72
             }
           }
         }
@@ -63,12 +63,12 @@
         "start": {
           "line": 3,
           "column": 1,
-          "offset": 40
+          "offset": 42
         },
         "end": {
           "line": 3,
           "column": 31,
-          "offset": 70
+          "offset": 72
         }
       },
       "data": {
@@ -79,17 +79,17 @@
       "type": "code",
       "lang": null,
       "meta": null,
-      "value": ":::card {.class}\nThis looks like a component but it's inside a code block.\n:::",
+      "value": ":::card {.class}\r\nThis looks like a component but it's inside a code block.\r\n:::",
       "position": {
         "start": {
           "line": 5,
           "column": 1,
-          "offset": 72
+          "offset": 76
         },
         "end": {
           "line": 9,
           "column": 4,
-          "offset": 158
+          "offset": 166
         }
       }
     },
@@ -104,12 +104,12 @@
             "start": {
               "line": 11,
               "column": 4,
-              "offset": 163
+              "offset": 173
             },
             "end": {
               "line": 11,
               "column": 41,
-              "offset": 200
+              "offset": 210
             }
           }
         }
@@ -118,12 +118,12 @@
         "start": {
           "line": 11,
           "column": 1,
-          "offset": 160
+          "offset": 170
         },
         "end": {
           "line": 11,
           "column": 41,
-          "offset": 200
+          "offset": 210
         }
       },
       "data": {
@@ -140,12 +140,12 @@
             "start": {
               "line": 13,
               "column": 1,
-              "offset": 202
+              "offset": 214
             },
             "end": {
               "line": 13,
               "column": 9,
-              "offset": 210
+              "offset": 222
             }
           }
         },
@@ -156,12 +156,12 @@
             "start": {
               "line": 13,
               "column": 9,
-              "offset": 210
+              "offset": 222
             },
             "end": {
               "line": 13,
               "column": 30,
-              "offset": 231
+              "offset": 243
             }
           }
         },
@@ -172,12 +172,12 @@
             "start": {
               "line": 13,
               "column": 30,
-              "offset": 231
+              "offset": 243
             },
             "end": {
               "line": 13,
               "column": 46,
-              "offset": 247
+              "offset": 259
             }
           }
         }
@@ -186,12 +186,12 @@
         "start": {
           "line": 13,
           "column": 1,
-          "offset": 202
+          "offset": 214
         },
         "end": {
           "line": 13,
           "column": 46,
-          "offset": 247
+          "offset": 259
         }
       },
       "data": {
@@ -209,12 +209,12 @@
             "start": {
               "line": 15,
               "column": 4,
-              "offset": 252
+              "offset": 266
             },
             "end": {
               "line": 15,
               "column": 18,
-              "offset": 266
+              "offset": 280
             }
           }
         }
@@ -223,12 +223,12 @@
         "start": {
           "line": 15,
           "column": 1,
-          "offset": 249
+          "offset": 263
         },
         "end": {
           "line": 15,
           "column": 18,
-          "offset": 266
+          "offset": 280
         }
       },
       "data": {
@@ -325,12 +325,12 @@
             "start": {
               "line": 25,
               "column": 4,
-              "offset": 343
+              "offset": 367
             },
             "end": {
               "line": 25,
               "column": 26,
-              "offset": 365
+              "offset": 389
             }
           }
         }
@@ -339,12 +339,12 @@
         "start": {
           "line": 25,
           "column": 1,
-          "offset": 340
+          "offset": 364
         },
         "end": {
           "line": 25,
           "column": 26,
-          "offset": 365
+          "offset": 389
         }
       },
       "data": {
@@ -412,12 +412,12 @@
             "start": {
               "line": 33,
               "column": 4,
-              "offset": 488
+              "offset": 520
             },
             "end": {
               "line": 33,
               "column": 25,
-              "offset": 509
+              "offset": 541
             }
           }
         }
@@ -426,12 +426,12 @@
         "start": {
           "line": 33,
           "column": 1,
-          "offset": 485
+          "offset": 517
         },
         "end": {
           "line": 33,
           "column": 25,
-          "offset": 509
+          "offset": 541
         }
       },
       "data": {
@@ -488,7 +488,7 @@
     "end": {
       "line": 40,
       "column": 1,
-      "offset": 682
+      "offset": 721
     }
   }
 }

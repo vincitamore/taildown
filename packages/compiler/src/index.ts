@@ -79,6 +79,21 @@ export async function compile(
   // Collect classes from HAST (includes classes added by component handlers)
   const classes = collectClassesFromHast(hast);
   
+  // Check if any animation classes are used (for scroll-triggered animations)
+  const animationClasses = [
+    'animate-fade-in',
+    'animate-slide-up',
+    'animate-slide-down',
+    'animate-slide-left',
+    'animate-slide-right',
+    'animate-scale-in',
+    'animate-zoom-in',
+  ];
+  const hasAnimations = animationClasses.some(animClass => classes.has(animClass));
+  if (hasAnimations) {
+    usedComponents.add('scroll-animations');
+  }
+  
   // Generate CSS from collected classes
   const css = generateCSS(classes, options.minify);
 

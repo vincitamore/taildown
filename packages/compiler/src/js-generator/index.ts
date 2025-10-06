@@ -17,6 +17,7 @@ import { accordionBehavior } from './behaviors/accordion';
 import { modalBehavior } from './behaviors/modal';
 import { tooltipBehavior } from './behaviors/tooltip';
 import { carouselBehavior } from './behaviors/carousel';
+import { scrollAnimationsBehavior } from './behaviors/scroll-animations';
 
 /**
  * Component behavior definition
@@ -39,6 +40,7 @@ const BEHAVIORS: Map<string, ComponentBehavior> = new Map([
   ['modal', modalBehavior],
   ['tooltip', tooltipBehavior],
   ['carousel', carouselBehavior],
+  ['scroll-animations', scrollAnimationsBehavior],
 ]);
 
 /**

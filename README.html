@@ -557,44 +557,74 @@ td svg.icon {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Glass intensity variants - each includes full effect */
+/* Glass intensity variants - each includes full effect with premium gradient borders */
 .glass-subtle {
-  background: rgba(248, 250, 252, 0.9);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(4px) saturate(100%);
   backdrop-filter: blur(4px) saturate(100%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.35) 0%, 
+      rgba(255, 255, 255, 0.15) 50%, 
+      rgba(255, 255, 255, 0.35) 100%) border-box;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-light {
-  background: rgba(241, 245, 249, 0.75);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(8px) saturate(105%);
   backdrop-filter: blur(8px) saturate(105%);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(241, 245, 249, 0.75), rgba(241, 245, 249, 0.75)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.3) 0%, 
+      rgba(255, 255, 255, 0.12) 50%, 
+      rgba(255, 255, 255, 0.3) 100%) border-box;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-medium {
-  background: rgba(226, 232, 240, 0.6);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(12px) saturate(110%);
   backdrop-filter: blur(12px) saturate(110%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(226, 232, 240, 0.6), rgba(226, 232, 240, 0.6)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.25) 0%, 
+      rgba(255, 255, 255, 0.1) 50%, 
+      rgba(255, 255, 255, 0.25) 100%) border-box;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-heavy {
-  background: rgba(203, 213, 225, 0.4);
-  background-clip: padding-box;
   -webkit-backdrop-filter: blur(16px) saturate(120%);
   backdrop-filter: blur(16px) saturate(120%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(203, 213, 225, 0.4), rgba(203, 213, 225, 0.4)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.2) 0%, 
+      rgba(56, 189, 248, 0.12) 25%,
+      rgba(14, 165, 233, 0.12) 50%,
+      rgba(59, 130, 246, 0.12) 75%,
+      rgba(255, 255, 255, 0.2) 100%) border-box;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
+    inset 0 0 20px 0 rgba(255, 255, 255, 0.03);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -794,62 +824,72 @@ td svg.icon {
   }
 }
 
-/* Entrance animation classes - slower, more elegant */
-/* Set initial state to prevent flash before animation starts */
+/* Entrance animation classes - scroll-triggered, elegant, professional */
+/* Initial state: Elements start hidden to prevent flash */
 /* GPU acceleration for smooth rendering */
-.animate-fade-in {
-  opacity: 0;
-  will-change: opacity;
+/* Animation is paused by default and triggered when scrolling into view */
+
+/* Base animation states */
+.animate-fade-in,
+.animate-slide-up,
+.animate-slide-down,
+.animate-slide-left,
+.animate-slide-right,
+.animate-scale-in,
+.animate-zoom-in {
+  will-change: transform, opacity;
   backface-visibility: hidden;
+}
+
+/* Paused state (before element scrolls into view) */
+.animate-fade-in.animation-paused { opacity: 0; }
+.animate-slide-up.animation-paused { opacity: 0; transform: translateY(40px); }
+.animate-slide-down.animation-paused { opacity: 0; transform: translateY(-40px); }
+.animate-slide-left.animation-paused { opacity: 0; transform: translateX(16px); }
+.animate-slide-right.animation-paused { opacity: 0; transform: translateX(-16px); }
+.animate-scale-in.animation-paused { opacity: 0; transform: scale(0.8); }
+.animate-zoom-in.animation-paused { opacity: 0; transform: scale(0.5); }
+
+/* Playing state (when element is in view) - triggers animation */
+.animate-fade-in.animation-playing {
   animation: fadeIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slide-up {
-  opacity: 0;
-  transform: translateY(40px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-up.animation-playing {
   animation: slideUp 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slide-down {
-  opacity: 0;
-  transform: translateY(-40px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-down.animation-playing {
   animation: slideDown 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slide-left {
-  opacity: 0;
-  transform: translateX(16px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-left.animation-playing {
   animation: slideLeft 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slide-right {
-  opacity: 0;
-  transform: translateX(-16px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-right.animation-playing {
   animation: slideRight 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-scale-in {
-  opacity: 0;
-  transform: scale(0.8);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-scale-in.animation-playing {
   animation: scaleIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-zoom-in {
-  opacity: 0;
-  transform: scale(0.5); // Twice as far away (0.7 -> 0.5)
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-zoom-in.animation-playing {
   animation: zoomIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Fallback: If JS doesn't load, still show content (accessibility) */
+/* Elements without .animation-paused will be visible */
+.animate-fade-in:not(.animation-paused):not(.animation-playing),
+.animate-slide-up:not(.animation-paused):not(.animation-playing),
+.animate-slide-down:not(.animation-paused):not(.animation-playing),
+.animate-slide-left:not(.animation-paused):not(.animation-playing),
+.animate-slide-right:not(.animation-paused):not(.animation-playing),
+.animate-scale-in:not(.animation-paused):not(.animation-playing),
+.animate-zoom-in:not(.animation-paused):not(.animation-playing) {
+  opacity: 1;
+  transform: none;
 }
 
 /* Animation delays for staggered effects */
@@ -1046,10 +1086,9 @@ td svg.icon {
 .break-words { overflow-wrap: break-word; word-wrap: break-word; }
 .bg-white { background-color: rgb(255 255 255); }
 .shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+.bg-glass-medium { background-color: rgba(226, 232, 240, 0.6); }
 .text-green-600 { color: rgb(22 163 74); }
 .text-yellow-600 { color: rgb(202 138 4); }
-.bg-glass-light { background-color: rgba(241, 245, 249, 0.75); }
-.border-white/50 { border-color: rgb(255 255 255 / 0.5); }
 .border-b { border-bottom-width: 1px; border-style: solid; }
 .border-gray-200 { border-color: rgb(229 231 235); }
 .inline-flex { display: inline-flex; }
@@ -1085,6 +1124,8 @@ td svg.icon {
 .bg-blue-50 { background-color: rgb(239 246 255); }
 .border-blue-200 { border-color: rgb(191 219 254); }
 .text-blue-800 { color: rgb(30 64 175); }
+.bg-glass-light { background-color: rgba(241, 245, 249, 0.75); }
+.border-white/50 { border-color: rgb(255 255 255 / 0.5); }
 .overflow-x-auto { overflow-x: auto; }
 .bg-gray-50 { background-color: rgb(249 250 251); }
 .text-gray-800 { color: rgb(31 41 55); }
@@ -1939,7 +1980,7 @@ a.bg-gray-200:active {
 </style>
   <script>// Taildown Interactive Components
 // Generated by Taildown compiler
-// Total size: ~2.15KB
+// Total size: ~3.32KB
 
 (function() {
   'use strict';
@@ -2076,6 +2117,77 @@ a.bg-gray-200:active {
         });
       });
     });
+
+    // Scroll-Triggered Animations
+    // Zero-config: Automatically animates elements when they scroll into view
+
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Animation class selectors
+    const animationClasses = [
+      '.animate-fade-in',
+      '.animate-slide-up',
+      '.animate-slide-down',
+      '.animate-slide-left',
+      '.animate-slide-right',
+      '.animate-scale-in',
+      '.animate-zoom-in'
+    ];
+
+    // Find all elements with animation classes
+    const animatedElements = document.querySelectorAll(animationClasses.join(', '));
+
+    if (animatedElements.length > 0 && !prefersReducedMotion) {
+      console.log(`[Taildown] Found ${animatedElements.length} animated elements`);
+
+      // Add initial class to prevent animation on page load
+      animatedElements.forEach(el => {
+        el.classList.add('animation-paused');
+      });
+
+      // Create Intersection Observer
+      const observerOptions = {
+        root: null, // viewport
+        rootMargin: '0px 0px -10% 0px', // Trigger slightly before entering viewport
+        threshold: 0.15 // Trigger when 15% visible
+      };
+
+      const animationObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            // Element is in view - trigger animation
+            const element = entry.target;
+            
+            // Add a small stagger delay for multiple elements
+            const delay = index * 75; // 75ms between elements
+            
+            setTimeout(() => {
+              element.classList.remove('animation-paused');
+              element.classList.add('animation-playing');
+            }, delay);
+            
+            // Stop observing this element (animate only once)
+            animationObserver.unobserve(element);
+          }
+        });
+      }, observerOptions);
+
+      // Observe all animated elements
+      animatedElements.forEach(el => {
+        animationObserver.observe(el);
+      });
+      
+      console.log('[Taildown] Scroll animations initialized');
+    } else if (prefersReducedMotion) {
+      console.log('[Taildown] Reduced motion preferred - animations disabled');
+      // Remove animation classes if reduced motion preferred
+      animatedElements.forEach(el => {
+        animationClasses.forEach(className => {
+          el.classList.remove(className.slice(1)); // Remove leading dot
+        });
+      });
+    }
     console.log('[Taildown] Initialization complete');
   }
 
@@ -2107,7 +2219,7 @@ a.bg-gray-200:active {
 <p>Taildown bridges the gap between simple Markdown and complex web development, enabling rapid prototyping and content creation with modern UI/UX standards. Write content in familiar Markdown syntax, add styling with intuitive plain English commands, and leverage pre-built components to create production-ready HTML and CSS.</p>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Key Features</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> Core Features</h3><ul>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md glass-effect glass-medium bg-glass-medium hover-lift transition-smooth animate-zoom-in"><h3 class="medium-bold"><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> Core Features</h3><ul>
 <li><strong>Markdown Compatible</strong> - Standard Markdown works without modification</li>
 <li><strong>Plain English Styling</strong> - Use natural language like <code>{huge-bold primary center}</code></li>
 <li><strong>Icon System</strong> - Built-in Lucide icons with <code>:icon[name]</code> syntax</li>
@@ -2115,25 +2227,25 @@ a.bg-gray-200:active {
 <li><strong>Fast Compilation</strong> - Sub-100ms compile times</li>
 <li><strong>Zero Configuration</strong> - Production-ready styles out of the box</li>
 <li><strong>Semantic HTML5</strong>- Clean, accessible markup generation</li>
-</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-layers text-accent-600 hover:text-accent-700" data-icon="layers" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg> Interactive Components</h3><ul>
+</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md glass-effect glass-medium bg-glass-medium hover-lift transition-smooth animate-zoom-in"><h3 class="medium-bold"><svg class="icon icon-layers text-accent-600 hover:text-accent-700" data-icon="layers" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg> Interactive Components</h3><ul>
 <li><strong>Tabs</strong> - Zero-config tabbed interfaces with keyboard navigation</li>
 <li><strong>Accordion</strong> - Collapsible sections with smooth animations</li>
 <li><strong>Carousel</strong> - Image/content carousels with 3D effects</li>
 <li><strong>Modal</strong> - Dialog boxes with backdrop blur</li>
 <li><strong>Tooltip</strong>- Contextual help on hover/click</li>
-</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Attachable Components</h3><ul>
+</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md glass-effect glass-medium bg-glass-medium hover-lift transition-smooth animate-zoom-in"><h3 class="medium-bold"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Attachable Components</h3><ul>
 <li><strong>One-Line Modals</strong> - <code>[Click](#){modal="Message"}</code></li>
 <li><strong>Inline Tooltips</strong> - <code>[Help](#){tooltip="Info"}</code></li>
 <li><strong>ID References</strong> - Define once, use everywhere</li>
 <li><strong>Works on Anything</strong> - Attach to any element</li>
 <li><strong>Full Markdown</strong>- Rich content in tooltips/modals</li>
 </ul></div></div>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md"><h3 class="medium-bold"><svg class="icon icon-code text-primary-600 hover:text-primary-700" data-icon="code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg> JavaScript Generation</h3><ul>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md glass-effect glass-medium bg-glass-medium hover-lift transition-smooth animate-zoom-in"><h3 class="medium-bold"><svg class="icon icon-code text-primary-600 hover:text-primary-700" data-icon="code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg> JavaScript Generation</h3><ul>
 <li><strong>Vanilla JS</strong> - ~2-5KB of clean, dependency-free code</li>
 <li><strong>Tree-Shaking</strong> - Only includes JS for components you use</li>
 <li><strong>Event Delegation</strong> - Efficient, performant event handling</li>
 <li><strong>Accessibility</strong>- Full ARIA support, keyboard navigation</li>
-</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md"><h3 class="medium-bold"><svg class="icon icon-sparkles text-accent-600 hover:text-accent-700" data-icon="sparkles" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /><path d="M20 2v4" /><path d="M22 4h-4" /><circle cx="4" cy="20" r="2" /></svg> Zero Config Beauty</h3><ul>
+</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md glass-effect glass-medium bg-glass-medium hover-lift transition-smooth animate-zoom-in"><h3 class="medium-bold"><svg class="icon icon-sparkles text-accent-600 hover:text-accent-700" data-icon="sparkles" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /><path d="M20 2v4" /><path d="M22 4h-4" /><circle cx="4" cy="20" r="2" /></svg> Zero Config Beauty</h3><ul>
 <li><strong>Professional Defaults</strong> - Beautiful out of the box</li>
 <li><strong>Responsive Design</strong> - Mobile-first, adaptive layouts</li>
 <li><strong>Semantic Colors</strong> - <code>primary</code>, <code>success</code>, <code>warning</code>, <code>error</code></li>
@@ -2217,19 +2329,19 @@ a.bg-gray-200:active {
 </span><span class="code-line">:::card {heavy-glass}
 </span><span class="code-line">Heavy frosted glass with 60% transparency
 </span><span class="code-line">:::
-</span></code></pre></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-sparkles text-green-600" data-icon="sparkles" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /><path d="M20 2v4" /><path d="M22 4h-4" /><circle cx="4" cy="20" r="2" /></svg> Animations</h3><p>Smooth entrance and hover animations:</p><pre><code class="language-taildown code-highlight"><span class="code-line">:::card {elevated fade-in}
-</span><span class="code-line">Fades in smoothly on page load
+</span></code></pre></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-sparkles text-green-600" data-icon="sparkles" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /><path d="M20 2v4" /><path d="M22 4h-4" /><circle cx="4" cy="20" r="2" /></svg> Scroll-Triggered Animations</h3><p>Zero-config animations that trigger when scrolling into view:</p><pre><code class="language-taildown code-highlight"><span class="code-line">:::card {elevated fade-in}
+</span><span class="code-line">Fades in when scrolled into view
 </span><span class="code-line">:::
 </span><span class="code-line">
 </span><span class="code-line">:::card {light-glass slide-up}
 </span><span class="code-line">Slides up from below with fade
 </span><span class="code-line">:::
 </span><span class="code-line">
-</span><span class="code-line">:::card {elevated zoom-in interactive hover-lift}
-</span><span class="code-line">Zooms in, then lifts on hover
+</span><span class="code-line">:::card {elevated zoom-in hover-lift}
+</span><span class="code-line">Zooms in on scroll, lifts on hover
 </span><span class="code-line">:::
-</span></code></pre><p><strong>Entrance:</strong> <code>fade-in</code>, <code>slide-up</code>, <code>slide-down</code>, <code>zoom-in</code>, <code>scale-in</code><br />
-<strong>Hover:</strong> <code>hover-lift</code>, <code>hover-glow</code>, <code>hover-scale</code></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-grid-3x3 text-primary-600 hover:text-primary-700" data-icon="grid-3x3" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M3 15h18" /><path d="M9 3v18" /><path d="M15 3v18" /></svg> Grid Layouts</h3><p>Create responsive grid layouts easily:</p><pre><code class="language-taildown code-highlight"><span class="code-line">:::grid
+</span></code></pre><p><strong>Zero Configuration:</strong> Just add animation classes - the compiler automatically includes the Intersection Observer behavior!</p><p><strong>Entrance:</strong> <code>fade-in</code>, <code>slide-up</code>, <code>slide-down</code>, <code>slide-left</code>, <code>slide-right</code>, <code>zoom-in</code>, <code>scale-in</code><br />
+<strong>Hover:</strong> <code>hover-lift</code>, <code>hover-glow</code>, <code>hover-scale</code></p><p><strong>Features:</strong> Respects <code>prefers-reduced-motion</code>, staggered timing for multiple elements, smooth 4.5s duration</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-grid-3x3 text-primary-600 hover:text-primary-700" data-icon="grid-3x3" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M3 15h18" /><path d="M9 3v18" /><path d="M15 3v18" /></svg> Grid Layouts</h3><p>Create responsive grid layouts easily:</p><pre><code class="language-taildown code-highlight"><span class="code-line">:::grid
 </span><span class="code-line">:::card {elevated fade-in}
 </span><span class="code-line">Content 1
 </span><span class="code-line">:::
@@ -2296,7 +2408,7 @@ a.bg-gray-200:active {
 <div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-blue-50 border-blue-200 text-blue-800"><p><svg class="icon icon-book-open text-blue-600" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg> <strong>See <a href="SYNTAX.md"><code>SYNTAX.md</code></a> §2.8 for complete attachable component documentation.</strong></p></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">JavaScript Output</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-file-code text-primary-600 hover:text-primary-700" data-icon="file-code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 12.5 8 15l2 2.5" /><path d="m14 12.5 2 2.5-2 2.5" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" /></svg> Tree-Shaking</h3><p>Only includes JS for components you actually use. Empty documents generate zero JavaScript!</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-code text-accent-600 hover:text-accent-700" data-icon="code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg> Vanilla ES6+</h3><p>No framework dependencies. Clean, modern JavaScript that works everywhere.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-accessibility text-green-600" data-icon="accessibility" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="4" r="1" /><path d="m18 19 1-7-6 1" /><path d="m5 8 3-3 5.5 3-2.36 3.5" /><path d="M4.24 14.5a5 5 0 0 0 6.88 6" /><path d="M13.76 17.5a5 5 0 0 0-6.88-6" /></svg> Accessible</h3><p>Full ARIA support, keyboard navigation, focus management built-in.</p></div></div>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-file-code text-primary-600 hover:text-primary-700" data-icon="file-code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 12.5 8 15l2 2.5" /><path d="m14 12.5 2 2.5-2 2.5" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" /></svg> Tree-Shaking</h3><p>Only includes JS for components you actually use. Animation classes automatically trigger scroll behavior inclusion!</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-code text-accent-600 hover:text-accent-700" data-icon="code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg> Vanilla ES6+</h3><p>No framework dependencies. Clean, modern JavaScript that works everywhere.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-accessibility text-green-600" data-icon="accessibility" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="4" r="1" /><path d="m18 19 1-7-6 1" /><path d="m5 8 3-3 5.5 3-2.36 3.5" /><path d="M4.24 14.5a5 5 0 0 0 6.88 6" /><path d="M13.76 17.5a5 5 0 0 0-6.88-6" /></svg> Accessible</h3><p>Full ARIA support, keyboard navigation, focus management built-in.</p></div></div>
 <div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md p-6"><p class="text-center text-lg"><strong>Browser Support:</strong> Chrome 51+, Firefox 54+, Safari 10+, Edge 15+</p><p><strong>Output structure:</strong></p><div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-horizontal text-gray-800"><ul>
 <li>document.td</li>
 <li>document.html (HTML5)</li>
@@ -2387,7 +2499,7 @@ a.bg-gray-200:active {
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Examples</h2>
 <p class="text-center text-gray-500">The <code>examples/</code> directory contains 10 complete Taildown documents demonstrating Phase 2 features:</p>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p><strong>1. <a href="https://github.com/vincitamore/taildown/blob/main/examples/01-basic-markdown.td">01-basic-markdown.td</a></strong> <svg class="icon icon-file text-xs" data-icon="file" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /></svg><br />
+<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p><strong><svg class="icon icon-file text-xs" data-icon="file" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /></svg> <a href="https://github.com/vincitamore/taildown/blob/main/examples/01-basic-markdown.td">01-basic-markdown.td</a></strong><br />
 Markdown basics with icons</p></div>
 <div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p><strong>2. <a href="https://github.com/vincitamore/taildown/blob/main/examples/02-inline-attributes.td">02-inline-attributes.td</a></strong> <svg class="icon icon-palette text-xs" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg><br />
 Plain English styling showcase</p></div>

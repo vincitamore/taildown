@@ -180,11 +180,13 @@ export const SHORTHAND_MAPPINGS: Record<string, ShorthandMapping> = {
   // ========================================
   // GLASSMORPHISM EFFECTS (Phase 2)
   // Using plain English naming: "subtle-glass" not "glass-subtle"
+  // Borders, shadows, and blur are handled by the CSS classes - no need to duplicate
   // ========================================
-  glass: ['glass-effect', 'glass-medium', 'bg-glass-medium', 'border-white/50', 'shadow-lg', 'hover-lift', 'transition-smooth'],
-  'subtle-glass': ['glass-effect', 'glass-subtle', 'bg-glass-subtle', 'border-white/40', 'shadow-sm'],
-  'light-glass': ['glass-effect', 'glass-light', 'bg-glass-light', 'border-white/50', 'shadow-md'],
-  'heavy-glass': ['glass-effect', 'glass-heavy', 'bg-glass-heavy', 'border-white/60', 'shadow-xl'],
+  glass: ['glass-effect', 'glass-medium', 'bg-glass-medium', 'hover-lift', 'transition-smooth'],
+  'medium-glass': ['glass-effect', 'glass-medium', 'bg-glass-medium', 'hover-lift', 'transition-smooth'],
+  'subtle-glass': ['glass-effect', 'glass-subtle', 'bg-glass-subtle'],
+  'light-glass': ['glass-effect', 'glass-light', 'bg-glass-light'],
+  'heavy-glass': ['glass-effect', 'glass-heavy', 'bg-glass-heavy'],
   
   // ========================================
   // ANIMATIONS (Phase 2)

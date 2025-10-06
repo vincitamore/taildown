@@ -153,62 +153,72 @@ export function generateEntranceAnimationsCSS(): string {
   }
 }
 
-/* Entrance animation classes - slower, more elegant */
-/* Set initial state to prevent flash before animation starts */
+/* Entrance animation classes - scroll-triggered, elegant, professional */
+/* Initial state: Elements start hidden to prevent flash */
 /* GPU acceleration for smooth rendering */
-.animate-fade-in {
-  opacity: 0;
-  will-change: opacity;
+/* Animation is paused by default and triggered when scrolling into view */
+
+/* Base animation states */
+.animate-fade-in,
+.animate-slide-up,
+.animate-slide-down,
+.animate-slide-left,
+.animate-slide-right,
+.animate-scale-in,
+.animate-zoom-in {
+  will-change: transform, opacity;
   backface-visibility: hidden;
+}
+
+/* Paused state (before element scrolls into view) */
+.animate-fade-in.animation-paused { opacity: 0; }
+.animate-slide-up.animation-paused { opacity: 0; transform: translateY(40px); }
+.animate-slide-down.animation-paused { opacity: 0; transform: translateY(-40px); }
+.animate-slide-left.animation-paused { opacity: 0; transform: translateX(16px); }
+.animate-slide-right.animation-paused { opacity: 0; transform: translateX(-16px); }
+.animate-scale-in.animation-paused { opacity: 0; transform: scale(0.8); }
+.animate-zoom-in.animation-paused { opacity: 0; transform: scale(0.5); }
+
+/* Playing state (when element is in view) - triggers animation */
+.animate-fade-in.animation-playing {
   animation: fadeIn ${DURATION.slow}ms ${EASING.smooth} forwards;
 }
 
-.animate-slide-up {
-  opacity: 0;
-  transform: translateY(40px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-up.animation-playing {
   animation: slideUp ${DURATION.slow}ms ${EASING.smooth} forwards;
 }
 
-.animate-slide-down {
-  opacity: 0;
-  transform: translateY(-40px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-down.animation-playing {
   animation: slideDown ${DURATION.slow}ms ${EASING.smooth} forwards;
 }
 
-.animate-slide-left {
-  opacity: 0;
-  transform: translateX(16px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-left.animation-playing {
   animation: slideLeft ${DURATION.slow}ms ${EASING.smooth} forwards;
 }
 
-.animate-slide-right {
-  opacity: 0;
-  transform: translateX(-16px);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-slide-right.animation-playing {
   animation: slideRight ${DURATION.slow}ms ${EASING.smooth} forwards;
 }
 
-.animate-scale-in {
-  opacity: 0;
-  transform: scale(0.8);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-scale-in.animation-playing {
   animation: scaleIn ${DURATION.slow}ms ${EASING.smooth} forwards;
 }
 
-.animate-zoom-in {
-  opacity: 0;
-  transform: scale(0.5); // Twice as far away (0.7 -> 0.5)
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+.animate-zoom-in.animation-playing {
   animation: zoomIn ${DURATION.slow}ms ${EASING.smooth} forwards;
+}
+
+/* Fallback: If JS doesn't load, still show content (accessibility) */
+/* Elements without .animation-paused will be visible */
+.animate-fade-in:not(.animation-paused):not(.animation-playing),
+.animate-slide-up:not(.animation-paused):not(.animation-playing),
+.animate-slide-down:not(.animation-paused):not(.animation-playing),
+.animate-slide-left:not(.animation-paused):not(.animation-playing),
+.animate-slide-right:not(.animation-paused):not(.animation-playing),
+.animate-scale-in:not(.animation-paused):not(.animation-playing),
+.animate-zoom-in:not(.animation-paused):not(.animation-playing) {
+  opacity: 1;
+  transform: none;
 }
 
 /* Animation delays for staggered effects */
