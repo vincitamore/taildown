@@ -52,7 +52,7 @@ Create a file named `my-first-document.td`:
 
 Welcome to Taildown! {large muted center}
 
-:::card{light-glass slide-up}
+:::card {light-glass slide-up}
 ## Your First Card {medium-bold}
 
 This is a card with glassmorphism and a slide-up animation!
@@ -212,15 +212,15 @@ Card content with automatic styling.
 Add frosted glass effects:
 
 ```taildown
-:::card{subtle-glass}
+:::card {subtle-glass}
 Light frosted glass (90% transparency)
 :::
 
-:::card{light-glass}
+:::card {light-glass}
 Medium frosted glass (75% transparency)
 :::
 
-:::card{heavy-glass}
+:::card {heavy-glass}
 Heavy frosted glass (60% transparency)
 :::
 ```
@@ -279,8 +279,8 @@ All components automatically adapt to dark mode!
 
 ## Next Steps {large-bold primary center}
 
-:::grid{3}
-:::card{elevated zoom-in hover-lift}
+:::grid {3}
+:::card {elevated zoom-in hover-lift}
 ### :icon[book-open]{primary huge} {center}
 
 **Syntax Guide** {large-bold center}
@@ -290,7 +290,7 @@ Deep dive into Taildown syntax and capabilities.
 [Read Guide](syntax-guide.html){button primary}
 :::
 
-:::card{elevated zoom-in hover-lift}
+:::card {elevated zoom-in hover-lift}
 ### :icon[palette]{accent huge} {center}
 
 **Plain English** {large-bold center}
@@ -300,7 +300,7 @@ Complete reference of all styling shorthands.
 [View Reference](plain-english.html){button secondary}
 :::
 
-:::card{elevated zoom-in hover-lift}
+:::card {elevated zoom-in hover-lift}
 ### :icon[package]{success huge} {center}
 
 **Components** {large-bold center}

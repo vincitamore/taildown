@@ -10,8 +10,8 @@ The revolutionary markup language that makes creating stunning, interactive web 
 
 ## Why Taildown? {large-bold primary center}
 
-:::grid{3}
-:::card{light-glass fade-in hover-lift}
+:::grid {3}
+:::card {light-glass fade-in hover-lift}
 ### :icon[zap]{warning huge} Zero Config Beauty {medium-bold center}
 
 Beautiful, professional styling right out of the box. No setup, no configuration files, no build steps. Just write and compile.
@@ -23,7 +23,7 @@ Beautiful, professional styling right out of the box. No setup, no configuration
 - Blog posts
 :::
 
-:::card{light-glass fade-in hover-lift}
+:::card {light-glass fade-in hover-lift}
 ### :icon[type]{primary huge} Plain English Syntax {medium-bold center}
 
 Use natural language like `{huge-bold primary center}` instead of cryptic CSS classes. Reads like English, compiles to beautiful HTML and CSS.
@@ -35,7 +35,7 @@ Use natural language like `{huge-bold primary center}` instead of cryptic CSS cl
 - Self-documenting
 :::
 
-:::card{light-glass fade-in hover-lift}
+:::card {light-glass fade-in hover-lift}
 ### :icon[moon]{accent huge} Dark Mode Built-in {medium-bold center}
 
 Automatic dark mode with smooth transitions, localStorage persistence, and system preference detection. Works everywhere, instantly.
@@ -52,8 +52,8 @@ Automatic dark mode with smooth transitions, localStorage persistence, and syste
 
 ## Key Features {large-bold primary center}
 
-:::grid{2}
-:::card{subtle-glass slide-up}
+:::grid {2}
+:::card {subtle-glass slide-up}
 ### :icon[check-circle]{success} Core Capabilities {medium-bold}
 
 - :icon[check]{success xs} **Markdown Compatible** - Standard Markdown works without modification
@@ -75,7 +75,7 @@ Automatic dark mode with smooth transitions, localStorage persistence, and syste
 - :icon[code]{primary xs} **Syntax Highlighting** - Beautiful code blocks with copy button
 :::
 
-:::card{subtle-glass slide-up}
+:::card {subtle-glass slide-up}
 ### :icon[sparkles]{warning} Attachable Components {medium-bold}
 
 Revolutionary one-line modals and tooltips:
@@ -229,7 +229,7 @@ Complete SaaS landing page with hero section, features grid, and call-to-action.
 [View Example](examples/landing-page.html){button primary small}
 :::
 
-:::card{light-glass zoom-in interactive}
+:::card {light-glass zoom-in interactive}
 ### :icon[book]{accent} Documentation {medium-bold}
 
 Technical documentation with syntax highlighting, code examples, and interactive tabs. Shows component organization.
@@ -237,7 +237,7 @@ Technical documentation with syntax highlighting, code examples, and interactive
 [View Example](examples/documentation.html){button secondary small}
 :::
 
-:::card{light-glass zoom-in interactive}
+:::card {light-glass zoom-in interactive}
 ### :icon[file-text]{success} Blog Post {medium-bold}
 
 Long-form blog post with images, code blocks, and beautiful typography. Demonstrates content-focused design.
@@ -261,7 +261,7 @@ Complete showcase of all 18+ Taildown components with variants and customization
 [View Example](examples/components.html){button secondary small}
 :::
 
-:::card{light-glass zoom-in interactive}
+:::card {light-glass zoom-in interactive}
 ### :icon[zap]{info} Interactive Demo {medium-bold}
 
 Tabs, accordions, carousels, modals, and tooltips in action. Full interactivity showcase.
@@ -276,8 +276,8 @@ Tabs, accordions, carousels, modals, and tooltips in action. Full interactivity 
 
 Comprehensive guides to master Taildown: {center muted}
 
-:::grid{2}
-:::card{elevated hover-lift}
+:::grid {2}
+:::card {elevated hover-lift}
 ### :icon[book-open]{primary} Syntax Guide {large-bold}
 
 Learn the complete Taildown syntax from basics to advanced features.
@@ -285,7 +285,7 @@ Learn the complete Taildown syntax from basics to advanced features.
 [Read Syntax Guide](syntax-guide.html){button primary}
 :::
 
-:::card{elevated hover-lift}
+:::card {elevated hover-lift}
 ### :icon[type]{accent} Plain English Reference {large-bold}
 
 Complete reference of all plain English styling shorthands.
@@ -293,7 +293,7 @@ Complete reference of all plain English styling shorthands.
 [View Reference](plain-english.html){button secondary}
 :::
 
-:::card{elevated hover-lift}
+:::card {elevated hover-lift}
 ### :icon[package]{success} Components {large-bold}
 
 Documentation for all 18+ built-in components with examples.
@@ -362,7 +362,7 @@ Read the full documentation.
 
 ---
 
-:::card{heavy-glass padded}
+:::card {heavy-glass padded}
 :icon[heart]{error huge} {center}
 
 **Made with Taildown** {huge-bold center primary}
