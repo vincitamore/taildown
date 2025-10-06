@@ -7,11 +7,10 @@ import { unified } from 'unified';
 import { toHast } from 'mdast-util-to-hast';
 import type { State } from 'mdast-util-to-hast';
 import rehypeStringify from 'rehype-stringify';
-import rehypePrism from 'rehype-prism-plus';
 import type { Root } from 'mdast';
 import type { TaildownRoot } from '@taildown/shared';
 import { renderIcons } from '../icons/icon-renderer';
-import { rehypeRegisterTaildown } from '../prism/register-language-plugin';
+import { rehypeCodeMirror6 } from '../syntax-highlighting/rehype-codemirror6';
 import { containerDirectiveHandler, wrapWithAttachments, prepopulateRegistries } from './component-handlers';
 import type { TaildownNodeData } from '@taildown/shared';
 import { visit } from 'unist-util-visit';
@@ -123,12 +122,11 @@ export async function renderHTML(ast: TaildownRoot, minify: boolean = false): Pr
 
   // Convert HAST to HTML string
   const processor = unified()
-    .use(rehypeRegisterTaildown) // Register Taildown language BEFORE rehype-prism
-    .use(rehypePrism, { ignoreMissing: true, showLineNumbers: false }) // Syntax highlighting
+    .use(rehypeCodeMirror6) // CodeMirror6-based syntax highlighting
     .use(renderIcons) // Render icon nodes as SVG
     .use(rehypeWrapTables) // Wrap tables in scrollable container
     .use(rehypeStringify, {
-      allowDangerousHtml: false,
+      allowDangerousHtml: true, // Allow raw HTML for syntax highlighting
       closeSelfClosing: true,
       closeEmptyElements: true,
     });
