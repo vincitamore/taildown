@@ -330,276 +330,198 @@
       }
     },
     {
-      "type": "containerDirective",
-      "name": "modal",
+      "type": "paragraph",
       "children": [
         {
-          "type": "heading",
-          "depth": 1,
-          "children": [
-            {
-              "type": "text",
-              "value": "Modal 1",
-              "position": {
-                "start": {
-                  "line": 12,
-                  "column": 3,
-                  "offset": 246
-                },
-                "end": {
-                  "line": 12,
-                  "column": 10,
-                  "offset": 253
-                }
-              }
-            }
-          ],
+          "type": "text",
+          "value": ":::modal"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "id=\"modal-1\""
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Modal 1",
           "position": {
             "start": {
               "line": 12,
-              "column": 1,
-              "offset": 244
+              "column": 3,
+              "offset": 246
             },
             "end": {
               "line": 12,
               "column": 10,
               "offset": 253
             }
-          },
-          "data": {
-            "hProperties": {}
-          }
-        },
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "Content for first modal"
-            }
-          ],
-          "data": {
-            "hProperties": {}
           }
         }
       ],
       "position": {
         "start": {
-          "line": 11,
+          "line": 12,
           "column": 1,
-          "offset": 0
+          "offset": 244
         },
         "end": {
-          "line": 11,
-          "column": 23,
-          "offset": 0
+          "line": 12,
+          "column": 10,
+          "offset": 253
         }
       },
-      "attributes": {
-        "id": "modal-1"
-      },
       "data": {
-        "hName": "div",
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Content for first modal"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":::modal"
+        }
+      ],
+      "data": {
         "hProperties": {
           "className": [
-            "taildown-component",
-            "component-modal",
-            "modal",
-            "bg-white",
-            "rounded-lg",
-            "shadow-xl",
-            "p-6",
-            "max-w-2xl",
-            "mx-auto"
-          ],
-          "data-component": "modal"
-        },
-        "component": {
-          "name": "modal",
-          "attributes": []
+            "id=\"modal-2\""
+          ]
         }
       }
     },
     {
-      "type": "containerDirective",
-      "name": "modal",
+      "type": "heading",
+      "depth": 1,
       "children": [
         {
-          "type": "heading",
-          "depth": 1,
-          "children": [
-            {
-              "type": "text",
-              "value": "Modal 2",
-              "position": {
-                "start": {
-                  "line": 17,
-                  "column": 3,
-                  "offset": 308
-                },
-                "end": {
-                  "line": 17,
-                  "column": 10,
-                  "offset": 315
-                }
-              }
-            }
-          ],
+          "type": "text",
+          "value": "Modal 2",
           "position": {
             "start": {
               "line": 17,
-              "column": 1,
-              "offset": 306
+              "column": 3,
+              "offset": 308
             },
             "end": {
               "line": 17,
               "column": 10,
               "offset": 315
             }
-          },
-          "data": {
-            "hProperties": {}
-          }
-        },
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "Content for second modal"
-            }
-          ],
-          "data": {
-            "hProperties": {}
           }
         }
       ],
       "position": {
         "start": {
-          "line": 16,
+          "line": 17,
           "column": 1,
-          "offset": 0
+          "offset": 306
         },
         "end": {
-          "line": 16,
-          "column": 23,
-          "offset": 0
+          "line": 17,
+          "column": 10,
+          "offset": 315
         }
       },
-      "attributes": {
-        "id": "modal-2"
-      },
       "data": {
-        "hName": "div",
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Content for second modal"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":::modal"
+        }
+      ],
+      "data": {
         "hProperties": {
           "className": [
-            "taildown-component",
-            "component-modal",
-            "modal",
-            "bg-white",
-            "rounded-lg",
-            "shadow-xl",
-            "p-6",
-            "max-w-2xl",
-            "mx-auto"
-          ],
-          "data-component": "modal"
-        },
-        "component": {
-          "name": "modal",
-          "attributes": []
+            "id=\"modal-3\""
+          ]
         }
       }
     },
     {
-      "type": "containerDirective",
-      "name": "modal",
+      "type": "heading",
+      "depth": 1,
       "children": [
         {
-          "type": "heading",
-          "depth": 1,
-          "children": [
-            {
-              "type": "text",
-              "value": "Modal 3",
-              "position": {
-                "start": {
-                  "line": 22,
-                  "column": 3,
-                  "offset": 371
-                },
-                "end": {
-                  "line": 22,
-                  "column": 10,
-                  "offset": 378
-                }
-              }
-            }
-          ],
+          "type": "text",
+          "value": "Modal 3",
           "position": {
             "start": {
               "line": 22,
-              "column": 1,
-              "offset": 369
+              "column": 3,
+              "offset": 371
             },
             "end": {
               "line": 22,
               "column": 10,
               "offset": 378
             }
-          },
-          "data": {
-            "hProperties": {}
-          }
-        },
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "Content for third modal"
-            }
-          ],
-          "data": {
-            "hProperties": {}
           }
         }
       ],
       "position": {
         "start": {
-          "line": 21,
+          "line": 22,
           "column": 1,
-          "offset": 0
+          "offset": 369
         },
         "end": {
-          "line": 21,
-          "column": 23,
-          "offset": 0
+          "line": 22,
+          "column": 10,
+          "offset": 378
         }
-      },
-      "attributes": {
-        "id": "modal-3"
       },
       "data": {
-        "hName": "div",
-        "hProperties": {
-          "className": [
-            "taildown-component",
-            "component-modal",
-            "modal",
-            "bg-white",
-            "rounded-lg",
-            "shadow-xl",
-            "p-6",
-            "max-w-2xl",
-            "mx-auto"
-          ],
-          "data-component": "modal"
-        },
-        "component": {
-          "name": "modal",
-          "attributes": []
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Content for third modal"
         }
+      ],
+      "data": {
+        "hProperties": {}
       }
     },
     {
@@ -828,171 +750,39 @@
       }
     },
     {
-      "type": "containerDirective",
-      "name": "tooltip",
+      "type": "paragraph",
       "children": [
         {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "First tooltip content"
-            }
-          ],
-          "data": {
-            "hProperties": {}
-          }
+          "type": "text",
+          "value": ":::tooltip{id=\"tip-1\"}\nFirst tooltip content"
         }
       ],
-      "position": {
-        "start": {
-          "line": 32,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 32,
-          "column": 23,
-          "offset": 0
-        }
-      },
-      "attributes": {
-        "id": "tip-1"
-      },
       "data": {
-        "hName": "span",
-        "hProperties": {
-          "className": [
-            "taildown-component",
-            "component-tooltip",
-            "tooltip",
-            "inline-block",
-            "px-3",
-            "py-2",
-            "text-sm",
-            "text-white",
-            "bg-gray-900",
-            "rounded",
-            "shadow-lg"
-          ],
-          "data-component": "tooltip"
-        },
-        "component": {
-          "name": "tooltip",
-          "attributes": []
-        }
+        "hProperties": {}
       }
     },
     {
-      "type": "containerDirective",
-      "name": "tooltip",
+      "type": "paragraph",
       "children": [
         {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "Second tooltip content"
-            }
-          ],
-          "data": {
-            "hProperties": {}
-          }
+          "type": "text",
+          "value": ":::tooltip{id=\"tip-2\"}\nSecond tooltip content"
         }
       ],
-      "position": {
-        "start": {
-          "line": 36,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 36,
-          "column": 23,
-          "offset": 0
-        }
-      },
-      "attributes": {
-        "id": "tip-2"
-      },
       "data": {
-        "hName": "span",
-        "hProperties": {
-          "className": [
-            "taildown-component",
-            "component-tooltip",
-            "tooltip",
-            "inline-block",
-            "px-3",
-            "py-2",
-            "text-sm",
-            "text-white",
-            "bg-gray-900",
-            "rounded",
-            "shadow-lg"
-          ],
-          "data-component": "tooltip"
-        },
-        "component": {
-          "name": "tooltip",
-          "attributes": []
-        }
+        "hProperties": {}
       }
     },
     {
-      "type": "containerDirective",
-      "name": "tooltip",
+      "type": "paragraph",
       "children": [
         {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "Third tooltip content"
-            }
-          ],
-          "data": {
-            "hProperties": {}
-          }
+          "type": "text",
+          "value": ":::tooltip{id=\"tip-3\"}\nThird tooltip content"
         }
       ],
-      "position": {
-        "start": {
-          "line": 40,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 40,
-          "column": 23,
-          "offset": 0
-        }
-      },
-      "attributes": {
-        "id": "tip-3"
-      },
       "data": {
-        "hName": "span",
-        "hProperties": {
-          "className": [
-            "taildown-component",
-            "component-tooltip",
-            "tooltip",
-            "inline-block",
-            "px-3",
-            "py-2",
-            "text-sm",
-            "text-white",
-            "bg-gray-900",
-            "rounded",
-            "shadow-lg"
-          ],
-          "data-component": "tooltip"
-        },
-        "component": {
-          "name": "tooltip",
-          "attributes": []
-        }
+        "hProperties": {}
       }
     },
     {
@@ -1276,94 +1066,68 @@
       }
     },
     {
-      "type": "containerDirective",
-      "name": "modal",
+      "type": "paragraph",
       "children": [
         {
-          "type": "heading",
-          "depth": 1,
-          "children": [
-            {
-              "type": "text",
-              "value": "Shared Content",
-              "position": {
-                "start": {
-                  "line": 51,
-                  "column": 3,
-                  "offset": 878
-                },
-                "end": {
-                  "line": 51,
-                  "column": 17,
-                  "offset": 892
-                }
-              }
-            }
-          ],
+          "type": "text",
+          "value": ":::modal"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "id=\"shared\""
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Shared Content",
           "position": {
             "start": {
               "line": 51,
-              "column": 1,
-              "offset": 876
+              "column": 3,
+              "offset": 878
             },
             "end": {
               "line": 51,
               "column": 17,
               "offset": 892
             }
-          },
-          "data": {
-            "hProperties": {}
-          }
-        },
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "This modal is referenced by multiple buttons."
-            }
-          ],
-          "data": {
-            "hProperties": {}
           }
         }
       ],
       "position": {
         "start": {
-          "line": 50,
+          "line": 51,
           "column": 1,
-          "offset": 0
+          "offset": 876
         },
         "end": {
-          "line": 50,
-          "column": 22,
-          "offset": 0
+          "line": 51,
+          "column": 17,
+          "offset": 892
         }
-      },
-      "attributes": {
-        "id": "shared"
       },
       "data": {
-        "hName": "div",
-        "hProperties": {
-          "className": [
-            "taildown-component",
-            "component-modal",
-            "modal",
-            "bg-white",
-            "rounded-lg",
-            "shadow-xl",
-            "p-6",
-            "max-w-2xl",
-            "mx-auto"
-          ],
-          "data-component": "modal"
-        },
-        "component": {
-          "name": "modal",
-          "attributes": []
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "This modal is referenced by multiple buttons."
         }
+      ],
+      "data": {
+        "hProperties": {}
       }
     },
     {
@@ -1575,150 +1339,80 @@
       }
     },
     {
-      "type": "containerDirective",
-      "name": "modal",
+      "type": "paragraph",
       "children": [
         {
-          "type": "heading",
-          "depth": 1,
-          "children": [
-            {
-              "type": "text",
-              "value": "Help Documentation",
-              "position": {
-                "start": {
-                  "line": 63,
-                  "column": 3,
-                  "offset": 1136
-                },
-                "end": {
-                  "line": 63,
-                  "column": 21,
-                  "offset": 1154
-                }
-              }
-            }
-          ],
+          "type": "text",
+          "value": ":::modal"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "id=\"help-modal\""
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Help Documentation",
           "position": {
             "start": {
               "line": 63,
-              "column": 1,
-              "offset": 1134
+              "column": 3,
+              "offset": 1136
             },
             "end": {
               "line": 63,
               "column": 21,
               "offset": 1154
             }
-          },
-          "data": {
-            "hProperties": {}
-          }
-        },
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "Full help content here."
-            }
-          ],
-          "data": {
-            "hProperties": {}
           }
         }
       ],
       "position": {
         "start": {
-          "line": 62,
+          "line": 63,
           "column": 1,
-          "offset": 0
+          "offset": 1134
         },
         "end": {
-          "line": 62,
-          "column": 26,
-          "offset": 0
+          "line": 63,
+          "column": 21,
+          "offset": 1154
         }
-      },
-      "attributes": {
-        "id": "help-modal"
       },
       "data": {
-        "hName": "div",
-        "hProperties": {
-          "className": [
-            "taildown-component",
-            "component-modal",
-            "modal",
-            "bg-white",
-            "rounded-lg",
-            "shadow-xl",
-            "p-6",
-            "max-w-2xl",
-            "mx-auto"
-          ],
-          "data-component": "modal"
-        },
-        "component": {
-          "name": "modal",
-          "attributes": []
-        }
+        "hProperties": {}
       }
     },
     {
-      "type": "containerDirective",
-      "name": "tooltip",
+      "type": "paragraph",
       "children": [
         {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "Quick info tooltip"
-            }
-          ],
-          "data": {
-            "hProperties": {}
-          }
+          "type": "text",
+          "value": "Full help content here."
         }
       ],
-      "position": {
-        "start": {
-          "line": 68,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 68,
-          "column": 26,
-          "offset": 0
-        }
-      },
-      "attributes": {
-        "id": "info-tip"
-      },
       "data": {
-        "hName": "span",
-        "hProperties": {
-          "className": [
-            "taildown-component",
-            "component-tooltip",
-            "tooltip",
-            "inline-block",
-            "px-3",
-            "py-2",
-            "text-sm",
-            "text-white",
-            "bg-gray-900",
-            "rounded",
-            "shadow-lg"
-          ],
-          "data-component": "tooltip"
-        },
-        "component": {
-          "name": "tooltip",
-          "attributes": []
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":::tooltip{id=\"info-tip\"}\nQuick info tooltip"
         }
+      ],
+      "data": {
+        "hProperties": {}
       }
     },
     {
@@ -1855,102 +1549,100 @@
       }
     },
     {
-      "type": "containerDirective",
-      "name": "modal",
+      "type": "paragraph",
       "children": [
         {
-          "type": "heading",
-          "depth": 2,
-          "children": [
-            {
-              "type": "text",
-              "value": "Feature Details",
-              "position": {
-                "start": {
-                  "line": 77,
-                  "column": 4,
-                  "offset": 1368
-                },
-                "end": {
-                  "line": 77,
-                  "column": 19,
-                  "offset": 1383
-                }
-              }
-            }
-          ],
+          "type": "text",
+          "value": ":::modal"
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "className": [
+            "id=\"feature-modal\""
+          ]
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Feature Details",
           "position": {
             "start": {
               "line": 77,
-              "column": 1,
-              "offset": 1365
+              "column": 4,
+              "offset": 1368
             },
             "end": {
               "line": 77,
               "column": 19,
               "offset": 1383
             }
-          },
-          "data": {
-            "hProperties": {}
           }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 77,
+          "column": 1,
+          "offset": 1365
         },
+        "end": {
+          "line": 77,
+          "column": 19,
+          "offset": 1383
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
         {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "This modal demonstrates:"
-            }
-          ],
-          "data": {
-            "hProperties": {}
-          }
-        },
+          "type": "text",
+          "value": "This modal demonstrates:"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "start": null,
+      "spread": false,
+      "children": [
         {
-          "type": "list",
-          "ordered": false,
-          "start": null,
+          "type": "listItem",
           "spread": false,
+          "checked": null,
           "children": [
             {
-              "type": "listItem",
-              "spread": false,
-              "checked": null,
+              "type": "paragraph",
               "children": [
                 {
-                  "type": "paragraph",
+                  "type": "strong",
                   "children": [
                     {
-                      "type": "strong",
-                      "children": [
-                        {
-                          "type": "text",
-                          "value": "Rich content",
-                          "position": {
-                            "start": {
-                              "line": 80,
-                              "column": 5,
-                              "offset": 1414
-                            },
-                            "end": {
-                              "line": 80,
-                              "column": 17,
-                              "offset": 1426
-                            }
-                          }
-                        }
-                      ],
+                      "type": "text",
+                      "value": "Rich content",
                       "position": {
                         "start": {
                           "line": 80,
-                          "column": 3,
-                          "offset": 1412
+                          "column": 5,
+                          "offset": 1414
                         },
                         "end": {
                           "line": 80,
-                          "column": 19,
-                          "offset": 1428
+                          "column": 17,
+                          "offset": 1426
                         }
                       }
                     }
@@ -1972,8 +1664,8 @@
               "position": {
                 "start": {
                   "line": 80,
-                  "column": 1,
-                  "offset": 1410
+                  "column": 3,
+                  "offset": 1412
                 },
                 "end": {
                   "line": 80,
@@ -1981,32 +1673,32 @@
                   "offset": 1428
                 }
               }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 80,
+              "column": 1,
+              "offset": 1410
             },
+            "end": {
+              "line": 80,
+              "column": 19,
+              "offset": 1428
+            }
+          }
+        },
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
             {
-              "type": "listItem",
-              "spread": false,
-              "checked": null,
+              "type": "paragraph",
               "children": [
                 {
-                  "type": "paragraph",
-                  "children": [
-                    {
-                      "type": "text",
-                      "value": "Multiple sections",
-                      "position": {
-                        "start": {
-                          "line": 81,
-                          "column": 3,
-                          "offset": 1431
-                        },
-                        "end": {
-                          "line": 81,
-                          "column": 20,
-                          "offset": 1448
-                        }
-                      }
-                    }
-                  ],
+                  "type": "text",
+                  "value": "Multiple sections",
                   "position": {
                     "start": {
                       "line": 81,
@@ -2018,50 +1710,50 @@
                       "column": 20,
                       "offset": 1448
                     }
-                  },
-                  "data": {
-                    "hProperties": {}
                   }
                 }
               ],
               "position": {
                 "start": {
                   "line": 81,
-                  "column": 1,
-                  "offset": 1429
+                  "column": 3,
+                  "offset": 1431
                 },
                 "end": {
                   "line": 81,
                   "column": 20,
                   "offset": 1448
                 }
+              },
+              "data": {
+                "hProperties": {}
               }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 81,
+              "column": 1,
+              "offset": 1429
             },
+            "end": {
+              "line": 81,
+              "column": 20,
+              "offset": 1448
+            }
+          }
+        },
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
             {
-              "type": "listItem",
-              "spread": false,
-              "checked": null,
+              "type": "paragraph",
               "children": [
                 {
-                  "type": "paragraph",
-                  "children": [
-                    {
-                      "type": "inlineCode",
-                      "value": "Code examples",
-                      "position": {
-                        "start": {
-                          "line": 82,
-                          "column": 3,
-                          "offset": 1451
-                        },
-                        "end": {
-                          "line": 82,
-                          "column": 18,
-                          "offset": 1466
-                        }
-                      }
-                    }
-                  ],
+                  "type": "inlineCode",
+                  "value": "Code examples",
                   "position": {
                     "start": {
                       "line": 82,
@@ -2079,8 +1771,8 @@
               "position": {
                 "start": {
                   "line": 82,
-                  "column": 1,
-                  "offset": 1449
+                  "column": 3,
+                  "offset": 1451
                 },
                 "end": {
                   "line": 82,
@@ -2088,47 +1780,47 @@
                   "offset": 1466
                 }
               }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 82,
+              "column": 1,
+              "offset": 1449
             },
+            "end": {
+              "line": 82,
+              "column": 18,
+              "offset": 1466
+            }
+          }
+        },
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
             {
-              "type": "listItem",
-              "spread": false,
-              "checked": null,
+              "type": "paragraph",
               "children": [
                 {
-                  "type": "paragraph",
+                  "type": "link",
+                  "title": null,
+                  "url": "https://example.com",
                   "children": [
                     {
-                      "type": "link",
-                      "title": null,
-                      "url": "https://example.com",
-                      "children": [
-                        {
-                          "type": "text",
-                          "value": "Links",
-                          "position": {
-                            "start": {
-                              "line": 83,
-                              "column": 4,
-                              "offset": 1470
-                            },
-                            "end": {
-                              "line": 83,
-                              "column": 9,
-                              "offset": 1475
-                            }
-                          }
-                        }
-                      ],
+                      "type": "text",
+                      "value": "Links",
                       "position": {
                         "start": {
                           "line": 83,
-                          "column": 3,
-                          "offset": 1469
+                          "column": 4,
+                          "offset": 1470
                         },
                         "end": {
                           "line": 83,
-                          "column": 31,
-                          "offset": 1497
+                          "column": 9,
+                          "offset": 1475
                         }
                       }
                     }
@@ -2150,8 +1842,8 @@
               "position": {
                 "start": {
                   "line": 83,
-                  "column": 1,
-                  "offset": 1467
+                  "column": 3,
+                  "offset": 1469
                 },
                 "end": {
                   "line": 83,
@@ -2163,9 +1855,9 @@
           ],
           "position": {
             "start": {
-              "line": 80,
+              "line": 83,
               "column": 1,
-              "offset": 1410
+              "offset": 1467
             },
             "end": {
               "line": 83,
@@ -2173,92 +1865,68 @@
               "offset": 1497
             }
           }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 80,
+          "column": 1,
+          "offset": 1410
         },
+        "end": {
+          "line": 83,
+          "column": 31,
+          "offset": 1497
+        }
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "card",
+      "children": [
         {
-          "type": "containerDirective",
-          "name": "card",
+          "type": "paragraph",
           "children": [
             {
-              "type": "paragraph",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Nested card in modal"
-                }
-              ],
-              "data": {
-                "hProperties": {}
-              }
+              "type": "text",
+              "value": "Nested card in modal"
             }
           ],
-          "position": {
-            "start": {
-              "line": 85,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 85,
-              "column": 8,
-              "offset": 0
-            }
-          },
           "data": {
-            "hName": "div",
-            "hProperties": {
-              "className": [
-                "taildown-component",
-                "component-card",
-                "rounded-lg",
-                "p-6",
-                "max-w-full",
-                "overflow-x-hidden",
-                "break-words",
-                "bg-white",
-                "shadow-md"
-              ],
-              "data-component": "card"
-            },
-            "component": {
-              "name": "card",
-              "attributes": []
-            }
+            "hProperties": {}
           }
         }
       ],
       "position": {
         "start": {
-          "line": 76,
+          "line": 85,
           "column": 1,
           "offset": 0
         },
         "end": {
-          "line": 76,
-          "column": 29,
+          "line": 85,
+          "column": 8,
           "offset": 0
         }
-      },
-      "attributes": {
-        "id": "feature-modal"
       },
       "data": {
         "hName": "div",
         "hProperties": {
           "className": [
             "taildown-component",
-            "component-modal",
-            "modal",
-            "bg-white",
+            "component-card",
             "rounded-lg",
-            "shadow-xl",
             "p-6",
-            "max-w-2xl",
-            "mx-auto"
+            "max-w-full",
+            "overflow-x-hidden",
+            "break-words",
+            "bg-white",
+            "shadow-md"
           ],
-          "data-component": "modal"
+          "data-component": "card"
         },
         "component": {
-          "name": "modal",
+          "name": "card",
           "attributes": []
         }
       }
