@@ -611,6 +611,75 @@ pre::before {
   position: relative;
 }
 
+/* Copy button styling */
+.code-copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  color: #e2e8f0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  transition: all 0.2s ease;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+
+.code-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.code-copy-btn:active {
+  transform: translateY(0);
+}
+
+.code-copy-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+/* Copy button icons */
+.code-copy-btn .copy-icon,
+.code-copy-btn .check-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.code-copy-btn .check-icon {
+  color: #10b981;
+}
+
+/* Copy button text */
+.code-copy-btn .copy-text,
+.code-copy-btn .copied-text {
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.code-copy-btn .copied-text {
+  color: #10b981;
+}
+
+/* Success state animation */
+.code-copy-btn.copied {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+/* Ensure pre blocks are positioned for absolute button (already set above) */
+
 /* Terminal traffic lights */
 pre::after {
   content: '';

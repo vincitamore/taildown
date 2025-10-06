@@ -18,6 +18,7 @@ import { modalBehavior } from './behaviors/modal';
 import { tooltipBehavior } from './behaviors/tooltip';
 import { carouselBehavior } from './behaviors/carousel';
 import { scrollAnimationsBehavior } from './behaviors/scroll-animations';
+import { copyCodeBehavior } from './behaviors/copy-code';
 
 /**
  * Component behavior definition
@@ -41,6 +42,7 @@ const BEHAVIORS: Map<string, ComponentBehavior> = new Map([
   ['tooltip', tooltipBehavior],
   ['carousel', carouselBehavior],
   ['scroll-animations', scrollAnimationsBehavior],
+  ['copy-code', copyCodeBehavior],
 ]);
 
 /**

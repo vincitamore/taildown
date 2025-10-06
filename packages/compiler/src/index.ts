@@ -94,6 +94,35 @@ export async function compile(
     usedComponents.add('scroll-animations');
   }
   
+  // Check if there are any code blocks (pre > code elements)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function hasCodeBlocks(node: any): boolean {
+    if (node && typeof node === 'object') {
+      // Check for pre elements containing code
+      if (node.type === 'element' && node.tagName === 'pre') {
+        const hasCodeChild = node.children && node.children.some((child: any) => 
+          child.type === 'element' && child.tagName === 'code'
+        );
+        if (hasCodeChild) {
+          return true;
+        }
+      }
+      // Recurse into children
+      if (node.children && Array.isArray(node.children)) {
+        for (const child of node.children) {
+          if (hasCodeBlocks(child)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+  
+  if (hasCodeBlocks(hast)) {
+    usedComponents.add('copy-code');
+  }
+  
   // Generate CSS from collected classes
   const css = generateCSS(classes, options.minify);
 
