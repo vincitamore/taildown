@@ -757,7 +757,7 @@ Ultimate feature showcase (1000+ nodes)
 :::
 :::
 
-:::card {light-glass padded}
+:::card 
 ### :icon[terminal]{primary} To compile any example: {medium-bold center}
 
 ```bash
@@ -781,7 +781,7 @@ pnpm taildown compile examples/10-complete-page.td
 :::
 :::
 
-:::grid {cols="2"}
+:::grid {2}
 :::card {light-glass}
 ### :icon[layers]{primary} Technology Stack {medium-bold}
 
@@ -940,13 +940,13 @@ We welcome contributions! :icon[heart]{primary} {center large}
 
 **Please follow these steps:**
 
-1. Fork the repository :icon[git-fork]{xs}
-2. Create a feature branch :icon[git-branch]{xs}
-3. Make your changes with tests :icon[edit]{xs}
-4. Ensure all tests pass (`pnpm test`) :icon[check-circle]{xs}
-5. Run type checking (`pnpm typecheck`) :icon[check]{xs}
-6. Format code (`pnpm format`) :icon[code]{xs}
-7. Submit a Pull Request :icon[git-pull-request]{xs}
+- :icon[git-fork]{accent} Fork the repository
+- :icon[git-branch]{primary} Create a feature branch
+- :icon[edit]{success} Make your changes with tests
+- :icon[check-circle]{success} Ensure all tests pass (`pnpm test`)
+- :icon[check]{info} Run type checking (`pnpm typecheck`)
+- :icon[code]{warning} Format code (`pnpm format`)
+- :icon[git-pull-request]{primary} Submit a Pull Request
 :::
 
 :::card {elevated padded}
@@ -1145,5 +1145,4 @@ The compiler is optimized for speed with efficient AST traversal and lazy evalua
 :::
 25 {center muted large}
 :::
-}
 :::

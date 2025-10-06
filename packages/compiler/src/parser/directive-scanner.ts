@@ -67,7 +67,8 @@ function extractMarkersFromParagraph(node: Paragraph): Array<{
   // - [Add to Cart](#){...}\n:::\n:::  (multiple fences)
   // - :::breadcrumb {boxed}\n[Home](#) > Components\n::: (opening and closing fences with links)
   
-  // First, check if the FIRST text node contains an opening fence
+  // First, check if the FIRST text node contains fence markers
+  // If the first text node has multiple lines with fences, process them all!
   let hasOpeningFence = false;
   let firstTextIndex = -1;
   
@@ -76,9 +77,14 @@ function extractMarkersFromParagraph(node: Paragraph): Array<{
     if (child && child.type === 'text') {
       firstTextIndex = i;
       const textValue = (child as Text).value;
-      const firstLine = textValue.split(/\r?\n/)[0]?.trim();
-      if (firstLine && FENCE_OPEN_REGEX.test(firstLine)) {
-        hasOpeningFence = true;
+      const lines = textValue.split(/\r?\n/);
+      
+      // Check if ANY line contains fence markers
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (trimmed && (trimmed === ':::' || FENCE_OPEN_REGEX.test(trimmed))) {
+          hasOpeningFence = true;
+        }
       }
       break; // Stop after first text node
     }
@@ -112,15 +118,116 @@ function extractMarkersFromParagraph(node: Paragraph): Array<{
   // Special case: Opening fence in first text node AND closing fence in last text node
   // This handles: :::component {attrs}\n[links and content]\n:::
   if (hasOpeningFence && foundFence && firstTextIndex === 0 && fenceChildIndex === node.children.length - 1) {
-    // Extract opening fence from first text node
     const firstText = node.children[0] as Text;
     const firstLines = firstText.value.split(/\r?\n/);
+    const lastText = node.children[fenceChildIndex] as Text;
+    const lastLines = lastText.value.split(/\r?\n/);
+    
+    // CRITICAL FIX: Check if first text node has MULTIPLE fences
+    let fenceCountFirst = 0;
+    for (const line of firstLines) {
+      const trimmed = line.trim();
+      if (trimmed && (trimmed === ':::' || FENCE_OPEN_REGEX.test(trimmed))) {
+        fenceCountFirst++;
+      }
+    }
+    
+    // Check if last text node has MULTIPLE fences
+    let fenceCountLast = 0;
+    for (const line of lastLines) {
+      const trimmed = line.trim();
+      if (trimmed && (trimmed === ':::' || FENCE_OPEN_REGEX.test(trimmed))) {
+        fenceCountLast++;
+      }
+    }
+    
+    // If either text node has multiple fences, process all lines properly
+    if (fenceCountFirst > 1 || fenceCountLast > 1) {
+      
+      // Process all fences from first text node
+      const firstNodeItems = processLinesForMarkers(firstLines, node.position.start.line);
+      
+      // Find where content starts in firstNodeItems (after last marker)
+      let lastMarkerIndexInFirst = -1;
+      for (let i = firstNodeItems.length - 1; i >= 0; i--) {
+        if (firstNodeItems[i]!.type === 'marker') {
+          lastMarkerIndexInFirst = i;
+          break;
+        }
+      }
+      
+      // Extract markers from first node, keep any trailing content
+      const firstMarkers = lastMarkerIndexInFirst >= 0 
+        ? firstNodeItems.slice(0, lastMarkerIndexInFirst + 1)
+        : [];
+      const firstTrailingContent = lastMarkerIndexInFirst >= 0 && lastMarkerIndexInFirst < firstNodeItems.length - 1
+        ? firstNodeItems[lastMarkerIndexInFirst + 1]
+        : null;
+      
+      // Process all fences from last text node
+      const lastNodeStartLine = node.position.start.line + firstLines.length + (node.children.length - 2);
+      const lastNodeItems = processLinesForMarkers(lastLines, lastNodeStartLine);
+      
+      // Find where markers start in lastNodeItems
+      let firstMarkerIndexInLast = -1;
+      for (let i = 0; i < lastNodeItems.length; i++) {
+        if (lastNodeItems[i]!.type === 'marker') {
+          firstMarkerIndexInLast = i;
+          break;
+        }
+      }
+      
+      // Extract any leading content and markers from last node
+      const lastLeadingContent = firstMarkerIndexInLast > 0
+        ? lastNodeItems[0]
+        : null;
+      const lastMarkers = firstMarkerIndexInLast >= 0
+        ? lastNodeItems.slice(firstMarkerIndexInLast)
+        : lastNodeItems;
+      
+      // Build result: markers from first node + combined content + markers from last node
+      const result = [...firstMarkers];
+      
+      // Combine all content: trailing from first + all middle children + leading from last
+      const contentChildren: any[] = [];
+      
+      // Add trailing content from first text node
+      if (firstTrailingContent && firstTrailingContent.type === 'content') {
+        contentChildren.push(...firstTrailingContent.contentNode!.children);
+      }
+      
+      // Add all middle children (formatted content like icons, links, bold, etc.)
+      for (let i = 1; i < node.children.length - 1; i++) {
+        contentChildren.push(node.children[i]);
+      }
+      
+      // Add leading content from last text node
+      if (lastLeadingContent && lastLeadingContent.type === 'content') {
+        contentChildren.push(...lastLeadingContent.contentNode!.children);
+      }
+      
+      // Add combined content as single paragraph if there's any content
+      if (contentChildren.length > 0) {
+        result.push({
+          type: 'content',
+          contentNode: {
+            type: 'paragraph',
+            children: contentChildren,
+          } as Paragraph,
+        });
+      }
+      
+      // Add markers from last node
+      result.push(...lastMarkers);
+      
+      return result;
+    }
+    
+    // Original logic for single fence per text node
     const openingLine = firstLines[0]?.trim();
     
     if (openingLine && FENCE_OPEN_REGEX.test(openingLine)) {
       // Extract closing fence from last text node
-      const lastText = node.children[fenceChildIndex] as Text;
-      const lastLines = lastText.value.split(/\r?\n/);
       const closingLine = lastLines[lastLines.length - 1]?.trim();
       
       if (closingLine && FENCE_CLOSE_REGEX.test(closingLine)) {
@@ -183,6 +290,49 @@ function extractMarkersFromParagraph(node: Paragraph): Array<{
   if (hasOpeningFence && !foundFence && firstTextIndex === 0) {
     const firstText = node.children[0] as Text;
     const firstLines = firstText.value.split(/\r?\n/);
+    
+    // Check if the first text node has MULTIPLE fence lines
+    // If so, we need to process ALL of them, not just the first one!
+    let fenceCount = 0;
+    for (const line of firstLines) {
+      const trimmed = line.trim();
+      if (trimmed && (trimmed === ':::' || FENCE_OPEN_REGEX.test(trimmed))) {
+        fenceCount++;
+      }
+    }
+    
+    // CRITICAL FIX: If there are multiple fences in the first text node,
+    // process them all using processLinesForMarkers instead of just extracting the first line
+    if (fenceCount > 1) {
+      
+      // Process all lines in the first text node to extract all fence markers
+      const textNodeItems = processLinesForMarkers(firstLines, node.position.start.line);
+      
+      // Then handle remaining children (formatted content like links, bold, etc.)
+      const result = textNodeItems;
+      
+      // Add remaining children as content if there are any
+      if (node.children.length > 1) {
+        const contentChildren: (Text | any)[] = [];
+        for (let i = 1; i < node.children.length; i++) {
+          contentChildren.push(node.children[i]);
+        }
+        
+        if (contentChildren.length > 0) {
+          result.push({
+            type: 'content',
+            contentNode: {
+              type: 'paragraph',
+              children: contentChildren,
+            } as Paragraph,
+          });
+        }
+      }
+      
+      return result;
+    }
+    
+    // Original logic for single fence in first line
     const openingLine = firstLines[0]?.trim();
     
     if (openingLine && FENCE_OPEN_REGEX.test(openingLine)) {
