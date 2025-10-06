@@ -1033,28 +1033,38 @@ td svg.icon {
 .hover\:text-primary-700:hover { color: rgb(29 78 216); }
 .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
 .text-gray-500 { color: rgb(107 114 128); }
-.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
-.overflow-x-auto { overflow-x: auto; }
+.grid { display: grid; }
+.gap-4 { gap: 1rem; }
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .rounded-lg { border-radius: 0.5rem; }
+.p-6 { padding: 1.5rem; }
+.max-w-full { max-width: 100%; }
+.overflow-x-hidden { overflow-x: hidden; }
+.break-words { overflow-wrap: break-word; word-wrap: break-word; }
+.bg-white { background-color: rgb(255 255 255); }
+.shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+.text-red-600 { color: rgb(220 38 38); }
+.bg-glass-light { background-color: rgba(241, 245, 249, 0.75); }
+.border-white/50 { border-color: rgb(255 255 255 / 0.5); }
+.text-green-600 { color: rgb(22 163 74); }
+.overflow-x-auto { overflow-x: auto; }
 .bg-gray-50 { background-color: rgb(249 250 251); }
 .border { border-width: 1px; border-style: solid; }
 .border-gray-200 { border-color: rgb(229 231 235); }
-.p-4 { padding: 1rem; }
-.text-gray-800 { color: rgb(31 41 55); }
-.bg-transparent { background-color: transparent; }
-.p-2 { padding: 0.5rem; }
-.bg-white { background-color: rgb(255 255 255); }
-.text-base { font-size: 1rem; line-height: 1.5rem; }
-.p-6 { padding: 1.5rem; }
-.leading-loose { line-height: 2; }
-.bg-glass-subtle { background-color: rgba(248, 250, 252, 0.9); }
-.border-white/40 { border-color: rgb(255 255 255 / 0.4); }
-.p-8 { padding: 2rem; }
-.gap-6 { gap: 1.5rem; }
 .text-gray-900 { color: rgb(17 24 39); }
-.bg-gradient-to-br { background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)); }
-.from-gray-50 { --tw-gradient-from: rgb(249 250 251); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(249 250 251 / 0)); }
-.to-gray-100 { --tw-gradient-to: rgb(243 244 246); }
+.p-4 { padding: 1rem; }
+.flex { display: flex; }
+.items-start { align-items: flex-start; }
+.gap-3 { gap: 0.75rem; }
+.bg-green-50 { background-color: rgb(240 253 244); }
+.border-green-200 { border-color: rgb(187 247 208); }
+.text-green-800 { color: rgb(22 101 52); }
+@media (min-width: 640px) {
+  .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 
 /* ========================================
  * COMPONENT STYLES
@@ -1882,497 +1892,145 @@ a.bg-gray-200:active {
   
 </head>
 <body>
-  <h1 class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700">Text-Based Illustrations</h1>
-<p class="text-lg text-gray-500 text-center">Modern professional components for directory trees and flow diagrams.</p>
+  <h1 class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700">Grid Equal Height Fix</h1>
+<p class="text-lg text-gray-500 text-center">Zero-config grid beauty with equal-height card rows</p>
 <hr />
-<h2 class="text-lg font-bold">Project Structure Examples</h2>
-<h3>Basic Directory Tree</h3>
-<div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-default text-gray-800"><ul>
-<li>taildown/
+<h2 class="text-lg font-bold">Issue Identified</h2>
+<p><strong>Problem:</strong> Cards within grid layouts were not stretching to equal heights, creating visually awkward rows that violated our high UI/UX standards for zero-config beauty.</p>
+<p><strong>Visual Issue:</strong></p>
 <ul>
-<li>packages/
-<ul>
-<li>compiler/
-<ul>
-<li>src/
-<ul>
-<li>parser/</li>
-<li>renderer/</li>
-<li>components/</li>
+<li>Cards with less content appeared shorter</li>
+<li>Rows looked uneven and misaligned</li>
+<li>Bottom edges didn't align properly</li>
+<li>Not meeting professional UI standards</li>
 </ul>
-</li>
-<li>dist/</li>
-</ul>
-</li>
-<li>cli/
+<hr />
+<h2 class="text-lg font-bold">Solution</h2>
+<p>Applied CSS Grid best practices to ensure all grid items stretch to equal heights within their row.</p>
+<h3>CSS Changes</h3>
+<p><strong>File:</strong> <code>packages/compiler/src/renderer/css.ts</code> (lines 1136-1153)</p>
+<pre class="language-css"><code class="language-css code-highlight"><span class="code-line"><span class="token selector"><span class="token class">.component-grid</span></span> <span class="token punctuation">{</span>
+</span><span class="code-line">  <span class="token comment">/* Ensure grid items stretch to equal heights */</span>
+</span><span class="code-line">  <span class="token property">align-items</span><span class="token punctuation">:</span> stretch<span class="token punctuation">;</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">/* Make all direct children of grid stretch to full height */</span>
+</span><span class="code-line"><span class="token selector"><span class="token class">.component-grid</span> <span class="token combinator">></span> *</span> <span class="token punctuation">{</span>
+</span><span class="code-line">  <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">100</span><span class="token unit">%</span><span class="token punctuation">;</span>
+</span><span class="code-line">  <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+</span><span class="code-line">  <span class="token property">flex-direction</span><span class="token punctuation">:</span> column<span class="token punctuation">;</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">/* Ensure cards in grids stretch to equal heights */</span>
+</span><span class="code-line"><span class="token selector"><span class="token class">.component-grid</span> <span class="token class">.component-card</span></span> <span class="token punctuation">{</span>
+</span><span class="code-line">  <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">100</span><span class="token unit">%</span><span class="token punctuation">;</span>
+</span><span class="code-line">  <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+</span><span class="code-line">  <span class="token property">flex-direction</span><span class="token punctuation">:</span> column<span class="token punctuation">;</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span></code></pre>
+<hr />
+<h2 class="text-lg font-bold">How It Works</h2>
+<h3>1. Grid Container</h3>
+<pre class="language-css"><code class="language-css code-highlight"><span class="code-line"><span class="token selector"><span class="token class">.component-grid</span></span> <span class="token punctuation">{</span>
+</span><span class="code-line">  <span class="token property">align-items</span><span class="token punctuation">:</span> stretch<span class="token punctuation">;</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span></code></pre>
+<p><strong>Purpose:</strong> Tells the CSS Grid to stretch all items to the full height of their row (this is actually the default, but being explicit ensures no conflicts).</p>
+<h3>2. Direct Children</h3>
+<pre class="language-css"><code class="language-css code-highlight"><span class="code-line"><span class="token selector"><span class="token class">.component-grid</span> <span class="token combinator">></span> *</span> <span class="token punctuation">{</span>
+</span><span class="code-line">  <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">100</span><span class="token unit">%</span><span class="token punctuation">;</span>
+</span><span class="code-line">  <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+</span><span class="code-line">  <span class="token property">flex-direction</span><span class="token punctuation">:</span> column<span class="token punctuation">;</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span></code></pre>
+<p><strong>Purpose:</strong></p>
 <ul>
-<li>src/</li>
-<li>dist/</li>
+<li><code>height: 100%</code> - Takes full height allocated by grid</li>
+<li><code>display: flex</code> - Enables flexbox for internal content distribution</li>
+<li><code>flex-direction: column</code> - Stacks content vertically</li>
 </ul>
-</li>
-<li>shared/</li>
-</ul>
-</li>
-<li>examples/
+<h3>3. Cards in Grids</h3>
+<pre class="language-css"><code class="language-css code-highlight"><span class="code-line"><span class="token selector"><span class="token class">.component-grid</span> <span class="token class">.component-card</span></span> <span class="token punctuation">{</span>
+</span><span class="code-line">  <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">100</span><span class="token unit">%</span><span class="token punctuation">;</span>
+</span><span class="code-line">  <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+</span><span class="code-line">  <span class="token property">flex-direction</span><span class="token punctuation">:</span> column<span class="token punctuation">;</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span></code></pre>
+<p><strong>Purpose:</strong> Specifically targets cards within grids to ensure they stretch properly even when nested.</p>
+<hr />
+<h2 class="text-lg font-bold">Technical Details</h2>
+<h3>CSS Grid Auto-Height Behavior</h3>
+<p>By default, CSS Grid creates rows with height determined by the tallest item in that row. Our fix ensures:</p>
+<ol>
+<li><strong>Row Height:</strong> Determined by tallest card</li>
+<li><strong>All Items:</strong> Stretch to match row height</li>
+<li><strong>Content:</strong> Flexbox distributes content within available space</li>
+<li><strong>Result:</strong> Perfect visual alignment</li>
+</ol>
+<h3>Flexbox Column Layout</h3>
+<p>Using <code>flex-direction: column</code> ensures:</p>
 <ul>
-<li>01-basic-markdown.td</li>
+<li>Content flows top to bottom</li>
+<li>Natural reading order preserved</li>
+<li>Footer content can use <code>margin-top: auto</code> to stick to bottom</li>
+</ul>
+<hr />
+<h2 class="text-lg font-bold">Before vs After</h2>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3>Before - Uneven Heights</h3><p><strong>Issues:</strong></p><ul>
+<li><svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Cards appear jagged</li>
+<li><svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Bottom edges misaligned</li>
+<li><svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Visual hierarchy unclear</li>
+<li><svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Unprofessional appearance</li>
+</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md"><h3>After - Equal Heights</h3><p><strong>Benefits:</strong></p><ul>
+<li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Cards perfectly aligned</li>
+<li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Clean visual rhythm</li>
+<li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Professional polish</li>
+<li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Zero-config beauty</li>
+</ul></div></div>
+<hr />
+<h2 class="text-lg font-bold">Affected Examples</h2>
+<p>All files with grid layouts now benefit from equal-height cards:</p>
+<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-stepped bg-white text-gray-900"><ul>
+<li>04-grid-layouts.td</li>
+<li>06-real-world-landing.td</li>
 <li>10-complete-page.td</li>
-</ul>
-</li>
-<li>docs/</li>
-<li>package.json</li>
-<li>README.md</li>
-</ul>
-</li>
-</ul></div>
-<h3>Minimal Tree Style</h3>
-<div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-minimal border-none bg-transparent p-2"><ul>
-<li>project/
-<ul>
-<li>src/
-<ul>
-<li>index.ts</li>
-<li>utils.ts</li>
-<li>types.ts</li>
-</ul>
-</li>
-<li>tests/
-<ul>
-<li>unit/</li>
-<li>integration/</li>
-</ul>
-</li>
-<li>package.json</li>
-</ul>
-</li>
-</ul></div>
-<h3>Colored Depth Visualization</h3>
-<div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-colored bg-white text-base p-6 leading-loose"><ul>
-<li>app/
-<ul>
-<li>frontend/
-<ul>
-<li>components/
-<ul>
-<li>Button.tsx</li>
-<li>Card.tsx</li>
-<li>Modal.tsx</li>
-</ul>
-</li>
-<li>pages/
-<ul>
-<li>Home.tsx</li>
-<li>About.tsx</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>backend/
-<ul>
-<li>controllers/
-<ul>
-<li>UserController.ts</li>
-<li>AuthController.ts</li>
-</ul>
-</li>
-<li>models/
-<ul>
-<li>User.ts</li>
-</ul>
-</li>
-<li>routes/</li>
-</ul>
-</li>
-<li>shared/
-<ul>
-<li>types/</li>
-<li>utils/</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul></div>
-<h3>Glass Effect Tree</h3>
-<div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-glass glass-effect glass-subtle bg-glass-subtle border-white/40"><ul>
-<li>website/
-<ul>
-<li>public/
-<ul>
-<li>images/</li>
-<li>fonts/</li>
-</ul>
-</li>
-<li>src/
-<ul>
-<li>components/</li>
-<li>styles/</li>
-<li>pages/</li>
-</ul>
-</li>
-<li>config/</li>
-<li>package.json</li>
-</ul>
-</li>
+<li>11-text-illustrations.td</li>
+<li>README.td</li>
 </ul></div>
 <hr />
-<h2 class="text-lg font-bold">Flow Diagram Examples</h2>
-<h3>Simple Vertical Flow</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-vertical text-gray-800"><ul>
-<li>Initialize Application</li>
-<li>Load Configuration</li>
-<li>Connect to Database</li>
-<li>Start Server</li>
-<li>Listen for Requests</li>
-</ul></div>
-<h3>Horizontal Process Flow</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-horizontal text-gray-800 p-8 text-lg gap-6"><ul>
-<li>Input Data</li>
-<li>Validate</li>
-<li>Transform</li>
-<li>Store</li>
-<li>Output Result</li>
-</ul></div>
-<h3>Stepped Process</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-stepped bg-white text-gray-900"><ul>
-<li>Create Account</li>
-<li>Verify Email</li>
-<li>Set Up Profile</li>
-<li>Choose Subscription</li>
-<li>Complete Onboarding</li>
-</ul></div>
-<h3>Branching Decision Flow</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-branching bg-gradient-to-br from-blue-50 to-purple-50"><ul>
-<li>Request Received
-<ul>
-<li>Authentication Check
-<ul>
-<li>Valid Token
-<ul>
-<li>Process Request</li>
-</ul>
-</li>
-<li>Invalid Token
-<ul>
-<li>Return 401 Error</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Rate Limit Check
-<ul>
-<li>Within Limits
-<ul>
-<li>Continue</li>
-</ul>
-</li>
-<li>Exceeded
-<ul>
-<li>Return 429 Error</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul></div>
-<h3>Timeline Style</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-timeline bg-white border-l-4 border-blue-500"><ul>
-<li>Project Kickoff</li>
-<li>Requirements Gathering</li>
-<li>Design Phase</li>
-<li>Development Sprint 1</li>
-<li>Development Sprint 2</li>
-<li>Testing and QA</li>
-<li>Deployment</li>
-<li>Monitoring and Maintenance</li>
-</ul></div>
-<h3>Minimal Clean Flow</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-minimal border-none bg-transparent p-2"><ul>
-<li>Start</li>
-<li>Process</li>
-<li>Validate</li>
-<li>Save</li>
-<li>Notify</li>
-<li>Complete</li>
-</ul></div>
+<h2 class="text-lg font-bold">Zero-Config Beauty Restored</h2>
+<p>This fix restores our commitment to <strong>zero-config beauty</strong> by ensuring that grids look professional out of the box, with no manual height adjustments needed.</p>
+<div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-green-50 border-green-200 text-green-800"><p><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> <strong>Grid layouts now meet our high UI/UX standards</strong> - Equal heights, perfect alignment, professional appearance by default!</p></div>
 <hr />
-<h2 class="text-lg font-bold">Real-World Use Cases</h2>
-<h3>API Request Flow</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-stepped bg-white text-gray-900 p-8 text-lg gap-6"><ul>
-<li>Client sends HTTP request</li>
-<li>API Gateway receives request</li>
-<li>Middleware validates JWT token</li>
-<li>Route handler processes request</li>
-<li>Service layer executes business logic</li>
-<li>Database query executes</li>
-<li>Response formatted and returned</li>
-<li>Client receives JSON response</li>
-</ul></div>
-<h3>File Structure for Component Library</h3>
-<div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-colored bg-white"><ul>
-<li>component-library/
+<h2 class="text-lg font-bold">Browser Compatibility</h2>
+<p>Works in all modern browsers with CSS Grid support:</p>
 <ul>
-<li>src/
-<ul>
-<li>components/
-<ul>
-<li>buttons/
-<ul>
-<li>Button.tsx</li>
-<li>IconButton.tsx</li>
-<li>ToggleButton.tsx</li>
+<li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Chrome 57+</li>
+<li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Firefox 52+</li>
+<li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Safari 10.1+</li>
+<li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Edge 16+</li>
 </ul>
-</li>
-<li>forms/
-<ul>
-<li>Input.tsx</li>
-<li>Select.tsx</li>
-<li>Checkbox.tsx</li>
-</ul>
-</li>
-<li>layout/
-<ul>
-<li>Container.tsx</li>
-<li>Grid.tsx</li>
-<li>Stack.tsx</li>
-</ul>
-</li>
-<li>feedback/
-<ul>
-<li>Alert.tsx</li>
-<li>Toast.tsx</li>
-<li>Modal.tsx</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>hooks/
-<ul>
-<li>useTheme.ts</li>
-<li>useMediaQuery.ts</li>
-</ul>
-</li>
-<li>utils/
-<ul>
-<li>classNames.ts</li>
-<li>validators.ts</li>
-</ul>
-</li>
-<li>types/
-<ul>
-<li>index.ts</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>tests/</li>
-<li>docs/</li>
-<li>package.json</li>
-<li>tsconfig.json</li>
-</ul>
-</li>
-</ul></div>
-<h3>CI/CD Pipeline Flow</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-branching bg-gradient-to-br from-blue-50 to-purple-50 p-8 text-lg gap-6"><ul>
-<li>Code Commit
-<ul>
-<li>Run Linter
-<ul>
-<li>Pass
-<ul>
-<li>Run Tests
-<ul>
-<li>Pass
-<ul>
-<li>Build Application
-<ul>
-<li>Success
-<ul>
-<li>Deploy to Staging</li>
-</ul>
-</li>
-<li>Failure
-<ul>
-<li>Notify Team</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Fail
-<ul>
-<li>Block Deployment</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Fail
-<ul>
-<li>Reject Commit</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul></div>
+<p>Uses standard CSS Grid and Flexbox features - no experimental properties.</p>
 <hr />
-<h2 class="text-lg font-bold">Nested Complex Examples</h2>
-<h3>Monorepo Structure</h3>
-<div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-rounded bg-gradient-to-br from-gray-50 to-gray-100 text-base p-6 leading-loose"><ul>
-<li>monorepo/
-<ul>
-<li>apps/
-<ul>
-<li>web/
-<ul>
-<li>src/
-<ul>
-<li>app/</li>
-<li>components/</li>
-<li>lib/</li>
-</ul>
-</li>
-<li>public/</li>
-<li>package.json</li>
-</ul>
-</li>
-<li>mobile/
-<ul>
-<li>src/
-<ul>
-<li>screens/</li>
-<li>components/</li>
-</ul>
-</li>
-<li>package.json</li>
-</ul>
-</li>
-<li>docs/
-<ul>
-<li>src/</li>
-<li>static/</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>packages/
-<ul>
-<li>ui/
-<ul>
-<li>src/
-<ul>
-<li>components/</li>
-</ul>
-</li>
-<li>package.json</li>
-</ul>
-</li>
-<li>utils/
-<ul>
-<li>src/</li>
-<li>package.json</li>
-</ul>
-</li>
-<li>types/
-<ul>
-<li>src/</li>
-<li>package.json</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>tools/
-<ul>
-<li>build/</li>
-<li>deploy/</li>
-</ul>
-</li>
-<li>pnpm-workspace.yaml</li>
-<li>turbo.json</li>
-</ul>
-</li>
-</ul></div>
-<h3>Data Processing Pipeline</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-stepped bg-white text-gray-900"><ul>
-<li>Raw Data Ingestion
-<ul>
-<li>CSV Files</li>
-<li>JSON APIs</li>
-<li>Database Exports</li>
-</ul>
-</li>
-<li>Data Cleaning
-<ul>
-<li>Remove Duplicates</li>
-<li>Handle Missing Values</li>
-<li>Normalize Formats</li>
-</ul>
-</li>
-<li>Data Transformation
-<ul>
-<li>Apply Business Rules</li>
-<li>Calculate Derived Fields</li>
-<li>Join Related Data</li>
-</ul>
-</li>
-<li>Data Validation
-<ul>
-<li>Schema Validation</li>
-<li>Business Rule Checks</li>
-<li>Quality Metrics</li>
-</ul>
-</li>
-<li>Data Storage
-<ul>
-<li>Write to Data Warehouse</li>
-<li>Update Indexes</li>
-<li>Create Backups</li>
-</ul>
-</li>
-<li>Reporting
-<ul>
-<li>Generate Analytics</li>
-<li>Send Notifications</li>
-<li>Update Dashboards</li>
-</ul>
-</li>
-</ul></div>
+<h2 class="text-lg font-bold">Testing</h2>
+<p>Verified across multiple files:</p>
+<p><strong>Grid with 3 Cards (varying content):</strong></p>
+<pre><code class="language-taildown code-highlight"><span class="code-line">:::grid
+</span><span class="code-line">:::card {elevated}
+</span><span class="code-line">Short content
+</span><span class="code-line">:::
+</span><span class="code-line">
+</span><span class="code-line">:::card {elevated}
+</span><span class="code-line">Medium amount of content with multiple paragraphs
+</span><span class="code-line">:::
+</span><span class="code-line">
+</span><span class="code-line">:::card {elevated}
+</span><span class="code-line">Tiny
+</span><span class="code-line">:::
+</span><span class="code-line">:::
+</span></code></pre>
+<p><strong>Result:</strong> <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> All three cards now have equal height, matching the tallest</p>
 <hr />
-<h2 class="text-lg font-bold">Glass and Dark Variants</h2>
-<h3>Modern Glass Tree</h3>
-<div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-glass glass-effect glass-subtle bg-glass-subtle border-white/40 text-base p-6 leading-loose"><ul>
-<li>design-system/
-<ul>
-<li>tokens/
-<ul>
-<li>colors.json</li>
-<li>typography.json</li>
-<li>spacing.json</li>
-</ul>
-</li>
-<li>components/
-<ul>
-<li>primitives/</li>
-<li>patterns/</li>
-</ul>
-</li>
-<li>documentation/</li>
-<li>examples/</li>
-</ul>
-</li>
-</ul></div>
-<h3>Dark Theme Flow</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-horizontal text-gray-800"><ul>
-<li>Authentication</li>
-<li>Authorization</li>
-<li>Processing</li>
-<li>Response</li>
-</ul></div>
-<hr />
-<p class="text-center text-gray-500">Built with Taildown - Modern Text Illustrations</p>
+<p class="text-center text-gray-500">Completed: 2025-10-06</p>
 </body>
 </html>

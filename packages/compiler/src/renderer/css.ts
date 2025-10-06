@@ -1134,7 +1134,22 @@ ${generateAnimationCSS()}
 }
 
 .component-grid {
-  /* Additional grid-specific styles */
+  /* Ensure grid items stretch to equal heights */
+  align-items: stretch;
+}
+
+/* Make all direct children of grid stretch to full height */
+.component-grid > * {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure cards in grids stretch to equal heights */
+.component-grid .component-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .component-container {

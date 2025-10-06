@@ -1029,32 +1029,47 @@ td svg.icon {
 .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
 .font-bold { font-weight: 700; }
 .text-center { text-align: center; }
-.text-primary-600 { color: rgb(37 99 235); }
-.hover\:text-primary-700:hover { color: rgb(29 78 216); }
 .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
 .text-gray-500 { color: rgb(107 114 128); }
-.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
-.overflow-x-auto { overflow-x: auto; }
+.leading-relaxed { line-height: 1.625; }
+.grid { display: grid; }
+.gap-4 { gap: 1rem; }
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .rounded-lg { border-radius: 0.5rem; }
-.bg-gray-50 { background-color: rgb(249 250 251); }
-.border { border-width: 1px; border-style: solid; }
-.border-gray-200 { border-color: rgb(229 231 235); }
-.p-4 { padding: 1rem; }
-.text-gray-800 { color: rgb(31 41 55); }
-.bg-transparent { background-color: transparent; }
-.p-2 { padding: 0.5rem; }
-.bg-white { background-color: rgb(255 255 255); }
-.text-base { font-size: 1rem; line-height: 1.5rem; }
 .p-6 { padding: 1.5rem; }
-.leading-loose { line-height: 2; }
+.max-w-full { max-width: 100%; }
+.overflow-x-hidden { overflow-x: hidden; }
+.break-words { overflow-wrap: break-word; word-wrap: break-word; }
+.bg-white { background-color: rgb(255 255 255); }
+.shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+.bg-glass-light { background-color: rgba(241, 245, 249, 0.75); }
+.border-white/50 { border-color: rgb(255 255 255 / 0.5); }
+.text-primary-600 { color: rgb(37 99 235); }
+.hover\:text-primary-700:hover { color: rgb(29 78 216); }
+.gap-8 { gap: 2rem; }
 .bg-glass-subtle { background-color: rgba(248, 250, 252, 0.9); }
 .border-white/40 { border-color: rgb(255 255 255 / 0.4); }
-.p-8 { padding: 2rem; }
-.gap-6 { gap: 1.5rem; }
-.text-gray-900 { color: rgb(17 24 39); }
-.bg-gradient-to-br { background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)); }
-.from-gray-50 { --tw-gradient-from: rgb(249 250 251); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(249 250 251 / 0)); }
-.to-gray-100 { --tw-gradient-to: rgb(243 244 246); }
+.text-green-600 { color: rgb(22 163 74); }
+.text-blue-600 { color: rgb(37 99 235); }
+.bg-glass-heavy { background-color: rgba(203, 213, 225, 0.4); }
+.border-white/60 { border-color: rgb(255 255 255 / 0.6); }
+.shadow-xl { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+.text-secondary-600 { color: rgb(147 51 234); }
+.hover\:text-secondary-700:hover { color: rgb(126 34 206); }
+.transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+.duration-300 { transition-duration: 300ms; }
+.cursor-pointer { cursor: pointer; }
+.hover\:transform:hover { transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+.duration-200 { transition-duration: 200ms; }
+.text-red-600 { color: rgb(220 38 38); }
+.text-yellow-600 { color: rgb(202 138 4); }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+@media (min-width: 640px) {
+  .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 
 /* ========================================
  * COMPONENT STYLES
@@ -1882,497 +1897,23 @@ a.bg-gray-200:active {
   
 </head>
 <body>
-  <h1 class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700">Text-Based Illustrations</h1>
-<p class="text-lg text-gray-500 text-center">Modern professional components for directory trees and flow diagrams.</p>
+  <h1 class="text-4xl font-bold text-center">Grid Layouts</h1>
+<p class="text-lg text-gray-500 text-center leading-relaxed">The grid component creates responsive layouts that adapt to screen size.</p>
+<h2>Basic Grid</h2>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md animate-fade-in"><h3 class="text-lg font-bold">Item 1</h3><p>First item in the grid with elegant elevation.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md animate-fade-in"><h3 class="text-lg font-bold">Item 2</h3><p>Second item in the grid with elegant elevation.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md animate-fade-in"><h3 class="text-lg font-bold">Item 3</h3><p>Third item in the grid with elegant elevation.</p></div></div>
+<p>The grid automatically adjusts:</p>
+<ul>
+<li><strong>Mobile:</strong> 1 column</li>
+<li><strong>Tablet:</strong> 2 columns</li>
+<li><strong>Desktop:</strong> 3 columns</li>
+</ul>
+<h2>Feature Grid with Icons</h2>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-zap text-primary-600 hover:text-primary-700" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Fast</h3><p>Compiles in milliseconds with zero configuration.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-palette text-primary-600 hover:text-primary-700" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg> Beautiful</h3><p>Tailwind CSS styling with glassmorphism.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-feather text-primary-600 hover:text-primary-700" data-icon="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.67 19a2 2 0 0 0 1.416-.588l6.154-6.172a6 6 0 0 0-8.49-8.49L5.586 9.914A2 2 0 0 0 5 11.328V18a1 1 0 0 0 1 1z" /><path d="M16 8 2 22" /><path d="M17.5 15H9" /></svg> Simple</h3><p>Just write Markdown, we handle the rest.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-layout text-primary-600 hover:text-primary-700" data-icon="layout" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M9 21V9" /></svg> Flexible</h3><p>Customize everything with plain English.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-smartphone text-primary-600 hover:text-primary-700" data-icon="smartphone" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg> Responsive</h3><p>Mobile-first design out of the box.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-slide-up"><h3><svg class="icon icon-check-circle text-primary-600 hover:text-primary-700" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> Spec-Compliant</h3><p>Follows CommonMark standards exactly.</p></div></div>
+<h2>Grid with Glassmorphism Variants</h2>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm animate-zoom-in"><h3><svg class="icon icon-shield text-green-600 lg" data-icon="shield" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /></svg> Subtle Glass</h3><p>The lightest glass effect for minimal UI.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md animate-zoom-in"><h3><svg class="icon icon-droplet text-blue-600 lg" data-icon="droplet" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z" /></svg> Light Glass</h3><p>Moderate transparency with frosted edges.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy bg-glass-heavy border-white/60 shadow-xl animate-zoom-in"><h3><svg class="icon icon-cloud text-secondary-600 hover:text-secondary-700 lg" data-icon="cloud" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" /></svg> Heavy Glass</h3><p>Maximum blur for dramatic depth effect.</p></div></div>
+<h2>Interactive Grid</h2>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-target text-red-600" data-icon="target" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg> Click Me</h3><p>Cards with interactive styling respond on hover.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-trending-up text-green-600" data-icon="trending-up" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6" /><path d="m22 7-8.5 8.5-5-5L2 17" /></svg> Hover Effect</h3><p>Smooth lift animation on mouse over.</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words shadow-md transition-all duration-300 cursor-pointer hover:transform hover:-translate-y-1 transition-transform duration-200"><h3><svg class="icon icon-star text-yellow-600" data-icon="star" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></svg> Beautiful</h3><p>Combines elevation with hover states.</p></div></div>
 <hr />
-<h2 class="text-lg font-bold">Project Structure Examples</h2>
-<h3>Basic Directory Tree</h3>
-<div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-default text-gray-800"><ul>
-<li>taildown/
-<ul>
-<li>packages/
-<ul>
-<li>compiler/
-<ul>
-<li>src/
-<ul>
-<li>parser/</li>
-<li>renderer/</li>
-<li>components/</li>
-</ul>
-</li>
-<li>dist/</li>
-</ul>
-</li>
-<li>cli/
-<ul>
-<li>src/</li>
-<li>dist/</li>
-</ul>
-</li>
-<li>shared/</li>
-</ul>
-</li>
-<li>examples/
-<ul>
-<li>01-basic-markdown.td</li>
-<li>10-complete-page.td</li>
-</ul>
-</li>
-<li>docs/</li>
-<li>package.json</li>
-<li>README.md</li>
-</ul>
-</li>
-</ul></div>
-<h3>Minimal Tree Style</h3>
-<div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-minimal border-none bg-transparent p-2"><ul>
-<li>project/
-<ul>
-<li>src/
-<ul>
-<li>index.ts</li>
-<li>utils.ts</li>
-<li>types.ts</li>
-</ul>
-</li>
-<li>tests/
-<ul>
-<li>unit/</li>
-<li>integration/</li>
-</ul>
-</li>
-<li>package.json</li>
-</ul>
-</li>
-</ul></div>
-<h3>Colored Depth Visualization</h3>
-<div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-colored bg-white text-base p-6 leading-loose"><ul>
-<li>app/
-<ul>
-<li>frontend/
-<ul>
-<li>components/
-<ul>
-<li>Button.tsx</li>
-<li>Card.tsx</li>
-<li>Modal.tsx</li>
-</ul>
-</li>
-<li>pages/
-<ul>
-<li>Home.tsx</li>
-<li>About.tsx</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>backend/
-<ul>
-<li>controllers/
-<ul>
-<li>UserController.ts</li>
-<li>AuthController.ts</li>
-</ul>
-</li>
-<li>models/
-<ul>
-<li>User.ts</li>
-</ul>
-</li>
-<li>routes/</li>
-</ul>
-</li>
-<li>shared/
-<ul>
-<li>types/</li>
-<li>utils/</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul></div>
-<h3>Glass Effect Tree</h3>
-<div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-glass glass-effect glass-subtle bg-glass-subtle border-white/40"><ul>
-<li>website/
-<ul>
-<li>public/
-<ul>
-<li>images/</li>
-<li>fonts/</li>
-</ul>
-</li>
-<li>src/
-<ul>
-<li>components/</li>
-<li>styles/</li>
-<li>pages/</li>
-</ul>
-</li>
-<li>config/</li>
-<li>package.json</li>
-</ul>
-</li>
-</ul></div>
-<hr />
-<h2 class="text-lg font-bold">Flow Diagram Examples</h2>
-<h3>Simple Vertical Flow</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-vertical text-gray-800"><ul>
-<li>Initialize Application</li>
-<li>Load Configuration</li>
-<li>Connect to Database</li>
-<li>Start Server</li>
-<li>Listen for Requests</li>
-</ul></div>
-<h3>Horizontal Process Flow</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-horizontal text-gray-800 p-8 text-lg gap-6"><ul>
-<li>Input Data</li>
-<li>Validate</li>
-<li>Transform</li>
-<li>Store</li>
-<li>Output Result</li>
-</ul></div>
-<h3>Stepped Process</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-stepped bg-white text-gray-900"><ul>
-<li>Create Account</li>
-<li>Verify Email</li>
-<li>Set Up Profile</li>
-<li>Choose Subscription</li>
-<li>Complete Onboarding</li>
-</ul></div>
-<h3>Branching Decision Flow</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-branching bg-gradient-to-br from-blue-50 to-purple-50"><ul>
-<li>Request Received
-<ul>
-<li>Authentication Check
-<ul>
-<li>Valid Token
-<ul>
-<li>Process Request</li>
-</ul>
-</li>
-<li>Invalid Token
-<ul>
-<li>Return 401 Error</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Rate Limit Check
-<ul>
-<li>Within Limits
-<ul>
-<li>Continue</li>
-</ul>
-</li>
-<li>Exceeded
-<ul>
-<li>Return 429 Error</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul></div>
-<h3>Timeline Style</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-timeline bg-white border-l-4 border-blue-500"><ul>
-<li>Project Kickoff</li>
-<li>Requirements Gathering</li>
-<li>Design Phase</li>
-<li>Development Sprint 1</li>
-<li>Development Sprint 2</li>
-<li>Testing and QA</li>
-<li>Deployment</li>
-<li>Monitoring and Maintenance</li>
-</ul></div>
-<h3>Minimal Clean Flow</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-minimal border-none bg-transparent p-2"><ul>
-<li>Start</li>
-<li>Process</li>
-<li>Validate</li>
-<li>Save</li>
-<li>Notify</li>
-<li>Complete</li>
-</ul></div>
-<hr />
-<h2 class="text-lg font-bold">Real-World Use Cases</h2>
-<h3>API Request Flow</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-stepped bg-white text-gray-900 p-8 text-lg gap-6"><ul>
-<li>Client sends HTTP request</li>
-<li>API Gateway receives request</li>
-<li>Middleware validates JWT token</li>
-<li>Route handler processes request</li>
-<li>Service layer executes business logic</li>
-<li>Database query executes</li>
-<li>Response formatted and returned</li>
-<li>Client receives JSON response</li>
-</ul></div>
-<h3>File Structure for Component Library</h3>
-<div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-colored bg-white"><ul>
-<li>component-library/
-<ul>
-<li>src/
-<ul>
-<li>components/
-<ul>
-<li>buttons/
-<ul>
-<li>Button.tsx</li>
-<li>IconButton.tsx</li>
-<li>ToggleButton.tsx</li>
-</ul>
-</li>
-<li>forms/
-<ul>
-<li>Input.tsx</li>
-<li>Select.tsx</li>
-<li>Checkbox.tsx</li>
-</ul>
-</li>
-<li>layout/
-<ul>
-<li>Container.tsx</li>
-<li>Grid.tsx</li>
-<li>Stack.tsx</li>
-</ul>
-</li>
-<li>feedback/
-<ul>
-<li>Alert.tsx</li>
-<li>Toast.tsx</li>
-<li>Modal.tsx</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>hooks/
-<ul>
-<li>useTheme.ts</li>
-<li>useMediaQuery.ts</li>
-</ul>
-</li>
-<li>utils/
-<ul>
-<li>classNames.ts</li>
-<li>validators.ts</li>
-</ul>
-</li>
-<li>types/
-<ul>
-<li>index.ts</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>tests/</li>
-<li>docs/</li>
-<li>package.json</li>
-<li>tsconfig.json</li>
-</ul>
-</li>
-</ul></div>
-<h3>CI/CD Pipeline Flow</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-branching bg-gradient-to-br from-blue-50 to-purple-50 p-8 text-lg gap-6"><ul>
-<li>Code Commit
-<ul>
-<li>Run Linter
-<ul>
-<li>Pass
-<ul>
-<li>Run Tests
-<ul>
-<li>Pass
-<ul>
-<li>Build Application
-<ul>
-<li>Success
-<ul>
-<li>Deploy to Staging</li>
-</ul>
-</li>
-<li>Failure
-<ul>
-<li>Notify Team</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Fail
-<ul>
-<li>Block Deployment</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Fail
-<ul>
-<li>Reject Commit</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul></div>
-<hr />
-<h2 class="text-lg font-bold">Nested Complex Examples</h2>
-<h3>Monorepo Structure</h3>
-<div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-rounded bg-gradient-to-br from-gray-50 to-gray-100 text-base p-6 leading-loose"><ul>
-<li>monorepo/
-<ul>
-<li>apps/
-<ul>
-<li>web/
-<ul>
-<li>src/
-<ul>
-<li>app/</li>
-<li>components/</li>
-<li>lib/</li>
-</ul>
-</li>
-<li>public/</li>
-<li>package.json</li>
-</ul>
-</li>
-<li>mobile/
-<ul>
-<li>src/
-<ul>
-<li>screens/</li>
-<li>components/</li>
-</ul>
-</li>
-<li>package.json</li>
-</ul>
-</li>
-<li>docs/
-<ul>
-<li>src/</li>
-<li>static/</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>packages/
-<ul>
-<li>ui/
-<ul>
-<li>src/
-<ul>
-<li>components/</li>
-</ul>
-</li>
-<li>package.json</li>
-</ul>
-</li>
-<li>utils/
-<ul>
-<li>src/</li>
-<li>package.json</li>
-</ul>
-</li>
-<li>types/
-<ul>
-<li>src/</li>
-<li>package.json</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>tools/
-<ul>
-<li>build/</li>
-<li>deploy/</li>
-</ul>
-</li>
-<li>pnpm-workspace.yaml</li>
-<li>turbo.json</li>
-</ul>
-</li>
-</ul></div>
-<h3>Data Processing Pipeline</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-stepped bg-white text-gray-900"><ul>
-<li>Raw Data Ingestion
-<ul>
-<li>CSV Files</li>
-<li>JSON APIs</li>
-<li>Database Exports</li>
-</ul>
-</li>
-<li>Data Cleaning
-<ul>
-<li>Remove Duplicates</li>
-<li>Handle Missing Values</li>
-<li>Normalize Formats</li>
-</ul>
-</li>
-<li>Data Transformation
-<ul>
-<li>Apply Business Rules</li>
-<li>Calculate Derived Fields</li>
-<li>Join Related Data</li>
-</ul>
-</li>
-<li>Data Validation
-<ul>
-<li>Schema Validation</li>
-<li>Business Rule Checks</li>
-<li>Quality Metrics</li>
-</ul>
-</li>
-<li>Data Storage
-<ul>
-<li>Write to Data Warehouse</li>
-<li>Update Indexes</li>
-<li>Create Backups</li>
-</ul>
-</li>
-<li>Reporting
-<ul>
-<li>Generate Analytics</li>
-<li>Send Notifications</li>
-<li>Update Dashboards</li>
-</ul>
-</li>
-</ul></div>
-<hr />
-<h2 class="text-lg font-bold">Glass and Dark Variants</h2>
-<h3>Modern Glass Tree</h3>
-<div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-glass glass-effect glass-subtle bg-glass-subtle border-white/40 text-base p-6 leading-loose"><ul>
-<li>design-system/
-<ul>
-<li>tokens/
-<ul>
-<li>colors.json</li>
-<li>typography.json</li>
-<li>spacing.json</li>
-</ul>
-</li>
-<li>components/
-<ul>
-<li>primitives/</li>
-<li>patterns/</li>
-</ul>
-</li>
-<li>documentation/</li>
-<li>examples/</li>
-</ul>
-</li>
-</ul></div>
-<h3>Dark Theme Flow</h3>
-<div class="taildown-component component-flow flow-container overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-6 flow-horizontal text-gray-800"><ul>
-<li>Authentication</li>
-<li>Authorization</li>
-<li>Processing</li>
-<li>Response</li>
-</ul></div>
-<hr />
-<p class="text-center text-gray-500">Built with Taildown - Modern Text Illustrations</p>
+<p class="text-sm text-gray-500 text-center"><strong>Pro Tip:</strong> Blank lines between cards are fine! The parser handles them correctly. Grid layouts automatically adapt from 1 to 3 columns based on screen size.</p>
 </body>
 </html>
