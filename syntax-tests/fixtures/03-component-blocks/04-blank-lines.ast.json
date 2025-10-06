@@ -33,6 +33,9 @@
           "column": 38,
           "offset": 37
         }
+      },
+      "data": {
+        "hProperties": {}
       }
     },
     {
@@ -42,7 +45,10 @@
           "type": "text",
           "value": "Testing that blank lines between sibling components are properly handled."
         }
-      ]
+      ],
+      "data": {
+        "hProperties": {}
+      }
     },
     {
       "type": "containerDirective",
@@ -59,7 +65,10 @@
                   "type": "text",
                   "value": "First card content"
                 }
-              ]
+              ],
+              "data": {
+                "hProperties": {}
+              }
             }
           ],
           "position": {
@@ -80,12 +89,13 @@
               "className": [
                 "taildown-component",
                 "component-card",
-                "p-6",
                 "rounded-lg",
-                "shadow-md",
-                "bg-white",
+                "p-6",
                 "max-w-full",
-                "overflow-auto"
+                "overflow-x-hidden",
+                "break-words",
+                "bg-white",
+                "shadow-md"
               ],
               "data-component": "card"
             },
@@ -106,7 +116,10 @@
                   "type": "text",
                   "value": "Second card content"
                 }
-              ]
+              ],
+              "data": {
+                "hProperties": {}
+              }
             }
           ],
           "position": {
@@ -127,12 +140,13 @@
               "className": [
                 "taildown-component",
                 "component-card",
-                "p-6",
                 "rounded-lg",
-                "shadow-md",
-                "bg-white",
+                "p-6",
                 "max-w-full",
-                "overflow-auto"
+                "overflow-x-hidden",
+                "break-words",
+                "bg-white",
+                "shadow-md"
               ],
               "data-component": "card"
             },
@@ -153,7 +167,10 @@
                   "type": "text",
                   "value": "Third card content"
                 }
-              ]
+              ],
+              "data": {
+                "hProperties": {}
+              }
             }
           ],
           "position": {
@@ -174,12 +191,13 @@
               "className": [
                 "taildown-component",
                 "component-card",
-                "p-6",
                 "rounded-lg",
-                "shadow-md",
-                "bg-white",
+                "p-6",
                 "max-w-full",
-                "overflow-auto"
+                "overflow-x-hidden",
+                "break-words",
+                "bg-white",
+                "shadow-md"
               ],
               "data-component": "card"
             },
@@ -229,7 +247,10 @@
           "type": "text",
           "value": "Outside the grid."
         }
-      ]
+      ],
+      "data": {
+        "hProperties": {}
+      }
     }
   ],
   "position": {
@@ -241,7 +262,7 @@
     "end": {
       "line": 23,
       "column": 1,
-      "offset": 266
+      "offset": 244
     }
   }
 }

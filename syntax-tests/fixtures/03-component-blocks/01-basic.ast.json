@@ -12,7 +12,10 @@
               "type": "text",
               "value": "This is content inside a card component."
             }
-          ]
+          ],
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
       "position": {
@@ -33,12 +36,13 @@
           "className": [
             "taildown-component",
             "component-card",
-            "p-6",
             "rounded-lg",
-            "shadow-md",
-            "bg-white",
+            "p-6",
             "max-w-full",
-            "overflow-auto"
+            "overflow-x-hidden",
+            "break-words",
+            "bg-white",
+            "shadow-md"
           ],
           "data-component": "card"
         },
@@ -59,7 +63,10 @@
               "type": "text",
               "value": "Grid content here."
             }
-          ]
+          ],
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
       "position": {
@@ -105,7 +112,10 @@
               "type": "text",
               "value": "Container content with multiple lines."
             }
-          ]
+          ],
+          "data": {
+            "hProperties": {}
+          }
         },
         {
           "type": "paragraph",
@@ -114,7 +124,10 @@
               "type": "text",
               "value": "This is a second paragraph inside the container."
             }
-          ]
+          ],
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
       "position": {
@@ -135,12 +148,11 @@
           "className": [
             "taildown-component",
             "component-container",
-            "max-w-screen-2xl",
             "mx-auto",
             "px-4",
             "sm:px-6",
             "lg:px-8",
-            "xl:px-12"
+            "max-w-6xl"
           ],
           "data-component": "container"
         },
@@ -161,7 +173,10 @@
               "type": "text",
               "value": "Empty line at start and end is okay."
             }
-          ]
+          ],
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
       "position": {
@@ -182,12 +197,13 @@
           "className": [
             "taildown-component",
             "component-card",
-            "p-6",
             "rounded-lg",
-            "shadow-md",
-            "bg-white",
+            "p-6",
             "max-w-full",
-            "overflow-auto"
+            "overflow-x-hidden",
+            "break-words",
+            "bg-white",
+            "shadow-md"
           ],
           "data-component": "card"
         },
@@ -219,12 +235,13 @@
           "className": [
             "taildown-component",
             "component-card",
-            "p-6",
             "rounded-lg",
-            "shadow-md",
-            "bg-white",
+            "p-6",
             "max-w-full",
-            "overflow-auto"
+            "overflow-x-hidden",
+            "break-words",
+            "bg-white",
+            "shadow-md"
           ],
           "data-component": "card"
         },
@@ -241,7 +258,10 @@
           "type": "text",
           "value": "Regular paragraph between components."
         }
-      ]
+      ],
+      "data": {
+        "hProperties": {}
+      }
     },
     {
       "type": "containerDirective",
@@ -254,7 +274,10 @@
               "type": "text",
               "value": "Another component after regular content."
             }
-          ]
+          ],
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
       "position": {
@@ -299,7 +322,7 @@
     "end": {
       "line": 29,
       "column": 1,
-      "offset": 378
+      "offset": 350
     }
   }
 }

@@ -16,7 +16,10 @@
                   "type": "text",
                   "value": "First card in grid"
                 }
-              ]
+              ],
+              "data": {
+                "hProperties": {}
+              }
             }
           ],
           "position": {
@@ -37,12 +40,13 @@
               "className": [
                 "taildown-component",
                 "component-card",
-                "p-6",
                 "rounded-lg",
-                "shadow-md",
-                "bg-white",
+                "p-6",
                 "max-w-full",
-                "overflow-auto"
+                "overflow-x-hidden",
+                "break-words",
+                "bg-white",
+                "shadow-md"
               ],
               "data-component": "card"
             },
@@ -63,7 +67,10 @@
                   "type": "text",
                   "value": "Second card in grid"
                 }
-              ]
+              ],
+              "data": {
+                "hProperties": {}
+              }
             }
           ],
           "position": {
@@ -84,12 +91,13 @@
               "className": [
                 "taildown-component",
                 "component-card",
-                "p-6",
                 "rounded-lg",
-                "shadow-md",
-                "bg-white",
+                "p-6",
                 "max-w-full",
-                "overflow-auto"
+                "overflow-x-hidden",
+                "break-words",
+                "bg-white",
+                "shadow-md"
               ],
               "data-component": "card"
             },
@@ -110,7 +118,10 @@
                   "type": "text",
                   "value": "Third card in grid"
                 }
-              ]
+              ],
+              "data": {
+                "hProperties": {}
+              }
             }
           ],
           "position": {
@@ -131,12 +142,13 @@
               "className": [
                 "taildown-component",
                 "component-card",
-                "p-6",
                 "rounded-lg",
-                "shadow-md",
-                "bg-white",
+                "p-6",
                 "max-w-full",
-                "overflow-auto"
+                "overflow-x-hidden",
+                "break-words",
+                "bg-white",
+                "shadow-md"
               ],
               "data-component": "card"
             },
@@ -194,12 +206,12 @@
                 "start": {
                   "line": 16,
                   "column": 3,
-                  "offset": 139
+                  "offset": 124
                 },
                 "end": {
                   "line": 16,
                   "column": 25,
-                  "offset": 161
+                  "offset": 146
                 }
               }
             }
@@ -208,13 +220,16 @@
             "start": {
               "line": 16,
               "column": 1,
-              "offset": 137
+              "offset": 122
             },
             "end": {
               "line": 16,
               "column": 25,
-              "offset": 161
+              "offset": 146
             }
+          },
+          "data": {
+            "hProperties": {}
           }
         },
         {
@@ -232,7 +247,10 @@
                       "type": "text",
                       "value": "Nested: container > grid > card"
                     }
-                  ]
+                  ],
+                  "data": {
+                    "hProperties": {}
+                  }
                 }
               ],
               "position": {
@@ -253,12 +271,13 @@
                   "className": [
                     "taildown-component",
                     "component-card",
-                    "p-6",
                     "rounded-lg",
-                    "shadow-md",
-                    "bg-white",
+                    "p-6",
                     "max-w-full",
-                    "overflow-auto"
+                    "overflow-x-hidden",
+                    "break-words",
+                    "bg-white",
+                    "shadow-md"
                   ],
                   "data-component": "card"
                 },
@@ -308,7 +327,10 @@
               "type": "text",
               "value": "Regular paragraph in container."
             }
-          ]
+          ],
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
       "position": {
@@ -329,12 +351,11 @@
           "className": [
             "taildown-component",
             "component-container",
-            "max-w-screen-2xl",
             "mx-auto",
             "px-4",
             "sm:px-6",
             "lg:px-8",
-            "xl:px-12"
+            "max-w-6xl"
           ],
           "data-component": "container"
         },
@@ -355,7 +376,10 @@
               "type": "text",
               "value": "Level 1"
             }
-          ]
+          ],
+          "data": {
+            "hProperties": {}
+          }
         },
         {
           "type": "containerDirective",
@@ -368,7 +392,10 @@
                   "type": "text",
                   "value": "Level 2"
                 }
-              ]
+              ],
+              "data": {
+                "hProperties": {}
+              }
             },
             {
               "type": "containerDirective",
@@ -381,7 +408,10 @@
                       "type": "text",
                       "value": "Level 3"
                     }
-                  ]
+                  ],
+                  "data": {
+                    "hProperties": {}
+                  }
                 }
               ],
               "position": {
@@ -418,7 +448,10 @@
                   "type": "text",
                   "value": "Back to level 2"
                 }
-              ]
+              ],
+              "data": {
+                "hProperties": {}
+              }
             }
           ],
           "position": {
@@ -455,7 +488,10 @@
               "type": "text",
               "value": "Back to level 1"
             }
-          ]
+          ],
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
       "position": {
@@ -495,7 +531,7 @@
     "end": {
       "line": 38,
       "column": 1,
-      "offset": 378
+      "offset": 341
     }
   }
 }

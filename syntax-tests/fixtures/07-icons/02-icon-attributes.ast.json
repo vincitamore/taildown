@@ -1,0 +1,923 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Icon Attributes",
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 3,
+              "offset": 2
+            },
+            "end": {
+              "line": 1,
+              "column": 18,
+              "offset": 17
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 18,
+          "offset": 17
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Test icon attributes per SYNTAX.md §2.6.1"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Size Attributes",
+          "position": {
+            "start": {
+              "line": 5,
+              "column": 4,
+              "offset": 65
+            },
+            "end": {
+              "line": 5,
+              "column": 19,
+              "offset": 80
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 62
+        },
+        "end": {
+          "line": 5,
+          "column": 19,
+          "offset": 80
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Tiny icon: "
+        },
+        {
+          "type": "icon",
+          "name": "home",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-home",
+                "tiny"
+              ],
+              "data-icon": "home"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Extra small: "
+        },
+        {
+          "type": "icon",
+          "name": "home",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-home",
+                "text-xs"
+              ],
+              "data-icon": "home"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Small: "
+        },
+        {
+          "type": "icon",
+          "name": "home",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-home",
+                "sm"
+              ],
+              "data-icon": "home"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Medium (default): "
+        },
+        {
+          "type": "icon",
+          "name": "home",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-home",
+                "md"
+              ],
+              "data-icon": "home"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Large: "
+        },
+        {
+          "type": "icon",
+          "name": "home",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-home",
+                "lg"
+              ],
+              "data-icon": "home"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Extra large: "
+        },
+        {
+          "type": "icon",
+          "name": "home",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-home",
+                "text-xl"
+              ],
+              "data-icon": "home"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "2XL: "
+        },
+        {
+          "type": "icon",
+          "name": "home",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-home",
+                "text-2xl"
+              ],
+              "data-icon": "home"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Huge: "
+        },
+        {
+          "type": "icon",
+          "name": "home",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-home",
+                "text-4xl"
+              ],
+              "data-icon": "home"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Color Attributes",
+          "position": {
+            "start": {
+              "line": 23,
+              "column": 4,
+              "offset": 306
+            },
+            "end": {
+              "line": 23,
+              "column": 20,
+              "offset": 322
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 23,
+          "column": 1,
+          "offset": 303
+        },
+        "end": {
+          "line": 23,
+          "column": 20,
+          "offset": 322
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Primary: "
+        },
+        {
+          "type": "icon",
+          "name": "heart",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-heart",
+                "text-primary-600",
+                "hover:text-primary-700"
+              ],
+              "data-icon": "heart"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Secondary: "
+        },
+        {
+          "type": "icon",
+          "name": "heart",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-heart",
+                "text-secondary-600",
+                "hover:text-secondary-700"
+              ],
+              "data-icon": "heart"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Success: "
+        },
+        {
+          "type": "icon",
+          "name": "check",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-check",
+                "text-green-600"
+              ],
+              "data-icon": "check"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Warning: "
+        },
+        {
+          "type": "icon",
+          "name": "alert-triangle",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-alert-triangle",
+                "text-yellow-600"
+              ],
+              "data-icon": "alert-triangle"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Error: "
+        },
+        {
+          "type": "icon",
+          "name": "x-circle",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-x-circle",
+                "text-red-600"
+              ],
+              "data-icon": "x-circle"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Info: "
+        },
+        {
+          "type": "icon",
+          "name": "info",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-info",
+                "text-blue-600"
+              ],
+              "data-icon": "info"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Style Attributes",
+          "position": {
+            "start": {
+              "line": 37,
+              "column": 4,
+              "offset": 524
+            },
+            "end": {
+              "line": 37,
+              "column": 20,
+              "offset": 540
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 37,
+          "column": 1,
+          "offset": 521
+        },
+        "end": {
+          "line": 37,
+          "column": 20,
+          "offset": 540
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Thin stroke: "
+        },
+        {
+          "type": "icon",
+          "name": "circle",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-circle",
+                "font-thin"
+              ],
+              "data-icon": "circle"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Default stroke: "
+        },
+        {
+          "type": "icon",
+          "name": "circle",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-circle"
+              ],
+              "data-icon": "circle"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Thick stroke: "
+        },
+        {
+          "type": "icon",
+          "name": "circle",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-circle",
+                "thick"
+              ],
+              "data-icon": "circle"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Bold stroke: "
+        },
+        {
+          "type": "icon",
+          "name": "circle",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-circle",
+                "font-bold"
+              ],
+              "data-icon": "circle"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Multiple Attributes",
+          "position": {
+            "start": {
+              "line": 47,
+              "column": 4,
+              "offset": 680
+            },
+            "end": {
+              "line": 47,
+              "column": 23,
+              "offset": 699
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 47,
+          "column": 1,
+          "offset": 677
+        },
+        "end": {
+          "line": 47,
+          "column": 23,
+          "offset": 699
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Success large: "
+        },
+        {
+          "type": "icon",
+          "name": "check",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-check",
+                "text-green-600",
+                "text-lg"
+              ],
+              "data-icon": "check"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Primary huge: "
+        },
+        {
+          "type": "icon",
+          "name": "star",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-star",
+                "text-primary-600",
+                "hover:text-primary-700",
+                "text-4xl"
+              ],
+              "data-icon": "star"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Warning small: "
+        },
+        {
+          "type": "icon",
+          "name": "alert-triangle",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-alert-triangle",
+                "text-yellow-600",
+                "text-sm"
+              ],
+              "data-icon": "alert-triangle"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "CSS Class Attributes",
+          "position": {
+            "start": {
+              "line": 55,
+              "column": 4,
+              "offset": 842
+            },
+            "end": {
+              "line": 55,
+              "column": 24,
+              "offset": 862
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 55,
+          "column": 1,
+          "offset": 839
+        },
+        "end": {
+          "line": 55,
+          "column": 24,
+          "offset": 862
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Custom width: "
+        },
+        {
+          "type": "icon",
+          "name": "menu",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-menu",
+                "w-8"
+              ],
+              "data-icon": "menu"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Custom color: "
+        },
+        {
+          "type": "icon",
+          "name": "heart",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-heart",
+                "text-red-500"
+              ],
+              "data-icon": "heart"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Combined: "
+        },
+        {
+          "type": "icon",
+          "name": "star",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-star",
+                "w-6",
+                "h-6"
+              ],
+              "data-icon": "star"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Mixed Syntax",
+          "position": {
+            "start": {
+              "line": 63,
+              "column": 4,
+              "offset": 977
+            },
+            "end": {
+              "line": 63,
+              "column": 16,
+              "offset": 989
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 63,
+          "column": 1,
+          "offset": 974
+        },
+        "end": {
+          "line": 63,
+          "column": 16,
+          "offset": 989
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Primary with size: "
+        },
+        {
+          "type": "icon",
+          "name": "star",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-star",
+                "text-primary-600",
+                "hover:text-primary-700",
+                "w-6",
+                "h-6"
+              ],
+              "data-icon": "star"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Success with custom: "
+        },
+        {
+          "type": "icon",
+          "name": "check",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-check",
+                "text-green-600",
+                "text-lg",
+                "custom-class"
+              ],
+              "data-icon": "check"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 68,
+      "column": 1,
+      "offset": 1105
+    }
+  }
+}

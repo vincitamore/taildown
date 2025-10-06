@@ -1,0 +1,1403 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Basic Icon Syntax",
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 3,
+              "offset": 2
+            },
+            "end": {
+              "line": 1,
+              "column": 20,
+              "offset": 19
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 20,
+          "offset": 19
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Test basic icon syntax per SYNTAX.md §2.6"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Simple Icons",
+          "position": {
+            "start": {
+              "line": 5,
+              "column": 4,
+              "offset": 67
+            },
+            "end": {
+              "line": 5,
+              "column": 16,
+              "offset": 79
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 64
+        },
+        "end": {
+          "line": 5,
+          "column": 16,
+          "offset": 79
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Basic icon: "
+        },
+        {
+          "type": "icon",
+          "name": "home",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-home"
+              ],
+              "data-icon": "home"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Search icon: "
+        },
+        {
+          "type": "icon",
+          "name": "search",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-search"
+              ],
+              "data-icon": "search"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Heart icon: "
+        },
+        {
+          "type": "icon",
+          "name": "heart",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-heart"
+              ],
+              "data-icon": "heart"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Check icon: "
+        },
+        {
+          "type": "icon",
+          "name": "check",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-check"
+              ],
+              "data-icon": "check"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Star icon: "
+        },
+        {
+          "type": "icon",
+          "name": "star",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-star"
+              ],
+              "data-icon": "star"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Icons in Text",
+          "position": {
+            "start": {
+              "line": 17,
+              "column": 4,
+              "offset": 213
+            },
+            "end": {
+              "line": 17,
+              "column": 17,
+              "offset": 226
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 17,
+          "column": 1,
+          "offset": 210
+        },
+        "end": {
+          "line": 17,
+          "column": 17,
+          "offset": 226
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Text before "
+        },
+        {
+          "type": "icon",
+          "name": "home",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-home"
+              ],
+              "data-icon": "home"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " text after"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Multiple icons: "
+        },
+        {
+          "type": "icon",
+          "name": "star",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-star"
+              ],
+              "data-icon": "star"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "star",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-star"
+              ],
+              "data-icon": "star"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "star",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-star"
+              ],
+              "data-icon": "star"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Icons in Headings",
+          "position": {
+            "start": {
+              "line": 23,
+              "column": 4,
+              "offset": 320
+            },
+            "end": {
+              "line": 23,
+              "column": 21,
+              "offset": 337
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 23,
+          "column": 1,
+          "offset": 317
+        },
+        "end": {
+          "line": 23,
+          "column": 21,
+          "offset": 337
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Welcome "
+        },
+        {
+          "type": "icon",
+          "name": "wave",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-wave"
+              ],
+              "data-icon": "wave"
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 25,
+          "column": 1,
+          "offset": 339
+        },
+        "end": {
+          "line": 25,
+          "column": 22,
+          "offset": 360
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Section Title "
+        },
+        {
+          "type": "icon",
+          "name": "bookmark",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-bookmark"
+              ],
+              "data-icon": "bookmark"
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 27,
+          "column": 1,
+          "offset": 362
+        },
+        "end": {
+          "line": 27,
+          "column": 33,
+          "offset": 394
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 3,
+      "children": [
+        {
+          "type": "text",
+          "value": "Subsection "
+        },
+        {
+          "type": "icon",
+          "name": "info",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-info"
+              ],
+              "data-icon": "info"
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 29,
+          "column": 1,
+          "offset": 396
+        },
+        "end": {
+          "line": 29,
+          "column": 27,
+          "offset": 422
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Icons in Links",
+          "position": {
+            "start": {
+              "line": 31,
+              "column": 4,
+              "offset": 427
+            },
+            "end": {
+              "line": 31,
+              "column": 18,
+              "offset": 441
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 31,
+          "column": 1,
+          "offset": 424
+        },
+        "end": {
+          "line": 31,
+          "column": 18,
+          "offset": 441
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "text",
+              "value": "Click here "
+            },
+            {
+              "type": "icon",
+              "name": "arrow-right",
+              "data": {
+                "hName": "svg",
+                "hProperties": {
+                  "className": [
+                    "icon",
+                    "icon-arrow-right"
+                  ],
+                  "data-icon": "arrow-right"
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 33,
+              "column": 1,
+              "offset": 443
+            },
+            "end": {
+              "line": 33,
+              "column": 35,
+              "offset": 477
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 33,
+          "column": 1,
+          "offset": 443
+        },
+        "end": {
+          "line": 33,
+          "column": 35,
+          "offset": 477
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "icon",
+              "name": "home",
+              "data": {
+                "hName": "svg",
+                "hProperties": {
+                  "className": [
+                    "icon",
+                    "icon-home"
+                  ],
+                  "data-icon": "home"
+                }
+              }
+            },
+            {
+              "type": "text",
+              "value": " Home"
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 35,
+              "column": 1,
+              "offset": 479
+            },
+            "end": {
+              "line": 35,
+              "column": 22,
+              "offset": 500
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 35,
+          "column": 1,
+          "offset": 479
+        },
+        "end": {
+          "line": 35,
+          "column": 22,
+          "offset": 500
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "icon",
+              "name": "trash",
+              "data": {
+                "hName": "svg",
+                "hProperties": {
+                  "className": [
+                    "icon",
+                    "icon-trash"
+                  ],
+                  "data-icon": "trash"
+                }
+              }
+            },
+            {
+              "type": "text",
+              "value": " Delete"
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 37,
+              "column": 1,
+              "offset": 502
+            },
+            "end": {
+              "line": 37,
+              "column": 25,
+              "offset": 526
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 37,
+          "column": 1,
+          "offset": 502
+        },
+        "end": {
+          "line": 37,
+          "column": 25,
+          "offset": 526
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Common Icon Names",
+          "position": {
+            "start": {
+              "line": 39,
+              "column": 4,
+              "offset": 531
+            },
+            "end": {
+              "line": 39,
+              "column": 21,
+              "offset": 548
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 39,
+          "column": 1,
+          "offset": 528
+        },
+        "end": {
+          "line": 39,
+          "column": 21,
+          "offset": 548
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Navigation: "
+        },
+        {
+          "type": "icon",
+          "name": "home",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-home"
+              ],
+              "data-icon": "home"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "menu",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-menu"
+              ],
+              "data-icon": "menu"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "search",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-search"
+              ],
+              "data-icon": "search"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "settings",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-settings"
+              ],
+              "data-icon": "settings"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "user",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-user"
+              ],
+              "data-icon": "user"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "bell",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-bell"
+              ],
+              "data-icon": "bell"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "mail",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-mail"
+              ],
+              "data-icon": "mail"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Actions: "
+        },
+        {
+          "type": "icon",
+          "name": "check",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-check"
+              ],
+              "data-icon": "check"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "x",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-x"
+              ],
+              "data-icon": "x"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "plus",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-plus"
+              ],
+              "data-icon": "plus"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "minus",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-minus"
+              ],
+              "data-icon": "minus"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "edit",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-edit"
+              ],
+              "data-icon": "edit"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "trash",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-trash"
+              ],
+              "data-icon": "trash"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "download",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-download"
+              ],
+              "data-icon": "download"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "upload",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-upload"
+              ],
+              "data-icon": "upload"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Arrows: "
+        },
+        {
+          "type": "icon",
+          "name": "arrow-right",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-arrow-right"
+              ],
+              "data-icon": "arrow-right"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "arrow-left",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-arrow-left"
+              ],
+              "data-icon": "arrow-left"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "arrow-up",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-arrow-up"
+              ],
+              "data-icon": "arrow-up"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "arrow-down",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-arrow-down"
+              ],
+              "data-icon": "arrow-down"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "chevron-right",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-chevron-right"
+              ],
+              "data-icon": "chevron-right"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Social: "
+        },
+        {
+          "type": "icon",
+          "name": "github",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-github"
+              ],
+              "data-icon": "github"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "twitter",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-twitter"
+              ],
+              "data-icon": "twitter"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "facebook",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-facebook"
+              ],
+              "data-icon": "facebook"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "linkedin",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-linkedin"
+              ],
+              "data-icon": "linkedin"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "UI: "
+        },
+        {
+          "type": "icon",
+          "name": "heart",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-heart"
+              ],
+              "data-icon": "heart"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "star",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-star"
+              ],
+              "data-icon": "star"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "bookmark",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-bookmark"
+              ],
+              "data-icon": "bookmark"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "share",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-share"
+              ],
+              "data-icon": "share"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "link",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-link"
+              ],
+              "data-icon": "link"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "copy",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-copy"
+              ],
+              "data-icon": "copy"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "eye",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-eye"
+              ],
+              "data-icon": "eye"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Alerts: "
+        },
+        {
+          "type": "icon",
+          "name": "alert-circle",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-alert-circle"
+              ],
+              "data-icon": "alert-circle"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "alert-triangle",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-alert-triangle"
+              ],
+              "data-icon": "alert-triangle"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "info",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-info"
+              ],
+              "data-icon": "info"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "help-circle",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-help-circle"
+              ],
+              "data-icon": "help-circle"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "x-circle",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-x-circle"
+              ],
+              "data-icon": "x-circle"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 52,
+      "column": 1,
+      "offset": 1127
+    }
+  }
+}

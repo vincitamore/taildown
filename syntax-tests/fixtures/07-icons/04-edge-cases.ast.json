@@ -1,0 +1,884 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Icon Edge Cases",
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 3,
+              "offset": 2
+            },
+            "end": {
+              "line": 1,
+              "column": 18,
+              "offset": 17
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 18,
+          "offset": 17
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Test icon edge cases per SYNTAX.md §2.6.5"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Invalid Icon Names",
+          "position": {
+            "start": {
+              "line": 5,
+              "column": 4,
+              "offset": 65
+            },
+            "end": {
+              "line": 5,
+              "column": 22,
+              "offset": 83
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 62
+        },
+        "end": {
+          "line": 5,
+          "column": 22,
+          "offset": 83
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "icon",
+          "name": "nonexistent-icon",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-nonexistent-icon"
+              ],
+              "data-icon": "nonexistent-icon"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":icon[]"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":icon[icon with spaces]"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":icon[Icon]"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "icon",
+          "name": "123-icon",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-123-icon"
+              ],
+              "data-icon": "123-icon"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":icon[icon_name]"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Escaped Syntax",
+          "position": {
+            "start": {
+              "line": 19,
+              "column": 4,
+              "offset": 195
+            },
+            "end": {
+              "line": 19,
+              "column": 18,
+              "offset": 209
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 19,
+          "column": 1,
+          "offset": 192
+        },
+        "end": {
+          "line": 19,
+          "column": 18,
+          "offset": 209
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Escaped: ",
+          "position": {
+            "start": {
+              "line": 21,
+              "column": 1,
+              "offset": 211
+            },
+            "end": {
+              "line": 21,
+              "column": 10,
+              "offset": 220
+            }
+          }
+        },
+        {
+          "type": "inlineCode",
+          "value": "\\:icon[home]",
+          "position": {
+            "start": {
+              "line": 21,
+              "column": 10,
+              "offset": 220
+            },
+            "end": {
+              "line": 21,
+              "column": 24,
+              "offset": 234
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 21,
+          "column": 1,
+          "offset": 211
+        },
+        "end": {
+          "line": 21,
+          "column": 24,
+          "offset": 234
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "In code: ",
+          "position": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 236
+            },
+            "end": {
+              "line": 23,
+              "column": 10,
+              "offset": 245
+            }
+          }
+        },
+        {
+          "type": "inlineCode",
+          "value": ":icon[star]",
+          "position": {
+            "start": {
+              "line": 23,
+              "column": 10,
+              "offset": 245
+            },
+            "end": {
+              "line": 23,
+              "column": 23,
+              "offset": 258
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 23,
+          "column": 1,
+          "offset": 236
+        },
+        "end": {
+          "line": 23,
+          "column": 23,
+          "offset": 258
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Code block:"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "code",
+      "lang": null,
+      "meta": null,
+      "value": ":icon[star]\n:icon[heart]",
+      "position": {
+        "start": {
+          "line": 26,
+          "column": 1,
+          "offset": 272
+        },
+        "end": {
+          "line": 29,
+          "column": 4,
+          "offset": 304
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Icons in Links",
+          "position": {
+            "start": {
+              "line": 31,
+              "column": 4,
+              "offset": 309
+            },
+            "end": {
+              "line": 31,
+              "column": 18,
+              "offset": 323
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 31,
+          "column": 1,
+          "offset": 306
+        },
+        "end": {
+          "line": 31,
+          "column": 18,
+          "offset": 323
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "title": null,
+          "url": "url",
+          "children": [
+            {
+              "type": "text",
+              "value": "Text with "
+            },
+            {
+              "type": "icon",
+              "name": "star",
+              "data": {
+                "hName": "svg",
+                "hProperties": {
+                  "className": [
+                    "icon",
+                    "icon-star"
+                  ],
+                  "data-icon": "star"
+                }
+              }
+            },
+            {
+              "type": "text",
+              "value": " icon"
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 33,
+              "column": 1,
+              "offset": 325
+            },
+            "end": {
+              "line": 33,
+              "column": 34,
+              "offset": 358
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 33,
+          "column": 1,
+          "offset": 325
+        },
+        "end": {
+          "line": 33,
+          "column": 34,
+          "offset": 358
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "icon",
+              "name": "home",
+              "data": {
+                "hName": "svg",
+                "hProperties": {
+                  "className": [
+                    "icon",
+                    "icon-home"
+                  ],
+                  "data-icon": "home"
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 35,
+              "column": 1,
+              "offset": 360
+            },
+            "end": {
+              "line": 35,
+              "column": 17,
+              "offset": 376
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 35,
+          "column": 1,
+          "offset": 360
+        },
+        "end": {
+          "line": 35,
+          "column": 17,
+          "offset": 376
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "title": null,
+          "url": "#",
+          "children": [
+            {
+              "type": "icon",
+              "name": "arrow-right",
+              "data": {
+                "hName": "svg",
+                "hProperties": {
+                  "className": [
+                    "icon",
+                    "icon-arrow-right"
+                  ],
+                  "data-icon": "arrow-right"
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 37,
+              "column": 1,
+              "offset": 378
+            },
+            "end": {
+              "line": 37,
+              "column": 24,
+              "offset": 401
+            }
+          },
+          "data": {
+            "hProperties": {
+              "className": [
+                "inline-block",
+                "px-6",
+                "py-3",
+                "rounded-lg",
+                "font-medium",
+                "text-center",
+                "transition-all",
+                "duration-200",
+                "cursor-pointer",
+                "no-underline",
+                "bg-blue-600",
+                "text-white",
+                "hover:bg-blue-700",
+                "active:bg-blue-800",
+                "shadow-md",
+                "hover:shadow-lg"
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": "",
+          "position": {
+            "start": {
+              "line": 37,
+              "column": 24,
+              "offset": 401
+            },
+            "end": {
+              "line": 37,
+              "column": 40,
+              "offset": 417
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 37,
+          "column": 1,
+          "offset": 378
+        },
+        "end": {
+          "line": 37,
+          "column": 40,
+          "offset": 417
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Empty Attributes",
+          "position": {
+            "start": {
+              "line": 39,
+              "column": 4,
+              "offset": 422
+            },
+            "end": {
+              "line": 39,
+              "column": 20,
+              "offset": 438
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 39,
+          "column": 1,
+          "offset": 419
+        },
+        "end": {
+          "line": 39,
+          "column": 20,
+          "offset": 438
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "icon",
+          "name": "home",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-home"
+              ],
+              "data-icon": "home"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": "{}"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "icon",
+          "name": "home",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-home"
+              ],
+              "data-icon": "home"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Malformed Syntax",
+          "position": {
+            "start": {
+              "line": 45,
+              "column": 4,
+              "offset": 475
+            },
+            "end": {
+              "line": 45,
+              "column": 20,
+              "offset": 491
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 45,
+          "column": 1,
+          "offset": 472
+        },
+        "end": {
+          "line": 45,
+          "column": 20,
+          "offset": 491
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":icon[home"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "icon[home]"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":icons[home]"
+        }
+      ],
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Multiple Icons Together",
+          "position": {
+            "start": {
+              "line": 53,
+              "column": 4,
+              "offset": 534
+            },
+            "end": {
+              "line": 53,
+              "column": 27,
+              "offset": 557
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 53,
+          "column": 1,
+          "offset": 531
+        },
+        "end": {
+          "line": 53,
+          "column": 27,
+          "offset": 557
+        }
+      },
+      "data": {
+        "hProperties": {}
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "icon",
+          "name": "home",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-home"
+              ],
+              "data-icon": "home"
+            }
+          }
+        },
+        {
+          "type": "icon",
+          "name": "star",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-star"
+              ],
+              "data-icon": "star"
+            }
+          }
+        },
+        {
+          "type": "icon",
+          "name": "heart",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-heart"
+              ],
+              "data-icon": "heart"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "icon",
+          "name": "home",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-home"
+              ],
+              "data-icon": "home"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "star",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-star"
+              ],
+              "data-icon": "star"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "icon",
+          "name": "heart",
+          "data": {
+            "hName": "svg",
+            "hProperties": {
+              "className": [
+                "icon",
+                "icon-heart"
+              ],
+              "data-icon": "heart"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 58,
+      "column": 1,
+      "offset": 632
+    }
+  }
+}
