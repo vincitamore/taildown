@@ -41,6 +41,47 @@ function rehypeWrapTables() {
 }
 
 /**
+ * Rehype plugin to mark folder items in tree components
+ * Adds data-tree-folder attribute to list items whose text ends with /
+ */
+function rehypeMarkTreeFolders() {
+  return (tree: any) => {
+    visit(tree, 'element', (node) => {
+      // Find tree-container divs
+      if (node.tagName === 'div' && 
+          node.properties?.className && 
+          Array.isArray(node.properties.className) &&
+          node.properties.className.includes('tree-container')) {
+        // Walk all list items within this tree
+        visit(node, 'element', (liNode) => {
+          if (liNode.tagName === 'li') {
+            // Get text content of the list item (first text node)
+            const getFirstText = (n: any): string => {
+              if (n.type === 'text') return n.value;
+              if (n.children && Array.isArray(n.children)) {
+                for (const child of n.children) {
+                  if (child.type === 'text') return child.value;
+                  const text = getFirstText(child);
+                  if (text) return text;
+                }
+              }
+              return '';
+            };
+            
+            const text = getFirstText(liNode);
+            if (text && text.trim().endsWith('/')) {
+              // Mark this as a folder
+              liNode.properties = liNode.properties || {};
+              liNode.properties['data-tree-folder'] = 'true';
+            }
+          }
+        });
+      }
+    });
+  };
+}
+
+/**
  * Walk HAST tree and wrap elements with modal/tooltip attachments
  * This processes data-modal-attach and data-tooltip-attach attributes
  */
@@ -125,6 +166,7 @@ export async function renderHTML(ast: TaildownRoot, minify: boolean = false): Pr
     .use(rehypeCodeMirror6) // CodeMirror6-based syntax highlighting
     .use(renderIcons) // Render icon nodes as SVG
     .use(rehypeWrapTables) // Wrap tables in scrollable container
+    .use(rehypeMarkTreeFolders) // Mark folder items in tree components
     .use(rehypeStringify, {
       allowDangerousHtml: true, // Allow raw HTML for syntax highlighting
       closeSelfClosing: true,

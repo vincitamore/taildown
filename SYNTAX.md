@@ -346,9 +346,44 @@ UI:          heart, star, bookmark, share, link, copy, eye
 Alerts:      alert-circle, alert-triangle, info, help-circle, x-circle
 ```
 
-#### 2.6.5 Edge Cases
+#### 2.6.5 Icon-Only Lists **[REQUIRED]**
 
-**Edge Case 2.6.5.1 - Invalid Icon Names**:
+When a list item starts with an icon as its first child, the default bullet point is automatically hidden, allowing the icon to serve as the visual indicator.
+
+**Rule 2.6.5.1 - Automatic Bullet Suppression**:
+```taildown
+- :icon[check]{success} Task completed
+- :icon[x]{error} Task failed  
+- :icon[circle]{warning} Task pending
+```
+
+**Generated CSS behavior**:
+```css
+li:has(> .icon:first-child) {
+  list-style: none;
+}
+```
+
+**Use cases**:
+- Status lists with semantic icons
+- Feature lists with visual indicators
+- Step-by-step instructions with icons
+- Navigation or action menus
+
+**Example - Contributing steps**:
+```taildown
+- :icon[git-fork]{accent} Fork the repository
+- :icon[git-branch]{primary} Create a feature branch
+- :icon[edit]{success} Make your changes with tests
+- :icon[check-circle]{success} Ensure all tests pass
+- :icon[git-pull-request]{primary} Submit a Pull Request
+```
+
+**Rendering**: Each icon replaces the bullet point, providing better visual hierarchy and semantic meaning.
+
+#### 2.6.6 Edge Cases
+
+**Edge Case 2.6.6.1 - Invalid Icon Names**:
 ```taildown
 :icon[nonexistent-icon]         # Renders as placeholder: [nonexistent-icon]
 :icon[]                         # Invalid: empty name, treated as plain text

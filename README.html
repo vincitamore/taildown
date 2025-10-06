@@ -41,6 +41,15 @@ body {
   }
 }
 
+/* Hide bullet points on list items that start with icons */
+li > .icon:first-child {
+  margin-left: -1.5rem;
+}
+
+li:has(> .icon:first-child) {
+  list-style: none;
+}
+
 /* NO overlay - keep it simple */
 body::before {
   content: '';
@@ -1665,20 +1674,23 @@ td svg.icon {
   margin-left: 0;
 }
 
-/* Directory icons via text */
-.tree-container li:has(ul)::after {
-  content: '📁';
-  left: -0.125rem;
-  top: 0.25rem;
-  width: auto;
-  height: auto;
-  background: none;
-  font-size: 0.75rem;
+/* Directory indicators - folders shown as larger amber squares */
+.tree-container li:has(ul)::after,
+.tree-container li[data-tree-folder]::after {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: rgb(251 191 36);
+  border-radius: 0.125rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* File indicators (leaves without children) */
-.tree-container li:not(:has(ul))::after {
-  background-color: rgb(99 102 241);
+/* File indicators (leaves without children and not marked as folder) - smaller blue dots */
+.tree-container li:not(:has(ul)):not([data-tree-folder])::after {
+  width: 0.375rem;
+  height: 0.375rem;
+  background-color: rgb(59 130 246);
+  border-radius: 50%;
 }
 
 /* Colored variant - depth-based coloring */
@@ -1823,18 +1835,21 @@ td svg.icon {
 
 .flow-stepped li {
   counter-increment: step-counter;
-  padding-left: 3rem;
+  position: relative;
+  margin-left: 3rem;
+  padding: 0.75rem 0.5rem 0.75rem 1rem;
   border-left: 4px solid rgb(59 130 246);
+  min-height: 3rem;
+  line-height: 1.6;
 }
 
 .flow-stepped li::before {
   content: counter(step-counter);
   position: absolute;
-  left: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 1.75rem;
-  height: 1.75rem;
+  left: -3rem;
+  top: 0.75rem;
+  width: 2rem;
+  height: 2rem;
   background: rgb(59 130 246);
   color: white;
   border-radius: 50%;
@@ -1843,18 +1858,23 @@ td svg.icon {
   justify-content: center;
   font-weight: 600;
   font-size: 0.875rem;
+  flex-shrink: 0;
 }
 
-/* Mobile-only adjustments for stepped flow - give text more space */
+/* Mobile-only adjustments for stepped flow */
 @media (max-width: 640px) {
   .flow-stepped li {
-    padding-left: 4.5rem;
+    margin-left: 2.5rem;
+    padding: 0.5rem 0.25rem 0.5rem 0.75rem;
+    min-height: 2.75rem;
+    line-height: 1.5;
   }
   
   .flow-stepped li::before {
-    left: 0.75rem;
-    width: 1.5rem;
-    height: 1.5rem;
+    left: -2.5rem;
+    top: 0.5rem;
+    width: 1.75rem;
+    height: 1.75rem;
     font-size: 0.75rem;
   }
 }
@@ -2619,7 +2639,7 @@ Ultimate feature showcase (1000+ nodes)</p></div></div>
 <li><strong>Parser:</strong> <code>unified</code> + <code>remark</code> + <code>rehype</code> ecosystem</li>
 <li><strong>Custom Directive Parser:</strong> In-house <code>:::</code> component syntax parser</li>
 <li><strong>Extensions:</strong> <code>remark-gfm</code></li>
-<li><strong>Syntax Highlighting:</strong> <code>rehype-prism-plus</code> with custom Taildown language</li>
+<li><strong>Syntax Highlighting:</strong> CodeMirror 6 with custom Taildown language support</li>
 <li><strong>Icons:</strong> <code>lucide</code> (Lucide icon library)</li>
 <li><strong>CSS Generation:</strong> Custom resolver with Tailwind-inspired utilities</li>
 <li><strong>Testing:</strong> Vitest</li>
@@ -2650,33 +2670,33 @@ pnpm lint
 pnpm format
 </code></pre></div>
 <div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md p-6"><h3 class="medium-bold"><svg class="icon icon-folder text-accent-600 hover:text-accent-700" data-icon="folder" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /></svg> Project Structure</h3><div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-rounded bg-gradient-to-br from-gray-50 to-gray-100"><ul>
-<li>taildown/
+<li data-tree-folder="true">taildown/
 <ul>
-<li>packages/
+<li data-tree-folder="true">packages/
 <ul>
-<li>compiler/
+<li data-tree-folder="true">compiler/
 <ul>
-<li>src/
+<li data-tree-folder="true">src/
 <ul>
-<li>parser/</li>
-<li>renderer/</li>
-<li>resolver/</li>
-<li>components/</li>
-<li>themes/</li>
-<li>icons/</li>
-<li>config/</li>
+<li data-tree-folder="true">parser/</li>
+<li data-tree-folder="true">renderer/</li>
+<li data-tree-folder="true">resolver/</li>
+<li data-tree-folder="true">components/</li>
+<li data-tree-folder="true">themes/</li>
+<li data-tree-folder="true">icons/</li>
+<li data-tree-folder="true">config/</li>
 </ul>
 </li>
 <li>package.json</li>
 </ul>
 </li>
-<li>cli/</li>
-<li>shared/</li>
+<li data-tree-folder="true">cli/</li>
+<li data-tree-folder="true">shared/</li>
 </ul>
 </li>
-<li>examples/</li>
-<li>syntax-tests/</li>
-<li>.vscode/extensions/</li>
+<li data-tree-folder="true">examples/</li>
+<li data-tree-folder="true">syntax-tests/</li>
+<li data-tree-folder="true">.vscode/extensions/</li>
 </ul>
 </li>
 </ul></div></div>
@@ -2746,7 +2766,7 @@ pnpm format
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Acknowledgments</h2>
 <p class="text-center text-lg text-gray-500">Taildown is built on excellent open-source projects:</p>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p class="text-center"><svg class="icon icon-hash text-primary-600 hover:text-primary-700" data-icon="hash" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="9" y2="9" /><line x1="4" x2="20" y1="15" y2="15" /><line x1="10" x2="8" y1="3" y2="21" /><line x1="16" x2="14" y1="3" y2="21" /></svg></p><p><strong>Markdown</strong></p><p>CommonMark specification</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p class="text-center"><svg class="icon icon-wind text-accent-600 hover:text-accent-700" data-icon="wind" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.8 19.6A2 2 0 1 0 14 16H2" /><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2" /><path d="M9.8 4.4A2 2 0 1 1 11 8H2" /></svg></p><p><strong>Tailwind CSS</strong></p><p>Utility-first CSS approach</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p class="text-center"><svg class="icon icon-box text-yellow-600" data-icon="box" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg></p><p><strong>shadcn/ui</strong></p><p>Component design patterns</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p class="text-center"><svg class="icon icon-code text-blue-600" data-icon="code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg></p><p><strong>unified/remark/rehype</strong></p><p>Content transformation</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p class="text-center"><svg class="icon icon-feather text-green-600" data-icon="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.67 19a2 2 0 0 0 1.416-.588l6.154-6.172a6 6 0 0 0-8.49-8.49L5.586 9.914A2 2 0 0 0 5 11.328V18a1 1 0 0 0 1 1z" /><path d="M16 8 2 22" /><path d="M17.5 15H9" /></svg></p><p><strong>Lucide</strong></p><p>Beautiful icon library</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p class="text-center"><svg class="icon icon-code-2 text-primary-600 hover:text-primary-700" data-icon="code-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4" /><path d="m6 8-4 4 4 4" /><path d="m14.5 4-5 16" /></svg></p><p><strong>Prism.js</strong></p><p>Syntax highlighting</p></div></div>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p class="text-center"><svg class="icon icon-hash text-primary-600 hover:text-primary-700" data-icon="hash" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="9" y2="9" /><line x1="4" x2="20" y1="15" y2="15" /><line x1="10" x2="8" y1="3" y2="21" /><line x1="16" x2="14" y1="3" y2="21" /></svg></p><p><strong>Markdown</strong></p><p>CommonMark specification</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p class="text-center"><svg class="icon icon-wind text-accent-600 hover:text-accent-700" data-icon="wind" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.8 19.6A2 2 0 1 0 14 16H2" /><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2" /><path d="M9.8 4.4A2 2 0 1 1 11 8H2" /></svg></p><p><strong>Tailwind CSS</strong></p><p>Utility-first CSS approach</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p class="text-center"><svg class="icon icon-box text-yellow-600" data-icon="box" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg></p><p><strong>shadcn/ui</strong></p><p>Component design patterns</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p class="text-center"><svg class="icon icon-code text-blue-600" data-icon="code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg></p><p><strong>unified/remark/rehype</strong></p><p>Content transformation</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p class="text-center"><svg class="icon icon-feather text-green-600" data-icon="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.67 19a2 2 0 0 0 1.416-.588l6.154-6.172a6 6 0 0 0-8.49-8.49L5.586 9.914A2 2 0 0 0 5 11.328V18a1 1 0 0 0 1 1z" /><path d="M16 8 2 22" /><path d="M17.5 15H9" /></svg></p><p><strong>Lucide</strong></p><p>Beautiful icon library</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><p class="text-center"><svg class="icon icon-code-2 text-primary-600 hover:text-primary-700" data-icon="code-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4" /><path d="m6 8-4 4 4 4" /><path d="m14.5 4-5 16" /></svg></p><p><strong>CodeMirror</strong></p><p>Syntax highlighting and editor framework</p></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">FAQ</h2>
 <p class="text-center text-gray-500">Common questions about Taildown answered:</p>

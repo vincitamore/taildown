@@ -524,6 +524,15 @@ body {
   }
 }
 
+/* Hide bullet points on list items that start with icons */
+li > .icon:first-child {
+  margin-left: -1.5rem;
+}
+
+li:has(> .icon:first-child) {
+  list-style: none;
+}
+
 /* NO overlay - keep it simple */
 body::before {
   content: '';
@@ -1614,20 +1623,23 @@ ${generateAnimationCSS()}
   margin-left: 0;
 }
 
-/* Directory icons via text */
-.tree-container li:has(ul)::after {
-  content: '📁';
-  left: -0.125rem;
-  top: 0.25rem;
-  width: auto;
-  height: auto;
-  background: none;
-  font-size: 0.75rem;
+/* Directory indicators - folders shown as larger amber squares */
+.tree-container li:has(ul)::after,
+.tree-container li[data-tree-folder]::after {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: rgb(251 191 36);
+  border-radius: 0.125rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* File indicators (leaves without children) */
-.tree-container li:not(:has(ul))::after {
-  background-color: rgb(99 102 241);
+/* File indicators (leaves without children and not marked as folder) - smaller blue dots */
+.tree-container li:not(:has(ul)):not([data-tree-folder])::after {
+  width: 0.375rem;
+  height: 0.375rem;
+  background-color: rgb(59 130 246);
+  border-radius: 50%;
 }
 
 /* Colored variant - depth-based coloring */
@@ -1772,18 +1784,21 @@ ${generateAnimationCSS()}
 
 .flow-stepped li {
   counter-increment: step-counter;
-  padding-left: 3rem;
+  position: relative;
+  margin-left: 3rem;
+  padding: 0.75rem 0.5rem 0.75rem 1rem;
   border-left: 4px solid rgb(59 130 246);
+  min-height: 3rem;
+  line-height: 1.6;
 }
 
 .flow-stepped li::before {
   content: counter(step-counter);
   position: absolute;
-  left: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 1.75rem;
-  height: 1.75rem;
+  left: -3rem;
+  top: 0.75rem;
+  width: 2rem;
+  height: 2rem;
   background: rgb(59 130 246);
   color: white;
   border-radius: 50%;
@@ -1792,18 +1807,23 @@ ${generateAnimationCSS()}
   justify-content: center;
   font-weight: 600;
   font-size: 0.875rem;
+  flex-shrink: 0;
 }
 
-/* Mobile-only adjustments for stepped flow - give text more space */
+/* Mobile-only adjustments for stepped flow */
 @media (max-width: 640px) {
   .flow-stepped li {
-    padding-left: 4.5rem;
+    margin-left: 2.5rem;
+    padding: 0.5rem 0.25rem 0.5rem 0.75rem;
+    min-height: 2.75rem;
+    line-height: 1.5;
   }
   
   .flow-stepped li::before {
-    left: 0.75rem;
-    width: 1.5rem;
-    height: 1.5rem;
+    left: -2.5rem;
+    top: 0.5rem;
+    width: 1.75rem;
+    height: 1.75rem;
     font-size: 0.75rem;
   }
 }
