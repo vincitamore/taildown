@@ -1614,8 +1614,9 @@ ${generateAnimationCSS()}
   margin-left: 0;
 }
 
-/* Directory indicators (folders with children) - use folder icon */
-.tree-container li:has(ul)::after {
+/* Directory indicators - folders shown as larger amber squares */
+.tree-container li:has(ul)::after,
+.tree-container li[data-tree-folder]::after {
   content: '';
   width: 0.5rem;
   height: 0.5rem;
@@ -1624,11 +1625,12 @@ ${generateAnimationCSS()}
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* File indicators (leaves without children) - use smaller dot */
-.tree-container li:not(:has(ul))::after {
+/* File indicators (leaves without children and not marked as folder) - smaller blue dots */
+.tree-container li:not(:has(ul)):not([data-tree-folder])::after {
   width: 0.375rem;
   height: 0.375rem;
   background-color: rgb(59 130 246);
+  border-radius: 50%;
 }
 
 /* Colored variant - depth-based coloring */
@@ -1773,12 +1775,11 @@ ${generateAnimationCSS()}
 
 .flow-stepped li {
   counter-increment: step-counter;
+  position: relative;
   padding-left: 3rem;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   border-left: 4px solid rgb(59 130 246);
-  display: flex;
-  align-items: center;
   min-height: 3rem;
 }
 
@@ -1786,8 +1787,7 @@ ${generateAnimationCSS()}
   content: counter(step-counter);
   position: absolute;
   left: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0.75rem;
   width: 1.75rem;
   height: 1.75rem;
   background: rgb(59 130 246);
@@ -1798,19 +1798,21 @@ ${generateAnimationCSS()}
   justify-content: center;
   font-weight: 600;
   font-size: 0.875rem;
+  flex-shrink: 0;
 }
 
 /* Mobile-only adjustments for stepped flow */
 @media (max-width: 640px) {
   .flow-stepped li {
-    padding-left: 3.5rem;
-    min-height: 3rem;
+    padding-left: 3rem;
+    min-height: 2.75rem;
   }
   
   .flow-stepped li::before {
     left: 0.5rem;
-    width: 1.75rem;
-    height: 1.75rem;
+    top: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
     font-size: 0.75rem;
   }
 }
