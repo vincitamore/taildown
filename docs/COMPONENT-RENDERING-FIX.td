@@ -8,7 +8,7 @@
 
 ## Issue Description {large-bold}
 
-:::alert{type="warning"}
+:::alert {type="warning"}
 **Problem Identified**
 
 When viewing compiled Taildown documentation on mobile devices, all component syntax (card, alert, grid) appeared to be completely missing. The HTML files compiled but components were not rendering.
@@ -29,7 +29,7 @@ When viewing compiled Taildown documentation on mobile devices, all component sy
 ### Investigation Process {bold}
 
 **Step 1: Verify Component Syntax**  
-Confirmed `.td` files contain proper component syntax: `:::card{variant="elevated"}`, `:::alert{type="success"}`, etc.
+Confirmed `.td` files contain proper component syntax: `:::card{variant="elevated"}`, `:::alert {type="success"}`, etc.
 
 **Step 2: Parser Testing**  
 Verified directive scanner successfully identifies components in AST
@@ -122,8 +122,8 @@ Added `inlineScripts` option for mobile compatibility:
 
 ### Components Now Rendering {bold primary}
 
-:::grid{cols="2"}
-:::card{variant="elevated"}
+:::grid {cols="2"}
+:::card {variant="elevated"}
 **Card Components**
 
 11 cards in TEST-SUITE-SUMMARY  
@@ -132,7 +132,7 @@ Added `inlineScripts` option for mobile compatibility:
 Classes applied: `rounded-lg p-6 max-w-full overflow-auto bg-white shadow-md`
 :::
 
-:::card{variant="elevated"}
+:::card {variant="elevated"}
 **Grid Components**
 
 Multiple responsive grids
@@ -140,7 +140,7 @@ Multiple responsive grids
 Classes applied: `grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`
 :::
 
-:::card{variant="elevated"}
+:::card {variant="elevated"}
 **Alert Components**
 
 Multiple success and info alerts
@@ -148,7 +148,7 @@ Multiple success and info alerts
 Classes applied: `bg-blue-50 border-blue-500 text-blue-900`
 :::
 
-:::card{variant="elevated"}
+:::card {variant="elevated"}
 **Icon Components**
 
 Rendered as SVG elements
@@ -169,7 +169,7 @@ Proper sizing and color classes
 
 ### Mobile Device Support {bold}
 
-:::alert{type="success"}
+:::alert {type="success"}
 **Mobile Compatibility Confirmed**
 
 :icon[check]{success} All components visible and styled  
@@ -266,7 +266,7 @@ Single self-contained HTML file with all assets embedded
 
 ### Before Fix {bold}
 
-:::alert{type="error"}
+:::alert {type="error"}
 **Broken State**
 
 :icon[x]{error} Card components invisible  
@@ -279,7 +279,7 @@ Single self-contained HTML file with all assets embedded
 
 ### After Fix {bold}
 
-:::alert{type="success"}
+:::alert {type="success"}
 **Working State**
 
 :icon[check]{success} Card components render with proper styling  
@@ -360,7 +360,7 @@ Single self-contained HTML file with all assets embedded
 
 ## Conclusion {large-bold primary}
 
-:::card{variant="glass" center}
+:::card {variant="glass" center}
 **Status:** Issue Resolved
 
 All Taildown components now render correctly in compiled HTML files. Documentation is properly formatted, fully featured, and works perfectly on mobile devices with all assets inlined.

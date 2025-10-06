@@ -1141,6 +1141,29 @@ ${generateAnimationCSS()}
   /* Additional container-specific styles */
 }
 
+/* Alert Component - Mobile Optimization */
+.component-alert {
+  /* On mobile, stack icon and content vertically for better readability */
+}
+
+@media (max-width: 640px) {
+  .component-alert {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  /* Reduce large icon sizes on mobile for better proportions */
+  .component-alert .icon.huge {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .component-alert .icon.xl {
+    width: 24px;
+    height: 24px;
+  }
+}
+
 /* ========================================
  * TABS COMPONENT
  * ======================================== */

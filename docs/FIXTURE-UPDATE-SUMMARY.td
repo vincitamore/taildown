@@ -217,8 +217,7 @@ If desired, the following could be addressed:
 
 ## Conclusion {large-bold primary}
 
-:::alert {success}
-:icon[check-circle]{success huge} **Task Successfully Completed**
+**Task Successfully Completed** :icon[check-circle]{success} {large-bold success}
 
 - All required syntax test fixtures created per SYNTAX.md
 - 99.7% test pass rate (342/343 tests)
@@ -227,7 +226,6 @@ If desired, the following could be addressed:
 - All new fixture directories properly structured and documented
 
 The Taildown project now has comprehensive syntax test coverage across all feature areas defined in the specification.
-:::
 
 ---
 
