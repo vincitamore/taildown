@@ -2284,7 +2284,7 @@ ${generateThemeCSS()}
   content: '├── ';
   position: absolute;
   left: 0;
-  color: rgb(156 163 175);
+  color: var(--muted-foreground);
   font-weight: 300;
   display: block;
 }
@@ -2302,7 +2302,7 @@ ${generateThemeCSS()}
   content: '│   ├── ';
   position: absolute;
   left: -1.5rem;
-  color: rgb(156 163 175);
+  color: var(--muted-foreground);
   font-weight: 300;
   display: block;
 }
@@ -2320,7 +2320,7 @@ ${generateThemeCSS()}
   content: '│   │   ├── ';
   position: absolute;
   left: -3rem;
-  color: rgb(156 163 175);
+  color: var(--muted-foreground);
   font-weight: 300;
   display: block;
 }
@@ -2338,7 +2338,7 @@ ${generateThemeCSS()}
   content: '│   │   │   ├── ';
   position: absolute;
   left: -4.5rem;
-  color: rgb(156 163 175);
+  color: var(--muted-foreground);
   font-weight: 300;
   display: block;
 }
@@ -2354,11 +2354,11 @@ ${generateThemeCSS()}
 /* Folder and file visual distinction */
 .tree-vscode li:has(ul) {
   font-weight: 500;
-  color: rgb(37 99 235);
+  color: var(--primary);
 }
 
 .tree-vscode li:not(:has(ul)) {
-  color: rgb(75 85 99);
+  color: var(--foreground);
   font-weight: 400;
 }
 
@@ -2372,19 +2372,19 @@ ${generateThemeCSS()}
   top: 0;
   width: 1rem;
   height: 100%;
-  border-left: 2px solid rgb(209 213 219);
-  border-bottom: 2px solid rgb(209 213 219);
+  border-left: 2px solid var(--border);
+  border-bottom: 2px solid var(--border);
 }
 
 .tree-default li::before {
-  border-left: 1px solid rgb(209 213 219);
-  border-bottom: 1px solid rgb(209 213 219);
+  border-left: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .tree-rounded li::before {
   border-bottom-left-radius: 0.5rem;
-  border-left: 2px solid rgb(147 197 253);
-  border-bottom: 2px solid rgb(147 197 253);
+  border-left: 2px solid var(--primary);
+  border-bottom: 2px solid var(--primary);
 }
 
 /* Last child connector stops before the bottom */
@@ -2405,7 +2405,7 @@ ${generateThemeCSS()}
   width: 0.375rem;
   height: 0.375rem;
   border-radius: 50%;
-  background-color: rgb(59 130 246);
+  background-color: var(--primary);
 }
 
 /* Nested lists inherit tree styling */
@@ -2419,7 +2419,7 @@ ${generateThemeCSS()}
   content: '';
   width: 0.5rem;
   height: 0.5rem;
-  background-color: rgb(251 191 36);
+  background-color: var(--warning);
   border-radius: 0.125rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
@@ -2428,25 +2428,25 @@ ${generateThemeCSS()}
 .tree-container li:not(:has(ul)):not([data-tree-folder])::after {
   width: 0.375rem;
   height: 0.375rem;
-  background-color: rgb(59 130 246);
+  background-color: var(--primary);
   border-radius: 50%;
 }
 
 /* Colored variant - depth-based coloring */
 .tree-colored li {
-  color: rgb(31 41 55);
+  color: var(--foreground);
 }
 
 .tree-colored ul li {
-  color: rgb(59 130 246);
+  color: var(--primary);
 }
 
 .tree-colored ul ul li {
-  color: rgb(139 92 246);
+  color: var(--secondary);
 }
 
 .tree-colored ul ul ul li {
-  color: rgb(236 72 153);
+  color: var(--accent);
 }
 
 /* Minimal variant - clean, no visual clutter */
@@ -2467,16 +2467,18 @@ ${generateThemeCSS()}
 
 /* Dark variant */
 .tree-dark li::before {
-  border-color: rgb(55 65 81);
+  border-color: var(--border);
 }
 
 .tree-dark li::after {
-  background-color: rgb(96 165 250);
+  background-color: var(--primary);
 }
 
 /* Glass variant - modern frosted look */
 .tree-glass {
   backdrop-filter: blur(12px);
+  background: var(--glass-background);
+  border: 1px solid var(--glass-border);
 }
 
 /* Mobile optimization */
@@ -2514,12 +2516,13 @@ ${generateThemeCSS()}
   position: relative;
   padding: 0.75rem 1rem;
   margin: 0.5rem 0;
-  background: white;
-  border: 2px solid rgb(229 231 235);
+  background: var(--card);
+  border: 2px solid var(--border);
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
   transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
   text-align: center;
+  color: var(--card-foreground);
 }
 
 .flow-container li:hover {
@@ -2535,7 +2538,7 @@ ${generateThemeCSS()}
   bottom: -1.25rem;
   transform: translateX(-50%);
   font-size: 1.5rem;
-  color: rgb(147 197 253);
+  color: var(--primary);
   z-index: 1;
 }
 
@@ -2559,7 +2562,7 @@ ${generateThemeCSS()}
   top: 50%;
   transform: translateY(-50%);
   font-size: 1.5rem;
-  color: rgb(147 197 253);
+  color: var(--primary);
 }
 
 /* Stepped flow with numbers */
@@ -2577,7 +2580,7 @@ ${generateThemeCSS()}
   position: relative;
   margin-left: 3rem;
   padding: 0.75rem 0.5rem 0.75rem 1rem;
-  border-left: 4px solid rgb(59 130 246);
+  border-left: 4px solid var(--primary);
   min-height: 3rem;
   line-height: 1.6;
 }
@@ -2589,8 +2592,8 @@ ${generateThemeCSS()}
   top: 0.75rem;
   width: 2rem;
   height: 2rem;
-  background: rgb(59 130 246);
-  color: white;
+  background: var(--primary);
+  color: var(--primary-foreground);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -2621,20 +2624,20 @@ ${generateThemeCSS()}
 /* Branching flow - decision tree style */
 .flow-branching ul ul {
   margin-left: 2rem;
-  border-left: 3px solid rgb(196 181 253);
+  border-left: 3px solid var(--secondary);
   padding-left: 1rem;
 }
 
 .flow-branching li {
-  border-color: rgb(196 181 253);
+  border-color: var(--secondary);
 }
 
 .flow-branching ul li {
-  border-color: rgb(167 139 250);
+  border-color: var(--secondary);
 }
 
 .flow-branching ul ul li {
-  border-color: rgb(139 92 246);
+  border-color: var(--secondary);
 }
 
 /* Mobile optimization for branching - prevent overflow and horizontal scroll */
@@ -2678,8 +2681,8 @@ ${generateThemeCSS()}
 /* Timeline variant */
 .flow-timeline li {
   border-left-width: 4px;
-  border-left-color: rgb(59 130 246);
-  background: linear-gradient(to right, rgb(239 246 255), white);
+  border-left-color: var(--primary);
+  background: linear-gradient(to right, var(--muted), var(--card));
 }
 
 .flow-timeline li::before {
@@ -2689,15 +2692,15 @@ ${generateThemeCSS()}
   top: 1rem;
   width: 0.75rem;
   height: 0.75rem;
-  background: rgb(59 130 246);
-  border: 3px solid white;
+  background: var(--primary);
+  border: 3px solid var(--card);
   border-radius: 50%;
-  box-shadow: 0 0 0 2px rgb(59 130 246);
+  box-shadow: 0 0 0 2px var(--primary);
 }
 
 /* Minimal flow - clean styling */
 .flow-minimal li {
-  border: 1px solid rgb(229 231 235);
+  border: 1px solid var(--border);
   background: transparent;
   box-shadow: none;
 }
@@ -2709,9 +2712,9 @@ ${generateThemeCSS()}
 
 /* Dark theme */
 .flow-dark li {
-  background: rgb(31 41 55);
-  border-color: rgb(55 65 81);
-  color: rgb(243 244 246);
+  background: var(--card);
+  border-color: var(--border);
+  color: var(--card-foreground);
 }
 
 .flow-dark li:hover {
@@ -2725,9 +2728,9 @@ ${generateThemeCSS()}
 }
 
 .flow-glass li {
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--glass-background);
   backdrop-filter: blur(8px);
-  border-color: rgba(255, 255, 255, 0.4);
+  border-color: var(--glass-border);
 }
 
 /* Mobile optimization for horizontal flows */

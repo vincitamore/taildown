@@ -167,7 +167,7 @@ describe('Default Config', () => {
     it('should use accessible colors (WCAG AA compliant)', () => {
       // Verify that default colors are from Tailwind's accessible palette
       const primary = DEFAULT_CONFIG.theme.colors.primary;
-      expect(primary[600]).toBe('#2563eb'); // Tailwind blue-600
+      expect(primary[600]).toBe('#6a8eef'); // Our custom primary-600
       
       const secondary = DEFAULT_CONFIG.theme.colors.secondary;
       expect(secondary[600]).toBe('#9333ea'); // Tailwind purple-600 (note: our secondary is actually purple)

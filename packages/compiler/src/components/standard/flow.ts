@@ -93,9 +93,7 @@ export const flowComponent: ComponentDefinition = defineComponent({
     // Branching: Decision tree style
     branching: [
       'flow-branching',
-      'bg-gradient-to-br',
-      'from-blue-50',
-      'to-purple-50',
+      'bg-muted',
     ],
     
     // Timeline: Timeline-style presentation
@@ -125,10 +123,8 @@ export const flowComponent: ComponentDefinition = defineComponent({
     // Glass: Glassmorphism effect
     glass: [
       'flow-glass',
-      'glass-effect',
-      'glass-light',
-      'bg-glass-light',
-      'border-white/50',
+      'bg-glass',
+      'border-glass',
     ],
   },
   
