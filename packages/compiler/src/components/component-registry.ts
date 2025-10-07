@@ -235,6 +235,7 @@ export async function registerStandardComponents(): Promise<void> {
   // Use dynamic imports to avoid circular dependencies
   const { cardComponent } = await import('./standard/card.js');
   const { buttonComponent } = await import('./standard/button.js');
+  const { buttonGroupComponent } = await import('./standard/button-group.js');
   const { alertComponent } = await import('./standard/alert.js');
   const { badgeComponent } = await import('./standard/badge.js');
   const { avatarComponent } = await import('./standard/avatar.js');
@@ -255,6 +256,7 @@ export async function registerStandardComponents(): Promise<void> {
   // Register all components
   registry.register(cardComponent);
   registry.register(buttonComponent);
+  registry.register(buttonGroupComponent);
   registry.register(alertComponent);
   registry.register(badgeComponent);
   registry.register(avatarComponent);

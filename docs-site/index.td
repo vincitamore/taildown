@@ -14,8 +14,10 @@ The markup language that transforms plain English into stunning, interactive web
 
 ---
 
-:::card {light-glass padded center fade-in}
+:::card {light-glass padded fade-in}
+:::button-group
 [Get Started in 5 Minutes](getting-started.html){button primary large hover-lift} [View Documentation](syntax-guide.html){button secondary large}
+:::
 :::
 
 ---
@@ -515,12 +517,14 @@ Complete reference
 
 ---
 
-:::card {heavy-glass padded-xl center}
-:icon[heart]{error huge}
+:::card {heavy-glass padded-xl}
+:icon[heart]{error huge} {center}
 
-**Ready to build something beautiful?** {huge-bold primary}
+**Ready to build something beautiful?** {huge-bold primary center}
 
-Get started in 5 minutes. No configuration. No complexity. Just pure creative flow. {large muted}
+Get started in 5 minutes. No configuration. No complexity. Just pure creative flow. {large muted center}
 
+:::button-group
 [Get Started Now](getting-started.html){button primary large hover-lift} [View Full Syntax Guide](syntax-guide.html){button secondary large}
+:::
 :::

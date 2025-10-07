@@ -1569,6 +1569,78 @@ ${generateThemeCSS()}
 }
 
 /* ========================================
+ * BUTTON GROUP COMPONENT
+ * Intelligent button container with auto-spacing
+ * ======================================== */
+
+.button-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+/* Paragraph inside button-group for links */
+.button-group p {
+  display: contents;
+  margin: 0;
+}
+
+/* Alignment variants */
+.button-group-left {
+  justify-content: flex-start;
+}
+
+.button-group-right {
+  justify-content: flex-end;
+}
+
+.button-group-center {
+  justify-content: center;
+}
+
+/* Stack variant - vertical layout */
+.button-group-stack {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.button-group-stack a {
+  width: 100%;
+  text-align: center;
+}
+
+/* Size variants - control gap */
+.button-group-sm {
+  gap: 0.5rem;
+}
+
+.button-group-md {
+  gap: 0.75rem;
+}
+
+.button-group-lg {
+  gap: 1rem;
+}
+
+/* Mobile: Stack buttons vertically for better touch targets */
+@media (max-width: 640px) {
+  .button-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  
+  .button-group a {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+/* ========================================
  * NAVBAR COMPONENT
  * Modern navigation bar with glassmorphism
  * ======================================== */
