@@ -520,9 +520,9 @@ body {
   line-height: 1.5;
   font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
   min-height: 100vh;
-  /* Clean light background */
-  background: #f5f5f7;
-  background-attachment: fixed;
+  /* Use CSS variables for theming */
+  background-color: var(--background);
+  color: var(--foreground);
   /* Prevent horizontal scroll on body */
   overflow-x: hidden;
   width: 100%;

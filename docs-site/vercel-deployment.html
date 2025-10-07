@@ -26,9 +26,9 @@ body {
   line-height: 1.5;
   font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
   min-height: 100vh;
-  /* Clean light background */
-  background: #f5f5f7;
-  background-attachment: fixed;
+  /* Use CSS variables for theming */
+  background-color: var(--background);
+  color: var(--foreground);
   /* Prevent horizontal scroll on body */
   overflow-x: hidden;
   width: 100%;
@@ -3372,7 +3372,7 @@ git status
 git add docs-site/
 git commit -m &quot;Add documentation site&quot;
 git push origin main
-</code><button class="code-copy-btn" data-code-id="code-ynzhf8zey" data-code-text="# Make sure docs-site is in the main branch
+</code><button class="code-copy-btn" data-code-id="code-ersdepizo" data-code-text="# Make sure docs-site is in the main branch
 git status
 
 # If needed, commit any changes
@@ -3396,7 +3396,7 @@ git push origin main
 ├── packages/
 ├── package.json
 └── ... (other files)
-</code><button class="code-copy-btn" data-code-id="code-tn76vhntb" data-code-text="taildown/
+</code><button class="code-copy-btn" data-code-id="code-lh6wl3m29" data-code-text="taildown/
 ├── docs-site/
 │   ├── index.td
 │   ├── getting-started.td
@@ -3436,7 +3436,7 @@ Root Directory: docs-site
 Build Command: node build.mjs
 Output Directory: .
 Install Command: (leave default)
-</code><button class="code-copy-btn" data-code-id="code-n02rj2861" data-code-text="Framework Preset: Other
+</code><button class="code-copy-btn" data-code-id="code-94heox70f" data-code-text="Framework Preset: Other
 Root Directory: docs-site
 Build Command: node build.mjs
 Output Directory: .
@@ -3494,7 +3494,7 @@ Value: 76.76.21.21
 Type: CNAME
 Name: www
 Value: cname.vercel-dns.com
-</code><button class="code-copy-btn" data-code-id="code-prcd2upkn" data-code-text="Type: A
+</code><button class="code-copy-btn" data-code-id="code-vzuh4t4kn" data-code-text="Type: A
 Name: @
 Value: 76.76.21.21
 
@@ -3538,7 +3538,7 @@ Value: cname.vercel-dns.com
 <p><strong>Clone Repository</strong>:</p>
 <pre data-copyable="true"><code class="language-bash code-highlight">git clone https://github.com/your-username/taildown-docs.git
 cd taildown-docs
-</code><button class="code-copy-btn" data-code-id="code-8saike9ou" data-code-text="git clone https://github.com/your-username/taildown-docs.git
+</code><button class="code-copy-btn" data-code-id="code-9fuy5ogxq" data-code-text="git clone https://github.com/your-username/taildown-docs.git
 cd taildown-docs
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -3558,7 +3558,7 @@ cp ../taildown/docs-site/README.md .
 
 # Create .gitignore
 echo &quot;node_modules/&quot; &gt; .gitignore
-</code><button class="code-copy-btn" data-code-id="code-xs0ysnddf" data-code-text="# Copy compiled HTML files
+</code><button class="code-copy-btn" data-code-id="code-su6kmk5wi" data-code-text="# Copy compiled HTML files
 cp ../taildown/docs-site/*.html .
 
 # Copy README for documentation
@@ -3579,7 +3579,7 @@ echo &#x26;quot;node_modules/&#x26;quot; &#x26;gt; .gitignore
 ├── getting-started.html
 ├── README.md
 └── .gitignore
-</code><button class="code-copy-btn" data-code-id="code-q4jf3u3lz" data-code-text="taildown-docs/
+</code><button class="code-copy-btn" data-code-id="code-wjdl48sgq" data-code-text="taildown-docs/
 ├── index.html
 ├── getting-started.html
 ├── README.md
@@ -3595,7 +3595,7 @@ echo &#x26;quot;node_modules/&#x26;quot; &#x26;gt; .gitignore
         <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><pre data-copyable="true"><code class="language-bash code-highlight">git add .
 git commit -m &quot;Initial commit - Taildown documentation&quot;
 git push origin main
-</code><button class="code-copy-btn" data-code-id="code-7iw4guvb3" data-code-text="git add .
+</code><button class="code-copy-btn" data-code-id="code-ssit3embk" data-code-text="git add .
 git commit -m &#x26;quot;Initial commit - Taildown documentation&#x26;quot;
 git push origin main
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -3622,7 +3622,7 @@ Root Directory: ./
 Build Command: (leave empty - no build needed!)
 Output Directory: ./
 Install Command: (leave empty)
-</code><button class="code-copy-btn" data-code-id="code-k6s0cs5ma" data-code-text="Framework Preset: Other
+</code><button class="code-copy-btn" data-code-id="code-65ydfr8ot" data-code-text="Framework Preset: Other
 Root Directory: ./
 Build Command: (leave empty - no build needed!)
 Output Directory: ./
@@ -3697,7 +3697,7 @@ Install Command: (leave empty)
 <pre data-copyable="true"><code class="language-bash code-highlight">git add docs-site/
 git commit -m &quot;Update documentation&quot;
 git push origin main
-</code><button class="code-copy-btn" data-code-id="code-cvzdzrisb" data-code-text="git add docs-site/
+</code><button class="code-copy-btn" data-code-id="code-0ps99mp03" data-code-text="git add docs-site/
 git commit -m &#x26;quot;Update documentation&#x26;quot;
 git push origin main
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -3719,7 +3719,7 @@ git push origin main
 <li>Rebuild locally:
 <pre data-copyable="true"><code class="language-bash code-highlight">cd docs-site
 node build.mjs
-</code><button class="code-copy-btn" data-code-id="code-o6q1v0c7w" data-code-text="cd docs-site
+</code><button class="code-copy-btn" data-code-id="code-asrbc3u52" data-code-text="cd docs-site
 node build.mjs
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -3737,7 +3737,7 @@ cd ../taildown-docs
 git add .
 git commit -m &quot;Update documentation&quot;
 git push origin main
-</code><button class="code-copy-btn" data-code-id="code-2yosj1lga" data-code-text="cp *.html ../taildown-docs/
+</code><button class="code-copy-btn" data-code-id="code-lyob4b0hn" data-code-text="cp *.html ../taildown-docs/
 cd ../taildown-docs
 git add .
 git commit -m &#x26;quot;Update documentation&#x26;quot;
@@ -3807,7 +3807,7 @@ async function build() {
 }
 
 build();
-</code><button class="code-copy-btn" data-code-id="code-yimona99q" data-code-text="// docs-site/vercel-build.mjs
+</code><button class="code-copy-btn" data-code-id="code-ko2sho8hg" data-code-text="// docs-site/vercel-build.mjs
 import { compile } from &#x26;#39;../packages/compiler/dist/index.js&#x26;#39;;
 import { promises as fs } from &#x26;#39;fs&#x26;#39;;
 
@@ -3842,7 +3842,7 @@ build();
 <pre data-copyable="true"><code class="language-bash code-highlight"># In Vercel dashboard: Settings → Environment Variables
 GOOGLE_ANALYTICS_ID=UA-XXXXXXXXX-X
 PLAUSIBLE_DOMAIN=taildown.dev
-</code><button class="code-copy-btn" data-code-id="code-1l2yf786t" data-code-text="# In Vercel dashboard: Settings → Environment Variables
+</code><button class="code-copy-btn" data-code-id="code-w9hjd2cng" data-code-text="# In Vercel dashboard: Settings → Environment Variables
 GOOGLE_ANALYTICS_ID=UA-XXXXXXXXX-X
 PLAUSIBLE_DOMAIN=taildown.dev
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -3877,7 +3877,7 @@ PLAUSIBLE_DOMAIN=taildown.dev
     }
   ]
 }
-</code><button class="code-copy-btn" data-code-id="code-xawwau8qc" data-code-text="{
+</code><button class="code-copy-btn" data-code-id="code-ei88kignr" data-code-text="{
   &#x26;quot;headers&#x26;quot;: [
     {
       &#x26;quot;source&#x26;quot;: &#x26;quot;/(.*)&#x26;quot;,
