@@ -3,19 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Taildown - Write markdown. Get magic.</title>
-  <meta name="description" content="The markup language that transforms plain English into stunning, interactive web pages - zero configuration required.">
-  <meta property="og:title" content="Taildown - Write markdown. Get magic.">
-  <meta property="og:description" content="The markup language that transforms plain English into stunning, interactive web pages - zero configuration required.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://taildown.dev/">
-  <meta property="og:image" content="https://taildown.dev/1759672632566.jpg">
-  <meta property="og:image:alt" content="Taildown - Modern markup language with glassmorphism and dark mode">
-  <meta property="og:site_name" content="Taildown">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://taildown.dev/1759672632566.jpg">
-  <meta name="twitter:title" content="Taildown - Write markdown. Get magic.">
-  <meta name="twitter:description" content="The markup language that transforms plain English into stunning, interactive web pages - zero configuration required.">
+  <title>Taildown Document</title>
   <style>
 /* Taildown Generated Styles */
 *, ::before, ::after {
@@ -36,7 +24,7 @@ html {
 body {
   margin: 0;
   padding: 1rem;
-  padding-top: 80px; /* Space for fixed navbar */
+  padding-top: 120px; /* Increased space for fixed navbar on mobile when it wraps */
   font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
@@ -76,16 +64,39 @@ th > a:not([class]):active {
   opacity: 0.7;
 }
 
-/* Offset anchor targets for sticky navbar */
+/* Offset anchor targets for fixed navbar */
+/* Account for fixed navbar when jumping to anchor links */
 :target {
-  scroll-margin-top: 80px;
+  scroll-margin-top: 120px; /* Matches mobile body padding-top */
+}
+
+/* Reduce scroll margin on larger screens where navbar doesn't wrap */
+@media (min-width: 640px) {
+  :target {
+    scroll-margin-top: 80px;
+  }
 }
 
 /* Increase body padding on larger screens */
+/* Medium screens and up - reduce body top padding as navbar is single line */
 @media (min-width: 640px) {
   body {
     padding: 2rem;
-    padding-top: 80px; /* Space for fixed navbar */
+    padding-top: 80px; /* Reduced padding as navbar doesn't wrap on larger screens */
+  }
+  
+  /* Increase navbar padding and gap on larger screens */
+  .navbar {
+    gap: 1.5rem;
+    padding: 0.875rem 1.5rem;
+  }
+}
+
+/* Large screens - even more spacing */
+@media (min-width: 1024px) {
+  .navbar {
+    gap: 2rem;
+    padding: 1rem 2rem;
   }
 }
 
@@ -2504,8 +2515,8 @@ td svg.icon {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
-  padding: 1rem 2rem;
+  gap: 1rem; /* Reduced from 2rem for mobile first */
+  padding: 0.75rem 1rem; /* Reduced padding for mobile first */
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -2520,6 +2531,7 @@ td svg.icon {
   right: 0;
   z-index: 1000;
   width: 100%;
+  min-height: 56px; /* Minimum height for navbar */
 }
 
 .navbar.scrolled {
@@ -2602,6 +2614,27 @@ td svg.icon {
   opacity: 1;
   font-weight: 600;
   color: var(--primary);
+}
+
+/* Mobile optimization for navbar */
+@media (max-width: 639px) {
+  /* Smaller brand/title on mobile */
+  .navbar h1,
+  .navbar h2,
+  .navbar h3 {
+    font-size: 1.125rem; /* Reduced from 1.375rem */
+  }
+  
+  /* Smaller links on mobile with reduced padding */
+  .navbar a {
+    font-size: 0.8125rem; /* Reduced from 0.9375rem */
+    padding: 0.375rem 0.625rem; /* Reduced padding */
+  }
+  
+  /* Reduce gap in links container */
+  .navbar p {
+    gap: 0.25rem; /* Reduced from 0.5rem */
+  }
 }
 
 /* Variant: Glass navbar (default enhanced) */
@@ -3977,7 +4010,7 @@ td svg.icon {
 </span><span class="code-line"><span class="token punctuation">[</span>Click Me<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-j0pisjvq3" data-code-text=":::card {light-glass padded-lg hover-lift}
+</span></code><button class="code-copy-btn" data-code-id="code-dakusi3am" data-code-text=":::card {light-glass padded-lg hover-lift}
 ## Welcome! {large-bold primary}
 
 This card has glassmorphism, padding, and hover effects with **zero CSS**.
@@ -4004,7 +4037,7 @@ This card has glassmorphism, padding, and hover effects with **zero CSS**.
     Click Me
   &lt;/a&gt;
 &lt;/div&gt;
-</code><button class="code-copy-btn" data-code-id="code-2wb7oytp6" data-code-text="&#x26;lt;div class=&#x26;quot;backdrop-blur-md bg-white/75 border border-white/50 
+</code><button class="code-copy-btn" data-code-id="code-pimf3g26j" data-code-text="&#x26;lt;div class=&#x26;quot;backdrop-blur-md bg-white/75 border border-white/50 
      rounded-xl shadow-lg p-8 transition-transform 
      hover:-translate-y-1&#x26;quot;&#x26;gt;
   &#x26;lt;h2 class=&#x26;quot;text-2xl font-bold text-blue-600&#x26;quot;&#x26;gt;Welcome!&#x26;lt;/h2&#x26;gt;
@@ -4066,7 +4099,7 @@ This card has glassmorphism, padding, and hover effects with **zero CSS**.
 </span><span class="code-line">Operation completed successfully!
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-ycdbbg7rv" data-code-text=":::card {light-glass}
+</span></code><button class="code-copy-btn" data-code-id="code-in1kkjixh" data-code-text=":::card {light-glass}
 Card with glassmorphism
 :::
 
@@ -4093,7 +4126,7 @@ Operation completed successfully!
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">heart</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">error</span> <span class="token number">large</span><span class="token punctuation">}</span> Love it
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">zap</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">warning</span> <span class="token number">huge</span><span class="token punctuation">}</span> Fast
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-8rqpi412g" data-code-text=":icon[check]{success} Task complete
+</span></code><button class="code-copy-btn" data-code-id="code-ujeh0bpmx" data-code-text=":icon[check]{success} Task complete
 :icon[heart]{error large} Love it
 :icon[zap]{warning huge} Fast
 
@@ -4121,7 +4154,7 @@ Operation completed successfully!
 </span><span class="code-line">40% transparency - heavy frosted
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-z0piur50z" data-code-text=":::card {subtle-glass}
+</span></code><button class="code-copy-btn" data-code-id="code-lvica2l7z" data-code-text=":::card {subtle-glass}
 90% transparency - very subtle
 :::
 
@@ -4161,7 +4194,7 @@ Operation completed successfully!
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-tdgpjkwuc" data-code-text=":::card {fade-in hover-lift}
+</span></code><button class="code-copy-btn" data-code-id="code-i0hx2vb1u" data-code-text=":::card {fade-in hover-lift}
 Fades in on scroll, lifts on hover
 :::
 
@@ -4203,7 +4236,7 @@ Slides from the right
 </span><span class="code-line">Content for second tab
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-gmqua0gxt" data-code-text=":::tabs
+</span></code><button class="code-copy-btn" data-code-id="code-f3hnbmvo4" data-code-text=":::tabs
 ## First Tab
 Content for first tab
 ## Second Tab
@@ -4230,7 +4263,7 @@ Content for second tab
 </span><span class="code-line">Content for second section
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-guxmqigpj" data-code-text=":::accordion
+</span></code><button class="code-copy-btn" data-code-id="code-8ie3fh03e" data-code-text=":::accordion
 **First Section**
 Content for first section
 **Second Section**
@@ -4262,7 +4295,7 @@ Content for second section
 </span><span class="code-line">Third slide
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-kc7o0coij" data-code-text=":::carousel
+</span></code><button class="code-copy-btn" data-code-id="code-sp7f6sahr" data-code-text=":::carousel
 First slide
 
 ---
@@ -4291,7 +4324,7 @@ Third slide
 </span><span class="code-line">
 </span><span class="code-line"><span class="token punctuation">[</span>Help<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token attr-name">tooltip</span>=<span class="token string">&quot;Helpful tip&quot;</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-71s4xco0c" data-code-text="[Click Me](#){button modal=&#x26;quot;Hello!&#x26;quot;}
+</span></code><button class="code-copy-btn" data-code-id="code-o125r4flf" data-code-text="[Click Me](#){button modal=&#x26;quot;Hello!&#x26;quot;}
 
 [Help](#){tooltip=&#x26;quot;Helpful tip&#x26;quot;}
 
@@ -4338,7 +4371,7 @@ npm install -g taildown
 # Or clone repository
 git clone https://github.com/vincitamore/taildown.git
 cd taildown &amp;&amp; pnpm install &amp;&amp; pnpm build
-</code><button class="code-copy-btn" data-code-id="code-x9dvb9nri" data-code-text="# Via npm (coming soon)
+</code><button class="code-copy-btn" data-code-id="code-x9mopur21" data-code-text="# Via npm (coming soon)
 npm install -g taildown
 
 # Or clone repository
@@ -4364,7 +4397,7 @@ cd taildown &#x26;amp;&#x26;amp; pnpm install &#x26;amp;&#x26;amp; pnpm build
 </span><span class="code-line"><span class="token punctuation">[</span>Get Started<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-veo4xnbmk" data-code-text="# Hello World {huge-bold center primary}
+</span></code><button class="code-copy-btn" data-code-id="code-y8b78ueix" data-code-text="# Hello World {huge-bold center primary}
 
 Welcome to Taildown! {large center muted}
 
@@ -4385,7 +4418,7 @@ Beautiful by default with zero configuration.
         </svg>
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre><h3 class="medium-bold"><svg class="icon icon-terminal text-green-600" data-icon="terminal" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19h8" /><path d="m4 17 6-6-6-6" /></svg> Step 3: Compile</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile hello.td
-</code><button class="code-copy-btn" data-code-id="code-3nmatp0kk" data-code-text="pnpm taildown compile hello.td
+</code><button class="code-copy-btn" data-code-id="code-3lji5r9qw" data-code-text="pnpm taildown compile hello.td
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
