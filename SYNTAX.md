@@ -1052,6 +1052,71 @@ Phase 1 requires these components:
 
 **Note**: Component default classes are defined in implementation, not syntax spec.
 
+### 3.4.1 Clickable Components **[REQUIRED]**
+
+Any component can be made clickable by adding an `href` attribute. The component will render as an `<a>` tag instead of its default element.
+
+**Syntax:**
+```taildown
+:::card {glass padded href="#destination"}
+Entire card is clickable
+:::
+
+:::card {subtle-glass center hover-lift href="/page.html"}
+Click anywhere on this card to navigate
+:::
+```
+
+**Behavior:**
+- Component with `href` renders as `<a>` tag (instead of default `<div>`)
+- All styling and component functionality is preserved
+- `no-underline` and `cursor-pointer` classes are automatically added
+- Entire component surface area becomes the click target
+
+**Best Practices:**
+- Use with `hover-lift` for visual feedback
+- Combine with cards for navigation grids (modern UX pattern)
+- Larger click targets improve usability (especially on mobile)
+- Avoid nested interactive elements inside clickable components
+
+**Example - Navigation Cards:**
+```taildown
+:::grid {cols-3}
+:::card {subtle-glass padded center hover-lift href="#features"}
+:icon[star]{primary huge}
+**Features**
+Learn about our features
+:::
+
+:::card {subtle-glass padded center hover-lift href="#pricing"}
+:icon[dollar-sign]{success huge}
+**Pricing**
+View pricing plans
+:::
+
+:::card {subtle-glass padded center hover-lift href="#contact"}
+:icon[mail]{info huge}
+**Contact**
+Get in touch
+:::
+:::
+```
+
+**Generated HTML:**
+```html
+<a class="component-card glass-effect ... no-underline cursor-pointer" 
+   href="#features" 
+   data-component="card">
+  <!-- Card content -->
+</a>
+```
+
+**Notes:**
+- Works with any component (card, grid-item, container, etc.)
+- External links supported: `href="https://example.com"`
+- Anchor links supported: `href="#section-id"`
+- Relative links supported: `href="/path/to/page.html"`
+
 ### 3.5 Edge Cases
 
 **Edge Case 3.5.1 - Incomplete Fence**:
