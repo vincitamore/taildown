@@ -41,12 +41,13 @@ Tabs, Accordion, Carousel
 Modal, Tooltip
 :::
 
-:::card {subtle-glass padded center hover-lift href="#feedback"}
-:icon[bell]{error huge}
+:::card {subtle-glass padded center hover-lift href="#illustrations"}
+:icon[git-branch]{accent huge}
 
-**Feedback** {huge-bold}
+**Illustrations** {huge-bold}
 
-Alert, Badge, Progress
+Tree, Flow Diagrams
+:::
 :::
 :::
 
@@ -1126,6 +1127,281 @@ The navbar uses a heading for branding and paragraph links for navigation:
 - Include icons for visual interest
 
 **Variants:** `glass` (default) `solid` `minimal` `floating`
+
+[Back to top](#top){badge primary}
+
+---
+
+# Illustration Components {#illustrations huge-bold center primary}
+
+**Professional text-based diagrams and visualizations.**
+
+---
+
+## Tree {#tree large-bold primary}
+
+**Directory structures and hierarchical visualizations with professional styling.**
+
+### Basic Tree Structure {medium-bold}
+
+Perfect for showing file systems, organizational charts, and nested data:
+
+:::tree
+- project/
+  - src/
+    - components/
+      - Button.tsx
+      - Card.tsx
+    - utils/
+      - helpers.ts
+  - tests/
+  - package.json
+:::
+
+### VS Code Style {medium-bold}
+
+Clean box-drawing characters like your favorite editor:
+
+:::tree {vscode}
+- monorepo/
+  - packages/
+    - ui/
+      - src/
+        - components/
+        - themes/
+    - utils/
+      - src/
+        - helpers/
+  - apps/
+    - web/
+    - mobile/
+:::
+
+### Colored Depth Visualization {medium-bold}
+
+Color-coded by depth for better visual hierarchy:
+
+:::tree {colored lg}
+- design-system/
+  - tokens/
+    - colors.json
+    - typography.json
+  - components/
+    - atoms/
+      - Button/
+      - Input/
+    - molecules/
+      - Form/
+      - Card/
+  - documentation/
+:::
+
+### Style Variants {medium-bold}
+
+:::grid {cols-3}
+:::card {padded}
+**Minimal** {medium-bold}
+
+:::tree {minimal}
+- config/
+  - database.yml
+  - routes.rb
+- app/
+  - models/
+  - views/
+:::
+:::
+
+:::card {padded}
+**Rounded** {medium-bold}
+
+:::tree {rounded}
+- website/
+  - public/
+  - src/
+:::
+:::
+
+:::card {padded}
+**Glass Effect** {medium-bold}
+
+:::tree {glass}
+- modern-app/
+  - frontend/
+  - backend/
+:::
+:::
+:::
+
+### Syntax & Options {medium-bold}
+
+```markdown
+:::tree
+- Root Item
+  - Child Item
+    - Nested Item
+:::
+
+:::tree {vscode}        <!-- VS Code style -->
+:::tree {colored}       <!-- Color by depth -->
+:::tree {minimal}       <!-- Clean minimal -->
+:::tree {rounded}       <!-- Rounded connectors -->
+:::tree {glass}         <!-- Glassmorphism -->
+:::tree {dark}          <!-- Dark theme -->
+
+:::tree {sm}            <!-- Small size -->
+:::tree {lg}            <!-- Large size -->
+```
+
+---
+
+## Flow {#flow large-bold primary}
+
+**Process diagrams and workflow visualizations for clear communication.**
+
+### Vertical Flow (Default) {medium-bold}
+
+Perfect for step-by-step processes:
+
+:::flow
+- Initialize System
+- Load Configuration
+- Process Data
+- Validate Results
+- Save Output
+:::
+
+### Horizontal Flow {medium-bold}
+
+Great for pipeline visualizations:
+
+:::flow {horizontal}
+- Input
+- Transform
+- Validate
+- Output
+:::
+
+### Stepped Process {medium-bold}
+
+Numbered steps with professional styling:
+
+:::flow {stepped}
+- Create Account
+- Verify Email
+- Set Password
+- Complete Profile
+- Welcome Dashboard
+:::
+
+### Branching Decision Tree {medium-bold}
+
+Handle complex decision flows:
+
+:::flow {branching}
+- User Request
+  - Authentication
+    - Valid Credentials
+      - Grant Access
+    - Invalid Credentials
+      - Deny Access
+  - Authorization
+    - Sufficient Permissions
+      - Process Request
+    - Insufficient Permissions
+      - Return Error
+:::
+
+### Timeline Style {medium-bold}
+
+Perfect for project phases and milestones:
+
+:::flow {timeline}
+- Planning Phase
+- Development Sprint
+- Testing & QA
+- Deployment
+- Monitoring
+:::
+
+### Style Variants {medium-bold}
+
+:::grid {cols-2}
+:::card {padded}
+**Minimal Flow** {medium-bold}
+
+:::flow {minimal}
+- Start
+- Process
+- End
+:::
+:::
+
+:::card {padded}
+**Glass Flow** {medium-bold}
+
+:::flow {glass}
+- Modern UI
+- Glassmorphism
+- Beautiful Design
+:::
+:::
+:::
+
+### Syntax & Options {medium-bold}
+
+```markdown
+:::flow
+- Step 1
+- Step 2
+- Step 3
+:::
+
+:::flow {horizontal}    <!-- Left-to-right -->
+:::flow {stepped}       <!-- Numbered steps -->
+:::flow {branching}     <!-- Decision tree -->
+:::flow {timeline}      <!-- Timeline style -->
+:::flow {minimal}       <!-- Clean minimal -->
+:::flow {glass}         <!-- Glassmorphism -->
+:::flow {dark}          <!-- Dark theme -->
+
+:::flow {sm}            <!-- Small size -->
+:::flow {lg}            <!-- Large size -->
+```
+
+### Real-World Examples {medium-bold}
+
+:::alert {info}
+:icon[lightbulb]{info} **Pro Tip:** Use tree components for static hierarchies and flow components for processes and workflows.
+:::
+
+**API Request Pipeline:**
+
+:::flow {stepped lg}
+- Client Request
+- API Gateway
+- Authentication
+- Route Handler
+- Service Layer
+- Database Query
+- Response Formatting
+- Client Response
+:::
+
+**CI/CD Pipeline:**
+
+:::flow {branching}
+- Code Push
+  - Linter
+    - Pass
+      - Tests
+        - Pass
+          - Build & Deploy
+        - Fail
+          - Block Deployment
+    - Fail
+      - Reject Commit
+:::
 
 [Back to top](#top){badge primary}
 

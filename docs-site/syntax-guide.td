@@ -24,6 +24,7 @@
 **Components**
 - [Component Blocks](#components)
 - [Interactive Components](#interactive)
+- [Illustrations](#illustrations)
 - [Icons](#icons)
 :::
 
@@ -429,12 +430,38 @@ Column 2
 :::
 ```
 
+### Illustration Examples
+
+**Directory Tree:**
+```markdown
+:::tree {vscode}
+- project/
+  - src/
+    - components/
+    - utils/
+  - tests/
+:::
+```
+
+**Process Flow:**
+```markdown
+:::flow {stepped}
+- Initialize
+- Process
+- Complete
+:::
+```
+
 ### Standard Components
 
 **Layout:**
 - `:::card` - Content container with glassmorphism
 - `:::grid` - Responsive column layout
 - `:::button-group` - Intelligent button layout
+
+**Illustrations:**
+- `:::tree` - Directory structures and hierarchies
+- `:::flow` - Process diagrams and workflows
 
 **Feedback:**
 - `:::alert` - Message boxes (info, success, warning, error)
@@ -613,6 +640,62 @@ Content with attributes
 
 ---
 
+## Illustrations {#illustrations large-bold primary}
+
+:icon[git-branch]{accent large} **Create professional diagrams with simple text syntax.** {large}
+
+### Tree Components
+
+Perfect for directory structures, organizational charts, and hierarchical data:
+
+:::tree {vscode}
+- project/
+  - src/
+    - components/
+      - Button.tsx
+      - Card.tsx
+    - utils/
+      - helpers.ts
+  - tests/
+  - package.json
+:::
+
+**Syntax:**
+```markdown
+:::tree {vscode}
+- Root Item
+  - Child Item
+    - Nested Item
+:::
+```
+
+**Variants:** `vscode`, `colored`, `minimal`, `rounded`, `glass`, `dark`
+
+### Flow Components
+
+Ideal for process flows, decision trees, and workflows:
+
+:::flow {stepped}
+- Initialize System
+- Load Configuration  
+- Process Data
+- Validate Results
+- Save Output
+:::
+
+**Syntax:**
+```markdown
+:::flow {stepped}
+- Step 1
+- Step 2
+- Step 3
+:::
+```
+
+**Variants:** `horizontal`, `stepped`, `branching`, `timeline`, `minimal`, `glass`, `dark`
+
+---
+
 ## Complete Component List {#component-list large-bold primary}
 
 | Component | Purpose | Usage | Variants |
@@ -627,6 +710,8 @@ Content with attributes
 | **carousel** | Slideshow | `:::carousel` | Uses `---` as dividers |
 | **modal** | Dialog overlay | Attach with `modal="..."` | Inline or ID-referenced |
 | **tooltip** | Contextual help | Attach with `tooltip="..."` | Inline or ID-referenced |
+| **tree** | Directory structures | `:::tree` | vscode, colored, minimal, rounded, glass |
+| **flow** | Process diagrams | `:::flow` | horizontal, stepped, branching, timeline, minimal, glass |
 | **badge** | Inline label | `[Text](#){badge}` | primary, success, warning |
 | **button** | Button styling | `[Text](#){button}` | primary, secondary, outline |
 
