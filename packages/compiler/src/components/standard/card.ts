@@ -115,13 +115,12 @@ export const cardComponent: ComponentDefinition = defineComponent({
     // Glass Variants: Glassmorphism effects with varying intensity levels
     // NO bg-white in these - transparency is required to show the background!
     // Using plain English naming: "subtle-glass" not "glass-subtle"
+    // Note: Glass CSS handles borders via gradients, no need for border classes
     
     // Subtle Glass: Minimal transparency, mostly opaque (90%)
     'subtle-glass': [
       'glass-effect',
       'glass-subtle',
-      'bg-glass-subtle',
-      'border-white/40',
       'shadow-sm',
     ],
     
@@ -129,8 +128,6 @@ export const cardComponent: ComponentDefinition = defineComponent({
     'light-glass': [
       'glass-effect',
       'glass-light',
-      'bg-glass-light',
-      'border-white/50',
       'shadow-md',
     ],
     
@@ -138,8 +135,6 @@ export const cardComponent: ComponentDefinition = defineComponent({
     glass: [
       'glass-effect',
       'glass-medium',
-      'bg-glass-medium',
-      'border-white/50',
       'shadow-lg',
       'hover-lift',
       'transition-smooth',
@@ -149,8 +144,6 @@ export const cardComponent: ComponentDefinition = defineComponent({
     'heavy-glass': [
       'glass-effect',
       'glass-heavy',
-      'bg-glass-heavy',
-      'border-white/60',
       'shadow-xl',
     ],
   },
