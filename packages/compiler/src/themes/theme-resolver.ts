@@ -59,7 +59,7 @@ export class ThemeResolver {
     if (colorName === 'success') return colors.success || '#10b981';
     if (colorName === 'warning') return colors.warning || '#f59e0b';
     if (colorName === 'error') return colors.error || '#ef4444';
-    if (colorName === 'info') return colors.info || '#3b82f6';
+    if (colorName === 'info') return colors.info || '#82a0ff';
     
     // Handle color objects with shades
     const colorObj = colors[colorName as keyof typeof colors];
@@ -79,13 +79,13 @@ export class ThemeResolver {
    */
   private getFallbackColor(colorName: string, shade?: number): string {
     const fallbacks: Record<string, string> = {
-      primary: '#3b82f6',
+      primary: '#82a0ff',
       secondary: '#8b5cf6',
       accent: '#ec4899',
       success: '#10b981',
       warning: '#f59e0b',
       error: '#ef4444',
-      info: '#3b82f6',
+      info: '#82a0ff',
       gray: '#6b7280',
     };
     

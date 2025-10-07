@@ -79,7 +79,7 @@ export function getLightModeColors(config: TaildownConfig): LightModeColors {
     warningForeground: '#ffffff',
     error: config.theme?.colors?.error || '#ef4444',
     errorForeground: '#ffffff',
-    info: config.theme?.colors?.info || '#3b82f6',
+    info: config.theme?.colors?.info || '#82a0ff',
     infoForeground: '#ffffff',
     
     card: '#ffffff',
@@ -94,19 +94,19 @@ export function getLightModeColors(config: TaildownConfig): LightModeColors {
 export function getDarkModeColors(config: TaildownConfig): DarkModeColors {
   return {
     background: '#15202b',  // Twitter dim mode background
-    foreground: '#e7e9ea',  // Soft white, easier on eyes than pure white
+    foreground: '#f5f5f5',  // Soft white, easier on eyes than pure white
     muted: '#1c2938',       // Slightly lighter blue-gray for subtle backgrounds
-    mutedForeground: '#8b98a5',  // Muted text
+    mutedForeground: '#b8c5d0',  // Muted text - lighter for better readability
     border: '#2f3c4c',      // Visible but subtle borders
     input: '#1c2938',       // Input backgrounds
     ring: '#60a5fa',        // Focus ring (keep bright for visibility)
     
     primary: config.theme?.colors?.primary?.[500] || '#3b82f6',
-    primaryForeground: '#e7e9ea',
+    primaryForeground: '#f5f5f5',
     secondary: config.theme?.colors?.secondary?.[600] || '#9333ea',
-    secondaryForeground: '#e7e9ea',
+    secondaryForeground: '#f5f5f5',
     accent: config.theme?.colors?.accent?.[500] || '#ec4899',
-    accentForeground: '#e7e9ea',
+    accentForeground: '#f5f5f5',
     
     success: config.theme?.colors?.success || '#10b981',
     successForeground: '#15202b',  // Dark text on bright success
@@ -114,11 +114,11 @@ export function getDarkModeColors(config: TaildownConfig): DarkModeColors {
     warningForeground: '#15202b',  // Dark text on bright warning
     error: config.theme?.colors?.error || '#ef4444',
     errorForeground: '#ffffff',
-    info: config.theme?.colors?.info || '#3b82f6',
+    info: config.theme?.colors?.info || '#82a0ff',
     infoForeground: '#ffffff',
     
     card: '#192734',        // Slightly lighter than background for depth
-    cardForeground: '#e7e9ea',
+    cardForeground: '#f5f5f5',
   };
 }
 
