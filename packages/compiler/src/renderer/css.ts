@@ -1525,6 +1525,197 @@ ${generateThemeCSS()}
 }
 
 /* ========================================
+ * NAVBAR COMPONENT
+ * Modern navigation bar with glassmorphism
+ * ======================================== */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
+              0 2px 4px -2px rgba(0, 0, 0, 0.05),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
+  margin-bottom: 2rem;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 100;
+}
+
+.dark .navbar {
+  background: rgba(15, 23, 42, 0.7);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
+              0 2px 4px -2px rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Navbar brand/title */
+.navbar h1,
+.navbar h2,
+.navbar h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Navbar links container */
+.navbar p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Navbar links styling */
+.navbar a {
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.navbar a:hover {
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.dark .navbar a:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Active/current page link */
+.navbar a[aria-current="page"],
+.navbar a.active {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Variant: Glass navbar (default enhanced) */
+.navbar-glass {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(16px) saturate(180%);
+}
+
+.dark .navbar-glass {
+  background: rgba(15, 23, 42, 0.5);
+}
+
+/* Variant: Solid navbar */
+.navbar-solid {
+  background: var(--card);
+  backdrop-filter: none;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+              0 1px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Variant: Minimal navbar (no background) */
+.navbar-minimal {
+  background: transparent;
+  backdrop-filter: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Variant: Floating navbar (with margin) */
+.navbar-floating {
+  margin: 1rem;
+  border-radius: 20px;
+}
+
+/* Variant: Sticky navbar */
+.navbar-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  margin-bottom: 0;
+}
+
+/* Variant: Fixed navbar */
+.navbar-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  margin: 0;
+  border-radius: 0;
+}
+
+/* Size variants */
+.navbar-sm {
+  padding: 0.5rem 1rem;
+}
+
+.navbar-sm h1,
+.navbar-sm h2,
+.navbar-sm h3 {
+  font-size: 1rem;
+}
+
+.navbar-sm a {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+}
+
+.navbar-lg {
+  padding: 1rem 2rem;
+}
+
+.navbar-lg h1,
+.navbar-lg h2,
+.navbar-lg h3 {
+  font-size: 1.5rem;
+}
+
+.navbar-lg a {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.9375rem;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+  }
+  
+  .navbar p {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  
+  .navbar a {
+    font-size: 0.8125rem;
+    padding: 0.375rem 0.75rem;
+  }
+}
+
+/* ========================================
  * ACCORDION COMPONENT
  * ======================================== */
 

@@ -1,10 +1,10 @@
-:::card {light-glass padded-sm}
-# :icon[zap]{warning} Taildown {large-bold primary} {center}
+:::navbar
+# :icon[zap]{warning} Taildown
 
-[Home](index.html){button secondary small} [Getting Started](getting-started.html){button secondary small} [Syntax Guide](syntax-guide.html){button secondary small} [Components](components.html){button secondary small} [Plain English](plain-english.html){button secondary small}
+[Home](index.html) [Getting Started](getting-started.html) [Syntax Guide](syntax-guide.html) [Components](components.html) [Plain English](plain-english.html)
 :::
 
----
+
 
 # Taildown {huge-bold center primary}
 
