@@ -1778,35 +1778,42 @@ ${generateThemeCSS()}
   border-radius: 6px;
   font-size: 0.9375rem;
   font-weight: 500;
-  color: var(--foreground);
-  opacity: 0.8;
+  color: var(--primary);
   transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
   display: inline-flex;
   align-items: center;
   position: relative;
+  border-bottom: 2px solid transparent;
 }
 
 .navbar a:hover {
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.04);
-  color: var(--foreground);
+  background: rgba(59, 130, 246, 0.08);
+  color: var(--primary);
+  border-bottom-color: var(--primary);
 }
 
 .dark .navbar a:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(96, 165, 250, 0.12);
 }
 
 .navbar a:active {
   transform: scale(0.97);
+  opacity: 0.8;
 }
 
 /* Active/current page link */
 .navbar a[aria-current="page"],
 .navbar a.active {
-  opacity: 1;
   font-weight: 600;
   color: var(--primary);
+  background: rgba(59, 130, 246, 0.1);
+  border-bottom-color: var(--primary);
+}
+
+.dark .navbar a[aria-current="page"],
+.dark .navbar a.active {
+  background: rgba(96, 165, 250, 0.15);
 }
 
 /* Mobile optimization for navbar */

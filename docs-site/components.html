@@ -2680,35 +2680,42 @@ td svg.icon {
   border-radius: 6px;
   font-size: 0.9375rem;
   font-weight: 500;
-  color: var(--foreground);
-  opacity: 0.8;
+  color: var(--primary);
   transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
   display: inline-flex;
   align-items: center;
   position: relative;
+  border-bottom: 2px solid transparent;
 }
 
 .navbar a:hover {
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.04);
-  color: var(--foreground);
+  background: rgba(59, 130, 246, 0.08);
+  color: var(--primary);
+  border-bottom-color: var(--primary);
 }
 
 .dark .navbar a:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(96, 165, 250, 0.12);
 }
 
 .navbar a:active {
   transform: scale(0.97);
+  opacity: 0.8;
 }
 
 /* Active/current page link */
 .navbar a[aria-current="page"],
 .navbar a.active {
-  opacity: 1;
   font-weight: 600;
   color: var(--primary);
+  background: rgba(59, 130, 246, 0.1);
+  border-bottom-color: var(--primary);
+}
+
+.dark .navbar a[aria-current="page"],
+.dark .navbar a.active {
+  background: rgba(96, 165, 250, 0.15);
 }
 
 /* Mobile optimization for navbar */
@@ -4359,7 +4366,7 @@ Your content here
 :::card {subtle-glass padded-xl rounded-xl hover-lift}
 Card with multiple attributes
 :::
-</code><button class="code-copy-btn" data-code-id="code-mw7zni8to" data-code-text=":::card {glass padded}
+</code><button class="code-copy-btn" data-code-id="code-qdfmxrvsa" data-code-text=":::card {glass padded}
 Your content here
 :::
 
@@ -4405,7 +4412,7 @@ Column 2
 :::grid {cols-3 gap-lg}
 Three columns with large gap
 :::
-</code><button class="code-copy-btn" data-code-id="code-ax74rofi0" data-code-text=":::grid {cols-2}
+</code><button class="code-copy-btn" data-code-id="code-1t86ldhdh" data-code-text=":::grid {cols-2}
 :::card
 Column 1
 :::
@@ -4448,7 +4455,7 @@ Three columns with large gap
 :::button-group {right lg}
 Right-aligned with large gaps
 :::
-</code><button class="code-copy-btn" data-code-id="code-ko8irorlt" data-code-text=":::button-group
+</code><button class="code-copy-btn" data-code-id="code-o7xo5ji7z" data-code-text=":::button-group
 [Primary](#){button primary large}
 [Secondary](#){button secondary large}
 :::
@@ -4490,7 +4497,7 @@ Content for second tab
 ## Third Tab
 Content for third tab
 :::
-</code><button class="code-copy-btn" data-code-id="code-n4xo0qjzs" data-code-text=":::tabs
+</code><button class="code-copy-btn" data-code-id="code-5sdm3lnpn" data-code-text=":::tabs
 ## First Tab
 Content for first tab
 
@@ -4523,7 +4530,7 @@ Content
 ## Second Tab
 More content
 :::
-</code><button class="code-copy-btn" data-code-id="code-wjwsku2hr" data-code-text=":::tabs
+</code><button class="code-copy-btn" data-code-id="code-idmjx9qwf" data-code-text=":::tabs
 ## First Tab
 Content
 
@@ -4567,7 +4574,7 @@ Accordions include proper ARIA attributes (<code>aria-expanded</code>, <code>ari
 **Section Title**
 Section content here
 :::
-</code><button class="code-copy-btn" data-code-id="code-ktf07nhob" data-code-text=":::accordion
+</code><button class="code-copy-btn" data-code-id="code-k2ko1as4p" data-code-text=":::accordion
 **Section Title**
 Section content here
 :::
@@ -4591,7 +4598,7 @@ More content
 **Third Section**
 Even more content
 :::
-</code><button class="code-copy-btn" data-code-id="code-soqu4ya0x" data-code-text=":::accordion
+</code><button class="code-copy-btn" data-code-id="code-55io0cae6" data-code-text=":::accordion
 **First Section**
 Content (open by default)
 
@@ -4637,7 +4644,7 @@ Second slide content
 
 Third slide content
 :::
-</code><button class="code-copy-btn" data-code-id="code-l15cwjryk" data-code-text=":::carousel
+</code><button class="code-copy-btn" data-code-id="code-9dzkmmwn2" data-code-text=":::carousel
 First slide content
 
 ---
@@ -4675,7 +4682,7 @@ Third slide content
 <p><strong>Overlay dialogs with backdrop blur and focus management.</strong></p>
 <h3 class="medium-bold">Inline Content</h3>
 <p>The simplest way - content directly in the attribute:</p>
-<p><span class="inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg" data-modal-trigger="modal-xyztlw" aria-haspopup="dialog">Simple Alert</a><div id="modal-xyztlw" role="dialog" aria-modal="true" data-component="modal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);"><div class="modal-content glass-subtle rounded-2xl shadow-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative p-12 border border-white/20"><button data-modal-close="true" aria-label="Close modal" class="modal-close absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors z-10 bg-white/80 backdrop-blur-sm"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>This is a simple alert modal! Click the backdrop or press Escape to close.</div></div></span></p>
+<p><span class="inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg" data-modal-trigger="modal-594lrv" aria-haspopup="dialog">Simple Alert</a><div id="modal-594lrv" role="dialog" aria-modal="true" data-component="modal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);"><div class="modal-content glass-subtle rounded-2xl shadow-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative p-12 border border-white/20"><button data-modal-close="true" aria-label="Close modal" class="modal-close absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors z-10 bg-white/80 backdrop-blur-sm"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>This is a simple alert modal! Click the backdrop or press Escape to close.</div></div></span></p>
 <p><a href="#">Warning Message</a>{button warning modal="⚠️ <strong>Warning:</strong> This action cannot be undone. Please proceed with caution."}</p>
 <h3 class="medium-bold">ID-Referenced Content</h3>
 <p>For rich content, define the modal separately and reference it by ID:</p>
@@ -4710,7 +4717,7 @@ Third slide content
 <h3 class="medium-bold">Usage Summary</h3>
 <p><strong>Inline:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">[Click me](#){button modal=&quot;Simple message&quot;}
-</code><button class="code-copy-btn" data-code-id="code-bjea08s7k" data-code-text="[Click me](#){button modal=&#x26;quot;Simple message&#x26;quot;}
+</code><button class="code-copy-btn" data-code-id="code-qmj6aa52f" data-code-text="[Click me](#){button modal=&#x26;quot;Simple message&#x26;quot;}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4727,7 +4734,7 @@ Third slide content
 # Modal Title
 Rich content with full markdown support
 :::
-</code><button class="code-copy-btn" data-code-id="code-mot2txivb" data-code-text="[Open Modal](#){button modal=&#x26;quot;#my-modal&#x26;quot;}
+</code><button class="code-copy-btn" data-code-id="code-57v56fcg3" data-code-text="[Open Modal](#){button modal=&#x26;quot;#my-modal&#x26;quot;}
 
 :::modal {id=&#x26;quot;my-modal&#x26;quot;}
 # Modal Title
@@ -4775,12 +4782,12 @@ Rich content with full markdown support
 <span style="display: none;"></span>
 <h3 class="medium-bold">In Context</h3>
 <p>Tooltips work on buttons, badges, and links:</p>
-<p><span class="relative inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg" aria-describedby="tooltip-062qbr" data-tooltip-trigger="true">Need Help?</a><div id="tooltip-062qbr" role="tooltip" data-component="tooltip" class="tooltip-content absolute px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none opacity-0 transition-opacity" style="display: none;">Submit your form after filling all required fields.</div></span><span class="relative inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg" aria-describedby="tooltip-qs4wil" data-tooltip-trigger="true">Cancel</a><div id="tooltip-qs4wil" role="tooltip" data-component="tooltip" class="tooltip-content absolute px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none opacity-0 transition-opacity" style="display: none;">Discard changes and return to previous page.</div></span></p>
-<p>Status: <a href="#">Active</a>{badge success tooltip="Service is running normally"} | Version: <a href="#">v2.1.0</a>{badge info tooltip="Latest stable release"} | <span class="relative inline-block"><a href="#" class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-amber-100 text-amber-700" aria-describedby="tooltip-a0ygbi" data-tooltip-trigger="true">Beta Feature</a><div id="tooltip-a0ygbi" role="tooltip" data-component="tooltip" class="tooltip-content absolute px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none opacity-0 transition-opacity" style="display: none;">This feature is experimental</div></span></p>
+<p><span class="relative inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg" aria-describedby="tooltip-0v468c" data-tooltip-trigger="true">Need Help?</a><div id="tooltip-0v468c" role="tooltip" data-component="tooltip" class="tooltip-content absolute px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none opacity-0 transition-opacity" style="display: none;">Submit your form after filling all required fields.</div></span><span class="relative inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg" aria-describedby="tooltip-ch1vdl" data-tooltip-trigger="true">Cancel</a><div id="tooltip-ch1vdl" role="tooltip" data-component="tooltip" class="tooltip-content absolute px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none opacity-0 transition-opacity" style="display: none;">Discard changes and return to previous page.</div></span></p>
+<p>Status: <a href="#">Active</a>{badge success tooltip="Service is running normally"} | Version: <a href="#">v2.1.0</a>{badge info tooltip="Latest stable release"} | <span class="relative inline-block"><a href="#" class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-amber-100 text-amber-700" aria-describedby="tooltip-o0uxm" data-tooltip-trigger="true">Beta Feature</a><div id="tooltip-o0uxm" role="tooltip" data-component="tooltip" class="tooltip-content absolute px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none opacity-0 transition-opacity" style="display: none;">This feature is experimental</div></span></p>
 <h3 class="medium-bold">Usage Summary</h3>
 <p><strong>Inline:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">[Hover here](#){tooltip=&quot;Help text&quot;}
-</code><button class="code-copy-btn" data-code-id="code-2z5wtp9ne" data-code-text="[Hover here](#){tooltip=&#x26;quot;Help text&#x26;quot;}
+</code><button class="code-copy-btn" data-code-id="code-laweet5sj" data-code-text="[Hover here](#){tooltip=&#x26;quot;Help text&#x26;quot;}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4796,7 +4803,7 @@ Rich content with full markdown support
 :::tooltip {id=&quot;help&quot;}
 Detailed help content with markdown
 :::
-</code><button class="code-copy-btn" data-code-id="code-i5y3xo5dg" data-code-text="[Info](#){tooltip=&#x26;quot;#help&#x26;quot;}
+</code><button class="code-copy-btn" data-code-id="code-5sgznfatm" data-code-text="[Info](#){tooltip=&#x26;quot;#help&#x26;quot;}
 
 :::tooltip {id=&#x26;quot;help&#x26;quot;}
 Detailed help content with markdown
@@ -4856,7 +4863,7 @@ Detailed help content with markdown
 :::alert {error}
 :icon[x-circle]{error} Error message
 :::
-</code><button class="code-copy-btn" data-code-id="code-22ul4phz9" data-code-text=":::alert {info}
+</code><button class="code-copy-btn" data-code-id="code-xy4oa7stw" data-code-text=":::alert {info}
 :icon[info]{info} Information message
 :::
 
@@ -4902,7 +4909,7 @@ Detailed help content with markdown
 [Text](#){badge primary}
 [Text](#){badge success small}
 [Text](#){badge error large}
-</code><button class="code-copy-btn" data-code-id="code-6exh30etu" data-code-text="[Text](#){badge}
+</code><button class="code-copy-btn" data-code-id="code-vz79e1y5n" data-code-text="[Text](#){badge}
 [Text](#){badge primary}
 [Text](#){badge success small}
 [Text](#){badge error large}
@@ -4932,7 +4939,7 @@ Detailed help content with markdown
 
 [Home](/) [About](/about) [Docs](/docs) [Contact](/contact)
 :::
-</code><button class="code-copy-btn" data-code-id="code-a47a1k53n" data-code-text=":::navbar
+</code><button class="code-copy-btn" data-code-id="code-8jbu2fpcw" data-code-text=":::navbar
 # Brand Name
 
 [Home](/) [About](/about) [Docs](/docs) [Contact](/contact)
@@ -4976,7 +4983,7 @@ Detailed help content with markdown
 
 [Link 1](#) [Link 2](#) [Link 3](#)
 :::
-</code><button class="code-copy-btn" data-code-id="code-2wmvuj01s" data-code-text=":::navbar
+</code><button class="code-copy-btn" data-code-id="code-237rpi42d" data-code-text=":::navbar
 # Site Name
 
 [Link 1](#) [Link 2](#) [Link 3](#)
