@@ -46,6 +46,10 @@ export interface LightModeColors {
   // Card and component backgrounds
   card: string;
   cardForeground: string;
+  
+  // Glass effect colors
+  glassBackground: string;
+  glassBorder: string;
 }
 
 /**
@@ -84,6 +88,9 @@ export function getLightModeColors(config: TaildownConfig): LightModeColors {
     
     card: '#ffffff',
     cardForeground: config.theme?.colors?.gray?.[900] || '#111827',
+    
+    glassBackground: 'rgba(255, 255, 255, 0.8)',
+    glassBorder: 'rgba(255, 255, 255, 0.3)',
   };
 }
 
@@ -119,6 +126,9 @@ export function getDarkModeColors(config: TaildownConfig): DarkModeColors {
     
     card: '#192734',        // Slightly lighter than background for depth
     cardForeground: '#f5f5f5',
+    
+    glassBackground: 'rgba(25, 39, 52, 0.8)',
+    glassBorder: 'rgba(255, 255, 255, 0.1)',
   };
 }
 
@@ -158,6 +168,9 @@ export function generateColorPaletteCSS(config: TaildownConfig): string {
   
   --card: ${light.card};
   --card-foreground: ${light.cardForeground};
+  
+  --glass-background: ${light.glassBackground};
+  --glass-border: ${light.glassBorder};
 }
 
 /* Color Palette - Dark Mode */
@@ -188,6 +201,9 @@ export function generateColorPaletteCSS(config: TaildownConfig): string {
   
   --card: ${dark.card};
   --card-foreground: ${dark.cardForeground};
+  
+  --glass-background: ${dark.glassBackground};
+  --glass-border: ${dark.glassBorder};
 }
 
 /* CSS Variable utilities - background colors */
@@ -235,5 +251,9 @@ export function generateColorPaletteCSS(config: TaildownConfig): string {
 
 /* Ring color for focus states */
 .ring-ring { --tw-ring-color: var(--ring); }
+
+/* Glass effect utilities */
+.bg-glass { background-color: var(--glass-background); }
+.border-glass { border-color: var(--glass-border); }
 `.trim();
 }

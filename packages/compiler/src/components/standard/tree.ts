@@ -102,9 +102,7 @@ export const treeComponent: ComponentDefinition = defineComponent({
     // Rounded: Soft rounded connectors
     rounded: [
       'tree-rounded',
-      'bg-gradient-to-br',
-      'from-gray-50',
-      'to-gray-100',
+      'bg-muted',
     ],
     
     // Colored: Color-coded by depth
@@ -124,10 +122,8 @@ export const treeComponent: ComponentDefinition = defineComponent({
     // Glass: Glassmorphism effect
     glass: [
       'tree-glass',
-      'glass-effect',
-      'glass-subtle',
-      'bg-glass-subtle',
-      'border-white/40',
+      'bg-glass',
+      'border-glass',
     ],
   },
   
