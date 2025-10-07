@@ -551,6 +551,11 @@ body {
   /* DO NOT use transform on body - it breaks position:fixed children! */
 }
 
+/* Remove all link underlines - clean modern look */
+a {
+  text-decoration: none;
+}
+
 /* Regular plain text links (no classes) - for documentation links only */
 p > a:not([class]),
 li > a:not([class]),
@@ -558,8 +563,7 @@ td > a:not([class]),
 th > a:not([class]) {
   color: var(--primary);
   text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 500;
 }
 
@@ -567,7 +571,6 @@ p > a:not([class]):hover,
 li > a:not([class]):hover,
 td > a:not([class]):hover,
 th > a:not([class]):hover {
-  border-bottom-color: var(--primary);
   opacity: 0.85;
 }
 

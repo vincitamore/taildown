@@ -103,7 +103,6 @@ export const buttonComponent: ComponentDefinition = defineComponent({
       'bg-transparent',
       'text-blue-600',
       'hover:text-blue-700',
-      'underline',
       'px-0',
       'py-0',
       'shadow-none',
