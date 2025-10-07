@@ -388,9 +388,9 @@ Right-aligned with large gaps
 ### Live Example {medium-bold}
 
 :::tabs
-#### :icon[home]{primary} Overview
+### :icon[home]{primary} Overview
 
-Tabs use headings (h2-h4) as labels. Everything between headings becomes panel content.
+Tabs use headings (h2 or h3) as labels. Everything between headings becomes panel content.
 
 **Features:**
 - :icon[check]{success} First tab active by default
@@ -398,9 +398,7 @@ Tabs use headings (h2-h4) as labels. Everything between headings becomes panel c
 - :icon[check]{success} Smooth transitions
 - :icon[check]{success} Full ARIA accessibility
 
----
-
-#### :icon[code]{success} Syntax
+### :icon[code]{success} Syntax
 
 Simple, intuitive syntax:
 
@@ -409,21 +407,15 @@ Simple, intuitive syntax:
 ## First Tab
 Content for first tab
 
----
-
 ## Second Tab
 Content for second tab
-
----
 
 ## Third Tab
 Content for third tab
 :::
 ```
 
----
-
-#### :icon[sparkles]{warning} Rich Content
+### :icon[sparkles]{warning} Rich Content
 
 Tabs support full Taildown syntax:
 
@@ -437,9 +429,7 @@ Tabs support full Taildown syntax:
 :icon[lightbulb]{warning} Even alerts work inside tabs!
 :::
 
----
-
-#### :icon[palette]{error} Nested Components
+### :icon[palette]{error} Nested Components
 
 Complex layouts inside tabs:
 
@@ -471,7 +461,7 @@ More content
 ```
 
 **Key Points:**
-- H2-H4 headings become tab labels
+- H2 or H3 headings become tab labels (not H4!)
 - First tab automatically active
 - Supports all markdown and components
 - Mobile-responsive wrapping
