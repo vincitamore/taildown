@@ -843,6 +843,8 @@ pnpm format
 :::card {light-glass padded}
 ### :icon[folder]{accent} Project Structure {medium-bold}
 
+**NOTE:** This uses Taildown's native `:::tree` component for professional visualization. Always use `:::tree` for directory structures in .td documentation. {muted small}
+
 :::tree {rounded}
 - taildown/
   - packages/

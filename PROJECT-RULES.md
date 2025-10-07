@@ -81,6 +81,7 @@ Starting with version 0.1.0, all project documentation should be:
 - **Showcase features**: Demonstrate various shorthand styles to highlight capabilities
 - **Professional aesthetics**: Maintain skillful, aesthetically pleasing standards throughout
 - **Avoid overuse of elevated**: `:::card {elevated}` should be used sparingly; prefer glass variants
+- **Use native components for .td files**: In `.td` documentation, use `:::tree` for directory structures and `:::flow` for process diagrams instead of ASCII art
 
 **Example:**
 ```taildown

@@ -8,7 +8,7 @@ This document defines the structure and organization rules for the Taildown proj
 
 ## NO EMOJIS POLICY {large-bold error}
 
-:::alert{type="error"}
+:::alert {type="error"}
 **CRITICAL RULE: ABSOLUTELY NO EMOJIS IN ANY PROJECT FILES**
 
 Taildown is a **professional project** with a sophisticated icon system. We do NOT use emojis anywhere in:
@@ -30,7 +30,7 @@ Taildown is a **professional project** with a sophisticated icon system. We do N
 :icon[check]{success} CORRECT: :icon[alert-triangle]{warning} Warning
 ```
 
-:::card{subtle-glass}
+:::card {subtle-glass}
 ### :icon[info]{primary} Why This Rule Exists {medium-bold}
 
 - Emojis are unprofessional and inconsistent across platforms
@@ -51,7 +51,7 @@ Taildown is a **professional project** with a sophisticated icon system. We do N
 
 ## DOCUMENTATION FORMAT POLICY {large-bold primary}
 
-:::alert{type="info"}
+:::alert {type="info"}
 **ALL PROJECT DOCUMENTATION MUST BE WRITTEN IN TAILDOWN FORMAT**
 :::
 
@@ -67,7 +67,7 @@ Starting with version 0.1.0, all project documentation should be:
 - Technical documentation
 - Planning and design documents
 
-:::card{light-glass}
+:::card {light-glass}
 ### :icon[zap]{warning} Why Taildown Format? {medium-bold}
 
 - **Dogfooding**: We use our own tool for our own documentation
@@ -90,12 +90,13 @@ Starting with version 0.1.0, all project documentation should be:
 - **Showcase features**: Demonstrate various shorthand styles to highlight capabilities
 - **Professional aesthetics**: Maintain skillful, aesthetically pleasing standards throughout
 - **Avoid overuse of elevated**: `:::card {elevated}` should be used sparingly; prefer glass variants
+- **Use native components**: Always use `:::tree` for directory structures and `:::flow` for process diagrams instead of ASCII art
 
 **Example:**
 ```taildown
 # My Document {huge-bold center primary}
 
-:::alert{type="success"}
+:::alert {type="success"}
 This is a success message with proper Taildown formatting.
 :::
 
@@ -111,64 +112,60 @@ This is a success message with proper Taildown formatting.
 
 ## Directory Structure {large-bold primary}
 
-:::card{subtle-glass}
+:::card {subtle-glass}
 ### :icon[folder]{accent} Project Layout {medium-bold}
 
-```
-taildown/
-├── README.md                    # User-facing overview and quick start
-├── SYNTAX.md                    # Canonical syntax specification
-├── tech-spec.md                 # Technical architecture specification
-├── CONTRIBUTING.md              # Contribution guidelines
-├── PROJECT-RULES.md            # This file - project organization
-├── package.json                # Root package configuration
-├── pnpm-workspace.yaml         # Monorepo workspace configuration
-├── tsconfig.json               # TypeScript configuration
-├── vitest.config.ts            # Test configuration
-├── .eslintrc.json              # ESLint configuration
-├── .prettierrc                 # Prettier configuration
-├── .gitignore                  # Git ignore patterns
-│
-├── packages/                   # Monorepo packages
-│   ├── cli/                    # CLI package
-│   ├── compiler/               # Core compiler package
-│   └── shared/                 # Shared types and utilities
-│
-├── examples/                   # Example .td files and outputs
-│   ├── README.md               # Examples documentation
-│   └── *.td                    # Example Taildown files
-│
-├── syntax-tests/               # Syntax reference tests
-│   ├── fixtures/               # Test fixtures with .td and .ast.json
-│   ├── reference.test.ts       # Syntax validation tests
-│   └── README.md               # Testing documentation
-│
-├── scripts/                    # Utility and automation scripts
-│   ├── generate-fixture.ps1    # Generate test fixtures
-│   ├── regenerate-all-fixtures.ps1
-│   └── README.md               # Scripts documentation
-│
-├── docs/                       # Historical documentation and notes
-│   ├── PHASE-*.md              # Phase status and summaries
-│   ├── SESSION-*.md            # Development session notes
-│   ├── BUGFIX-*.md             # Bug fix documentation
-│   └── *.md                    # Planning and implementation docs
-│
-└── test-files/                 # Temporary test files and outputs
-    ├── test-*.td               # Test Taildown files
-    ├── test-*.html             # Generated HTML outputs
-    ├── test-*.css              # Generated CSS outputs
-    ├── test-*.js               # Generated JS outputs
-    └── *.json                  # Debug AST outputs
-```
+**NOTE:** This project structure uses Taildown's native `:::tree` component instead of ASCII art. Always use Taildown features for visualizations in project documentation. {muted}
+
+:::tree {vscode}
+- taildown/
+  - README.md                    # User-facing overview and quick start
+  - SYNTAX.md                    # Canonical syntax specification
+  - tech-spec.md                 # Technical architecture specification
+  - CONTRIBUTING.md              # Contribution guidelines
+  - PROJECT-RULES.md             # This file - project organization
+  - package.json                 # Root package configuration
+  - pnpm-workspace.yaml          # Monorepo workspace configuration
+  - tsconfig.json                # TypeScript configuration
+  - vitest.config.ts             # Test configuration
+  - .eslintrc.json               # ESLint configuration
+  - .prettierrc                  # Prettier configuration
+  - .gitignore                   # Git ignore patterns
+  - packages/                    # Monorepo packages
+    - cli/                       # CLI package
+    - compiler/                  # Core compiler package
+    - shared/                    # Shared types and utilities
+  - examples/                    # Example .td files and outputs
+    - README.md                  # Examples documentation
+    - *.td                       # Example Taildown files
+  - syntax-tests/                # Syntax reference tests
+    - fixtures/                  # Test fixtures with .td and .ast.json
+    - reference.test.ts          # Syntax validation tests
+    - README.md                  # Testing documentation
+  - scripts/                     # Utility and automation scripts
+    - generate-fixture.ps1       # Generate test fixtures
+    - regenerate-all-fixtures.ps1
+    - README.md                  # Scripts documentation
+  - docs/                        # Historical documentation and notes
+    - PHASE-*.md                 # Phase status and summaries
+    - SESSION-*.md               # Development session notes
+    - BUGFIX-*.md                # Bug fix documentation
+    - *.md                       # Planning and implementation docs
+  - test-files/                  # Temporary test files and outputs
+    - test-*.td                  # Test Taildown files
+    - test-*.html                # Generated HTML outputs
+    - test-*.css                 # Generated CSS outputs
+    - test-*.js                  # Generated JS outputs
+    - *.json                     # Debug AST outputs
+:::
 :::
 
 ---
 
 ## File Placement Rules {large-bold primary}
 
-:::grid{3}
-:::card{elevated}
+:::grid {3}
+:::card {elevated}
 ### :icon[home]{primary} Root Level {medium-bold}
 
 **ONLY** the following types of files belong at root:
@@ -189,7 +186,7 @@ taildown/
 **Nothing Else**: No test files, no session notes, no debug outputs!
 :::
 
-:::card{elevated}
+:::card {elevated}
 ### :icon[package]{accent} packages/ - Source Code {medium-bold}
 
 **Purpose**: Monorepo packages with source code and build artifacts
@@ -207,7 +204,7 @@ taildown/
 - `packages/shared/` - Shared types and constants
 :::
 
-:::card{elevated}
+:::card {elevated}
 ### :icon[file-text]{warning} examples/ - Example Files {medium-bold}
 
 **Purpose**: Showcase Taildown syntax and features
@@ -231,8 +228,8 @@ taildown/
 :::
 :::
 
-:::grid{2}
-:::card{light-glass}
+:::grid {2}
+:::card {light-glass}
 ### :icon[test-tube]{info} syntax-tests/ - Syntax Validation Tests {medium-bold}
 
 **Purpose**: Automated tests validating syntax parsing
@@ -245,20 +242,21 @@ taildown/
 - Never manually edit `.ast.json` files - regenerate with scripts
 
 **Structure**:
-```
-syntax-tests/
-├── fixtures/
-│   ├── 01-markdown-compatibility/
-│   │   ├── 01-basic-markdown.td
-│   │   └── 01-basic-markdown.ast.json
-│   ├── 02-inline-attributes/
-│   └── ...
-├── reference.test.ts
-└── README.md
-```
+
+:::tree {minimal}
+- syntax-tests/
+  - fixtures/
+    - 01-markdown-compatibility/
+      - 01-basic-markdown.td
+      - 01-basic-markdown.ast.json
+    - 02-inline-attributes/
+    - ...
+  - reference.test.ts
+  - README.md
+:::
 :::
 
-:::card{light-glass}
+:::card {light-glass}
 ### :icon[settings]{success} scripts/ - Utility Scripts {medium-bold}
 
 **Purpose**: Automation, debugging, and development utilities
@@ -285,8 +283,8 @@ syntax-tests/
 :::
 :::
 
-:::grid{2}
-:::card{heavy-glass}
+:::grid {2}
+:::card {heavy-glass}
 ### :icon[book]{primary} docs/ - Historical Documentation {medium-bold}
 
 **Purpose**: Session notes, planning docs, implementation notes
@@ -311,7 +309,7 @@ syntax-tests/
 - `tech-spec.md` (stays at root)
 :::
 
-:::card{heavy-glass}
+:::card {heavy-glass}
 ### :icon[beaker]{warning} test-files/ - Temporary Test Files {medium-bold}
 
 **Purpose**: Ad-hoc testing, debugging, and experimentation
@@ -399,7 +397,7 @@ touch docs/BUGFIX-tooltip-positioning.md
 
 ## Pre-Commit Checklist {large-bold primary}
 
-:::card{light-glass}
+:::card {light-glass}
 ### :icon[check-square]{primary} Before committing, ensure: {medium-bold}
 
 - :icon[square]{muted} No test files at root level
@@ -415,35 +413,35 @@ touch docs/BUGFIX-tooltip-positioning.md
 
 ## Common Mistakes to Avoid {large-bold error}
 
-:::grid{2}
-:::card{elevated}
+:::grid {2}
+:::card {elevated}
 ### :icon[x]{error} Incorrect {medium-bold}
 
-```
-taildown/
-├── test-something.td          # NO - use test-files/
-├── debug.html                 # NO - use test-files/
-├── SESSION-NOTES.md           # NO - use docs/
-├── my-script.ps1              # NO - use scripts/
-└── temp.json                  # NO - use test-files/
-```
+:::tree
+- taildown/
+  - test-something.td          # NO - use test-files/
+  - debug.html                 # NO - use test-files/
+  - SESSION-NOTES.md           # NO - use docs/
+  - my-script.ps1              # NO - use scripts/
+  - temp.json                  # NO - use test-files/
+:::
 :::
 
-:::card{elevated}
+:::card {elevated}
 ### :icon[check]{success} Correct {medium-bold}
 
-```
-taildown/
-├── README.md                  # YES - core documentation
-├── SYNTAX.md                  # YES - core documentation
-├── test-files/
-│   ├── test-something.td      # YES - test file
-│   └── debug.html             # YES - debug artifact
-├── docs/
-│   └── SESSION-NOTES.md       # YES - session notes
-└── scripts/
-    └── my-script.ps1          # YES - utility script
-```
+:::tree
+- taildown/
+  - README.md                  # YES - core documentation
+  - SYNTAX.md                  # YES - core documentation
+  - test-files/
+    - test-something.td        # YES - test file
+    - debug.html               # YES - debug artifact
+  - docs/
+    - SESSION-NOTES.md         # YES - session notes
+  - scripts/
+    - my-script.ps1            # YES - utility script
+:::
 :::
 :::
 
@@ -469,7 +467,7 @@ taildown/
 
 ## Questions? {large-bold primary}
 
-:::card{subtle-glass}
+:::card {subtle-glass}
 ### :icon[help-circle]{primary} If you're unsure where a file belongs: {medium-bold}
 
 1. **Is it core user-facing documentation?** → Root level
@@ -496,6 +494,6 @@ These rules are enforced through:
 - Common sense and professional standards
 :::
 
-:::card{light-glass padded}
+:::card {light-glass padded}
 ### :icon[shield]{primary huge} Keep the root clean. Keep the project professional. {huge-bold center}
 :::

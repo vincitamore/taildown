@@ -54,6 +54,20 @@ These components replace crude ASCII diagrams with professional, mobile-optimize
 
 ### Variants
 
+#### VS Code Variant
+
+VS Code style with chevrons and connecting lines, perfect for developers.
+
+```taildown
+:::tree {vscode}
+- project/
+  - src/
+    - components/
+    - utils/
+  - package.json
+:::
+```
+
 #### Default Variant
 
 Clean modern tree with subtle borders and connectors.

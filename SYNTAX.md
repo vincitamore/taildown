@@ -1049,6 +1049,8 @@ Phase 1 requires these components:
 | `card` | Content card | Padding, shadow, rounded corners |
 | `grid` | Grid layout | CSS Grid with gap |
 | `container` | Max-width container | Centered, constrained width |
+| `tree` | Directory/hierarchy visualization | Semantic list markup with tree styling |
+| `flow` | Process/workflow diagrams | Sequential flow with connectors |
 
 **Note**: Component default classes are defined in implementation, not syntax spec.
 
@@ -1116,6 +1118,108 @@ Get in touch
 - External links supported: `href="https://example.com"`
 - Anchor links supported: `href="#section-id"`
 - Relative links supported: `href="/path/to/page.html"`
+
+### 3.4.2 Tree Component **[REQUIRED]**
+
+The `tree` component renders directory structures and hierarchical data with professional styling.
+
+**Basic Syntax:**
+```taildown
+:::tree
+- root/
+  - folder/
+    - subfolder/
+    - file.txt
+  - another-folder/
+:::
+```
+
+**Variants:**
+- `vscode` - VS Code style with chevrons (▸) and connecting lines (├── └──)
+- `minimal` - Ultra-clean with no visual clutter
+- `colored` - Color-coded by depth for visual hierarchy
+- `rounded` - Soft rounded connectors with blue accents
+- `glass` - Modern glassmorphism effect
+- `dark` - Dark theme optimized styling
+
+**Size Modifiers:** `sm`, `md`, `lg`
+
+**Examples:**
+```taildown
+:::tree {vscode}
+- project/
+  - src/
+    - components/
+    - utils/
+  - tests/
+  - package.json
+:::
+
+:::tree {colored lg}
+- project/
+  - src/
+    - components/
+    - utils/
+  - tests/
+  - package.json
+:::
+
+:::tree {glass}
+- docs/
+  - api/
+  - guides/
+:::
+```
+
+**Rendering:** Generates semantic `<ul>` and `<li>` elements with appropriate CSS classes for tree visualization. Each list item is styled with connecting lines and indentation to show hierarchy.
+
+### 3.4.3 Flow Component **[REQUIRED]**
+
+The `flow` component renders process flows, pipelines, and decision trees.
+
+**Basic Syntax:**
+```taildown
+:::flow
+- Step 1
+- Step 2
+- Step 3
+:::
+```
+
+**Variants:**
+- `vertical` - Vertical flow with downward arrows (default)
+- `horizontal` - Left-to-right process flow
+- `stepped` - Numbered steps with automatic counters
+- `branching` - Decision tree with nested branches
+- `timeline` - Timeline-style presentation
+- `minimal` - Clean minimal styling
+- `glass` - Glassmorphism effect
+- `dark` - Dark theme optimized
+
+**Size Modifiers:** `sm`, `md`, `lg`
+
+**Examples:**
+```taildown
+:::flow {stepped}
+- Initialize
+- Process
+- Validate
+- Complete
+:::
+
+:::flow {branching}
+- Request
+  - Validate
+    - Valid → Process
+    - Invalid → Reject
+:::
+
+:::flow {horizontal lg}
+- Input → Transform → Output
+:::
+```
+
+**Rendering:** Generates semantic list markup with CSS styling for flow visualization. Horizontal flows automatically convert to vertical on mobile devices for responsive behavior.
 
 ### 3.5 Edge Cases
 
