@@ -520,7 +520,17 @@ html {
   /* Prevent horizontal scroll at root level */
   overflow-x: hidden;
   width: 100%;
-  /* Smooth scrolling for anchor links */
+  /* Prevent bounce/overscroll on macOS/iOS for cleaner UX */
+  overscroll-behavior-y: none;
+  /* Reserve space for scrollbar to prevent layout shift */
+  scrollbar-gutter: stable;
+  /* Performance: Enable GPU acceleration for scrolling */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Smooth scrolling ONLY for anchor link navigation, not regular scroll */
+html:focus-within {
   scroll-behavior: smooth;
 }
 
@@ -538,6 +548,11 @@ body {
   /* Prevent horizontal scroll on body */
   overflow-x: hidden;
   width: 100%;
+  /* Smooth anchor scrolling offset for fixed navbar */
+  scroll-padding-top: 120px;
+  /* Performance: Enable GPU compositing for buttery smooth scrolling */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 /* Regular plain text links (no classes) - for documentation links only */
@@ -577,6 +592,10 @@ th > a:not([class]):active {
 @media (min-width: 640px) {
   :target {
     scroll-margin-top: 80px;
+  }
+  
+  body {
+    scroll-padding-top: 80px;
   }
 }
 
@@ -786,7 +805,12 @@ pre > code {
   line-height: inherit;
   overflow-x: auto;
   border-radius: 0;
+  /* Performance: Smooth momentum scrolling on touch devices */
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  /* GPU acceleration for smooth horizontal scroll */
+  transform: translateZ(0);
+  will-change: scroll-position;
 }
 
 /* Scrollbar styling for code blocks */
@@ -1067,13 +1091,16 @@ pre .token.url {
   max-width: 100%;
   margin: 1.5rem 0;
   overflow-x: auto;
+  /* Performance: Smooth momentum scrolling on touch devices */
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
   /* Performance optimizations */
   contain: layout style paint;
-  /* Smooth scrolling */
-  scroll-behavior: smooth;
+  /* GPU acceleration for buttery smooth horizontal scroll */
+  transform: translateZ(0);
+  will-change: scroll-position;
 }
 
 /* Scrollbar styling for table wrapper */
@@ -1456,23 +1483,44 @@ ${generateThemeCSS()}
   position: relative;
   overflow-x: auto;
   overflow-y: hidden;
+  /* Performance: Smooth momentum scrolling on touch devices */
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
   background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(12px);
   border-radius: 12px;
   padding: 0.375rem;
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 
               0 2px 4px -2px rgba(0, 0, 0, 0.05),
               inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
-  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
   /* Auto-width: only as wide as content needs */
   width: fit-content;
   max-width: 100%;
   /* Center the tab list within its container */
   margin: 0 auto;
+  /* Performance: GPU acceleration for smooth scroll */
+  transform: translateZ(0);
+  will-change: scroll-position;
+  /* Gentle snap scrolling - only snaps when close to alignment */
+  scroll-snap-type: x proximity;
+  scroll-padding-left: 0.375rem;
+  /* Isolate in own layer for better compositing */
+  isolation: isolate;
+}
+
+/* Backdrop blur on separate layer for tabs - better scroll performance */
+.tabs-list::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: -1;
+  /* Force GPU compositing */
+  transform: translateZ(0);
 }
 
 /* Mobile: Full width for better touch targets */
@@ -1489,6 +1537,8 @@ ${generateThemeCSS()}
               0 2px 4px -2px rgba(0, 0, 0, 0.2),
               inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
 }
+
+/* Dark mode blur layer already handled by ::before pseudo-element */
 
 .tabs-list::-webkit-scrollbar {
   height: 4px;
@@ -1527,6 +1577,8 @@ ${generateThemeCSS()}
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  /* Smooth scroll snap alignment */
+  scroll-snap-align: start;
 }
 
 @media (max-width: 640px) {
@@ -1711,13 +1763,14 @@ ${generateThemeCSS()}
   gap: 1rem; /* Reduced from 2rem for mobile first */
   padding: 0.75rem 1rem; /* Reduced padding for mobile first */
   background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   margin: 0;
-  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* Only transition specific properties to avoid jank during scroll */
+  transition: background 200ms ease-out, 
+              box-shadow 200ms ease-out,
+              border-bottom-color 200ms ease-out;
   position: fixed;
   top: 0;
   left: 0;
@@ -1725,14 +1778,44 @@ ${generateThemeCSS()}
   z-index: 1000;
   width: 100%;
   min-height: 56px; /* Minimum height for navbar */
+  /* Performance: Force GPU layer for smooth fixed positioning */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  /* Only hint at properties that actually change */
+  will-change: box-shadow;
+  /* Isolate navbar in its own layer for optimal compositing */
+  isolation: isolate;
+}
+
+/* Backdrop blur on separate layer via pseudo-element for better performance */
+/* This prevents expensive blur recalculation on every scroll frame */
+.navbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: -1;
+  /* Force GPU compositing of blur layer */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  /* Prevent blur from being recalculated during scroll */
+  will-change: opacity;
 }
 
 .navbar.scrolled {
   background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   border-bottom-color: rgba(0, 0, 0, 0.12);
+}
+
+/* Increase blur on scroll via pseudo-element */
+.navbar.scrolled::before {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
 }
 
 .dark .navbar {
@@ -1743,8 +1826,6 @@ ${generateThemeCSS()}
 
 .dark .navbar.scrolled {
   background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
   border-bottom-color: rgba(255, 255, 255, 0.12);
 }
@@ -2075,12 +2156,16 @@ ${generateThemeCSS()}
   perspective: 1200px;
   perspective-origin: center;
   overflow: hidden;
+  /* GPU acceleration */
+  transform: translateZ(0);
 }
 
 .carousel-track {
   display: flex;
   transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
+  /* Performance: Optimize for transform animations */
+  will-change: transform;
 }
 
 .carousel-slide {
@@ -2255,6 +2340,12 @@ ${generateThemeCSS()}
 .tree-container {
   position: relative;
   overflow-x: auto;
+  /* Performance: Smooth momentum scrolling */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  /* GPU acceleration for smooth scroll */
+  transform: translateZ(0);
+  will-change: scroll-position;
 }
 
 /* Remove default list styling */
@@ -2755,7 +2846,12 @@ ${generateThemeCSS()}
   .flow-container {
     padding: 1rem;
     overflow-x: auto;
+    /* Performance: Smooth momentum scrolling */
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    /* GPU acceleration */
+    transform: translateZ(0);
+    will-change: scroll-position;
   }
 }
 

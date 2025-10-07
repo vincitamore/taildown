@@ -17,27 +17,105 @@ html {
   /* Prevent horizontal scroll at root level */
   overflow-x: hidden;
   width: 100%;
+  /* Prevent bounce/overscroll on macOS/iOS for cleaner UX */
+  overscroll-behavior-y: none;
+  /* Reserve space for scrollbar to prevent layout shift */
+  scrollbar-gutter: stable;
+  /* Performance: Enable GPU acceleration for scrolling */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Smooth scrolling ONLY for anchor link navigation, not regular scroll */
+html:focus-within {
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   padding: 1rem;
+  padding-top: 120px; /* Increased space for fixed navbar on mobile when it wraps */
   font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
   min-height: 100vh;
-  /* Clean light background */
-  background: #f5f5f7;
-  background-attachment: fixed;
+  /* Use CSS variables for theming */
+  background-color: var(--background);
+  color: var(--foreground);
   /* Prevent horizontal scroll on body */
   overflow-x: hidden;
   width: 100%;
+  /* Smooth anchor scrolling offset for fixed navbar */
+  scroll-padding-top: 120px;
+  /* Performance: Enable GPU compositing for buttery smooth scrolling */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Regular plain text links (no classes) - for documentation links only */
+p > a:not([class]),
+li > a:not([class]),
+td > a:not([class]),
+th > a:not([class]) {
+  color: var(--primary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
+}
+
+p > a:not([class]):hover,
+li > a:not([class]):hover,
+td > a:not([class]):hover,
+th > a:not([class]):hover {
+  border-bottom-color: var(--primary);
+  opacity: 0.85;
+}
+
+p > a:not([class]):active,
+li > a:not([class]):active,
+td > a:not([class]):active,
+th > a:not([class]):active {
+  opacity: 0.7;
+}
+
+/* Offset anchor targets for fixed navbar */
+/* Account for fixed navbar when jumping to anchor links */
+:target {
+  scroll-margin-top: 120px; /* Matches mobile body padding-top */
+}
+
+/* Reduce scroll margin on larger screens where navbar doesn't wrap */
+@media (min-width: 640px) {
+  :target {
+    scroll-margin-top: 80px;
+  }
+  
+  body {
+    scroll-padding-top: 80px;
+  }
 }
 
 /* Increase body padding on larger screens */
+/* Medium screens and up - reduce body top padding as navbar is single line */
 @media (min-width: 640px) {
   body {
     padding: 2rem;
+    padding-top: 80px; /* Reduced padding as navbar doesn't wrap on larger screens */
+  }
+  
+  /* Increase navbar padding and gap on larger screens */
+  .navbar {
+    gap: 1.5rem;
+    padding: 0.875rem 1.5rem;
+  }
+}
+
+/* Large screens - even more spacing */
+@media (min-width: 1024px) {
+  .navbar {
+    gap: 2rem;
+    padding: 1rem 2rem;
   }
 }
 
@@ -128,6 +206,75 @@ pre::before {
   position: relative;
 }
 
+/* Copy button styling */
+.code-copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  color: #e2e8f0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  transition: all 0.2s ease;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+
+.code-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.code-copy-btn:active {
+  transform: translateY(0);
+}
+
+.code-copy-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+/* Copy button icons */
+.code-copy-btn .copy-icon,
+.code-copy-btn .check-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.code-copy-btn .check-icon {
+  color: #10b981;
+}
+
+/* Copy button text */
+.code-copy-btn .copy-text,
+.code-copy-btn .copied-text {
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.code-copy-btn .copied-text {
+  color: #10b981;
+}
+
+/* Success state animation */
+.code-copy-btn.copied {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+/* Ensure pre blocks are positioned for absolute button (already set above) */
+
 /* Terminal traffic lights */
 pre::after {
   content: '';
@@ -155,7 +302,12 @@ pre > code {
   line-height: inherit;
   overflow-x: auto;
   border-radius: 0;
+  /* Performance: Smooth momentum scrolling on touch devices */
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  /* GPU acceleration for smooth horizontal scroll */
+  transform: translateZ(0);
+  will-change: scroll-position;
 }
 
 /* Scrollbar styling for code blocks */
@@ -436,9 +588,16 @@ pre .token.url {
   max-width: 100%;
   margin: 1.5rem 0;
   overflow-x: auto;
+  /* Performance: Smooth momentum scrolling on touch devices */
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  /* Performance optimizations */
+  contain: layout style paint;
+  /* GPU acceleration for buttery smooth horizontal scroll */
+  transform: translateZ(0);
+  will-change: scroll-position;
 }
 
 /* Scrollbar styling for table wrapper */
@@ -474,18 +633,26 @@ table {
 thead {
   display: table-header-group;
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-  border-bottom: 2px solid #e2e8f0;
+  border-bottom: 2px solid var(--border);
+}
+
+.dark thead {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
 }
 
 tbody {
   display: table-row-group;
-  background: white;
+  background: var(--card);
 }
 
 /* Table rows */
 tr {
   display: table-row;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border);
+}
+
+tbody tr {
+  transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 tbody tr:last-child {
@@ -493,8 +660,7 @@ tbody tr:last-child {
 }
 
 tbody tr:hover {
-  background: #f9fafb;
-  transition: background 150ms ease;
+  background-color: var(--muted);
 }
 
 /* Table cells */
@@ -505,6 +671,8 @@ th, td {
   vertical-align: top;
   /* Prevent cells from being too narrow */
   min-width: 120px;
+  /* Smooth transitions for all cells */
+  transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Mobile: Reduce padding for better space utilization */
@@ -527,16 +695,17 @@ th, td {
 /* Header cells */
 th {
   font-weight: 600;
-  color: #1e293b;
+  color: var(--foreground);
   text-transform: uppercase;
   font-size: 0.75rem;
   letter-spacing: 0.05em;
   white-space: nowrap;
+  opacity: 0.9;
 }
 
 /* Data cells */
 td {
-  color: #334155;
+  color: var(--foreground);
 }
 
 /* First column styling (sticky on mobile) */
@@ -545,19 +714,34 @@ thead th:first-child {
   left: 0;
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   z-index: 2;
+  /* GPU acceleration for smooth scrolling */
+  transform: translateZ(0);
+  will-change: transform;
+  /* Static shadow - no changes on scroll */
   box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.1);
 }
 
 tbody td:first-child {
   position: sticky;
   left: 0;
-  background: white;
+  background: var(--card);
   z-index: 1;
+  /* GPU acceleration for smooth scrolling */
+  transform: translateZ(0);
+  will-change: transform;
+  /* Static shadow - no changes on scroll */
   box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.05);
+  /* Smooth background transition */
+  transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 tbody tr:hover td:first-child {
-  background: #f9fafb;
+  background-color: var(--muted);
+}
+
+/* Dark mode support for sticky cells */
+.dark thead th:first-child {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
 }
 
 /* Remove sticky on larger screens where it's not needed */
@@ -566,6 +750,8 @@ tbody tr:hover td:first-child {
   tbody td:first-child {
     position: static;
     box-shadow: none;
+    transform: none;
+    will-change: auto;
   }
 }
 
@@ -593,11 +779,11 @@ td svg.icon {
     display: block;
     text-align: center;
     padding: 0.5rem;
-    background: #f1f5f9;
-    color: #64748b;
+    background: var(--muted);
+    color: var(--muted-foreground);
     font-size: 0.75rem;
     font-weight: 500;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid var(--border);
   }
 }
 
@@ -655,6 +841,20 @@ td svg.icon {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.dark .glass-subtle {
+  background: 
+    linear-gradient(rgba(28, 41, 56, 0.9), rgba(28, 41, 56, 0.9)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.35) 0%, 
+      rgba(47, 60, 76, 0.15) 50%, 
+      rgba(47, 60, 76, 0.35) 100%) border-box;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  color: #e7e9ea;
+}
+
 .glass-light {
   -webkit-backdrop-filter: blur(8px) saturate(105%);
   backdrop-filter: blur(8px) saturate(105%);
@@ -670,6 +870,20 @@ td svg.icon {
     0 4px 6px -2px rgba(0, 0, 0, 0.05),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .glass-light {
+  background: 
+    linear-gradient(rgba(25, 39, 52, 0.75), rgba(25, 39, 52, 0.75)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.3) 0%, 
+      rgba(47, 60, 76, 0.12) 50%, 
+      rgba(47, 60, 76, 0.3) 100%) border-box;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.3), 
+    0 4px 6px -2px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  color: #e7e9ea;
 }
 
 .glass-medium {
@@ -689,6 +903,20 @@ td svg.icon {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.dark .glass-medium {
+  background: 
+    linear-gradient(rgba(25, 39, 52, 0.6), rgba(25, 39, 52, 0.6)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.25) 0%, 
+      rgba(47, 60, 76, 0.1) 50%, 
+      rgba(47, 60, 76, 0.25) 100%) border-box;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.3), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+  color: #e7e9ea;
+}
+
 .glass-heavy {
   -webkit-backdrop-filter: blur(16px) saturate(120%);
   backdrop-filter: blur(16px) saturate(120%);
@@ -706,6 +934,781 @@ td svg.icon {
     inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
     inset 0 0 20px 0 rgba(255, 255, 255, 0.03);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .glass-heavy {
+  background: 
+    linear-gradient(rgba(25, 39, 52, 0.4), rgba(25, 39, 52, 0.4)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.2) 0%, 
+      rgba(59, 130, 246, 0.08) 25%,
+      rgba(59, 130, 246, 0.08) 50%,
+      rgba(59, 130, 246, 0.08) 75%,
+      rgba(47, 60, 76, 0.2) 100%) border-box;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
+    inset 0 0 20px 0 rgba(255, 255, 255, 0.02);
+  color: #e7e9ea;
+}
+
+.glass-extreme {
+  --glass-blur: 24px;
+  --glass-saturation: 130%;
+}
+
+/* Glass hover effects - subtle interactive feedback */
+.glass-effect:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+}
+
+.glass-effect:active {
+  transform: translateY(0);
+}
+
+/* Browser fallbacks for older browsers */
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.85);
+  }
+  
+  .dark .glass-effect {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* Backdrop blur utilities (non-standard values) */
+.backdrop-blur-4 {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.backdrop-blur-8 {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.backdrop-blur-12 {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.backdrop-blur-16 {
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.backdrop-blur-24 {
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+
+/* Saturation utilities */
+.saturate-105 {
+  filter: saturate(105%);
+}
+
+.saturate-110 {
+  filter: saturate(110%);
+}
+
+.saturate-120 {
+  filter: saturate(120%);
+}
+
+.saturate-130 {
+  filter: saturate(130%);
+}
+
+/* Background opacity utilities */
+.bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.bg-white\/20 {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.bg-white\/70 {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Border opacity utilities */
+.border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Dark mode overrides */
+.dark .bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.dark .border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Entrance Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5); // Twice as far away (0.7 -> 0.5)
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Entrance animation classes - scroll-triggered, elegant, professional */
+/* Initial state: Elements start hidden to prevent flash */
+/* GPU acceleration for smooth rendering */
+/* Animation is paused by default and triggered when scrolling into view */
+
+/* Base animation states */
+.animate-fade-in,
+.animate-slide-up,
+.animate-slide-down,
+.animate-slide-left,
+.animate-slide-right,
+.animate-scale-in,
+.animate-zoom-in {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Paused state (before element scrolls into view) */
+.animate-fade-in.animation-paused { opacity: 0; }
+.animate-slide-up.animation-paused { opacity: 0; transform: translateY(40px); }
+.animate-slide-down.animation-paused { opacity: 0; transform: translateY(-40px); }
+.animate-slide-left.animation-paused { opacity: 0; transform: translateX(16px); }
+.animate-slide-right.animation-paused { opacity: 0; transform: translateX(-16px); }
+.animate-scale-in.animation-paused { opacity: 0; transform: scale(0.8); }
+.animate-zoom-in.animation-paused { opacity: 0; transform: scale(0.5); }
+
+/* Playing state (when element is in view) - triggers animation */
+.animate-fade-in.animation-playing {
+  animation: fadeIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-up.animation-playing {
+  animation: slideUp 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-down.animation-playing {
+  animation: slideDown 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-left.animation-playing {
+  animation: slideLeft 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-right.animation-playing {
+  animation: slideRight 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in.animation-playing {
+  animation: scaleIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-zoom-in.animation-playing {
+  animation: zoomIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Fallback: If JS doesn't load, still show content (accessibility) */
+/* Elements without .animation-paused will be visible */
+.animate-fade-in:not(.animation-paused):not(.animation-playing),
+.animate-slide-up:not(.animation-paused):not(.animation-playing),
+.animate-slide-down:not(.animation-paused):not(.animation-playing),
+.animate-slide-left:not(.animation-paused):not(.animation-playing),
+.animate-slide-right:not(.animation-paused):not(.animation-playing),
+.animate-scale-in:not(.animation-paused):not(.animation-playing),
+.animate-zoom-in:not(.animation-paused):not(.animation-playing) {
+  opacity: 1;
+  transform: none;
+}
+
+/* Animation delays for staggered effects */
+.animation-delay-75 {
+  animation-delay: 75ms;
+}
+
+.animation-delay-150 {
+  animation-delay: 150ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Hover Animations */
+.hover-lift {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1),
+              0 4px 8px -2px rgba(0, 0, 0, 0.05);
+}
+
+.hover-lift:active {
+  transform: translateY(0);
+}
+
+.hover-glow {
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4),
+              0 0 40px rgba(59, 130, 246, 0.2);
+}
+
+.hover-scale {
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.6, 1);
+  /* Prevent scale from causing horizontal scroll - critical for good UX */
+  overflow: hidden;
+  will-change: transform;
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.hover-scale:active {
+  transform: scale(0.99);
+}
+
+.hover-brighten {
+  transition: filter 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-brighten:hover {
+  filter: brightness(1.1);
+}
+
+.hover-tilt {
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+.hover-tilt:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(2deg);
+}
+
+/* Loading Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 1000ms ease infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 2s linear infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* Interactive State Animations */
+.transition-smooth {
+  transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-fast {
+  transition: all 150ms cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.transition-colors {
+  transition: color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-transform {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-shadow {
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Focus ring with smooth animation */
+.focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              outline-offset 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.focus-ring:focus {
+  outline-color: rgb(59, 130, 246);
+  outline-offset: 4px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Color Palette - Light Mode */
+:root {
+  --background: #ffffff;
+  --foreground: #111827;
+  --muted: #f3f4f6;
+  --muted-foreground: #4b5563;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #82a0ff;
+  
+  --primary: #82a0ff;
+  --primary-foreground: #ffffff;
+  --secondary: #8b5cf6;
+  --secondary-foreground: #ffffff;
+  --accent: #ec4899;
+  --accent-foreground: #ffffff;
+  
+  --success: #10b981;
+  --success-foreground: #ffffff;
+  --warning: #f59e0b;
+  --warning-foreground: #ffffff;
+  --error: #ef4444;
+  --error-foreground: #ffffff;
+  --info: #3b82f6;
+  --info-foreground: #ffffff;
+  
+  --card: #ffffff;
+  --card-foreground: #111827;
+}
+
+/* Color Palette - Dark Mode */
+.dark {
+  --background: #15202b;
+  --foreground: #f5f5f5;
+  --muted: #1c2938;
+  --muted-foreground: #b8c5d0;
+  --border: #2f3c4c;
+  --input: #1c2938;
+  --ring: #60a5fa;
+  
+  --primary: #82a0ff;
+  --primary-foreground: #f5f5f5;
+  --secondary: #9333ea;
+  --secondary-foreground: #f5f5f5;
+  --accent: #ec4899;
+  --accent-foreground: #f5f5f5;
+  
+  --success: #10b981;
+  --success-foreground: #15202b;
+  --warning: #f59e0b;
+  --warning-foreground: #15202b;
+  --error: #ef4444;
+  --error-foreground: #ffffff;
+  --info: #3b82f6;
+  --info-foreground: #ffffff;
+  
+  --card: #192734;
+  --card-foreground: #f5f5f5;
+}
+
+/* CSS Variable utilities - background colors */
+.bg-background { background-color: var(--background); }
+.bg-foreground { background-color: var(--foreground); }
+.bg-muted { background-color: var(--muted); }
+.bg-card { background-color: var(--card); }
+.bg-primary { background-color: var(--primary); }
+.bg-secondary { background-color: var(--secondary); }
+.bg-accent { background-color: var(--accent); }
+.bg-success { background-color: var(--success); }
+.bg-warning { background-color: var(--warning); }
+.bg-error { background-color: var(--error); }
+.bg-info { background-color: var(--info); }
+
+/* CSS Variable utilities - text colors */
+.text-foreground { color: var(--foreground); }
+.text-muted-foreground { color: var(--muted-foreground); }
+.text-card-foreground { color: var(--card-foreground); }
+.text-primary { color: var(--primary); }
+.text-primary-foreground { color: var(--primary-foreground); }
+.text-secondary { color: var(--secondary); }
+.text-secondary-foreground { color: var(--secondary-foreground); }
+.text-accent { color: var(--accent); }
+.text-accent-foreground { color: var(--accent-foreground); }
+.text-success { color: var(--success); }
+.text-success-foreground { color: var(--success-foreground); }
+.text-warning { color: var(--warning); }
+.text-warning-foreground { color: var(--warning-foreground); }
+.text-error { color: var(--error); }
+.text-error-foreground { color: var(--error-foreground); }
+.text-info { color: var(--info); }
+.text-info-foreground { color: var(--info-foreground); }
+
+/* CSS Variable utilities - border colors */
+.border-border { border-color: var(--border); }
+.border-input { border-color: var(--input); }
+.border-primary { border-color: var(--primary); }
+.border-secondary { border-color: var(--secondary); }
+.border-accent { border-color: var(--accent); }
+.border-success { border-color: var(--success); }
+.border-warning { border-color: var(--warning); }
+.border-error { border-color: var(--error); }
+.border-info { border-color: var(--info); }
+
+/* Ring color for focus states */
+.ring-ring { --tw-ring-color: var(--ring); }
+
+/* Dark Mode Transitions */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Disable transitions on page load to prevent flash */
+.no-transitions * {
+  transition: none !important;
+}
+
+/* Dark Mode Toggle Button */
+.dark-mode-toggle {
+  position: fixed;
+  bottom: 1rem; right: 1rem;
+  z-index: 9999;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dark-mode-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark-mode-toggle:active {
+  transform: translateY(0);
+}
+
+.dark-mode-toggle:focus {
+  outline: none;
+}
+
+.dark-mode-toggle:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.dark-mode-toggle svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--foreground);
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark-mode-toggle:hover svg {
+  transform: rotate(15deg);
+}
+
+/* Hide sun icon in light mode, moon icon in dark mode */
+.dark-mode-toggle .sun-icon {
+  display: none;
+}
+
+.dark .dark-mode-toggle .sun-icon {
+  display: block;
+}
+
+.dark-mode-toggle .moon-icon {
+  display: block;
+}
+
+.dark .dark-mode-toggle .moon-icon {
+  display: none;
+}
+
+/* Glassmorphism Effects */
+.glass-effect {
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturation, 110%));
+  backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturation, 110%));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glass intensity variants - each includes full effect with premium gradient borders */
+.glass-subtle {
+  -webkit-backdrop-filter: blur(4px) saturate(100%);
+  backdrop-filter: blur(4px) saturate(100%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.35) 0%, 
+      rgba(255, 255, 255, 0.15) 50%, 
+      rgba(255, 255, 255, 0.35) 100%) border-box;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .glass-subtle {
+  background: 
+    linear-gradient(rgba(28, 41, 56, 0.9), rgba(28, 41, 56, 0.9)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.35) 0%, 
+      rgba(47, 60, 76, 0.15) 50%, 
+      rgba(47, 60, 76, 0.35) 100%) border-box;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  color: #e7e9ea;
+}
+
+.glass-light {
+  -webkit-backdrop-filter: blur(8px) saturate(105%);
+  backdrop-filter: blur(8px) saturate(105%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(241, 245, 249, 0.75), rgba(241, 245, 249, 0.75)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.3) 0%, 
+      rgba(255, 255, 255, 0.12) 50%, 
+      rgba(255, 255, 255, 0.3) 100%) border-box;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .glass-light {
+  background: 
+    linear-gradient(rgba(25, 39, 52, 0.75), rgba(25, 39, 52, 0.75)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.3) 0%, 
+      rgba(47, 60, 76, 0.12) 50%, 
+      rgba(47, 60, 76, 0.3) 100%) border-box;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.3), 
+    0 4px 6px -2px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  color: #e7e9ea;
+}
+
+.glass-medium {
+  -webkit-backdrop-filter: blur(12px) saturate(110%);
+  backdrop-filter: blur(12px) saturate(110%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(226, 232, 240, 0.6), rgba(226, 232, 240, 0.6)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.25) 0%, 
+      rgba(255, 255, 255, 0.1) 50%, 
+      rgba(255, 255, 255, 0.25) 100%) border-box;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .glass-medium {
+  background: 
+    linear-gradient(rgba(25, 39, 52, 0.6), rgba(25, 39, 52, 0.6)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.25) 0%, 
+      rgba(47, 60, 76, 0.1) 50%, 
+      rgba(47, 60, 76, 0.25) 100%) border-box;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.3), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+  color: #e7e9ea;
+}
+
+.glass-heavy {
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(203, 213, 225, 0.4), rgba(203, 213, 225, 0.4)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.2) 0%, 
+      rgba(56, 189, 248, 0.12) 25%,
+      rgba(14, 165, 233, 0.12) 50%,
+      rgba(59, 130, 246, 0.12) 75%,
+      rgba(255, 255, 255, 0.2) 100%) border-box;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
+    inset 0 0 20px 0 rgba(255, 255, 255, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .glass-heavy {
+  background: 
+    linear-gradient(rgba(25, 39, 52, 0.4), rgba(25, 39, 52, 0.4)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.2) 0%, 
+      rgba(59, 130, 246, 0.08) 25%,
+      rgba(59, 130, 246, 0.08) 50%,
+      rgba(59, 130, 246, 0.08) 75%,
+      rgba(47, 60, 76, 0.2) 100%) border-box;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
+    inset 0 0 20px 0 rgba(255, 255, 255, 0.02);
+  color: #e7e9ea;
 }
 
 .glass-extreme {
@@ -1149,39 +2152,25 @@ td svg.icon {
 .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
 .font-bold { font-weight: 700; }
 .text-center { text-align: center; }
-.text-primary-600 { color: rgb(37 99 235); }
-.hover\:text-primary-700:hover { color: rgb(29 78 216); }
+.text-primary-600 { color: rgb(106 142 239); }
+.hover\:text-primary-700:hover { color: rgb(82 123 222); }
 .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
 .text-xs { font-size: 0.75rem; line-height: 1rem; }
 .text-accent-600 { color: rgb(219 39 119); }
 .hover\:text-accent-700:hover { color: rgb(190 24 93); }
 .text-gray-500 { color: rgb(107 114 128); }
 .text-red-600 { color: rgb(220 38 38); }
-.p-4 { padding: 1rem; }
 .rounded-lg { border-radius: 0.5rem; }
-.border { border-width: 1px; border-style: solid; }
-.flex { display: flex; }
-.items-start { align-items: flex-start; }
-.gap-3 { gap: 0.75rem; }
-.bg-blue-50 { background-color: rgb(239 246 255); }
-.border-blue-200 { border-color: rgb(191 219 254); }
-.text-blue-800 { color: rgb(30 64 175); }
 .p-6 { padding: 1.5rem; }
 .max-w-full { max-width: 100%; }
 .overflow-x-hidden { overflow-x: hidden; }
 .break-words { overflow-wrap: break-word; word-wrap: break-word; }
-.bg-glass-subtle { background-color: rgba(248, 250, 252, 0.9); }
-.border-white/40 { border-color: rgb(255 255 255 / 0.4); }
-.bg-glass-light { background-color: rgba(241, 245, 249, 0.75); }
-.border-white/50 { border-color: rgb(255 255 255 / 0.5); }
 .shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
 .text-yellow-600 { color: rgb(202 138 4); }
 .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
 .overflow-x-auto { overflow-x: auto; }
-.bg-gray-50 { background-color: rgb(249 250 251); }
-.border-gray-200 { border-color: rgb(229 231 235); }
-.bg-white { background-color: rgb(255 255 255); }
-.border-gray-300 { border-color: rgb(209 213 219); }
+.border { border-width: 1px; border-style: solid; }
+.p-4 { padding: 1rem; }
 .grid { display: grid; }
 .gap-4 { gap: 1rem; }
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
@@ -1189,39 +2178,19 @@ td svg.icon {
 .bg-transparent { background-color: transparent; }
 .p-2 { padding: 0.5rem; }
 .text-green-600 { color: rgb(22 163 74); }
-.bg-glass-heavy { background-color: rgba(203, 213, 225, 0.4); }
-.border-white/60 { border-color: rgb(255 255 255 / 0.6); }
 .shadow-xl { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
 .border-b { border-bottom-width: 1px; border-style: solid; }
-.inline-flex { display: inline-flex; }
-.h-10 { height: 2.5rem; }
-.items-center { align-items: center; }
-.justify-start { justify-content: flex-start; }
-.text-gray-600 { color: rgb(75 85 99); }
-.w-full { width: 100%; }
-.justify-center { justify-content: center; }
-.whitespace-nowrap { white-space: nowrap; }
-.px-4 { padding-left: 1rem; padding-right: 1rem; }
-.py-2.5 { padding-top: 0.625rem; padding-bottom: 0.625rem; }
-.font-medium { font-weight: 500; }
-.transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
-.border-b-2 { border-bottom-width: 2px; border-style: solid; }
-.border-blue-600 { border-color: rgb(37 99 235); }
-.-mb-px { margin-bottom: -1px; }
-.border-transparent { border-color: transparent; }
-.hover\:text-gray-900:hover { color: rgb(17 24 39); }
-.hover\:border-gray-300:hover { border-color: rgb(209 213 219); }
-.mt-6 { margin-top: 1.5rem; }
-.focus-visible\:outline-none:focus-visible { outline: 2px solid transparent; outline-offset: 2px; }
-.focus-visible\:ring-2:focus-visible { box-shadow: 0 0 0 2px rgb(59 130 246 / 0.5); }
-.focus-visible\:ring-offset-2:focus-visible { box-shadow: 0 0 0 2px white, 0 0 0 4px rgb(59 130 246 / 0.5); }
-.text-gray-800 { color: rgb(31 41 55); }
 .last\:border-b-0:last-child { border-bottom-width: 0; }
+.flex { display: flex; }
 .flex-1 { flex: 1 1 0%; }
+.items-center { align-items: center; }
 .justify-between { justify-content: space-between; }
 .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+.font-medium { font-weight: 500; }
+.transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
 .hover\:underline:hover { text-decoration: underline; }
 .text-left { text-align: left; }
+.w-full { width: 100%; }
 .h-4 { height: 1rem; }
 .w-4 { width: 1rem; }
 .shrink-0 { flex-shrink: 0; }
@@ -1311,20 +2280,76 @@ td svg.icon {
 
 /* ========================================
  * TABS COMPONENT
+ * Modern glassmorphism tabs with smooth transitions
  * ======================================== */
 
 .component-tabs {
   width: 100%;
+  margin-bottom: 1.5rem;
 }
 
 .tabs-list {
+  display: flex;
+  flex-direction: row;
   position: relative;
   overflow-x: auto;
   overflow-y: hidden;
+  /* Performance: Smooth momentum scrolling on touch devices */
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
   scrollbar-width: thin;
-  scrollbar-color: rgb(209 213 219) transparent;
+  scrollbar-color: var(--border) transparent;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  padding: 0.375rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 
+              0 2px 4px -2px rgba(0, 0, 0, 0.05),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+  /* Auto-width: only as wide as content needs */
+  width: fit-content;
+  max-width: 100%;
+  /* Center the tab list within its container */
+  margin: 0 auto;
+  /* Performance: GPU acceleration for smooth scroll */
+  transform: translateZ(0);
+  will-change: scroll-position;
+  /* Gentle snap scrolling - only snaps when close to alignment */
+  scroll-snap-type: x proximity;
+  scroll-padding-left: 0.375rem;
+  /* Isolate in own layer for better compositing */
+  isolation: isolate;
 }
+
+/* Backdrop blur on separate layer for tabs - better scroll performance */
+.tabs-list::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: -1;
+  /* Force GPU compositing */
+  transform: translateZ(0);
+}
+
+/* Mobile: Full width for better touch targets */
+@media (max-width: 768px) {
+  .tabs-list {
+    width: 100%;
+  }
+}
+
+.dark .tabs-list {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 
+              0 2px 4px -2px rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Dark mode blur layer already handled by ::before pseudo-element */
 
 .tabs-list::-webkit-scrollbar {
   height: 4px;
@@ -1335,12 +2360,13 @@ td svg.icon {
 }
 
 .tabs-list::-webkit-scrollbar-thumb {
-  background: rgb(209 213 219);
+  background: var(--border);
   border-radius: 2px;
 }
 
 .tabs-list::-webkit-scrollbar-thumb:hover {
-  background: rgb(156 163 175);
+  background: var(--foreground);
+  opacity: 0.5;
 }
 
 .tab-button {
@@ -1351,28 +2377,540 @@ td svg.icon {
   outline: none;
   flex-shrink: 0;
   white-space: nowrap;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  border-radius: 8px;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  /* Smooth scroll snap alignment */
+  scroll-snap-align: start;
 }
 
 @media (max-width: 640px) {
   .tab-button {
     font-size: 0.813rem;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+    padding: 0.5rem 1rem;
   }
 }
 
-.tab-button[aria-selected="true"] {
-  color: rgb(37 99 235);
-  border-color: rgb(37 99 235) !important;
+.tab-button:hover {
+  color: var(--foreground);
+  background: rgba(255, 255, 255, 0.4);
 }
 
-.tab-button[aria-selected="false"]:hover {
-  color: rgb(17 24 39);
-  border-color: rgb(209 213 219);
+.dark .tab-button:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tab-button[aria-selected="true"] {
+  color: var(--primary);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+              0 1px 2px -1px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+}
+
+.dark .tab-button[aria-selected="true"] {
+  background: rgba(30, 41, 59, 0.9);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3),
+              0 1px 2px -1px rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+.tab-button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.tab-panel {
+  margin-top: 1.5rem;
+  animation: fadeIn 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tab-panel[hidden] {
   display: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Variant: Minimal tabs (no background) */
+.tabs-minimal .tabs-list {
+  background: transparent;
+  backdrop-filter: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.tabs-minimal .tab-button {
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.tabs-minimal .tab-button[aria-selected="true"] {
+  background: transparent;
+  border-bottom-color: var(--primary);
+  box-shadow: none;
+}
+
+/* Variant: Pills tabs */
+.tabs-pills .tabs-list {
+  background: transparent;
+  border: none;
+  padding: 0;
+  gap: 0.5rem;
+  box-shadow: none;
+}
+
+.tabs-pills .tab-button {
+  border-radius: 9999px;
+}
+
+.tabs-pills .tab-button[aria-selected="true"] {
+  background: var(--primary);
+  color: white;
+}
+
+/* ========================================
+ * BUTTON GROUP COMPONENT
+ * Intelligent button container with auto-spacing
+ * ======================================== */
+
+.button-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+/* Paragraph inside button-group for links */
+.button-group p {
+  display: contents;
+  margin: 0;
+}
+
+/* Alignment variants */
+.button-group-left {
+  justify-content: flex-start;
+}
+
+.button-group-right {
+  justify-content: flex-end;
+}
+
+.button-group-center {
+  justify-content: center;
+}
+
+/* Stack variant - vertical layout */
+.button-group-stack {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.button-group-stack a {
+  width: 100%;
+  text-align: center;
+}
+
+/* Size variants - control gap */
+.button-group-sm {
+  gap: 0.5rem;
+}
+
+.button-group-md {
+  gap: 0.75rem;
+}
+
+.button-group-lg {
+  gap: 1rem;
+}
+
+/* Mobile: Stack buttons vertically for better touch targets */
+@media (max-width: 640px) {
+  .button-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  
+  .button-group a {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+/* ========================================
+ * NAVBAR COMPONENT
+ * Modern navigation bar with glassmorphism
+ * ======================================== */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem; /* Reduced from 2rem for mobile first */
+  padding: 0.75rem 1rem; /* Reduced padding for mobile first */
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  margin: 0;
+  /* Only transition specific properties to avoid jank during scroll */
+  transition: background 200ms ease-out, 
+              box-shadow 200ms ease-out,
+              border-bottom-color 200ms ease-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+  min-height: 56px; /* Minimum height for navbar */
+  /* Performance: Force GPU layer for smooth fixed positioning */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  /* Only hint at properties that actually change */
+  will-change: box-shadow;
+  /* Isolate navbar in its own layer for optimal compositing */
+  isolation: isolate;
+}
+
+/* Backdrop blur on separate layer via pseudo-element for better performance */
+/* This prevents expensive blur recalculation on every scroll frame */
+.navbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: -1;
+  /* Force GPU compositing of blur layer */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  /* Prevent blur from being recalculated during scroll */
+  will-change: opacity;
+}
+
+.navbar.scrolled {
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+}
+
+/* Increase blur on scroll via pseudo-element */
+.navbar.scrolled::before {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.dark .navbar {
+  background: rgba(15, 23, 42, 0.8);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.dark .navbar.scrolled {
+  background: rgba(15, 23, 42, 0.75);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Navbar brand/title */
+.navbar h1,
+.navbar h2,
+.navbar h3 {
+  margin: 0;
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* Navbar links container */
+.navbar p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Navbar links styling */
+.navbar a {
+  text-decoration: none;
+  padding: 0.5rem 0.875rem;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--foreground);
+  opacity: 0.8;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.navbar a:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--foreground);
+}
+
+.dark .navbar a:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.navbar a:active {
+  transform: scale(0.97);
+}
+
+/* Active/current page link */
+.navbar a[aria-current="page"],
+.navbar a.active {
+  opacity: 1;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* Mobile optimization for navbar */
+@media (max-width: 639px) {
+  /* Smaller brand/title on mobile */
+  .navbar h1,
+  .navbar h2,
+  .navbar h3 {
+    font-size: 1.125rem; /* Reduced from 1.375rem */
+  }
+  
+  /* Smaller links on mobile with reduced padding */
+  .navbar a {
+    font-size: 0.8125rem; /* Reduced from 0.9375rem */
+    padding: 0.375rem 0.625rem; /* Reduced padding */
+  }
+  
+  /* Reduce gap in links container */
+  .navbar p {
+    gap: 0.25rem; /* Reduced from 0.5rem */
+  }
+}
+
+/* Variant: Glass navbar (default enhanced) */
+.navbar-glass {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(16px) saturate(180%);
+}
+
+.dark .navbar-glass {
+  background: rgba(15, 23, 42, 0.5);
+}
+
+/* Variant: Solid navbar */
+.navbar-solid {
+  background: var(--card);
+  backdrop-filter: none;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+              0 1px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Variant: Minimal navbar (no background) */
+.navbar-minimal {
+  background: transparent;
+  backdrop-filter: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Variant: Floating navbar (with margin) */
+.navbar-floating {
+  margin: 1rem;
+  border-radius: 20px;
+}
+
+/* Variant: Sticky navbar */
+.navbar-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  margin-bottom: 0;
+}
+
+/* Variant: Fixed navbar */
+.navbar-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  margin: 0;
+  border-radius: 0;
+}
+
+/* Size variants */
+.navbar-sm {
+  padding: 0.5rem 1rem;
+}
+
+.navbar-sm h1,
+.navbar-sm h2,
+.navbar-sm h3 {
+  font-size: 1rem;
+}
+
+.navbar-sm a {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+}
+
+.navbar-lg {
+  padding: 1rem 2rem;
+}
+
+.navbar-lg h1,
+.navbar-lg h2,
+.navbar-lg h3 {
+  font-size: 1.5rem;
+}
+
+.navbar-lg a {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.9375rem;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+  }
+  
+  .navbar p {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  
+  .navbar a {
+    font-size: 0.8125rem;
+    padding: 0.375rem 0.75rem;
+  }
+}
+
+/* ========================================
+ * ALERT COMPONENT
+ * Semantic alert boxes with proper theming
+ * ======================================== */
+
+.alert {
+  padding: 1rem 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Info variant */
+.alert-info {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: var(--info);
+}
+
+.dark .alert-info {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #60a5fa;
+}
+
+/* Success variant */
+.alert-success {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: var(--success);
+}
+
+.dark .alert-success {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #34d399;
+}
+
+/* Warning variant */
+.alert-warning {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--warning);
+}
+
+.dark .alert-warning {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+}
+
+/* Error variant */
+.alert-error {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: var(--error);
+}
+
+.dark .alert-error {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #f87171;
+}
+
+/* Alert content */
+.alert > * {
+  margin: 0;
+}
+
+/* Alert with icons */
+.alert .icon {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .alert {
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+  }
 }
 
 /* ========================================
@@ -1380,7 +2918,7 @@ td svg.icon {
  * ======================================== */
 
 .component-accordion {
-  border: 1px solid rgb(229 231 235);
+  border: 1px solid var(--border);
 }
 
 .accordion-item {
@@ -1395,10 +2933,11 @@ td svg.icon {
   cursor: pointer;
   outline: none;
   padding: 1rem;
+  color: var(--foreground);
 }
 
 .accordion-trigger:hover {
-  background-color: rgb(249 250 251);
+  background-color: var(--muted);
 }
 
 .accordion-content[hidden] {
@@ -1422,26 +2961,27 @@ td svg.icon {
  * CAROUSEL COMPONENT
  * ======================================== */
 
-.carousel-container {
-  perspective: 1200px;
-  perspective-origin: center;
-}
-
 .component-carousel {
   position: relative;
   width: 100%;
+  perspective: 1200px;
+  perspective-origin: center;
+  overflow: hidden;
+  /* GPU acceleration */
+  transform: translateZ(0);
 }
 
 .carousel-track {
   display: flex;
   transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
+  /* Performance: Optimize for transform animations */
+  will-change: transform;
 }
 
 .carousel-slide {
   min-width: 100%;
   flex-shrink: 0;
-  padding: 0 2rem;
 }
 
 .carousel-slide[hidden] {
@@ -1463,15 +3003,15 @@ td svg.icon {
 .carousel-next {
   position: absolute;
   z-index: 10;
-  background: white;
-  border: 1px solid rgb(229 231 235);
+  background: var(--background);
+  border: 1px solid var(--border);
   cursor: pointer;
   outline: none;
 }
 
 .carousel-prev:hover,
 .carousel-next:hover {
-  background-color: rgb(243 244 246);
+  background-color: var(--muted);
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
@@ -1492,24 +3032,29 @@ td svg.icon {
 }
 
 .carousel-indicator {
-  background: none;
   border: none;
   padding: 0;
   cursor: pointer;
   outline: none;
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 9999px;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .carousel-indicator[aria-current="true"] {
-  background-color: rgb(17 24 39);
+  background-color: var(--foreground);
   width: 2rem;
 }
 
 .carousel-indicator[aria-current="false"] {
-  background-color: rgb(156 163 175);
+  background-color: var(--muted-foreground);
+  opacity: 0.5;
 }
 
 .carousel-indicator:hover {
-  background-color: rgb(75 85 99);
+  background-color: var(--foreground);
+  opacity: 0.5;
 }
 
 /* ========================================
@@ -1606,6 +3151,12 @@ td svg.icon {
 .tree-container {
   position: relative;
   overflow-x: auto;
+  /* Performance: Smooth momentum scrolling */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  /* GPU acceleration for smooth scroll */
+  transform: translateZ(0);
+  will-change: scroll-position;
 }
 
 /* Remove default list styling */
@@ -2054,8 +3605,8 @@ td svg.icon {
 }
 
 .flow-minimal li:hover {
-  border-color: rgb(59 130 246);
-  background: rgb(239 246 255);
+  border-color: var(--primary);
+  background: var(--muted);
 }
 
 /* Dark theme */
@@ -2066,8 +3617,8 @@ td svg.icon {
 }
 
 .flow-dark li:hover {
-  background: rgb(55 65 81);
-  border-color: rgb(96 165 250);
+  background: var(--muted);
+  border-color: var(--primary);
 }
 
 /* Glass variant */
@@ -2106,7 +3657,12 @@ td svg.icon {
   .flow-container {
     padding: 1rem;
     overflow-x: auto;
+    /* Performance: Smooth momentum scrolling */
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    /* GPU acceleration */
+    transform: translateZ(0);
+    will-change: scroll-position;
   }
 }
 
@@ -2121,55 +3677,110 @@ td svg.icon {
   border-width: 1px;
 }
 
-/* Button Styles - shadcn-inspired */
-a.bg-blue-600 {
-  display: inline-block;
-  text-decoration: none;
-  position: relative;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 1px 3px 0 rgb(0 0 0 / 0.1);
-  transform: translateY(0);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-a.bg-blue-600:hover {
-  background-color: rgb(37 99 235); /* blue-700 */
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  transform: translateY(-1px);
-}
-
-a.bg-blue-600:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-}
-
-a.bg-gray-200 {
-  display: inline-block;
-  text-decoration: none;
-  position: relative;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 1px 3px 0 rgb(0 0 0 / 0.1);
-  transform: translateY(0);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-a.bg-gray-200:hover {
-  background-color: rgb(229 231 235); /* gray-300 */
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  transform: translateY(-1px);
-}
-
-a.bg-gray-200:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-}
+/* Note: Link button styles removed - buttons should use the {button} attribute which properly handles hover states with theme colors */
 </style>
   <script>// Taildown Interactive Components
 // Generated by Taildown compiler
-// Total size: ~2.15KB
+// Total size: ~5.08KB
 
 (function() {
   'use strict';
 
   console.log('[Taildown] JavaScript loaded');
+
+  // Dark Mode - runs immediately to prevent flash
+  // Dark Mode Toggle
+  const STORAGE_KEY = 'taildown-dark-mode';
+  const DARK_CLASS = 'dark';
+
+  // Get initial theme from localStorage or system preference
+  function getInitialTheme() {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      return stored === 'dark';
+    }
+    
+    // Check system preference
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return true;
+    }
+    
+    return false;
+  }
+
+  // Apply theme
+  function applyTheme(isDark) {
+    if (isDark) {
+      document.documentElement.classList.add(DARK_CLASS);
+    } else {
+      document.documentElement.classList.remove(DARK_CLASS);
+    }
+  }
+
+  // Toggle theme
+  function toggleTheme() {
+    const isDark = document.documentElement.classList.contains(DARK_CLASS);
+    const newTheme = !isDark;
+    
+    applyTheme(newTheme);
+    localStorage.setItem(STORAGE_KEY, newTheme ? 'dark' : 'light');
+  }
+
+  // Create toggle button
+  function createToggleButton() {
+    const button = document.createElement('button');
+    button.className = 'dark-mode-toggle';
+    button.setAttribute('aria-label', 'Toggle dark mode');
+    button.innerHTML = `
+      <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    `;
+    return button;
+  }
+
+  // Apply initial theme immediately (prevent flash)
+  applyTheme(getInitialTheme());
+
+  // Create toggle button when DOM is ready
+  function initToggleButton() {
+    const toggleButton = createToggleButton();
+    document.body.appendChild(toggleButton);
+    toggleButton.addEventListener('click', toggleTheme);
+    
+    // Listen for system preference changes
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        // Only auto-switch if user hasn't set a preference
+        if (!localStorage.getItem(STORAGE_KEY)) {
+          applyTheme(e.matches);
+        }
+      });
+    }
+    
+    console.log('[Taildown] Dark mode toggle button initialized');
+  }
+
+  // Wait for body to exist before creating button
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initToggleButton);
+  } else {
+    initToggleButton();
+  }
+
+  console.log('[Taildown] Dark mode theme applied');
+
 
   // Initialize all components when DOM is ready
   if (document.readyState === 'loading') {
@@ -2301,6 +3912,82 @@ a.bg-gray-200:active {
         });
       });
     });
+
+    // Copy Code Functionality
+        function initCopyCode() {
+          console.log('[Taildown] Initializing copy code buttons');
+          
+          const copyButtons = document.querySelectorAll('.code-copy-btn');
+          console.log(`[Taildown] Found ${copyButtons.length} copy buttons`);
+          
+          copyButtons.forEach((button, index) => {
+            button.addEventListener('click', async function() {
+              const codeText = this.getAttribute('data-code-text');
+              if (!codeText) {
+                console.warn('[Taildown] No code text found for copy button');
+                return;
+              }
+              
+              console.log(`[Taildown] Copying code block ${index + 1}`);
+              
+              try {
+                // Use modern clipboard API if available
+                if (navigator.clipboard && window.isSecureContext) {
+                  await navigator.clipboard.writeText(codeText);
+                } else {
+                  // Fallback for older browsers
+                  const textArea = document.createElement('textarea');
+                  textArea.value = codeText;
+                  textArea.style.position = 'fixed';
+                  textArea.style.left = '-999999px';
+                  textArea.style.top = '-999999px';
+                  document.body.appendChild(textArea);
+                  textArea.focus();
+                  textArea.select();
+                  document.execCommand('copy');
+                  textArea.remove();
+                }
+                
+                // Show success feedback
+                showCopySuccess(this);
+                
+              } catch (err) {
+                console.warn('[Taildown] Failed to copy code:', err);
+                // Still show feedback even if copy failed
+                showCopySuccess(this);
+              }
+            });
+          });
+        }
+        
+        function showCopySuccess(button) {
+          // Get elements
+          const copyIcon = button.querySelector('.copy-icon');
+          const checkIcon = button.querySelector('.check-icon');
+          const copyText = button.querySelector('.copy-text');
+          const copiedText = button.querySelector('.copied-text');
+          
+          // Add success class
+          button.classList.add('copied');
+          
+          // Switch icons and text
+          if (copyIcon) copyIcon.style.display = 'none';
+          if (checkIcon) checkIcon.style.display = 'block';
+          if (copyText) copyText.style.display = 'none';
+          if (copiedText) copiedText.style.display = 'block';
+          
+          // Reset after 2 seconds
+          setTimeout(() => {
+            button.classList.remove('copied');
+            if (copyIcon) copyIcon.style.display = 'block';
+            if (checkIcon) checkIcon.style.display = 'none';
+            if (copyText) copyText.style.display = 'block';
+            if (copiedText) copiedText.style.display = 'none';
+          }, 2000);
+        }
+        
+        // Initialize copy code functionality
+        initCopyCode();
     console.log('[Taildown] Initialization complete');
   }
 
@@ -2329,7 +4016,7 @@ a.bg-gray-200:active {
 <p class="text-center text-gray-500 text-lg">This document defines the structure and organization rules for the Taildown project. Follow these guidelines to keep the repository clean, maintainable, and professional.</p>
 <hr />
 <h2 class="text-lg font-bold text-red-600">NO EMOJIS POLICY</h2>
-<div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-blue-50 border-blue-200 text-blue-800"><p><strong>CRITICAL RULE: ABSOLUTELY NO EMOJIS IN ANY PROJECT FILES</strong></p><p>Taildown is a <strong>professional project</strong> with a sophisticated icon system. We do NOT use emojis anywhere in:</p><ul>
+<div class="taildown-component component-alert alert alert-info" data-component="alert"><p><strong>CRITICAL RULE: ABSOLUTELY NO EMOJIS IN ANY PROJECT FILES</strong></p><p>Taildown is a <strong>professional project</strong> with a sophisticated icon system. We do NOT use emojis anywhere in:</p><ul>
 <li>Documentation files (README.md, SYNTAX.md, tech-spec.md, etc.)</li>
 <li>Code files (TypeScript, JavaScript)</li>
 <li>Example files (.td, .html, .css)</li>
@@ -2337,7 +4024,7 @@ a.bg-gray-200:active {
 <li>Comments or commit messages</li>
 </ul></div>
 <p><strong>Instead, use the icon system:</strong></p>
-<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">x</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">error</span><span class="token punctuation">}</span> WRONG:  ✓ Feature complete
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">x</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">error</span><span class="token punctuation">}</span> WRONG:  ✓ Feature complete
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">x</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">error</span><span class="token punctuation">}</span> WRONG:  ✗ Not implemented
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">x</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">error</span><span class="token punctuation">}</span> WRONG:  ⚠ Warning
 </span><span class="code-line">
@@ -2345,8 +4032,24 @@ a.bg-gray-200:active {
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span> CORRECT: <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">x</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">error</span><span class="token punctuation">}</span> Not implemented
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span> CORRECT: <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">alert-triangle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">warning</span><span class="token punctuation">}</span> Warning
 </span><span class="code-line">
-</span></code></pre>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm"><h3 class="medium-bold"><svg class="icon icon-info text-primary-600 hover:text-primary-700" data-icon="info" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg> Why This Rule Exists</h3><ul>
+</span></code><button class="code-copy-btn" data-code-id="code-e4cw6f7gj" data-code-text=":icon[x]{error} WRONG:  ✓ Feature complete
+:icon[x]{error} WRONG:  ✗ Not implemented
+:icon[x]{error} WRONG:  ⚠ Warning
+
+:icon[check]{success} CORRECT: :icon[check]{success} Feature complete
+:icon[check]{success} CORRECT: :icon[x]{error} Not implemented
+:icon[check]{success} CORRECT: :icon[alert-triangle]{warning} Warning
+
+" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+        </svg>
+        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+        <span class="copy-text">Copy</span>
+        <span class="copied-text" style="display: none;">Copied!</span></button></pre>
+<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle shadow-sm" data-component="card"><h3 class="medium-bold"><svg class="icon icon-info text-primary-600 hover:text-primary-700" data-icon="info" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg> Why This Rule Exists</h3><ul>
 <li>Emojis are unprofessional and inconsistent across platforms</li>
 <li>We have a comprehensive icon system with 1000+ Lucide icons</li>
 <li>Icons are semantic, accessible, and styleable</li>
@@ -2362,7 +4065,7 @@ a.bg-gray-200:active {
 <p><strong>No exceptions.</strong> Use <code>:icon[name]{attributes}</code> syntax for all visual indicators.</p>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">DOCUMENTATION FORMAT POLICY</h2>
-<div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-blue-50 border-blue-200 text-blue-800"><p><strong>ALL PROJECT DOCUMENTATION MUST BE WRITTEN IN TAILDOWN FORMAT</strong></p></div>
+<div class="taildown-component component-alert alert alert-info" data-component="alert"><p><strong>ALL PROJECT DOCUMENTATION MUST BE WRITTEN IN TAILDOWN FORMAT</strong></p></div>
 <p>Starting with version 0.1.0, all project documentation should be:</p>
 <ul>
 <li>Written as <code>.td</code> files (Taildown format)</li>
@@ -2377,7 +4080,7 @@ a.bg-gray-200:active {
 <li>Technical documentation</li>
 <li>Planning and design documents</li>
 </ul>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md"><h3 class="medium-bold"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Why Taildown Format?</h3><ul>
+<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Why Taildown Format?</h3><ul>
 <li><strong>Dogfooding</strong>: We use our own tool for our own documentation</li>
 <li><strong>Showcases capabilities</strong>: Demonstrates Taildown's features in real-world use</li>
 <li><strong>Professional output</strong>: Provides styled documentation output</li>
@@ -2402,7 +4105,7 @@ a.bg-gray-200:active {
 <li><strong>Use native components</strong>: Always use <code>:::tree</code> for directory structures and <code>:::flow</code> for process diagrams instead of ASCII art</li>
 </ul>
 <p><strong>Example:</strong></p>
-<pre><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span>My Document <span class="token punctuation">{</span><span class="token emphasis">huge-bold</span> <span class="token property">center</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span>My Document <span class="token punctuation">{</span><span class="token emphasis">huge-bold</span> <span class="token property">center</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
 </span><span class="code-line">
 </span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">alert</span> <span class="token punctuation">{</span><span class="token attr-name">type</span>=<span class="token string">&quot;success&quot;</span><span class="token punctuation">}</span>
 </span><span class="code-line">This is a success message with proper Taildown formatting.
@@ -2410,7 +4113,23 @@ a.bg-gray-200:active {
 </span><span class="code-line">
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span> Feature complete
 </span><span class="code-line">
-</span></code></pre>
+</span></code><button class="code-copy-btn" data-code-id="code-mv5byi43u" data-code-text="# My Document {huge-bold center primary}
+
+:::alert {type=&#x26;quot;success&#x26;quot;}
+This is a success message with proper Taildown formatting.
+:::
+
+:icon[check]{success} Feature complete
+
+" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+        </svg>
+        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+        <span class="copy-text">Copy</span>
+        <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Exceptions:</strong></p>
 <ul>
 <li>Core documentation that must be readable on GitHub (README.md, SYNTAX.md)</li>
@@ -2419,7 +4138,7 @@ a.bg-gray-200:active {
 </ul>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Directory Structure</h2>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm"><h3 class="medium-bold"><svg class="icon icon-folder text-accent-600 hover:text-accent-700" data-icon="folder" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /></svg> Project Layout</h3><p class="text-gray-500"><strong>NOTE:</strong> This project structure uses Taildown's native <code>:::tree</code> component instead of ASCII art. Always use Taildown features for visualizations in project documentation.</p><div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-vscode bg-white border-gray-300"><ul>
+<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle shadow-sm" data-component="card"><h3 class="medium-bold"><svg class="icon icon-folder text-accent-600 hover:text-accent-700" data-icon="folder" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /></svg> Project Layout</h3><p class="text-gray-500"><strong>NOTE:</strong> This project structure uses Taildown's native <code>:::tree</code> component instead of ASCII art. Always use Taildown features for visualizations in project documentation.</p><div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-muted border p-4 tree-vscode bg-card border-border" data-component="tree"><ul>
 <li data-tree-folder="true">taildown/
 <ul>
 <li>README.md                    # User-facing overview and quick start</li>
@@ -2483,7 +4202,7 @@ a.bg-gray-200:active {
 </ul></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">File Placement Rules</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-home text-primary-600 hover:text-primary-700" data-icon="home" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> Root Level</h3><p><strong>ONLY</strong> the following types of files belong at root:</p><p><strong>Core Documentation</strong> (4 files max):</p><ul>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-home text-primary-600 hover:text-primary-700" data-icon="home" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> Root Level</h3><p><strong>ONLY</strong> the following types of files belong at root:</p><p><strong>Core Documentation</strong> (4 files max):</p><ul>
 <li><code>README.md</code> - User-facing overview</li>
 <li><code>SYNTAX.md</code> - Canonical syntax reference</li>
 <li><code>tech-spec.md</code> - Technical specification</li>
@@ -2494,7 +4213,7 @@ a.bg-gray-200:active {
 <li><code>tsconfig.json</code>, <code>vitest.config.ts</code></li>
 <li><code>.eslintrc.json</code>, <code>.prettierrc</code></li>
 <li><code>.gitignore</code>, <code>.cursorignore</code></li>
-</ul><p><strong>Nothing Else</strong>: No test files, no session notes, no debug outputs!</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-package text-accent-600 hover:text-accent-700" data-icon="package" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path d="m7.5 4.27 9 5.15" /></svg> packages/ - Source Code</h3><p><strong>Purpose</strong>: Monorepo packages with source code and build artifacts</p><p><strong>Rules</strong>:</p><ul>
+</ul><p><strong>Nothing Else</strong>: No test files, no session notes, no debug outputs!</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-package text-accent-600 hover:text-accent-700" data-icon="package" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path d="m7.5 4.27 9 5.15" /></svg> packages/ - Source Code</h3><p><strong>Purpose</strong>: Monorepo packages with source code and build artifacts</p><p><strong>Rules</strong>:</p><ul>
 <li>Each package has its own <code>package.json</code>, <code>tsconfig.json</code>, <code>tsup.config.ts</code></li>
 <li>Source files in <code>src/</code>, compiled output in <code>dist/</code></li>
 <li>Each package has its own <code>node_modules/</code> (managed by pnpm)</li>
@@ -2504,7 +4223,7 @@ a.bg-gray-200:active {
 <li><code>packages/cli/</code> - Command-line interface</li>
 <li><code>packages/compiler/</code> - Core compiler with parser, renderer, JS generator</li>
 <li><code>packages/shared/</code>- Shared types and constants</li>
-</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-file-text text-yellow-600" data-icon="file-text" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></svg> examples/ - Example Files</h3><p><strong>Purpose</strong>: Showcase Taildown syntax and features</p><p><strong>Rules</strong>:</p><ul>
+</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-file-text text-yellow-600" data-icon="file-text" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></svg> examples/ - Example Files</h3><p><strong>Purpose</strong>: Showcase Taildown syntax and features</p><p><strong>Rules</strong>:</p><ul>
 <li><strong>ONLY</strong> <code>.td</code> files and their compiled outputs (<code>.html</code>, <code>.css</code>, <code>.js</code>)</li>
 <li>Files should be numbered: <code>01-basic-markdown.td</code>, <code>02-inline-attributes.td</code></li>
 <li>Each example should demonstrate a specific feature or use case</li>
@@ -2519,13 +4238,13 @@ a.bg-gray-200:active {
 <li>Debug files (use <code>test-files/</code>)</li>
 <li>Incomplete experiments (use <code>test-files/</code>)</li>
 </ul></div></div>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md"><h3 class="medium-bold"><svg class="icon icon-test-tube text-blue-600" data-icon="test-tube" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2" /><path d="M8.5 2h7" /><path d="M14.5 16h-5" /></svg> syntax-tests/ - Syntax Validation Tests</h3><p><strong>Purpose</strong>: Automated tests validating syntax parsing</p><p><strong>Rules</strong>:</p><ul>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-test-tube text-blue-600" data-icon="test-tube" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2" /><path d="M8.5 2h7" /><path d="M14.5 16h-5" /></svg> syntax-tests/ - Syntax Validation Tests</h3><p><strong>Purpose</strong>: Automated tests validating syntax parsing</p><p><strong>Rules</strong>:</p><ul>
 <li>Test fixtures in <code>fixtures/</code> subdirectories</li>
 <li>Each fixture has a <code>.td</code> file and corresponding <code>.ast.json</code></li>
 <li>Organized by feature: <code>01-markdown-compatibility/</code>, <code>02-inline-attributes/</code>, etc.</li>
 <li>Tests in <code>reference.test.ts</code> validate AST output</li>
 <li>Never manually edit <code>.ast.json</code> files - regenerate with scripts</li>
-</ul><p><strong>Structure</strong>:</p><div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-minimal border-none bg-transparent p-2"><ul>
+</ul><p><strong>Structure</strong>:</p><div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-muted border border-border p-4 tree-minimal border-none bg-transparent p-2" data-component="tree"><ul>
 <li data-tree-folder="true">syntax-tests/
 <ul>
 <li data-tree-folder="true">fixtures/
@@ -2544,7 +4263,7 @@ a.bg-gray-200:active {
 <li>README.md</li>
 </ul>
 </li>
-</ul></div></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md"><h3 class="medium-bold"><svg class="icon icon-settings text-green-600" data-icon="settings" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></svg> scripts/ - Utility Scripts</h3><p><strong>Purpose</strong>: Automation, debugging, and development utilities</p><p><strong>Rules</strong>:</p><ul>
+</ul></div></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-settings text-green-600" data-icon="settings" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></svg> scripts/ - Utility Scripts</h3><p><strong>Purpose</strong>: Automation, debugging, and development utilities</p><p><strong>Rules</strong>:</p><ul>
 <li>PowerShell scripts: <code>.ps1</code> extension</li>
 <li>Node.js scripts: <code>.js</code> or <code>.ts</code> extension</li>
 <li>Each script should have a comment header explaining purpose</li>
@@ -2555,11 +4274,22 @@ a.bg-gray-200:active {
 <li><code>regenerate-all-fixtures.ps1</code> - Regenerate all fixtures</li>
 <li><code>install-vscode-extension.ps1</code> - VSCode extension installer</li>
 <li>Debug scripts like <code>test-toHast-behavior.js</code></li>
-</ul><p><strong>Example Script Header</strong>:</p><pre><code class="language-powershell code-highlight"># Script: generate-fixture.ps1
+</ul><p><strong>Example Script Header</strong>:</p><pre data-copyable="true"><code class="language-powershell code-highlight"># Script: generate-fixture.ps1
 # Purpose: Generate .ast.json fixture from .td file
 # Usage: .\scripts\generate-fixture.ps1 path/to/file.td
-</code></pre></div></div>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy bg-glass-heavy border-white/60 shadow-xl"><h3 class="medium-bold"><svg class="icon icon-book text-primary-600 hover:text-primary-700" data-icon="book" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" /></svg> docs/ - Historical Documentation</h3><p><strong>Purpose</strong>: Session notes, planning docs, implementation notes</p><p><strong>Rules</strong>:</p><ul>
+</code><button class="code-copy-btn" data-code-id="code-ole9386r4" data-code-text="# Script: generate-fixture.ps1
+# Purpose: Generate .ast.json fixture from .td file
+# Usage: .\scripts\generate-fixture.ps1 path/to/file.td
+" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+        </svg>
+        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+        <span class="copy-text">Copy</span>
+        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div></div>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy shadow-xl" data-component="card"><h3 class="medium-bold"><svg class="icon icon-book text-primary-600 hover:text-primary-700" data-icon="book" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" /></svg> docs/ - Historical Documentation</h3><p><strong>Purpose</strong>: Session notes, planning docs, implementation notes</p><p><strong>Rules</strong>:</p><ul>
 <li>Only historical/archived documentation goes here</li>
 <li>Use descriptive prefixes: <code>PHASE-</code>, <code>SESSION-</code>, <code>BUGFIX-</code>, <code>PLANNING-</code></li>
 <li>Date files if applicable: <code>SESSION-2025-10-05.md</code></li>
@@ -2575,7 +4305,7 @@ a.bg-gray-200:active {
 <li><code>README.md</code> (stays at root)</li>
 <li><code>SYNTAX.md</code> (stays at root)</li>
 <li><code>tech-spec.md</code>(stays at root)</li>
-</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy bg-glass-heavy border-white/60 shadow-xl"><h3 class="medium-bold"><svg class="icon icon-beaker text-yellow-600" data-icon="beaker" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3h15" /><path d="M6 3v16a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V3" /><path d="M6 14h12" /></svg> test-files/ - Temporary Test Files</h3><p><strong>Purpose</strong>: Ad-hoc testing, debugging, and experimentation</p><p><strong>Rules</strong>:</p><ul>
+</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy shadow-xl" data-component="card"><h3 class="medium-bold"><svg class="icon icon-beaker text-yellow-600" data-icon="beaker" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3h15" /><path d="M6 3v16a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V3" /><path d="M6 14h12" /></svg> test-files/ - Temporary Test Files</h3><p><strong>Purpose</strong>: Ad-hoc testing, debugging, and experimentation</p><p><strong>Rules</strong>:</p><ul>
 <li>Prefix all files with <code>test-</code></li>
 <li>Include both <code>.td</code> source and all outputs (<code>.html</code>, <code>.css</code>, <code>.js</code>)</li>
 <li>Clean up regularly - don't let this folder grow unbounded</li>
@@ -2594,26 +4324,77 @@ a.bg-gray-200:active {
 </ul></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Workflow Guidelines</h2>
-<div class="taildown-component component-tabs tabs border-b border-gray-200" data-component="tabs"><div role="tablist" class="tabs-list inline-flex h-10 items-center justify-start rounded-none bg-transparent p-0 text-gray-600 border-b border-gray-200 w-full"><button role="tab" aria-selected="true" tabindex="0" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-blue-600 text-blue-600 -mb-px"><svg class="icon icon-code text-primary-600 hover:text-primary-700" data-icon="code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg> Creating Test Files</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px"><svg class="icon icon-arrow-up text-accent-600 hover:text-accent-700" data-icon="arrow-up" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7" /><path d="M12 19V5" /></svg> Promoting Test to Example</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px"><svg class="icon icon-test-tube text-yellow-600" data-icon="test-tube" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2" /><path d="M8.5 2h7" /><path d="M14.5 16h-5" /></svg> Creating Syntax Test Fixtures</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px"><svg class="icon icon-wrench text-blue-600" data-icon="wrench" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z" /></svg> Adding Utility Scripts</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px"><svg class="icon icon-file-text text-green-600" data-icon="file-text" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></svg> Documentation Updates</button></div><div role="tabpanel" class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><pre><code class="language-bash code-highlight"># Always create in test-files/
+<div class="taildown-component component-tabs tabs" data-component="tabs"><div role="tablist" class="tabs-list"><button role="tab" aria-selected="true" tabindex="0" class="tab-button"><svg class="icon icon-code text-primary-600 hover:text-primary-700" data-icon="code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg> Creating Test Files</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button"><svg class="icon icon-arrow-up text-accent-600 hover:text-accent-700" data-icon="arrow-up" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7" /><path d="M12 19V5" /></svg> Promoting Test to Example</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button"><svg class="icon icon-test-tube text-yellow-600" data-icon="test-tube" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2" /><path d="M8.5 2h7" /><path d="M14.5 16h-5" /></svg> Creating Syntax Test Fixtures</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button"><svg class="icon icon-wrench text-blue-600" data-icon="wrench" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z" /></svg> Adding Utility Scripts</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button"><svg class="icon icon-file-text text-green-600" data-icon="file-text" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></svg> Documentation Updates</button></div><div role="tabpanel" class="tab-panel"><pre data-copyable="true"><code class="language-bash code-highlight"># Always create in test-files/
 cd test-files/
 touch test-my-feature.td
 
 # Compile from project root
 node packages/cli/dist/cli.js compile test-files/test-my-feature.td
-</code></pre></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><pre><code class="language-bash code-highlight"># Once validated, move to examples/ and rename
+</code><button class="code-copy-btn" data-code-id="code-gvj0qd8kb" data-code-text="# Always create in test-files/
+cd test-files/
+touch test-my-feature.td
+
+# Compile from project root
+node packages/cli/dist/cli.js compile test-files/test-my-feature.td
+" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+        </svg>
+        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+        <span class="copy-text">Copy</span>
+        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><pre data-copyable="true"><code class="language-bash code-highlight"># Once validated, move to examples/ and rename
 mv test-files/test-my-feature.td examples/11-my-feature.td
 mv test-files/test-my-feature.html examples/11-my-feature.html
 mv test-files/test-my-feature.css examples/11-my-feature.css
 mv test-files/test-my-feature.js examples/11-my-feature.js
 
 # Update examples/README.md with new example
-</code></pre></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><pre><code class="language-bash code-highlight"># Use the script (automatically places in syntax-tests/)
+</code><button class="code-copy-btn" data-code-id="code-qicr38e67" data-code-text="# Once validated, move to examples/ and rename
+mv test-files/test-my-feature.td examples/11-my-feature.td
+mv test-files/test-my-feature.html examples/11-my-feature.html
+mv test-files/test-my-feature.css examples/11-my-feature.css
+mv test-files/test-my-feature.js examples/11-my-feature.js
+
+# Update examples/README.md with new example
+" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+        </svg>
+        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+        <span class="copy-text">Copy</span>
+        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><pre data-copyable="true"><code class="language-bash code-highlight"># Use the script (automatically places in syntax-tests/)
 .\scripts\generate-fixture.ps1 &quot;path/to/source.td&quot; &quot;01-markdown-compatibility/01-basic-markdown&quot;
-</code></pre></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><pre><code class="language-bash code-highlight"># Create in scripts/ with proper header
+</code><button class="code-copy-btn" data-code-id="code-sv4hq4oa9" data-code-text="# Use the script (automatically places in syntax-tests/)
+.\scripts\generate-fixture.ps1 &#x26;quot;path/to/source.td&#x26;quot; &#x26;quot;01-markdown-compatibility/01-basic-markdown&#x26;quot;
+" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+        </svg>
+        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+        <span class="copy-text">Copy</span>
+        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><pre data-copyable="true"><code class="language-bash code-highlight"># Create in scripts/ with proper header
 touch scripts/my-utility.ps1
 
 # Add documentation to scripts/README.md
-</code></pre></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><pre><code class="language-bash code-highlight"># Core docs: Edit at root
+</code><button class="code-copy-btn" data-code-id="code-roxll54mr" data-code-text="# Create in scripts/ with proper header
+touch scripts/my-utility.ps1
+
+# Add documentation to scripts/README.md
+" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+        </svg>
+        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+        <span class="copy-text">Copy</span>
+        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><pre data-copyable="true"><code class="language-bash code-highlight"># Core docs: Edit at root
 code README.md
 code SYNTAX.md
 code tech-spec.md
@@ -2621,10 +4402,26 @@ code tech-spec.md
 # Session notes: Create in docs/
 touch docs/SESSION-2025-10-05.md
 touch docs/BUGFIX-tooltip-positioning.md
-</code></pre></div></div>
+</code><button class="code-copy-btn" data-code-id="code-lwqqn451p" data-code-text="# Core docs: Edit at root
+code README.md
+code SYNTAX.md
+code tech-spec.md
+
+# Session notes: Create in docs/
+touch docs/SESSION-2025-10-05.md
+touch docs/BUGFIX-tooltip-positioning.md
+" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+        </svg>
+        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+        <span class="copy-text">Copy</span>
+        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Pre-Commit Checklist</h2>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md"><h3 class="medium-bold"><svg class="icon icon-check-square text-primary-600 hover:text-primary-700" data-icon="check-square" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10.656V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.344" /><path d="m9 11 3 3L22 4" /></svg> Before committing, ensure:</h3><ul>
+<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-check-square text-primary-600 hover:text-primary-700" data-icon="check-square" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10.656V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.344" /><path d="m9 11 3 3L22 4" /></svg> Before committing, ensure:</h3><ul>
 <li><svg class="icon icon-square text-gray-500" data-icon="square" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /></svg> No test files at root level</li>
 <li><svg class="icon icon-square text-gray-500" data-icon="square" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /></svg> No debug artifacts at root level (<code>.json</code>, <code>.css</code>, <code>.html</code>)</li>
 <li><svg class="icon icon-square text-gray-500" data-icon="square" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /></svg> Core documentation files are at root</li>
@@ -2635,7 +4432,7 @@ touch docs/BUGFIX-tooltip-positioning.md
 </ul></div>
 <hr />
 <h2 class="text-lg font-bold text-red-600">Common Mistakes to Avoid</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Incorrect</h3><div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-default text-gray-800"><ul>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-x text-red-600" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Incorrect</h3><div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-muted border border-border p-4 tree-default text-foreground" data-component="tree"><ul>
 <li data-tree-folder="true">taildown/
 <ul>
 <li data-tree-folder="true">test-something.td          # NO - use test-files/</li>
@@ -2645,7 +4442,7 @@ touch docs/BUGFIX-tooltip-positioning.md
 <li data-tree-folder="true">temp.json                  # NO - use test-files/</li>
 </ul>
 </li>
-</ul></div></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-white shadow-md"><h3 class="medium-bold"><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Correct</h3><div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-gray-50 border border-gray-200 p-4 tree-default text-gray-800"><ul>
+</ul></div></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Correct</h3><div class="taildown-component component-tree tree-container font-mono text-sm overflow-x-auto rounded-lg bg-muted border border-border p-4 tree-default text-foreground" data-component="tree"><ul>
 <li data-tree-folder="true">taildown/
 <ul>
 <li>README.md                  # YES - core documentation</li>
@@ -2671,7 +4468,7 @@ touch docs/BUGFIX-tooltip-positioning.md
 </ul></div></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Maintenance Schedule</h2>
-<div class="taildown-component component-accordion accordion border rounded-lg divide-y" data-component="accordion"><div data-accordion-item="" class="accordion-item border-b border-gray-200 last:border-b-0"><button data-accordion-trigger="" aria-expanded="true" class="accordion-trigger flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline text-left w-full text-sm"><p><strong><svg class="icon icon-calendar text-primary-600 hover:text-primary-700" data-icon="calendar" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4" /><path d="M16 2v4" /><rect width="18" height="18" x="3" y="4" rx="2" /><path d="M3 10h18" /></svg> Weekly</strong></p><svg class="accordion-icon h-4 w-4 shrink-0 transition-transform duration-200 ml-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></button><div data-accordion-content="" class="accordion-content overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down pb-4 pt-0"><ul>
+<div class="taildown-component component-accordion accordion border rounded-lg divide-y" data-component="accordion"><div data-accordion-item="" class="accordion-item border-b border-border last:border-b-0"><button data-accordion-trigger="" aria-expanded="true" class="accordion-trigger flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline text-left w-full text-sm"><p><strong><svg class="icon icon-calendar text-primary-600 hover:text-primary-700" data-icon="calendar" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4" /><path d="M16 2v4" /><rect width="18" height="18" x="3" y="4" rx="2" /><path d="M3 10h18" /></svg> Weekly</strong></p><svg class="accordion-icon h-4 w-4 shrink-0 transition-transform duration-200 ml-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></button><div data-accordion-content="" class="accordion-content overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down pb-4 pt-0"><ul>
 <li>Review <code>test-files/</code> and delete obsolete test files</li>
 <li>Update examples if new features are stable</li>
 </ul><p><strong><svg class="icon icon-package text-accent-600 hover:text-accent-700" data-icon="package" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path d="m7.5 4.27 9 5.15" /></svg> Before Each Release</strong></p><ul>
@@ -2682,7 +4479,7 @@ touch docs/BUGFIX-tooltip-positioning.md
 </ul></div></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Questions?</h2>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle bg-glass-subtle border-white/40 shadow-sm"><h3 class="medium-bold"><svg class="icon icon-help-circle text-primary-600 hover:text-primary-700" data-icon="help-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg> If you're unsure where a file belongs:</h3><ol>
+<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle shadow-sm" data-component="card"><h3 class="medium-bold"><svg class="icon icon-help-circle text-primary-600 hover:text-primary-700" data-icon="help-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg> If you're unsure where a file belongs:</h3><ol>
 <li><strong>Is it core user-facing documentation?</strong> → Root level</li>
 <li><strong>Is it a configuration file?</strong> → Root level</li>
 <li><strong>Is it source code?</strong> → <code>packages/</code></li>
@@ -2694,14 +4491,12 @@ touch docs/BUGFIX-tooltip-positioning.md
 </ol><p><strong>When in doubt, ask or put it in <code>test-files/</code> temporarily.</strong></p></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Enforcement</h2>
-<p>:::alert{type="info"}
-These rules are enforced through:</p>
-<ul>
+<div class="taildown-component component-alert alert alert-info" data-component="alert"><p>These rules are enforced through:</p><ul>
 <li>Manual code review</li>
 <li><code>.gitignore</code> patterns</li>
 <li>Pre-commit checklist (above)</li>
 <li>Common sense and professional standards</li>
-</ul>
-<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-light bg-glass-light border-white/50 shadow-md p-6"><h3 class="text-4xl font-bold text-center"><svg class="icon icon-shield text-primary-600 hover:text-primary-700 text-4xl" data-icon="shield" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /></svg> Keep the root clean. Keep the project professional.</h3></div>
+</ul></div>
+<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md p-6" data-component="card"><h3 class="text-4xl font-bold text-center"><svg class="icon icon-shield text-primary-600 hover:text-primary-700 text-4xl" data-icon="shield" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /></svg> Keep the root clean. Keep the project professional.</h3></div>
 </body>
 </html>
