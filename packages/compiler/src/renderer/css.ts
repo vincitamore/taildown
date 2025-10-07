@@ -1050,7 +1050,11 @@ table {
 thead {
   display: table-header-group;
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-  border-bottom: 2px solid #e2e8f0;
+  border-bottom: 2px solid var(--border);
+}
+
+.dark thead {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
 }
 
 tbody {
@@ -1061,7 +1065,7 @@ tbody {
 /* Table rows */
 tr {
   display: table-row;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border);
 }
 
 tbody tr {
@@ -1108,16 +1112,17 @@ th, td {
 /* Header cells */
 th {
   font-weight: 600;
-  color: #1e293b;
+  color: var(--foreground);
   text-transform: uppercase;
   font-size: 0.75rem;
   letter-spacing: 0.05em;
   white-space: nowrap;
+  opacity: 0.9;
 }
 
 /* Data cells */
 td {
-  color: #334155;
+  color: var(--foreground);
 }
 
 /* First column styling (sticky on mobile) */
@@ -1191,11 +1196,11 @@ td svg.icon {
     display: block;
     text-align: center;
     padding: 0.5rem;
-    background: #f1f5f9;
-    color: #64748b;
+    background: var(--muted);
+    color: var(--muted-foreground);
     font-size: 0.75rem;
     font-weight: 500;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid var(--border);
   }
 }
 
