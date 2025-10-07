@@ -83,19 +83,19 @@ export const buttonComponent: ComponentDefinition = defineComponent({
     // Outline: Bordered with transparent background
     outline: [
       'border-2',
-      'border-gray-300',
-      'text-gray-700',
-      'hover:bg-gray-100',
-      'active:bg-gray-200',
+      'border-border',
+      'text-foreground',
+      'hover:bg-muted',
+      'active:bg-muted',
       'bg-transparent',
     ],
     
     // Ghost: Minimal with hover effect
     ghost: [
       'bg-transparent',
-      'text-gray-700',
-      'hover:bg-gray-100',
-      'active:bg-gray-200',
+      'text-foreground',
+      'hover:bg-muted',
+      'active:bg-muted',
     ],
     
     // Link: Styled as link
