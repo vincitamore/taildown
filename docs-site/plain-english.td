@@ -510,5 +510,7 @@ Falls back to raw CSS classes
 
 ---
 
-[Back to Top](#){button primary large hover-lift} [Getting Started](getting-started.html){button secondary large hover-lift}
+:::card {light-glass padded center}
+[Back to Home](index.html){button secondary large} [Getting Started](getting-started.html){button primary large hover-lift}
+:::
 

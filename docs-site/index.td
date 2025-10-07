@@ -8,315 +8,458 @@
 
 # Taildown {huge-bold center primary}
 
-**Beautiful documents. Zero configuration. Plain English.** {center large}
+**Write markdown. Get magic.** {center large muted}
 
-The revolutionary markup language that makes creating stunning, interactive web content as simple as writing. {center}
+The markup language that transforms plain English into stunning, interactive web pages - zero configuration required. {center}
 
 ---
 
-[Get Started](getting-started.html){button primary large hover-lift}
+:::card {light-glass padded center fade-in}
+[Get Started in 5 Minutes](getting-started.html){button primary large hover-lift} [View Documentation](syntax-guide.html){button secondary large}
+:::
+
+---
+
+## What Is Taildown? {large-bold primary center}
+
+**Taildown is a superset of Markdown** that adds powerful features while maintaining full backwards compatibility. Write natural English styling instead of CSS classes, create interactive components with simple syntax, and compile to beautiful HTML + CSS + JavaScript. {center muted large}
+
+:::grid {3}
+:::card {subtle-glass hover-lift fade-in}
+### :icon[zap]{warning huge} Zero Config {medium-bold center}
+
+Beautiful, professional styling out of the box. No setup, no configuration files, no webpack. Just write and compile.
+
+**What you get:**
+- Modern glassmorphism effects
+- Automatic dark mode
+- Responsive design
+- Smooth animations
+:::
+
+:::card {subtle-glass hover-lift fade-in}
+### :icon[type]{primary huge} Plain English {medium-bold center}
+
+Use natural language for styling - `{large-bold primary center}` instead of cryptic CSS classes.
+
+**Natural syntax:**
+- `{huge-bold}` not `{.text-4xl .font-bold}`
+- `{light-glass}` not `{.bg-white/75 .backdrop-blur}`
+- `{hover-lift}` not `{.hover:translate-y-1}`
+:::
+
+:::card {subtle-glass hover-lift fade-in}
+### :icon[moon]{accent huge} Dark Mode Built-in {medium-bold center}
+
+Every Taildown document includes automatic dark mode with system detection, localStorage persistence, and smooth transitions.
+
+**Features:**
+- Auto-toggle button
+- System preference detection
+- 300ms smooth transitions
+- Zero JavaScript required
+:::
+:::
+
+---
+
+## See It In Action {large-bold primary center}
+
+### Example: Create a Beautiful Card {medium-bold}
+
+:::tabs
+## Taildown Syntax
+
+Write this:
+
+```taildown
+:::card {light-glass padded-lg hover-lift}
+## Welcome! {large-bold primary}
+
+This card has glassmorphism, padding, and hover effects with **zero CSS**.
+
+[Click Me](#){button primary hover-lift}
+:::
+```
+
+Natural English. Readable. Powerful.
+
+## Traditional HTML/CSS
+
+Would require:
+
+```html
+<div class="backdrop-blur-md bg-white/75 border border-white/50 
+     rounded-xl shadow-lg p-8 transition-transform 
+     hover:-translate-y-1">
+  <h2 class="text-2xl font-bold text-blue-600">Welcome!</h2>
+  <p>This card has glassmorphism, padding, and hover effects 
+     with <strong>zero CSS</strong>.</p>
+  <a href="#" class="inline-block px-6 py-3 bg-blue-600 
+     text-white rounded-lg hover:-translate-y-0.5">
+    Click Me
+  </a>
+</div>
+```
+
+Plus custom CSS for dark mode, animations, etc.
+:::
+
+---
+
+## Core Features {large-bold primary center}
+
+:::tabs
+## Plain English Styling
+
+**Natural language replaces cryptic CSS classes**
+
+| Instead of This | Write This |
+|----------------|------------|
+| `.text-4xl .font-bold` | `{huge-bold}` |
+| `.bg-blue-600 .text-white` | `{primary-bg}` |
+| `.rounded-lg .shadow-xl` | `{rounded-lg elevated}` |
+| `.hover:translate-y-1` | `{hover-lift}` |
+
+Everything reads like English. Everything makes sense.
+
+## Components
+
+**18+ built-in components with zero configuration**
+
+```taildown
+:::card {light-glass}
+Card with glassmorphism
+:::
+
+:::tabs
+## Tab One
+Content for tab one
+## Tab Two  
+Content for tab two
+:::
+
+:::alert {success}
+Operation completed successfully!
+:::
+```
+
+Tabs, accordions, carousels, modals, tooltips, and more.
+
+## Icons
+
+**1000+ Lucide icons with simple syntax**
+
+```taildown
+:icon[check]{success} Task complete
+:icon[heart]{error large} Love it
+:icon[zap]{warning huge} Fast
+```
+
+Icons adapt to dark mode, resize naturally, and integrate perfectly.
+
+## Glassmorphism
+
+**Frosted glass effects in four variants**
+
+```taildown
+:::card {subtle-glass}
+90% transparency - very subtle
+:::
+
+:::card {light-glass}
+75% transparency - light frosted
+:::
+
+:::card {glass}
+60% transparency - standard
+:::
+
+:::card {heavy-glass}
+40% transparency - heavy frosted
+:::
+```
+
+All with backdrop blur, gradient borders, and smooth transitions.
+
+## Animations
+
+**Scroll-triggered and hover animations**
+
+```taildown
+:::card {fade-in hover-lift}
+Fades in on scroll, lifts on hover
+:::
+
+:::grid {3}
+:::card {slide-up}
+Slides up when scrolled into view
+:::
+:::card {zoom-in}
+Zooms in from center
+:::
+:::card {slide-left}
+Slides from the right
+:::
+:::
+```
+
+Smooth, performant, GPU-accelerated.
+
+## Dark Mode
+
+**Automatic with smooth transitions**
+
+- System preference detection on first visit
+- Floating toggle button (bottom-right)
+- LocalStorage persistence
+- 300ms smooth transitions
+- CSS variables for theming
+- Works everywhere instantly
+
+**Try it now!** Click the moon/sun button :icon[arrow-down]{primary}
+:::
+
+---
+
+## Interactive Components {large-bold primary center}
+
+**Zero-config tabs, accordions, modals, tooltips, and carousels** {center muted}
+
+:::grid {2}
+:::card {light-glass}
+### :icon[layout]{primary} Tabs {medium-bold}
+
+Headings become tabs automatically:
+
+```taildown
+:::tabs
+## First Tab
+Content for first tab
+## Second Tab
+Content for second tab
+:::
+```
+
+**Features:**
+- Click or keyboard navigation
+- ARIA accessible
+- Smooth transitions
+- Centered, responsive layout
+:::
+
+:::card {light-glass}
+### :icon[list]{accent} Accordion {medium-bold}
+
+Bold text becomes triggers:
+
+```taildown
+:::accordion
+**First Section**
+Content for first section
+**Second Section**
+Content for second section
+:::
+```
+
+**Features:**
+- Click to expand/collapse
+- First item open by default
+- Smooth animations
+- Full ARIA support
+:::
+
+:::card {light-glass}
+### :icon[image]{success} Carousel {medium-bold}
+
+Horizontal rules divide slides:
+
+```taildown
+:::carousel
+First slide
+
+---
+
+Second slide
+
+---
+
+Third slide
+:::
+```
+
+**Features:**
+- 3D card effects
+- Swipe support
+- Navigation buttons
+- Indicator dots
+:::
+
+:::card {light-glass}
+### :icon[message-square]{warning} Modals & Tooltips {medium-bold}
+
+Attach to ANY element:
+
+```taildown
+[Click Me](#){button modal="Hello!"}
+
+[Help](#){tooltip="Helpful tip"}
+```
+
+**Features:**
+- One-line syntax
+- Full markdown support
+- ID references for reuse
+- Backdrop blur effects
+:::
+:::
 
 ---
 
 ## Why Taildown? {large-bold primary center}
 
-:::grid {3}
-:::card {light-glass fade-in hover-lift}
-### :icon[zap]{warning huge} Zero Config Beauty {medium-bold center}
-
-Beautiful, professional styling right out of the box. No setup, no configuration files, no build steps. Just write and compile.
-
-**Perfect for:**
-- Rapid prototyping
-- Documentation sites
-- Landing pages
-- Blog posts
-:::
-
-:::card {light-glass fade-in hover-lift}
-### :icon[type]{primary huge} Plain English Syntax {medium-bold center}
-
-Use natural language like `{huge-bold primary center}` instead of cryptic CSS classes. Reads like English, compiles to beautiful HTML and CSS.
-
-**Features:**
-- Natural grammar
-- Intuitive styling
-- Zero learning curve
-- Self-documenting
-:::
-
-:::card {light-glass fade-in hover-lift}
-### :icon[moon]{accent huge} Dark Mode Built-in {medium-bold center}
-
-Automatic dark mode with smooth transitions, localStorage persistence, and system preference detection. Works everywhere, instantly.
-
-**Includes:**
-- Auto-toggle button
-- Smooth transitions
-- System detection
-- Zero JavaScript needed
-:::
-:::
-
----
-
-## Key Features {large-bold primary center}
-
 :::grid {2}
-:::card {subtle-glass slide-up}
-### :icon[check-circle]{success} Core Capabilities {medium-bold}
+:::card {elevated hover-lift}
+### :icon[check-circle]{success} For You {large-bold success}
 
-- :icon[check]{success xs} **Markdown Compatible** - Standard Markdown works without modification
-- :icon[check]{success xs} **Plain English Styling** - Natural language attributes like `{large-bold primary}`
-- :icon[check]{success xs} **Icon System** - Built-in Lucide icons with `:icon[name]` syntax
-- :icon[check]{success xs} **Modern Effects** - Glassmorphism, animations, and smooth transitions
-- :icon[check]{success xs} **Fast Compilation** - Sub-100ms compile times for instant feedback
-- :icon[check]{success xs} **Semantic HTML5** - Clean, accessible markup generation
+- :icon[check]{success xs} **Zero learning curve** - If you know Markdown, you know Taildown
+- :icon[check]{success xs} **Beautiful by default** - Professional styling without design skills  
+- :icon[check]{success xs} **Plain English** - Natural language instead of cryptic classes
+- :icon[check]{success xs} **Fast development** - Build in minutes, not hours
+- :icon[check]{success xs} **No build tools** - Single command compilation
+- :icon[check]{success xs} **Dark mode free** - Automatic, everywhere
 :::
 
-:::card {subtle-glass slide-up}
-### :icon[layers]{accent} Interactive Components {medium-bold}
+:::card {elevated hover-lift}
+### :icon[code]{primary} For Your Projects {large-bold primary}
 
-- :icon[layout]{primary xs} **Tabs** - Zero-config tabbed interfaces
-- :icon[list]{primary xs} **Accordion** - Collapsible sections
-- :icon[image]{primary xs} **Carousel** - Image/content sliders with 3D effects
-- :icon[message-square]{primary xs} **Modal** - Dialog boxes with backdrop blur
-- :icon[info]{primary xs} **Tooltip** - Contextual help on hover/click
-- :icon[code]{primary xs} **Syntax Highlighting** - Beautiful code blocks with copy button
-:::
-
-:::card {subtle-glass slide-up}
-### :icon[sparkles]{warning} Attachable Components {medium-bold}
-
-Revolutionary one-line modals and tooltips:
-
-```taildown
-[Click Me](#){button modal="Simple message!"}
-[Help](#){tooltip="Quick tip"}
-```
-
-- Attach to ANY element
-- Full Markdown support
-- ID references for reusability
-- Zero JavaScript configuration
-:::
-
-:::card {subtle-glass slide-up}
-### :icon[zap]{info} Smart Defaults {medium-bold}
-
-- :icon[palette]{accent xs} **Semantic Colors** - `primary`, `success`, `warning`, `error`
-- :icon[wind]{primary xs} **Glassmorphism** - Frosted glass effects with variants
-- :icon[move]{success xs} **Scroll Animations** - Entrance animations on scroll
-- :icon[grid-3x3]{warning xs} **Responsive Grids** - Mobile-first, adaptive layouts
-- :icon[sun]{error xs} **Dark Mode** - Automatic with smooth transitions
-- :icon[accessibility]{info xs} **Accessible** - ARIA support, keyboard navigation
+- :icon[check]{primary xs} **Self-contained output** - Single HTML file with embedded styles
+- :icon[check]{primary xs} **Mobile optimized** - Responsive by default
+- :icon[check]{primary xs} **Accessible** - ARIA attributes, keyboard navigation
+- :icon[check]{primary xs} **Performant** - GPU-accelerated, optimized CSS
+- :icon[check]{primary xs} **SEO friendly** - Semantic HTML5
+- :icon[check]{primary xs} **Framework free** - Vanilla JavaScript, no dependencies
 :::
 :::
 
 ---
 
-## Quick Start {id="get-started" large-bold primary center}
+## Perfect For {large-bold primary center}
+
+:::grid {4}
+:::card {subtle-glass center}
+:icon[book-open]{primary huge}
+
+**Documentation** {medium-bold}
+
+Technical docs, API references, user guides
+:::
+
+:::card {subtle-glass center}
+:icon[layout]{accent huge}
+
+**Landing Pages** {medium-bold}
+
+Product pages, portfolios, SaaS sites
+:::
+
+:::card {subtle-glass center}
+:icon[file-text]{success huge}
+
+**Blog Posts** {medium-bold}
+
+Articles, tutorials, long-form content
+:::
+
+:::card {subtle-glass center}
+:icon[zap]{warning huge}
+
+**Prototyping** {medium-bold}
+
+Rapid mockups, design exploration
+:::
+:::
+
+---
+
+## Quick Start {large-bold primary center}
 
 Get up and running in under 2 minutes: {center muted}
 
-:::tabs
-## :icon[download]{primary xs} Installation
-
-Install Taildown from npm or clone the repository:
+:::card {heavy-glass padded-lg}
+### :icon[download]{primary} Step 1: Install {medium-bold}
 
 ```bash
 # Via npm (coming soon)
 npm install -g taildown
 
-# Or clone the repository
+# Or clone repository
 git clone https://github.com/vincitamore/taildown.git
-cd taildown
-
-# Install dependencies
-pnpm install
-
-# Build packages
-pnpm build
+cd taildown && pnpm install && pnpm build
 ```
 
-## :icon[file-text]{accent xs} Create Document
+### :icon[file-text]{accent} Step 2: Create Document {medium-bold}
 
-Create a file named `hello.td`:
+Create `hello.td`:
 
 ```taildown
-# Welcome to Taildown {huge-bold center primary}
+# Hello World {huge-bold center primary}
 
-Build beautiful documents with plain English syntax! {large muted center}
+Welcome to Taildown! {large center muted}
 
-:::card {light-glass slide-up}
-### :icon[heart]{error} Why You'll Love It {medium-bold}
+:::card {light-glass hover-lift}
+## Your First Card {medium-bold}
 
-- **Zero configuration** - Beautiful by default
-- **Plain English** - No CSS knowledge needed
-- **Dark mode** - Built-in and automatic
-- **Fast** - Compile in milliseconds
+Beautiful by default with zero configuration.
 
 [Get Started](#){button primary hover-lift}
 :::
 ```
 
-## :icon[terminal]{success xs} Compile
-
-Compile your document to HTML:
+### :icon[terminal]{success} Step 3: Compile {medium-bold}
 
 ```bash
-# Basic compilation
 pnpm taildown compile hello.td
-
-# With dark mode (enabled by default)
-pnpm taildown compile hello.td
-
-# Separate CSS file
-pnpm taildown compile hello.td --separate
 ```
 
-**Output:**
-- `hello.html` - Self-contained HTML with embedded CSS
-- JavaScript automatically included inline if interactive components used
-
-Open `hello.html` in your browser to see your beautiful, dark-mode-enabled document!
+**Output:** `hello.html` - Self-contained, dark mode enabled, ready to deploy!
 :::
 
 ---
 
-## Dark Mode Showcase {id="dark-mode" large-bold primary center}
+## Real-World Examples {large-bold primary center}
 
-Taildown includes automatic dark mode with zero configuration: {center muted}
-
-:::card {heavy-glass padded}
-### :icon[moon]{accent} How It Works {large-bold center}
+**See what people are building with Taildown** {center muted}
 
 :::grid {3}
-:::card {elevated}
-### 1. Auto-Detection {medium-bold center}
+:::card {light-glass zoom-in hover-lift}
+### :icon[globe]{primary huge} {center}
 
-Automatically detects system preference on first visit using `prefers-color-scheme`.
+**This Documentation** {large-bold center}
+
+This entire site is written in Taildown. View source to see how!
+
+[View Source](https://github.com/vincitamore/taildown/tree/main/docs-site){button secondary small}
 :::
 
-:::card {elevated}
-### 2. Toggle Button {medium-bold center}
+:::card {light-glass zoom-in hover-lift}
+### :icon[file-text]{accent huge} {center}
 
-Floating toggle button (bottom-right by default) with smooth icon transitions.
+**Plain English Guide** {large-bold center}
+
+Comprehensive reference with tables, tabs, and examples.
+
+[View Example](plain-english.html){button secondary small}
 :::
 
-:::card {elevated}
-### 3. Persistence {medium-bold center}
+:::card {light-glass zoom-in hover-lift}
+### :icon[book-open]{success huge} {center}
 
-Saves preference to localStorage for consistent experience across visits.
-:::
-:::
+**Getting Started** {large-bold center}
 
-**Features:**
-- :icon[check]{success xs} Smooth 300ms transitions between themes
-- :icon[check]{success xs} CSS variables for dynamic theming
-- :icon[check]{success xs} Auto-injected toggle button
-- :icon[check]{success xs} System preference detection
-- :icon[check]{success xs} LocalStorage persistence
-- :icon[check]{success xs} Zero configuration required
+Tutorial with interactive components and code examples.
 
-:::alert {info}
-:icon[lightbulb]{info} **Try it now!** Click the moon/sun icon in the bottom-right corner to toggle between light and dark modes. Your preference will be saved automatically.
-:::
-:::
-
----
-
-## Examples {id="examples" large-bold primary center}
-
-Explore real-world examples showcasing Taildown's capabilities: {center muted}
-
-:::grid {3}
-:::card {light-glass zoom-in interactive}
-### :icon[home]{primary} Landing Page {medium-bold}
-
-Complete SaaS landing page with hero section, features grid, and call-to-action. Demonstrates glassmorphism and scroll animations.
-
-[View Example](examples/landing-page.html){button primary small}
-:::
-
-:::card {light-glass zoom-in interactive}
-### :icon[book]{accent} Documentation {medium-bold}
-
-Technical documentation with syntax highlighting, code examples, and interactive tabs. Shows component organization.
-
-[View Example](examples/documentation.html){button secondary small}
-:::
-
-:::card {light-glass zoom-in interactive}
-### :icon[file-text]{success} Blog Post {medium-bold}
-
-Long-form blog post with images, code blocks, and beautiful typography. Demonstrates content-focused design.
-
-[View Example](examples/blog-post.html){button info small}
-:::
-
-:::card {light-glass zoom-in interactive}
-### :icon[briefcase]{warning} Portfolio {medium-bold}
-
-Personal portfolio with project showcase, glass effects, and interactive hover states.
-
-[View Example](examples/portfolio.html){button primary small}
-:::
-
-:::card {light-glass zoom-in interactive}
-### :icon[palette]{error} Component Library {medium-bold}
-
-Complete showcase of all 18+ Taildown components with variants and customization options.
-
-[View Example](examples/components.html){button secondary small}
-:::
-
-:::card {light-glass zoom-in interactive}
-### :icon[zap]{info} Interactive Demo {medium-bold}
-
-Tabs, accordions, carousels, modals, and tooltips in action. Full interactivity showcase.
-
-[View Example](examples/interactive.html){button info small}
-:::
-:::
-
----
-
-## Documentation {large-bold primary center}
-
-Comprehensive guides to master Taildown: {center muted}
-
-:::grid {2}
-:::card {elevated hover-lift}
-### :icon[book-open]{primary} Syntax Guide {large-bold}
-
-Learn the complete Taildown syntax from basics to advanced features.
-
-[Read Syntax Guide](syntax-guide.html){button primary}
-:::
-
-:::card {elevated hover-lift}
-### :icon[type]{accent} Plain English Reference {large-bold}
-
-Complete reference of all plain English styling shorthands.
-
-[View Reference](plain-english.html){button secondary}
-:::
-
-:::card {elevated hover-lift}
-### :icon[package]{success} Components {large-bold}
-
-Documentation for all 18+ built-in components with examples.
-
-[Browse Components](components.html){button info}
-:::
-
-:::card {elevated hover-lift}
-### :icon[settings]{warning} Configuration {large-bold}
-
-Customize colors, fonts, and defaults with `taildown.config.js`.
-
-[Configuration Guide](configuration.html){button primary}
+[View Example](getting-started.html){button secondary small}
 :::
 :::
 
@@ -325,60 +468,59 @@ Customize colors, fonts, and defaults with `taildown.config.js`.
 ## Community & Support {large-bold primary center}
 
 :::card {subtle-glass padded}
-### Get Help & Contribute {large-bold center}
+### Get Involved {large-bold center}
 
 :::grid {4}
-:::card {elevated}
-:icon[github]{primary huge} {center}
+:::card {elevated hover-lift center}
+:icon[github]{primary huge}
 
-**GitHub** {large-bold center}
+**GitHub** {medium-bold}
 
-Star, fork, and contribute on GitHub.
+Star, fork, contribute
 
 [Repository](https://github.com/vincitamore/taildown){button primary small}
 :::
 
-:::card {elevated}
-:icon[message-circle]{accent huge} {center}
+:::card {elevated hover-lift center}
+:icon[message-circle]{accent huge}
 
-**Discussions** {large-bold center}
+**Discussions** {medium-bold}
 
-Ask questions and share ideas.
+Ask questions, share ideas
 
-[Join Discussion](https://github.com/vincitamore/taildown/discussions){button secondary small}
+[Join](https://github.com/vincitamore/taildown/discussions){button secondary small}
 :::
 
-:::card {elevated}
-:icon[bug]{error huge} {center}
+:::card {elevated hover-lift center}
+:icon[bug]{error huge}
 
-**Issues** {large-bold center}
+**Issues** {medium-bold}
 
-Report bugs and request features.
+Report bugs, request features
 
 [Open Issue](https://github.com/vincitamore/taildown/issues){button info small}
 :::
 
-:::card {elevated}
-:icon[book]{success huge} {center}
+:::card {elevated hover-lift center}
+:icon[book]{success huge}
 
-**Documentation** {large-bold center}
+**Documentation** {medium-bold}
 
-Read the full documentation.
+Complete reference
 
-[Read Docs](docs/){button primary small}
+[Read Docs](syntax-guide.html){button primary small}
 :::
 :::
 :::
 
 ---
 
-:::card {heavy-glass padded}
-:icon[heart]{error huge} {center}
+:::card {heavy-glass padded-xl center}
+:icon[heart]{error huge}
 
-**Made with Taildown** {huge-bold center primary}
+**Ready to build something beautiful?** {huge-bold primary}
 
-This entire documentation site is written in Taildown syntax and compiled to static HTML with dark mode, glassmorphism, and scroll animations. View the source to see how it's done! {large center muted}
+Get started in 5 minutes. No configuration. No complexity. Just pure creative flow. {large muted}
 
-[View Source](https://github.com/vincitamore/taildown/tree/main/docs-site){button accent large hover-lift}
+[Get Started Now](getting-started.html){button primary large hover-lift} [View Full Syntax Guide](syntax-guide.html){button secondary large}
 :::
-

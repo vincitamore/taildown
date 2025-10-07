@@ -1760,6 +1760,93 @@ ${generateThemeCSS()}
 }
 
 /* ========================================
+ * ALERT COMPONENT
+ * Semantic alert boxes with proper theming
+ * ======================================== */
+
+.alert {
+  padding: 1rem 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Info variant */
+.alert-info {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: var(--info);
+}
+
+.dark .alert-info {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #60a5fa;
+}
+
+/* Success variant */
+.alert-success {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: var(--success);
+}
+
+.dark .alert-success {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #34d399;
+}
+
+/* Warning variant */
+.alert-warning {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--warning);
+}
+
+.dark .alert-warning {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+}
+
+/* Error variant */
+.alert-error {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: var(--error);
+}
+
+.dark .alert-error {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #f87171;
+}
+
+/* Alert content */
+.alert > * {
+  margin: 0;
+}
+
+/* Alert with icons */
+.alert .icon {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .alert {
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* ========================================
  * ACCORDION COMPONENT
  * ======================================== */
 
