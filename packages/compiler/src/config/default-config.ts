@@ -25,17 +25,17 @@ export const DEFAULT_CONFIG: TaildownConfig = {
     colors: {
       // Primary: Modern blue (trustworthy, professional)
       primary: {
-        DEFAULT: '#3b82f6',
+        DEFAULT: '#82a0ff',
         50: '#eff6ff',
         100: '#dbeafe',
         200: '#bfdbfe',
         300: '#93c5fd',
         400: '#60a5fa',
-        500: '#3b82f6',
-        600: '#2563eb',
-        700: '#1d4ed8',
-        800: '#1e40af',
-        900: '#1e3a8a',
+        500: '#82a0ff',
+        600: '#6a8eef',
+        700: '#527bde',
+        800: '#3b69cd',
+        900: '#2356bc',
         950: '#172554',
       },
 

@@ -79,7 +79,7 @@ export function getLightModeColors(config: TaildownConfig): LightModeColors {
     warningForeground: '#ffffff',
     error: config.theme?.colors?.error || '#ef4444',
     errorForeground: '#ffffff',
-    info: config.theme?.colors?.info || '#3b82f6',
+    info: config.theme?.colors?.info || '#82a0ff',
     infoForeground: '#ffffff',
     
     card: '#ffffff',
@@ -114,7 +114,7 @@ export function getDarkModeColors(config: TaildownConfig): DarkModeColors {
     warningForeground: '#15202b',  // Dark text on bright warning
     error: config.theme?.colors?.error || '#ef4444',
     errorForeground: '#ffffff',
-    info: config.theme?.colors?.info || '#3b82f6',
+    info: config.theme?.colors?.info || '#82a0ff',
     infoForeground: '#ffffff',
     
     card: '#192734',        // Slightly lighter than background for depth

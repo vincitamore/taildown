@@ -320,7 +320,7 @@ export const taildownDarkHighlightStyle = [
   
   // Icons
   { tag: t.special(t.keyword), color: '#d97706', fontWeight: 'bold' }, // Orange for :icon
-  { tag: t.function(t.name), color: '#3b82f6' }, // Blue for icon names
+  { tag: t.function(t.name), color: '#82a0ff' }, // Blue for icon names
   { tag: t.squareBracket, color: '#9ca3af' }, // Light gray for brackets
   
   // Markdown
