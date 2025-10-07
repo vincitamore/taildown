@@ -134,6 +134,9 @@ export async function compile(
     usedComponents.add('copy-code');
   }
   
+  // Navbar components are already tracked via containerDirective detection
+  // Just verify it's in the set for JavaScript generation
+  
   // Generate CSS from collected classes
   const css = generateCSS(classes, options.minify);
 

@@ -872,14 +872,22 @@ function renderGenericComponent(state: State, node: ContainerDirectiveNode): Ele
     }
   }
   
-  // Build the element
+  // Build the element properties
+  const properties: Record<string, any> = {
+    className: classes.length > 0 ? classes : undefined,
+    ...htmlAttributes
+  };
+  
+  // Add data-component attribute for components that have interactive behaviors
+  // This allows JavaScript behaviors to be attached (e.g., navbar scroll effect)
+  if (component) {
+    properties['data-component'] = componentName;
+  }
+  
   const element: Element = {
     type: 'element',
     tagName,
-    properties: {
-      className: classes.length > 0 ? classes : undefined,
-      ...htmlAttributes
-    },
+    properties,
     children
   };
   

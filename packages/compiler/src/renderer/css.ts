@@ -540,8 +540,11 @@ body {
   width: 100%;
 }
 
-/* Regular links (not buttons/badges/navbar links) */
-a:not([class*="button"]):not([class*="badge"]):not(.navbar a) {
+/* Regular links (not buttons/badges/navbar links) - only apply to plain links */
+p > a:not([class*="button"]):not([class*="badge"]),
+li > a:not([class*="button"]):not([class*="badge"]),
+td > a:not([class*="button"]):not([class*="badge"]),
+th > a:not([class*="button"]):not([class*="badge"]) {
   color: var(--primary);
   text-decoration: none;
   border-bottom: 1px solid transparent;
@@ -549,12 +552,18 @@ a:not([class*="button"]):not([class*="badge"]):not(.navbar a) {
   font-weight: 500;
 }
 
-a:not([class*="button"]):not([class*="badge"]):not(.navbar a):hover {
+p > a:not([class*="button"]):not([class*="badge"]):hover,
+li > a:not([class*="button"]):not([class*="badge"]):hover,
+td > a:not([class*="button"]):not([class*="badge"]):hover,
+th > a:not([class*="button"]):not([class*="badge"]):hover {
   border-bottom-color: var(--primary);
   opacity: 0.85;
 }
 
-a:not([class*="button"]):not([class*="badge"]):not(.navbar a):active {
+p > a:not([class*="button"]):not([class*="badge"]):active,
+li > a:not([class*="button"]):not([class*="badge"]):active,
+td > a:not([class*="button"]):not([class*="badge"]):active,
+th > a:not([class*="button"]):not([class*="badge"]):active {
   opacity: 0.7;
 }
 
