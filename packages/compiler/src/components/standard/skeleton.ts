@@ -8,7 +8,7 @@ import { defineComponent } from '../component-registry';
 export const skeletonComponent = defineComponent({
   name: 'skeleton',
   htmlElement: 'div',
-  defaultClasses: ['skeleton', 'bg-gray-200', 'rounded', 'animate-pulse'],
+  defaultClasses: ['skeleton', 'bg-muted', 'rounded', 'animate-pulse'],
   variants: {
     default: [],
     text: ['h-4', 'w-full'],

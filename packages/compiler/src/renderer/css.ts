@@ -1056,7 +1056,7 @@ tbody tr:last-child {
 }
 
 tbody tr:hover {
-  background: #f9fafb;
+  background: var(--muted);
   transition: background 150ms ease;
 }
 
@@ -1120,7 +1120,7 @@ tbody td:first-child {
 }
 
 tbody tr:hover td:first-child {
-  background: #f9fafb;
+  background: var(--muted);
 }
 
 /* Remove sticky on larger screens where it's not needed */
@@ -1399,8 +1399,8 @@ ${generateThemeCSS()}
 }
 
 .tab-button[aria-selected="false"]:hover {
-  color: rgb(17 24 39);
-  border-color: rgb(209 213 219);
+  color: var(--foreground);
+  border-color: var(--border);
 }
 
 .tab-panel[hidden] {
@@ -1430,7 +1430,7 @@ ${generateThemeCSS()}
 }
 
 .accordion-trigger:hover {
-  background-color: rgb(249 250 251);
+  background-color: var(--muted);
 }
 
 .accordion-content[hidden] {
@@ -1503,7 +1503,7 @@ ${generateThemeCSS()}
 
 .carousel-prev:hover,
 .carousel-next:hover {
-  background-color: rgb(243 244 246);
+  background-color: var(--muted);
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
@@ -1541,7 +1541,8 @@ ${generateThemeCSS()}
 }
 
 .carousel-indicator:hover {
-  background-color: rgb(75 85 99);
+  background-color: var(--foreground);
+  opacity: 0.5;
 }
 
 /* ========================================
@@ -2086,8 +2087,8 @@ ${generateThemeCSS()}
 }
 
 .flow-minimal li:hover {
-  border-color: rgb(59 130 246);
-  background: rgb(239 246 255);
+  border-color: var(--primary);
+  background: var(--muted);
 }
 
 /* Dark theme */
@@ -2098,8 +2099,8 @@ ${generateThemeCSS()}
 }
 
 .flow-dark li:hover {
-  background: rgb(55 65 81);
-  border-color: rgb(96 165 250);
+  background: var(--muted);
+  border-color: var(--primary);
 }
 
 /* Glass variant */
@@ -2153,46 +2154,7 @@ ${generateThemeCSS()}
   border-width: 1px;
 }
 
-/* Button Styles - shadcn-inspired */
-a.bg-blue-600 {
-  display: inline-block;
-  text-decoration: none;
-  position: relative;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 1px 3px 0 rgb(0 0 0 / 0.1);
-  transform: translateY(0);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-a.bg-blue-600:hover {
-  background-color: rgb(37 99 235); /* blue-700 */
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  transform: translateY(-1px);
-}
-
-a.bg-blue-600:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-}
-
-a.bg-gray-200 {
-  display: inline-block;
-  text-decoration: none;
-  position: relative;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 1px 3px 0 rgb(0 0 0 / 0.1);
-  transform: translateY(0);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-a.bg-gray-200:hover {
-  background-color: rgb(229 231 235); /* gray-300 */
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  transform: translateY(-1px);
-}
-
-a.bg-gray-200:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-}
+/* Note: Link button styles removed - buttons should use the {button} attribute which properly handles hover states with theme colors */
 `);
 
   const css = cssRules.join('\n');

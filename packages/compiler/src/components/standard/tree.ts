@@ -60,9 +60,9 @@ export const treeComponent: ComponentDefinition = defineComponent({
     'text-sm',
     'overflow-x-auto',
     'rounded-lg',
-    'bg-gray-50',
+    'bg-muted',
     'border',
-    'border-gray-200',
+    'border-border',
     'p-4',
   ],
   
@@ -74,14 +74,14 @@ export const treeComponent: ComponentDefinition = defineComponent({
     // Default: Modern clean tree with subtle visual indicators
     default: [
       'tree-default',
-      'text-gray-800',
+      'text-foreground',
     ],
     
     // VS Code: Chevrons and connecting lines like VS Code's file tree
     vscode: [
       'tree-vscode',
-      'bg-white',
-      'border-gray-300',
+      'bg-card',
+      'border-border',
     ],
     
     // Minimal: Ultra-clean with minimal visual clutter
@@ -95,8 +95,8 @@ export const treeComponent: ComponentDefinition = defineComponent({
     // Boxed: Traditional box-drawing characters
     boxed: [
       'tree-boxed',
-      'bg-white',
-      'border-gray-300',
+      'bg-card',
+      'border-border',
     ],
     
     // Rounded: Soft rounded connectors
@@ -110,15 +110,15 @@ export const treeComponent: ComponentDefinition = defineComponent({
     // Colored: Color-coded by depth
     colored: [
       'tree-colored',
-      'bg-white',
+      'bg-card',
     ],
     
     // Dark: Dark theme tree
     dark: [
       'tree-dark',
-      'bg-gray-900',
-      'border-gray-700',
-      'text-gray-100',
+      'bg-card',
+      'border-border',
+      'text-card-foreground',
     ],
     
     // Glass: Glassmorphism effect

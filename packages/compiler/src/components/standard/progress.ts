@@ -8,7 +8,7 @@ import { defineComponent } from '../component-registry';
 export const progressComponent = defineComponent({
   name: 'progress',
   htmlElement: 'div',
-  defaultClasses: ['progress', 'w-full', 'bg-gray-200', 'rounded-full', 'overflow-hidden'],
+  defaultClasses: ['progress', 'w-full', 'bg-muted', 'rounded-full', 'overflow-hidden'],
   variants: {
     default: [],
     striped: ['bg-gradient-to-r'],

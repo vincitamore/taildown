@@ -8,7 +8,7 @@ import { defineComponent } from '../component-registry';
 export const tabsComponent = defineComponent({
   name: 'tabs',
   htmlElement: 'div',
-  defaultClasses: ['tabs', 'border-b', 'border-gray-200'],
+  defaultClasses: ['tabs', 'border-b', 'border-border'],
   variants: {
     default: [],
     boxed: ['border', 'rounded-lg', 'p-4'],
