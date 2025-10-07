@@ -43,8 +43,6 @@
             "break-words",
             "glass-effect",
             "glass-subtle",
-            "bg-glass-subtle",
-            "border-white/40",
             "shadow-sm"
           ],
           "data-component": "card"
@@ -207,8 +205,6 @@
             "break-words",
             "glass-effect",
             "glass-subtle",
-            "bg-glass-subtle",
-            "border-white/40",
             "shadow-sm"
           ],
           "data-component": "card"
@@ -248,8 +244,6 @@
             "break-words",
             "glass-effect",
             "glass-subtle",
-            "bg-glass-subtle",
-            "border-white/40",
             "shadow-sm"
           ],
           "data-component": "card"

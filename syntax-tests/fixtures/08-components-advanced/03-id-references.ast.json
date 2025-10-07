@@ -142,8 +142,10 @@
                 "hover:bg-blue-700",
                 "active:bg-blue-800",
                 "shadow-md",
-                "hover:shadow-lg"
+                "hover:shadow-lg",
+                "modal=\"\""
               ],
+              "id": "modal-1",
               "data-modal-attach": "#modal-1"
             }
           }
@@ -216,8 +218,10 @@
                 "hover:bg-blue-700",
                 "active:bg-blue-800",
                 "shadow-md",
-                "hover:shadow-lg"
+                "hover:shadow-lg",
+                "modal=\"\""
               ],
+              "id": "modal-2",
               "data-modal-attach": "#modal-2"
             }
           }
@@ -290,8 +294,10 @@
                 "hover:bg-blue-700",
                 "active:bg-blue-800",
                 "shadow-md",
-                "hover:shadow-lg"
+                "hover:shadow-lg",
+                "modal=\"\""
               ],
+              "id": "modal-3",
               "data-modal-attach": "#modal-3"
             }
           }
@@ -600,6 +606,10 @@
           },
           "data": {
             "hProperties": {
+              "className": [
+                "tooltip=\"\""
+              ],
+              "id": "tip-1",
               "data-tooltip-attach": "#tip-1"
             }
           }
@@ -656,6 +666,10 @@
           },
           "data": {
             "hProperties": {
+              "className": [
+                "tooltip=\"\""
+              ],
+              "id": "tip-2",
               "data-tooltip-attach": "#tip-2"
             }
           }
@@ -712,6 +726,10 @@
           },
           "data": {
             "hProperties": {
+              "className": [
+                "tooltip=\"\""
+              ],
+              "id": "tip-3",
               "data-tooltip-attach": "#tip-3"
             }
           }
@@ -877,8 +895,10 @@
                 "hover:bg-blue-700",
                 "active:bg-blue-800",
                 "shadow-md",
-                "hover:shadow-lg"
+                "hover:shadow-lg",
+                "modal=\"\""
               ],
+              "id": "shared",
               "data-modal-attach": "#shared"
             }
           }
@@ -951,8 +971,10 @@
                 "hover:bg-purple-700",
                 "active:bg-purple-800",
                 "shadow-md",
-                "hover:shadow-lg"
+                "hover:shadow-lg",
+                "modal=\"\""
               ],
+              "id": "shared",
               "data-modal-attach": "#shared"
             }
           }
@@ -1026,8 +1048,10 @@
                 "active:bg-blue-800",
                 "shadow-md",
                 "hover:shadow-lg",
-                "text-red-600"
+                "text-red-600",
+                "modal=\"\""
               ],
+              "id": "shared",
               "data-modal-attach": "#shared"
             }
           }
@@ -1222,8 +1246,10 @@
                 "hover:bg-blue-700",
                 "active:bg-blue-800",
                 "shadow-md",
-                "hover:shadow-lg"
+                "hover:shadow-lg",
+                "modal=\"\""
               ],
+              "id": "help-modal",
               "data-modal-attach": "#help-modal",
               "data-tooltip-attach": "Click to open help"
             }
@@ -1301,6 +1327,10 @@
           },
           "data": {
             "hProperties": {
+              "className": [
+                "tooltip=\"\""
+              ],
+              "id": "info-tip",
               "data-tooltip-attach": "#info-tip"
             }
           }
@@ -1509,8 +1539,10 @@
                 "shadow-md",
                 "hover:shadow-lg",
                 "text-lg",
+                "modal=\"\"",
                 "custom-class"
               ],
+              "id": "feature-modal",
               "data-modal-attach": "#feature-modal"
             }
           }
@@ -1922,8 +1954,6 @@
             "break-words",
             "glass-effect",
             "glass-subtle",
-            "bg-glass-subtle",
-            "border-white/40",
             "shadow-sm"
           ],
           "data-component": "card"
@@ -2010,6 +2040,10 @@
           },
           "data": {
             "hProperties": {
+              "className": [
+                "modal=\"\""
+              ],
+              "id": "nonexistent",
               "data-modal-attach": "#nonexistent"
             }
           }
@@ -2086,6 +2120,10 @@
           },
           "data": {
             "hProperties": {
+              "className": [
+                "tooltip=\"\""
+              ],
+              "id": "also-nonexistent",
               "data-tooltip-attach": "#also-nonexistent"
             }
           }

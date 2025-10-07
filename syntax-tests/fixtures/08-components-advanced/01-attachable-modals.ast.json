@@ -441,8 +441,10 @@
                 "hover:bg-blue-700",
                 "active:bg-blue-800",
                 "shadow-md",
-                "hover:shadow-lg"
+                "hover:shadow-lg",
+                "modal=\"\""
               ],
+              "id": "welcome-modal",
               "data-modal-attach": "#welcome-modal"
             }
           }
@@ -535,8 +537,10 @@
                 "hover:bg-purple-700",
                 "active:bg-purple-800",
                 "shadow-md",
-                "hover:shadow-lg"
+                "hover:shadow-lg",
+                "modal=\"\""
               ],
+              "id": "info-modal",
               "data-modal-attach": "#info-modal"
             }
           }
@@ -630,8 +634,10 @@
                 "active:bg-blue-800",
                 "shadow-md",
                 "hover:shadow-lg",
-                "text-red-600"
+                "text-red-600",
+                "modal=\"\""
               ],
+              "id": "alert-modal",
               "data-modal-attach": "#alert-modal"
             }
           }
@@ -1436,8 +1442,10 @@
                 "hover:bg-blue-700",
                 "active:bg-blue-800",
                 "shadow-md",
-                "hover:shadow-lg"
+                "hover:shadow-lg",
+                "modal=\"\""
               ],
+              "id": "shared-modal",
               "data-modal-attach": "#shared-modal"
             }
           }
@@ -1530,8 +1538,10 @@
                 "hover:bg-blue-700",
                 "active:bg-blue-800",
                 "shadow-md",
-                "hover:shadow-lg"
+                "hover:shadow-lg",
+                "modal=\"\""
               ],
+              "id": "shared-modal",
               "data-modal-attach": "#shared-modal"
             }
           }
@@ -1624,8 +1634,10 @@
                 "hover:bg-blue-700",
                 "active:bg-blue-800",
                 "shadow-md",
-                "hover:shadow-lg"
+                "hover:shadow-lg",
+                "modal=\"\""
               ],
+              "id": "shared-modal",
               "data-modal-attach": "#shared-modal"
             }
           }
@@ -2003,8 +2015,10 @@
                 "active:bg-purple-800",
                 "shadow-md",
                 "hover:shadow-lg",
+                "modal=\"\"",
                 "custom-class"
               ],
+              "id": "settings-modal",
               "data-modal-attach": "#settings-modal"
             }
           }

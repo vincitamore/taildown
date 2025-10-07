@@ -3,6 +3,7 @@
   "outputDirectory": ".",
   "installCommand": "cd .. && pnpm install && pnpm build",
   "framework": null,
+  "cleanUrls": true,
   "redirects": [
     {
       "source": "/docs",

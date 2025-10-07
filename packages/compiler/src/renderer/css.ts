@@ -527,7 +527,7 @@ html {
 body {
   margin: 0;
   padding: 1rem;
-  padding-top: 80px; /* Space for fixed navbar */
+  padding-top: 120px; /* Increased space for fixed navbar on mobile when it wraps */
   font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
@@ -567,16 +567,39 @@ th > a:not([class]):active {
   opacity: 0.7;
 }
 
-/* Offset anchor targets for sticky navbar */
+/* Offset anchor targets for fixed navbar */
+/* Account for fixed navbar when jumping to anchor links */
 :target {
-  scroll-margin-top: 80px;
+  scroll-margin-top: 120px; /* Matches mobile body padding-top */
+}
+
+/* Reduce scroll margin on larger screens where navbar doesn't wrap */
+@media (min-width: 640px) {
+  :target {
+    scroll-margin-top: 80px;
+  }
 }
 
 /* Increase body padding on larger screens */
+/* Medium screens and up - reduce body top padding as navbar is single line */
 @media (min-width: 640px) {
   body {
     padding: 2rem;
-    padding-top: 80px; /* Space for fixed navbar */
+    padding-top: 80px; /* Reduced padding as navbar doesn't wrap on larger screens */
+  }
+  
+  /* Increase navbar padding and gap on larger screens */
+  .navbar {
+    gap: 1.5rem;
+    padding: 0.875rem 1.5rem;
+  }
+}
+
+/* Large screens - even more spacing */
+@media (min-width: 1024px) {
+  .navbar {
+    gap: 2rem;
+    padding: 1rem 2rem;
   }
 }
 
@@ -1685,8 +1708,8 @@ ${generateThemeCSS()}
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
-  padding: 1rem 2rem;
+  gap: 1rem; /* Reduced from 2rem for mobile first */
+  padding: 0.75rem 1rem; /* Reduced padding for mobile first */
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -1701,6 +1724,7 @@ ${generateThemeCSS()}
   right: 0;
   z-index: 1000;
   width: 100%;
+  min-height: 56px; /* Minimum height for navbar */
 }
 
 .navbar.scrolled {
@@ -1783,6 +1807,27 @@ ${generateThemeCSS()}
   opacity: 1;
   font-weight: 600;
   color: var(--primary);
+}
+
+/* Mobile optimization for navbar */
+@media (max-width: 639px) {
+  /* Smaller brand/title on mobile */
+  .navbar h1,
+  .navbar h2,
+  .navbar h3 {
+    font-size: 1.125rem; /* Reduced from 1.375rem */
+  }
+  
+  /* Smaller links on mobile with reduced padding */
+  .navbar a {
+    font-size: 0.8125rem; /* Reduced from 0.9375rem */
+    padding: 0.375rem 0.625rem; /* Reduced padding */
+  }
+  
+  /* Reduce gap in links container */
+  .navbar p {
+    gap: 0.25rem; /* Reduced from 0.5rem */
+  }
 }
 
 /* Variant: Glass navbar (default enhanced) */

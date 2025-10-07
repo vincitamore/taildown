@@ -423,8 +423,10 @@
                 "hover:bg-blue-700",
                 "active:bg-blue-800",
                 "shadow-md",
-                "hover:shadow-lg"
+                "hover:shadow-lg",
+                "tooltip=\"\""
               ],
+              "id": "detailed-info",
               "data-tooltip-attach": "#detailed-info"
             }
           }
@@ -510,8 +512,10 @@
                 "font-medium",
                 "text-sm",
                 "bg-sky-100",
-                "text-sky-700"
+                "text-sky-700",
+                "tooltip=\"\""
               ],
+              "id": "help-text",
               "data-tooltip-attach": "#help-text"
             }
           }
@@ -588,6 +592,10 @@
           },
           "data": {
             "hProperties": {
+              "className": [
+                "tooltip=\"\""
+              ],
+              "id": "explanation",
               "data-tooltip-attach": "#explanation"
             }
           }
@@ -1117,6 +1125,10 @@
           },
           "data": {
             "hProperties": {
+              "className": [
+                "tooltip=\"\""
+              ],
+              "id": "glossary-term",
               "data-tooltip-attach": "#glossary-term"
             }
           }
@@ -1209,6 +1221,10 @@
           },
           "data": {
             "hProperties": {
+              "className": [
+                "tooltip=\"\""
+              ],
+              "id": "glossary-term",
               "data-tooltip-attach": "#glossary-term"
             }
           }
@@ -1301,6 +1317,10 @@
           },
           "data": {
             "hProperties": {
+              "className": [
+                "tooltip=\"\""
+              ],
+              "id": "glossary-term",
               "data-tooltip-attach": "#glossary-term"
             }
           }
@@ -1667,11 +1687,13 @@
                 "rounded-full",
                 "font-medium",
                 "text-sm",
-                "bg-gray-100",
-                "text-gray-700",
+                "bg-muted",
+                "text-muted-foreground",
                 "text-secondary-600",
-                "hover:text-secondary-700"
+                "hover:text-secondary-700",
+                "tooltip=\"\""
               ],
+              "id": "more-info",
               "data-tooltip-attach": "#more-info"
             }
           }

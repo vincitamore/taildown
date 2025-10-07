@@ -127,8 +127,6 @@
             "break-words",
             "glass-effect",
             "glass-subtle",
-            "bg-glass-subtle",
-            "border-white/40",
             "shadow-sm",
             "shadow-xl",
             "rounded-lg"
@@ -186,8 +184,6 @@
             "break-words",
             "glass-effect",
             "glass-subtle",
-            "bg-glass-subtle",
-            "border-white/40",
             "shadow-sm",
             "custom-class"
           ],
@@ -280,8 +276,6 @@
             "break-words",
             "glass-effect",
             "glass-subtle",
-            "bg-glass-subtle",
-            "border-white/40",
             "shadow-sm",
             "p-8",
             "rounded-xl"
@@ -333,15 +327,8 @@
           "className": [
             "taildown-component",
             "component-alert",
-            "p-4",
-            "rounded-lg",
-            "border",
-            "flex",
-            "items-start",
-            "gap-3",
-            "bg-green-50",
-            "border-green-200",
-            "text-green-800"
+            "alert",
+            "alert-success"
           ],
           "data-component": "alert"
         },
@@ -388,15 +375,8 @@
           "className": [
             "taildown-component",
             "component-alert",
-            "p-4",
-            "rounded-lg",
-            "border",
-            "flex",
-            "items-start",
-            "gap-3",
-            "bg-red-50",
-            "border-red-200",
-            "text-red-800"
+            "alert",
+            "alert-error"
           ],
           "data-component": "alert"
         },
@@ -486,8 +466,6 @@
             "break-words",
             "glass-effect",
             "glass-subtle",
-            "bg-glass-subtle",
-            "border-white/40",
             "shadow-sm",
             "text-primary-600",
             "hover:text-primary-700",
@@ -598,8 +576,6 @@
             "break-words",
             "glass-effect",
             "glass-subtle",
-            "bg-glass-subtle",
-            "border-white/40",
             "shadow-sm"
           ],
           "data-component": "card"
