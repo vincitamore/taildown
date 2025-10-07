@@ -2032,17 +2032,18 @@ td svg.icon {
   }
 }
 
-.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
-.font-bold { font-weight: 700; }
+.rounded-lg { border-radius: 0.5rem; }
+.p-6 { padding: 1.5rem; }
+.max-w-full { max-width: 100%; }
+.overflow-x-hidden { overflow-x: hidden; }
+.break-words { overflow-wrap: break-word; word-wrap: break-word; }
+.shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+.p-4 { padding: 1rem; }
 .text-center { text-align: center; }
-.text-primary-600 { color: rgb(37 99 235); }
-.hover\:text-primary-700:hover { color: rgb(29 78 216); }
-.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
-.text-gray-500 { color: rgb(107 114 128); }
+.text-yellow-600 { color: rgb(202 138 4); }
 .inline-block { display: inline-block; }
 .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
 .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
-.rounded-lg { border-radius: 0.5rem; }
 .font-medium { font-weight: 500; }
 .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
 .duration-200 { transition-duration: 200ms; }
@@ -2052,37 +2053,14 @@ td svg.icon {
 .text-white { color: rgb(255 255 255); }
 .hover\:bg-purple-700:hover { background-color: rgb(126 34 206); }
 .active\:bg-purple-800:active { background-color: rgb(107 33 168); }
-.shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
 .hover\:shadow-lg:hover { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
 .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
-.border-b { border-bottom-width: 1px; border-style: solid; }
-.inline-flex { display: inline-flex; }
-.h-10 { height: 2.5rem; }
-.items-center { align-items: center; }
-.justify-start { justify-content: flex-start; }
-.bg-transparent { background-color: transparent; }
-.text-gray-600 { color: rgb(75 85 99); }
-.border-gray-200 { border-color: rgb(229 231 235); }
-.w-full { width: 100%; }
-.justify-center { justify-content: center; }
-.whitespace-nowrap { white-space: nowrap; }
-.px-4 { padding-left: 1rem; padding-right: 1rem; }
-.py-2.5 { padding-top: 0.625rem; padding-bottom: 0.625rem; }
-.border-b-2 { border-bottom-width: 2px; border-style: solid; }
-.border-blue-600 { border-color: rgb(37 99 235); }
-.text-blue-600 { color: rgb(37 99 235); }
-.-mb-px { margin-bottom: -1px; }
-.border-transparent { border-color: transparent; }
-.hover\:text-gray-900:hover { color: rgb(17 24 39); }
-.hover\:border-gray-300:hover { border-color: rgb(209 213 219); }
-.mt-6 { margin-top: 1.5rem; }
-.focus-visible\:outline-none:focus-visible { outline: 2px solid transparent; outline-offset: 2px; }
-.focus-visible\:ring-2:focus-visible { box-shadow: 0 0 0 2px rgb(59 130 246 / 0.5); }
-.focus-visible\:ring-offset-2:focus-visible { box-shadow: 0 0 0 2px white, 0 0 0 4px rgb(59 130 246 / 0.5); }
-.max-w-full { max-width: 100%; }
-.overflow-x-hidden { overflow-x: hidden; }
-.break-words { overflow-wrap: break-word; word-wrap: break-word; }
-.p-6 { padding: 1.5rem; }
+.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+.font-bold { font-weight: 700; }
+.text-primary-600 { color: rgb(37 99 235); }
+.hover\:text-primary-700:hover { color: rgb(29 78 216); }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-gray-500 { color: rgb(107 114 128); }
 .grid { display: grid; }
 .gap-4 { gap: 1rem; }
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
@@ -2097,7 +2075,6 @@ td svg.icon {
 .bg-blue-500 { background-color: rgb(59 130 246); }
 .hover\:bg-blue-600:hover { background-color: rgb(37 99 235); }
 .active\:bg-blue-700:active { background-color: rgb(29 78 216); }
-.p-4 { padding: 1rem; }
 .border { border-width: 1px; border-style: solid; }
 .flex { display: flex; }
 .items-start { align-items: flex-start; }
@@ -2186,19 +2163,39 @@ td svg.icon {
 
 /* ========================================
  * TABS COMPONENT
+ * Modern glassmorphism tabs with smooth transitions
  * ======================================== */
 
 .component-tabs {
   width: 100%;
+  margin-bottom: 1.5rem;
 }
 
 .tabs-list {
+  display: flex;
   position: relative;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
-  scrollbar-color: rgb(209 213 219) transparent;
+  scrollbar-color: var(--border) transparent;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 0.375rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 
+              0 2px 4px -2px rgba(0, 0, 0, 0.05),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .tabs-list {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 
+              0 2px 4px -2px rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
 }
 
 .tabs-list::-webkit-scrollbar {
@@ -2210,12 +2207,13 @@ td svg.icon {
 }
 
 .tabs-list::-webkit-scrollbar-thumb {
-  background: rgb(209 213 219);
+  background: var(--border);
   border-radius: 2px;
 }
 
 .tabs-list::-webkit-scrollbar-thumb:hover {
-  background: rgb(156 163 175);
+  background: var(--foreground);
+  opacity: 0.5;
 }
 
 .tab-button {
@@ -2226,28 +2224,115 @@ td svg.icon {
   outline: none;
   flex-shrink: 0;
   white-space: nowrap;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  border-radius: 8px;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 @media (max-width: 640px) {
   .tab-button {
     font-size: 0.813rem;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+    padding: 0.5rem 1rem;
   }
 }
 
-.tab-button[aria-selected="true"] {
-  color: rgb(37 99 235);
-  border-color: rgb(37 99 235) !important;
+.tab-button:hover {
+  color: var(--foreground);
+  background: rgba(255, 255, 255, 0.4);
 }
 
-.tab-button[aria-selected="false"]:hover {
-  color: var(--foreground);
-  border-color: var(--border);
+.dark .tab-button:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tab-button[aria-selected="true"] {
+  color: var(--primary);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+              0 1px 2px -1px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+}
+
+.dark .tab-button[aria-selected="true"] {
+  background: rgba(30, 41, 59, 0.9);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3),
+              0 1px 2px -1px rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+.tab-button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.tab-panel {
+  margin-top: 1.5rem;
+  animation: fadeIn 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tab-panel[hidden] {
   display: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Variant: Minimal tabs (no background) */
+.tabs-minimal .tabs-list {
+  background: transparent;
+  backdrop-filter: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.tabs-minimal .tab-button {
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.tabs-minimal .tab-button[aria-selected="true"] {
+  background: transparent;
+  border-bottom-color: var(--primary);
+  box-shadow: none;
+}
+
+/* Variant: Pills tabs */
+.tabs-pills .tabs-list {
+  background: transparent;
+  border: none;
+  padding: 0;
+  gap: 0.5rem;
+  box-shadow: none;
+}
+
+.tabs-pills .tab-button {
+  border-radius: 9999px;
+}
+
+.tabs-pills .tab-button[aria-selected="true"] {
+  background: var(--primary);
+  color: white;
 }
 
 /* ========================================
@@ -3363,17 +3448,18 @@ td svg.icon {
 </script>
 </head>
 <body>
-  <h1 class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700">Getting Started with Taildown</h1>
+  <div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md p-4"><h1 class="text-center"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Taildown {large-bold primary}</h1><p><a href="index.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-sm">Home</a><a href="getting-started.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-sm">Getting Started</a><a href="syntax-guide.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-sm">Syntax Guide</a><a href="components.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-sm">Components</a><a href="plain-english.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-sm">Plain English</a></p></div>
+<hr />
+<h1 class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700">Getting Started with Taildown</h1>
 <p class="text-center text-lg text-gray-500"><strong>From zero to beautiful documents in 5 minutes</strong></p>
-<p><a href="index.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-sm">Back to Home</a></p>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Installation</h2>
-<div class="taildown-component component-tabs tabs border-b border-border" data-component="tabs"><div role="tablist" class="tabs-list inline-flex h-10 items-center justify-start rounded-none bg-transparent p-0 text-gray-600 border-b border-gray-200 w-full"><button role="tab" aria-selected="true" tabindex="0" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-blue-600 text-blue-600 -mb-px">npm (Coming Soon)</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px">Clone Repository</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px">Manual Setup</button></div><div role="tabpanel" class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><pre data-copyable="true"><code class="language-bash code-highlight"># Global installation
+<div class="taildown-component component-tabs tabs" data-component="tabs"><div role="tablist" class="tabs-list"><button role="tab" aria-selected="true" tabindex="0" class="tab-button">npm (Coming Soon)</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Clone Repository</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Manual Setup</button></div><div role="tabpanel" class="tab-panel"><pre data-copyable="true"><code class="language-bash code-highlight"># Global installation
 npm install -g taildown
 
 # Or use npx
 npx taildown compile document.td
-</code><button class="code-copy-btn" data-code-id="code-e0lt37nnw" data-code-text="# Global installation
+</code><button class="code-copy-btn" data-code-id="code-xas25frm2" data-code-text="# Global installation
 npm install -g taildown
 
 # Or use npx
@@ -3386,7 +3472,7 @@ npx taildown compile document.td
           <path d="M20 6 9 17l-5-5"/>
         </svg>
         <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><pre data-copyable="true"><code class="language-bash code-highlight"># Clone the repository
+        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><pre data-copyable="true"><code class="language-bash code-highlight"># Clone the repository
 git clone https://github.com/vincitamore/taildown.git
 cd taildown
 
@@ -3395,7 +3481,7 @@ pnpm install
 
 # Build all packages
 pnpm build
-</code><button class="code-copy-btn" data-code-id="code-3in1smgv4" data-code-text="# Clone the repository
+</code><button class="code-copy-btn" data-code-id="code-80fyoru8f" data-code-text="# Clone the repository
 git clone https://github.com/vincitamore/taildown.git
 cd taildown
 
@@ -3412,7 +3498,7 @@ pnpm build
           <path d="M20 6 9 17l-5-5"/>
         </svg>
         <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><ol>
+        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><ol>
 <li>Download the latest release from GitHub</li>
 <li>Extract to your preferred location</li>
 <li>Run <code>pnpm install</code> in the extracted directory</li>
@@ -3437,7 +3523,7 @@ pnpm build
 </span><span class="code-line"><span class="token punctuation">[</span>Learn More<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-lxcaz974t" data-code-text="# Hello World {huge-bold center primary}
+</span></code><button class="code-copy-btn" data-code-id="code-76smo30u6" data-code-text="# Hello World {huge-bold center primary}
 
 Welcome to Taildown! {large muted center}
 
@@ -3465,7 +3551,7 @@ This is a card with glassmorphism and a slide-up animation!
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Compile Your Document</h2>
 <div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md p-6"><h3>Basic Compilation</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile my-first-document.td
-</code><button class="code-copy-btn" data-code-id="code-hggpucx0b" data-code-text="pnpm taildown compile my-first-document.td
+</code><button class="code-copy-btn" data-code-id="code-p7yaxakqq" data-code-text="pnpm taildown compile my-first-document.td
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -3477,7 +3563,7 @@ This is a card with glassmorphism and a slide-up animation!
         <span class="copied-text" style="display: none;">Copied!</span></button></pre><p>This creates:</p><ul>
 <li><code>my-first-document.html</code> - Self-contained HTML with embedded CSS and JavaScript</li>
 </ul><h3>Separate CSS File</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile my-first-document.td --separate
-</code><button class="code-copy-btn" data-code-id="code-ibz1zcbd1" data-code-text="pnpm taildown compile my-first-document.td --separate
+</code><button class="code-copy-btn" data-code-id="code-j6gph6n4r" data-code-text="pnpm taildown compile my-first-document.td --separate
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -3490,7 +3576,7 @@ This is a card with glassmorphism and a slide-up animation!
 <li><code>my-first-document.html</code> - HTML file</li>
 <li><code>my-first-document.css</code> - Separate CSS file</li>
 </ul><h3>Custom Output</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile my-first-document.td -o output/index.html --css output/styles.css
-</code><button class="code-copy-btn" data-code-id="code-65bzp1ukb" data-code-text="pnpm taildown compile my-first-document.td -o output/index.html --css output/styles.css
+</code><button class="code-copy-btn" data-code-id="code-27eobaaia" data-code-text="pnpm taildown compile my-first-document.td -o output/index.html --css output/styles.css
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -3520,7 +3606,7 @@ This is a card with glassmorphism and a slide-up animation!
   &lt;script&gt;/* JS here */&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</code><button class="code-copy-btn" data-code-id="code-nmfwxcj89" data-code-text="&#x26;lt;!DOCTYPE html&#x26;gt;
+</code><button class="code-copy-btn" data-code-id="code-g6my1rdhi" data-code-text="&#x26;lt;!DOCTYPE html&#x26;gt;
 &#x26;lt;html&#x26;gt;
 &#x26;lt;head&#x26;gt;
   &#x26;lt;meta charset=&#x26;quot;UTF-8&#x26;quot;&#x26;gt;
@@ -3555,7 +3641,7 @@ This is a card with glassmorphism and a slide-up animation!
 .dark {
   --background: #030712;
 }
-</code><button class="code-copy-btn" data-code-id="code-wolqycaxe" data-code-text=":root {
+</code><button class="code-copy-btn" data-code-id="code-3bdszmz9w" data-code-text=":root {
   --primary: #3b82f6;
   --background: #ffffff;
 }
@@ -3574,13 +3660,13 @@ This is a card with glassmorphism and a slide-up animation!
         <span class="copied-text" style="display: none;">Copied!</span></button></pre></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Basic Syntax Overview</h2>
-<div class="taildown-component component-tabs tabs border-b border-border" data-component="tabs"><div role="tablist" class="tabs-list inline-flex h-10 items-center justify-start rounded-none bg-transparent p-0 text-gray-600 border-b border-gray-200 w-full"><button role="tab" aria-selected="true" tabindex="0" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-blue-600 text-blue-600 -mb-px">Plain English Styling</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px">Icons</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px">Components</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px">Glassmorphism</button></div><div role="tabpanel" class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><p>Use natural language for styling:</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span>Large Bold Primary Heading <span class="token punctuation">{</span><span class="token emphasis">huge-bold</span> <span class="token class-name">primary</span> <span class="token property">center</span><span class="token punctuation">}</span>
+<div class="taildown-component component-tabs tabs" data-component="tabs"><div role="tablist" class="tabs-list"><button role="tab" aria-selected="true" tabindex="0" class="tab-button">Plain English Styling</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Icons</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Components</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Glassmorphism</button></div><div role="tabpanel" class="tab-panel"><p>Use natural language for styling:</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span>Large Bold Primary Heading <span class="token punctuation">{</span><span class="token emphasis">huge-bold</span> <span class="token class-name">primary</span> <span class="token property">center</span><span class="token punctuation">}</span>
 </span><span class="code-line">
 </span><span class="code-line">This paragraph has muted text and relaxed line spacing. <span class="token punctuation">{</span><span class="token number">large</span> <span class="token class-name">muted</span> <span class="token emphasis">relaxed-lines</span><span class="token punctuation">}</span>
 </span><span class="code-line">
 </span><span class="code-line"><span class="token punctuation">[</span>Click Me<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token number">large</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-g3geusq8i" data-code-text="# Large Bold Primary Heading {huge-bold primary center}
+</span></code><button class="code-copy-btn" data-code-id="code-ihqbwd2i5" data-code-text="# Large Bold Primary Heading {huge-bold primary center}
 
 This paragraph has muted text and relaxed line spacing. {large muted relaxed-lines}
 
@@ -3599,11 +3685,11 @@ This paragraph has muted text and relaxed line spacing. {large muted relaxed-lin
 <li>Colors: <code>primary</code>, <code>secondary</code>, <code>accent</code>, <code>success</code>, <code>warning</code>, <code>error</code>, <code>muted</code></li>
 <li>Weights: <code>thin</code>, <code>light</code>, <code>normal</code>, <code>semibold</code>, <code>bold</code></li>
 <li>Effects: <code>rounded</code>, <code>shadow</code>, <code>elevated</code>, <code>glass</code></li>
-</ul></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><p>Use the <code>:icon[]</code> syntax for Lucide icons:</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">heart</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">primary</span><span class="token punctuation">}</span> Love this feature
+</ul></div><div role="tabpanel" hidden class="tab-panel"><p>Use the <code>:icon[]</code> syntax for Lucide icons:</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">heart</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">primary</span><span class="token punctuation">}</span> Love this feature
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check-circle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span> <span class="token number">large</span><span class="token punctuation">}</span> Completed
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">arrow-right</span><span class="token punctuation">]</span> Next step
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-nhvlah0en" data-code-text=":icon[heart]{primary} Love this feature
+</span></code><button class="code-copy-btn" data-code-id="code-poppphwlw" data-code-text=":icon[heart]{primary} Love this feature
 :icon[check-circle]{success large} Completed
 :icon[arrow-right] Next step
 
@@ -3620,7 +3706,7 @@ This paragraph has muted text and relaxed line spacing. {large muted relaxed-lin
 <li>Actions: <code>check</code>, <code>x</code>, <code>plus</code>, <code>edit</code>, <code>trash</code></li>
 <li>Social: <code>github</code>, <code>twitter</code>, <code>linkedin</code></li>
 <li>UI: <code>heart</code>, <code>star</code>, <code>bookmark</code>, <code>share</code></li>
-</ul></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><p>Use <code>:::component</code> syntax for component blocks:</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">elevated</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
+</ul></div><div role="tabpanel" hidden class="tab-panel"><p>Use <code>:::component</code> syntax for component blocks:</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">elevated</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token title punctuation">## </span>Card Title <span class="token punctuation">{</span><span class="token emphasis">large-bold</span><span class="token punctuation">}</span>
 </span><span class="code-line">
 </span><span class="code-line">Card content with automatic styling.
@@ -3628,7 +3714,7 @@ This paragraph has muted text and relaxed line spacing. {large muted relaxed-lin
 </span><span class="code-line"><span class="token punctuation">[</span>Button Text<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-vpfrwvp0x" data-code-text=":::card {elevated hover-lift}
+</span></code><button class="code-copy-btn" data-code-id="code-u2syxwwh3" data-code-text=":::card {elevated hover-lift}
 ## Card Title {large-bold}
 
 Card content with automatic styling.
@@ -3648,7 +3734,7 @@ Card content with automatic styling.
 <li>Containers: <code>card</code>, <code>container</code>, <code>grid</code></li>
 <li>Interactive: <code>tabs</code>, <code>accordion</code>, <code>carousel</code>, <code>modal</code>, <code>tooltip</code></li>
 <li>UI: <code>alert</code>, <code>button</code>, <code>badge</code>, <code>avatar</code></li>
-</ul></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><p>Add frosted glass effects:</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">subtle-glass</span><span class="token punctuation">}</span>
+</ul></div><div role="tabpanel" hidden class="tab-panel"><p>Add frosted glass effects:</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">subtle-glass</span><span class="token punctuation">}</span>
 </span><span class="code-line">Light frosted glass (90% transparency)
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
@@ -3660,7 +3746,7 @@ Card content with automatic styling.
 </span><span class="code-line">Heavy frosted glass (60% transparency)
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-tbuyp5gws" data-code-text=":::card {subtle-glass}
+</span></code><button class="code-copy-btn" data-code-id="code-q3dmhj9k5" data-code-text=":::card {subtle-glass}
 Light frosted glass (90% transparency)
 :::
 
@@ -3711,7 +3797,7 @@ Heavy frosted glass (60% transparency)
   --foreground: #f9fafb;
   --primary: #3b82f6;
 }
-</code><button class="code-copy-btn" data-code-id="code-7h5kmuw2w" data-code-text=":root {
+</code><button class="code-copy-btn" data-code-id="code-6tgmvclvh" data-code-text=":root {
   --background: #ffffff;
   --foreground: #111827;
   --primary: #3b82f6;

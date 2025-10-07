@@ -1352,19 +1352,39 @@ ${generateThemeCSS()}
 
 /* ========================================
  * TABS COMPONENT
+ * Modern glassmorphism tabs with smooth transitions
  * ======================================== */
 
 .component-tabs {
   width: 100%;
+  margin-bottom: 1.5rem;
 }
 
 .tabs-list {
+  display: flex;
   position: relative;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
-  scrollbar-color: rgb(209 213 219) transparent;
+  scrollbar-color: var(--border) transparent;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 0.375rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 
+              0 2px 4px -2px rgba(0, 0, 0, 0.05),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .tabs-list {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 
+              0 2px 4px -2px rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
 }
 
 .tabs-list::-webkit-scrollbar {
@@ -1376,12 +1396,13 @@ ${generateThemeCSS()}
 }
 
 .tabs-list::-webkit-scrollbar-thumb {
-  background: rgb(209 213 219);
+  background: var(--border);
   border-radius: 2px;
 }
 
 .tabs-list::-webkit-scrollbar-thumb:hover {
-  background: rgb(156 163 175);
+  background: var(--foreground);
+  opacity: 0.5;
 }
 
 .tab-button {
@@ -1392,28 +1413,115 @@ ${generateThemeCSS()}
   outline: none;
   flex-shrink: 0;
   white-space: nowrap;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  border-radius: 8px;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 @media (max-width: 640px) {
   .tab-button {
     font-size: 0.813rem;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+    padding: 0.5rem 1rem;
   }
 }
 
-.tab-button[aria-selected="true"] {
-  color: rgb(37 99 235);
-  border-color: rgb(37 99 235) !important;
+.tab-button:hover {
+  color: var(--foreground);
+  background: rgba(255, 255, 255, 0.4);
 }
 
-.tab-button[aria-selected="false"]:hover {
-  color: var(--foreground);
-  border-color: var(--border);
+.dark .tab-button:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tab-button[aria-selected="true"] {
+  color: var(--primary);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+              0 1px 2px -1px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+}
+
+.dark .tab-button[aria-selected="true"] {
+  background: rgba(30, 41, 59, 0.9);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3),
+              0 1px 2px -1px rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+.tab-button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.tab-panel {
+  margin-top: 1.5rem;
+  animation: fadeIn 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tab-panel[hidden] {
   display: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Variant: Minimal tabs (no background) */
+.tabs-minimal .tabs-list {
+  background: transparent;
+  backdrop-filter: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.tabs-minimal .tab-button {
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.tabs-minimal .tab-button[aria-selected="true"] {
+  background: transparent;
+  border-bottom-color: var(--primary);
+  box-shadow: none;
+}
+
+/* Variant: Pills tabs */
+.tabs-pills .tabs-list {
+  background: transparent;
+  border: none;
+  padding: 0;
+  gap: 0.5rem;
+  box-shadow: none;
+}
+
+.tabs-pills .tab-button {
+  border-radius: 9999px;
+}
+
+.tabs-pills .tab-button[aria-selected="true"] {
+  background: var(--primary);
+  color: white;
 }
 
 /* ========================================

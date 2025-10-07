@@ -1,8 +1,14 @@
+:::card {light-glass padded-sm}
+# :icon[zap]{warning} Taildown {large-bold primary} {center}
+
+[Home](index.html){button secondary small} [Getting Started](getting-started.html){button secondary small} [Syntax Guide](syntax-guide.html){button secondary small} [Components](components.html){button secondary small} [Plain English](plain-english.html){button secondary small}
+:::
+
+---
+
 # Getting Started with Taildown {huge-bold center primary}
 
 **From zero to beautiful documents in 5 minutes** {center large muted}
-
-[Back to Home](index.html){button secondary small}
 
 ---
 

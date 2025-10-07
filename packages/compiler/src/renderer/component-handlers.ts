@@ -335,7 +335,7 @@ export function renderTabs(state: State, node: ContainerDirectiveNode): Element 
     });
   }
   
-  // Build tab structure with shadcn-style polish
+  // Build tab structure with modern glass styling
   const tabButtons: Element[] = tabs.map((tab, index) => ({
     type: 'element',
     tagName: 'button',
@@ -343,9 +343,7 @@ export function renderTabs(state: State, node: ContainerDirectiveNode): Element 
       role: 'tab',
       ariaSelected: index === 0 ? 'true' : 'false',
       tabIndex: index === 0 ? 0 : -1,
-      className: index === 0 
-        ? ['tab-button', 'inline-flex', 'items-center', 'justify-center', 'whitespace-nowrap', 'px-4', 'py-2.5', 'text-sm', 'font-medium', 'transition-all', 'border-b-2', 'border-blue-600', 'text-blue-600', '-mb-px']
-        : ['tab-button', 'inline-flex', 'items-center', 'justify-center', 'whitespace-nowrap', 'px-4', 'py-2.5', 'text-sm', 'font-medium', 'transition-all', 'border-b-2', 'border-transparent', 'text-gray-600', 'hover:text-gray-900', 'hover:border-gray-300', '-mb-px']
+      className: ['tab-button']
     },
     children: tab.label.children
   }));
@@ -356,7 +354,7 @@ export function renderTabs(state: State, node: ContainerDirectiveNode): Element 
     properties: {
       role: 'tabpanel',
       hidden: index !== 0,
-      className: ['tab-panel', 'mt-6', 'ring-offset-white', 'focus-visible:outline-none', 'focus-visible:ring-2', 'focus-visible:ring-gray-400', 'focus-visible:ring-offset-2']
+      className: ['tab-panel']
     },
     children: tab.content
   }));
@@ -378,7 +376,7 @@ export function renderTabs(state: State, node: ContainerDirectiveNode): Element 
         tagName: 'div',
         properties: {
           role: 'tablist',
-          className: ['tabs-list', 'inline-flex', 'h-10', 'items-center', 'justify-start', 'rounded-none', 'bg-transparent', 'p-0', 'text-gray-600', 'border-b', 'border-gray-200', 'w-full']
+          className: ['tabs-list']
         },
         children: tabButtons
       },
