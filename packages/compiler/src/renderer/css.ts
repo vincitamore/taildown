@@ -1011,6 +1011,10 @@ pre .token.url {
   -webkit-overflow-scrolling: touch;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  /* Performance optimizations */
+  contain: layout style paint;
+  /* Smooth scrolling */
+  scroll-behavior: smooth;
 }
 
 /* Scrollbar styling for table wrapper */
@@ -1051,7 +1055,7 @@ thead {
 
 tbody {
   display: table-row-group;
-  background: white;
+  background: var(--card);
 }
 
 /* Table rows */
@@ -1060,13 +1064,16 @@ tr {
   border-bottom: 1px solid #e5e7eb;
 }
 
+tbody tr {
+  transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 tbody tr:last-child {
   border-bottom: none;
 }
 
 tbody tr:hover {
-  background: var(--muted);
-  transition: background 150ms ease;
+  background-color: var(--muted);
 }
 
 /* Table cells */
@@ -1077,6 +1084,8 @@ th, td {
   vertical-align: top;
   /* Prevent cells from being too narrow */
   min-width: 120px;
+  /* Smooth transitions for all cells */
+  transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Mobile: Reduce padding for better space utilization */
@@ -1117,19 +1126,34 @@ thead th:first-child {
   left: 0;
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   z-index: 2;
+  /* GPU acceleration for smooth scrolling */
+  transform: translateZ(0);
+  will-change: transform;
+  /* Static shadow - no changes on scroll */
   box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.1);
 }
 
 tbody td:first-child {
   position: sticky;
   left: 0;
-  background: white;
+  background: var(--card);
   z-index: 1;
+  /* GPU acceleration for smooth scrolling */
+  transform: translateZ(0);
+  will-change: transform;
+  /* Static shadow - no changes on scroll */
   box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.05);
+  /* Smooth background transition */
+  transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 tbody tr:hover td:first-child {
-  background: var(--muted);
+  background-color: var(--muted);
+}
+
+/* Dark mode support for sticky cells */
+.dark thead th:first-child {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
 }
 
 /* Remove sticky on larger screens where it's not needed */
@@ -1138,6 +1162,8 @@ tbody tr:hover td:first-child {
   tbody td:first-child {
     position: static;
     box-shadow: none;
+    transform: none;
+    will-change: auto;
   }
 }
 
