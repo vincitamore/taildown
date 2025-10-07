@@ -23,7 +23,7 @@ npx taildown compile document.td
 
 ```bash
 # Clone the repository
-git clone https://github.com/taildown/taildown.git
+git clone https://github.com/vincitamore/taildown.git
 cd taildown
 
 # Install dependencies
