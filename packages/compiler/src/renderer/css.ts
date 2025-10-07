@@ -237,6 +237,7 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   // Background - Blue
   'bg-blue-50': 'background-color: rgb(239 246 255);',
   'bg-blue-100': 'background-color: rgb(219 234 254);',
+  'bg-blue-500': 'background-color: rgb(59 130 246);',
   'bg-blue-600': 'background-color: rgb(37 99 235);',
   'bg-blue-700': 'background-color: rgb(29 78 216);',
   'bg-blue-800': 'background-color: rgb(30 64 175);',
@@ -274,6 +275,14 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'bg-purple-600': 'background-color: rgb(147 51 234);',
   'bg-purple-700': 'background-color: rgb(126 34 206);',
   'bg-purple-800': 'background-color: rgb(107 33 168);',
+  
+  // Background - Pink (for accent button)
+  'bg-pink-600': 'background-color: rgb(219 39 119);',
+  'bg-pink-700': 'background-color: rgb(190 24 93);',
+  'bg-pink-800': 'background-color: rgb(157 23 77);',
+  
+  // Background - Yellow (for warnings)
+  'bg-yellow-600': 'background-color: rgb(202 138 4);',
   
   // Background - Opacity (for glass effects)
   'bg-white/25': 'background-color: rgb(255 255 255 / 0.25);',
