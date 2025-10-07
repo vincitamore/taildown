@@ -540,11 +540,11 @@ body {
   width: 100%;
 }
 
-/* Regular links (not buttons/badges/navbar links) - only apply to plain links */
-p > a:not([class*="button"]):not([class*="badge"]),
-li > a:not([class*="button"]):not([class*="badge"]),
-td > a:not([class*="button"]):not([class*="badge"]),
-th > a:not([class*="button"]):not([class*="badge"]) {
+/* Regular plain text links (no classes) - for documentation links only */
+p > a:not([class]),
+li > a:not([class]),
+td > a:not([class]),
+th > a:not([class]) {
   color: var(--primary);
   text-decoration: none;
   border-bottom: 1px solid transparent;
@@ -552,18 +552,18 @@ th > a:not([class*="button"]):not([class*="badge"]) {
   font-weight: 500;
 }
 
-p > a:not([class*="button"]):not([class*="badge"]):hover,
-li > a:not([class*="button"]):not([class*="badge"]):hover,
-td > a:not([class*="button"]):not([class*="badge"]):hover,
-th > a:not([class*="button"]):not([class*="badge"]):hover {
+p > a:not([class]):hover,
+li > a:not([class]):hover,
+td > a:not([class]):hover,
+th > a:not([class]):hover {
   border-bottom-color: var(--primary);
   opacity: 0.85;
 }
 
-p > a:not([class*="button"]):not([class*="badge"]):active,
-li > a:not([class*="button"]):not([class*="badge"]):active,
-td > a:not([class*="button"]):not([class*="badge"]):active,
-th > a:not([class*="button"]):not([class*="badge"]):active {
+p > a:not([class]):active,
+li > a:not([class]):active,
+td > a:not([class]):active,
+th > a:not([class]):active {
   opacity: 0.7;
 }
 
