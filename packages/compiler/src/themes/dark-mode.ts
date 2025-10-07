@@ -121,6 +121,8 @@ function generateToggleButtonCSS(position: DarkModeOptions['togglePosition']): s
   align-items: center;
   justify-content: center;
   transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .dark-mode-toggle:hover {
@@ -130,6 +132,15 @@ function generateToggleButtonCSS(position: DarkModeOptions['togglePosition']): s
 
 .dark-mode-toggle:active {
   transform: translateY(0);
+}
+
+.dark-mode-toggle:focus {
+  outline: none;
+}
+
+.dark-mode-toggle:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
 }
 
 .dark-mode-toggle svg {
