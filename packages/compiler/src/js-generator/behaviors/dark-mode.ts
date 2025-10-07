@@ -73,21 +73,32 @@ function createToggleButton() {
 // Apply initial theme immediately (prevent flash)
 applyTheme(getInitialTheme());
 
-// Create and add toggle button to page
-const toggleButton = createToggleButton();
-document.body.appendChild(toggleButton);
-toggleButton.addEventListener('click', toggleTheme);
-
-// Listen for system preference changes
-if (window.matchMedia) {
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    // Only auto-switch if user hasn't set a preference
-    if (!localStorage.getItem(STORAGE_KEY)) {
-      applyTheme(e.matches);
-    }
-  });
+// Create toggle button when DOM is ready
+function initToggleButton() {
+  const toggleButton = createToggleButton();
+  document.body.appendChild(toggleButton);
+  toggleButton.addEventListener('click', toggleTheme);
+  
+  // Listen for system preference changes
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      // Only auto-switch if user hasn't set a preference
+      if (!localStorage.getItem(STORAGE_KEY)) {
+        applyTheme(e.matches);
+      }
+    });
+  }
+  
+  console.log('[Taildown] Dark mode toggle button initialized');
 }
 
-console.log('[Taildown] Dark mode initialized');
+// Wait for body to exist before creating button
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initToggleButton);
+} else {
+  initToggleButton();
+}
+
+console.log('[Taildown] Dark mode theme applied');
   `.trim(),
 };
