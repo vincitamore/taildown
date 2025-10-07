@@ -6,6 +6,32 @@
 import type { Root, Node, Data } from 'mdast';
 
 /**
+ * Open Graph meta tags for social media sharing
+ */
+export interface OpenGraphMetadata {
+  /** Page title (og:title) */
+  title?: string;
+
+  /** Page description (og:description) */
+  description?: string;
+
+  /** Page type (og:type) - default: 'website' */
+  type?: string;
+
+  /** Full URL to the page (og:url) */
+  url?: string;
+
+  /** Full URL to the Open Graph image (og:image) */
+  image?: string;
+
+  /** Image alt text (og:image:alt) */
+  imageAlt?: string;
+
+  /** Site name (og:site_name) */
+  siteName?: string;
+}
+
+/**
  * Compilation options for Taildown compiler
  */
 export interface CompileOptions {
@@ -41,6 +67,15 @@ export interface CompileOptions {
 
   /** Custom style mappings (plain English to CSS classes) */
   styleMappings?: Record<string, string>;
+
+  /** Page title for HTML document */
+  title?: string;
+
+  /** Meta description for SEO */
+  description?: string;
+
+  /** Open Graph metadata for social media sharing */
+  openGraph?: OpenGraphMetadata;
 }
 
 /**
