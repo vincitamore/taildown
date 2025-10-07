@@ -89,35 +89,36 @@ export function getLightModeColors(config: TaildownConfig): LightModeColors {
 
 /**
  * Generate dark mode color palette from config
+ * Uses Twitter/X "Dim" mode inspired colors - dark blue-gray instead of pure black
  */
 export function getDarkModeColors(config: TaildownConfig): DarkModeColors {
   return {
-    background: config.theme?.colors?.gray?.[950] || '#030712',
-    foreground: config.theme?.colors?.gray?.[50] || '#f9fafb',
-    muted: config.theme?.colors?.gray?.[800] || '#1f2937',
-    mutedForeground: config.theme?.colors?.gray?.[400] || '#9ca3af',
-    border: config.theme?.colors?.gray?.[800] || '#1f2937',
-    input: config.theme?.colors?.gray?.[800] || '#1f2937',
-    ring: config.theme?.colors?.primary?.[400] || '#60a5fa',
+    background: '#15202b',  // Twitter dim mode background
+    foreground: '#e7e9ea',  // Soft white, easier on eyes than pure white
+    muted: '#1c2938',       // Slightly lighter blue-gray for subtle backgrounds
+    mutedForeground: '#8b98a5',  // Muted text
+    border: '#2f3c4c',      // Visible but subtle borders
+    input: '#1c2938',       // Input backgrounds
+    ring: '#60a5fa',        // Focus ring (keep bright for visibility)
     
     primary: config.theme?.colors?.primary?.[500] || '#3b82f6',
-    primaryForeground: config.theme?.colors?.gray?.[50] || '#f9fafb',
+    primaryForeground: '#e7e9ea',
     secondary: config.theme?.colors?.secondary?.[600] || '#9333ea',
-    secondaryForeground: config.theme?.colors?.gray?.[50] || '#f9fafb',
+    secondaryForeground: '#e7e9ea',
     accent: config.theme?.colors?.accent?.[500] || '#ec4899',
-    accentForeground: config.theme?.colors?.gray?.[50] || '#f9fafb',
+    accentForeground: '#e7e9ea',
     
     success: config.theme?.colors?.success || '#10b981',
-    successForeground: config.theme?.colors?.gray?.[950] || '#030712',
+    successForeground: '#15202b',  // Dark text on bright success
     warning: config.theme?.colors?.warning || '#f59e0b',
-    warningForeground: config.theme?.colors?.gray?.[950] || '#030712',
+    warningForeground: '#15202b',  // Dark text on bright warning
     error: config.theme?.colors?.error || '#ef4444',
     errorForeground: '#ffffff',
     info: config.theme?.colors?.info || '#3b82f6',
     infoForeground: '#ffffff',
     
-    card: config.theme?.colors?.gray?.[900] || '#111827',
-    cardForeground: config.theme?.colors?.gray?.[50] || '#f9fafb',
+    card: '#192734',        // Slightly lighter than background for depth
+    cardForeground: '#e7e9ea',
   };
 }
 

@@ -60,42 +60,49 @@ export const cardComponent: ComponentDefinition = defineComponent({
   variants: {
     // Flat: Minimal styling, no shadow
     flat: [
-      'bg-white',
+      'bg-card',
+      'text-card-foreground',
       'shadow-none',
       'border',
-      'border-gray-200',
+      'border-border',
     ],
     
     // Elevated: Medium shadow (default)
     elevated: [
-      'bg-white',
+      'bg-card',
+      'text-card-foreground',
       'shadow-md',
     ],
     
     // Floating: Large shadow, dramatic depth
     floating: [
-      'bg-white',
+      'bg-card',
+      'text-card-foreground',
       'shadow-xl',
     ],
     
     // Outlined: Border instead of shadow
     outlined: [
-      'bg-white',
+      'bg-card',
+      'text-card-foreground',
       'shadow-none',
       'border-2',
-      'border-gray-300',
+      'border-border',
     ],
     
     // Bordered: Subtle border with shadow
     bordered: [
-      'bg-white',
+      'bg-card',
+      'text-card-foreground',
       'shadow-md',
       'border',
-      'border-gray-200',
+      'border-border',
     ],
     
     // Interactive: Hover effects for clickable cards
     interactive: [
+      'bg-card',
+      'text-card-foreground',
       'shadow-md',
       'transition-all',
       'duration-300',
