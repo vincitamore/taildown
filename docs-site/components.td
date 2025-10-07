@@ -398,6 +398,8 @@ Tabs use headings (h2-h4) as labels. Everything between headings becomes panel c
 - :icon[check]{success} Smooth transitions
 - :icon[check]{success} Full ARIA accessibility
 
+---
+
 #### :icon[code]{success} Syntax
 
 Simple, intuitive syntax:
@@ -419,6 +421,8 @@ Content for third tab
 :::
 ```
 
+---
+
 #### :icon[sparkles]{warning} Rich Content
 
 Tabs support full Taildown syntax:
@@ -432,6 +436,8 @@ Tabs support full Taildown syntax:
 :::alert {info}
 :icon[lightbulb]{warning} Even alerts work inside tabs!
 :::
+
+---
 
 #### :icon[palette]{error} Nested Components
 
