@@ -20,7 +20,7 @@ Jump directly to any component category:
 :::card {subtle-glass padded center hover-lift}
 :icon[layout]{primary huge}
 
-**[Layout](#layout)**
+[**Layout**](#layout){badge primary large}
 
 Card, Grid, Button Group
 :::
@@ -28,7 +28,7 @@ Card, Grid, Button Group
 :::card {subtle-glass padded center hover-lift}
 :icon[activity]{success huge}
 
-**[Interactive](#interactive)**
+[**Interactive**](#interactive){badge success large}
 
 Tabs, Accordion, Carousel
 :::
@@ -36,7 +36,7 @@ Tabs, Accordion, Carousel
 :::card {subtle-glass padded center hover-lift}
 :icon[message-square]{warning huge}
 
-**[Overlays](#overlays)**
+[**Overlays**](#overlays){badge warning large}
 
 Modal, Tooltip
 :::
@@ -44,7 +44,7 @@ Modal, Tooltip
 :::card {subtle-glass padded center hover-lift}
 :icon[bell]{error huge}
 
-**[Feedback](#feedback)**
+[**Feedback**](#feedback){badge error large}
 
 Alert, Badge, Progress
 :::
