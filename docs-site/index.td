@@ -123,7 +123,7 @@ Install Taildown from npm or clone the repository:
 npm install -g taildown
 
 # Or clone the repository
-git clone https://github.com/taildown/taildown.git
+git clone https://github.com/vincitamore/taildown.git
 cd taildown
 
 # Install dependencies
@@ -329,7 +329,7 @@ Customize colors, fonts, and defaults with `taildown.config.js`.
 
 Star, fork, and contribute on GitHub.
 
-[Repository](https://github.com/taildown/taildown){button primary small}
+[Repository](https://github.com/vincitamore/taildown){button primary small}
 :::
 
 :::card {elevated}
@@ -339,7 +339,7 @@ Star, fork, and contribute on GitHub.
 
 Ask questions and share ideas.
 
-[Join Discussion](https://github.com/taildown/taildown/discussions){button secondary small}
+[Join Discussion](https://github.com/vincitamore/taildown/discussions){button secondary small}
 :::
 
 :::card {elevated}
@@ -349,7 +349,7 @@ Ask questions and share ideas.
 
 Report bugs and request features.
 
-[Open Issue](https://github.com/taildown/taildown/issues){button info small}
+[Open Issue](https://github.com/vincitamore/taildown/issues){button info small}
 :::
 
 :::card {elevated}
@@ -373,6 +373,6 @@ Read the full documentation.
 
 This entire documentation site is written in Taildown syntax and compiled to static HTML with dark mode, glassmorphism, and scroll animations. View the source to see how it's done! {large center muted}
 
-[View Source](hhttps://github.com/vincitamore/taildown/tree/main/docs-site){button accent large hover-lift}
+[View Source](https://github.com/vincitamore/taildown/tree/main/docs-site){button accent large hover-lift}
 :::
 
