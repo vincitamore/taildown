@@ -6,50 +6,87 @@
 
 ---
 
-# Component Reference {huge-bold center primary}
+# Component Reference {#top huge-bold center primary}
 
-**Interactive showcase of every Taildown component with live examples.** {center large-muted}
-
----
-
-## :icon[package]{primary large} Layout Components {large-bold primary}
-
-Components for structuring and organizing your content.
+**Your complete guide to every Taildown component with live examples.** {center large-muted}
 
 ---
 
-### Card Component
+## Quick Navigation {#nav large-bold primary}
 
-**The versatile content container with glassmorphism effects.**
+Jump directly to any component category:
 
-:::tabs
-### Basic Cards
+:::grid {cols-4}
+:::card {subtle-glass padded center hover-lift}
+:icon[layout]{primary huge}
 
-Standard card with various glass effects:
+**[Layout](#layout)**
+
+Card, Grid, Button Group
+:::
+
+:::card {subtle-glass padded center hover-lift}
+:icon[activity]{success huge}
+
+**[Interactive](#interactive)**
+
+Tabs, Accordion, Carousel
+:::
+
+:::card {subtle-glass padded center hover-lift}
+:icon[message-square]{warning huge}
+
+**[Overlays](#overlays)**
+
+Modal, Tooltip
+:::
+
+:::card {subtle-glass padded center hover-lift}
+:icon[bell]{error huge}
+
+**[Feedback](#feedback)**
+
+Alert, Badge, Progress
+:::
+:::
+
+---
+
+# Layout Components {#layout huge-bold center primary}
+
+**Organize and structure your content beautifully.**
+
+---
+
+## Card {#card large-bold primary}
+
+**Versatile content containers with glassmorphism effects.**
+
+### Glassmorphism Variants {medium-bold}
 
 :::grid {cols-3}
 :::card {subtle-glass padded}
 #### Subtle Glass
 
-The most understated glass effect - barely visible translucency with soft shadows.
+Barely-there translucency with soft shadows.
 
-[Learn More](#){button primary small}
+[Example](#){button primary small}
 :::
 
 :::card {light-glass padded}
 #### Light Glass
 
-Soft frosted appearance with gentle blur and elegant borders.
+Gentle frosted appearance with elegant borders.
 
-[Learn More](#){button primary small}
+[Example](#){button primary small}
 :::
 
 :::card {glass padded}
 #### Standard Glass
 
-Balanced translucency with moderate blur - the default choice.
+Balanced translucency - the default choice.
 
-[Learn More](#){button primary small}
+[Example](#){button primary small}
 :::
 :::
 
@@ -57,32 +94,32 @@ Balanced translucency with moderate blur - the default choice.
 :::card {heavy-glass padded}
 #### Heavy Glass
 
-Strong frosted blur with pronounced translucency - makes a statement.
+Pronounced frosted blur that makes a statement.
 
-[Learn More](#){button primary small}
+[Example](#){button primary small}
 :::
 
-:::card {elevated padded-xl rounded-xl}
-#### Elevated Card
+:::card {elevated padded rounded-xl}
+#### Elevated
 
-Classic elevated card with shadow instead of glass effect.
+Classic elevated card with shadow instead of glass.
 
-[Learn More](#){button primary small}
+[Example](#){button primary small}
 :::
 :::
 
-### With Content
+### Rich Content Example {medium-bold}
 
 :::card {light-glass padded-xl}
-#### :icon[sparkles]{warning} Feature Card
+#### :icon[sparkles]{warning} Feature Showcase Card
 
-Cards can contain any content including headings, paragraphs, lists, images, and nested components.
+Cards support any content: headings, paragraphs, lists, images, icons, and nested components.
 
 **Key Features:**
 - :icon[check]{success} Automatic glassmorphism styling
 - :icon[check]{success} Responsive padding variants
-- :icon[check]{success} Dark mode support
-- :icon[check]{success} Nesting support
+- :icon[check]{success} Perfect dark mode support
+- :icon[check]{success} Full nesting support
 
 :::alert {info}
 :icon[lightbulb]{warning} Cards work perfectly with all other components!
@@ -93,33 +130,35 @@ Cards can contain any content including headings, paragraphs, lists, images, and
 :::
 :::
 
-### Usage
+### Syntax & Variants {medium-bold}
 
 ```markdown
 :::card {glass padded}
 Your content here
 :::
 
-:::card {subtle-glass padded-xl rounded-xl}
+:::card {subtle-glass padded-xl rounded-xl hover-lift}
 Card with multiple attributes
 :::
 ```
 
-**Variants:**
-- `subtle-glass` `light-glass` `glass` `heavy-glass`
-- `padded` `padded-sm` `padded-lg` `padded-xl`
-- `rounded` `rounded-lg` `rounded-xl`
-- `elevated` `floating`
-:::
+**Glass Variants:** `subtle-glass` `light-glass` `glass` `heavy-glass`
+
+**Padding:** `padded-sm` `padded` `padded-lg` `padded-xl`
+
+**Effects:** `elevated` `floating` `hover-lift` `rounded` `rounded-lg` `rounded-xl`
+
+[Back to top](#top){badge primary}
 
 ---
 
-### Grid Component
+## Grid {#grid large-bold primary}
 
-**Responsive column layout system with automatic equal-height columns.**
+**Responsive column layouts with automatic equal-height columns.**
 
-:::tabs
-### 2 Columns
+### Column Examples {medium-bold}
+
+**2 Columns:**
 
 :::grid {cols-2}
 :::card {subtle-glass padded}
@@ -131,11 +170,11 @@ Equal height columns automatically adjust to match the tallest sibling.
 :::card {subtle-glass padded}
 #### :icon[heart]{error} Column 2
 
-This column has more content to demonstrate the equal-height behavior. Notice how both columns have the same height regardless of content length. This creates a clean, professional grid layout.
+This column has more content to demonstrate the equal-height behavior. Notice how both columns maintain the same height regardless of content length. This creates a clean, professional grid layout without manual height adjustments.
 :::
 :::
 
-### 3 Columns
+**3 Columns:**
 
 :::grid {cols-3}
 :::card {subtle-glass padded center}
@@ -143,27 +182,27 @@ This column has more content to demonstrate the equal-height behavior. Notice ho
 
 **Developer Friendly** {bold}
 
-Plain English syntax
+Plain English syntax that just makes sense.
 :::
 
 :::card {subtle-glass padded center}
 :icon[palette]{success huge}
 
-**Beautiful** {bold}
+**Beautiful Design** {bold}
 
-Zero-config aesthetics
+Zero-config professional aesthetics.
 :::
 
 :::card {subtle-glass padded center}
 :icon[zap]{warning huge}
 
-**Fast** {bold}
+**Lightning Fast** {bold}
 
-Lightning compilation
+Sub-100ms compilation targets.
 :::
 :::
 
-### 4 Columns
+**4 Columns:**
 
 :::grid {cols-4}
 :::card {subtle-glass padded center}
@@ -191,7 +230,7 @@ Lightning compilation
 :::
 :::
 
-### Nested Grids
+### Nested Grids {medium-bold}
 
 :::grid {cols-2}
 :::card {light-glass padded}
@@ -215,11 +254,11 @@ Nested 2
 :::card {light-glass padded}
 #### Sidebar
 
-Grids can be nested infinitely for complex layouts.
+Grids can be nested infinitely for complex layouts that maintain equal heights throughout.
 :::
 :::
 
-### Usage
+### Syntax & Variants {medium-bold}
 
 ```markdown
 :::grid {cols-2}
@@ -232,58 +271,38 @@ Column 2
 :::
 :::
 
-:::grid {cols-3}
-:::card
-Column 1
-:::
-
-:::card
-Column 2
-:::
-
-:::card
-Column 3
-:::
+:::grid {cols-3 gap-lg}
+Three columns with large gap
 :::
 ```
 
-**Variants:**
-- `cols-2` `cols-3` `cols-4`
-- `gap` `gap-sm` `gap-lg`
-:::
+**Columns:** `cols-2` `cols-3` `cols-4`
+
+**Gaps:** `gap-sm` `gap` `gap-lg`
+
+[Back to top](#top){badge primary}
 
 ---
 
-### Button Group Component
+## Button Group {#button-group large-bold primary}
 
-**Intelligent button layout with automatic centering and mobile stacking.**
+**Intelligent button layout with centering and mobile stacking.**
 
-:::tabs
-### Basic Usage
-
-:::card {subtle-glass padded}
-**Default (Centered):**
-
-:::button-group
-[Primary](#){button primary large} [Secondary](#){button secondary large} [Tertiary](#){button info}
-:::
-:::
-
-### Alignment Variants
+### Alignment Variants {medium-bold}
 
 :::card {subtle-glass padded}
 **Left Aligned:**
 
 :::button-group {left}
-[Left](#){button primary} [Aligned](#){button secondary} [Buttons](#){button info}
+[Start](#){button primary} [Progress](#){button secondary} [End](#){button info}
 :::
 
 ---
 
 **Centered (default):**
 
-:::button-group {center}
-[Centered](#){button primary} [Button](#){button secondary} [Group](#){button info}
+:::button-group
+[Option A](#){button primary} [Option B](#){button secondary} [Option C](#){button info}
 :::
 
 ---
@@ -291,17 +310,17 @@ Column 3
 **Right Aligned:**
 
 :::button-group {right}
-[Right](#){button primary} [Aligned](#){button secondary} [Buttons](#){button info}
+[Save Draft](#){button secondary} [Publish](#){button primary}
 :::
 :::
 
-### Size Variants
+### Size Variants {medium-bold}
 
 :::card {subtle-glass padded}
 **Small Gap:**
 
 :::button-group {sm}
-[Button A](#){button primary small} [Button B](#){button secondary small} [Button C](#){button info small}
+[Compact](#){button primary small} [Layout](#){button secondary small} [Here](#){button info small}
 :::
 
 ---
@@ -309,7 +328,7 @@ Column 3
 **Medium Gap (default):**
 
 :::button-group
-[Button A](#){button primary} [Button B](#){button secondary} [Button C](#){button info}
+[Standard](#){button primary} [Spacing](#){button secondary} [Works](#){button info}
 :::
 
 ---
@@ -317,31 +336,25 @@ Column 3
 **Large Gap:**
 
 :::button-group {lg}
-[Button A](#){button primary large} [Button B](#){button secondary large}
+[Spacious](#){button primary large} [Layout](#){button secondary large}
 :::
 :::
 
-### Responsive Behavior
+### Responsive Behavior {medium-bold}
 
 :::card {light-glass padded}
-**Desktop:**
-- Centers horizontally
-- Auto-sizing with proper gaps
-- Wraps when space constrained
+**Desktop:** Horizontal layout with auto-sizing and proper gaps
 
-**Mobile:**
-- Stacks vertically automatically
-- Full-width for better touch targets
-- Maintains proper spacing
+**Mobile:** Automatically stacks vertically with full-width buttons for better touch targets
 
-Try resizing your browser to see it in action!
+**Try resizing your browser to see it in action!**
 
 :::button-group
-[Try](#){button primary large} [Resizing](#){button secondary large} [Browser](#){button info large}
+[Mobile](#){button primary large} [Friendly](#){button secondary large} [Layout](#){button success large}
 :::
 :::
 
-### Usage
+### Syntax & Variants {medium-bold}
 
 ```markdown
 :::button-group
@@ -349,126 +362,45 @@ Try resizing your browser to see it in action!
 [Secondary](#){button secondary large}
 :::
 
-:::button-group {left}
-Left-aligned buttons
-:::
-
-:::button-group {lg}
-Large gaps between buttons
+:::button-group {right lg}
+Right-aligned with large gaps
 :::
 ```
 
-**Variants:**
-- Alignment: `left` `center` `right` `stack`
-- Sizes: `sm` `md` `lg`
-:::
+**Alignment:** `left` `center` `right` `stack`
+
+**Sizes:** `sm` `md` `lg`
+
+[Back to top](#top){badge primary}
 
 ---
 
-## :icon[activity]{success large} Interactive Components {large-bold primary}
+# Interactive Components {#interactive huge-bold center primary}
 
-Components with built-in JavaScript behaviors - zero configuration required.
+**Components with built-in JavaScript behaviors - zero configuration required.**
 
 ---
 
-### Tabs Component
+## Tabs {#tabs large-bold primary}
 
 **Tabbed interface using headings as labels.**
 
-:::tabs
-### Live Demo
-
-Here's a live example of tabs in action!
+### Live Example {medium-bold}
 
 :::tabs
-#### :icon[home]{primary} Tab One
+#### :icon[home]{primary} Overview
 
-This is the content for the first tab. Tabs use headings (h2 or h3) as labels, and everything between headings becomes the panel content.
+Tabs use headings (h2-h4) as labels. Everything between headings becomes panel content.
 
 **Features:**
 - :icon[check]{success} First tab active by default
-- :icon[check]{success} Click to switch tabs
-- :icon[check]{success} Keyboard navigation (arrow keys)
+- :icon[check]{success} Click or keyboard navigation (arrow keys)
 - :icon[check]{success} Smooth transitions
-- :icon[check]{success} ARIA accessibility
+- :icon[check]{success} Full ARIA accessibility
 
-#### :icon[code]{success} Tab Two
+#### :icon[code]{success} Syntax
 
-The tabs component is incredibly simple to use. Just wrap your content in `:::tabs` fences and use headings to define each tab.
-
-```markdown
-:::tabs
-## First Tab
-Content here
-
-## Second Tab
-More content
-:::
-```
-
-#### :icon[sparkles]{warning} Tab Three
-
-Tabs support all markdown and Taildown syntax inside them:
-
-- Lists work
-- **Bold text** works
-- :icon[heart]{error} Icons work
-- [Links](#) work
-- Even nested components!
-
-:::alert {info}
-:icon[lightbulb]{warning} Alerts inside tabs work perfectly!
-:::
-
-#### :icon[palette]{error} Tab Four
-
-You can have as many tabs as you need. They'll automatically wrap on mobile for better usability.
-:::
-
-### With Rich Content
-
-:::tabs
-#### :icon[layout]{primary} Complex Content
-
-Tabs can contain complex nested structures:
-
-:::grid {cols-2}
-:::card {subtle-glass padded}
-##### Left Column
-Cards inside tabs work!
-:::
-
-:::card {subtle-glass padded}
-##### Right Column
-Even grids inside tabs!
-:::
-:::
-
-#### :icon[table]{success} Tables
-
-Tables work inside tabs too:
-
-| Feature | Status | Notes |
-|---------|--------|-------|
-| Markdown | ✓ | Full support |
-| Components | ✓ | All work |
-| JavaScript | ✓ | Auto-generated |
-| Dark Mode | ✓ | Themed properly |
-
-#### :icon[image]{warning} Media
-
-You can include any media:
-
-:::card {subtle-glass padded center}
-:icon[image]{primary huge}
-
-**Image Placeholder**
-
-Images, videos, and other media work perfectly inside tabs.
-:::
-:::
-
-### Usage
+Simple, intuitive syntax:
 
 ```markdown
 :::tabs
@@ -483,72 +415,114 @@ Content for third tab
 :::
 ```
 
-**Features:**
-- Uses h2 or h3 headings as tab labels
-- First tab automatically active
-- Click or keyboard navigation
-- Smooth animations
-- Full ARIA support
-- Works with all content types
+#### :icon[sparkles]{warning} Rich Content
+
+Tabs support full Taildown syntax:
+
+- **Bold** and *emphasis*
+- `Code snippets`
+- [Links](#) and buttons
+- :icon[heart]{error} Icons
+- Nested components!
+
+:::alert {info}
+:icon[lightbulb]{warning} Even alerts work inside tabs!
 :::
+
+#### :icon[palette]{error} Nested Components
+
+Complex layouts inside tabs:
+
+:::grid {cols-2}
+:::card {subtle-glass padded}
+**Left Column**
+
+Cards work perfectly
+:::
+
+:::card {subtle-glass padded}
+**Right Column**
+
+Grids too!
+:::
+:::
+:::
+
+### Usage Summary {medium-bold}
+
+```markdown
+:::tabs
+## First Tab
+Content
+
+## Second Tab
+More content
+:::
+```
+
+**Key Points:**
+- H2-H4 headings become tab labels
+- First tab automatically active
+- Supports all markdown and components
+- Mobile-responsive wrapping
+
+[Back to top](#top){badge primary}
 
 ---
 
-### Accordion Component
+## Accordion {#accordion large-bold primary}
 
 **Expandable sections using bold text as triggers.**
 
-:::tabs
-### Live Demo
+### Live Example {medium-bold}
 
 :::accordion
 **What is an accordion?**
-An accordion is a vertically stacked list of items where each item can be expanded to reveal associated content. The first item is open by default.
+An accordion is a vertically stacked list where each item expands to reveal content. The first item is open by default. Click any trigger to expand/collapse.
 
 **How do I create one?**
-Simply wrap your content in `:::accordion` fences and use bold text (`**Bold**`) for the trigger labels. Everything between triggers becomes the panel content.
+Use `:::accordion` fences and **bold text** for triggers. Everything between triggers becomes panel content.
 
-**What content can go inside?**
-Anything! Markdown, components, icons, images - the full Taildown syntax is supported inside accordion panels.
+**What content is supported?**
+Everything! Full markdown, components, icons, images - the entire Taildown syntax works inside accordion panels.
 
 **Can I nest components?**
-Absolutely! Accordions can contain cards, grids, alerts, and even other accordions:
+Absolutely! Here's a card inside an accordion:
 
 :::card {subtle-glass padded}
-##### Nested Card
+#### Nested Card Example
 
-This card is inside an accordion panel. Pretty cool, right?
+This card lives inside an accordion panel with full styling support.
 
 :::alert {success}
-:icon[check]{success} Alerts work too!
+:icon[check]{success} Alerts work here too!
 :::
 :::
 
 **How is accessibility handled?**
-Accordions include proper ARIA attributes (`aria-expanded`, `aria-controls`) and are fully keyboard navigable for screen reader users.
+Accordions include proper ARIA attributes (`aria-expanded`, `aria-controls`) and full keyboard navigation for screen readers.
 :::
 
-### With Rich Content
+### Complex Content Example {medium-bold}
 
 :::accordion
-**:icon[zap]{warning} Performance Features**
+**:icon[zap]{warning} Performance**
 
-Taildown is designed for speed:
-
-- :icon[check]{success} Sub-100ms compilation target
+Optimized for speed:
+- :icon[check]{success} Sub-100ms compilation
 - :icon[check]{success} Tree-shaking for minimal JS
-- :icon[check]{success} Optimized CSS generation
+- :icon[check]{success} GPU-accelerated animations
 - :icon[check]{success} Minimal runtime overhead
 
-**:icon[heart]{error} Beautiful Design**
+**:icon[heart]{error} Design System**
 
-Zero-config aesthetics:
+Beautiful by default:
 
 :::grid {cols-3}
 :::card {subtle-glass padded center}
 :icon[sparkles]{warning}
 
-**Glass** {bold}
+**Glass**
 
 Glassmorphism
 :::
@@ -556,7 +530,7 @@ Glassmorphism
 :::card {subtle-glass padded center}
 :icon[sun]{warning}
 
-**Light** {bold}
+**Light**
 
 Light mode
 :::
@@ -564,7 +538,7 @@ Light mode
 :::card {subtle-glass padded center}
 :icon[moon]{primary}
 
-**Dark** {bold}
+**Dark**
 
 Dark mode
 :::
@@ -572,72 +546,59 @@ Dark mode
 
 **:icon[code]{primary} Developer Experience**
 
-Built for developers:
+Simple syntax:
 
 ```markdown
 :::accordion
 **Section Title**
-Section content
+Section content here
 :::
 ```
 
-Simple, intuitive, and powerful.
-
-**:icon[book]{success} Documentation**
-
-Comprehensive documentation:
-
-| Resource | Description |
-|----------|-------------|
-| Syntax Guide | Complete syntax reference |
-| Components | Component showcase |
-| Plain English | Style shorthand reference |
-| Examples | Real-world examples |
+Clean, intuitive, and powerful!
 :::
 
-### Usage
+### Usage Summary {medium-bold}
 
 ```markdown
 :::accordion
 **First Section**
-Content for first section (open by default)
+Content (open by default)
 
 **Second Section**
-Content for second section
+More content
 
 **Third Section**
-Content for third section
+Even more content
 :::
 ```
 
-**Features:**
+**Key Points:**
 - Bold text paragraphs become triggers
 - First item open by default
 - Click to expand/collapse
-- Smooth expand/collapse animations
-- ARIA attributes for accessibility
-- Supports all content types
-:::
+- Full ARIA support
+
+[Back to top](#top){badge primary}
 
 ---
 
-### Carousel Component
+## Carousel {#carousel large-bold primary}
 
-**Slideshow with navigation and 3D card effects.**
+**Slideshow with navigation, indicators, and 3D card effects.**
 
-:::tabs
-### Live Demo
+### Feature Showcase {medium-bold}
 
 :::carousel
 :::card {heavy-glass padded-xl center}
 :icon[zap]{warning huge}
 
-**Slide 1: Lightning Fast** {huge-bold}
+**Lightning Fast** {huge-bold}
 
-Taildown compiles your documents in milliseconds with sub-100ms targets for even large documents. {large-muted}
+Taildown compiles in milliseconds with sub-100ms targets. {large-muted}
 
 :::button-group
-[Learn More](#){button primary large} [View Benchmark](#){button secondary}
+[Learn More](#){button primary large} [Benchmarks](#){button secondary}
 :::
 :::
 
@@ -646,12 +607,12 @@ Taildown compiles your documents in milliseconds with sub-100ms targets for even
 :::card {heavy-glass padded-xl center}
 :icon[heart]{error huge}
 
-**Slide 2: Zero Config Beautiful** {huge-bold}
+**Zero Config Beautiful** {huge-bold}
 
-Every component is beautiful by default with glassmorphism, animations, and modern design. {large-muted}
+Every component is gorgeous by default with glassmorphism. {large-muted}
 
 :::button-group
-[See Examples](#){button primary large} [Style Guide](#){button secondary}
+[Examples](#){button primary large} [Style Guide](#){button secondary}
 :::
 :::
 
@@ -660,12 +621,12 @@ Every component is beautiful by default with glassmorphism, animations, and mode
 :::card {heavy-glass padded-xl center}
 :icon[code]{primary huge}
 
-**Slide 3: Plain English** {huge-bold}
+**Plain English** {huge-bold}
 
-Style your content using natural language: `large-bold`, `subtle-glass`, `hover-lift`. {large-muted}
+Style with natural language: `large-bold`, `subtle-glass`. {large-muted}
 
 :::button-group
-[Syntax Reference](#){button primary large} [Get Started](#){button secondary}
+[Syntax](#){button primary large} [Get Started](#){button secondary}
 :::
 :::
 
@@ -674,25 +635,25 @@ Style your content using natural language: `large-bold`, `subtle-glass`, `hover-
 :::card {heavy-glass padded-xl center}
 :icon[package]{success huge}
 
-**Slide 4: Interactive Components** {huge-bold}
+**Interactive Components** {huge-bold}
 
-Tabs, accordions, modals, tooltips - all with auto-generated JavaScript. {large-muted}
+Tabs, accordions, modals with auto-generated JavaScript. {large-muted}
 
 :::button-group
-[Component List](#){button primary large} [Documentation](#){button secondary}
+[Components](#){button primary large} [Docs](#){button secondary}
 :::
 :::
 :::
 
-### With Images
+### Simple Content Example {medium-bold}
 
 :::carousel
 :::card {light-glass padded-xl center}
 :icon[image]{primary huge}
 
-**Image Slide 1** {huge-bold}
+**Slide 1** {huge-bold}
 
-Add images to your carousel slides for stunning visual presentations. {large-muted}
+Create stunning visual presentations easily. {large-muted}
 :::
 
 ---
@@ -700,9 +661,9 @@ Add images to your carousel slides for stunning visual presentations. {large-mut
 :::card {light-glass padded-xl center}
 :icon[video]{success huge}
 
-**Video Slide 2** {huge-bold}
+**Slide 2** {huge-bold}
 
-Embed videos, animations, or any media type. {large-muted}
+Embed any media type or content. {large-muted}
 :::
 
 ---
@@ -710,13 +671,13 @@ Embed videos, animations, or any media type. {large-muted}
 :::card {light-glass padded-xl center}
 :icon[music]{warning huge}
 
-**Audio Slide 3** {huge-bold}
+**Slide 3** {huge-bold}
 
-Create multimedia experiences with ease. {large-muted}
+Build multimedia experiences effortlessly. {large-muted}
 :::
 :::
 
-### Usage
+### Usage Summary {medium-bold}
 
 ```markdown
 :::carousel
@@ -739,32 +700,39 @@ Third slide content
 - Keyboard navigation (arrow keys)
 - Swipe support on touch devices
 - 3D card effects with glassmorphism
-- Auto-play option (via attributes)
-:::
+
+[Back to top](#top){badge primary}
 
 ---
 
-### Modal Component
+# Overlay Components {#overlays huge-bold center primary}
+
+**Modals and tooltips for contextual information.**
+
+---
+
+## Modal {#modal large-bold primary}
 
 **Overlay dialogs with backdrop blur and focus management.**
 
-:::tabs
-### Attachable Modals
+### Inline Content {medium-bold}
 
-The recommended way to use modals is to attach them to buttons or links:
-
-**Inline content:**
+The simplest way - content directly in the attribute:
 
 [Simple Alert](#){button primary modal="This is a simple alert modal! Click the backdrop or press Escape to close."}
 
-**ID-referenced content:**
+[Warning Message](#){button warning modal="⚠️ **Warning:** This action cannot be undone. Please proceed with caution."}
 
-[Rich Modal](#){button success large hover-lift modal="#demo-modal"}
+### ID-Referenced Content {medium-bold}
+
+For rich content, define the modal separately and reference it by ID:
+
+[Open Rich Modal](#){button success large hover-lift modal="#demo-modal"}
 
 :::modal{id="demo-modal"}
 #### :icon[sparkles]{warning} Rich Modal Example
 
-This modal demonstrates full markdown and component support:
+This modal demonstrates full markdown and component support!
 
 :::alert {info}
 :icon[lightbulb]{warning} Modals can contain any Taildown content!
@@ -774,18 +742,20 @@ This modal demonstrates full markdown and component support:
 - :icon[check]{success} Full markdown support
 - :icon[check]{success} Nested components
 - :icon[check]{success} Backdrop blur effect
-- :icon[check]{success} Focus trap
+- :icon[check]{success} Focus trap for accessibility
 - :icon[check]{success} Escape key to close
 - :icon[check]{success} Body scroll lock
 
 :::grid {cols-2}
 :::card {subtle-glass padded}
-##### Column 1
+**Column 1**
+
 Even grids work!
 :::
 
 :::card {subtle-glass padded}
-##### Column 2
+**Column 2**
+
 Perfectly responsive!
 :::
 :::
@@ -795,9 +765,9 @@ Perfectly responsive!
 :::
 :::
 
-### Multiple Triggers
+### Shared Modals {medium-bold}
 
-Use ID references to share one modal across multiple triggers:
+Define once, trigger from multiple elements:
 
 [Trigger A](#){button primary modal="#shared-modal"} [Trigger B](#){button secondary modal="#shared-modal"} [Trigger C](#){button info modal="#shared-modal"}
 
@@ -809,13 +779,13 @@ This modal is triggered by three different buttons - define once, use everywhere
 **Benefits:**
 - DRY principle (Don't Repeat Yourself)
 - Easy to maintain
-- Consistent experience
+- Consistent user experience
 - Better performance
 :::
 
-### Usage
+### Usage Summary {medium-bold}
 
-**Inline content:**
+**Inline:**
 ```markdown
 [Click me](#){button modal="Simple message"}
 ```
@@ -826,67 +796,71 @@ This modal is triggered by three different buttons - define once, use everywhere
 
 :::modal{id="my-modal"}
 # Modal Title
-Modal content with full markdown support
+Rich content with full markdown support
 :::
 ```
 
 **Features:**
 - Backdrop with blur effect
 - Close button (top-right)
-- Escape key to close
-- Click backdrop to close
+- Escape key / backdrop click to close
 - Focus trap for accessibility
 - Body scroll lock when open
-- Fade in/out animations
-- Can be attached to any element
-:::
+- Smooth fade animations
+
+[Back to top](#top){badge primary}
 
 ---
 
-### Tooltip Component
+## Tooltip {#tooltip large-bold primary}
 
 **Contextual help text on hover or click.**
 
-:::tabs
-### Attachable Tooltips
+### Inline Tooltips {medium-bold}
 
-Tooltips attach to any element using simple attributes:
-
-**Inline content:**
+Attach tooltips to any element with simple attributes:
 
 Hover over [this text](#){tooltip="This is a helpful tooltip with inline content!"} to see the tooltip.
 
 Learn about [this feature](#){primary tooltip="Tooltips provide context without cluttering your interface. Perfect for help text and definitions."} with contextual help.
 
-**ID-referenced content:**
+Click this [badge](#){badge warning tooltip="This tooltip explains what the badge means. Works on hover or click!"} for information.
 
-[Complex tooltip](#){badge warning tooltip="#rich-tooltip"}
+### ID-Referenced Tooltips {medium-bold}
+
+For complex content, use ID references:
+
+[Complex tooltip](#){badge info tooltip="#rich-tooltip"}
 
 :::tooltip{id="rich-tooltip"}
-**Complex Tooltip** with:
+**Rich Tooltip** with:
 - Full markdown support
 - `Code examples`
 - *Emphasis* and **bold**
 - Even [links](#)!
 :::
 
-### Multiple Triggers
+### Multiple Triggers {medium-bold}
 
-Share tooltips across triggers:
+Share tooltips across elements:
 
-Technical term 1[?](#){badge info tooltip="#glossary"} and technical term 2[?](#){badge info tooltip="#glossary"} both use the same tooltip.
+Technical term 1[?](#){badge primary tooltip="#glossary"} and technical term 2[?](#){badge primary tooltip="#glossary"} both use the same tooltip.
 
 :::tooltip{id="glossary"}
-**Technical Definition:** A comprehensive explanation with full markdown support for complex concepts.
+**Technical Definition:** A comprehensive explanation with full markdown support for complex concepts requiring detailed information.
 :::
 
-### In Buttons
+### In Context {medium-bold}
 
-[Need Help?](#){button primary tooltip="Click this button to submit your form. Make sure all required fields are filled."} [Cancel](#){button secondary tooltip="Discard changes and return to the previous page."}
+Tooltips work on buttons, badges, and links:
 
-### Usage
+[Need Help?](#){button primary tooltip="Submit your form after filling all required fields."} [Cancel](#){button secondary tooltip="Discard changes and return to previous page."}
 
-**Inline content:**
+Status: [Active](#){badge success tooltip="Service is running normally"} | Version: [v2.1.0](#){badge info tooltip="Latest stable release"} | [Beta Feature](#){badge warning tooltip="This feature is experimental"}
+
+### Usage Summary {medium-bold}
+
+**Inline:**
 ```markdown
 [Hover here](#){tooltip="Help text"}
 ```
@@ -896,7 +870,7 @@ Technical term 1[?](#){badge info tooltip="#glossary"} and technical term 2[?](#
 [Info](#){tooltip="#help"}
 
 :::tooltip{id="help"}
-Detailed help content
+Detailed help content with markdown
 :::
 ```
 
@@ -904,28 +878,25 @@ Detailed help content
 - Show on hover (desktop)
 - Show on click (mobile/touch)
 - Auto-positioned relative to trigger
-- Fade in/out animations
+- Fade animations
 - ARIA `aria-describedby` for accessibility
-- Full markdown in ID-referenced tooltips
-- Can attach to any element
-:::
+- Attaches to any element
+
+[Back to top](#top){badge primary}
 
 ---
 
-## :icon[bell]{warning large} Feedback Components {large-bold primary}
+# Feedback Components {#feedback huge-bold center primary}
 
-Components for displaying messages and status information.
+**Display messages, status, and notifications.**
 
 ---
 
-### Alert Component
+## Alert {#alert large-bold primary}
 
 **Semantic message boxes with theming and icons.**
 
-:::tabs
-### Variants
-
-All four semantic variants:
+### All Variants {medium-bold}
 
 :::alert {info}
 :icon[info]{info} **Information:** This is an informational alert with proper theming and icon integration.
@@ -943,32 +914,28 @@ All four semantic variants:
 :icon[x-circle]{error} **Error:** An error occurred. Please check your input and try again.
 :::
 
-### With Content
-
-Alerts can contain rich content:
+### Rich Content Example {medium-bold}
 
 :::alert {info}
 #### :icon[lightbulb]{warning} Pro Tip
 
-Alerts support full markdown:
+Alerts support full markdown content:
 
 - **Bold text** and *emphasis*
-- `Code snippets`
-- [Links](#) and buttons
-- Even nested components!
+- `Code snippets` and technical terms
+- [Links](#) and inline buttons
+- Lists and structured content
 
 [Learn More](#){button primary small}
 :::
 
-### Without Icons
-
-Alerts work without icons too:
+### Minimal Style {medium-bold}
 
 :::alert {success}
-**Clean alert** without an icon for minimal design.
+**Clean alert** without an icon for minimal, focused messaging.
 :::
 
-### Usage
+### Usage Summary {medium-bold}
 
 ```markdown
 :::alert {info}
@@ -988,52 +955,41 @@ Alerts work without icons too:
 :::
 ```
 
-**Variants:**
-- `info` (blue)
-- `success` (green)
-- `warning` (yellow/orange)
-- `error` (red)
+**Variants:** `info` (blue) • `success` (green) • `warning` (yellow) • `error` (red)
 
-**Features:**
-- Proper theming with CSS variables
-- Dark mode support
-- Full markdown support inside
-- Responsive padding
-- Smooth animations
-:::
+**Features:** Proper theming • Dark mode support • Responsive padding • Smooth animations
+
+[Back to top](#top){badge primary}
 
 ---
 
-### Badge Component
+## Badge {#badge large-bold primary}
 
 **Inline labels and status indicators.**
 
-:::tabs
-### Color Variants
-
-Badges come in all semantic colors:
+### Color Variants {medium-bold}
 
 [Default](#){badge} [Primary](#){badge primary} [Secondary](#){badge secondary} [Success](#){badge success} [Warning](#){badge warning} [Error](#){badge error} [Info](#){badge info} [Muted](#){badge muted}
 
-### Size Variants
-
-Three size options:
+### Size Variants {medium-bold}
 
 [Small](#){badge primary small} [Medium (default)](#){badge primary} [Large](#){badge primary large}
 
-### In Context
+### In Context {medium-bold}
 
-Use badges to highlight information:
+Use badges to highlight status and metadata:
 
-**Status:** [Active](#){badge success} | **Version:** [v1.0.0](#){badge info} | **License:** [MIT](#){badge primary}
+**Project Status:** [Active](#){badge success} | **Version:** [v2.1.0](#){badge info} | **License:** [MIT](#){badge primary}
 
-### With Icons
+**Features:** [New](#){badge warning} [Beta](#){badge info} [Deprecated](#){badge error} [Coming Soon](#){badge secondary}
 
-Combine badges with icons:
+### With Icons {medium-bold}
 
-[New](#){badge primary} :icon[star]{warning} [Beta](#){badge warning} :icon[zap]{warning} [Deprecated](#){badge error} :icon[alert-triangle]{error}
+Combine badges with icons for visual context:
 
-### Usage
+[Featured](#){badge primary} :icon[star]{warning} • [Trending](#){badge success} :icon[trending-up]{success} • [Hot](#){badge error} :icon[flame]{error}
+
+### Usage Summary {medium-bold}
 
 ```markdown
 [Text](#){badge}
@@ -1042,107 +998,109 @@ Combine badges with icons:
 [Text](#){badge error large}
 ```
 
-**Colors:**
-- `default` `primary` `secondary` `success`
-- `warning` `error` `info` `muted`
+**Colors:** `default` `primary` `secondary` `success` `warning` `error` `info` `muted`
 
-**Sizes:**
-- `small` `base` (default) `large`
-:::
+**Sizes:** `small` `base` (default) `large`
+
+[Back to top](#top){badge primary}
 
 ---
 
-## :icon[layout]{error large} Navigation Components {large-bold primary}
+# Navigation Components {#navigation huge-bold center primary}
 
-Components for site navigation and wayfinding.
+**Components for site navigation and wayfinding.**
 
 ---
 
-### Navbar Component
+## Navbar {#navbar large-bold primary}
 
 **Modern navigation bar with glassmorphism and responsive behavior.**
 
-The navbar you see at the top of this page is a live example!
+:::alert {success}
+:icon[check]{success} **Live Example:** The navbar at the top of this page is a working Taildown navbar!
+:::
 
-:::tabs
-### Basic Structure
+### Basic Structure {medium-bold}
 
 The navbar uses a heading for branding and paragraph links for navigation:
 
 ```markdown
 :::navbar
-# :icon[zap]{warning} Brand Name
+# Brand Name
 
 [Home](/) [About](/about) [Docs](/docs) [Contact](/contact)
 :::
 ```
 
-### Features
+### Features {medium-bold}
 
-**Desktop:**
-- Glassmorphic background with blur
-- Horizontal layout with flex
+:::grid {cols-2}
+:::card {subtle-glass padded}
+#### Desktop Experience
+
+- Glassmorphic translucent background
+- Horizontal flex layout
 - Hover effects on links
 - Active link highlighting
+- Smooth scroll transparency
+:::
 
-**Mobile:**
+:::card {subtle-glass padded}
+#### Mobile Experience
+
 - Responsive breakpoints
 - Wrapped navigation
 - Touch-friendly targets
+- Full-width layout
+:::
+:::
 
-**Theming:**
-- Light mode with translucent white
-- Dark mode with translucent slate
+### Theming & Behavior {medium-bold}
+
+:::card {light-glass padded}
+**Automatic Theming:**
+- Light mode: translucent white with blur
+- Dark mode: translucent slate with blur
 - Smooth theme transitions
 
-### Variants
-
-The navbar supports style variants:
-
-```markdown
-:::navbar {glass}
-Glass variant (default)
+**Scroll Behavior:**
+- Fixed position (stays at top)
+- Increases transparency on scroll
+- Enhanced blur effect when scrolling
+- Professional modern appearance
 :::
 
-:::navbar {solid}
-Solid background variant
-:::
-
-:::navbar {minimal}
-Minimal variant
-:::
-
-:::navbar {floating}
-Floating with more shadow
-:::
-```
-
-### Usage
+### Usage Summary {medium-bold}
 
 ```markdown
 :::navbar
-# :icon[logo]{primary} Site Name
+# Site Name
 
 [Link 1](#) [Link 2](#) [Link 3](#)
 :::
 ```
 
 **Best Practices:**
-- Use a heading (h1-h3) for branding
+- Use H1-H3 for branding
 - Use paragraph links for navigation
-- Include icons for visual interest
 - Keep navigation concise (5-7 links max)
-:::
+- Include icons for visual interest
+
+**Variants:** `glass` (default) `solid` `minimal` `floating`
+
+[Back to top](#top){badge primary}
 
 ---
 
-## Component Combinations {large-bold center primary}
+# Component Combinations {#combinations huge-bold center primary}
 
 **Powerful layouts using multiple components together.**
 
 ---
 
-### Feature Grid
+## Feature Grid Showcase {large-bold primary}
+
+Combine grids, cards, and icons for stunning feature sections:
 
 :::grid {cols-3}
 :::card {subtle-glass padded center hover-lift}
@@ -1150,39 +1108,39 @@ Floating with more shadow
 
 **Lightning Fast** {large-bold}
 
-Sub-100ms compilation even for large documents.
+Sub-100ms compilation targets
 :::
 
 :::card {subtle-glass padded center hover-lift}
 :icon[heart]{error huge}
 
-**Beautiful** {large-bold}
+**Beautiful Design** {large-bold}
 
-Zero-config glassmorphism and modern design.
+Zero-config glassmorphism
 :::
 
 :::card {subtle-glass padded center hover-lift}
 :icon[code]{primary huge}
 
-**Simple** {large-bold}
+**Simple Syntax** {large-bold}
 
-Plain English syntax that just makes sense.
+Plain English styling
 :::
 
 :::card {light-glass padded center hover-lift}
 :icon[package]{success huge}
 
-**Components** {large-bold}
+**Rich Components** {large-bold}
 
-Rich interactive components with auto JS.
+Interactive with auto JS
 :::
 
 :::card {light-glass padded center hover-lift}
 :icon[palette]{info huge}
 
-**Themed** {large-bold}
+**Full Theming** {large-bold}
 
-Dark mode support built-in everywhere.
+Dark mode everywhere
 :::
 
 :::card {light-glass padded center hover-lift}
@@ -1190,55 +1148,56 @@ Dark mode support built-in everywhere.
 
 **Accessible** {large-bold}
 
-ARIA attributes and keyboard navigation.
+ARIA and keyboard nav
 :::
 :::
 
 ---
 
-### Tabbed Content with Cards
+## Documentation Section {large-bold primary}
+
+Combine cards, tabs, and alerts for rich documentation:
 
 :::card {light-glass padded}
-#### :icon[book]{primary} Documentation Sections
+#### :icon[book]{primary} Quick Reference
 
 :::tabs
 ### Getting Started
 
 :::alert {info}
-:icon[lightbulb]{warning} New to Taildown? Start here!
+:icon[lightbulb]{warning} New to Taildown? Start here for a quick introduction!
 :::
 
-Follow these steps to get up and running:
-
-1. Install Taildown: `npm install @taildown/cli`
-2. Create your first `.td` file
-3. Compile: `taildown compile your-file.td`
+**Quick Steps:**
+1. Install: `npm install @taildown/cli`
+2. Create a `.td` file
+3. Compile: `taildown compile file.td`
 4. Open the generated HTML
 
-[View Full Guide](#){button primary}
+[Full Tutorial](#){button primary}
 
 ### Syntax Reference
 
-Quick reference for common syntax:
+Common patterns at a glance:
 
-| Syntax | Description |
-|--------|-------------|
+| Syntax | Purpose |
+|--------|---------|
 | `{large-bold}` | Plain English styling |
 | `:icon[name]` | Inline icons |
 | `:::component` | Component blocks |
-| `[Link](#){button}` | Button links |
+| `[Text](#){button}` | Button links |
 
-[Full Syntax Guide](#){button primary}
+[Complete Syntax](#){button primary}
 
 ### Components
 
 All available components:
 
-- :icon[check]{success} Card, Grid, Button Group
-- :icon[check]{success} Tabs, Accordion, Carousel
-- :icon[check]{success} Modal, Tooltip
-- :icon[check]{success} Alert, Badge
-- :icon[check]{success} Navbar
+- :icon[check]{success} Layout: Card, Grid, Button Group
+- :icon[check]{success} Interactive: Tabs, Accordion, Carousel
+- :icon[check]{success} Overlays: Modal, Tooltip
+- :icon[check]{success} Feedback: Alert, Badge
+- :icon[check]{success} Navigation: Navbar
 
 [Component Reference](#){button primary}
 :::
@@ -1246,23 +1205,27 @@ All available components:
 
 ---
 
-### Call to Action Section
+## Call to Action Section {large-bold primary}
+
+Cards, buttons, and icons create compelling CTAs:
 
 :::card {heavy-glass padded-xl}
 :icon[sparkles]{warning huge} {center}
 
 **Ready to build something amazing?** {huge-bold center primary}
 
-Get started with Taildown in just 5 minutes. No configuration, no complexity - just beautiful results. {large-muted center}
+Get started with Taildown in 5 minutes. No configuration, no complexity - just beautiful results. {large-muted center}
 
 :::button-group
-[Get Started Free](#){button primary large hover-lift} [View Documentation](#){button secondary large} [See Examples](#){button info large}
+[Get Started Free](#){button primary large hover-lift} [View Docs](#){button secondary large} [See Examples](#){button info large}
 :::
 :::
 
 ---
 
-### FAQ Accordion in Card
+## FAQ Accordion {large-bold primary}
+
+Accordion inside a card for elegant FAQs:
 
 :::card {light-glass padded-xl}
 ### :icon[help-circle]{primary} Frequently Asked Questions
@@ -1270,70 +1233,84 @@ Get started with Taildown in just 5 minutes. No configuration, no complexity - j
 :::accordion
 **Is Taildown production-ready?**
 
-Taildown is in active development with a strong focus on stability. The core syntax is stable, and backwards compatibility is a priority. Many features are production-ready, while others are still being refined.
+Taildown is in active development with strong stability focus. The core syntax is stable and backwards compatibility is a priority. Many features are production-ready while others are being refined.
 
-**Does it work with my existing Markdown files?**
+**Does it work with existing Markdown?**
 
-Yes! Taildown is a superset of Markdown. Every valid Markdown document is also a valid Taildown document. You can gradually add Taildown features to existing content.
+Yes! Taildown is a superset of Markdown. Every valid Markdown document is also valid Taildown. You can gradually add Taildown features to existing content.
 
 **What about bundle size?**
 
-Taildown uses tree-shaking to only include JavaScript for components you actually use. A document with no interactive components generates zero JS. Full component usage is typically 2-5KB minified.
+Taildown uses tree-shaking to include only JavaScript for components you actually use. Documents with no interactive components generate zero JS. Full component usage is typically 2-5KB minified.
 
 **Can I customize the styling?**
 
-Absolutely! The generated CSS can be extended or overridden. You can also use custom CSS classes alongside Taildown's plain English shorthands.
+Absolutely! The generated CSS can be extended or overridden. You can use custom CSS classes alongside Taildown's plain English shorthands.
 
 **How does it compare to MDX?**
 
-Taildown focuses on zero-config simplicity with plain English syntax, while MDX focuses on JSX integration. Taildown is markup-first, while MDX is component-first. Choose based on your needs!
+Taildown focuses on zero-config simplicity with plain English syntax, while MDX focuses on JSX integration. Taildown is markup-first, MDX is component-first. Choose based on your needs!
 :::
 :::
+
+[Back to top](#top){badge primary}
 
 ---
 
-## Complete Component Checklist {large-bold center primary}
+# Complete Component List {#checklist huge-bold center primary}
 
 **Every component at a glance:**
 
 :::grid {cols-2}
-:::card {subtle-glass padded}
-### Layout Components
-- :icon[check]{success} **Card** - Content containers
-- :icon[check]{success} **Grid** - Column layouts
-- :icon[check]{success} **Button Group** - Button layout
+:::card {light-glass padded}
+### :icon[layout]{primary} Layout Components
+- :icon[check]{success} **Card** - Content containers with glass effects
+- :icon[check]{success} **Grid** - Equal-height column layouts
+- :icon[check]{success} **Button Group** - Intelligent button layout
 :::
 
-:::card {subtle-glass padded}
-### Interactive Components
-- :icon[check]{success} **Tabs** - Tabbed interfaces
-- :icon[check]{success} **Accordion** - Expandable sections
-- :icon[check]{success} **Carousel** - Slideshows
-- :icon[check]{success} **Modal** - Overlay dialogs
-- :icon[check]{success} **Tooltip** - Contextual help
+:::card {light-glass padded}
+### :icon[activity]{success} Interactive Components
+- :icon[check]{success} **Tabs** - Tabbed interfaces with headings
+- :icon[check]{success} **Accordion** - Expandable sections with bold triggers
+- :icon[check]{success} **Carousel** - Slideshows with 3D effects
 :::
 
-:::card {subtle-glass padded}
-### Feedback Components
-- :icon[check]{success} **Alert** - Message boxes
-- :icon[check]{success} **Badge** - Inline labels
+:::card {light-glass padded}
+### :icon[message-square]{warning} Overlay Components
+- :icon[check]{success} **Modal** - Overlay dialogs with blur
+- :icon[check]{success} **Tooltip** - Contextual help text
 :::
 
-:::card {subtle-glass padded}
-### Navigation Components
-- :icon[check]{success} **Navbar** - Site navigation
-- :icon[check]{success} **Breadcrumb** - Nav trail
-- :icon[check]{success} **Pagination** - Page nav
+:::card {light-glass padded}
+### :icon[bell]{error} Feedback Components
+- :icon[check]{success} **Alert** - Semantic message boxes
+- :icon[check]{success} **Badge** - Inline status indicators
+- :icon[check]{success} **Progress** - Loading indicators
+:::
+:::
+
+:::card {subtle-glass padded center}
+### :icon[compass]{info} Navigation Components
+- :icon[check]{success} **Navbar** - Modern site navigation with glassmorphism
+- :icon[check]{success} **Breadcrumb** - Navigation trails
+- :icon[check]{success} **Pagination** - Page navigation
+:::
+
+---
+
+# Next Steps {#next huge-bold center primary}
+
+:::card {light-glass padded-xl center}
+**You've mastered every component!** {huge-bold}
+
+Now start building your own beautiful documents. {large-muted}
+
+:::button-group
+[Getting Started](getting-started.html){button primary large hover-lift} [Syntax Guide](syntax-guide.html){button secondary large} [Plain English](plain-english.html){button info large}
 :::
 :::
 
 ---
 
-## Next Steps {large-bold center primary}
-
-:::card {light-glass padded-xl center}
-**You've seen every component!** {huge-bold}
-
-Ready to use them in your project? {large-muted}
-:::
-
+[Back to top](#top){button primary large}
