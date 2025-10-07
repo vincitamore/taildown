@@ -860,7 +860,11 @@ function renderGenericComponent(state: State, node: ContainerDirectiveNode): Ele
   const children = state.all(node);
   
   // Determine HTML element (use component definition or default to div)
-  const tagName = component?.htmlElement || 'div';
+  // ENHANCEMENT: If href attribute is present, render as <a> tag for clickable components
+  let tagName = component?.htmlElement || 'div';
+  if (attributes.href && tagName === 'div') {
+    tagName = 'a';
+  }
   
   // Filter out semantic attributes that shouldn't become HTML attributes
   const htmlAttributes: Record<string, any> = {};
@@ -882,6 +886,21 @@ function renderGenericComponent(state: State, node: ContainerDirectiveNode): Ele
   // This allows JavaScript behaviors to be attached (e.g., navbar scroll effect)
   if (component) {
     properties['data-component'] = componentName;
+  }
+  
+  // For clickable components (rendered as <a> tags), ensure proper link styling
+  if (tagName === 'a') {
+    // Remove default link underline and add cursor-pointer for component links
+    if (properties.className) {
+      const classArray = Array.isArray(properties.className) ? properties.className : [properties.className];
+      if (!classArray.includes('no-underline')) {
+        classArray.push('no-underline');
+      }
+      if (!classArray.includes('cursor-pointer')) {
+        classArray.push('cursor-pointer');
+      }
+      properties.className = classArray;
+    }
   }
   
   const element: Element = {

@@ -26,10 +26,13 @@
  * Large card with dramatic shadow
  * :::
  * 
- * :::card {interactive}
- * Clickable card with hover effect
+ * :::card {interactive href="#section"}
+ * Entire card is clickable - modern UX best practice
  * :::
  * ```
+ * 
+ * Note: Adding an `href` attribute to any card makes the entire card
+ * clickable as a link (<a> tag), following modern UX best practices.
  */
 
 import { defineComponent } from '../component-registry';

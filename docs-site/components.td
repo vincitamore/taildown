@@ -17,34 +17,34 @@
 Jump directly to any component category:
 
 :::grid {cols-4}
-:::card {subtle-glass padded center hover-lift}
+:::card {subtle-glass padded center hover-lift href="#layout"}
 :icon[layout]{primary huge}
 
-**[Layout](#layout)**
+**Layout** {huge-bold}
 
 Card, Grid, Button Group
 :::
 
-:::card {subtle-glass padded center hover-lift}
+:::card {subtle-glass padded center hover-lift href="#interactive"}
 :icon[activity]{success huge}
 
-**[Interactive](#interactive)**
+**Interactive** {huge-bold}
 
 Tabs, Accordion, Carousel
 :::
 
-:::card {subtle-glass padded center hover-lift}
+:::card {subtle-glass padded center hover-lift href="#overlays"}
 :icon[message-square]{warning huge}
 
-**[Overlays](#overlays)**
+**Overlays** {huge-bold}
 
 Modal, Tooltip
 :::
 
-:::card {subtle-glass padded center hover-lift}
+:::card {subtle-glass padded center hover-lift href="#feedback"}
 :icon[bell]{error huge}
 
-**[Feedback](#feedback)**
+**Feedback** {huge-bold}
 
 Alert, Badge, Progress
 :::
@@ -130,6 +130,39 @@ Cards support any content: headings, paragraphs, lists, images, icons, and neste
 :::
 :::
 
+### Clickable Cards {medium-bold}
+
+Make entire cards clickable by adding an `href` attribute - modern UX best practice!
+
+:::grid {cols-2}
+:::card {light-glass padded hover-lift href="#layout"}
+#### :icon[mouse-pointer]{primary} Clickable Navigation Card
+
+The entire card is a link! This is the modern approach for navigation cards - no visible link styling, just an intuitive clickable surface.
+
+Try hovering over this card - the whole thing responds!
+:::
+
+:::card {subtle-glass padded hover-lift href="#interactive"}
+#### :icon[hand]{success} Interactive Card Link
+
+Click anywhere on this card to navigate. The `hover-lift` variant provides visual feedback on hover.
+
+**Syntax:**
+```
+:::card {glass hover-lift href="#target"}
+Content here
+:::
+```
+:::
+:::
+
+**Benefits:**
+- :icon[check]{success} Larger click target (better UX)
+- :icon[check]{success} No distracting link underlines
+- :icon[check]{success} Entire card provides visual feedback
+- :icon[check]{success} Modern, clean aesthetic
+
 ### Syntax & Variants {medium-bold}
 
 ```markdown
@@ -140,6 +173,10 @@ Your content here
 :::card {subtle-glass padded-xl rounded-xl hover-lift}
 Card with multiple attributes
 :::
+
+:::card {glass padded hover-lift href="#destination"}
+Clickable card - entire card is a link
+:::
 ```
 
 **Glass Variants:** `subtle-glass` `light-glass` `glass` `heavy-glass`
@@ -147,6 +184,8 @@ Card with multiple attributes
 **Padding:** `padded-sm` `padded` `padded-lg` `padded-xl`
 
 **Effects:** `elevated` `floating` `hover-lift` `rounded` `rounded-lg` `rounded-xl`
+
+**Clickable:** Add `href="#target"` to make entire card a link
 
 [Back to top](#top){badge primary}
 
