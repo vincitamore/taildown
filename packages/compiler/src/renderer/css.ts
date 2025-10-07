@@ -2026,7 +2026,7 @@ ${generateThemeCSS()}
  * ======================================== */
 
 .component-accordion {
-  border: 1px solid rgb(229 231 235);
+  border: 1px solid var(--border);
 }
 
 .accordion-item {
@@ -2109,8 +2109,8 @@ ${generateThemeCSS()}
 .carousel-next {
   position: absolute;
   z-index: 10;
-  background: white;
-  border: 1px solid rgb(229 231 235);
+  background: var(--background);
+  border: 1px solid var(--border);
   cursor: pointer;
   outline: none;
 }
@@ -2138,20 +2138,24 @@ ${generateThemeCSS()}
 }
 
 .carousel-indicator {
-  background: none;
   border: none;
   padding: 0;
   cursor: pointer;
   outline: none;
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 9999px;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .carousel-indicator[aria-current="true"] {
-  background-color: rgb(17 24 39);
+  background-color: var(--foreground);
   width: 2rem;
 }
 
 .carousel-indicator[aria-current="false"] {
-  background-color: rgb(156 163 175);
+  background-color: var(--muted-foreground);
+  opacity: 0.5;
 }
 
 .carousel-indicator:hover {

@@ -2173,7 +2173,6 @@ td svg.icon {
 .text-red-600 { color: rgb(220 38 38); }
 .border { border-width: 1px; border-style: solid; }
 .border-b { border-bottom-width: 1px; border-style: solid; }
-.border-gray-200 { border-color: rgb(229 231 235); }
 .last\:border-b-0:last-child { border-bottom-width: 0; }
 .flex { display: flex; }
 .flex-1 { flex: 1 1 0%; }
@@ -2863,7 +2862,7 @@ td svg.icon {
  * ======================================== */
 
 .component-accordion {
-  border: 1px solid rgb(229 231 235);
+  border: 1px solid var(--border);
 }
 
 .accordion-item {
@@ -2946,8 +2945,8 @@ td svg.icon {
 .carousel-next {
   position: absolute;
   z-index: 10;
-  background: white;
-  border: 1px solid rgb(229 231 235);
+  background: var(--background);
+  border: 1px solid var(--border);
   cursor: pointer;
   outline: none;
 }
@@ -2975,20 +2974,24 @@ td svg.icon {
 }
 
 .carousel-indicator {
-  background: none;
   border: none;
   padding: 0;
   cursor: pointer;
   outline: none;
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 9999px;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .carousel-indicator[aria-current="true"] {
-  background-color: rgb(17 24 39);
+  background-color: var(--foreground);
   width: 2rem;
 }
 
 .carousel-indicator[aria-current="false"] {
-  background-color: rgb(156 163 175);
+  background-color: var(--muted-foreground);
+  opacity: 0.5;
 }
 
 .carousel-indicator:hover {
@@ -4033,7 +4036,7 @@ git status
 git add docs-site/
 git commit -m &quot;Add documentation site&quot;
 git push origin main
-</code><button class="code-copy-btn" data-code-id="code-60i8scbjq" data-code-text="# Make sure docs-site is in the main branch
+</code><button class="code-copy-btn" data-code-id="code-j5gu2lstx" data-code-text="# Make sure docs-site is in the main branch
 git status
 
 # If needed, commit any changes
@@ -4057,7 +4060,7 @@ git push origin main
 ├── packages/
 ├── package.json
 └── ... (other files)
-</code><button class="code-copy-btn" data-code-id="code-kewbgz5jz" data-code-text="taildown/
+</code><button class="code-copy-btn" data-code-id="code-fn83vkce9" data-code-text="taildown/
 ├── docs-site/
 │   ├── index.td
 │   ├── getting-started.td
@@ -4097,7 +4100,7 @@ Root Directory: docs-site
 Build Command: node build.mjs
 Output Directory: .
 Install Command: (leave default)
-</code><button class="code-copy-btn" data-code-id="code-qnk7mfnup" data-code-text="Framework Preset: Other
+</code><button class="code-copy-btn" data-code-id="code-wv9cm67y3" data-code-text="Framework Preset: Other
 Root Directory: docs-site
 Build Command: node build.mjs
 Output Directory: .
@@ -4155,7 +4158,7 @@ Value: 76.76.21.21
 Type: CNAME
 Name: www
 Value: cname.vercel-dns.com
-</code><button class="code-copy-btn" data-code-id="code-3nviepk3t" data-code-text="Type: A
+</code><button class="code-copy-btn" data-code-id="code-i9o95929i" data-code-text="Type: A
 Name: @
 Value: 76.76.21.21
 
@@ -4199,7 +4202,7 @@ Value: cname.vercel-dns.com
 <p><strong>Clone Repository</strong>:</p>
 <pre data-copyable="true"><code class="language-bash code-highlight">git clone https://github.com/your-username/taildown-docs.git
 cd taildown-docs
-</code><button class="code-copy-btn" data-code-id="code-4c2woxh2e" data-code-text="git clone https://github.com/your-username/taildown-docs.git
+</code><button class="code-copy-btn" data-code-id="code-zlumfmqc2" data-code-text="git clone https://github.com/your-username/taildown-docs.git
 cd taildown-docs
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4219,7 +4222,7 @@ cp ../taildown/docs-site/README.md .
 
 # Create .gitignore
 echo &quot;node_modules/&quot; &gt; .gitignore
-</code><button class="code-copy-btn" data-code-id="code-rmnxhaahd" data-code-text="# Copy compiled HTML files
+</code><button class="code-copy-btn" data-code-id="code-czt5fpia7" data-code-text="# Copy compiled HTML files
 cp ../taildown/docs-site/*.html .
 
 # Copy README for documentation
@@ -4240,7 +4243,7 @@ echo &#x26;quot;node_modules/&#x26;quot; &#x26;gt; .gitignore
 ├── getting-started.html
 ├── README.md
 └── .gitignore
-</code><button class="code-copy-btn" data-code-id="code-1obnxvbnc" data-code-text="taildown-docs/
+</code><button class="code-copy-btn" data-code-id="code-lmuh3tp1z" data-code-text="taildown-docs/
 ├── index.html
 ├── getting-started.html
 ├── README.md
@@ -4256,7 +4259,7 @@ echo &#x26;quot;node_modules/&#x26;quot; &#x26;gt; .gitignore
         <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><pre data-copyable="true"><code class="language-bash code-highlight">git add .
 git commit -m &quot;Initial commit - Taildown documentation&quot;
 git push origin main
-</code><button class="code-copy-btn" data-code-id="code-5dv45qy5u" data-code-text="git add .
+</code><button class="code-copy-btn" data-code-id="code-0bimzpo54" data-code-text="git add .
 git commit -m &#x26;quot;Initial commit - Taildown documentation&#x26;quot;
 git push origin main
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4283,7 +4286,7 @@ Root Directory: ./
 Build Command: (leave empty - no build needed!)
 Output Directory: ./
 Install Command: (leave empty)
-</code><button class="code-copy-btn" data-code-id="code-iq0jk4083" data-code-text="Framework Preset: Other
+</code><button class="code-copy-btn" data-code-id="code-1r95kuq97" data-code-text="Framework Preset: Other
 Root Directory: ./
 Build Command: (leave empty - no build needed!)
 Output Directory: ./
@@ -4358,7 +4361,7 @@ Install Command: (leave empty)
 <pre data-copyable="true"><code class="language-bash code-highlight">git add docs-site/
 git commit -m &quot;Update documentation&quot;
 git push origin main
-</code><button class="code-copy-btn" data-code-id="code-ahbuxov3t" data-code-text="git add docs-site/
+</code><button class="code-copy-btn" data-code-id="code-5crst8e54" data-code-text="git add docs-site/
 git commit -m &#x26;quot;Update documentation&#x26;quot;
 git push origin main
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4380,7 +4383,7 @@ git push origin main
 <li>Rebuild locally:
 <pre data-copyable="true"><code class="language-bash code-highlight">cd docs-site
 node build.mjs
-</code><button class="code-copy-btn" data-code-id="code-b9rhfv1hr" data-code-text="cd docs-site
+</code><button class="code-copy-btn" data-code-id="code-hyewjr4qu" data-code-text="cd docs-site
 node build.mjs
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4398,7 +4401,7 @@ cd ../taildown-docs
 git add .
 git commit -m &quot;Update documentation&quot;
 git push origin main
-</code><button class="code-copy-btn" data-code-id="code-0bf7xtxjm" data-code-text="cp *.html ../taildown-docs/
+</code><button class="code-copy-btn" data-code-id="code-pmpj7nlv9" data-code-text="cp *.html ../taildown-docs/
 cd ../taildown-docs
 git add .
 git commit -m &#x26;quot;Update documentation&#x26;quot;
@@ -4417,7 +4420,7 @@ git push origin main
 </ol>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Troubleshooting</h2>
-<div class="taildown-component component-accordion accordion border rounded-lg divide-y" data-component="accordion"><div data-accordion-item="" class="accordion-item border-b border-gray-200 last:border-b-0"><button data-accordion-trigger="" aria-expanded="true" class="accordion-trigger flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline text-left w-full text-sm"><p><strong><svg class="icon icon-alert-circle text-red-600" data-icon="alert-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" x2="12" y1="8" y2="12" /><line x1="12" x2="12.01" y1="16" y2="16" /></svg> Build fails with "Module not found"</strong></p><svg class="accordion-icon h-4 w-4 shrink-0 transition-transform duration-200 ml-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></button><div data-accordion-content="" class="accordion-content overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down pb-4 pt-0"><p><strong>Solution:</strong></p><ul>
+<div class="taildown-component component-accordion accordion border rounded-lg divide-y" data-component="accordion"><div data-accordion-item="" class="accordion-item border-b border-border last:border-b-0"><button data-accordion-trigger="" aria-expanded="true" class="accordion-trigger flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline text-left w-full text-sm"><p><strong><svg class="icon icon-alert-circle text-red-600" data-icon="alert-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" x2="12" y1="8" y2="12" /><line x1="12" x2="12.01" y1="16" y2="16" /></svg> Build fails with "Module not found"</strong></p><svg class="accordion-icon h-4 w-4 shrink-0 transition-transform duration-200 ml-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></button><div data-accordion-content="" class="accordion-content overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down pb-4 pt-0"><p><strong>Solution:</strong></p><ul>
 <li>Check that <code>build.mjs</code> is in the <code>docs-site/</code> directory</li>
 <li>Verify Root Directory is set to <code>docs-site</code> in Vercel settings</li>
 <li>Ensure packages are built: <code>pnpm build</code> in main repo</li>
@@ -4468,7 +4471,7 @@ async function build() {
 }
 
 build();
-</code><button class="code-copy-btn" data-code-id="code-wbvon2m1n" data-code-text="// docs-site/vercel-build.mjs
+</code><button class="code-copy-btn" data-code-id="code-zv5hbafeo" data-code-text="// docs-site/vercel-build.mjs
 import { compile } from &#x26;#39;../packages/compiler/dist/index.js&#x26;#39;;
 import { promises as fs } from &#x26;#39;fs&#x26;#39;;
 
@@ -4503,7 +4506,7 @@ build();
 <pre data-copyable="true"><code class="language-bash code-highlight"># In Vercel dashboard: Settings → Environment Variables
 GOOGLE_ANALYTICS_ID=UA-XXXXXXXXX-X
 PLAUSIBLE_DOMAIN=taildown.dev
-</code><button class="code-copy-btn" data-code-id="code-xbpro13ls" data-code-text="# In Vercel dashboard: Settings → Environment Variables
+</code><button class="code-copy-btn" data-code-id="code-gpon5d4ny" data-code-text="# In Vercel dashboard: Settings → Environment Variables
 GOOGLE_ANALYTICS_ID=UA-XXXXXXXXX-X
 PLAUSIBLE_DOMAIN=taildown.dev
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4538,7 +4541,7 @@ PLAUSIBLE_DOMAIN=taildown.dev
     }
   ]
 }
-</code><button class="code-copy-btn" data-code-id="code-gl89a9085" data-code-text="{
+</code><button class="code-copy-btn" data-code-id="code-vuhg4sqw0" data-code-text="{
   &#x26;quot;headers&#x26;quot;: [
     {
       &#x26;quot;source&#x26;quot;: &#x26;quot;/(.*)&#x26;quot;,
