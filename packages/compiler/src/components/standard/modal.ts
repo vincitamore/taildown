@@ -10,7 +10,8 @@ export const modalComponent = defineComponent({
   htmlElement: 'div',
   defaultClasses: [
     'modal',
-    'bg-white',
+    'bg-card',
+    'text-card-foreground',
     'rounded-lg',
     'shadow-xl',
     'p-6',

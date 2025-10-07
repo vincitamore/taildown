@@ -13,7 +13,7 @@ export const carouselComponent = defineComponent({
     'relative',
     'overflow-hidden',
     'rounded-lg',
-    'bg-gray-100',
+    'bg-muted',
   ],
   variants: {
     default: [],

@@ -8,6 +8,8 @@ import type { TaildownRoot, TaildownNodeData } from '@taildown/shared';
 import { generateIconCSS } from '../icons/icon-renderer';
 import { generateGlassmorphismCSS } from '../themes/glassmorphism';
 import { generateAnimationCSS } from '../themes/animations';
+import { createThemeResolver } from '../themes/theme-resolver';
+import { getDefaultConfig } from '../config/default-config';
 
 /**
  * Tailwind CSS utility class definitions
@@ -235,6 +237,7 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   // Background - Blue
   'bg-blue-50': 'background-color: rgb(239 246 255);',
   'bg-blue-100': 'background-color: rgb(219 234 254);',
+  'bg-blue-500': 'background-color: rgb(59 130 246);',
   'bg-blue-600': 'background-color: rgb(37 99 235);',
   'bg-blue-700': 'background-color: rgb(29 78 216);',
   'bg-blue-800': 'background-color: rgb(30 64 175);',
@@ -272,6 +275,14 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'bg-purple-600': 'background-color: rgb(147 51 234);',
   'bg-purple-700': 'background-color: rgb(126 34 206);',
   'bg-purple-800': 'background-color: rgb(107 33 168);',
+  
+  // Background - Pink (for accent button)
+  'bg-pink-600': 'background-color: rgb(219 39 119);',
+  'bg-pink-700': 'background-color: rgb(190 24 93);',
+  'bg-pink-800': 'background-color: rgb(157 23 77);',
+  
+  // Background - Yellow (for warnings)
+  'bg-yellow-600': 'background-color: rgb(202 138 4);',
   
   // Background - Opacity (for glass effects)
   'bg-white/25': 'background-color: rgb(255 255 255 / 0.25);',
@@ -483,6 +494,15 @@ export function collectClassesFromHast(hast: any): Set<string> {
  * @param minify - Whether to minify CSS
  * @returns Generated CSS string
  */
+/**
+ * Generate theme CSS (dark mode, color palette)
+ */
+function generateThemeCSS(): string {
+  const config = getDefaultConfig();
+  const themeResolver = createThemeResolver(config);
+  return themeResolver.generateThemeCSS();
+}
+
 export function generateCSS(classes: Set<string>, minify: boolean = false): string {
   const cssRules: string[] = [];
 
@@ -509,9 +529,9 @@ body {
   line-height: 1.5;
   font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
   min-height: 100vh;
-  /* Clean light background */
-  background: #f5f5f7;
-  background-attachment: fixed;
+  /* Use CSS variables for theming */
+  background-color: var(--background);
+  color: var(--foreground);
   /* Prevent horizontal scroll on body */
   overflow-x: hidden;
   width: 100%;
@@ -1045,7 +1065,7 @@ tbody tr:last-child {
 }
 
 tbody tr:hover {
-  background: #f9fafb;
+  background: var(--muted);
   transition: background 150ms ease;
 }
 
@@ -1109,7 +1129,7 @@ tbody td:first-child {
 }
 
 tbody tr:hover td:first-child {
-  background: #f9fafb;
+  background: var(--muted);
 }
 
 /* Remove sticky on larger screens where it's not needed */
@@ -1158,6 +1178,8 @@ ${generateIconCSS()}
 ${generateGlassmorphismCSS()}
 
 ${generateAnimationCSS()}
+
+${generateThemeCSS()}
 `);
 
   // Generate utility classes
@@ -1386,8 +1408,8 @@ ${generateAnimationCSS()}
 }
 
 .tab-button[aria-selected="false"]:hover {
-  color: rgb(17 24 39);
-  border-color: rgb(209 213 219);
+  color: var(--foreground);
+  border-color: var(--border);
 }
 
 .tab-panel[hidden] {
@@ -1417,7 +1439,7 @@ ${generateAnimationCSS()}
 }
 
 .accordion-trigger:hover {
-  background-color: rgb(249 250 251);
+  background-color: var(--muted);
 }
 
 .accordion-content[hidden] {
@@ -1490,7 +1512,7 @@ ${generateAnimationCSS()}
 
 .carousel-prev:hover,
 .carousel-next:hover {
-  background-color: rgb(243 244 246);
+  background-color: var(--muted);
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
@@ -1528,7 +1550,8 @@ ${generateAnimationCSS()}
 }
 
 .carousel-indicator:hover {
-  background-color: rgb(75 85 99);
+  background-color: var(--foreground);
+  opacity: 0.5;
 }
 
 /* ========================================
@@ -2073,8 +2096,8 @@ ${generateAnimationCSS()}
 }
 
 .flow-minimal li:hover {
-  border-color: rgb(59 130 246);
-  background: rgb(239 246 255);
+  border-color: var(--primary);
+  background: var(--muted);
 }
 
 /* Dark theme */
@@ -2085,8 +2108,8 @@ ${generateAnimationCSS()}
 }
 
 .flow-dark li:hover {
-  background: rgb(55 65 81);
-  border-color: rgb(96 165 250);
+  background: var(--muted);
+  border-color: var(--primary);
 }
 
 /* Glass variant */
@@ -2140,46 +2163,7 @@ ${generateAnimationCSS()}
   border-width: 1px;
 }
 
-/* Button Styles - shadcn-inspired */
-a.bg-blue-600 {
-  display: inline-block;
-  text-decoration: none;
-  position: relative;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 1px 3px 0 rgb(0 0 0 / 0.1);
-  transform: translateY(0);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-a.bg-blue-600:hover {
-  background-color: rgb(37 99 235); /* blue-700 */
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  transform: translateY(-1px);
-}
-
-a.bg-blue-600:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-}
-
-a.bg-gray-200 {
-  display: inline-block;
-  text-decoration: none;
-  position: relative;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 1px 3px 0 rgb(0 0 0 / 0.1);
-  transform: translateY(0);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-a.bg-gray-200:hover {
-  background-color: rgb(229 231 235); /* gray-300 */
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  transform: translateY(-1px);
-}
-
-a.bg-gray-200:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-}
+/* Note: Link button styles removed - buttons should use the {button} attribute which properly handles hover states with theme colors */
 `);
 
   const css = cssRules.join('\n');

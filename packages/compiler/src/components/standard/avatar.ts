@@ -32,7 +32,7 @@ export const avatarComponent: ComponentDefinition = defineComponent({
     'justify-center',
     'font-semibold',
     'text-white',
-    'bg-gray-400',
+    'bg-muted',
     'w-10',
     'h-10',
   ],

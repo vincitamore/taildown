@@ -60,9 +60,9 @@ export const flowComponent: ComponentDefinition = defineComponent({
     'flow-container',
     'overflow-x-auto',
     'rounded-lg',
-    'bg-gray-50',
+    'bg-muted',
     'border',
-    'border-gray-200',
+    'border-border',
     'p-6',
   ],
   
@@ -74,20 +74,20 @@ export const flowComponent: ComponentDefinition = defineComponent({
     // Default: Vertical flow with connecting lines
     default: [
       'flow-vertical',
-      'text-gray-800',
+      'text-foreground',
     ],
     
     // Horizontal: Left-to-right flow
     horizontal: [
       'flow-horizontal',
-      'text-gray-800',
+      'text-foreground',
     ],
     
     // Stepped: Step-by-step with numbers
     stepped: [
       'flow-stepped',
-      'bg-white',
-      'text-gray-900',
+      'bg-card',
+      'text-card-foreground',
     ],
     
     // Branching: Decision tree style
@@ -101,9 +101,9 @@ export const flowComponent: ComponentDefinition = defineComponent({
     // Timeline: Timeline-style presentation
     timeline: [
       'flow-timeline',
-      'bg-white',
+      'bg-card',
       'border-l-4',
-      'border-blue-500',
+      'border-primary',
     ],
     
     // Minimal: Clean minimal styling
@@ -117,9 +117,9 @@ export const flowComponent: ComponentDefinition = defineComponent({
     // Dark: Dark theme
     dark: [
       'flow-dark',
-      'bg-gray-900',
-      'border-gray-700',
-      'text-gray-100',
+      'bg-card',
+      'border-border',
+      'text-card-foreground',
     ],
     
     // Glass: Glassmorphism effect

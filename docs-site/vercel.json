@@ -1,0 +1,35 @@
+{
+  "buildCommand": "node build.mjs",
+  "outputDirectory": ".",
+  "installCommand": "cd .. && pnpm install && pnpm build",
+  "framework": null,
+  "redirects": [
+    {
+      "source": "/docs",
+      "destination": "/getting-started.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ]
+}

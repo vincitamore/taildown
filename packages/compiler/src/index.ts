@@ -7,6 +7,7 @@ import type { CompileOptions, CompileResult } from '@taildown/shared';
 import { parseWithWarnings } from './parser';
 import { renderHTMLDocument, astToHast, generateCSS, collectClassesFromHast } from './renderer';
 import { generateJavaScript, hasInteractiveBehavior } from './js-generator';
+import { autoFixSyntax } from './parser/syntax-fixer';
 
 /**
  * Compile Taildown source to HTML and CSS
@@ -22,8 +23,18 @@ export async function compile(
 ): Promise<CompileResult> {
   const startTime = performance.now();
 
+  // Auto-fix common syntax errors before parsing
+  // This improves developer experience by correcting common mistakes
+  const { fixed: fixedSource } = autoFixSyntax(source, {
+    enabled: options.autoFix !== false, // Enabled by default, can be disabled
+    logWarnings: options.logSyntaxFixes ?? false,
+  });
+  
+  // Use fixed source for parsing
+  const sourceToCompile = fixedSource;
+
   // Parse source to AST
-  const parseResult = await parseWithWarnings(source);
+  const parseResult = await parseWithWarnings(sourceToCompile);
   const { ast, warnings } = parseResult;
 
   // Count nodes for metadata
@@ -128,7 +139,7 @@ export async function compile(
 
   // Generate JavaScript for interactive components
   const interactiveComponents = Array.from(usedComponents).filter(hasInteractiveBehavior);
-  const js = generateJavaScript(new Set(interactiveComponents));
+  const js = generateJavaScript(new Set(interactiveComponents), options.darkMode !== false);
 
   // Render HTML - Always create a complete HTML document
   const html = await renderHTMLDocument(ast, {

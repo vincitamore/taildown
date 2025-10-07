@@ -27,6 +27,15 @@ export interface CompileOptions {
   /** Include source maps (default: false) */
   sourceMaps?: boolean;
 
+  /** Auto-fix common syntax errors (default: true) */
+  autoFix?: boolean;
+
+  /** Log syntax fixes to console (default: false) */
+  logSyntaxFixes?: boolean;
+
+  /** Enable dark mode in generated output (default: true) */
+  darkMode?: boolean;
+
   /** Custom component definitions */
   components?: Record<string, ComponentDefinition>;
 

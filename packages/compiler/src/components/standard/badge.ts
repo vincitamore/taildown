@@ -43,8 +43,8 @@ export const badgeComponent: ComponentDefinition = defineComponent({
   
   variants: {
     default: [
-      'bg-gray-100',
-      'text-gray-700',
+      'bg-muted',
+      'text-muted-foreground',
     ],
     primary: [
       'bg-blue-100',

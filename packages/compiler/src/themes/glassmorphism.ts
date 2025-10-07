@@ -161,6 +161,20 @@ export function generateGlassmorphismCSS(): string {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.dark .glass-subtle {
+  background: 
+    linear-gradient(rgba(28, 41, 56, 0.9), rgba(28, 41, 56, 0.9)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.35) 0%, 
+      rgba(47, 60, 76, 0.15) 50%, 
+      rgba(47, 60, 76, 0.35) 100%) border-box;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  color: #e7e9ea;
+}
+
 .glass-light {
   -webkit-backdrop-filter: blur(8px) saturate(105%);
   backdrop-filter: blur(8px) saturate(105%);
@@ -176,6 +190,20 @@ export function generateGlassmorphismCSS(): string {
     0 4px 6px -2px rgba(0, 0, 0, 0.05),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .glass-light {
+  background: 
+    linear-gradient(rgba(25, 39, 52, 0.75), rgba(25, 39, 52, 0.75)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.3) 0%, 
+      rgba(47, 60, 76, 0.12) 50%, 
+      rgba(47, 60, 76, 0.3) 100%) border-box;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.3), 
+    0 4px 6px -2px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  color: #e7e9ea;
 }
 
 .glass-medium {
@@ -195,6 +223,20 @@ export function generateGlassmorphismCSS(): string {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.dark .glass-medium {
+  background: 
+    linear-gradient(rgba(25, 39, 52, 0.6), rgba(25, 39, 52, 0.6)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.25) 0%, 
+      rgba(47, 60, 76, 0.1) 50%, 
+      rgba(47, 60, 76, 0.25) 100%) border-box;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.3), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+  color: #e7e9ea;
+}
+
 .glass-heavy {
   -webkit-backdrop-filter: blur(16px) saturate(120%);
   backdrop-filter: blur(16px) saturate(120%);
@@ -212,6 +254,22 @@ export function generateGlassmorphismCSS(): string {
     inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
     inset 0 0 20px 0 rgba(255, 255, 255, 0.03);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .glass-heavy {
+  background: 
+    linear-gradient(rgba(25, 39, 52, 0.4), rgba(25, 39, 52, 0.4)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.2) 0%, 
+      rgba(59, 130, 246, 0.08) 25%,
+      rgba(59, 130, 246, 0.08) 50%,
+      rgba(59, 130, 246, 0.08) 75%,
+      rgba(47, 60, 76, 0.2) 100%) border-box;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
+    inset 0 0 20px 0 rgba(255, 255, 255, 0.02);
+  color: #e7e9ea;
 }
 
 .glass-extreme {

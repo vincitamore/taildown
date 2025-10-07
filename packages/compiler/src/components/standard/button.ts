@@ -3,14 +3,16 @@
  * Interactive button elements with semantic variants
  * 
  * Variants:
- * - primary: Main call-to-action button
- * - secondary: Secondary actions
+ * - primary: Main call-to-action button (blue)
+ * - secondary: Secondary actions (purple)
+ * - accent: Eye-catching accent button (pink)
+ * - info: Informational actions (light blue)
  * - outline: Outlined button with transparent background
  * - ghost: Minimal button with hover effect
  * - link: Button styled as a link
  * - destructive: Dangerous/delete actions (red)
  * - success: Success/confirm actions (green)
- * - warning: Warning actions (yellow)
+ * - warning: Warning actions (yellow/amber)
  * 
  * Sizes:
  * - sm: Compact button
@@ -81,19 +83,19 @@ export const buttonComponent: ComponentDefinition = defineComponent({
     // Outline: Bordered with transparent background
     outline: [
       'border-2',
-      'border-gray-300',
-      'text-gray-700',
-      'hover:bg-gray-100',
-      'active:bg-gray-200',
+      'border-border',
+      'text-foreground',
+      'hover:bg-muted',
+      'active:bg-muted',
       'bg-transparent',
     ],
     
     // Ghost: Minimal with hover effect
     ghost: [
       'bg-transparent',
-      'text-gray-700',
-      'hover:bg-gray-100',
-      'active:bg-gray-200',
+      'text-foreground',
+      'hover:bg-muted',
+      'active:bg-muted',
     ],
     
     // Link: Styled as link
@@ -133,6 +135,26 @@ export const buttonComponent: ComponentDefinition = defineComponent({
       'text-white',
       'hover:bg-amber-700',
       'active:bg-amber-800',
+      'shadow-md',
+      'hover:shadow-lg',
+    ],
+    
+    // Accent: Eye-catching accent actions
+    accent: [
+      'bg-pink-600',
+      'text-white',
+      'hover:bg-pink-700',
+      'active:bg-pink-800',
+      'shadow-md',
+      'hover:shadow-lg',
+    ],
+    
+    // Info: Informational actions
+    info: [
+      'bg-blue-500',
+      'text-white',
+      'hover:bg-blue-600',
+      'active:bg-blue-700',
       'shadow-md',
       'hover:shadow-lg',
     ],
@@ -202,6 +224,20 @@ export const buttonVariants = {
     example: '[Learn More](#){button secondary}',
     color: 'Purple',
     use: 'Secondary actions that support the primary action',
+  },
+  accent: {
+    name: 'Accent',
+    description: 'Eye-catching accent button with pink background',
+    example: '[Special Offer](#){button accent}',
+    color: 'Pink',
+    use: 'Special actions, promotions, unique features',
+  },
+  info: {
+    name: 'Info',
+    description: 'Informational button with light blue background',
+    example: '[Learn More](#){button info}',
+    color: 'Light Blue',
+    use: 'Informational actions, help, documentation',
   },
   outline: {
     name: 'Outline',
