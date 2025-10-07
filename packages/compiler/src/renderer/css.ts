@@ -524,9 +524,7 @@ html {
   overscroll-behavior-y: none;
   /* Reserve space for scrollbar to prevent layout shift */
   scrollbar-gutter: stable;
-  /* Performance: Enable GPU acceleration for scrolling */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+  /* DO NOT use transform on html - it breaks position:fixed children! */
 }
 
 /* Smooth scrolling ONLY for anchor link navigation, not regular scroll */
@@ -550,9 +548,7 @@ body {
   width: 100%;
   /* Smooth anchor scrolling offset for fixed navbar */
   scroll-padding-top: 120px;
-  /* Performance: Enable GPU compositing for buttery smooth scrolling */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+  /* DO NOT use transform on body - it breaks position:fixed children! */
 }
 
 /* Regular plain text links (no classes) - for documentation links only */
@@ -645,7 +641,8 @@ body::before {
 }
 
 /* Default spacing for all direct children of body */
-body > * {
+/* EXCEPT fixed/sticky positioned elements like navbar */
+body > *:not(.navbar) {
   position: relative;
   z-index: 1;
   margin-bottom: 1.5rem;
@@ -656,7 +653,8 @@ body > *:last-child {
 }
 
 /* Add breathing room to components */
-.taildown-component {
+/* EXCEPT fixed/sticky positioned components like navbar */
+.taildown-component:not(.navbar) {
   margin-bottom: 1.5rem;
 }
 
@@ -1506,8 +1504,6 @@ ${generateThemeCSS()}
   /* Gentle snap scrolling - only snaps when close to alignment */
   scroll-snap-type: x proximity;
   scroll-padding-left: 0.375rem;
-  /* Isolate in own layer for better compositing */
-  isolation: isolate;
 }
 
 /* Backdrop blur on separate layer for tabs - better scroll performance */
@@ -1783,8 +1779,6 @@ ${generateThemeCSS()}
   -webkit-transform: translateZ(0);
   /* Only hint at properties that actually change */
   will-change: box-shadow;
-  /* Isolate navbar in its own layer for optimal compositing */
-  isolation: isolate;
 }
 
 /* Backdrop blur on separate layer via pseudo-element for better performance */

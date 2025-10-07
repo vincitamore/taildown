@@ -33,9 +33,7 @@ html {
   overscroll-behavior-y: none;
   /* Reserve space for scrollbar to prevent layout shift */
   scrollbar-gutter: stable;
-  /* Performance: Enable GPU acceleration for scrolling */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+  /* DO NOT use transform on html - it breaks position:fixed children! */
 }
 
 /* Smooth scrolling ONLY for anchor link navigation, not regular scroll */
@@ -59,9 +57,7 @@ body {
   width: 100%;
   /* Smooth anchor scrolling offset for fixed navbar */
   scroll-padding-top: 120px;
-  /* Performance: Enable GPU compositing for buttery smooth scrolling */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+  /* DO NOT use transform on body - it breaks position:fixed children! */
 }
 
 /* Regular plain text links (no classes) - for documentation links only */
@@ -154,7 +150,8 @@ body::before {
 }
 
 /* Default spacing for all direct children of body */
-body > * {
+/* EXCEPT fixed/sticky positioned elements like navbar */
+body > *:not(.navbar) {
   position: relative;
   z-index: 1;
   margin-bottom: 1.5rem;
@@ -165,7 +162,8 @@ body > *:last-child {
 }
 
 /* Add breathing room to components */
-.taildown-component {
+/* EXCEPT fixed/sticky positioned components like navbar */
+.taildown-component:not(.navbar) {
   margin-bottom: 1.5rem;
 }
 
@@ -2309,8 +2307,6 @@ td svg.icon {
   /* Gentle snap scrolling - only snaps when close to alignment */
   scroll-snap-type: x proximity;
   scroll-padding-left: 0.375rem;
-  /* Isolate in own layer for better compositing */
-  isolation: isolate;
 }
 
 /* Backdrop blur on separate layer for tabs - better scroll performance */
@@ -2586,8 +2582,6 @@ td svg.icon {
   -webkit-transform: translateZ(0);
   /* Only hint at properties that actually change */
   will-change: box-shadow;
-  /* Isolate navbar in its own layer for optimal compositing */
-  isolation: isolate;
 }
 
 /* Backdrop blur on separate layer via pseudo-element for better performance */
@@ -4144,7 +4138,7 @@ td svg.icon {
 </span><span class="code-line">Normal paragraph text <span class="token punctuation">{</span><span class="token number">base</span><span class="token punctuation">}</span>
 </span><span class="code-line">Small footnote <span class="token punctuation">{</span><span class="token number">small</span> <span class="token class-name">muted</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-3ezhxsuvv" data-code-text="# Huge Heading {huge}
+</span></code><button class="code-copy-btn" data-code-id="code-tj0h1v50e" data-code-text="# Huge Heading {huge}
 Normal paragraph text {base}
 Small footnote {small muted}
 
@@ -4210,7 +4204,7 @@ Small footnote {small muted}
 </span><span class="code-line">Semibold emphasis <span class="token punctuation">{</span><span class="token emphasis">semibold</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
 </span><span class="code-line">Light muted text <span class="token punctuation">{</span><span class="token emphasis">light</span> <span class="token class-name">muted</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-rcxlcm5c5" data-code-text="# Bold Heading {bold}
+</span></code><button class="code-copy-btn" data-code-id="code-cuox94ys2" data-code-text="# Bold Heading {bold}
 Semibold emphasis {semibold primary}
 Light muted text {light muted}
 
@@ -4226,7 +4220,7 @@ Light muted text {light muted}
 </span><span class="code-line">Medium weight subheading <span class="token punctuation">{</span><span class="token emphasis">medium</span><span class="token punctuation">}</span>
 </span><span class="code-line">Small light muted text <span class="token punctuation">{</span><span class="token emphasis">small-light</span> <span class="token class-name">muted</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-5iqdw3kkd" data-code-text="# Large Bold Title {large-bold primary}
+</span></code><button class="code-copy-btn" data-code-id="code-raixucipp" data-code-text="# Large Bold Title {large-bold primary}
 Medium weight subheading {medium}
 Small light muted text {small-light muted}
 
@@ -4271,7 +4265,7 @@ Small light muted text {small-light muted}
 </table></div><p><strong>Example:</strong></p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line">Paragraph with tight lines <span class="token punctuation">{</span><span class="token emphasis">tight-lines</span><span class="token punctuation">}</span>
 </span><span class="code-line">Paragraph with relaxed lines <span class="token punctuation">{</span><span class="token emphasis">relaxed-lines</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-qnhtznsvf" data-code-text="Paragraph with tight lines {tight-lines}
+</span></code><button class="code-copy-btn" data-code-id="code-p0w6hs135" data-code-text="Paragraph with tight lines {tight-lines}
 Paragraph with relaxed lines {relaxed-lines}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4340,7 +4334,7 @@ Paragraph with relaxed lines {relaxed-lines}
 </span><span class="code-line">Error alert <span class="token punctuation">{</span><span class="token class-name">error</span> <span class="token emphasis">bold</span><span class="token punctuation">}</span>
 </span><span class="code-line">Muted footer text <span class="token punctuation">{</span><span class="token class-name">muted</span> <span class="token number">small</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-lfkktw0as" data-code-text="# Primary Heading {primary}
+</span></code><button class="code-copy-btn" data-code-id="code-n8qgg35nv" data-code-text="# Primary Heading {primary}
 Success message {success}
 Error alert {error bold}
 Muted footer text {muted small}
@@ -4390,7 +4384,7 @@ Muted footer text {muted small}
 </span><span class="code-line">Success message with background
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-bpc8ksbmg" data-code-text=":::card {primary-bg}
+</span></code><button class="code-copy-btn" data-code-id="code-fucps2i3x" data-code-text=":::card {primary-bg}
 Primary colored card
 :::
 
@@ -4442,7 +4436,7 @@ Success message with background
 </span><span class="code-line">Centered content
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-w0hdukace" data-code-text=":::card {flex flex-center}
+</span></code><button class="code-copy-btn" data-code-id="code-6qlw0t0b0" data-code-text=":::card {flex flex-center}
 Centered content
 :::
 
@@ -4487,7 +4481,7 @@ Centered content
 </span><span class="code-line">Three column grid
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-17bdgk3do" data-code-text=":::grid {3}
+</span></code><button class="code-copy-btn" data-code-id="code-yjchd9uqu" data-code-text=":::grid {3}
 Three column grid
 :::
 
@@ -4529,7 +4523,7 @@ Three column grid
 </span><span class="code-line">Fully centered card
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-b0lnnier1" data-code-text="# Centered Heading {center}
+</span></code><button class="code-copy-btn" data-code-id="code-wrgghh8u7" data-code-text="# Centered Heading {center}
 :::card {center-both}
 Fully centered card
 :::
@@ -4578,7 +4572,7 @@ Fully centered card
 </span><span class="code-line">Large padded card
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-jfqfdq3nb" data-code-text=":::card {padded-lg}
+</span></code><button class="code-copy-btn" data-code-id="code-eptsyfmzf" data-code-text=":::card {padded-lg}
 Large padded card
 :::
 
@@ -4623,7 +4617,7 @@ Large padded card
 </span><span class="code-line">Grid with large gaps
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-o56pegjb6" data-code-text=":::grid {3 gap-lg}
+</span></code><button class="code-copy-btn" data-code-id="code-nld2rp0d8" data-code-text=":::grid {3 gap-lg}
 Grid with large gaps
 :::
 
@@ -4673,7 +4667,7 @@ Grid with large gaps
 </span><span class="code-line">
 </span><span class="code-line"><span class="token punctuation">[</span>Pill Button<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token attr-name">rounded-full</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-9wbv4z69l" data-code-text=":::card {rounded-xl}
+</span></code><button class="code-copy-btn" data-code-id="code-iotur3h5w" data-code-text=":::card {rounded-xl}
 Extra rounded card
 :::
 
@@ -4728,7 +4722,7 @@ Extra rounded card
 </span><span class="code-line">Deep shadow card
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-bcmu266y7" data-code-text=":::card {elevated}
+</span></code><button class="code-copy-btn" data-code-id="code-06qqhds2w" data-code-text=":::card {elevated}
 Elevated card
 :::
 
@@ -4782,7 +4776,7 @@ Deep shadow card
 </span><span class="code-line">Heavy frosted with padding
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-1dn6l91gm" data-code-text=":::card {light-glass}
+</span></code><button class="code-copy-btn" data-code-id="code-vxb5nqb2y" data-code-text=":::card {light-glass}
 Light frosted glass card
 :::
 
@@ -4824,7 +4818,7 @@ Heavy frosted with padding
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Combining Shorthands</h2>
 <div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy shadow-xl p-8" data-component="card"><h3 class="text-lg font-bold text-center"><svg class="icon icon-layers text-primary-600 hover:text-primary-700 text-4xl" data-icon="layers" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg> The Power of Composition</h3><p>Taildown shorthands combine naturally to create complex styles with readable syntax.</p><div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><p><strong>Simple Example</strong></p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span>Heading <span class="token punctuation">{</span><span class="token emphasis">large-bold</span> <span class="token class-name">primary</span> <span class="token property">center</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-445v0z5pn" data-code-text="# Heading {large-bold primary center}
+</span></code><button class="code-copy-btn" data-code-id="code-txtl4iptj" data-code-text="# Heading {large-bold primary center}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4843,7 +4837,7 @@ Heavy frosted with padding
 </span><span class="code-line">Card content
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-n3ao9n1si" data-code-text=":::card {light-glass padded-xl rounded-xl hover-lift fade-in}
+</span></code><button class="code-copy-btn" data-code-id="code-o8eyctdu2" data-code-text=":::card {light-glass padded-xl rounded-xl hover-lift fade-in}
 Card content
 :::
 
@@ -4877,7 +4871,7 @@ Card content
 </span><span class="code-line">Beautiful, readable, and powerful!
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-t12upqr4w" data-code-text="# Great Title {huge-bold primary center}
+</span></code><button class="code-copy-btn" data-code-id="code-d50j1qz7l" data-code-text="# Great Title {huge-bold primary center}
 
 :::card {light-glass padded-lg hover-lift}
 Beautiful, readable, and powerful!
@@ -4903,7 +4897,7 @@ Beautiful, readable, and powerful!
 </span><span class="code-line">Falls back to raw CSS classes
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-f6scnr5qw" data-code-text="# Bad Title {.text-4xl .font-bold .text-blue-500}
+</span></code><button class="code-copy-btn" data-code-id="code-l5a8o6qxe" data-code-text="# Bad Title {.text-4xl .font-bold .text-blue-500}
 
 :::card {.bg-white .p-8}
 Falls back to raw CSS classes
