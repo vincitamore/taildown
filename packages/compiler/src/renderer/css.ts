@@ -1389,13 +1389,11 @@ ${generateThemeCSS()}
 .component-tabs {
   width: 100%;
   margin-bottom: 1.5rem;
-  /* Center tabs on desktop */
-  display: flex;
-  justify-content: center;
 }
 
 .tabs-list {
-  display: inline-flex;
+  display: flex;
+  flex-direction: row;
   position: relative;
   overflow-x: auto;
   overflow-y: hidden;
@@ -1412,16 +1410,14 @@ ${generateThemeCSS()}
               inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
   /* Auto-width: only as wide as content needs */
-  width: auto;
+  width: fit-content;
   max-width: 100%;
+  /* Center the tab list within its container */
+  margin: 0 auto;
 }
 
 /* Mobile: Full width for better touch targets */
 @media (max-width: 768px) {
-  .component-tabs {
-    justify-content: stretch;
-  }
-  
   .tabs-list {
     width: 100%;
   }
@@ -1540,8 +1536,6 @@ ${generateThemeCSS()}
   border-radius: 0;
   padding: 0;
   box-shadow: none;
-  /* Minimal tabs still auto-size */
-  width: auto;
 }
 
 .tabs-minimal .tab-button {
@@ -1563,8 +1557,6 @@ ${generateThemeCSS()}
   padding: 0;
   gap: 0.5rem;
   box-shadow: none;
-  /* Pills auto-size with gap between buttons */
-  width: auto;
 }
 
 .tabs-pills .tab-button {
@@ -1574,14 +1566,6 @@ ${generateThemeCSS()}
 .tabs-pills .tab-button[aria-selected="true"] {
   background: var(--primary);
   color: white;
-}
-
-/* Mobile: Variants also go full width */
-@media (max-width: 768px) {
-  .tabs-minimal .tabs-list,
-  .tabs-pills .tabs-list {
-    width: 100%;
-  }
 }
 
 /* ========================================
