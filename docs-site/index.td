@@ -373,6 +373,6 @@ Read the full documentation.
 
 This entire documentation site is written in Taildown syntax and compiled to static HTML with dark mode, glassmorphism, and scroll animations. View the source to see how it's done! {large center muted}
 
-[View Source](https://github.com/taildown/taildown/tree/main/docs-site){button accent large hover-lift}
+[View Source](hhttps://github.com/vincitamore/taildown/tree/main/docs-site){button accent large hover-lift}
 :::
 
