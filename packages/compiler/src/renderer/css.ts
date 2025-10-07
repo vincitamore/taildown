@@ -644,8 +644,8 @@ body::before {
 }
 
 /* Default spacing for all direct children of body */
-/* EXCEPT fixed/sticky positioned elements like navbar */
-body > *:not(.navbar) {
+/* EXCEPT fixed/sticky positioned elements like navbar and dark-mode-toggle */
+body > *:not(.navbar):not(.dark-mode-toggle) {
   position: relative;
   z-index: 1;
   margin-bottom: 1.5rem;

@@ -1002,8 +1002,11 @@ Alerts support full markdown content:
 
 ---
 
-## Badge {#badge large-bold primary}
+## badges {#badge center large-bold primary}
 
+:::container
+:::grid {3}
+:::card
 **Inline labels and status indicators.**
 
 ### Color Variants {medium-bold}
@@ -1013,21 +1016,27 @@ Alerts support full markdown content:
 ### Size Variants {medium-bold}
 
 [Small](#){badge primary small} [Medium (default)](#){badge primary} [Large](#){badge primary large}
+:::
 
+:::card
 ### In Context {medium-bold}
 
 Use badges to highlight status and metadata:
 
-**Project Status:** [Active](#){badge success} | **Version:** [v2.1.0](#){badge info} | **License:** [MIT](#){badge primary}
+**Project Status:** [Active](#){badge success} **Version:** [v2.1.0](#){badge info} **License:** [MIT](#){badge primary}
 
 **Features:** [New](#){badge warning} [Beta](#){badge info} [Deprecated](#){badge error} [Coming Soon](#){badge secondary}
+:::
 
+:::card
 ### With Icons {medium-bold}
 
 Combine badges with icons for visual context:
 
 [Featured](#){badge primary} :icon[star]{warning} • [Trending](#){badge success} :icon[trending-up]{success} • [Hot](#){badge error} :icon[flame]{error}
-
+:::
+:::
+:::
 ### Usage Summary {medium-bold}
 
 ```markdown

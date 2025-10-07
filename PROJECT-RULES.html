@@ -21,9 +21,7 @@ html {
   overscroll-behavior-y: none;
   /* Reserve space for scrollbar to prevent layout shift */
   scrollbar-gutter: stable;
-  /* Performance: Enable GPU acceleration for scrolling */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+  /* DO NOT use transform on html - it breaks position:fixed children! */
 }
 
 /* Smooth scrolling ONLY for anchor link navigation, not regular scroll */
@@ -47,9 +45,12 @@ body {
   width: 100%;
   /* Smooth anchor scrolling offset for fixed navbar */
   scroll-padding-top: 120px;
-  /* Performance: Enable GPU compositing for buttery smooth scrolling */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+  /* DO NOT use transform on body - it breaks position:fixed children! */
+}
+
+/* Remove all link underlines - clean modern look */
+a {
+  text-decoration: none;
 }
 
 /* Regular plain text links (no classes) - for documentation links only */
@@ -59,8 +60,7 @@ td > a:not([class]),
 th > a:not([class]) {
   color: var(--primary);
   text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 500;
 }
 
@@ -68,7 +68,6 @@ p > a:not([class]):hover,
 li > a:not([class]):hover,
 td > a:not([class]):hover,
 th > a:not([class]):hover {
-  border-bottom-color: var(--primary);
   opacity: 0.85;
 }
 
@@ -142,7 +141,8 @@ body::before {
 }
 
 /* Default spacing for all direct children of body */
-body > * {
+/* EXCEPT fixed/sticky positioned elements like navbar and dark-mode-toggle */
+body > *:not(.navbar):not(.dark-mode-toggle) {
   position: relative;
   z-index: 1;
   margin-bottom: 1.5rem;
@@ -153,7 +153,8 @@ body > *:last-child {
 }
 
 /* Add breathing room to components */
-.taildown-component {
+/* EXCEPT fixed/sticky positioned components like navbar */
+.taildown-component:not(.navbar) {
   margin-bottom: 1.5rem;
 }
 
@@ -2317,8 +2318,6 @@ td svg.icon {
   /* Gentle snap scrolling - only snaps when close to alignment */
   scroll-snap-type: x proximity;
   scroll-padding-left: 0.375rem;
-  /* Isolate in own layer for better compositing */
-  isolation: isolate;
 }
 
 /* Backdrop blur on separate layer for tabs - better scroll performance */
@@ -2594,8 +2593,6 @@ td svg.icon {
   -webkit-transform: translateZ(0);
   /* Only hint at properties that actually change */
   will-change: box-shadow;
-  /* Isolate navbar in its own layer for optimal compositing */
-  isolation: isolate;
 }
 
 /* Backdrop blur on separate layer via pseudo-element for better performance */
@@ -4032,7 +4029,7 @@ td svg.icon {
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span> CORRECT: <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">x</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">error</span><span class="token punctuation">}</span> Not implemented
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span> CORRECT: <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">alert-triangle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">warning</span><span class="token punctuation">}</span> Warning
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-e4cw6f7gj" data-code-text=":icon[x]{error} WRONG:  ✓ Feature complete
+</span></code><button class="code-copy-btn" data-code-id="code-p84drd3o8" data-code-text=":icon[x]{error} WRONG:  ✓ Feature complete
 :icon[x]{error} WRONG:  ✗ Not implemented
 :icon[x]{error} WRONG:  ⚠ Warning
 
@@ -4113,7 +4110,7 @@ td svg.icon {
 </span><span class="code-line">
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span> Feature complete
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-mv5byi43u" data-code-text="# My Document {huge-bold center primary}
+</span></code><button class="code-copy-btn" data-code-id="code-12wbq8s62" data-code-text="# My Document {huge-bold center primary}
 
 :::alert {type=&#x26;quot;success&#x26;quot;}
 This is a success message with proper Taildown formatting.
@@ -4277,7 +4274,7 @@ This is a success message with proper Taildown formatting.
 </ul><p><strong>Example Script Header</strong>:</p><pre data-copyable="true"><code class="language-powershell code-highlight"># Script: generate-fixture.ps1
 # Purpose: Generate .ast.json fixture from .td file
 # Usage: .\scripts\generate-fixture.ps1 path/to/file.td
-</code><button class="code-copy-btn" data-code-id="code-ole9386r4" data-code-text="# Script: generate-fixture.ps1
+</code><button class="code-copy-btn" data-code-id="code-2872yzqd6" data-code-text="# Script: generate-fixture.ps1
 # Purpose: Generate .ast.json fixture from .td file
 # Usage: .\scripts\generate-fixture.ps1 path/to/file.td
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4330,7 +4327,7 @@ touch test-my-feature.td
 
 # Compile from project root
 node packages/cli/dist/cli.js compile test-files/test-my-feature.td
-</code><button class="code-copy-btn" data-code-id="code-gvj0qd8kb" data-code-text="# Always create in test-files/
+</code><button class="code-copy-btn" data-code-id="code-biq6w050t" data-code-text="# Always create in test-files/
 cd test-files/
 touch test-my-feature.td
 
@@ -4351,7 +4348,7 @@ mv test-files/test-my-feature.css examples/11-my-feature.css
 mv test-files/test-my-feature.js examples/11-my-feature.js
 
 # Update examples/README.md with new example
-</code><button class="code-copy-btn" data-code-id="code-qicr38e67" data-code-text="# Once validated, move to examples/ and rename
+</code><button class="code-copy-btn" data-code-id="code-ernusf8dr" data-code-text="# Once validated, move to examples/ and rename
 mv test-files/test-my-feature.td examples/11-my-feature.td
 mv test-files/test-my-feature.html examples/11-my-feature.html
 mv test-files/test-my-feature.css examples/11-my-feature.css
@@ -4368,7 +4365,7 @@ mv test-files/test-my-feature.js examples/11-my-feature.js
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><pre data-copyable="true"><code class="language-bash code-highlight"># Use the script (automatically places in syntax-tests/)
 .\scripts\generate-fixture.ps1 &quot;path/to/source.td&quot; &quot;01-markdown-compatibility/01-basic-markdown&quot;
-</code><button class="code-copy-btn" data-code-id="code-sv4hq4oa9" data-code-text="# Use the script (automatically places in syntax-tests/)
+</code><button class="code-copy-btn" data-code-id="code-m4powp6wu" data-code-text="# Use the script (automatically places in syntax-tests/)
 .\scripts\generate-fixture.ps1 &#x26;quot;path/to/source.td&#x26;quot; &#x26;quot;01-markdown-compatibility/01-basic-markdown&#x26;quot;
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4382,7 +4379,7 @@ mv test-files/test-my-feature.js examples/11-my-feature.js
 touch scripts/my-utility.ps1
 
 # Add documentation to scripts/README.md
-</code><button class="code-copy-btn" data-code-id="code-roxll54mr" data-code-text="# Create in scripts/ with proper header
+</code><button class="code-copy-btn" data-code-id="code-wleg0c19a" data-code-text="# Create in scripts/ with proper header
 touch scripts/my-utility.ps1
 
 # Add documentation to scripts/README.md
@@ -4402,7 +4399,7 @@ code tech-spec.md
 # Session notes: Create in docs/
 touch docs/SESSION-2025-10-05.md
 touch docs/BUGFIX-tooltip-positioning.md
-</code><button class="code-copy-btn" data-code-id="code-lwqqn451p" data-code-text="# Core docs: Edit at root
+</code><button class="code-copy-btn" data-code-id="code-8qcmqz2g3" data-code-text="# Core docs: Edit at root
 code README.md
 code SYNTAX.md
 code tech-spec.md
