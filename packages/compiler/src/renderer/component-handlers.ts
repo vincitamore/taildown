@@ -432,7 +432,7 @@ export function renderAccordion(state: State, node: ContainerDirectiveNode): Ele
       tagName: 'div',
       properties: {
         'data-accordion-item': '',
-        className: ['accordion-item', 'border-b', 'border-gray-200', 'last:border-b-0']
+        className: ['accordion-item', 'border-b', 'border-border', 'last:border-b-0']
       },
       children: [
         {
@@ -543,7 +543,7 @@ export function renderCarousel(state: State, node: ContainerDirectiveNode): Elem
         type: 'element',
         tagName: 'div',
         properties: {
-          className: ['carousel-card', 'glass-light', 'rounded-2xl', 'shadow-2xl', 'p-12', 'min-h-[400px]', 'flex', 'flex-col', 'justify-center', 'items-center', 'text-center', 'transition-all', 'duration-500']
+          className: ['carousel-card', 'glass-light', 'rounded-2xl', 'shadow-2xl', 'p-6', 'md:p-12', 'min-h-[300px]', 'md:min-h-[400px]', 'flex', 'flex-col', 'justify-center', 'items-center', 'text-center', 'transition-all', 'duration-500']
         },
         children: slideContent
       }
@@ -558,7 +558,7 @@ export function renderCarousel(state: State, node: ContainerDirectiveNode): Elem
       'data-carousel-indicator': '',
       ariaLabel: `Go to slide ${index + 1}`,
       ariaCurrent: index === 0 ? 'true' : 'false',
-      className: ['carousel-indicator', 'h-2', 'w-2', 'rounded-full', 'transition-all', 'hover:scale-110', index === 0 ? 'bg-gray-900 w-8' : 'bg-gray-400 hover:bg-gray-600']
+      className: ['carousel-indicator', 'h-2', 'w-2', 'rounded-full', 'transition-all', 'hover:scale-110']
     },
     children: []
   }));
@@ -566,13 +566,13 @@ export function renderCarousel(state: State, node: ContainerDirectiveNode): Elem
   const existingClasses = node.data?.hProperties?.className || [];
   const dataComponent = node.data?.hProperties?.['data-component'] || node.name;
   
+  // Build the carousel structure - no extra wrapper, use existing node
   return {
     type: 'element',
     tagName: 'div',
     properties: {
-      className: [...existingClasses, 'carousel-container', 'relative', 'overflow-hidden', 'rounded-2xl', 'p-12', 'bg-gradient-to-br', 'from-gray-50', 'to-gray-100'],
-      'data-component': dataComponent,
-      style: 'perspective: 1000px'
+      className: existingClasses,
+      'data-component': dataComponent
     },
     children: [
       {
@@ -590,7 +590,7 @@ export function renderCarousel(state: State, node: ContainerDirectiveNode): Elem
         properties: {
           'data-carousel-prev': '',
           ariaLabel: 'Previous slide',
-          className: ['carousel-prev', 'absolute', 'left-4', 'top-1/2', '-translate-y-1/2', 'h-10', 'w-10', 'rounded-full', 'border', 'border-gray-200', 'bg-white', 'shadow-md', 'hover:bg-gray-100', 'hover:shadow-lg', 'transition-all', 'disabled:opacity-50', 'disabled:cursor-not-allowed', 'flex', 'items-center', 'justify-center', 'text-gray-700', 'font-bold']
+          className: ['carousel-prev', 'absolute', 'left-4', 'top-1/2', '-translate-y-1/2', 'h-10', 'w-10', 'rounded-full', 'border', 'shadow-md', 'hover:shadow-lg', 'transition-all', 'disabled:opacity-50', 'disabled:cursor-not-allowed', 'flex', 'items-center', 'justify-center', 'font-bold']
         },
         children: [{ type: 'text', value: '‹' }]
       },
@@ -600,7 +600,7 @@ export function renderCarousel(state: State, node: ContainerDirectiveNode): Elem
         properties: {
           'data-carousel-next': '',
           ariaLabel: 'Next slide',
-          className: ['carousel-next', 'absolute', 'right-4', 'top-1/2', '-translate-y-1/2', 'h-10', 'w-10', 'rounded-full', 'border', 'border-gray-200', 'bg-white', 'shadow-md', 'hover:bg-gray-100', 'hover:shadow-lg', 'transition-all', 'disabled:opacity-50', 'disabled:cursor-not-allowed', 'flex', 'items-center', 'justify-center', 'text-gray-700', 'font-bold']
+          className: ['carousel-next', 'absolute', 'right-4', 'top-1/2', '-translate-y-1/2', 'h-10', 'w-10', 'rounded-full', 'border', 'shadow-md', 'hover:shadow-lg', 'transition-all', 'disabled:opacity-50', 'disabled:cursor-not-allowed', 'flex', 'items-center', 'justify-center', 'font-bold']
         },
         children: [{ type: 'text', value: '›' }]
       },

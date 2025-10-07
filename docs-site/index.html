@@ -2845,7 +2845,7 @@ td svg.icon {
  * ======================================== */
 
 .component-accordion {
-  border: 1px solid rgb(229 231 235);
+  border: 1px solid var(--border);
 }
 
 .accordion-item {
@@ -2860,6 +2860,7 @@ td svg.icon {
   cursor: pointer;
   outline: none;
   padding: 1rem;
+  color: var(--foreground);
 }
 
 .accordion-trigger:hover {
@@ -2887,14 +2888,12 @@ td svg.icon {
  * CAROUSEL COMPONENT
  * ======================================== */
 
-.carousel-container {
-  perspective: 1200px;
-  perspective-origin: center;
-}
-
 .component-carousel {
   position: relative;
   width: 100%;
+  perspective: 1200px;
+  perspective-origin: center;
+  overflow: hidden;
 }
 
 .carousel-track {
@@ -2906,7 +2905,6 @@ td svg.icon {
 .carousel-slide {
   min-width: 100%;
   flex-shrink: 0;
-  padding: 0 2rem;
 }
 
 .carousel-slide[hidden] {
@@ -2928,8 +2926,8 @@ td svg.icon {
 .carousel-next {
   position: absolute;
   z-index: 10;
-  background: white;
-  border: 1px solid rgb(229 231 235);
+  background: var(--background);
+  border: 1px solid var(--border);
   cursor: pointer;
   outline: none;
 }
@@ -2957,20 +2955,24 @@ td svg.icon {
 }
 
 .carousel-indicator {
-  background: none;
   border: none;
   padding: 0;
   cursor: pointer;
   outline: none;
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 9999px;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .carousel-indicator[aria-current="true"] {
-  background-color: rgb(17 24 39);
+  background-color: var(--foreground);
   width: 2rem;
 }
 
 .carousel-indicator[aria-current="false"] {
-  background-color: rgb(156 163 175);
+  background-color: var(--muted-foreground);
+  opacity: 0.5;
 }
 
 .carousel-indicator:hover {
@@ -4022,7 +4024,7 @@ td svg.icon {
 </span><span class="code-line"><span class="token punctuation">[</span>Click Me<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-o21hj41rq" data-code-text=":::card {light-glass padded-lg hover-lift}
+</span></code><button class="code-copy-btn" data-code-id="code-wytflbrnx" data-code-text=":::card {light-glass padded-lg hover-lift}
 ## Welcome! {large-bold primary}
 
 This card has glassmorphism, padding, and hover effects with **zero CSS**.
@@ -4049,7 +4051,7 @@ This card has glassmorphism, padding, and hover effects with **zero CSS**.
     Click Me
   &lt;/a&gt;
 &lt;/div&gt;
-</code><button class="code-copy-btn" data-code-id="code-qnj4pkqgf" data-code-text="&#x26;lt;div class=&#x26;quot;backdrop-blur-md bg-white/75 border border-white/50 
+</code><button class="code-copy-btn" data-code-id="code-9m746wer3" data-code-text="&#x26;lt;div class=&#x26;quot;backdrop-blur-md bg-white/75 border border-white/50 
      rounded-xl shadow-lg p-8 transition-transform 
      hover:-translate-y-1&#x26;quot;&#x26;gt;
   &#x26;lt;h2 class=&#x26;quot;text-2xl font-bold text-blue-600&#x26;quot;&#x26;gt;Welcome!&#x26;lt;/h2&#x26;gt;
@@ -4111,7 +4113,7 @@ This card has glassmorphism, padding, and hover effects with **zero CSS**.
 </span><span class="code-line">Operation completed successfully!
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-tzhovjf7a" data-code-text=":::card {light-glass}
+</span></code><button class="code-copy-btn" data-code-id="code-ti356l7w3" data-code-text=":::card {light-glass}
 Card with glassmorphism
 :::
 
@@ -4138,7 +4140,7 @@ Operation completed successfully!
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">heart</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">error</span> <span class="token number">large</span><span class="token punctuation">}</span> Love it
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">zap</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">warning</span> <span class="token number">huge</span><span class="token punctuation">}</span> Fast
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-db1m9xj5j" data-code-text=":icon[check]{success} Task complete
+</span></code><button class="code-copy-btn" data-code-id="code-vcie19irt" data-code-text=":icon[check]{success} Task complete
 :icon[heart]{error large} Love it
 :icon[zap]{warning huge} Fast
 
@@ -4166,7 +4168,7 @@ Operation completed successfully!
 </span><span class="code-line">40% transparency - heavy frosted
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-u3aukdoqm" data-code-text=":::card {subtle-glass}
+</span></code><button class="code-copy-btn" data-code-id="code-po12fbcdh" data-code-text=":::card {subtle-glass}
 90% transparency - very subtle
 :::
 
@@ -4206,7 +4208,7 @@ Operation completed successfully!
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-3fumju8hz" data-code-text=":::card {fade-in hover-lift}
+</span></code><button class="code-copy-btn" data-code-id="code-5oxflltqy" data-code-text=":::card {fade-in hover-lift}
 Fades in on scroll, lifts on hover
 :::
 
@@ -4248,7 +4250,7 @@ Slides from the right
 </span><span class="code-line">Content for second tab
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-uy5wma88m" data-code-text=":::tabs
+</span></code><button class="code-copy-btn" data-code-id="code-tgav4vhbt" data-code-text=":::tabs
 ## First Tab
 Content for first tab
 ## Second Tab
@@ -4275,7 +4277,7 @@ Content for second tab
 </span><span class="code-line">Content for second section
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-n8d70lp9w" data-code-text=":::accordion
+</span></code><button class="code-copy-btn" data-code-id="code-03ustwx2p" data-code-text=":::accordion
 **First Section**
 Content for first section
 **Second Section**
@@ -4307,7 +4309,7 @@ Content for second section
 </span><span class="code-line">Third slide
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-s1to8jstw" data-code-text=":::carousel
+</span></code><button class="code-copy-btn" data-code-id="code-he5g7281i" data-code-text=":::carousel
 First slide
 
 ---
@@ -4336,7 +4338,7 @@ Third slide
 </span><span class="code-line">
 </span><span class="code-line"><span class="token punctuation">[</span>Help<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token attr-name">tooltip</span>=<span class="token string">&quot;Helpful tip&quot;</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-grg239z4z" data-code-text="[Click Me](#){button modal=&#x26;quot;Hello!&#x26;quot;}
+</span></code><button class="code-copy-btn" data-code-id="code-99wlq3sps" data-code-text="[Click Me](#){button modal=&#x26;quot;Hello!&#x26;quot;}
 
 [Help](#){tooltip=&#x26;quot;Helpful tip&#x26;quot;}
 
@@ -4383,7 +4385,7 @@ npm install -g taildown
 # Or clone repository
 git clone https://github.com/vincitamore/taildown.git
 cd taildown &amp;&amp; pnpm install &amp;&amp; pnpm build
-</code><button class="code-copy-btn" data-code-id="code-3gfhtcrci" data-code-text="# Via npm (coming soon)
+</code><button class="code-copy-btn" data-code-id="code-xf70b91w2" data-code-text="# Via npm (coming soon)
 npm install -g taildown
 
 # Or clone repository
@@ -4409,7 +4411,7 @@ cd taildown &#x26;amp;&#x26;amp; pnpm install &#x26;amp;&#x26;amp; pnpm build
 </span><span class="code-line"><span class="token punctuation">[</span>Get Started<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-b27mi4bni" data-code-text="# Hello World {huge-bold center primary}
+</span></code><button class="code-copy-btn" data-code-id="code-lmyta2xee" data-code-text="# Hello World {huge-bold center primary}
 
 Welcome to Taildown! {large center muted}
 
@@ -4430,7 +4432,7 @@ Beautiful by default with zero configuration.
         </svg>
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre><h3 class="medium-bold"><svg class="icon icon-terminal text-green-600" data-icon="terminal" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19h8" /><path d="m4 17 6-6-6-6" /></svg> Step 3: Compile</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile hello.td
-</code><button class="code-copy-btn" data-code-id="code-8s6guly6f" data-code-text="pnpm taildown compile hello.td
+</code><button class="code-copy-btn" data-code-id="code-8vjzrfnmj" data-code-text="pnpm taildown compile hello.td
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>

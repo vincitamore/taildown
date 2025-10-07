@@ -45,15 +45,6 @@ getComponents('carousel').forEach(carousel => {
       const isActive = i === index;
       toggleClass(indicator, 'active', isActive);
       indicator.setAttribute('aria-current', isActive ? 'true' : 'false');
-      
-      // Update indicator width for active state
-      if (isActive) {
-        indicator.style.width = '2rem';
-        indicator.style.backgroundColor = 'rgb(17 24 39)';
-      } else {
-        indicator.style.width = '0.5rem';
-        indicator.style.backgroundColor = 'rgb(156 163 175)';
-      }
     });
     
     // Update buttons (enable/disable based on position if not looping)
