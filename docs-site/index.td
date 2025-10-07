@@ -8,7 +8,7 @@
 
 # Taildown {huge-bold center primary}
 
-**Write markdown. Get magic.** {center large muted}
+**Write markdown. Get magic.** {center large}
 
 The markup language that transforms plain English into stunning, interactive web pages - zero configuration required. {center}
 
@@ -16,7 +16,7 @@ The markup language that transforms plain English into stunning, interactive web
 
 ## What Is Taildown? {large-bold primary center}
 
-**Taildown is a superset of Markdown** that adds powerful features while maintaining full backwards compatibility. Write natural English styling instead of CSS classes, create interactive components with simple syntax, and compile to beautiful HTML + CSS + JavaScript. {center muted large}
+**Taildown is a superset of Markdown** that adds powerful features while maintaining full backwards compatibility. Write natural English styling instead of CSS classes, create interactive components with simple syntax, and compile to beautiful HTML + CSS + JavaScript. {center large}
 
 :::grid {3}
 :::card {subtle-glass hover-lift fade-in}
