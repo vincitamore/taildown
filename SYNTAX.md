@@ -69,10 +69,11 @@ Inline attributes attach styling classes, component variants, and key-value pair
 element_with_attrs ::= element SPACE? attribute_block
 attribute_block    ::= "{" attribute_list "}"
 attribute_list     ::= attribute (SPACE attribute)*
-attribute          ::= css_class | plain_english | key_value_pair
+attribute          ::= css_class | plain_english | key_value_pair | anchor_id
 css_class          ::= "." class_name
 plain_english      ::= identifier ("-" identifier)*
 key_value_pair     ::= key "=" QUOTE value QUOTE
+anchor_id          ::= "#" identifier
 key                ::= identifier
 value              ::= [^"']+
 identifier         ::= [a-zA-Z][a-zA-Z0-9-]*
@@ -84,6 +85,8 @@ class_name         ::= [a-zA-Z0-9_-]+
 # Heading with CSS classes {.text-4xl .font-bold .text-center}
 
 # Heading with plain English {huge-bold center}
+
+# Heading with anchor ID {#section-id huge-bold primary}
 
 Paragraph with component variant {button primary large}
 
@@ -147,10 +150,41 @@ Valid:   {modal="#welcome-modal" class="custom"}
 
 **Rule 2.2.8 - Attribute Processing Order**:
 1. Extract all key-value pairs (`key="value"`)
-2. Extract CSS classes (tokens starting with `.`)
-3. Extract plain English shorthands and component names (remaining tokens)
-4. Resolve plain English and component variants to CSS classes
-5. Merge all classes and apply to element
+2. Extract anchor IDs (tokens starting with `#`)
+3. Extract CSS classes (tokens starting with `.`)
+4. Extract plain English shorthands and component names (remaining tokens)
+5. Resolve plain English and component variants to CSS classes
+6. Merge all classes and apply to element
+7. Apply anchor ID as element's `id` attribute if present
+
+**Rule 2.2.9 - Anchor ID Syntax**: Anchor IDs provide native in-page navigation:
+```taildown
+# Section Title {#anchor-id}                    # Sets id="anchor-id" on heading
+## Subsection {#my-section large-bold primary}  # ID combined with styling
+
+[Jump to section](#anchor-id)                   # Standard markdown link to anchor
+```
+
+- Anchor IDs MUST start with `#` within attribute block
+- ID names MUST start with a letter and contain only alphanumeric characters, hyphens, and underscores
+- Only ONE anchor ID is allowed per attribute block (first one wins)
+- Anchor IDs MAY be combined with styling attributes
+- Generated HTML will have `id="..."` attribute for native browser navigation
+- Scroll targets automatically account for sticky navbar offset (`:target { scroll-margin-top: 80px; }`)
+
+**Valid anchor ID examples:**
+```taildown
+# Introduction {#intro}
+## Getting Started {#getting-started large-bold}
+### API Reference {#api-reference primary center}
+```
+
+**Invalid anchor ID examples:**
+```taildown
+# Title {#123invalid}          # IDs cannot start with numbers
+# Title {#my section}           # IDs cannot contain spaces
+# Title {#first #second}        # Multiple IDs not allowed (first wins)
+```
 
 ### 2.3 Supported Elements **[REQUIRED]**
 
