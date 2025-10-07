@@ -8,7 +8,7 @@ import { toHast } from 'mdast-util-to-hast';
 import type { State } from 'mdast-util-to-hast';
 import rehypeStringify from 'rehype-stringify';
 import type { Root } from 'mdast';
-import type { TaildownRoot } from '@taildown/shared';
+import type { TaildownRoot, OpenGraphMetadata } from '@taildown/shared';
 import { renderIcons } from '../icons/icon-renderer';
 import { rehypeCodeMirror6 } from '../syntax-highlighting/rehype-codemirror6';
 import { rehypeCopyCode } from './rehype-copy-code';
@@ -203,6 +203,8 @@ export async function renderHTMLDocument(
   ast: TaildownRoot,
   options: {
     title?: string;
+    description?: string;
+    openGraph?: OpenGraphMetadata;
     css?: string;
     js?: string;
     cssFilename?: string;
@@ -227,12 +229,55 @@ export async function renderHTMLDocument(
       : `<script src="${options.jsFilename || 'script.js'}" defer></script>`
     : '';
 
+  // Generate meta description tag
+  const descriptionTag = options.description
+    ? `<meta name="description" content="${options.description}">`
+    : '';
+
+  // Generate Open Graph meta tags
+  let ogTags = '';
+  if (options.openGraph) {
+    const og = options.openGraph;
+    if (og.title) {
+      ogTags += `\n  <meta property="og:title" content="${og.title}">`;
+    }
+    if (og.description) {
+      ogTags += `\n  <meta property="og:description" content="${og.description}">`;
+    }
+    if (og.type) {
+      ogTags += `\n  <meta property="og:type" content="${og.type}">`;
+    }
+    if (og.url) {
+      ogTags += `\n  <meta property="og:url" content="${og.url}">`;
+    }
+    if (og.image) {
+      ogTags += `\n  <meta property="og:image" content="${og.image}">`;
+    }
+    if (og.imageAlt) {
+      ogTags += `\n  <meta property="og:image:alt" content="${og.imageAlt}">`;
+    }
+    if (og.siteName) {
+      ogTags += `\n  <meta property="og:site_name" content="${og.siteName}">`;
+    }
+    // Add Twitter Card tags for better Twitter sharing
+    if (og.image) {
+      ogTags += `\n  <meta name="twitter:card" content="summary_large_image">`;
+      ogTags += `\n  <meta name="twitter:image" content="${og.image}">`;
+    }
+    if (og.title) {
+      ogTags += `\n  <meta name="twitter:title" content="${og.title}">`;
+    }
+    if (og.description) {
+      ogTags += `\n  <meta name="twitter:description" content="${og.description}">`;
+    }
+  }
+
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${options.title || 'Taildown Document'}</title>
+  <title>${options.title || 'Taildown Document'}</title>${descriptionTag ? '\n  ' + descriptionTag : ''}${ogTags}
   ${styleTag}
   ${scriptTag}
 </head>

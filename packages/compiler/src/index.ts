@@ -146,6 +146,9 @@ export async function compile(
 
   // Render HTML - Always create a complete HTML document
   const html = await renderHTMLDocument(ast, {
+    title: options.title,
+    description: options.description,
+    openGraph: options.openGraph,
     css: css,
     js: js,
     cssFilename: options.cssFilename,

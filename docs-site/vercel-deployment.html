@@ -3,7 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Taildown Document</title>
+  <title>Vercel Deployment - Taildown</title>
+  <meta name="description" content="Learn how to deploy your Taildown documentation site to Vercel with automatic SSL and CDN.">
+  <meta property="og:title" content="Vercel Deployment - Taildown">
+  <meta property="og:description" content="Learn how to deploy your Taildown documentation site to Vercel with automatic SSL and CDN.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://taildown.dev/vercel-deployment.html">
+  <meta property="og:image" content="https://taildown.dev/1759672632566.jpg">
+  <meta property="og:image:alt" content="Taildown - Modern markup language with glassmorphism and dark mode">
+  <meta property="og:site_name" content="Taildown">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://taildown.dev/1759672632566.jpg">
+  <meta name="twitter:title" content="Vercel Deployment - Taildown">
+  <meta name="twitter:description" content="Learn how to deploy your Taildown documentation site to Vercel with automatic SSL and CDN.">
   <style>
 /* Taildown Generated Styles */
 *, ::before, ::after {
@@ -17,11 +29,14 @@ html {
   /* Prevent horizontal scroll at root level */
   overflow-x: hidden;
   width: 100%;
+  /* Smooth scrolling for anchor links */
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   padding: 1rem;
+  padding-top: 80px; /* Space for fixed navbar */
   font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
@@ -34,10 +49,43 @@ body {
   width: 100%;
 }
 
+/* Regular plain text links (no classes) - for documentation links only */
+p > a:not([class]),
+li > a:not([class]),
+td > a:not([class]),
+th > a:not([class]) {
+  color: var(--primary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
+}
+
+p > a:not([class]):hover,
+li > a:not([class]):hover,
+td > a:not([class]):hover,
+th > a:not([class]):hover {
+  border-bottom-color: var(--primary);
+  opacity: 0.85;
+}
+
+p > a:not([class]):active,
+li > a:not([class]):active,
+td > a:not([class]):active,
+th > a:not([class]):active {
+  opacity: 0.7;
+}
+
+/* Offset anchor targets for sticky navbar */
+:target {
+  scroll-margin-top: 80px;
+}
+
 /* Increase body padding on larger screens */
 @media (min-width: 640px) {
   body {
     padding: 2rem;
+    padding-top: 80px; /* Space for fixed navbar */
   }
 }
 
@@ -508,6 +556,10 @@ pre .token.url {
   -webkit-overflow-scrolling: touch;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  /* Performance optimizations */
+  contain: layout style paint;
+  /* Smooth scrolling */
+  scroll-behavior: smooth;
 }
 
 /* Scrollbar styling for table wrapper */
@@ -543,18 +595,26 @@ table {
 thead {
   display: table-header-group;
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-  border-bottom: 2px solid #e2e8f0;
+  border-bottom: 2px solid var(--border);
+}
+
+.dark thead {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
 }
 
 tbody {
   display: table-row-group;
-  background: white;
+  background: var(--card);
 }
 
 /* Table rows */
 tr {
   display: table-row;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border);
+}
+
+tbody tr {
+  transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 tbody tr:last-child {
@@ -562,8 +622,7 @@ tbody tr:last-child {
 }
 
 tbody tr:hover {
-  background: var(--muted);
-  transition: background 150ms ease;
+  background-color: var(--muted);
 }
 
 /* Table cells */
@@ -574,6 +633,8 @@ th, td {
   vertical-align: top;
   /* Prevent cells from being too narrow */
   min-width: 120px;
+  /* Smooth transitions for all cells */
+  transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Mobile: Reduce padding for better space utilization */
@@ -596,16 +657,17 @@ th, td {
 /* Header cells */
 th {
   font-weight: 600;
-  color: #1e293b;
+  color: var(--foreground);
   text-transform: uppercase;
   font-size: 0.75rem;
   letter-spacing: 0.05em;
   white-space: nowrap;
+  opacity: 0.9;
 }
 
 /* Data cells */
 td {
-  color: #334155;
+  color: var(--foreground);
 }
 
 /* First column styling (sticky on mobile) */
@@ -614,19 +676,34 @@ thead th:first-child {
   left: 0;
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   z-index: 2;
+  /* GPU acceleration for smooth scrolling */
+  transform: translateZ(0);
+  will-change: transform;
+  /* Static shadow - no changes on scroll */
   box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.1);
 }
 
 tbody td:first-child {
   position: sticky;
   left: 0;
-  background: white;
+  background: var(--card);
   z-index: 1;
+  /* GPU acceleration for smooth scrolling */
+  transform: translateZ(0);
+  will-change: transform;
+  /* Static shadow - no changes on scroll */
   box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.05);
+  /* Smooth background transition */
+  transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 tbody tr:hover td:first-child {
-  background: var(--muted);
+  background-color: var(--muted);
+}
+
+/* Dark mode support for sticky cells */
+.dark thead th:first-child {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
 }
 
 /* Remove sticky on larger screens where it's not needed */
@@ -635,6 +712,8 @@ tbody tr:hover td:first-child {
   tbody td:first-child {
     position: static;
     box-shadow: none;
+    transform: none;
+    will-change: auto;
   }
 }
 
@@ -662,11 +741,11 @@ td svg.icon {
     display: block;
     text-align: center;
     padding: 0.5rem;
-    background: #f1f5f9;
-    color: #64748b;
+    background: var(--muted);
+    color: var(--muted-foreground);
     font-size: 0.75rem;
     font-weight: 500;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid var(--border);
   }
 }
 
@@ -2060,55 +2139,27 @@ td svg.icon {
 .break-words { overflow-wrap: break-word; word-wrap: break-word; }
 .p-6 { padding: 1.5rem; }
 .text-yellow-600 { color: rgb(202 138 4); }
-.border-b { border-bottom-width: 1px; border-style: solid; }
-.inline-flex { display: inline-flex; }
-.h-10 { height: 2.5rem; }
-.items-center { align-items: center; }
-.justify-start { justify-content: flex-start; }
-.bg-transparent { background-color: transparent; }
-.text-gray-600 { color: rgb(75 85 99); }
-.border-gray-200 { border-color: rgb(229 231 235); }
-.w-full { width: 100%; }
-.justify-center { justify-content: center; }
-.whitespace-nowrap { white-space: nowrap; }
-.px-4 { padding-left: 1rem; padding-right: 1rem; }
-.py-2.5 { padding-top: 0.625rem; padding-bottom: 0.625rem; }
-.border-b-2 { border-bottom-width: 2px; border-style: solid; }
-.border-blue-600 { border-color: rgb(37 99 235); }
-.text-blue-600 { color: rgb(37 99 235); }
-.-mb-px { margin-bottom: -1px; }
 .text-xs { font-size: 0.75rem; line-height: 1rem; }
-.border-transparent { border-color: transparent; }
-.hover\:text-gray-900:hover { color: rgb(17 24 39); }
-.hover\:border-gray-300:hover { border-color: rgb(209 213 219); }
 .text-accent-600 { color: rgb(219 39 119); }
 .hover\:text-accent-700:hover { color: rgb(190 24 93); }
 .text-green-600 { color: rgb(22 163 74); }
-.mt-6 { margin-top: 1.5rem; }
-.focus-visible\:outline-none:focus-visible { outline: 2px solid transparent; outline-offset: 2px; }
-.focus-visible\:ring-2:focus-visible { box-shadow: 0 0 0 2px rgb(59 130 246 / 0.5); }
-.focus-visible\:ring-offset-2:focus-visible { box-shadow: 0 0 0 2px white, 0 0 0 4px rgb(59 130 246 / 0.5); }
-.p-4 { padding: 1rem; }
-.border { border-width: 1px; border-style: solid; }
-.flex { display: flex; }
-.items-start { align-items: flex-start; }
-.gap-3 { gap: 0.75rem; }
-.bg-green-50 { background-color: rgb(240 253 244); }
-.border-green-200 { border-color: rgb(187 247 208); }
-.text-green-800 { color: rgb(22 101 52); }
-.bg-blue-50 { background-color: rgb(239 246 255); }
-.border-blue-200 { border-color: rgb(191 219 254); }
-.text-blue-800 { color: rgb(30 64 175); }
+.text-blue-600 { color: rgb(37 99 235); }
 .grid { display: grid; }
 .gap-4 { gap: 1rem; }
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .text-red-600 { color: rgb(220 38 38); }
+.border { border-width: 1px; border-style: solid; }
+.border-b { border-bottom-width: 1px; border-style: solid; }
+.border-gray-200 { border-color: rgb(229 231 235); }
 .last\:border-b-0:last-child { border-bottom-width: 0; }
+.flex { display: flex; }
 .flex-1 { flex: 1 1 0%; }
+.items-center { align-items: center; }
 .justify-between { justify-content: space-between; }
 .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
 .hover\:underline:hover { text-decoration: underline; }
 .text-left { text-align: left; }
+.w-full { width: 100%; }
 .h-4 { height: 1rem; }
 .w-4 { width: 1rem; }
 .shrink-0 { flex-shrink: 0; }
@@ -2205,19 +2256,52 @@ td svg.icon {
 
 /* ========================================
  * TABS COMPONENT
+ * Modern glassmorphism tabs with smooth transitions
  * ======================================== */
 
 .component-tabs {
   width: 100%;
+  margin-bottom: 1.5rem;
 }
 
 .tabs-list {
+  display: flex;
+  flex-direction: row;
   position: relative;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
-  scrollbar-color: rgb(209 213 219) transparent;
+  scrollbar-color: var(--border) transparent;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 0.375rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 
+              0 2px 4px -2px rgba(0, 0, 0, 0.05),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* Auto-width: only as wide as content needs */
+  width: fit-content;
+  max-width: 100%;
+  /* Center the tab list within its container */
+  margin: 0 auto;
+}
+
+/* Mobile: Full width for better touch targets */
+@media (max-width: 768px) {
+  .tabs-list {
+    width: 100%;
+  }
+}
+
+.dark .tabs-list {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 
+              0 2px 4px -2px rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
 }
 
 .tabs-list::-webkit-scrollbar {
@@ -2229,12 +2313,13 @@ td svg.icon {
 }
 
 .tabs-list::-webkit-scrollbar-thumb {
-  background: rgb(209 213 219);
+  background: var(--border);
   border-radius: 2px;
 }
 
 .tabs-list::-webkit-scrollbar-thumb:hover {
-  background: rgb(156 163 175);
+  background: var(--foreground);
+  opacity: 0.5;
 }
 
 .tab-button {
@@ -2245,28 +2330,487 @@ td svg.icon {
   outline: none;
   flex-shrink: 0;
   white-space: nowrap;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  border-radius: 8px;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 @media (max-width: 640px) {
   .tab-button {
     font-size: 0.813rem;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+    padding: 0.5rem 1rem;
   }
 }
 
-.tab-button[aria-selected="true"] {
-  color: rgb(37 99 235);
-  border-color: rgb(37 99 235) !important;
+.tab-button:hover {
+  color: var(--foreground);
+  background: rgba(255, 255, 255, 0.4);
 }
 
-.tab-button[aria-selected="false"]:hover {
-  color: var(--foreground);
-  border-color: var(--border);
+.dark .tab-button:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tab-button[aria-selected="true"] {
+  color: var(--primary);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+              0 1px 2px -1px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+}
+
+.dark .tab-button[aria-selected="true"] {
+  background: rgba(30, 41, 59, 0.9);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3),
+              0 1px 2px -1px rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+.tab-button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.tab-panel {
+  margin-top: 1.5rem;
+  animation: fadeIn 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tab-panel[hidden] {
   display: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Variant: Minimal tabs (no background) */
+.tabs-minimal .tabs-list {
+  background: transparent;
+  backdrop-filter: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.tabs-minimal .tab-button {
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.tabs-minimal .tab-button[aria-selected="true"] {
+  background: transparent;
+  border-bottom-color: var(--primary);
+  box-shadow: none;
+}
+
+/* Variant: Pills tabs */
+.tabs-pills .tabs-list {
+  background: transparent;
+  border: none;
+  padding: 0;
+  gap: 0.5rem;
+  box-shadow: none;
+}
+
+.tabs-pills .tab-button {
+  border-radius: 9999px;
+}
+
+.tabs-pills .tab-button[aria-selected="true"] {
+  background: var(--primary);
+  color: white;
+}
+
+/* ========================================
+ * BUTTON GROUP COMPONENT
+ * Intelligent button container with auto-spacing
+ * ======================================== */
+
+.button-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+/* Paragraph inside button-group for links */
+.button-group p {
+  display: contents;
+  margin: 0;
+}
+
+/* Alignment variants */
+.button-group-left {
+  justify-content: flex-start;
+}
+
+.button-group-right {
+  justify-content: flex-end;
+}
+
+.button-group-center {
+  justify-content: center;
+}
+
+/* Stack variant - vertical layout */
+.button-group-stack {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.button-group-stack a {
+  width: 100%;
+  text-align: center;
+}
+
+/* Size variants - control gap */
+.button-group-sm {
+  gap: 0.5rem;
+}
+
+.button-group-md {
+  gap: 0.75rem;
+}
+
+.button-group-lg {
+  gap: 1rem;
+}
+
+/* Mobile: Stack buttons vertically for better touch targets */
+@media (max-width: 640px) {
+  .button-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  
+  .button-group a {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+/* ========================================
+ * NAVBAR COMPONENT
+ * Modern navigation bar with glassmorphism
+ * ======================================== */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  margin: 0;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.navbar.scrolled {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+}
+
+.dark .navbar {
+  background: rgba(15, 23, 42, 0.8);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.dark .navbar.scrolled {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Navbar brand/title */
+.navbar h1,
+.navbar h2,
+.navbar h3 {
+  margin: 0;
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* Navbar links container */
+.navbar p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Navbar links styling */
+.navbar a {
+  text-decoration: none;
+  padding: 0.5rem 0.875rem;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--foreground);
+  opacity: 0.8;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.navbar a:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--foreground);
+}
+
+.dark .navbar a:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.navbar a:active {
+  transform: scale(0.97);
+}
+
+/* Active/current page link */
+.navbar a[aria-current="page"],
+.navbar a.active {
+  opacity: 1;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* Variant: Glass navbar (default enhanced) */
+.navbar-glass {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(16px) saturate(180%);
+}
+
+.dark .navbar-glass {
+  background: rgba(15, 23, 42, 0.5);
+}
+
+/* Variant: Solid navbar */
+.navbar-solid {
+  background: var(--card);
+  backdrop-filter: none;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+              0 1px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Variant: Minimal navbar (no background) */
+.navbar-minimal {
+  background: transparent;
+  backdrop-filter: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Variant: Floating navbar (with margin) */
+.navbar-floating {
+  margin: 1rem;
+  border-radius: 20px;
+}
+
+/* Variant: Sticky navbar */
+.navbar-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  margin-bottom: 0;
+}
+
+/* Variant: Fixed navbar */
+.navbar-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  margin: 0;
+  border-radius: 0;
+}
+
+/* Size variants */
+.navbar-sm {
+  padding: 0.5rem 1rem;
+}
+
+.navbar-sm h1,
+.navbar-sm h2,
+.navbar-sm h3 {
+  font-size: 1rem;
+}
+
+.navbar-sm a {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+}
+
+.navbar-lg {
+  padding: 1rem 2rem;
+}
+
+.navbar-lg h1,
+.navbar-lg h2,
+.navbar-lg h3 {
+  font-size: 1.5rem;
+}
+
+.navbar-lg a {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.9375rem;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+  }
+  
+  .navbar p {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  
+  .navbar a {
+    font-size: 0.8125rem;
+    padding: 0.375rem 0.75rem;
+  }
+}
+
+/* ========================================
+ * ALERT COMPONENT
+ * Semantic alert boxes with proper theming
+ * ======================================== */
+
+.alert {
+  padding: 1rem 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Info variant */
+.alert-info {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: var(--info);
+}
+
+.dark .alert-info {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #60a5fa;
+}
+
+/* Success variant */
+.alert-success {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: var(--success);
+}
+
+.dark .alert-success {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #34d399;
+}
+
+/* Warning variant */
+.alert-warning {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--warning);
+}
+
+.dark .alert-warning {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+}
+
+/* Error variant */
+.alert-error {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: var(--error);
+}
+
+.dark .alert-error {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #f87171;
+}
+
+/* Alert content */
+.alert > * {
+  margin: 0;
+}
+
+/* Alert with icons */
+.alert .icon {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .alert {
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+  }
 }
 
 /* ========================================
@@ -3427,7 +3971,7 @@ td svg.icon {
 <p><a href="index.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-sm">Back to Home</a></p>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Overview</h2>
-<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md p-6"><h3 class="medium-bold"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> What You'll Deploy</h3><p>The documentation site is <strong>100% static HTML</strong> with:</p><ul>
+<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md p-6" data-component="card"><h3 class="medium-bold"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> What You'll Deploy</h3><p>The documentation site is <strong>100% static HTML</strong> with:</p><ul>
 <li>Self-contained HTML files (CSS and JavaScript embedded)</li>
 <li>Dark mode with auto-toggle button</li>
 <li>Glassmorphism effects</li>
@@ -3437,14 +3981,14 @@ td svg.icon {
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Option 1: Deploy from Main Repository (Recommended)</h2>
 <p>This option keeps everything in one repository and uses Vercel to build the documentation automatically.</p>
-<div class="taildown-component component-tabs tabs border-b border-border" data-component="tabs"><div role="tablist" class="tabs-list inline-flex h-10 items-center justify-start rounded-none bg-transparent p-0 text-gray-600 border-b border-gray-200 w-full"><button role="tab" aria-selected="true" tabindex="0" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-blue-600 text-blue-600 -mb-px"><svg class="icon icon-github text-primary-600 hover:text-primary-700 text-xs" data-icon="github" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" /></svg> Step 1: Prepare Repository</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px"><svg class="icon icon-settings text-accent-600 hover:text-accent-700 text-xs" data-icon="settings" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></svg> Step 2: Configure Vercel</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px"><svg class="icon icon-rocket text-green-600 text-xs" data-icon="rocket" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" /><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" /><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" /><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /></svg> Step 3: Deploy</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px"><svg class="icon icon-globe text-yellow-600 text-xs" data-icon="globe" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg> Step 4: Add Custom Domain</button></div><div role="tabpanel" class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><p>Ensure your repository is ready:</p><pre data-copyable="true"><code class="language-bash code-highlight"># Make sure docs-site is in the main branch
+<div class="taildown-component component-tabs tabs" data-component="tabs"><div role="tablist" class="tabs-list"><button role="tab" aria-selected="true" tabindex="0" class="tab-button"><svg class="icon icon-github text-primary-600 hover:text-primary-700 text-xs" data-icon="github" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" /></svg> Step 1: Prepare Repository</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button"><svg class="icon icon-settings text-accent-600 hover:text-accent-700 text-xs" data-icon="settings" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></svg> Step 2: Configure Vercel</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button"><svg class="icon icon-rocket text-green-600 text-xs" data-icon="rocket" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" /><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" /><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" /><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /></svg> Step 3: Deploy</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button"><svg class="icon icon-globe text-yellow-600 text-xs" data-icon="globe" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg> Step 4: Add Custom Domain</button></div><div role="tabpanel" class="tab-panel"><p>Ensure your repository is ready:</p><pre data-copyable="true"><code class="language-bash code-highlight"># Make sure docs-site is in the main branch
 git status
 
 # If needed, commit any changes
 git add docs-site/
 git commit -m &quot;Add documentation site&quot;
 git push origin main
-</code><button class="code-copy-btn" data-code-id="code-pwsc3uva8" data-code-text="# Make sure docs-site is in the main branch
+</code><button class="code-copy-btn" data-code-id="code-8ppdqawz2" data-code-text="# Make sure docs-site is in the main branch
 git status
 
 # If needed, commit any changes
@@ -3468,7 +4012,7 @@ git push origin main
 ├── packages/
 ├── package.json
 └── ... (other files)
-</code><button class="code-copy-btn" data-code-id="code-027ft2thd" data-code-text="taildown/
+</code><button class="code-copy-btn" data-code-id="code-thuvllo6s" data-code-text="taildown/
 ├── docs-site/
 │   ├── index.td
 │   ├── getting-started.td
@@ -3485,7 +4029,7 @@ git push origin main
           <path d="M20 6 9 17l-5-5"/>
         </svg>
         <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><ol>
+        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><ol>
 <li>
 <p><strong>Go to Vercel Dashboard</strong>:</p>
 <ul>
@@ -3508,7 +4052,7 @@ Root Directory: docs-site
 Build Command: node build.mjs
 Output Directory: .
 Install Command: (leave default)
-</code><button class="code-copy-btn" data-code-id="code-jc49z46dt" data-code-text="Framework Preset: Other
+</code><button class="code-copy-btn" data-code-id="code-mmphji08w" data-code-text="Framework Preset: Other
 Root Directory: docs-site
 Build Command: node build.mjs
 Output Directory: .
@@ -3536,11 +4080,11 @@ Install Command: (leave default)
 <li>Auto-deploy: Enable (recommended)</li>
 </ul>
 </li>
-</ol></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><ol>
+</ol></div><div role="tabpanel" hidden class="tab-panel"><ol>
 <li>Click "Deploy"</li>
 <li>Wait for build to complete (~30 seconds)</li>
 <li>Vercel will show your deployment URL: <code>your-project.vercel.app</code></li>
-</ol><div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-green-50 border-green-200 text-green-800"><p><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> <strong>Deployment successful!</strong> Your site is now live at the Vercel URL.</p></div></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><ol>
+</ol><div class="taildown-component component-alert alert alert-success" data-component="alert"><p><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> <strong>Deployment successful!</strong> Your site is now live at the Vercel URL.</p></div></div><div role="tabpanel" hidden class="tab-panel"><ol>
 <li>
 <p><strong>In Vercel Dashboard</strong>:</p>
 <ul>
@@ -3566,7 +4110,7 @@ Value: 76.76.21.21
 Type: CNAME
 Name: www
 Value: cname.vercel-dns.com
-</code><button class="code-copy-btn" data-code-id="code-nrh13fa01" data-code-text="Type: A
+</code><button class="code-copy-btn" data-code-id="code-uylnkvzdp" data-code-text="Type: A
 Name: @
 Value: 76.76.21.21
 
@@ -3591,11 +4135,11 @@ Value: cname.vercel-dns.com
 <li>Green checkmark = ready!</li>
 </ul>
 </li>
-</ol><div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-blue-50 border-blue-200 text-blue-800"><p><svg class="icon icon-info text-blue-600" data-icon="info" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg><strong>SSL Certificate</strong>: Vercel automatically provisions Let's Encrypt SSL certificates for your custom domain. No additional configuration needed!</p></div></div></div>
+</ol><div class="taildown-component component-alert alert alert-info" data-component="alert"><p><svg class="icon icon-info text-blue-600" data-icon="info" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg><strong>SSL Certificate</strong>: Vercel automatically provisions Let's Encrypt SSL certificates for your custom domain. No additional configuration needed!</p></div></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Option 2: Deploy from Separate Repository (Simpler)</h2>
 <p>This option creates a separate repository with just the compiled HTML files - no build step needed!</p>
-<div class="taildown-component component-tabs tabs border-b border-border" data-component="tabs"><div role="tablist" class="tabs-list inline-flex h-10 items-center justify-start rounded-none bg-transparent p-0 text-gray-600 border-b border-gray-200 w-full"><button role="tab" aria-selected="true" tabindex="0" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-blue-600 text-blue-600 -mb-px"><svg class="icon icon-folder text-primary-600 hover:text-primary-700 text-xs" data-icon="folder" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /></svg> Step 1: Create New Repository</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px"><svg class="icon icon-copy text-accent-600 hover:text-accent-700 text-xs" data-icon="copy" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg> Step 2: Copy Compiled Files</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px"><svg class="icon icon-upload text-green-600 text-xs" data-icon="upload" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12" /><path d="m17 8-5-5-5 5" /><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /></svg> Step 3: Push to GitHub</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px"><svg class="icon icon-settings text-yellow-600 text-xs" data-icon="settings" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></svg> Step 4: Deploy to Vercel</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300 -mb-px"><svg class="icon icon-globe text-blue-600 text-xs" data-icon="globe" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg> Step 5: Add Custom Domain</button></div><div role="tabpanel" class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><ol>
+<div class="taildown-component component-tabs tabs" data-component="tabs"><div role="tablist" class="tabs-list"><button role="tab" aria-selected="true" tabindex="0" class="tab-button"><svg class="icon icon-folder text-primary-600 hover:text-primary-700 text-xs" data-icon="folder" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /></svg> Step 1: Create New Repository</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button"><svg class="icon icon-copy text-accent-600 hover:text-accent-700 text-xs" data-icon="copy" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg> Step 2: Copy Compiled Files</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button"><svg class="icon icon-upload text-green-600 text-xs" data-icon="upload" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12" /><path d="m17 8-5-5-5 5" /><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /></svg> Step 3: Push to GitHub</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button"><svg class="icon icon-settings text-yellow-600 text-xs" data-icon="settings" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></svg> Step 4: Deploy to Vercel</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button"><svg class="icon icon-globe text-blue-600 text-xs" data-icon="globe" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg> Step 5: Add Custom Domain</button></div><div role="tabpanel" class="tab-panel"><ol>
 <li>
 <p><strong>On GitHub</strong>:</p>
 <ul>
@@ -3610,7 +4154,7 @@ Value: cname.vercel-dns.com
 <p><strong>Clone Repository</strong>:</p>
 <pre data-copyable="true"><code class="language-bash code-highlight">git clone https://github.com/your-username/taildown-docs.git
 cd taildown-docs
-</code><button class="code-copy-btn" data-code-id="code-ggnf5rjmi" data-code-text="git clone https://github.com/your-username/taildown-docs.git
+</code><button class="code-copy-btn" data-code-id="code-ivf24cwye" data-code-text="git clone https://github.com/your-username/taildown-docs.git
 cd taildown-docs
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -3622,7 +4166,7 @@ cd taildown-docs
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 </li>
-</ol></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><p>From your main Taildown repository:</p><pre data-copyable="true"><code class="language-bash code-highlight"># Copy compiled HTML files
+</ol></div><div role="tabpanel" hidden class="tab-panel"><p>From your main Taildown repository:</p><pre data-copyable="true"><code class="language-bash code-highlight"># Copy compiled HTML files
 cp ../taildown/docs-site/*.html .
 
 # Copy README for documentation
@@ -3630,7 +4174,7 @@ cp ../taildown/docs-site/README.md .
 
 # Create .gitignore
 echo &quot;node_modules/&quot; &gt; .gitignore
-</code><button class="code-copy-btn" data-code-id="code-m5ot1zhq8" data-code-text="# Copy compiled HTML files
+</code><button class="code-copy-btn" data-code-id="code-hf1vltt22" data-code-text="# Copy compiled HTML files
 cp ../taildown/docs-site/*.html .
 
 # Copy README for documentation
@@ -3651,7 +4195,7 @@ echo &#x26;quot;node_modules/&#x26;quot; &#x26;gt; .gitignore
 ├── getting-started.html
 ├── README.md
 └── .gitignore
-</code><button class="code-copy-btn" data-code-id="code-02cnti5sr" data-code-text="taildown-docs/
+</code><button class="code-copy-btn" data-code-id="code-gkg1cinfi" data-code-text="taildown-docs/
 ├── index.html
 ├── getting-started.html
 ├── README.md
@@ -3664,10 +4208,10 @@ echo &#x26;quot;node_modules/&#x26;quot; &#x26;gt; .gitignore
           <path d="M20 6 9 17l-5-5"/>
         </svg>
         <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><pre data-copyable="true"><code class="language-bash code-highlight">git add .
+        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><pre data-copyable="true"><code class="language-bash code-highlight">git add .
 git commit -m &quot;Initial commit - Taildown documentation&quot;
 git push origin main
-</code><button class="code-copy-btn" data-code-id="code-4slcu1d5z" data-code-text="git add .
+</code><button class="code-copy-btn" data-code-id="code-18rbtx1a7" data-code-text="git add .
 git commit -m &#x26;quot;Initial commit - Taildown documentation&#x26;quot;
 git push origin main
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -3678,7 +4222,7 @@ git push origin main
           <path d="M20 6 9 17l-5-5"/>
         </svg>
         <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><ol>
+        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><ol>
 <li>
 <p><strong>Vercel Dashboard</strong>:</p>
 <ul>
@@ -3694,7 +4238,7 @@ Root Directory: ./
 Build Command: (leave empty - no build needed!)
 Output Directory: ./
 Install Command: (leave empty)
-</code><button class="code-copy-btn" data-code-id="code-ctw0uo1eo" data-code-text="Framework Preset: Other
+</code><button class="code-copy-btn" data-code-id="code-785wjt9gf" data-code-text="Framework Preset: Other
 Root Directory: ./
 Build Command: (leave empty - no build needed!)
 Output Directory: ./
@@ -3717,15 +4261,15 @@ Install Command: (leave empty)
 <li>Done! Site is live</li>
 </ul>
 </li>
-</ol></div><div role="tabpanel" hidden class="tab-panel mt-6 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"><p>Same as Option 1, Step 4:</p><ul>
+</ol></div><div role="tabpanel" hidden class="tab-panel"><p>Same as Option 1, Step 4:</p><ul>
 <li>Go to Settings → Domains</li>
 <li>Add <code>taildown.dev</code></li>
 <li>Configure DNS records</li>
 <li>Wait for SSL provisioning</li>
-</ul><div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-green-50 border-green-200 text-green-800"><p><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg><strong>Simpler deployment!</strong>No build step, just pure static files. Perfect for documentation sites.</p></div></div></div>
+</ul><div class="taildown-component component-alert alert alert-success" data-component="alert"><p><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg><strong>Simpler deployment!</strong>No build step, just pure static files. Perfect for documentation sites.</p></div></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Comparison: Which Option to Choose?</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md"><h3 class="text-lg font-bold"><svg class="icon icon-box text-primary-600 hover:text-primary-700" data-icon="box" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg> Option 1: Main Repository</h3><p><strong>Pros:</strong></p><ul>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md" data-component="card"><h3 class="text-lg font-bold"><svg class="icon icon-box text-primary-600 hover:text-primary-700" data-icon="box" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg> Option 1: Main Repository</h3><p><strong>Pros:</strong></p><ul>
 <li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Single repository</li>
 <li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Auto-rebuild on changes</li>
 <li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Build logs in Vercel</li>
@@ -3734,7 +4278,7 @@ Install Command: (leave empty)
 <li><svg class="icon icon-x text-red-600 text-xs" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Requires build step</li>
 <li><svg class="icon icon-x text-red-600 text-xs" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Slightly slower deploys (~30s)</li>
 <li><svg class="icon icon-x text-red-600 text-xs" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Need Node.js on Vercel</li>
-</ul><p><strong>Best for:</strong>Active development with frequent updates</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md"><h3 class="text-lg font-bold"><svg class="icon icon-zap text-accent-600 hover:text-accent-700" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Option 2: Separate Repository</h3><p><strong>Pros:</strong></p><ul>
+</ul><p><strong>Best for:</strong>Active development with frequent updates</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md" data-component="card"><h3 class="text-lg font-bold"><svg class="icon icon-zap text-accent-600 hover:text-accent-700" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Option 2: Separate Repository</h3><p><strong>Pros:</strong></p><ul>
 <li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> No build step needed</li>
 <li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Lightning-fast deploys (~15s)</li>
 <li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Pure static files</li>
@@ -3747,7 +4291,7 @@ Install Command: (leave empty)
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Post-Deployment Checklist</h2>
 <p>After deployment, verify everything works:</p>
-<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-subtle shadow-sm p-6"><h3 class="medium-bold"><svg class="icon icon-check-square text-primary-600 hover:text-primary-700" data-icon="check-square" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10.656V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.344" /><path d="m9 11 3 3L22 4" /></svg> Testing Checklist</h3><ul>
+<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-subtle shadow-sm p-6" data-component="card"><h3 class="medium-bold"><svg class="icon icon-check-square text-primary-600 hover:text-primary-700" data-icon="check-square" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10.656V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.344" /><path d="m9 11 3 3L22 4" /></svg> Testing Checklist</h3><ul>
 <li><svg class="icon icon-square text-gray-500 text-xs" data-icon="square" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /></svg> Visit <code>taildown.dev</code> in browser</li>
 <li><svg class="icon icon-square text-gray-500 text-xs" data-icon="square" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /></svg> Check SSL certificate (green padlock)</li>
 <li><svg class="icon icon-square text-gray-500 text-xs" data-icon="square" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /></svg> Test dark mode toggle button</li>
@@ -3769,7 +4313,7 @@ Install Command: (leave empty)
 <pre data-copyable="true"><code class="language-bash code-highlight">git add docs-site/
 git commit -m &quot;Update documentation&quot;
 git push origin main
-</code><button class="code-copy-btn" data-code-id="code-f0xm43gdx" data-code-text="git add docs-site/
+</code><button class="code-copy-btn" data-code-id="code-xn7kmkiw7" data-code-text="git add docs-site/
 git commit -m &#x26;quot;Update documentation&#x26;quot;
 git push origin main
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -3791,7 +4335,7 @@ git push origin main
 <li>Rebuild locally:
 <pre data-copyable="true"><code class="language-bash code-highlight">cd docs-site
 node build.mjs
-</code><button class="code-copy-btn" data-code-id="code-iskgp7d4x" data-code-text="cd docs-site
+</code><button class="code-copy-btn" data-code-id="code-m04ab9w9q" data-code-text="cd docs-site
 node build.mjs
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -3809,7 +4353,7 @@ cd ../taildown-docs
 git add .
 git commit -m &quot;Update documentation&quot;
 git push origin main
-</code><button class="code-copy-btn" data-code-id="code-zma3k5va0" data-code-text="cp *.html ../taildown-docs/
+</code><button class="code-copy-btn" data-code-id="code-yw5m2fe6y" data-code-text="cp *.html ../taildown-docs/
 cd ../taildown-docs
 git add .
 git commit -m &#x26;quot;Update documentation&#x26;quot;
@@ -3879,7 +4423,7 @@ async function build() {
 }
 
 build();
-</code><button class="code-copy-btn" data-code-id="code-glat3msnl" data-code-text="// docs-site/vercel-build.mjs
+</code><button class="code-copy-btn" data-code-id="code-edjrinayd" data-code-text="// docs-site/vercel-build.mjs
 import { compile } from &#x26;#39;../packages/compiler/dist/index.js&#x26;#39;;
 import { promises as fs } from &#x26;#39;fs&#x26;#39;;
 
@@ -3914,7 +4458,7 @@ build();
 <pre data-copyable="true"><code class="language-bash code-highlight"># In Vercel dashboard: Settings → Environment Variables
 GOOGLE_ANALYTICS_ID=UA-XXXXXXXXX-X
 PLAUSIBLE_DOMAIN=taildown.dev
-</code><button class="code-copy-btn" data-code-id="code-rcquosynk" data-code-text="# In Vercel dashboard: Settings → Environment Variables
+</code><button class="code-copy-btn" data-code-id="code-p921mo50q" data-code-text="# In Vercel dashboard: Settings → Environment Variables
 GOOGLE_ANALYTICS_ID=UA-XXXXXXXXX-X
 PLAUSIBLE_DOMAIN=taildown.dev
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -3949,7 +4493,7 @@ PLAUSIBLE_DOMAIN=taildown.dev
     }
   ]
 }
-</code><button class="code-copy-btn" data-code-id="code-2wlmfbpo6" data-code-text="{
+</code><button class="code-copy-btn" data-code-id="code-5vl62xhpv" data-code-text="{
   &#x26;quot;headers&#x26;quot;: [
     {
       &#x26;quot;source&#x26;quot;: &#x26;quot;/(.*)&#x26;quot;,
@@ -3981,7 +4525,7 @@ PLAUSIBLE_DOMAIN=taildown.dev
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Performance Optimization</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md"><h3 class="medium-bold"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Speed</h3><p><strong>Already Optimized:</strong></p><ul>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Speed</h3><p><strong>Already Optimized:</strong></p><ul>
 <li>Self-contained HTML</li>
 <li>Embedded CSS/JS</li>
 <li>No external dependencies</li>
@@ -3989,14 +4533,14 @@ PLAUSIBLE_DOMAIN=taildown.dev
 </ul><p><strong>Expected:</strong></p><ul>
 <li>First load: &#x3C; 1s</li>
 <li>Subsequent: &#x3C; 200ms</li>
-</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md"><h3 class="medium-bold"><svg class="icon icon-image text-primary-600 hover:text-primary-700" data-icon="image" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></svg> Images</h3><p><strong>Best Practices:</strong></p><ul>
+</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-image text-primary-600 hover:text-primary-700" data-icon="image" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></svg> Images</h3><p><strong>Best Practices:</strong></p><ul>
 <li>Use WebP format</li>
 <li>Optimize with ImageOptim</li>
 <li>Add width/height attributes</li>
 <li>Consider lazy loading</li>
 </ul><p><strong>For icons:</strong></p><ul>
 <li>Use Taildown's built-in icon system (already SVG)</li>
-</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md"><h3 class="medium-bold"><svg class="icon icon-activity text-accent-600 hover:text-accent-700" data-icon="activity" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg> Monitoring</h3><p><strong>Vercel Analytics:</strong></p><ul>
+</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-activity text-accent-600 hover:text-accent-700" data-icon="activity" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg> Monitoring</h3><p><strong>Vercel Analytics:</strong></p><ul>
 <li>Enable in dashboard</li>
 <li>Track page views</li>
 <li>Monitor performance</li>
@@ -4008,10 +4552,10 @@ PLAUSIBLE_DOMAIN=taildown.dev
 </ul></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Success!</h2>
-<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-heavy shadow-xl p-6"><p class="text-center"><svg class="icon icon-party-popper text-green-600 text-4xl" data-icon="party-popper" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.8 11.3 2 22l10.7-3.79" /><path d="M4 3h.01" /><path d="M22 8h.01" /><path d="M15 2h.01" /><path d="M22 20h.01" /><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10" /><path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11c-.11.7-.72 1.22-1.43 1.22H17" /><path d="m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7" /><path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z" /></svg></p><p class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700"><strong>Your documentation site is live!</strong></p><p class="text-lg text-center text-gray-500">Visit <strong><a href="https://taildown.dev">taildown.dev</a></strong> to see your beautiful, dark-mode-enabled documentation site in action.</p><p><a href="https://taildown.dev" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">View Live Site</a><a href="index.td" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">Edit Documentation</a></p></div>
+<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-heavy shadow-xl p-6" data-component="card"><p class="text-center"><svg class="icon icon-party-popper text-green-600 text-4xl" data-icon="party-popper" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.8 11.3 2 22l10.7-3.79" /><path d="M4 3h.01" /><path d="M22 8h.01" /><path d="M15 2h.01" /><path d="M22 20h.01" /><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10" /><path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11c-.11.7-.72 1.22-1.43 1.22H17" /><path d="m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7" /><path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z" /></svg></p><p class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700"><strong>Your documentation site is live!</strong></p><p class="text-lg text-center text-gray-500">Visit <strong><a href="https://taildown.dev">taildown.dev</a></strong> to see your beautiful, dark-mode-enabled documentation site in action.</p><p><a href="https://taildown.dev" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">View Live Site</a><a href="index.td" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">Edit Documentation</a></p></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Next Steps</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200"><h3 class="text-center"><svg class="icon icon-book-open text-primary-600 hover:text-primary-700 text-4xl" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg></h3><p class="text-lg font-bold text-center"><strong>Add More Pages</strong></p><p>Create syntax guides, component docs, and examples.</p><p><a href="../todo.txt" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg">View To-Do</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200"><h3 class="text-center"><svg class="icon icon-palette text-accent-600 hover:text-accent-700 text-4xl" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg></h3><p class="text-lg font-bold text-center"><strong>Customize Design</strong></p><p>Edit <code>.td</code> files to match your vision and brand.</p><p><a href="index.td" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg">Edit Site</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200"><h3 class="text-center"><svg class="icon icon-share-2 text-green-600 text-4xl" data-icon="share-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><line x1="8.59" x2="15.42" y1="13.51" y2="17.49" /><line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg></h3><p class="text-lg font-bold text-center"><strong>Share &#x26; Promote</strong></p><p>Share your new documentation site with the world!</p><p><a href="https://twitter.com/intent/tweet?text=Check%20out%20Taildown!" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700 shadow-md hover:shadow-lg">Tweet About It</a></p></div></div>
+<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-book-open text-primary-600 hover:text-primary-700 text-4xl" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg></h3><p class="text-lg font-bold text-center"><strong>Add More Pages</strong></p><p>Create syntax guides, component docs, and examples.</p><p><a href="../todo.txt" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg">View To-Do</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-palette text-accent-600 hover:text-accent-700 text-4xl" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg></h3><p class="text-lg font-bold text-center"><strong>Customize Design</strong></p><p>Edit <code>.td</code> files to match your vision and brand.</p><p><a href="index.td" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg">Edit Site</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-share-2 text-green-600 text-4xl" data-icon="share-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><line x1="8.59" x2="15.42" y1="13.51" y2="17.49" /><line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg></h3><p class="text-lg font-bold text-center"><strong>Share &#x26; Promote</strong></p><p>Share your new documentation site with the world!</p><p><a href="https://twitter.com/intent/tweet?text=Check%20out%20Taildown!" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700 shadow-md hover:shadow-lg">Tweet About It</a></p></div></div>
 <hr />
 <p><a href="index.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">Back to Home</a></p>
 </body>
