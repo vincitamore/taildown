@@ -407,8 +407,12 @@ Simple, intuitive syntax:
 ## First Tab
 Content for first tab
 
+---
+
 ## Second Tab
 Content for second tab
+
+---
 
 ## Third Tab
 Content for third tab
