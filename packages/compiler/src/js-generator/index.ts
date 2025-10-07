@@ -20,6 +20,7 @@ import { carouselBehavior } from './behaviors/carousel';
 import { scrollAnimationsBehavior } from './behaviors/scroll-animations';
 import { copyCodeBehavior } from './behaviors/copy-code';
 import { darkModeBehavior } from './behaviors/dark-mode';
+import { navbarBehavior } from './behaviors/navbar';
 
 /**
  * Component behavior definition
@@ -42,6 +43,7 @@ const BEHAVIORS: Map<string, ComponentBehavior> = new Map([
   ['modal', modalBehavior],
   ['tooltip', tooltipBehavior],
   ['carousel', carouselBehavior],
+  ['navbar', navbarBehavior],
   ['scroll-animations', scrollAnimationsBehavior],
   ['copy-code', copyCodeBehavior],
   ['dark-mode', darkModeBehavior],

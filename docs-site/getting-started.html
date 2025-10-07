@@ -17,11 +17,14 @@ html {
   /* Prevent horizontal scroll at root level */
   overflow-x: hidden;
   width: 100%;
+  /* Smooth scrolling for anchor links */
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   padding: 1rem;
+  padding-top: 0;
   font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
@@ -34,10 +37,34 @@ body {
   width: 100%;
 }
 
+/* Regular links (not buttons/badges/navbar links) */
+a:not([class*="button"]):not([class*="badge"]):not(.navbar a) {
+  color: var(--primary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
+}
+
+a:not([class*="button"]):not([class*="badge"]):not(.navbar a):hover {
+  border-bottom-color: var(--primary);
+  opacity: 0.85;
+}
+
+a:not([class*="button"]):not([class*="badge"]):not(.navbar a):active {
+  opacity: 0.7;
+}
+
+/* Offset anchor targets for sticky navbar */
+:target {
+  scroll-margin-top: 80px;
+}
+
 /* Increase body padding on larger screens */
 @media (min-width: 640px) {
   body {
     padding: 2rem;
+    padding-top: 0;
   }
 }
 
@@ -2104,14 +2131,6 @@ td svg.icon {
 .bg-blue-500 { background-color: rgb(59 130 246); }
 .hover\:bg-blue-600:hover { background-color: rgb(37 99 235); }
 .active\:bg-blue-700:active { background-color: rgb(29 78 216); }
-.p-4 { padding: 1rem; }
-.border { border-width: 1px; border-style: solid; }
-.flex { display: flex; }
-.items-start { align-items: flex-start; }
-.gap-3 { gap: 0.75rem; }
-.bg-green-50 { background-color: rgb(240 253 244); }
-.border-green-200 { border-color: rgb(187 247 208); }
-.text-green-800 { color: rgb(22 101 52); }
 @media (min-width: 640px) {
   .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -2199,13 +2218,11 @@ td svg.icon {
 .component-tabs {
   width: 100%;
   margin-bottom: 1.5rem;
-  /* Center tabs on desktop */
-  display: flex;
-  justify-content: center;
 }
 
 .tabs-list {
-  display: inline-flex;
+  display: flex;
+  flex-direction: row;
   position: relative;
   overflow-x: auto;
   overflow-y: hidden;
@@ -2222,16 +2239,14 @@ td svg.icon {
               inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
   /* Auto-width: only as wide as content needs */
-  width: auto;
+  width: fit-content;
   max-width: 100%;
+  /* Center the tab list within its container */
+  margin: 0 auto;
 }
 
 /* Mobile: Full width for better touch targets */
 @media (max-width: 768px) {
-  .component-tabs {
-    justify-content: stretch;
-  }
-  
   .tabs-list {
     width: 100%;
   }
@@ -2350,8 +2365,6 @@ td svg.icon {
   border-radius: 0;
   padding: 0;
   box-shadow: none;
-  /* Minimal tabs still auto-size */
-  width: auto;
 }
 
 .tabs-minimal .tab-button {
@@ -2373,8 +2386,6 @@ td svg.icon {
   padding: 0;
   gap: 0.5rem;
   box-shadow: none;
-  /* Pills auto-size with gap between buttons */
-  width: auto;
 }
 
 .tabs-pills .tab-button {
@@ -2386,11 +2397,75 @@ td svg.icon {
   color: white;
 }
 
-/* Mobile: Variants also go full width */
-@media (max-width: 768px) {
-  .tabs-minimal .tabs-list,
-  .tabs-pills .tabs-list {
+/* ========================================
+ * BUTTON GROUP COMPONENT
+ * Intelligent button container with auto-spacing
+ * ======================================== */
+
+.button-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+/* Paragraph inside button-group for links */
+.button-group p {
+  display: contents;
+  margin: 0;
+}
+
+/* Alignment variants */
+.button-group-left {
+  justify-content: flex-start;
+}
+
+.button-group-right {
+  justify-content: flex-end;
+}
+
+.button-group-center {
+  justify-content: center;
+}
+
+/* Stack variant - vertical layout */
+.button-group-stack {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.button-group-stack a {
+  width: 100%;
+  text-align: center;
+}
+
+/* Size variants - control gap */
+.button-group-sm {
+  gap: 0.5rem;
+}
+
+.button-group-md {
+  gap: 0.75rem;
+}
+
+.button-group-lg {
+  gap: 1rem;
+}
+
+/* Mobile: Stack buttons vertically for better touch targets */
+@media (max-width: 640px) {
+  .button-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  
+  .button-group a {
     width: 100%;
+    text-align: center;
+    justify-content: center;
   }
 }
 
@@ -2407,23 +2482,36 @@ td svg.icon {
   padding: 0.75rem 1.5rem;
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(12px);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
-              0 2px 4px -2px rgba(0, 0, 0, 0.05),
-              inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
-  margin-bottom: 2rem;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-bottom: 0;
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  z-index: 100;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.navbar.scrolled {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .dark .navbar {
   background: rgba(15, 23, 42, 0.7);
   border-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
-              0 2px 4px -2px rgba(0, 0, 0, 0.2),
-              inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.dark .navbar.scrolled {
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
 }
 
 /* Navbar brand/title */
@@ -2582,6 +2670,93 @@ td svg.icon {
   .navbar a {
     font-size: 0.8125rem;
     padding: 0.375rem 0.75rem;
+  }
+}
+
+/* ========================================
+ * ALERT COMPONENT
+ * Semantic alert boxes with proper theming
+ * ======================================== */
+
+.alert {
+  padding: 1rem 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Info variant */
+.alert-info {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: var(--info);
+}
+
+.dark .alert-info {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #60a5fa;
+}
+
+/* Success variant */
+.alert-success {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: var(--success);
+}
+
+.dark .alert-success {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #34d399;
+}
+
+/* Warning variant */
+.alert-warning {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--warning);
+}
+
+.dark .alert-warning {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+}
+
+/* Error variant */
+.alert-error {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: var(--error);
+}
+
+.dark .alert-error {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #f87171;
+}
+
+/* Alert content */
+.alert > * {
+  margin: 0;
+}
+
+/* Alert with icons */
+.alert .icon {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .alert {
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
   }
 }
 
@@ -3336,7 +3511,7 @@ td svg.icon {
 </style>
   <script>// Taildown Interactive Components
 // Generated by Taildown compiler
-// Total size: ~5.27KB
+// Total size: ~5.66KB
 
 (function() {
   'use strict';
@@ -3448,6 +3623,42 @@ td svg.icon {
 
   function init() {
     console.log('[Taildown] Initializing interactive components');
+    // Navbar scroll effect
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+      let ticking = false;
+      let lastScrollY = 0;
+      const scrollThreshold = 50; // pixels
+      
+      function updateNavbar() {
+        const scrollY = window.scrollY;
+        
+        if (scrollY > scrollThreshold && !navbar.classList.contains('scrolled')) {
+          navbar.classList.add('scrolled');
+          console.log('[Taildown] Navbar: scrolled state activated');
+        } else if (scrollY <= scrollThreshold && navbar.classList.contains('scrolled')) {
+          navbar.classList.remove('scrolled');
+          console.log('[Taildown] Navbar: scrolled state deactivated');
+        }
+        
+        lastScrollY = scrollY;
+        ticking = false;
+      }
+      
+      function onScroll() {
+        if (!ticking) {
+          window.requestAnimationFrame(updateNavbar);
+          ticking = true;
+        }
+      }
+      
+      window.addEventListener('scroll', onScroll, { passive: true });
+      console.log('[Taildown] Navbar scroll effect initialized');
+      
+      // Check initial state
+      updateNavbar();
+    }
+
     // Tabs Component
     const tabElements = getComponents('tabs');
     console.log('[Taildown Tabs] Found', tabElements.length, 'tabs components');
@@ -3708,7 +3919,7 @@ npm install -g taildown
 
 # Or use npx
 npx taildown compile document.td
-</code><button class="code-copy-btn" data-code-id="code-0fuqqr5hd" data-code-text="# Global installation
+</code><button class="code-copy-btn" data-code-id="code-v1i5rxgrd" data-code-text="# Global installation
 npm install -g taildown
 
 # Or use npx
@@ -3730,7 +3941,7 @@ pnpm install
 
 # Build all packages
 pnpm build
-</code><button class="code-copy-btn" data-code-id="code-3ln2wwg9r" data-code-text="# Clone the repository
+</code><button class="code-copy-btn" data-code-id="code-g6lxjw1gz" data-code-text="# Clone the repository
 git clone https://github.com/vincitamore/taildown.git
 cd taildown
 
@@ -3772,7 +3983,7 @@ pnpm build
 </span><span class="code-line"><span class="token punctuation">[</span>Learn More<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-v6k2fgpn1" data-code-text="# Hello World {huge-bold center primary}
+</span></code><button class="code-copy-btn" data-code-id="code-ga4hizau7" data-code-text="# Hello World {huge-bold center primary}
 
 Welcome to Taildown! {large muted center}
 
@@ -3800,7 +4011,7 @@ This is a card with glassmorphism and a slide-up animation!
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Compile Your Document</h2>
 <div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md p-6"><h3>Basic Compilation</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile my-first-document.td
-</code><button class="code-copy-btn" data-code-id="code-saphvuzgv" data-code-text="pnpm taildown compile my-first-document.td
+</code><button class="code-copy-btn" data-code-id="code-cye1lwday" data-code-text="pnpm taildown compile my-first-document.td
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -3812,7 +4023,7 @@ This is a card with glassmorphism and a slide-up animation!
         <span class="copied-text" style="display: none;">Copied!</span></button></pre><p>This creates:</p><ul>
 <li><code>my-first-document.html</code> - Self-contained HTML with embedded CSS and JavaScript</li>
 </ul><h3>Separate CSS File</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile my-first-document.td --separate
-</code><button class="code-copy-btn" data-code-id="code-16an8wmsr" data-code-text="pnpm taildown compile my-first-document.td --separate
+</code><button class="code-copy-btn" data-code-id="code-yqnralucz" data-code-text="pnpm taildown compile my-first-document.td --separate
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -3825,7 +4036,7 @@ This is a card with glassmorphism and a slide-up animation!
 <li><code>my-first-document.html</code> - HTML file</li>
 <li><code>my-first-document.css</code> - Separate CSS file</li>
 </ul><h3>Custom Output</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile my-first-document.td -o output/index.html --css output/styles.css
-</code><button class="code-copy-btn" data-code-id="code-ajf2wzpht" data-code-text="pnpm taildown compile my-first-document.td -o output/index.html --css output/styles.css
+</code><button class="code-copy-btn" data-code-id="code-p61esx7kx" data-code-text="pnpm taildown compile my-first-document.td -o output/index.html --css output/styles.css
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -3855,7 +4066,7 @@ This is a card with glassmorphism and a slide-up animation!
   &lt;script&gt;/* JS here */&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</code><button class="code-copy-btn" data-code-id="code-wfrzi1ym4" data-code-text="&#x26;lt;!DOCTYPE html&#x26;gt;
+</code><button class="code-copy-btn" data-code-id="code-xo12laquj" data-code-text="&#x26;lt;!DOCTYPE html&#x26;gt;
 &#x26;lt;html&#x26;gt;
 &#x26;lt;head&#x26;gt;
   &#x26;lt;meta charset=&#x26;quot;UTF-8&#x26;quot;&#x26;gt;
@@ -3890,7 +4101,7 @@ This is a card with glassmorphism and a slide-up animation!
 .dark {
   --background: #030712;
 }
-</code><button class="code-copy-btn" data-code-id="code-8ixpdcfea" data-code-text=":root {
+</code><button class="code-copy-btn" data-code-id="code-pkcqhlgdd" data-code-text=":root {
   --primary: #3b82f6;
   --background: #ffffff;
 }
@@ -3915,7 +4126,7 @@ This is a card with glassmorphism and a slide-up animation!
 </span><span class="code-line">
 </span><span class="code-line"><span class="token punctuation">[</span>Click Me<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token number">large</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-orzoxk742" data-code-text="# Large Bold Primary Heading {huge-bold primary center}
+</span></code><button class="code-copy-btn" data-code-id="code-hkx9sldcd" data-code-text="# Large Bold Primary Heading {huge-bold primary center}
 
 This paragraph has muted text and relaxed line spacing. {large muted relaxed-lines}
 
@@ -3938,7 +4149,7 @@ This paragraph has muted text and relaxed line spacing. {large muted relaxed-lin
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check-circle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span> <span class="token number">large</span><span class="token punctuation">}</span> Completed
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">arrow-right</span><span class="token punctuation">]</span> Next step
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-08yfloo5e" data-code-text=":icon[heart]{primary} Love this feature
+</span></code><button class="code-copy-btn" data-code-id="code-5r71fslri" data-code-text=":icon[heart]{primary} Love this feature
 :icon[check-circle]{success large} Completed
 :icon[arrow-right] Next step
 
@@ -3963,7 +4174,7 @@ This paragraph has muted text and relaxed line spacing. {large muted relaxed-lin
 </span><span class="code-line"><span class="token punctuation">[</span>Button Text<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-lhlktog48" data-code-text=":::card {elevated hover-lift}
+</span></code><button class="code-copy-btn" data-code-id="code-2azpkdkd4" data-code-text=":::card {elevated hover-lift}
 ## Card Title {large-bold}
 
 Card content with automatic styling.
@@ -3995,7 +4206,7 @@ Card content with automatic styling.
 </span><span class="code-line">Heavy frosted glass (60% transparency)
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-8hfb6epn2" data-code-text=":::card {subtle-glass}
+</span></code><button class="code-copy-btn" data-code-id="code-k234u5dvv" data-code-text=":::card {subtle-glass}
 Light frosted glass (90% transparency)
 :::
 
@@ -4046,7 +4257,7 @@ Heavy frosted glass (60% transparency)
   --foreground: #f9fafb;
   --primary: #3b82f6;
 }
-</code><button class="code-copy-btn" data-code-id="code-vglx9grd0" data-code-text=":root {
+</code><button class="code-copy-btn" data-code-id="code-4jwciv92f" data-code-text=":root {
   --background: #ffffff;
   --foreground: #111827;
   --primary: #3b82f6;
@@ -4070,7 +4281,7 @@ Heavy frosted glass (60% transparency)
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Next Steps</h2>
 <div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200"><h3 class="text-center"><svg class="icon icon-book-open text-primary-600 hover:text-primary-700 text-4xl" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg></h3><p class="text-lg font-bold text-center"><strong>Syntax Guide</strong></p><p>Deep dive into Taildown syntax and capabilities.</p><p><a href="syntax-guide.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg">Read Guide</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200"><h3 class="text-center"><svg class="icon icon-palette text-accent-600 hover:text-accent-700 text-4xl" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg></h3><p class="text-lg font-bold text-center"><strong>Plain English</strong></p><p>Complete reference of all styling shorthands.</p><p><a href="plain-english.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg">View Reference</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200"><h3 class="text-center"><svg class="icon icon-package text-green-600 text-4xl" data-icon="package" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path d="m7.5 4.27 9 5.15" /></svg></h3><p class="text-lg font-bold text-center"><strong>Components</strong></p><p>Explore all 18+ built-in components.</p><p><a href="components.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700 shadow-md hover:shadow-lg">Browse Components</a></p></div></div>
 <hr />
-<div class="taildown-component component-alert p-4 rounded-lg border flex items-start gap-3 bg-green-50 border-green-200 text-green-800"><p><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> <strong>You're ready to start!</strong> Create your first document and see the magic happen. Remember, dark mode works automatically - just try clicking the toggle button!</p></div>
+<div class="taildown-component component-alert alert alert-success"><p><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> <strong>You're ready to start!</strong> Create your first document and see the magic happen. Remember, dark mode works automatically - just try clicking the toggle button!</p></div>
 <p><a href="index.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">Back to Home</a></p>
 </body>
 </html>

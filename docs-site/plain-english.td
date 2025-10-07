@@ -510,9 +510,3 @@ Falls back to raw CSS classes
 
 ---
 
-:::card {light-glass padded}
-:::button-group
-[Back to Home](index.html){button secondary large} [Getting Started](getting-started.html){button primary large hover-lift}
-:::
-:::
-

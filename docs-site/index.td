@@ -14,14 +14,6 @@ The markup language that transforms plain English into stunning, interactive web
 
 ---
 
-:::card {light-glass padded fade-in}
-:::button-group
-[Get Started in 5 Minutes](getting-started.html){button primary large hover-lift} [View Documentation](syntax-guide.html){button secondary large}
-:::
-:::
-
----
-
 ## What Is Taildown? {large-bold primary center}
 
 **Taildown is a superset of Markdown** that adds powerful features while maintaining full backwards compatibility. Write natural English styling instead of CSS classes, create interactive components with simple syntax, and compile to beautiful HTML + CSS + JavaScript. {center muted large}
@@ -517,14 +509,10 @@ Complete reference
 
 ---
 
-:::card {heavy-glass padded-xl}
-:icon[heart]{error huge} {center}
+:::card {heavy-glass padded-xl center}
+:icon[heart]{error huge}
 
-**Ready to build something beautiful?** {huge-bold primary center}
+**Ready to build something beautiful?** {huge-bold primary}
 
-Get started in 5 minutes. No configuration. No complexity. Just pure creative flow. {large muted center}
-
-:::button-group
-[Get Started Now](getting-started.html){button primary large hover-lift} [View Full Syntax Guide](syntax-guide.html){button secondary large}
-:::
+Get started in 5 minutes. No configuration. No complexity. Just pure creative flow. {large muted}
 :::

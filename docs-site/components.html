@@ -17,11 +17,14 @@ html {
   /* Prevent horizontal scroll at root level */
   overflow-x: hidden;
   width: 100%;
+  /* Smooth scrolling for anchor links */
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   padding: 1rem;
+  padding-top: 0;
   font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
@@ -34,10 +37,34 @@ body {
   width: 100%;
 }
 
+/* Regular links (not buttons/badges/navbar links) */
+a:not([class*="button"]):not([class*="badge"]):not(.navbar a) {
+  color: var(--primary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
+}
+
+a:not([class*="button"]):not([class*="badge"]):not(.navbar a):hover {
+  border-bottom-color: var(--primary);
+  opacity: 0.85;
+}
+
+a:not([class*="button"]):not([class*="badge"]):not(.navbar a):active {
+  opacity: 0.7;
+}
+
+/* Offset anchor targets for sticky navbar */
+:target {
+  scroll-margin-top: 80px;
+}
+
 /* Increase body padding on larger screens */
 @media (min-width: 640px) {
   body {
     padding: 2rem;
+    padding-top: 0;
   }
 }
 
@@ -2071,11 +2098,13 @@ td svg.icon {
 .hover\:text-primary-700:hover { color: rgb(29 78 216); }
 .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
 .text-gray-500 { color: rgb(107 114 128); }
+.grid { display: grid; }
+.gap-4 { gap: 1rem; }
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .rounded-lg { border-radius: 0.5rem; }
 .max-w-full { max-width: 100%; }
 .overflow-x-hidden { overflow-x: hidden; }
 .break-words { overflow-wrap: break-word; word-wrap: break-word; }
-.shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
 .p-6 { padding: 1.5rem; }
 .inline-block { display: inline-block; }
 .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
@@ -2085,28 +2114,25 @@ td svg.icon {
 .duration-200 { transition-duration: 200ms; }
 .cursor-pointer { cursor: pointer; }
 .no-underline { text-decoration: none; }
-.bg-purple-600 { background-color: rgb(147 51 234); }
-.text-white { color: rgb(255 255 255); }
-.hover\:bg-purple-700:hover { background-color: rgb(126 34 206); }
-.active\:bg-purple-800:active { background-color: rgb(107 33 168); }
-.hover\:shadow-lg:hover { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
-.bg-blue-500 { background-color: rgb(59 130 246); }
-.hover\:bg-blue-600:hover { background-color: rgb(37 99 235); }
-.active\:bg-blue-700:active { background-color: rgb(29 78 216); }
 .bg-blue-600 { background-color: rgb(37 99 235); }
+.text-white { color: rgb(255 255 255); }
 .hover\:bg-blue-700:hover { background-color: rgb(29 78 216); }
 .active\:bg-blue-800:active { background-color: rgb(30 64 175); }
-.hover\:transform:hover { transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
-.grid { display: grid; }
-.gap-4 { gap: 1rem; }
-.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+.hover\:shadow-lg:hover { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
 .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
 .shadow-lg { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
 .shadow-xl { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
 .p-12 { padding: 3rem; }
 .rounded-xl { border-radius: 0.75rem; }
 .text-green-600 { color: rgb(22 163 74); }
+.bg-purple-600 { background-color: rgb(147 51 234); }
+.hover\:bg-purple-700:hover { background-color: rgb(126 34 206); }
+.active\:bg-purple-800:active { background-color: rgb(107 33 168); }
 .text-red-600 { color: rgb(220 38 38); }
+.bg-blue-500 { background-color: rgb(59 130 246); }
+.hover\:bg-blue-600:hover { background-color: rgb(37 99 235); }
+.active\:bg-blue-700:active { background-color: rgb(29 78 216); }
 .border { border-width: 1px; border-style: solid; }
 .border-b { border-bottom-width: 1px; border-style: solid; }
 .border-gray-200 { border-color: rgb(229 231 235); }
@@ -2173,6 +2199,7 @@ td svg.icon {
 .bg-green-600 { background-color: rgb(22 163 74); }
 .hover\:bg-green-700:hover { background-color: rgb(21 128 61); }
 .active\:bg-green-800:active { background-color: rgb(22 101 52); }
+.hover\:transform:hover { transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
 .inline-flex { display: inline-flex; }
 .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
 .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
@@ -2543,23 +2570,36 @@ td svg.icon {
   padding: 0.75rem 1.5rem;
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(12px);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
-              0 2px 4px -2px rgba(0, 0, 0, 0.05),
-              inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
-  margin-bottom: 2rem;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-bottom: 0;
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  z-index: 100;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.navbar.scrolled {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .dark .navbar {
   background: rgba(15, 23, 42, 0.7);
   border-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
-              0 2px 4px -2px rgba(0, 0, 0, 0.2),
-              inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.dark .navbar.scrolled {
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
 }
 
 /* Navbar brand/title */
@@ -3559,7 +3599,7 @@ td svg.icon {
 </style>
   <script>// Taildown Interactive Components
 // Generated by Taildown compiler
-// Total size: ~9.13KB
+// Total size: ~9.52KB
 
 (function() {
   'use strict';
@@ -3671,6 +3711,42 @@ td svg.icon {
 
   function init() {
     console.log('[Taildown] Initializing interactive components');
+    // Navbar scroll effect
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+      let ticking = false;
+      let lastScrollY = 0;
+      const scrollThreshold = 50; // pixels
+      
+      function updateNavbar() {
+        const scrollY = window.scrollY;
+        
+        if (scrollY > scrollThreshold && !navbar.classList.contains('scrolled')) {
+          navbar.classList.add('scrolled');
+          console.log('[Taildown] Navbar: scrolled state activated');
+        } else if (scrollY <= scrollThreshold && navbar.classList.contains('scrolled')) {
+          navbar.classList.remove('scrolled');
+          console.log('[Taildown] Navbar: scrolled state deactivated');
+        }
+        
+        lastScrollY = scrollY;
+        ticking = false;
+      }
+      
+      function onScroll() {
+        if (!ticking) {
+          window.requestAnimationFrame(updateNavbar);
+          ticking = true;
+        }
+      }
+      
+      window.addEventListener('scroll', onScroll, { passive: true });
+      console.log('[Taildown] Navbar scroll effect initialized');
+      
+      // Check initial state
+      updateNavbar();
+    }
+
     // Tabs Component
     const tabElements = getComponents('tabs');
     console.log('[Taildown Tabs] Found', tabElements.length, 'tabs components');
@@ -4181,8 +4257,6 @@ td svg.icon {
 <h1 class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700">Component Reference</h1>
 <p class="text-center text-lg text-gray-500"><strong>Interactive showcase of every Taildown component with live examples.</strong></p>
 <hr />
-<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md p-6"><div class="taildown-component component-button-group button-group"><p><a href="syntax-guide.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-lg">Syntax Guide</a><a href="plain-english.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700 shadow-md hover:shadow-lg text-lg">Plain English Ref</a><a href="getting-started.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">Getting Started</a></p></div></div>
-<hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700"><svg class="icon icon-package text-primary-600 hover:text-primary-700 text-lg" data-icon="package" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path d="m7.5 4.27 9 5.15" /></svg> Layout Components</h2>
 <p>Components for structuring and organizing your content.</p>
 <hr />
@@ -4200,7 +4274,7 @@ Your content here
 :::card {subtle-glass padded-xl rounded-xl}
 Card with multiple attributes
 :::
-</code><button class="code-copy-btn" data-code-id="code-488rbfvo8" data-code-text=":::card {glass padded}
+</code><button class="code-copy-btn" data-code-id="code-hwqu1m81f" data-code-text=":::card {glass padded}
 Your content here
 :::
 
@@ -4247,7 +4321,7 @@ Column 2
 Column 3
 :::
 :::
-</code><button class="code-copy-btn" data-code-id="code-xkj43jf2b" data-code-text=":::grid {cols-2}
+</code><button class="code-copy-btn" data-code-id="code-xrrcex41d" data-code-text=":::grid {cols-2}
 :::card
 Column 1
 :::
@@ -4305,7 +4379,7 @@ Left-aligned buttons
 :::button-group {lg}
 Large gaps between buttons
 :::
-</code><button class="code-copy-btn" data-code-id="code-hgfbwbeux" data-code-text=":::button-group
+</code><button class="code-copy-btn" data-code-id="code-jdy6m8qm2" data-code-text=":::button-group
 [Primary](#){button primary large}
 [Secondary](#){button secondary large}
 :::
@@ -4348,7 +4422,7 @@ Content here
 ## Second Tab
 More content
 :::
-</code><button class="code-copy-btn" data-code-id="code-0b5d7k39h" data-code-text=":::tabs
+</code><button class="code-copy-btn" data-code-id="code-xc31balzi" data-code-text=":::tabs
 ## First Tab
 Content here
 
@@ -4409,7 +4483,7 @@ Content for second tab
 ## Third Tab
 Content for third tab
 :::
-</code><button class="code-copy-btn" data-code-id="code-lsunf2gmm" data-code-text=":::tabs
+</code><button class="code-copy-btn" data-code-id="code-xf1009edd" data-code-text=":::tabs
 ## First Tab
 Content for first tab
 
@@ -4452,7 +4526,7 @@ Accordions include proper ARIA attributes (<code>aria-expanded</code>, <code>ari
 **Section Title**
 Section content
 :::
-</code><button class="code-copy-btn" data-code-id="code-5pcaoxf7j" data-code-text=":::accordion
+</code><button class="code-copy-btn" data-code-id="code-xjhqm1tp5" data-code-text=":::accordion
 **Section Title**
 Section content
 :::
@@ -4503,7 +4577,7 @@ Content for second section
 **Third Section**
 Content for third section
 :::
-</code><button class="code-copy-btn" data-code-id="code-w4dssbzmj" data-code-text=":::accordion
+</code><button class="code-copy-btn" data-code-id="code-gcivct4kt" data-code-text=":::accordion
 **First Section**
 Content for first section (open by default)
 
@@ -4539,7 +4613,7 @@ Second slide content
 
 Third slide content
 :::
-</code><button class="code-copy-btn" data-code-id="code-jxriml6kr" data-code-text=":::carousel
+</code><button class="code-copy-btn" data-code-id="code-wbdv93732" data-code-text=":::carousel
 First slide content
 
 ---
@@ -4566,7 +4640,7 @@ Third slide content
 <li>Swipe support on touch devices</li>
 <li>3D card effects with glassmorphism</li>
 <li>Auto-play option (via attributes)</li>
-</ul></div></div><hr /></div><div role="tabpanel" hidden class="tab-panel"><p><strong>Overlay dialogs with backdrop blur and focus management.</strong></p><div class="taildown-component component-tabs tabs" data-component="tabs"><div role="tablist" class="tabs-list"><button role="tab" aria-selected="true" tabindex="0" class="tab-button">Attachable Modals</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Multiple Triggers</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Usage</button></div><div role="tabpanel" class="tab-panel"><p>The recommended way to use modals is to attach them to buttons or links:</p><p><strong>Inline content:</strong></p><p><span class="inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg" data-modal-trigger="modal-4uen5a" aria-haspopup="dialog">Simple Alert</a><div id="modal-4uen5a" role="dialog" aria-modal="true" data-component="modal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);"><div class="modal-content glass-subtle rounded-2xl shadow-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative p-12 border border-white/20"><button data-modal-close="true" aria-label="Close modal" class="modal-close absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors z-10 bg-white/80 backdrop-blur-sm"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>This is a simple alert modal! Click the backdrop or press Escape to close.</div></div></span></p><p><strong>ID-referenced content:</strong></p><p><span class="inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-green-600 text-white hover:bg-green-700 active:bg-green-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200" data-modal-trigger="demo-modal" aria-haspopup="dialog">Rich Modal</a><div id="demo-modal" role="dialog" aria-modal="true" data-component="modal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);"><div class="modal-content glass-subtle rounded-2xl shadow-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative p-12 border border-white/20"><button data-modal-close="true" aria-label="Close modal" class="modal-close absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors z-10 bg-white/80 backdrop-blur-sm"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button><h4><svg class="icon icon-sparkles text-yellow-600" data-icon="sparkles" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /><path d="M20 2v4" /><path d="M22 4h-4" /><circle cx="4" cy="20" r="2" /></svg> Rich Modal Example</h4><p>This modal demonstrates full markdown and component support:</p><div class="taildown-component component-alert alert alert-info"><p><svg class="icon icon-lightbulb text-yellow-600" data-icon="lightbulb" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /><path d="M9 18h6" /><path d="M10 22h4" /></svg> Modals can contain any Taildown content!</p></div><p><strong>Features:</strong></p><ul>
+</ul></div></div><hr /></div><div role="tabpanel" hidden class="tab-panel"><p><strong>Overlay dialogs with backdrop blur and focus management.</strong></p><div class="taildown-component component-tabs tabs" data-component="tabs"><div role="tablist" class="tabs-list"><button role="tab" aria-selected="true" tabindex="0" class="tab-button">Attachable Modals</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Multiple Triggers</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Usage</button></div><div role="tabpanel" class="tab-panel"><p>The recommended way to use modals is to attach them to buttons or links:</p><p><strong>Inline content:</strong></p><p><span class="inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg" data-modal-trigger="modal-743eck" aria-haspopup="dialog">Simple Alert</a><div id="modal-743eck" role="dialog" aria-modal="true" data-component="modal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);"><div class="modal-content glass-subtle rounded-2xl shadow-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative p-12 border border-white/20"><button data-modal-close="true" aria-label="Close modal" class="modal-close absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors z-10 bg-white/80 backdrop-blur-sm"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>This is a simple alert modal! Click the backdrop or press Escape to close.</div></div></span></p><p><strong>ID-referenced content:</strong></p><p><span class="inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-green-600 text-white hover:bg-green-700 active:bg-green-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200" data-modal-trigger="demo-modal" aria-haspopup="dialog">Rich Modal</a><div id="demo-modal" role="dialog" aria-modal="true" data-component="modal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);"><div class="modal-content glass-subtle rounded-2xl shadow-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative p-12 border border-white/20"><button data-modal-close="true" aria-label="Close modal" class="modal-close absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors z-10 bg-white/80 backdrop-blur-sm"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button><h4><svg class="icon icon-sparkles text-yellow-600" data-icon="sparkles" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /><path d="M20 2v4" /><path d="M22 4h-4" /><circle cx="4" cy="20" r="2" /></svg> Rich Modal Example</h4><p>This modal demonstrates full markdown and component support:</p><div class="taildown-component component-alert alert alert-info"><p><svg class="icon icon-lightbulb text-yellow-600" data-icon="lightbulb" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /><path d="M9 18h6" /><path d="M10 22h4" /></svg> Modals can contain any Taildown content!</p></div><p><strong>Features:</strong></p><ul>
 <li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Full markdown support</li>
 <li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Nested components</li>
 <li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Backdrop blur effect</li>
@@ -4589,7 +4663,7 @@ Third slide content
 <li>Consistent experience</li>
 <li>Better performance</li>
 </ul></div></div></span></p><span style="display: none;"></span></div><div role="tabpanel" hidden class="tab-panel"><p><strong>Inline content:</strong></p><pre data-copyable="true"><code class="language-markdown code-highlight">[Click me](#){button modal=&quot;Simple message&quot;}
-</code><button class="code-copy-btn" data-code-id="code-2zqgkrowl" data-code-text="[Click me](#){button modal=&#x26;quot;Simple message&#x26;quot;}
+</code><button class="code-copy-btn" data-code-id="code-qj4przhho" data-code-text="[Click me](#){button modal=&#x26;quot;Simple message&#x26;quot;}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4604,7 +4678,7 @@ Third slide content
 # Modal Title
 Modal content with full markdown support
 :::
-</code><button class="code-copy-btn" data-code-id="code-59ow0xagi" data-code-text="[Open Modal](#){button modal=&#x26;quot;#my-modal&#x26;quot;}
+</code><button class="code-copy-btn" data-code-id="code-vfd0nc11b" data-code-text="[Open Modal](#){button modal=&#x26;quot;#my-modal&#x26;quot;}
 
 :::modal {id=&#x26;quot;my-modal&#x26;quot;}
 # Modal Title
@@ -4632,8 +4706,8 @@ Modal content with full markdown support
 <li><code>Code examples</code></li>
 <li><em>Emphasis</em> and <strong>bold</strong></li>
 <li>Even <a href="#">links</a>!</li>
-</ul></div></span></p><span style="display: none;"></span></div><div role="tabpanel" hidden class="tab-panel"><p>Share tooltips across triggers:</p><p>Technical term 1<a href="#">?</a>{badge info tooltip="#glossary"} and technical term 2<a href="#">?</a>{badge info tooltip="#glossary"} both use the same tooltip.</p><span style="display: none;"></span></div><div role="tabpanel" hidden class="tab-panel"><p><span class="relative inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg" aria-describedby="tooltip-5f3v1e" data-tooltip-trigger="true">Need Help?</a><div id="tooltip-5f3v1e" role="tooltip" data-component="tooltip" class="tooltip-content absolute px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none opacity-0 transition-opacity" style="display: none;">Click this button to submit your form. Make sure all required fields are filled.</div></span><span class="relative inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg" aria-describedby="tooltip-cc6cct" data-tooltip-trigger="true">Cancel</a><div id="tooltip-cc6cct" role="tooltip" data-component="tooltip" class="tooltip-content absolute px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none opacity-0 transition-opacity" style="display: none;">Discard changes and return to the previous page.</div></span></p></div><div role="tabpanel" hidden class="tab-panel"><p><strong>Inline content:</strong></p><pre data-copyable="true"><code class="language-markdown code-highlight">[Hover here](#){tooltip=&quot;Help text&quot;}
-</code><button class="code-copy-btn" data-code-id="code-f2f3jh5hs" data-code-text="[Hover here](#){tooltip=&#x26;quot;Help text&#x26;quot;}
+</ul></div></span></p><span style="display: none;"></span></div><div role="tabpanel" hidden class="tab-panel"><p>Share tooltips across triggers:</p><p>Technical term 1<a href="#">?</a>{badge info tooltip="#glossary"} and technical term 2<a href="#">?</a>{badge info tooltip="#glossary"} both use the same tooltip.</p><span style="display: none;"></span></div><div role="tabpanel" hidden class="tab-panel"><p><span class="relative inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg" aria-describedby="tooltip-ohb7ad" data-tooltip-trigger="true">Need Help?</a><div id="tooltip-ohb7ad" role="tooltip" data-component="tooltip" class="tooltip-content absolute px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none opacity-0 transition-opacity" style="display: none;">Click this button to submit your form. Make sure all required fields are filled.</div></span><span class="relative inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg" aria-describedby="tooltip-bxqtfp" data-tooltip-trigger="true">Cancel</a><div id="tooltip-bxqtfp" role="tooltip" data-component="tooltip" class="tooltip-content absolute px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none opacity-0 transition-opacity" style="display: none;">Discard changes and return to the previous page.</div></span></p></div><div role="tabpanel" hidden class="tab-panel"><p><strong>Inline content:</strong></p><pre data-copyable="true"><code class="language-markdown code-highlight">[Hover here](#){tooltip=&quot;Help text&quot;}
+</code><button class="code-copy-btn" data-code-id="code-j2034lcg2" data-code-text="[Hover here](#){tooltip=&#x26;quot;Help text&#x26;quot;}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4647,7 +4721,7 @@ Modal content with full markdown support
 :::tooltip {id=&quot;help&quot;}
 Detailed help content
 :::
-</code><button class="code-copy-btn" data-code-id="code-4496dfu7g" data-code-text="[Info](#){tooltip=&#x26;quot;#help&#x26;quot;}
+</code><button class="code-copy-btn" data-code-id="code-1v2tx1dmb" data-code-text="[Info](#){tooltip=&#x26;quot;#help&#x26;quot;}
 
 :::tooltip {id=&#x26;quot;help&#x26;quot;}
 Detailed help content
@@ -4688,7 +4762,7 @@ Detailed help content
 :::alert {error}
 :icon[x-circle]{error} Error message
 :::
-</code><button class="code-copy-btn" data-code-id="code-eiv03eemp" data-code-text=":::alert {info}
+</code><button class="code-copy-btn" data-code-id="code-c6nws2zim" data-code-text=":::alert {info}
 :icon[info]{info} Information message
 :::
 
@@ -4726,7 +4800,7 @@ Detailed help content
 [Text](#){badge primary}
 [Text](#){badge success small}
 [Text](#){badge error large}
-</code><button class="code-copy-btn" data-code-id="code-qpgwypby6" data-code-text="[Text](#){badge}
+</code><button class="code-copy-btn" data-code-id="code-hahwcijcg" data-code-text="[Text](#){badge}
 [Text](#){badge primary}
 [Text](#){badge success small}
 [Text](#){badge error large}
@@ -4748,7 +4822,7 @@ Detailed help content
 
 [Home](/) [About](/about) [Docs](/docs) [Contact](/contact)
 :::
-</code><button class="code-copy-btn" data-code-id="code-mc4997r43" data-code-text=":::navbar
+</code><button class="code-copy-btn" data-code-id="code-r7u0fpqjp" data-code-text=":::navbar
 # :icon[zap]{warning} Brand Name
 
 [Home](/) [About](/about) [Docs](/docs) [Contact](/contact)
@@ -4789,7 +4863,7 @@ Minimal variant
 :::navbar {floating}
 Floating with more shadow
 :::
-</code><button class="code-copy-btn" data-code-id="code-oyf0ct664" data-code-text=":::navbar {glass}
+</code><button class="code-copy-btn" data-code-id="code-du54bgg37" data-code-text=":::navbar {glass}
 Glass variant (default)
 :::
 
@@ -4817,7 +4891,7 @@ Floating with more shadow
 
 [Link 1](#) [Link 2](#) [Link 3](#)
 :::
-</code><button class="code-copy-btn" data-code-id="code-1e6mdv7qp" data-code-text=":::navbar
+</code><button class="code-copy-btn" data-code-id="code-5ejnoefjw" data-code-text=":::navbar
 # :icon[logo]{primary} Site Name
 
 [Link 1](#) [Link 2](#) [Link 3](#)
@@ -4888,6 +4962,6 @@ Floating with more shadow
 <li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Navbar</strong> - Site navigation</li>
 <li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Breadcrumb</strong> - Nav trail</li>
 <li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Pagination</strong>- Page nav</li>
-</ul></div></div><hr /></div><div role="tabpanel" hidden class="tab-panel"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md p-12 text-center"><p class="text-4xl font-bold"><strong>You've seen every component!</strong></p><p class="text-lg text-gray-500">Ready to use them in your project?</p><div class="taildown-component component-button-group button-group"><p><a href="getting-started.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">Get Started</a><a href="syntax-guide.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-lg">Syntax Guide</a><a href="plain-english.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700 shadow-md hover:shadow-lg text-lg">Plain English Ref</a></p></div></div></div></div>
+</ul></div></div><hr /></div><div role="tabpanel" hidden class="tab-panel"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md p-12 text-center"><p class="text-4xl font-bold"><strong>You've seen every component!</strong></p><p class="text-lg text-gray-500">Ready to use them in your project?</p></div></div></div>
 </body>
 </html>

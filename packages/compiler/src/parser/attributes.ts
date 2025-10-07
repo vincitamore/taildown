@@ -25,10 +25,11 @@ interface AttributePluginOptions {
  * See SYNTAX.md §2.2.5 for extraction algorithm
  * Phase 2: Now extracts both CSS classes (.class) and plain English (class)
  * Phase 2.5: Now also extracts attachable components (modal="..." tooltip="...")
+ * Phase 3: Now also extracts ID anchors (#anchor-id)
  * 
  * @param text - Text content to extract from
  * @param resolverContext - Context for resolving plain English (optional)
- * @returns Object with extracted/resolved classes, remaining text, and attachable components
+ * @returns Object with extracted/resolved classes, remaining text, attachable components, and ID
  */
 function extractAttributesFromText(
   text: string,
@@ -36,6 +37,7 @@ function extractAttributesFromText(
 ): {
   classes: string[];
   remainingText: string;
+  id?: string;
   modal?: string;
   tooltip?: string;
 } {
@@ -51,9 +53,17 @@ function extractAttributesFromText(
     return { classes: [], remainingText: text.replace(ATTRIBUTE_BLOCK_REGEX, '') };
   }
   
-  // Extract key-value attributes (modal="..." tooltip="...")
-  const kvAttrs: { modal?: string; tooltip?: string } = {};
+  // Extract key-value attributes (modal="..." tooltip="...") and ID (#anchor-id)
+  const kvAttrs: { id?: string; modal?: string; tooltip?: string } = {};
   let cleanedBlock = attributeBlock;
+  
+  // Match #anchor-id (ID syntax)
+  // ID must start with letter or underscore, can contain letters, numbers, hyphens, underscores
+  const idMatch = attributeBlock.match(/#([a-zA-Z_][\w-]*)/);
+  if (idMatch) {
+    kvAttrs.id = idMatch[1];
+    cleanedBlock = cleanedBlock.replace(idMatch[0], '').trim();
+  }
   
   // Match modal="..." or modal='...'
   const modalMatch = attributeBlock.match(/modal=["']([^"']+)["']/);
@@ -70,6 +80,7 @@ function extractAttributesFromText(
   }
 
   // Phase 2: Extract both CSS classes and plain English
+  // - ID anchors start with hash: #anchor-id (extracted above)
   // - CSS classes start with dot: .text-4xl
   // - Plain English doesn't: primary, large, bold
   // - Component keywords: button, badge, alert, etc.
@@ -77,7 +88,10 @@ function extractAttributesFromText(
   const tokens = cleanedBlock.split(/\s+/).filter((t) => t.length > 0);
 
   for (const token of tokens) {
-    if (CLASS_NAME_REGEX.test(token)) {
+    if (token.startsWith('#')) {
+      // ID was already extracted above, skip
+      continue;
+    } else if (CLASS_NAME_REGEX.test(token)) {
       // CSS class with dot - remove dot and add
       rawAttributes.push(token.substring(1));
     } else if (token && !token.startsWith('.')) {
@@ -142,8 +156,8 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
       if (nextSibling && nextSibling.type === 'text') {
         const textNode = nextSibling as Text;
         
-        // Extract attributes including modal/tooltip attachments
-        const { classes, remainingText, modal, tooltip } = extractAttributesFromText(
+        // Extract attributes including modal/tooltip attachments and ID
+        const { classes, remainingText, id, modal, tooltip } = extractAttributesFromText(
           textNode.value,
           resolverContext
         );
@@ -158,6 +172,11 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
         
         if (classes.length > 0) {
           data.hProperties.className = classes;
+        }
+        
+        // Apply ID if present
+        if (id) {
+          data.hProperties.id = id;
         }
         
         // Store modal/tooltip as data attributes for post-processing
@@ -176,7 +195,7 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
 
       if (lastChild && lastChild.type === 'text') {
         const textNode = lastChild as Text;
-        const { classes, remainingText, modal, tooltip } = extractAttributesFromText(
+        const { classes, remainingText, id, modal, tooltip } = extractAttributesFromText(
           textNode.value,
           resolverContext
         );
@@ -191,6 +210,11 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
         
         if (classes.length > 0) {
           data.hProperties.className = classes;
+        }
+        
+        // Apply ID if present (for anchor targets)
+        if (id) {
+          data.hProperties.id = id;
         }
         
         // Store modal/tooltip as data attributes for post-processing
@@ -210,7 +234,7 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
 
       if (lastChild && lastChild.type === 'text') {
         const textNode = lastChild as Text;
-        const { classes, remainingText, modal, tooltip } = extractAttributesFromText(
+        const { classes, remainingText, id, modal, tooltip } = extractAttributesFromText(
           textNode.value,
           resolverContext
         );
@@ -223,6 +247,11 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
         
         if (classes.length > 0) {
           data.hProperties.className = classes;
+        }
+        
+        // Apply ID if present
+        if (id) {
+          data.hProperties.id = id;
         }
         
         // Store modal/tooltip as data attributes for post-processing

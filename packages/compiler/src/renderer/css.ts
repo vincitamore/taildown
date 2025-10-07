@@ -520,11 +520,14 @@ html {
   /* Prevent horizontal scroll at root level */
   overflow-x: hidden;
   width: 100%;
+  /* Smooth scrolling for anchor links */
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   padding: 1rem;
+  padding-top: 0;
   font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
@@ -537,10 +540,34 @@ body {
   width: 100%;
 }
 
+/* Regular links (not buttons/badges/navbar links) */
+a:not([class*="button"]):not([class*="badge"]):not(.navbar a) {
+  color: var(--primary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
+}
+
+a:not([class*="button"]):not([class*="badge"]):not(.navbar a):hover {
+  border-bottom-color: var(--primary);
+  opacity: 0.85;
+}
+
+a:not([class*="button"]):not([class*="badge"]):not(.navbar a):active {
+  opacity: 0.7;
+}
+
+/* Offset anchor targets for sticky navbar */
+:target {
+  scroll-margin-top: 80px;
+}
+
 /* Increase body padding on larger screens */
 @media (min-width: 640px) {
   body {
     padding: 2rem;
+    padding-top: 0;
   }
 }
 
@@ -1653,23 +1680,36 @@ ${generateThemeCSS()}
   padding: 0.75rem 1.5rem;
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(12px);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
-              0 2px 4px -2px rgba(0, 0, 0, 0.05),
-              inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
-  margin-bottom: 2rem;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-bottom: 0;
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  z-index: 100;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.navbar.scrolled {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .dark .navbar {
   background: rgba(15, 23, 42, 0.7);
   border-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
-              0 2px 4px -2px rgba(0, 0, 0, 0.2),
-              inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.dark .navbar.scrolled {
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
 }
 
 /* Navbar brand/title */

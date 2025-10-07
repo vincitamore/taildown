@@ -12,14 +12,6 @@
 
 ---
 
-:::card {light-glass padded}
-:::button-group
-[Syntax Guide](syntax-guide.html){button secondary large} [Plain English Ref](plain-english.html){button info large} [Getting Started](getting-started.html){button primary large hover-lift}
-:::
-:::
-
----
-
 ## :icon[package]{primary large} Layout Components {large-bold primary}
 
 Components for structuring and organizing your content.
@@ -1343,9 +1335,5 @@ Taildown focuses on zero-config simplicity with plain English syntax, while MDX 
 **You've seen every component!** {huge-bold}
 
 Ready to use them in your project? {large-muted}
-
-:::button-group
-[Get Started](getting-started.html){button primary large hover-lift} [Syntax Guide](syntax-guide.html){button secondary large} [Plain English Ref](plain-english.html){button info large}
-:::
 :::
 
