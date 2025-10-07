@@ -2206,12 +2206,11 @@ td svg.icon {
 .pb-4 { padding-bottom: 1rem; }
 .pt-0 { padding-top: 0; }
 .relative { position: relative; }
-.rounded-2xl { border-radius: 1rem; }
 .duration-500 { transition-duration: 500ms; }
 .ease-in-out { transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
 .flex-shrink-0 { flex-shrink: 0; }
+.rounded-2xl { border-radius: 1rem; }
 .shadow-2xl { box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); }
-.min-h-[400px] { min-height: 400px; }
 .flex-col { flex-direction: column; }
 .justify-center { justify-content: center; }
 .absolute { position: absolute; }
@@ -2935,6 +2934,7 @@ td svg.icon {
   cursor: pointer;
   outline: none;
   padding: 1rem;
+  color: var(--foreground);
 }
 
 .accordion-trigger:hover {
@@ -2962,14 +2962,12 @@ td svg.icon {
  * CAROUSEL COMPONENT
  * ======================================== */
 
-.carousel-container {
-  perspective: 1200px;
-  perspective-origin: center;
-}
-
 .component-carousel {
   position: relative;
   width: 100%;
+  perspective: 1200px;
+  perspective-origin: center;
+  overflow: hidden;
 }
 
 .carousel-track {
@@ -2981,7 +2979,6 @@ td svg.icon {
 .carousel-slide {
   min-width: 100%;
   flex-shrink: 0;
-  padding: 0 2rem;
 }
 
 .carousel-slide[hidden] {
@@ -4343,7 +4340,7 @@ td svg.icon {
 <div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 cols-2" data-component="grid"><a class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md p-6 hover:transform hover:-translate-y-1 transition-transform duration-200 no-underline cursor-pointer" href="#layout" data-component="card"><h4><svg class="icon icon-mouse-pointer text-primary-600 hover:text-primary-700" data-icon="mouse-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.586 12.586 19 19" /><path d="M3.688 3.037a.497.497 0 0 0-.651.651l6.5 15.999a.501.501 0 0 0 .947-.062l1.569-6.083a2 2 0 0 1 1.448-1.479l6.124-1.579a.5.5 0 0 0 .063-.947z" /></svg> Clickable Navigation Card</h4><p>The entire card is a link! This is the modern approach for navigation cards - no visible link styling, just an intuitive clickable surface.</p><p>Try hovering over this card - the whole thing responds!</p></a><a class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-subtle shadow-sm p-6 hover:transform hover:-translate-y-1 transition-transform duration-200 no-underline cursor-pointer" href="#interactive" data-component="card"><h4><svg class="icon icon-hand text-green-600" data-icon="hand" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2" /><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2" /><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8" /><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" /></svg> Interactive Card Link</h4><p>Click anywhere on this card to navigate. The <code>hover-lift</code> variant provides visual feedback on hover.</p><p><strong>Syntax:</strong></p><pre data-copyable="true"><code>:::card {glass hover-lift href="#target"}
 Content here
 :::
-</code><button class="code-copy-btn" data-code-id="code-zwb75uciu" data-code-text=":::card {glass hover-lift href=&#x22;#target&#x22;}
+</code><button class="code-copy-btn" data-code-id="code-vfad7pnps" data-code-text=":::card {glass hover-lift href=&#x22;#target&#x22;}
 Content here
 :::
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4374,7 +4371,7 @@ Card with multiple attributes
 :::card {glass padded hover-lift href=&quot;#destination&quot;}
 Clickable card - entire card is a link
 :::
-</code><button class="code-copy-btn" data-code-id="code-uuwr7e6uf" data-code-text=":::card {glass padded}
+</code><button class="code-copy-btn" data-code-id="code-zi3w6ro49" data-code-text=":::card {glass padded}
 Your content here
 :::
 
@@ -4425,7 +4422,7 @@ Column 2
 :::grid {cols-3 gap-lg}
 Three columns with large gap
 :::
-</code><button class="code-copy-btn" data-code-id="code-wwjhu72t0" data-code-text=":::grid {cols-2}
+</code><button class="code-copy-btn" data-code-id="code-h7jigzpwh" data-code-text=":::grid {cols-2}
 :::card
 Column 1
 :::
@@ -4468,7 +4465,7 @@ Three columns with large gap
 :::button-group {right lg}
 Right-aligned with large gaps
 :::
-</code><button class="code-copy-btn" data-code-id="code-38i9xjpvo" data-code-text=":::button-group
+</code><button class="code-copy-btn" data-code-id="code-64y9pgtb4" data-code-text=":::button-group
 [Primary](#){button primary large}
 [Secondary](#){button secondary large}
 :::
@@ -4510,7 +4507,7 @@ Content for second tab
 ## Third Tab
 Content for third tab
 :::
-</code><button class="code-copy-btn" data-code-id="code-1xjpg6j64" data-code-text=":::tabs
+</code><button class="code-copy-btn" data-code-id="code-sv3uewsrc" data-code-text=":::tabs
 ## First Tab
 Content for first tab
 
@@ -4543,7 +4540,7 @@ Content
 ## Second Tab
 More content
 :::
-</code><button class="code-copy-btn" data-code-id="code-oq29z0brp" data-code-text=":::tabs
+</code><button class="code-copy-btn" data-code-id="code-ybi4l2nbz" data-code-text=":::tabs
 ## First Tab
 Content
 
@@ -4587,7 +4584,7 @@ Accordions include proper ARIA attributes (<code>aria-expanded</code>, <code>ari
 **Section Title**
 Section content here
 :::
-</code><button class="code-copy-btn" data-code-id="code-4lg2qn5kf" data-code-text=":::accordion
+</code><button class="code-copy-btn" data-code-id="code-nhsk8s5im" data-code-text=":::accordion
 **Section Title**
 Section content here
 :::
@@ -4611,7 +4608,7 @@ More content
 **Third Section**
 Even more content
 :::
-</code><button class="code-copy-btn" data-code-id="code-fr56t64vn" data-code-text=":::accordion
+</code><button class="code-copy-btn" data-code-id="code-w4yli82c7" data-code-text=":::accordion
 **First Section**
 Content (open by default)
 
@@ -4642,9 +4639,9 @@ Even more content
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700" id="carousel">Carousel</h2>
 <p><strong>Slideshow with navigation, indicators, and 3D card effects.</strong></p>
 <h3 class="medium-bold">Feature Showcase</h3>
-<div class="taildown-component component-carousel carousel relative overflow-hidden rounded-lg bg-muted carousel-container relative overflow-hidden rounded-2xl p-12" data-component="carousel" style="perspective: 1000px"><div data-carousel-track="" class="carousel-track flex transition-all duration-500 ease-in-out"><div data-carousel-slide="" class="carousel-slide w-full flex-shrink-0"><div class="carousel-card glass-light rounded-2xl shadow-2xl p-12 min-h-[400px] flex flex-col justify-center items-center text-center transition-all duration-500"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy shadow-xl p-12 text-center" data-component="card"><p><svg class="icon icon-zap text-yellow-600 text-4xl" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg></p><p class="text-4xl font-bold"><strong>Lightning Fast</strong></p><p class="text-lg text-gray-500">Taildown compiles in milliseconds with sub-100ms targets.</p><div class="taildown-component component-button-group button-group" data-component="button-group"><p><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg">Learn More</a><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg">Benchmarks</a></p></div></div></div></div><div data-carousel-slide="" hidden class="carousel-slide w-full flex-shrink-0"><div class="carousel-card glass-light rounded-2xl shadow-2xl p-12 min-h-[400px] flex flex-col justify-center items-center text-center transition-all duration-500"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy shadow-xl p-12 text-center" data-component="card"><p><svg class="icon icon-heart text-red-600 text-4xl" data-icon="heart" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" /></svg></p><p class="text-4xl font-bold"><strong>Zero Config Beautiful</strong></p><p class="text-lg text-gray-500">Every component is gorgeous by default with glassmorphism.</p><div class="taildown-component component-button-group button-group" data-component="button-group"><p><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg">Examples</a><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg">Style Guide</a></p></div></div></div></div><div data-carousel-slide="" hidden class="carousel-slide w-full flex-shrink-0"><div class="carousel-card glass-light rounded-2xl shadow-2xl p-12 min-h-[400px] flex flex-col justify-center items-center text-center transition-all duration-500"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy shadow-xl p-12 text-center" data-component="card"><p><svg class="icon icon-code text-primary-600 hover:text-primary-700 text-4xl" data-icon="code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg></p><p class="text-4xl font-bold"><strong>Plain English</strong></p><p class="text-lg text-gray-500">Style with natural language: <code>large-bold</code>, <code>subtle-glass</code>.</p><div class="taildown-component component-button-group button-group" data-component="button-group"><p><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg">Syntax</a><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg">Get Started</a></p></div></div></div></div><div data-carousel-slide="" hidden class="carousel-slide w-full flex-shrink-0"><div class="carousel-card glass-light rounded-2xl shadow-2xl p-12 min-h-[400px] flex flex-col justify-center items-center text-center transition-all duration-500"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy shadow-xl p-12 text-center" data-component="card"><p><svg class="icon icon-package text-green-600 text-4xl" data-icon="package" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path d="m7.5 4.27 9 5.15" /></svg></p><p class="text-4xl font-bold"><strong>Interactive Components</strong></p><p class="text-lg text-gray-500">Tabs, accordions, modals with auto-generated JavaScript.</p><div class="taildown-component component-button-group button-group" data-component="button-group"><p><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg">Components</a><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg">Docs</a></p></div></div></div></div></div><button data-carousel-prev="" aria-label="Previous slide" class="carousel-prev absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full border shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center font-bold">‹</button><button data-carousel-next="" aria-label="Next slide" class="carousel-next absolute right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full border shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center font-bold">›</button><div class="carousel-indicators absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2"><button data-carousel-indicator="" aria-label="Go to slide 1" aria-current="true" class="carousel-indicator h-2 w-2 rounded-full transition-all hover:scale-110"></button><button data-carousel-indicator="" aria-label="Go to slide 2" aria-current="false" class="carousel-indicator h-2 w-2 rounded-full transition-all hover:scale-110"></button><button data-carousel-indicator="" aria-label="Go to slide 3" aria-current="false" class="carousel-indicator h-2 w-2 rounded-full transition-all hover:scale-110"></button><button data-carousel-indicator="" aria-label="Go to slide 4" aria-current="false" class="carousel-indicator h-2 w-2 rounded-full transition-all hover:scale-110"></button></div></div>
+<div class="taildown-component component-carousel carousel relative overflow-hidden rounded-lg bg-muted" data-component="carousel"><div data-carousel-track="" class="carousel-track flex transition-all duration-500 ease-in-out"><div data-carousel-slide="" class="carousel-slide w-full flex-shrink-0"><div class="carousel-card glass-light rounded-2xl shadow-2xl p-6 md:p-12 min-h-[300px] md:min-h-[400px] flex flex-col justify-center items-center text-center transition-all duration-500"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy shadow-xl p-12 text-center" data-component="card"><p><svg class="icon icon-zap text-yellow-600 text-4xl" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg></p><p class="text-4xl font-bold"><strong>Lightning Fast</strong></p><p class="text-lg text-gray-500">Taildown compiles in milliseconds with sub-100ms targets.</p><div class="taildown-component component-button-group button-group" data-component="button-group"><p><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg">Learn More</a><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg">Benchmarks</a></p></div></div></div></div><div data-carousel-slide="" hidden class="carousel-slide w-full flex-shrink-0"><div class="carousel-card glass-light rounded-2xl shadow-2xl p-6 md:p-12 min-h-[300px] md:min-h-[400px] flex flex-col justify-center items-center text-center transition-all duration-500"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy shadow-xl p-12 text-center" data-component="card"><p><svg class="icon icon-heart text-red-600 text-4xl" data-icon="heart" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" /></svg></p><p class="text-4xl font-bold"><strong>Zero Config Beautiful</strong></p><p class="text-lg text-gray-500">Every component is gorgeous by default with glassmorphism.</p><div class="taildown-component component-button-group button-group" data-component="button-group"><p><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg">Examples</a><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg">Style Guide</a></p></div></div></div></div><div data-carousel-slide="" hidden class="carousel-slide w-full flex-shrink-0"><div class="carousel-card glass-light rounded-2xl shadow-2xl p-6 md:p-12 min-h-[300px] md:min-h-[400px] flex flex-col justify-center items-center text-center transition-all duration-500"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy shadow-xl p-12 text-center" data-component="card"><p><svg class="icon icon-code text-primary-600 hover:text-primary-700 text-4xl" data-icon="code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg></p><p class="text-4xl font-bold"><strong>Plain English</strong></p><p class="text-lg text-gray-500">Style with natural language: <code>large-bold</code>, <code>subtle-glass</code>.</p><div class="taildown-component component-button-group button-group" data-component="button-group"><p><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg">Syntax</a><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg">Get Started</a></p></div></div></div></div><div data-carousel-slide="" hidden class="carousel-slide w-full flex-shrink-0"><div class="carousel-card glass-light rounded-2xl shadow-2xl p-6 md:p-12 min-h-[300px] md:min-h-[400px] flex flex-col justify-center items-center text-center transition-all duration-500"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy shadow-xl p-12 text-center" data-component="card"><p><svg class="icon icon-package text-green-600 text-4xl" data-icon="package" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path d="m7.5 4.27 9 5.15" /></svg></p><p class="text-4xl font-bold"><strong>Interactive Components</strong></p><p class="text-lg text-gray-500">Tabs, accordions, modals with auto-generated JavaScript.</p><div class="taildown-component component-button-group button-group" data-component="button-group"><p><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg">Components</a><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg">Docs</a></p></div></div></div></div></div><button data-carousel-prev="" aria-label="Previous slide" class="carousel-prev absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full border shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center font-bold">‹</button><button data-carousel-next="" aria-label="Next slide" class="carousel-next absolute right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full border shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center font-bold">›</button><div class="carousel-indicators absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2"><button data-carousel-indicator="" aria-label="Go to slide 1" aria-current="true" class="carousel-indicator h-2 w-2 rounded-full transition-all hover:scale-110"></button><button data-carousel-indicator="" aria-label="Go to slide 2" aria-current="false" class="carousel-indicator h-2 w-2 rounded-full transition-all hover:scale-110"></button><button data-carousel-indicator="" aria-label="Go to slide 3" aria-current="false" class="carousel-indicator h-2 w-2 rounded-full transition-all hover:scale-110"></button><button data-carousel-indicator="" aria-label="Go to slide 4" aria-current="false" class="carousel-indicator h-2 w-2 rounded-full transition-all hover:scale-110"></button></div></div>
 <h3 class="medium-bold">Simple Content Example</h3>
-<div class="taildown-component component-carousel carousel relative overflow-hidden rounded-lg bg-muted carousel-container relative overflow-hidden rounded-2xl p-12" data-component="carousel" style="perspective: 1000px"><div data-carousel-track="" class="carousel-track flex transition-all duration-500 ease-in-out"><div data-carousel-slide="" class="carousel-slide w-full flex-shrink-0"><div class="carousel-card glass-light rounded-2xl shadow-2xl p-12 min-h-[400px] flex flex-col justify-center items-center text-center transition-all duration-500"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md p-12 text-center" data-component="card"><p><svg class="icon icon-image text-primary-600 hover:text-primary-700 text-4xl" data-icon="image" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></svg></p><p class="text-4xl font-bold"><strong>Slide 1</strong></p><p class="text-lg text-gray-500">Create stunning visual presentations easily.</p></div></div></div><div data-carousel-slide="" hidden class="carousel-slide w-full flex-shrink-0"><div class="carousel-card glass-light rounded-2xl shadow-2xl p-12 min-h-[400px] flex flex-col justify-center items-center text-center transition-all duration-500"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md p-12 text-center" data-component="card"><p><svg class="icon icon-video text-green-600 text-4xl" data-icon="video" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5" /><rect x="2" y="6" width="14" height="12" rx="2" /></svg></p><p class="text-4xl font-bold"><strong>Slide 2</strong></p><p class="text-lg text-gray-500">Embed any media type or content.</p></div></div></div><div data-carousel-slide="" hidden class="carousel-slide w-full flex-shrink-0"><div class="carousel-card glass-light rounded-2xl shadow-2xl p-12 min-h-[400px] flex flex-col justify-center items-center text-center transition-all duration-500"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md p-12 text-center" data-component="card"><p><svg class="icon icon-music text-yellow-600 text-4xl" data-icon="music" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></svg></p><p class="text-4xl font-bold"><strong>Slide 3</strong></p><p class="text-lg text-gray-500">Build multimedia experiences effortlessly.</p></div></div></div></div><button data-carousel-prev="" aria-label="Previous slide" class="carousel-prev absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full border shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center font-bold">‹</button><button data-carousel-next="" aria-label="Next slide" class="carousel-next absolute right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full border shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center font-bold">›</button><div class="carousel-indicators absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2"><button data-carousel-indicator="" aria-label="Go to slide 1" aria-current="true" class="carousel-indicator h-2 w-2 rounded-full transition-all hover:scale-110"></button><button data-carousel-indicator="" aria-label="Go to slide 2" aria-current="false" class="carousel-indicator h-2 w-2 rounded-full transition-all hover:scale-110"></button><button data-carousel-indicator="" aria-label="Go to slide 3" aria-current="false" class="carousel-indicator h-2 w-2 rounded-full transition-all hover:scale-110"></button></div></div>
+<div class="taildown-component component-carousel carousel relative overflow-hidden rounded-lg bg-muted" data-component="carousel"><div data-carousel-track="" class="carousel-track flex transition-all duration-500 ease-in-out"><div data-carousel-slide="" class="carousel-slide w-full flex-shrink-0"><div class="carousel-card glass-light rounded-2xl shadow-2xl p-6 md:p-12 min-h-[300px] md:min-h-[400px] flex flex-col justify-center items-center text-center transition-all duration-500"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md p-12 text-center" data-component="card"><p><svg class="icon icon-image text-primary-600 hover:text-primary-700 text-4xl" data-icon="image" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></svg></p><p class="text-4xl font-bold"><strong>Slide 1</strong></p><p class="text-lg text-gray-500">Create stunning visual presentations easily.</p></div></div></div><div data-carousel-slide="" hidden class="carousel-slide w-full flex-shrink-0"><div class="carousel-card glass-light rounded-2xl shadow-2xl p-6 md:p-12 min-h-[300px] md:min-h-[400px] flex flex-col justify-center items-center text-center transition-all duration-500"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md p-12 text-center" data-component="card"><p><svg class="icon icon-video text-green-600 text-4xl" data-icon="video" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5" /><rect x="2" y="6" width="14" height="12" rx="2" /></svg></p><p class="text-4xl font-bold"><strong>Slide 2</strong></p><p class="text-lg text-gray-500">Embed any media type or content.</p></div></div></div><div data-carousel-slide="" hidden class="carousel-slide w-full flex-shrink-0"><div class="carousel-card glass-light rounded-2xl shadow-2xl p-6 md:p-12 min-h-[300px] md:min-h-[400px] flex flex-col justify-center items-center text-center transition-all duration-500"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md p-12 text-center" data-component="card"><p><svg class="icon icon-music text-yellow-600 text-4xl" data-icon="music" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></svg></p><p class="text-4xl font-bold"><strong>Slide 3</strong></p><p class="text-lg text-gray-500">Build multimedia experiences effortlessly.</p></div></div></div></div><button data-carousel-prev="" aria-label="Previous slide" class="carousel-prev absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full border shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center font-bold">‹</button><button data-carousel-next="" aria-label="Next slide" class="carousel-next absolute right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full border shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center font-bold">›</button><div class="carousel-indicators absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2"><button data-carousel-indicator="" aria-label="Go to slide 1" aria-current="true" class="carousel-indicator h-2 w-2 rounded-full transition-all hover:scale-110"></button><button data-carousel-indicator="" aria-label="Go to slide 2" aria-current="false" class="carousel-indicator h-2 w-2 rounded-full transition-all hover:scale-110"></button><button data-carousel-indicator="" aria-label="Go to slide 3" aria-current="false" class="carousel-indicator h-2 w-2 rounded-full transition-all hover:scale-110"></button></div></div>
 <h3 class="medium-bold">Usage Summary</h3>
 <pre data-copyable="true"><code class="language-markdown code-highlight">:::carousel
 First slide content
@@ -4657,7 +4654,7 @@ Second slide content
 
 Third slide content
 :::
-</code><button class="code-copy-btn" data-code-id="code-p94s2z7x6" data-code-text=":::carousel
+</code><button class="code-copy-btn" data-code-id="code-jcmamjcsu" data-code-text=":::carousel
 First slide content
 
 ---
@@ -4695,7 +4692,7 @@ Third slide content
 <p><strong>Overlay dialogs with backdrop blur and focus management.</strong></p>
 <h3 class="medium-bold">Inline Content</h3>
 <p>The simplest way - content directly in the attribute:</p>
-<p><span class="inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg" data-modal-trigger="modal-9tdi0o" aria-haspopup="dialog">Simple Alert</a><div id="modal-9tdi0o" role="dialog" aria-modal="true" data-component="modal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);"><div class="modal-content glass-subtle rounded-2xl shadow-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative p-12 border border-white/20"><button data-modal-close="true" aria-label="Close modal" class="modal-close absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors z-10 bg-white/80 backdrop-blur-sm"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>This is a simple alert modal! Click the backdrop or press Escape to close.</div></div></span></p>
+<p><span class="inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg" data-modal-trigger="modal-zscjo" aria-haspopup="dialog">Simple Alert</a><div id="modal-zscjo" role="dialog" aria-modal="true" data-component="modal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);"><div class="modal-content glass-subtle rounded-2xl shadow-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative p-12 border border-white/20"><button data-modal-close="true" aria-label="Close modal" class="modal-close absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors z-10 bg-white/80 backdrop-blur-sm"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>This is a simple alert modal! Click the backdrop or press Escape to close.</div></div></span></p>
 <p><a href="#">Warning Message</a>{button warning modal="⚠️ <strong>Warning:</strong> This action cannot be undone. Please proceed with caution."}</p>
 <h3 class="medium-bold">ID-Referenced Content</h3>
 <p>For rich content, define the modal separately and reference it by ID:</p>
@@ -4730,7 +4727,7 @@ Third slide content
 <h3 class="medium-bold">Usage Summary</h3>
 <p><strong>Inline:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">[Click me](#){button modal=&quot;Simple message&quot;}
-</code><button class="code-copy-btn" data-code-id="code-saytv1deu" data-code-text="[Click me](#){button modal=&#x26;quot;Simple message&#x26;quot;}
+</code><button class="code-copy-btn" data-code-id="code-mfur1wjmg" data-code-text="[Click me](#){button modal=&#x26;quot;Simple message&#x26;quot;}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4747,7 +4744,7 @@ Third slide content
 # Modal Title
 Rich content with full markdown support
 :::
-</code><button class="code-copy-btn" data-code-id="code-obkktch07" data-code-text="[Open Modal](#){button modal=&#x26;quot;#my-modal&#x26;quot;}
+</code><button class="code-copy-btn" data-code-id="code-vl2ww9ds4" data-code-text="[Open Modal](#){button modal=&#x26;quot;#my-modal&#x26;quot;}
 
 :::modal {id=&#x26;quot;my-modal&#x26;quot;}
 # Modal Title
@@ -4795,12 +4792,12 @@ Rich content with full markdown support
 <span style="display: none;"></span>
 <h3 class="medium-bold">In Context</h3>
 <p>Tooltips work on buttons, badges, and links:</p>
-<p><span class="relative inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg" aria-describedby="tooltip-75q83" data-tooltip-trigger="true">Need Help?</a><div id="tooltip-75q83" role="tooltip" data-component="tooltip" class="tooltip-content absolute px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none opacity-0 transition-opacity" style="display: none;">Submit your form after filling all required fields.</div></span><span class="relative inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg" aria-describedby="tooltip-ue88de" data-tooltip-trigger="true">Cancel</a><div id="tooltip-ue88de" role="tooltip" data-component="tooltip" class="tooltip-content absolute px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none opacity-0 transition-opacity" style="display: none;">Discard changes and return to previous page.</div></span></p>
-<p>Status: <a href="#">Active</a>{badge success tooltip="Service is running normally"} | Version: <a href="#">v2.1.0</a>{badge info tooltip="Latest stable release"} | <span class="relative inline-block"><a href="#" class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-amber-100 text-amber-700" aria-describedby="tooltip-zstob8" data-tooltip-trigger="true">Beta Feature</a><div id="tooltip-zstob8" role="tooltip" data-component="tooltip" class="tooltip-content absolute px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none opacity-0 transition-opacity" style="display: none;">This feature is experimental</div></span></p>
+<p><span class="relative inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg" aria-describedby="tooltip-2ikvj" data-tooltip-trigger="true">Need Help?</a><div id="tooltip-2ikvj" role="tooltip" data-component="tooltip" class="tooltip-content absolute px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none opacity-0 transition-opacity" style="display: none;">Submit your form after filling all required fields.</div></span><span class="relative inline-block"><a href="#" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg" aria-describedby="tooltip-gi1mda" data-tooltip-trigger="true">Cancel</a><div id="tooltip-gi1mda" role="tooltip" data-component="tooltip" class="tooltip-content absolute px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none opacity-0 transition-opacity" style="display: none;">Discard changes and return to previous page.</div></span></p>
+<p>Status: <a href="#">Active</a>{badge success tooltip="Service is running normally"} | Version: <a href="#">v2.1.0</a>{badge info tooltip="Latest stable release"} | <span class="relative inline-block"><a href="#" class="inline-flex items-center px-3 py-1 rounded-full font-medium text-sm bg-amber-100 text-amber-700" aria-describedby="tooltip-bzn6zi" data-tooltip-trigger="true">Beta Feature</a><div id="tooltip-bzn6zi" role="tooltip" data-component="tooltip" class="tooltip-content absolute px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none opacity-0 transition-opacity" style="display: none;">This feature is experimental</div></span></p>
 <h3 class="medium-bold">Usage Summary</h3>
 <p><strong>Inline:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">[Hover here](#){tooltip=&quot;Help text&quot;}
-</code><button class="code-copy-btn" data-code-id="code-q32ung04w" data-code-text="[Hover here](#){tooltip=&#x26;quot;Help text&#x26;quot;}
+</code><button class="code-copy-btn" data-code-id="code-3538zmhpq" data-code-text="[Hover here](#){tooltip=&#x26;quot;Help text&#x26;quot;}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4816,7 +4813,7 @@ Rich content with full markdown support
 :::tooltip {id=&quot;help&quot;}
 Detailed help content with markdown
 :::
-</code><button class="code-copy-btn" data-code-id="code-0eod2ky7f" data-code-text="[Info](#){tooltip=&#x26;quot;#help&#x26;quot;}
+</code><button class="code-copy-btn" data-code-id="code-eniq7ravb" data-code-text="[Info](#){tooltip=&#x26;quot;#help&#x26;quot;}
 
 :::tooltip {id=&#x26;quot;help&#x26;quot;}
 Detailed help content with markdown
@@ -4876,7 +4873,7 @@ Detailed help content with markdown
 :::alert {error}
 :icon[x-circle]{error} Error message
 :::
-</code><button class="code-copy-btn" data-code-id="code-5u7ml4id9" data-code-text=":::alert {info}
+</code><button class="code-copy-btn" data-code-id="code-l0b4whk01" data-code-text=":::alert {info}
 :icon[info]{info} Information message
 :::
 
@@ -4922,7 +4919,7 @@ Detailed help content with markdown
 [Text](#){badge primary}
 [Text](#){badge success small}
 [Text](#){badge error large}
-</code><button class="code-copy-btn" data-code-id="code-3nsup2q8a" data-code-text="[Text](#){badge}
+</code><button class="code-copy-btn" data-code-id="code-t41r79qi0" data-code-text="[Text](#){badge}
 [Text](#){badge primary}
 [Text](#){badge success small}
 [Text](#){badge error large}
@@ -4952,7 +4949,7 @@ Detailed help content with markdown
 
 [Home](/) [About](/about) [Docs](/docs) [Contact](/contact)
 :::
-</code><button class="code-copy-btn" data-code-id="code-qozj0gx0a" data-code-text=":::navbar
+</code><button class="code-copy-btn" data-code-id="code-ps3ietqpq" data-code-text=":::navbar
 # Brand Name
 
 [Home](/) [About](/about) [Docs](/docs) [Contact](/contact)
@@ -4996,7 +4993,7 @@ Detailed help content with markdown
 
 [Link 1](#) [Link 2](#) [Link 3](#)
 :::
-</code><button class="code-copy-btn" data-code-id="code-pkozma1qa" data-code-text=":::navbar
+</code><button class="code-copy-btn" data-code-id="code-1807m28pr" data-code-text=":::navbar
 # Site Name
 
 [Link 1](#) [Link 2](#) [Link 3](#)

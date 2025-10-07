@@ -543,7 +543,7 @@ export function renderCarousel(state: State, node: ContainerDirectiveNode): Elem
         type: 'element',
         tagName: 'div',
         properties: {
-          className: ['carousel-card', 'glass-light', 'rounded-2xl', 'shadow-2xl', 'p-12', 'min-h-[400px]', 'flex', 'flex-col', 'justify-center', 'items-center', 'text-center', 'transition-all', 'duration-500']
+          className: ['carousel-card', 'glass-light', 'rounded-2xl', 'shadow-2xl', 'p-6', 'md:p-12', 'min-h-[300px]', 'md:min-h-[400px]', 'flex', 'flex-col', 'justify-center', 'items-center', 'text-center', 'transition-all', 'duration-500']
         },
         children: slideContent
       }
@@ -566,13 +566,13 @@ export function renderCarousel(state: State, node: ContainerDirectiveNode): Elem
   const existingClasses = node.data?.hProperties?.className || [];
   const dataComponent = node.data?.hProperties?.['data-component'] || node.name;
   
+  // Build the carousel structure - no extra wrapper, use existing node
   return {
     type: 'element',
     tagName: 'div',
     properties: {
-      className: [...existingClasses, 'carousel-container', 'relative', 'overflow-hidden', 'rounded-2xl', 'p-12'],
-      'data-component': dataComponent,
-      style: 'perspective: 1000px'
+      className: existingClasses,
+      'data-component': dataComponent
     },
     children: [
       {

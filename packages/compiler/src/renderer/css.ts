@@ -2041,6 +2041,7 @@ ${generateThemeCSS()}
   cursor: pointer;
   outline: none;
   padding: 1rem;
+  color: var(--foreground);
 }
 
 .accordion-trigger:hover {
@@ -2068,14 +2069,12 @@ ${generateThemeCSS()}
  * CAROUSEL COMPONENT
  * ======================================== */
 
-.carousel-container {
-  perspective: 1200px;
-  perspective-origin: center;
-}
-
 .component-carousel {
   position: relative;
   width: 100%;
+  perspective: 1200px;
+  perspective-origin: center;
+  overflow: hidden;
 }
 
 .carousel-track {
@@ -2087,7 +2086,6 @@ ${generateThemeCSS()}
 .carousel-slide {
   min-width: 100%;
   flex-shrink: 0;
-  padding: 0 2rem;
 }
 
 .carousel-slide[hidden] {
