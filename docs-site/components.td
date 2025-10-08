@@ -688,6 +688,7 @@ Tabs, accordions, modals with auto-generated JavaScript. {large-muted}
 
 ### Simple Content Example {medium-bold}
 
+:::container
 :::carousel
 :::card {light-glass padded-xl center}
 :icon[image]{primary huge}
@@ -715,6 +716,7 @@ Embed any media type or content. {large-muted}
 **Slide 3** {huge-bold}
 
 Build multimedia experiences effortlessly. {large-muted}
+:::
 :::
 :::
 
