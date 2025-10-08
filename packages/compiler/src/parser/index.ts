@@ -12,6 +12,7 @@ import { extractInlineAttributes } from './attributes';
 import { processComponents } from './components';
 import { parseDirectives } from './directive-parser';
 import { parseIcons } from '../icons/icon-parser';
+import { parseInlineBadges } from '../components/inline-badge-parser';
 
 /**
  * Parse Taildown source to AST
@@ -30,6 +31,7 @@ export async function parse(source: string): Promise<TaildownRoot> {
     .use(remarkGfm) // GitHub Flavored Markdown (tables, etc.)
     .use(parseDirectives) // Custom component directive parser (:::component)
     .use(parseIcons) // Parse icon syntax (:icon[name]{classes})
+    .use(parseInlineBadges) // Parse inline badge syntax :badge[text]{attrs}
     .use(extractInlineAttributes, { warnings }) // Taildown inline attributes
     .use(processComponents, { warnings }); // Taildown component processing
 
@@ -54,6 +56,7 @@ export async function parseWithWarnings(source: string): Promise<ParseResult> {
     .use(remarkGfm)
     .use(parseDirectives) // Custom component directive parser
     .use(parseIcons) // Parse icon syntax
+    .use(parseInlineBadges) // Parse inline badge syntax
     .use(extractInlineAttributes, { warnings })
     .use(processComponents, { warnings });
 

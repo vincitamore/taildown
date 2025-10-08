@@ -1027,48 +1027,28 @@ error
 :::container
 :::grid {2}
 :::card
-**Inline labels and status indicators**
+### Inline labels and status indicators
 
-### Color Variants {medium-bold}
-
-:::badge {default}
-default
-:::
-:::badge {primary}
-primary
-::: 
-:::badge {secondary}
-secondary
-::: 
-:::badge {success}
-success
-::: 
-:::badge {warning}
-warning
-::: 
-:::badge {error}
-error
-::: 
-:::badge {info}
-info
-::: 
-:::badge {muted}
-muted
+#### Color Variants {medium-bold}
+:::card
+:badge[default]{default} :badge[primary]{primary} :badge[secondary]{secondary} :badge[success]{success} :badge[warning]{warning} :badge[error]{error} :badge[info]{info} :badge[muted]{muted}
 :::
 
-### Size Variants {medium-bold}
-
-:::badge {primary sm}
+#### Size Variants {medium-bold}
+:::container
+:::card
+:::badge {muted sm}
 small
 :::
 :::badge {primary}
 medium
 :::
-:::badge {primary lg}
+:::badge {warning lg}
 large
 :::
 :::
-    
+:::    
+:::
 
 :::card
 ### In Context {medium-bold}
@@ -1076,9 +1056,11 @@ large
 Use badges to highlight status and metadata:
 
 :::container
+    :::card
 #### Project Status: :badge[active]{success} 
 #### Version :badge[v2.1.0]{info} 
 #### License :badge[MIT]{primary}
+:::
 :::
 
 **Features:** :badge[new]{warning} :badge[beta]{info} :badge[deprecated]{error} :badge[coming soon]{secondary}
@@ -1098,7 +1080,7 @@ Combine badges with icons for visual context:
 :::
 :::
 :::
-
+:::
 
 ### Usage Summary {medium-bold}
 

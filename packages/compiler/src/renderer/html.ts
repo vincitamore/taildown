@@ -10,6 +10,7 @@ import rehypeStringify from 'rehype-stringify';
 import type { Root } from 'mdast';
 import type { TaildownRoot, OpenGraphMetadata } from '@taildown/shared';
 import { renderIcons } from '../icons/icon-renderer';
+import { renderInlineBadges } from '../components/inline-badge-renderer';
 import { rehypeCodeMirror6 } from '../syntax-highlighting/rehype-codemirror6';
 import { rehypeCopyCode } from './rehype-copy-code';
 import { containerDirectiveHandler, wrapWithAttachments, prepopulateRegistries } from './component-handlers';
@@ -167,6 +168,7 @@ export async function renderHTML(ast: TaildownRoot, minify: boolean = false): Pr
     .use(rehypeCodeMirror6) // CodeMirror6-based syntax highlighting
     .use(rehypeCopyCode) // Add copy buttons to code blocks
     .use(renderIcons) // Render icon nodes as SVG
+    .use(renderInlineBadges) // Render inline badge nodes
     .use(rehypeWrapTables) // Wrap tables in scrollable container
     .use(rehypeMarkTreeFolders) // Mark folder items in tree components
     .use(rehypeStringify, {
