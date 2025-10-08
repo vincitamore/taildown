@@ -101,15 +101,30 @@ function extractAttributesFromText(
     // Invalid tokens are silently ignored (graceful degradation)
   }
 
-  // Phase 2: Check if first token is a component name
+  // Phase 2: Find component name (if any) - prefer LAST occurrence for natural English
+  // English grammar: adjective adjective NOUN (e.g., "large primary button")
+  // NOT: NOUN adjective adjective (CSS style)
   let classes: string[];
-  const firstToken = rawAttributes[0];
-  const component = firstToken ? registry.get(firstToken) : null;
+  let componentToken: string | null = null;
+  let componentIndex = -1;
   
-  if (component) {
-    // First token is a component (e.g., "button") - use component resolution
-    const remainingAttrs = rawAttributes.slice(1); // Remove component name
-    const result = resolveComponentClasses(firstToken, remainingAttrs, {
+  // Scan for component names, preferring the last one (noun position)
+  for (let i = rawAttributes.length - 1; i >= 0; i--) {
+    const token = rawAttributes[i];
+    if (registry.get(token)) {
+      componentToken = token;
+      componentIndex = i;
+      break; // Found the component (scanning backwards, so first match is last in array)
+    }
+  }
+  
+  if (componentToken && componentIndex >= 0) {
+    // Found a component - extract modifiers (all tokens except component name)
+    const modifiers = [
+      ...rawAttributes.slice(0, componentIndex),
+      ...rawAttributes.slice(componentIndex + 1)
+    ];
+    const result = resolveComponentClasses(componentToken, modifiers, {
       includeDefaults: true,
       warnOnUnknown: false,
     });

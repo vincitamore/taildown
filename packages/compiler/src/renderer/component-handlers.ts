@@ -857,7 +857,17 @@ function renderGenericComponent(state: State, node: ContainerDirectiveNode): Ele
   }
   
   // Convert children to HAST
-  const children = state.all(node);
+  let children = state.all(node);
+  
+  // INLINE COMPONENTS: For inline components (badge, button when used as component block),
+  // unwrap single paragraph to avoid block-level children inside inline elements
+  const inlineComponents = ['badge'];
+  if (inlineComponents.includes(componentName)) {
+    // If there's exactly one child and it's a paragraph, unwrap it
+    if (children.length === 1 && children[0].type === 'element' && children[0].tagName === 'p') {
+      children = children[0].children || [];
+    }
+  }
   
   // Determine HTML element (use component definition or default to div)
   // ENHANCEMENT: If href attribute is present, render as <a> tag for clickable components

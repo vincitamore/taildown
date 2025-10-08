@@ -2100,6 +2100,197 @@ ${generateThemeCSS()}
 }
 
 /* ========================================
+ * BADGE COMPONENT
+ * Inline labels and status indicators with modern styling
+ * ======================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.1875rem 0.625rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  letter-spacing: 0.0125em;
+  border: 1px solid transparent;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  text-transform: lowercase;
+  width: fit-content;
+  max-width: 100%;
+}
+
+/* Ensure badges in grids don't stretch */
+.component-grid > .badge,
+.component-grid > .component-badge {
+  width: fit-content;
+}
+
+/* Remove margins from paragraphs inside badges */
+.badge p,
+.component-badge p {
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+/* Default variant - muted gray */
+.badge-default {
+  background: rgba(100, 116, 139, 0.1);
+  border-color: rgba(100, 116, 139, 0.2);
+  color: rgb(71, 85, 105);
+}
+
+.dark .badge-default {
+  background: rgba(148, 163, 184, 0.15);
+  border-color: rgba(148, 163, 184, 0.25);
+  color: rgb(203, 213, 225);
+}
+
+/* Primary variant - blue */
+.badge-primary {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: rgba(59, 130, 246, 0.25);
+  color: rgb(29, 78, 216);
+}
+
+.dark .badge-primary {
+  background: rgba(59, 130, 246, 0.18);
+  border-color: rgba(59, 130, 246, 0.35);
+  color: rgb(96, 165, 250);
+}
+
+/* Secondary variant - purple */
+.badge-secondary {
+  background: rgba(139, 92, 246, 0.12);
+  border-color: rgba(139, 92, 246, 0.25);
+  color: rgb(109, 40, 217);
+}
+
+.dark .badge-secondary {
+  background: rgba(139, 92, 246, 0.18);
+  border-color: rgba(139, 92, 246, 0.35);
+  color: rgb(167, 139, 250);
+}
+
+/* Success variant - green */
+.badge-success {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.25);
+  color: rgb(5, 150, 105);
+}
+
+.dark .badge-success {
+  background: rgba(16, 185, 129, 0.18);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: rgb(52, 211, 153);
+}
+
+/* Warning variant - amber */
+.badge-warning {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.25);
+  color: rgb(217, 119, 6);
+}
+
+.dark .badge-warning {
+  background: rgba(245, 158, 11, 0.18);
+  border-color: rgba(245, 158, 11, 0.35);
+  color: rgb(251, 191, 36);
+}
+
+/* Error variant - red */
+.badge-error {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.25);
+  color: rgb(220, 38, 38);
+}
+
+.dark .badge-error {
+  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: rgb(248, 113, 113);
+}
+
+/* Info variant - sky blue */
+.badge-info {
+  background: rgba(14, 165, 233, 0.12);
+  border-color: rgba(14, 165, 233, 0.25);
+  color: rgb(2, 132, 199);
+}
+
+.dark .badge-info {
+  background: rgba(14, 165, 233, 0.18);
+  border-color: rgba(14, 165, 233, 0.35);
+  color: rgb(56, 189, 248);
+}
+
+/* Muted variant - subtle gray */
+.badge-muted {
+  background: rgba(148, 163, 184, 0.08);
+  border-color: rgba(148, 163, 184, 0.15);
+  color: rgb(100, 116, 139);
+}
+
+.dark .badge-muted {
+  background: rgba(71, 85, 105, 0.15);
+  border-color: rgba(71, 85, 105, 0.25);
+  color: rgb(148, 163, 184);
+}
+
+/* Size variants */
+.badge-sm {
+  padding: 0.1875rem 0.5rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.01em;
+}
+
+.badge-lg {
+  padding: 0.375rem 0.875rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+}
+
+/* Badge with icons */
+.badge .icon {
+  margin-right: 0.375rem;
+  flex-shrink: 0;
+}
+
+.badge-sm .icon {
+  width: 0.875rem;
+  height: 0.875rem;
+  margin-right: 0.25rem;
+}
+
+.badge-lg .icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-right: 0.5rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .badge {
+    font-size: 0.6875rem;
+    padding: 0.1875rem 0.5rem;
+  }
+  
+  .badge-sm {
+    padding: 0.125rem 0.375rem;
+    font-size: 0.625rem;
+  }
+  
+  .badge-lg {
+    padding: 0.3125rem 0.75rem;
+    font-size: 0.8125rem;
+  }
+}
+
+/* ========================================
  * ACCORDION COMPONENT
  * ======================================== */
 

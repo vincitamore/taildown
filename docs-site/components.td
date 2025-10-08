@@ -426,6 +426,7 @@ Right-aligned with large gaps
 
 ### Live Example {medium-bold}
 
+:::container
 :::tabs
 ### :icon[home]{primary} Overview
 
@@ -483,6 +484,7 @@ Cards work perfectly
 **Right Column**
 
 Grids too!
+:::
 :::
 :::
 :::
@@ -976,7 +978,7 @@ Alerts support full markdown content:
 
 ### Usage Summary {medium-bold}
 
-```markdown
+```taildown
 :::alert {info}
 :icon[info]{info} Information message
 :::
@@ -994,7 +996,23 @@ Alerts support full markdown content:
 :::
 ```
 
-**Variants:** `info` (blue) • `success` (green) • `warning` (yellow) • `error` (red)
+**Variants:** 
+
+:::badge {lg info}
+info
+:::
+
+:::badge {lg success}
+success
+:::
+
+:::badge {warning lg}
+warning
+:::
+
+:::badge {error lg}
+error
+:::
 
 **Features:** Proper theming • Dark mode support • Responsive padding • Smooth animations
 
@@ -1002,55 +1020,109 @@ Alerts support full markdown content:
 
 ---
 
-## badges {#badge center large-bold primary}
+## Badges {#badge center large-bold primary}
 
 :::container
-:::grid {3}
+:::grid {2}
 :::card
-**Inline labels and status indicators.**
+**Inline labels and status indicators**
 
 ### Color Variants {medium-bold}
 
-[Default](#){badge} [Primary](#){badge primary} [Secondary](#){badge secondary} [Success](#){badge success} [Warning](#){badge warning} [Error](#){badge error} [Info](#){badge info} [Muted](#){badge muted}
+:::badge {default}
+default
+:::
+:::badge {primary}
+primary
+::: 
+:::badge {secondary}
+secondary
+::: 
+:::badge {success}
+success
+::: 
+:::badge {warning}
+warning
+::: 
+:::badge {error}
+error
+::: 
+:::badge {info}
+info
+::: 
+:::badge {muted}
+muted
+:::
 
 ### Size Variants {medium-bold}
 
-[Small](#){badge primary small} [Medium (default)](#){badge primary} [Large](#){badge primary large}
+:::badge {primary sm}
+small
 :::
+:::badge {primary}
+medium
+:::
+:::badge {primary lg}
+large
+:::
+:::
+    
 
 :::card
 ### In Context {medium-bold}
 
 Use badges to highlight status and metadata:
 
-**Project Status:** [Active](#){badge success} **Version:** [v2.1.0](#){badge info} **License:** [MIT](#){badge primary}
-
-**Features:** [New](#){badge warning} [Beta](#){badge info} [Deprecated](#){badge error} [Coming Soon](#){badge secondary}
+:::container
+#### Project Status: :badge[active]{success} 
+#### Version :badge[v2.1.0]{info} 
+#### License :badge[MIT]{primary}
 :::
 
-:::card
+**Features:** :badge[new]{warning} :badge[beta]{info} :badge[deprecated]{error} :badge[coming soon]{secondary}
+
 ### With Icons {medium-bold}
 
 Combine badges with icons for visual context:
 
-[Featured](#){badge primary} :icon[star]{warning} • [Trending](#){badge success} :icon[trending-up]{success} • [Hot](#){badge error} :icon[flame]{error}
+:::badge {primary}
+:icon[star]{warning} featured
+:::
+:::badge {success}
+:icon[trending-up]{success} trending
+:::
+:::badge {error}
+:icon[flame]{error} hot
 :::
 :::
 :::
+
+
 ### Usage Summary {medium-bold}
 
-```markdown
-[Text](#){badge}
-[Text](#){badge primary}
-[Text](#){badge success small}
-[Text](#){badge error large}
+```taildown
+:::badge
+Text
+:::
+
+:::badge {primary}
+Text
+:::
+
+:::badge {success sm}
+Text
+:::
+
+:::badge {error lg}
+Text
+:::
 ```
 
 **Colors:** `default` `primary` `secondary` `success` `warning` `error` `info` `muted`
 
-**Sizes:** `small` `base` (default) `large`
+**Sizes:** `sm` `md` (default) `lg`
 
-[Back to top](#top){badge primary}
+[Back to top](#top){button link}
 
 ---
 
