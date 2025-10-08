@@ -41,16 +41,34 @@ function extractAttributesFromText(
   modal?: string;
   tooltip?: string;
 } {
-  const match = text.match(ATTRIBUTE_BLOCK_REGEX);
+  // Try to match attribute block at the END first (standard case)
+  let match = text.match(ATTRIBUTE_BLOCK_REGEX);
+  let attributeBlockRaw: string | null = null;
+  let remainingAfterRemoval: string = text;
 
-  if (!match) {
+  if (match && match[1]) {
+    attributeBlockRaw = match[1].trim();
+    // Remove trailing attribute block from text
+    remainingAfterRemoval = text.replace(ATTRIBUTE_BLOCK_REGEX, '').trimEnd();
+  } else {
+    // Fallback: Match attribute block at the START (common after links)
+    const START_BLOCK_REGEX = /^\s*\{([^}]+)\}\s*/;
+    const startMatch = text.match(START_BLOCK_REGEX);
+    if (startMatch && startMatch[1]) {
+      attributeBlockRaw = startMatch[1].trim();
+      // Remove leading attribute block and any following single space
+      remainingAfterRemoval = text.replace(START_BLOCK_REGEX, '');
+    }
+  }
+
+  if (!attributeBlockRaw) {
     return { classes: [], remainingText: text };
   }
 
-  const attributeBlock = match[1]?.trim();
+  const attributeBlock = attributeBlockRaw;
   if (!attributeBlock) {
     // Empty attribute block {}
-    return { classes: [], remainingText: text.replace(ATTRIBUTE_BLOCK_REGEX, '') };
+    return { classes: [], remainingText: remainingAfterRemoval };
   }
   
   // Extract key-value attributes (modal="..." tooltip="...") and ID (#anchor-id)
@@ -137,10 +155,7 @@ function extractAttributesFromText(
     classes = rawAttributes;
   }
 
-  // Remove attribute block from text
-  const remainingText = text.replace(ATTRIBUTE_BLOCK_REGEX, '').trimEnd();
-
-  return { classes, remainingText, ...kvAttrs };
+  return { classes, remainingText: remainingAfterRemoval, ...kvAttrs };
 }
 
 /**

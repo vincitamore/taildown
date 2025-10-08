@@ -863,7 +863,7 @@ Rich content with full markdown support
 
 Attach tooltips to any element with simple attributes:
 
-Hover over [this text](#){tooltip="This is a helpful tooltip with inline content!"} to see the tooltip.
+Hover over [this text](#){tooltip="This is a helpful tooltip with inline content"} to see the tooltip.
 
 Learn about [this feature](#){primary tooltip="Tooltips provide context without cluttering your interface. Perfect for help text and definitions."} with contextual help.
 
@@ -875,7 +875,7 @@ For complex content, use ID references:
 
 [Complex tooltip](#){badge info tooltip="#rich-tooltip"}
 
-:::tooltip{id="rich-tooltip"}
+:::tooltip {id="rich-tooltip"}
 **Rich Tooltip** with:
 - Full markdown support
 - `Code examples`
@@ -889,7 +889,7 @@ Share tooltips across elements:
 
 Technical term 1[?](#){badge primary tooltip="#glossary"} and technical term 2[?](#){badge primary tooltip="#glossary"} both use the same tooltip.
 
-:::tooltip{id="glossary"}
+:::tooltip {id="glossary"}
 **Technical Definition:** A comprehensive explanation with full markdown support for complex concepts requiring detailed information.
 :::
 
@@ -912,7 +912,7 @@ Status: [Active](#){badge success tooltip="Service is running normally"} | Versi
 ```markdown
 [Info](#){tooltip="#help"}
 
-:::tooltip{id="help"}
+:::tooltip {id="help"}
 Detailed help content with markdown
 :::
 ```
