@@ -750,7 +750,45 @@ Third slide content
 
 # Overlay Components {#overlays huge-bold center primary}
 
-**Modals and tooltips for contextual information.**
+**Focus attention and provide contextual help with elegant overlays.**
+
+---
+
+## Overview {large-bold primary}
+
+Overlay components appear above your main content to capture attention or provide additional information. Both modals and tooltips include smooth animations, backdrop effects, and full accessibility support.
+
+:::grid {cols-2}
+:::card {light-glass padded hover-lift}
+#### :icon[message-square]{warning} Modal Dialogs
+
+Full-screen overlay dialogs with backdrop blur for critical actions and rich content display. Perfect for forms, confirmations, and detailed information.
+
+**Features:**
+- :icon[check]{success} Backdrop blur with click-to-close
+- :icon[check]{success} Keyboard navigation (Escape to close)
+- :icon[check]{success} Focus trap for accessibility
+- :icon[check]{success} Smooth fade animations
+- :icon[check]{success} Inline or ID-referenced content
+:::
+
+:::card {light-glass padded hover-lift}
+#### :icon[info]{info} Tooltips
+
+Contextual help text that appears on hover or click. Ideal for explanations, definitions, and helpful hints without cluttering your interface.
+
+**Features:**
+- :icon[check]{success} Auto-positioned near trigger
+- :icon[check]{success} Hover (desktop) or click (mobile)
+- :icon[check]{success} Rich markdown support
+- :icon[check]{success} Reusable across elements
+- :icon[check]{success} ARIA `aria-describedby`
+:::
+:::
+
+:::alert {info}
+:icon[lightbulb]{warning} **Pro Tip:** Use modals for actions requiring user attention, and tooltips for supplementary information that enhances but doesn't block the user experience.
+:::
 
 ---
 
