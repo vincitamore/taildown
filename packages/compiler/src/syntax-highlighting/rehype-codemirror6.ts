@@ -113,6 +113,23 @@ function highlightLine(line: string): string {
       }
     }
 
+    // Process inline badges
+    const badgeRegex = /:badge\[([^\]]+)\](\{[^}]*\})?/g;
+    let badgeMatch: RegExpExecArray | null;
+    while ((badgeMatch = badgeRegex.exec(result)) !== null) {
+      const start = badgeMatch.index;
+      const label = badgeMatch[1];
+      if (label) {
+        tokens.push({ start, end: start + 6, type: 'keyword' }); // :badge
+        tokens.push({ start: start + 6, end: start + 7, type: 'punctuation' }); // [
+        tokens.push({ start: start + 7, end: start + 7 + label.length, type: 'string' }); // label text
+        tokens.push({ start: start + 7 + label.length, end: start + 8 + label.length, type: 'punctuation' }); // ]
+        if (badgeMatch[2]) {
+          tokens.push({ start: start + 8 + label.length, end: start + 8 + label.length + badgeMatch[2].length, type: 'attributes' });
+        }
+      }
+    }
+
     // Process standalone attribute blocks (not part of icons or components)
     const attrRegex = /\{([^}]*)\}/g;
     let attrMatch: RegExpExecArray | null;

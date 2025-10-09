@@ -52,12 +52,15 @@ function extractAttributesFromText(
     remainingAfterRemoval = text.replace(ATTRIBUTE_BLOCK_REGEX, '').trimEnd();
   } else {
     // Fallback: Match attribute block at the START (common after links)
-    const START_BLOCK_REGEX = /^\s*\{([^}]+)\}\s*/;
+    // CRITICAL FIX: Match the block but preserve the space after it
+    // Pattern: optional whitespace + { + content + } (but DON'T consume trailing space)
+    const START_BLOCK_REGEX = /^\s*\{([^}]+)\}/;
     const startMatch = text.match(START_BLOCK_REGEX);
     if (startMatch && startMatch[1]) {
       attributeBlockRaw = startMatch[1].trim();
-      // Remove leading attribute block and any following single space
-      remainingAfterRemoval = text.replace(START_BLOCK_REGEX, '');
+      // Remove ONLY the attribute block, preserve everything after including spaces
+      // Replace the matched block with empty string, keeping any trailing space
+      remainingAfterRemoval = text.substring(startMatch[0].length);
     }
   }
 
@@ -75,26 +78,27 @@ function extractAttributesFromText(
   const kvAttrs: { id?: string; modal?: string; tooltip?: string } = {};
   let cleanedBlock = attributeBlock;
   
-  // Match #anchor-id (ID syntax)
-  // ID must start with letter or underscore, can contain letters, numbers, hyphens, underscores
-  const idMatch = attributeBlock.match(/#([a-zA-Z_][\w-]*)/);
-  if (idMatch) {
-    kvAttrs.id = idMatch[1];
-    cleanedBlock = cleanedBlock.replace(idMatch[0], '').trim();
-  }
-  
-  // Match modal="..." or modal='...'
+  // Match modal="..." or modal='...' FIRST (before extracting IDs)
   const modalMatch = attributeBlock.match(/modal=["']([^"']+)["']/);
   if (modalMatch) {
     kvAttrs.modal = modalMatch[1];
     cleanedBlock = cleanedBlock.replace(modalMatch[0], '').trim();
   }
   
-  // Match tooltip="..." or tooltip='...'
+  // Match tooltip="..." or tooltip='...' FIRST (before extracting IDs)
   const tooltipMatch = attributeBlock.match(/tooltip=["']([^"']+)["']/);
   if (tooltipMatch) {
     kvAttrs.tooltip = tooltipMatch[1];
     cleanedBlock = cleanedBlock.replace(tooltipMatch[0], '').trim();
+  }
+  
+  // Match #anchor-id (ID syntax) - AFTER removing quoted values
+  // This prevents #id inside tooltip="#id" from being extracted as anchor
+  // ID must start with letter or underscore, can contain letters, numbers, hyphens, underscores
+  const idMatch = cleanedBlock.match(/#([a-zA-Z_][\w-]*)/);
+  if (idMatch) {
+    kvAttrs.id = idMatch[1];
+    cleanedBlock = cleanedBlock.replace(idMatch[0], '').trim();
   }
 
   // Phase 2: Extract both CSS classes and plain English

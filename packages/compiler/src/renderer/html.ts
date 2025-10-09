@@ -84,6 +84,56 @@ function rehypeMarkTreeFolders() {
 }
 
 /**
+ * Rehype plugin to extract modals and tooltips from inline positions
+ * and append them to the end of the document body for proper fixed positioning.
+ * 
+ * This solves the critical issue where modals wrapped in inline elements
+ * cannot use position: fixed properly.
+ */
+function rehypePortalComponents() {
+  return (tree: any) => {
+    const portals: any[] = [];
+    
+    // First pass: collect all portal-target elements and remove from their parents
+    visit(tree, 'element', (node, index, parent) => {
+      if (node.properties?.['data-portal-target'] === 'body') {
+        // This element should be moved to document root
+        portals.push(node);
+        
+        // Remove the data-portal-target attribute (it was just for processing)
+        delete node.properties['data-portal-target'];
+        
+        // Remove from parent's children
+        if (parent && typeof index === 'number') {
+          parent.children.splice(index, 1);
+        }
+        
+        // Return SKIP to prevent visiting children (we're moving the whole subtree)
+        return 'skip' as const;
+      }
+    });
+    
+    // Second pass: append portals to body (or root if no body found)
+    if (portals.length > 0) {
+      // Find body element
+      let bodyElement: any = null;
+      visit(tree, 'element', (node) => {
+        if (node.tagName === 'body') {
+          bodyElement = node;
+          return 'skip' as const;
+        }
+      });
+      
+      // Append portals to body or root
+      const target = bodyElement || tree;
+      if (target.children && Array.isArray(target.children)) {
+        target.children.push(...portals);
+      }
+    }
+  };
+}
+
+/**
  * Walk HAST tree and wrap elements with modal/tooltip attachments
  * This processes data-modal-attach and data-tooltip-attach attributes
  */
@@ -171,6 +221,7 @@ export async function renderHTML(ast: TaildownRoot, minify: boolean = false): Pr
     .use(renderInlineBadges) // Render inline badge nodes
     .use(rehypeWrapTables) // Wrap tables in scrollable container
     .use(rehypeMarkTreeFolders) // Mark folder items in tree components
+    .use(rehypePortalComponents) // Extract modals/tooltips to document root
     .use(rehypeStringify, {
       allowDangerousHtml: true, // Allow raw HTML for syntax highlighting
       closeSelfClosing: true,

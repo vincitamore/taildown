@@ -77,6 +77,11 @@ const taildownParser = {
       return 'keyword';
     }
     
+    // Badge syntax: :badge[text]{attributes}
+    if (stream.match(/:badge/)) {
+      return 'keyword';
+    }
+    
     if (stream.match(/\[([a-z][a-z0-9-]*)\]/)) {
       return 'function';
     }

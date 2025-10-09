@@ -3241,17 +3241,47 @@ td svg.icon {
  * MODAL COMPONENT
  * ======================================== */
 
+/* Modal backdrop - full screen overlay with blur */
 .modal-backdrop {
-  transition: opacity 200ms ease-in-out;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9998 !important;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(8px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(120%) !important;
+  transition: opacity 200ms ease-in-out, backdrop-filter 200ms ease-in-out;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 1rem !important;
 }
 
 .modal-backdrop[hidden] {
-  display: none;
+  display: none !important;
 }
 
+/* Modal content container */
 .modal-content {
   position: relative;
+  z-index: 9999;
+  max-width: 42rem;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 1rem;
   animation: modalSlideIn 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  /* Subtle inner border for glassmorphism depth */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .modal-content {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Modal body with padding */
+.modal-body {
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes modalSlideIn {
@@ -3265,63 +3295,166 @@ td svg.icon {
   }
 }
 
+/* Modal close button - positioned outside content */
 .modal-close {
-  z-index: 10;
+  z-index: 10000 !important;
+  cursor: pointer;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modal-close:hover {
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(90deg);
+}
+
+.modal-close:active {
+  transform: scale(0.95) rotate(90deg);
+}
+
+/* Ensure trigger wrapper doesn't affect layout */
+.modal-trigger-wrapper {
+  display: inline;
 }
 
 /* ========================================
  * TOOLTIP COMPONENT
  * ======================================== */
 
+/* Tooltip wrapper - must be truly inline to prevent line breaks */
+.tooltip-wrapper {
+  display: inline !important;
+  /* CRITICAL: No position, no margin, no padding - completely transparent to layout */
+  /* Acts as if the content isn't wrapped at all */
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+  line-height: inherit !important;
+  vertical-align: baseline !important;
+}
+
+/* Ensure trigger element inside wrapper doesn't break spacing */
+.tooltip-wrapper > a,
+.tooltip-wrapper > span,
+.tooltip-wrapper > button {
+  display: inline;
+  /* Inherit natural spacing */
+}
+
+/* Standalone tooltip component */
 .component-tooltip {
   position: relative;
   display: inline-block;
 }
 
-.tooltip-content {
-  position: absolute;
-  z-index: 50;
-  background-color: rgb(17 24 39);
+/* Tooltip popup - fixed positioning to float above content */
+.tooltip-content,
+.tooltip-popup {
+  position: fixed !important; /* Fixed relative to viewport, positioned by JS */
+  z-index: 10000 !important; /* Above modals */
   color: white;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
   font-size: 0.875rem;
-  white-space: nowrap;
-  pointer-events: none;
+  line-height: 1.5;
+  border-radius: 0.75rem;
+  pointer-events: auto !important; /* CRITICAL: Allow hovering over tooltip */
   opacity: 0;
+  /* Professional glassmorphism with backdrop blur */
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  background: rgba(15, 23, 42, 0.96);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 
+    0 0 0 1px rgba(0, 0, 0, 0.05),
+    0 10px 30px -5px rgba(0, 0, 0, 0.5),
+    0 20px 50px -10px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: min(90vw, 28rem);
+  width: max-content;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  display: block;
+  /* Subtle transform for depth */
+  transform-style: preserve-3d;
 }
 
-.tooltip-content.visible {
+/* Dark mode tooltip styling */
+.dark .tooltip-content,
+.dark .tooltip-popup {
+  background: rgba(30, 41, 59, 0.97);
+  border-color: rgba(148, 163, 184, 0.3);
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 10px 30px -5px rgba(0, 0, 0, 0.7),
+    0 20px 50px -10px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+/* Visible state */
+.tooltip-content.visible,
+.tooltip-popup.visible {
   opacity: 1;
 }
 
-.tooltip-content[data-position="top"] {
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-0.5rem);
+/* Position-based styling (set by JavaScript) */
+.tooltip-content[data-tooltip-position="top"],
+.tooltip-popup[data-tooltip-position="top"] {
+  transform-origin: bottom center;
 }
 
-.tooltip-content[data-position="bottom"] {
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(0.5rem);
+.tooltip-content[data-tooltip-position="bottom"],
+.tooltip-popup[data-tooltip-position="bottom"] {
+  transform-origin: top center;
 }
 
-.tooltip-content[data-position="left"] {
-  right: 100%;
-  top: 50%;
-  transform: translateY(-50%) translateX(-0.5rem);
+.tooltip-content[data-tooltip-position="left"],
+.tooltip-popup[data-tooltip-position="left"] {
+  transform-origin: right center;
 }
 
-.tooltip-content[data-position="right"] {
-  left: 100%;
-  top: 50%;
-  transform: translateY(-50%) translateX(0.5rem);
+.tooltip-content[data-tooltip-position="right"],
+.tooltip-popup[data-tooltip-position="right"] {
+  transform-origin: left center;
+}
+
+/* Tooltip content styling */
+.tooltip-content p {
+  margin: 0.5rem 0;
+}
+
+.tooltip-content p:first-child {
+  margin-top: 0;
+}
+
+.tooltip-content p:last-child {
+  margin-bottom: 0;
+}
+
+.tooltip-content ul,
+.tooltip-content ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.tooltip-content li {
+  margin: 0.25rem 0;
+}
+
+.tooltip-content code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.8125rem;
+}
+
+.tooltip-content a {
+  color: #60a5fa;
+  text-decoration: underline;
+}
+
+.tooltip-content a:hover {
+  color: #93c5fd;
 }
 
 /* ========================================
@@ -4332,7 +4465,7 @@ td svg.icon {
 </span><span class="code-line">Normal paragraph text <span class="token punctuation">{</span><span class="token number">base</span><span class="token punctuation">}</span>
 </span><span class="code-line">Small footnote <span class="token punctuation">{</span><span class="token number">small</span> <span class="token class-name">muted</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-vinb0p9in" data-code-text="# Huge Heading {huge}
+</span></code><button class="code-copy-btn" data-code-id="code-nioo5ffki" data-code-text="# Huge Heading {huge}
 Normal paragraph text {base}
 Small footnote {small muted}
 
@@ -4398,7 +4531,7 @@ Small footnote {small muted}
 </span><span class="code-line">Semibold emphasis <span class="token punctuation">{</span><span class="token emphasis">semibold</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
 </span><span class="code-line">Light muted text <span class="token punctuation">{</span><span class="token emphasis">light</span> <span class="token class-name">muted</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-anmelx4vw" data-code-text="# Bold Heading {bold}
+</span></code><button class="code-copy-btn" data-code-id="code-hfekf9h86" data-code-text="# Bold Heading {bold}
 Semibold emphasis {semibold primary}
 Light muted text {light muted}
 
@@ -4414,7 +4547,7 @@ Light muted text {light muted}
 </span><span class="code-line">Medium weight subheading <span class="token punctuation">{</span><span class="token emphasis">medium</span><span class="token punctuation">}</span>
 </span><span class="code-line">Small light muted text <span class="token punctuation">{</span><span class="token emphasis">small-light</span> <span class="token class-name">muted</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-ec6j2t24i" data-code-text="# Large Bold Title {large-bold primary}
+</span></code><button class="code-copy-btn" data-code-id="code-hlz19k7j6" data-code-text="# Large Bold Title {large-bold primary}
 Medium weight subheading {medium}
 Small light muted text {small-light muted}
 
@@ -4459,7 +4592,7 @@ Small light muted text {small-light muted}
 </table></div><p><strong>Example:</strong></p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line">Paragraph with tight lines <span class="token punctuation">{</span><span class="token emphasis">tight-lines</span><span class="token punctuation">}</span>
 </span><span class="code-line">Paragraph with relaxed lines <span class="token punctuation">{</span><span class="token emphasis">relaxed-lines</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-1buskylko" data-code-text="Paragraph with tight lines {tight-lines}
+</span></code><button class="code-copy-btn" data-code-id="code-9d6nfrd3x" data-code-text="Paragraph with tight lines {tight-lines}
 Paragraph with relaxed lines {relaxed-lines}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4528,7 +4661,7 @@ Paragraph with relaxed lines {relaxed-lines}
 </span><span class="code-line">Error alert <span class="token punctuation">{</span><span class="token class-name">error</span> <span class="token emphasis">bold</span><span class="token punctuation">}</span>
 </span><span class="code-line">Muted footer text <span class="token punctuation">{</span><span class="token class-name">muted</span> <span class="token number">small</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-sn7kvozh1" data-code-text="# Primary Heading {primary}
+</span></code><button class="code-copy-btn" data-code-id="code-rtv51svfi" data-code-text="# Primary Heading {primary}
 Success message {success}
 Error alert {error bold}
 Muted footer text {muted small}
@@ -4578,7 +4711,7 @@ Muted footer text {muted small}
 </span><span class="code-line">Success message with background
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-jgl84mhqh" data-code-text=":::card {primary-bg}
+</span></code><button class="code-copy-btn" data-code-id="code-8kq6me4pg" data-code-text=":::card {primary-bg}
 Primary colored card
 :::
 
@@ -4630,7 +4763,7 @@ Success message with background
 </span><span class="code-line">Centered content
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-xhahcfxvb" data-code-text=":::card {flex flex-center}
+</span></code><button class="code-copy-btn" data-code-id="code-vz1wchp3r" data-code-text=":::card {flex flex-center}
 Centered content
 :::
 
@@ -4675,7 +4808,7 @@ Centered content
 </span><span class="code-line">Three column grid
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-qlr3jl8yd" data-code-text=":::grid {3}
+</span></code><button class="code-copy-btn" data-code-id="code-u101qksvl" data-code-text=":::grid {3}
 Three column grid
 :::
 
@@ -4717,7 +4850,7 @@ Three column grid
 </span><span class="code-line">Fully centered card
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-pwckmi0m0" data-code-text="# Centered Heading {center}
+</span></code><button class="code-copy-btn" data-code-id="code-druxh9goa" data-code-text="# Centered Heading {center}
 :::card {center-both}
 Fully centered card
 :::
@@ -4766,7 +4899,7 @@ Fully centered card
 </span><span class="code-line">Large padded card
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-0avhau70k" data-code-text=":::card {padded-lg}
+</span></code><button class="code-copy-btn" data-code-id="code-pykkhzi3a" data-code-text=":::card {padded-lg}
 Large padded card
 :::
 
@@ -4811,7 +4944,7 @@ Large padded card
 </span><span class="code-line">Grid with large gaps
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-hc8u10jj7" data-code-text=":::grid {3 gap-lg}
+</span></code><button class="code-copy-btn" data-code-id="code-so5v5mmqe" data-code-text=":::grid {3 gap-lg}
 Grid with large gaps
 :::
 
@@ -4861,7 +4994,7 @@ Grid with large gaps
 </span><span class="code-line">
 </span><span class="code-line"><span class="token punctuation">[</span>Pill Button<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token attr-name">rounded-full</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-oaesinouh" data-code-text=":::card {rounded-xl}
+</span></code><button class="code-copy-btn" data-code-id="code-q1kdtph8a" data-code-text=":::card {rounded-xl}
 Extra rounded card
 :::
 
@@ -4916,7 +5049,7 @@ Extra rounded card
 </span><span class="code-line">Deep shadow card
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-0gorrci6r" data-code-text=":::card {elevated}
+</span></code><button class="code-copy-btn" data-code-id="code-ydakhq6gd" data-code-text=":::card {elevated}
 Elevated card
 :::
 
@@ -4970,7 +5103,7 @@ Deep shadow card
 </span><span class="code-line">Heavy frosted with padding
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-ay18cilud" data-code-text=":::card {light-glass}
+</span></code><button class="code-copy-btn" data-code-id="code-2s26xor3e" data-code-text=":::card {light-glass}
 Light frosted glass card
 :::
 
@@ -5012,7 +5145,7 @@ Heavy frosted with padding
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Combining Shorthands</h2>
 <div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy shadow-xl p-8" data-component="card"><h3 class="text-lg font-bold text-center"><svg class="icon icon-layers text-primary-600 hover:text-primary-700 text-4xl" data-icon="layers" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg> The Power of Composition</h3><p>Taildown shorthands combine naturally to create complex styles with readable syntax.</p><div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><p><strong>Simple Example</strong></p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span>Heading <span class="token punctuation">{</span><span class="token emphasis">large-bold</span> <span class="token class-name">primary</span> <span class="token property">center</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-hq8krohrk" data-code-text="# Heading {large-bold primary center}
+</span></code><button class="code-copy-btn" data-code-id="code-9bblh93ub" data-code-text="# Heading {large-bold primary center}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -5031,7 +5164,7 @@ Heavy frosted with padding
 </span><span class="code-line">Card content
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-ejet5g83e" data-code-text=":::card {light-glass padded-xl rounded-xl hover-lift fade-in}
+</span></code><button class="code-copy-btn" data-code-id="code-myebrboy7" data-code-text=":::card {light-glass padded-xl rounded-xl hover-lift fade-in}
 Card content
 :::
 
@@ -5065,7 +5198,7 @@ Card content
 </span><span class="code-line">Beautiful, readable, and powerful!
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-vaahac83s" data-code-text="# Great Title {huge-bold primary center}
+</span></code><button class="code-copy-btn" data-code-id="code-izzdod5cx" data-code-text="# Great Title {huge-bold primary center}
 
 :::card {light-glass padded-lg hover-lift}
 Beautiful, readable, and powerful!
@@ -5091,7 +5224,7 @@ Beautiful, readable, and powerful!
 </span><span class="code-line">Falls back to raw CSS classes
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-ndqmf33oh" data-code-text="# Bad Title {.text-4xl .font-bold .text-blue-500}
+</span></code><button class="code-copy-btn" data-code-id="code-zfni16j8d" data-code-text="# Bad Title {.text-4xl .font-bold .text-blue-500}
 
 :::card {.bg-white .p-8}
 Falls back to raw CSS classes

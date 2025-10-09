@@ -2438,17 +2438,47 @@ ${generateThemeCSS()}
  * MODAL COMPONENT
  * ======================================== */
 
+/* Modal backdrop - full screen overlay with blur */
 .modal-backdrop {
-  transition: opacity 200ms ease-in-out;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9998 !important;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(8px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(120%) !important;
+  transition: opacity 200ms ease-in-out, backdrop-filter 200ms ease-in-out;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 1rem !important;
 }
 
 .modal-backdrop[hidden] {
-  display: none;
+  display: none !important;
 }
 
+/* Modal content container */
 .modal-content {
   position: relative;
+  z-index: 9999;
+  max-width: 42rem;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 1rem;
   animation: modalSlideIn 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  /* Subtle inner border for glassmorphism depth */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .modal-content {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Modal body with padding */
+.modal-body {
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes modalSlideIn {
@@ -2462,63 +2492,166 @@ ${generateThemeCSS()}
   }
 }
 
+/* Modal close button - positioned outside content */
 .modal-close {
-  z-index: 10;
+  z-index: 10000 !important;
+  cursor: pointer;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modal-close:hover {
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(90deg);
+}
+
+.modal-close:active {
+  transform: scale(0.95) rotate(90deg);
+}
+
+/* Ensure trigger wrapper doesn't affect layout */
+.modal-trigger-wrapper {
+  display: inline;
 }
 
 /* ========================================
  * TOOLTIP COMPONENT
  * ======================================== */
 
+/* Tooltip wrapper - must be truly inline to prevent line breaks */
+.tooltip-wrapper {
+  display: inline !important;
+  /* CRITICAL: No position, no margin, no padding - completely transparent to layout */
+  /* Acts as if the content isn't wrapped at all */
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+  line-height: inherit !important;
+  vertical-align: baseline !important;
+}
+
+/* Ensure trigger element inside wrapper doesn't break spacing */
+.tooltip-wrapper > a,
+.tooltip-wrapper > span,
+.tooltip-wrapper > button {
+  display: inline;
+  /* Inherit natural spacing */
+}
+
+/* Standalone tooltip component */
 .component-tooltip {
   position: relative;
   display: inline-block;
 }
 
-.tooltip-content {
-  position: absolute;
-  z-index: 50;
-  background-color: rgb(17 24 39);
+/* Tooltip popup - fixed positioning to float above content */
+.tooltip-content,
+.tooltip-popup {
+  position: fixed !important; /* Fixed relative to viewport, positioned by JS */
+  z-index: 10000 !important; /* Above modals */
   color: white;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
   font-size: 0.875rem;
-  white-space: nowrap;
-  pointer-events: none;
+  line-height: 1.5;
+  border-radius: 0.75rem;
+  pointer-events: auto !important; /* CRITICAL: Allow hovering over tooltip */
   opacity: 0;
+  /* Professional glassmorphism with backdrop blur */
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  background: rgba(15, 23, 42, 0.96);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 
+    0 0 0 1px rgba(0, 0, 0, 0.05),
+    0 10px 30px -5px rgba(0, 0, 0, 0.5),
+    0 20px 50px -10px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: min(90vw, 28rem);
+  width: max-content;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  display: block;
+  /* Subtle transform for depth */
+  transform-style: preserve-3d;
 }
 
-.tooltip-content.visible {
+/* Dark mode tooltip styling */
+.dark .tooltip-content,
+.dark .tooltip-popup {
+  background: rgba(30, 41, 59, 0.97);
+  border-color: rgba(148, 163, 184, 0.3);
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 10px 30px -5px rgba(0, 0, 0, 0.7),
+    0 20px 50px -10px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+/* Visible state */
+.tooltip-content.visible,
+.tooltip-popup.visible {
   opacity: 1;
 }
 
-.tooltip-content[data-position="top"] {
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-0.5rem);
+/* Position-based styling (set by JavaScript) */
+.tooltip-content[data-tooltip-position="top"],
+.tooltip-popup[data-tooltip-position="top"] {
+  transform-origin: bottom center;
 }
 
-.tooltip-content[data-position="bottom"] {
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(0.5rem);
+.tooltip-content[data-tooltip-position="bottom"],
+.tooltip-popup[data-tooltip-position="bottom"] {
+  transform-origin: top center;
 }
 
-.tooltip-content[data-position="left"] {
-  right: 100%;
-  top: 50%;
-  transform: translateY(-50%) translateX(-0.5rem);
+.tooltip-content[data-tooltip-position="left"],
+.tooltip-popup[data-tooltip-position="left"] {
+  transform-origin: right center;
 }
 
-.tooltip-content[data-position="right"] {
-  left: 100%;
-  top: 50%;
-  transform: translateY(-50%) translateX(0.5rem);
+.tooltip-content[data-tooltip-position="right"],
+.tooltip-popup[data-tooltip-position="right"] {
+  transform-origin: left center;
+}
+
+/* Tooltip content styling */
+.tooltip-content p {
+  margin: 0.5rem 0;
+}
+
+.tooltip-content p:first-child {
+  margin-top: 0;
+}
+
+.tooltip-content p:last-child {
+  margin-bottom: 0;
+}
+
+.tooltip-content ul,
+.tooltip-content ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.tooltip-content li {
+  margin: 0.25rem 0;
+}
+
+.tooltip-content code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.8125rem;
+}
+
+.tooltip-content a {
+  color: #60a5fa;
+  text-decoration: underline;
+}
+
+.tooltip-content a:hover {
+  color: #93c5fd;
 }
 
 /* ========================================

@@ -464,6 +464,46 @@ Test fixtures:
 - syntax-tests/fixtures/07-icons/04-edge-cases.td
 ```
 
+### 2.6A Inline Badges **[REQUIRED]**
+
+Inline badges provide short, semantic labels that flow with text.
+
+Grammar:
+```
+badge_element   ::= ":badge[" text "]" attribute_block?
+text            ::= any characters except "]"
+attribute_block ::= "{" (class_list | shorthand_list) "}"
+```
+
+Examples:
+```taildown
+Project Status: :badge[active]{success}
+Version: :badge[v2.1.0]{info}
+License: :badge[MIT]{primary}
+
+Features: :badge[new]{warning} :badge[beta]{info} :badge[deprecated]{error}
+```
+
+Rules:
+- Attributes resolve through the badge component’s variant system.
+- Supported colors: `default` `primary` `secondary` `success` `warning` `error` `info` `muted`
+- Supported sizes: `sm` `md` (default) `lg`
+- Badges render as `<span>` with appropriate classes and `data-component="badge"`.
+- Inline badges work inside links, headings, paragraphs, and component content.
+
+Edge cases:
+- `:badge[]` (empty text) is invalid and treated as plain text.
+- Inside code/backticks, the syntax is not parsed (CommonMark behavior).
+
+Test Coverage:
+```
+Add fixtures under: syntax-tests/fixtures/07-inline-badges/
+- 01-basic.td
+- 02-attributes.td
+- 03-integration.td
+- 04-edge-cases.td
+```
+
 ---
 
 ### 2.7 Plain English Grammar Rules **[REQUIRED]**

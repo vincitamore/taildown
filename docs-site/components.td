@@ -764,7 +764,7 @@ The simplest way - content directly in the attribute:
 
 [Simple Alert](#){button primary modal="This is a simple alert modal! Click the backdrop or press Escape to close."}
 
-[Warning Message](#){button warning modal="⚠️ **Warning:** This action cannot be undone. Please proceed with caution."}
+[Warning Message](#){button warning modal="Simple inline modals can not contain rich content. You can use ID-referenced modals instead and call them inline."}
 
 ### ID-Referenced Content {medium-bold}
 
@@ -828,13 +828,17 @@ This modal is triggered by three different buttons - define once, use everywhere
 
 ### Usage Summary {medium-bold}
 
+:::grid {2}
+:::container
 **Inline:**
-```markdown
+```taildown
 [Click me](#){button modal="Simple message"}
 ```
+:::
 
+:::container
 **ID-referenced:**
-```markdown
+```taildown
 [Open Modal](#){button modal="#my-modal"}
 
 :::modal{id="my-modal"}
@@ -842,6 +846,8 @@ This modal is triggered by three different buttons - define once, use everywhere
 Rich content with full markdown support
 :::
 ```
+:::
+:::
 
 **Features:**
 - Backdrop with blur effect
@@ -903,19 +909,26 @@ Status: [Active](#){badge success tooltip="Service is running normally"} | Versi
 
 ### Usage Summary {medium-bold}
 
+:::grid {2}
+:::container
 **Inline:**
-```markdown
+```taildown
 [Hover here](#){tooltip="Help text"}
 ```
+:::
 
+:::container
 **ID-referenced:**
-```markdown
+```taildown
 [Info](#){tooltip="#help"}
 
 :::tooltip {id="help"}
 Detailed help content with markdown
 :::
 ```
+:::
+:::
+
 
 **Features:**
 - Show on hover (desktop)
@@ -935,7 +948,7 @@ Detailed help content with markdown
 
 ---
 
-## Alert {#alert large-bold primary}
+## Alert {#alert center large-bold primary}
 
 **Semantic message boxes with theming and icons.**
 
@@ -1024,7 +1037,6 @@ error
 
 ## Badges {#badge center large-bold primary}
 
-:::container
 :::grid {2}
 :::card
 ### Inline labels and status indicators
@@ -1038,13 +1050,13 @@ error
 :::container
 :::card
 :::badge {muted sm}
-small
+small badges for subtle badges
 :::
 :::badge {primary}
-medium
+medium badges for regular badges
 :::
 :::badge {warning lg}
-large
+large badges for emphasized badges
 :::
 :::
 :::    
@@ -1067,6 +1079,37 @@ Use badges to highlight status and metadata:
 
 ### With Icons {medium-bold}
 
+Combine badges with icons and markdown content for visual context and alternative use:
+
+:::badge {primary}
+:icon[lightbulb]{warning} Pro Tip: Badges support full markdown content:
+
+- **Bold text** and *emphasis*
+- `Code snippets` and technical terms
+- Lists and structured content
+- Useful for more subdued styled message boxes than alerts
+
+:::
+:::badge {success}
+:icon[trending-up]{success} trending
+:::
+:::badge {error}
+:icon[flame]{error} hot
+:::
+:::
+:::
+
+### Usage Summary {medium-bold}
+
+```taildown
+# Inline badges
+Project Status: :badge[active]{success}
+Version: :badge[v2.1.0]{info}
+License: :badge[MIT]{primary}
+
+Features: :badge[new]{warning} :badge[beta]{info} :badge[deprecated]{error}
+
+# Component syntax
 Combine badges with icons for visual context:
 
 :::badge {primary}
@@ -1078,33 +1121,12 @@ Combine badges with icons for visual context:
 :::badge {error}
 :icon[flame]{error} hot
 :::
-:::
-:::
-:::
 
-### Usage Summary {medium-bold}
-
-```taildown
-:::badge
-Text
-:::
-
-:::badge {primary}
-Text
-:::
-
-:::badge {success sm}
-Text
-:::
-
-:::badge {error lg}
-Text
-:::
 ```
 
 **Colors:** `default` `primary` `secondary` `success` `warning` `error` `info` `muted`
 
-**Sizes:** `sm` `md` (default) `lg`
+**Sizes:** `sm` `md (default)` `lg`
 
 [Back to top](#top){button link}
 

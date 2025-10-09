@@ -30,6 +30,10 @@ await registryInitialized;
 const modalRegistry = new Map<string, Element>();
 const tooltipRegistry = new Map<string, Element>();
 
+// Track which tooltip IDs have already been rendered inline (for multiple triggers)
+// This prevents duplicate tooltip elements in the DOM
+const renderedTooltipIds = new Set<string>();
+
 /**
  * Pre-populate modal and tooltip registries before HAST conversion
  * Scans the MDAST tree for :::modal{id="..."} and :::tooltip{id="..."} blocks
@@ -39,6 +43,7 @@ export function prepopulateRegistries(ast: Root): void {
   // Clear registries before populating
   modalRegistry.clear();
   tooltipRegistry.clear();
+  renderedTooltipIds.clear();
   
   // Visit all containerDirective nodes
   visit(ast, 'containerDirective', (node: any) => {
@@ -82,7 +87,7 @@ export function prepopulateRegistries(ast: Root): void {
  * Wrap an element with modal/tooltip attachment if present
  * Handles both inline content and ID references
  */
-export function wrapWithAttachments(element: Element, nodeData?: TaildownNodeData): Element {
+export function wrapWithAttachments(element: Element, nodeData?: TaildownNodeData, state?: State): Element {
   // Safety check - if element is invalid, return as-is
   if (!element || typeof element !== 'object') {
     return element;
@@ -97,7 +102,7 @@ export function wrapWithAttachments(element: Element, nodeData?: TaildownNodeDat
 
   // Handle tooltip attachment
   if (nodeData.tooltip) {
-    wrapped = wrapWithTooltip(wrapped, nodeData.tooltip);
+    wrapped = wrapWithTooltip(wrapped, nodeData.tooltip, state);
   }
 
   // Handle modal attachment (wraps outside tooltip if both present)
@@ -112,7 +117,7 @@ export function wrapWithAttachments(element: Element, nodeData?: TaildownNodeDat
  * Wrap element with tooltip functionality
  * Supports inline content: tooltip="text" or ID reference: tooltip="#id"
  */
-function wrapWithTooltip(triggerElement: Element, content: string): Element {
+function wrapWithTooltip(triggerElement: Element, content: string, state?: State): Element {
   // Safety check
   if (!triggerElement || triggerElement.type !== 'element') {
     console.warn('[Taildown] Invalid trigger element for tooltip, skipping attachment');
@@ -121,6 +126,21 @@ function wrapWithTooltip(triggerElement: Element, content: string): Element {
 
   const isIdReference = content.startsWith('#');
   const tooltipId = isIdReference ? content.substring(1) : `tooltip-${Math.random().toString(36).substring(7)}`;
+  
+  // CRITICAL FIX: For ID-referenced tooltips with multiple triggers,
+  // only render the tooltip element for the FIRST trigger
+  // Subsequent triggers just get aria-describedby without the tooltip element
+  if (isIdReference && renderedTooltipIds.has(tooltipId)) {
+    // This tooltip has already been rendered, just enhance the trigger
+    return {
+      ...triggerElement,
+      properties: {
+        ...(triggerElement.properties || {}),
+        'aria-describedby': tooltipId,
+        'data-tooltip-trigger': 'true'
+      }
+    };
+  }
   
   // Get tooltip content (from registry or inline string)
   const tooltipContent = isIdReference && tooltipRegistry.has(tooltipId)
@@ -131,6 +151,11 @@ function wrapWithTooltip(triggerElement: Element, content: string): Element {
         properties: {},
         children: [{ type: 'text' as const, value: content }]
       };
+  
+  // Mark this tooltip ID as rendered if it's an ID reference
+  if (isIdReference) {
+    renderedTooltipIds.add(tooltipId);
+  }
 
   // Add aria-describedby to trigger
   const enhancedTrigger: Element = {
@@ -142,26 +167,56 @@ function wrapWithTooltip(triggerElement: Element, content: string): Element {
     }
   };
 
-  // Create tooltip content div
+  // CRITICAL: For inline tooltips (simple text), use SPAN to avoid line breaks
+  // For ID-referenced tooltips (rich content), use DIV to allow block-level children
+  // Check if content has block-level elements
+  const contentChildren = tooltipContent.type === 'element' ? tooltipContent.children : [tooltipContent];
+  const hasBlockContent = contentChildren.some(child => 
+    child.type === 'element' && ['p', 'ul', 'ol', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre'].includes((child as Element).tagName || '')
+  );
+  
   const tooltipEl: Element = {
     type: 'element',
-    tagName: 'div',
+    tagName: hasBlockContent ? 'div' : 'span', // div for block content, span for inline
     properties: {
       id: tooltipId,
       role: 'tooltip',
       'data-component': 'tooltip',
-      className: ['tooltip-content', 'absolute', 'px-3', 'py-2', 'bg-gray-900', 'text-white', 'text-sm', 'rounded-lg', 'shadow-xl', 'whitespace-nowrap', 'z-50', 'pointer-events-none', 'opacity-0', 'transition-opacity'],
-      style: 'display: none;'
+      className: ['tooltip-content', 'tooltip-popup'],
+      style: 'display: none; position: fixed; z-index: 9999;', // Fixed position, will be positioned by JS
+      'data-tooltip-position': 'top' // Default position, JS will adjust
     },
-    children: tooltipContent.type === 'element' ? tooltipContent.children : [tooltipContent]
+    children: contentChildren
   };
 
-  // Wrap in relative container
+  // CRITICAL FIX: If tooltip has block content (div), use display:contents wrapper
+  // Block elements inside inline wrappers = invalid HTML, but display:contents makes wrapper invisible
+  // Tooltip will be portaled to body by rehypePortalComponents
+  if (hasBlockContent) {
+    // Mark tooltip for portal extraction to body
+    tooltipEl.properties = {
+      ...tooltipEl.properties,
+      'data-portal-target': 'body'
+    };
+    
+    // Wrap in display:contents so wrapper doesn't affect layout but keeps both elements in DOM
+    return {
+      type: 'element',
+      tagName: 'span',
+      properties: {
+        style: 'display: contents;' // Completely transparent wrapper
+      },
+      children: [enhancedTrigger, tooltipEl]
+    };
+  }
+  
+  // For inline tooltips (span), wrapping is safe and keeps everything inline
   return {
     type: 'element',
     tagName: 'span',
     properties: {
-      className: ['relative', 'inline-block']
+      className: ['tooltip-wrapper'],
+      style: 'display: inline;' // ONLY display inline, nothing else
     },
     children: [enhancedTrigger, tooltipEl]
   };
@@ -187,16 +242,6 @@ function wrapWithModal(triggerElement: Element, content: string): Element {
   const isIdReference = content.startsWith('#');
   const modalId = isIdReference ? content.substring(1) : `modal-${Math.random().toString(36).substring(7)}`;
   
-  // Get modal content (from registry or inline string)
-  const modalContent = isIdReference && modalRegistry.has(modalId)
-    ? modalRegistry.get(modalId)!
-    : {
-        type: 'element' as const,
-        tagName: 'p',
-        properties: {},
-        children: [{ type: 'text' as const, value: content }]
-      };
-
   // Add data-modal-trigger to trigger element
   const enhancedTrigger: Element = {
     ...triggerElement,
@@ -207,7 +252,22 @@ function wrapWithModal(triggerElement: Element, content: string): Element {
     }
   };
 
-  // Create modal structure
+  // CRITICAL FIX: If this is an ID reference to an existing modal, don't create a duplicate!
+  // The modal will be rendered from the :::modal{id="..."} block elsewhere
+  if (isIdReference && modalRegistry.has(modalId)) {
+    // Just return the trigger - modal already exists in document
+    return enhancedTrigger;
+  }
+
+  // For inline modals (not ID references), create the modal structure
+  const modalContent = {
+    type: 'element' as const,
+    tagName: 'p',
+    properties: {},
+    children: [{ type: 'text' as const, value: content }]
+  };
+
+  // Create modal structure (only for inline modals)
   const modal: Element = {
     type: 'element',
     tagName: 'div',
@@ -224,27 +284,29 @@ function wrapWithModal(triggerElement: Element, content: string): Element {
         type: 'element',
         tagName: 'div',
         properties: {
-          className: ['modal-content', 'glass-subtle', 'rounded-2xl', 'shadow-3xl', 'max-w-2xl', 'w-full', 'max-h-[90vh]', 'overflow-y-auto', 'relative', 'p-12', 'border', 'border-white/20']
+          className: ['modal-content', 'glass-subtle', 'rounded-2xl', 'shadow-3xl', 'max-w-2xl', 'w-full', 'max-h-[90vh]', 'overflow-y-auto', 'relative']
         },
         children: [
-          // Close button
+          // Close button - positioned outside content area
           {
             type: 'element',
             tagName: 'button',
             properties: {
               'data-modal-close': 'true',
               'aria-label': 'Close modal',
-              className: ['modal-close', 'absolute', 'top-4', 'right-4', 'p-2', 'rounded-lg', 'hover:bg-gray-100', 'dark:hover:bg-gray-800', 'transition-colors', 'z-10', 'bg-white/80', 'backdrop-blur-sm']
+              type: 'button',
+              className: ['modal-close', 'absolute', '-top-2', '-right-2', 'w-10', 'h-10', 'flex', 'items-center', 'justify-center', 'rounded-full', 'bg-white', 'dark:bg-gray-800', 'text-gray-600', 'dark:text-gray-300', 'hover:text-gray-900', 'dark:hover:text-white', 'hover:bg-gray-100', 'dark:hover:bg-gray-700', 'shadow-lg', 'transition-all', 'z-50', 'border-2', 'border-white/20']
             },
             children: [
               {
                 type: 'element',
                 tagName: 'svg',
                 properties: {
-                  className: ['w-6', 'h-6'],
+                  className: ['w-5', 'h-5'],
                   fill: 'none',
                   stroke: 'currentColor',
-                  viewBox: '0 0 24 24'
+                  viewBox: '0 0 24 24',
+                  strokeWidth: '2.5'
                 },
                 children: [
                   {
@@ -253,7 +315,6 @@ function wrapWithModal(triggerElement: Element, content: string): Element {
                     properties: {
                       strokeLinecap: 'round',
                       strokeLinejoin: 'round',
-                      strokeWidth: '2',
                       d: 'M6 18L18 6M6 6l12 12'
                     },
                     children: []
@@ -262,19 +323,28 @@ function wrapWithModal(triggerElement: Element, content: string): Element {
               }
             ]
           },
-          // Modal content
-          ...(modalContent.type === 'element' ? modalContent.children : [modalContent])
+          // Modal content with padding
+          {
+            type: 'element',
+            tagName: 'div',
+            properties: {
+              className: ['modal-body', 'p-8', 'pt-10']
+            },
+            children: modalContent.type === 'element' ? modalContent.children : [modalContent]
+          }
         ]
       }
     ]
   };
 
-  // Return fragment with trigger and modal
+  // Return trigger with modal as sibling
+  // Modal uses position:fixed !important in CSS to escape inline context
   return {
     type: 'element',
     tagName: 'span',
     properties: {
-      className: ['inline-block']
+      className: ['modal-trigger-wrapper'],
+      style: 'display: contents;' // Pass-through wrapper that doesn't affect layout
     },
     children: [enhancedTrigger, modal]
   };
@@ -690,12 +760,27 @@ export function renderModal(state: State, node: ContainerDirectiveNode): Element
 /**
  * Render tooltip component
  * Creates a hoverable icon with tooltip popup
+ * If tooltip has an ID, it's hidden (used only as a definition for reference)
  */
 export function renderTooltip(state: State, node: ContainerDirectiveNode): Element {
-  const children = state.all(node);
-  
   const existingClasses = node.data?.hProperties?.className || [];
   const dataComponent = node.data?.hProperties?.['data-component'] || node.name;
+  const hasId = node.attributes?.id || node.data?.hProperties?.id;
+  
+  // If tooltip has an ID, hide it (it's only a definition for ID references)
+  // CRITICAL: Check for ID BEFORE calling state.all() to prevent rendering children
+  if (hasId) {
+    return {
+      type: 'element',
+      tagName: 'span',
+      properties: {
+        style: 'display: none;'
+      },
+      children: []
+    };
+  }
+  
+  const children = state.all(node);
   
   return {
     type: 'element',
@@ -753,7 +838,7 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
   const idAttr = node.attributes?.id || node.attributes?.['#'];
   
   if (componentName === 'modal' && idAttr) {
-    // This is a modal definition - store in registry and render hidden
+    // This is a modal definition with ID - render it as a proper modal AND store in registry
     const content = state.all(node);
     const modalElement: Element = {
       type: 'element',
@@ -763,17 +848,82 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
     };
     modalRegistry.set(idAttr, modalElement);
     
-    // Return empty span (modal will be attached to trigger element)
+    // CRITICAL FIX: Actually render the modal structure (not just an empty span)
+    // This creates the modal that triggers will reference
     return {
       type: 'element',
-      tagName: 'span',
-      properties: { style: 'display: none;' },
-      children: []
+      tagName: 'div',
+      properties: {
+        id: idAttr,
+        role: 'dialog',
+        'aria-modal': 'true',
+        'data-component': 'modal',
+        className: ['modal-backdrop', 'fixed', 'inset-0', 'z-50', 'flex', 'items-center', 'justify-center', 'p-4'],
+        style: 'display: none; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);',
+        hidden: true,
+        'aria-hidden': 'true'
+      },
+      children: [
+        {
+          type: 'element',
+          tagName: 'div',
+          properties: {
+            className: ['modal-content', 'glass-subtle', 'rounded-2xl', 'shadow-3xl', 'max-w-2xl', 'w-full', 'max-h-[90vh]', 'overflow-y-auto', 'relative']
+          },
+          children: [
+            // Close button
+            {
+              type: 'element',
+              tagName: 'button',
+              properties: {
+                'data-modal-close': 'true',
+                'aria-label': 'Close modal',
+                type: 'button',
+                className: ['modal-close', 'absolute', '-top-2', '-right-2', 'w-10', 'h-10', 'flex', 'items-center', 'justify-center', 'rounded-full', 'bg-white', 'dark:bg-gray-800', 'text-gray-600', 'dark:text-gray-300', 'hover:text-gray-900', 'dark:hover:text-white', 'hover:bg-gray-100', 'dark:hover:bg-gray-700', 'shadow-lg', 'transition-all', 'z-50', 'border-2', 'border-white/20']
+              },
+              children: [
+                {
+                  type: 'element',
+                  tagName: 'svg',
+                  properties: {
+                    className: ['w-5', 'h-5'],
+                    fill: 'none',
+                    stroke: 'currentColor',
+                    viewBox: '0 0 24 24',
+                    strokeWidth: '2.5'
+                  },
+                  children: [
+                    {
+                      type: 'element',
+                      tagName: 'path',
+                      properties: {
+                        strokeLinecap: 'round',
+                        strokeLinejoin: 'round',
+                        d: 'M6 18L18 6M6 6l12 12'
+                      },
+                      children: []
+                    }
+                  ]
+                }
+              ]
+            },
+            // Modal body with content
+            {
+              type: 'element',
+              tagName: 'div',
+              properties: {
+                className: ['modal-body', 'p-8', 'pt-10']
+              },
+              children: content
+            }
+          ]
+        }
+      ]
     };
   }
   
   if (componentName === 'tooltip' && idAttr) {
-    // This is a tooltip definition - store in registry
+    // This is a tooltip definition - store processed content in registry
     const content = state.all(node);
     const tooltipElement: Element = {
       type: 'element',
@@ -783,12 +933,16 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
     };
     tooltipRegistry.set(idAttr, tooltipElement);
     
-    // Return empty span (tooltip will be attached to trigger element)
+    // CRITICAL: Return empty span that is completely hidden
+    // This prevents tooltip definition content from appearing in document
     return {
       type: 'element',
       tagName: 'span',
-      properties: { style: 'display: none;' },
-      children: []
+      properties: { 
+        style: 'display: none;',
+        'data-tooltip-definition': idAttr // For debugging
+      },
+      children: [] // NO children = content won't render
     };
   }
   
