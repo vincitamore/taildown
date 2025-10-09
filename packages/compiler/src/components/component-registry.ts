@@ -279,7 +279,7 @@ export async function registerStandardComponents(): Promise<void> {
     defineComponent({
       name: 'grid',
       htmlElement: 'div',
-      defaultClasses: ['grid', 'gap-4'],
+      defaultClasses: ['grid'], // gap: 1rem is included in base 'grid' class for zero-config beauty
       defaultSize: '3', // Default to 3-column responsive grid
       variants: {
         tight: ['gap-2'],

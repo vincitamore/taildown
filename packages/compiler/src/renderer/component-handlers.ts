@@ -511,7 +511,7 @@ export function renderAccordion(state: State, node: ContainerDirectiveNode): Ele
           properties: {
             'data-accordion-trigger': '',
             ariaExpanded: index === 0 ? 'true' : 'false',
-            className: ['accordion-trigger', 'flex', 'flex-1', 'items-center', 'justify-between', 'py-4', 'font-medium', 'transition-all', 'hover:underline', 'text-left', 'w-full', 'text-sm']
+            className: ['accordion-trigger', 'flex', 'flex-1', 'items-center', 'justify-between', 'py-4', 'font-medium', 'transition-all', 'text-left', 'w-full', 'text-sm']
           },
           children: [
             trigger,

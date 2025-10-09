@@ -81,7 +81,7 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'min-w-[200px]': 'min-width: 200px;',
 
   // Display
-  grid: 'display: grid;',
+  grid: 'display: grid; gap: 1rem;', // Default gap for zero-config beauty
   flex: 'display: flex;',
   'inline-flex': 'display: inline-flex;',
   block: 'display: block;',
@@ -107,12 +107,16 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'shrink-0': 'flex-shrink: 0;',
   'flex-shrink-0': 'flex-shrink: 0;',
 
-  // Grid
+  // Grid - Mobile-first with smart responsive behavior
   'grid-cols-1': 'grid-template-columns: repeat(1, minmax(0, 1fr));',
-  'grid-cols-2': 'grid-template-columns: repeat(2, minmax(0, 1fr));',
-  'grid-cols-3': 'grid-template-columns: repeat(3, minmax(0, 1fr));',
-  'grid-cols-4': 'grid-template-columns: repeat(4, minmax(0, 1fr));',
-  'grid-cols-5': 'grid-template-columns: repeat(5, minmax(0, 1fr));',
+  // 2 columns: Always 2 columns, even on mobile (scales down gracefully)
+  'grid-cols-2': 'grid-template-columns: repeat(2, minmax(min(200px, 100%), 1fr));',
+  // 3 columns: 2 on mobile, 3 on tablet+
+  'grid-cols-3': 'grid-template-columns: repeat(2, minmax(0, 1fr));',
+  // 4 columns: 2 on mobile
+  'grid-cols-4': 'grid-template-columns: repeat(2, minmax(0, 1fr));',
+  // 5 columns: 2 on mobile
+  'grid-cols-5': 'grid-template-columns: repeat(2, minmax(0, 1fr));',
   'gap-2': 'gap: 0.5rem;',
   'gap-3': 'gap: 0.75rem;',
   'gap-4': 'gap: 1rem;',
@@ -416,14 +420,24 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'sm:px-6': '@media (min-width: 640px) { padding-left: 1.5rem; padding-right: 1.5rem; }',
   'sm:grid-cols-2':
     '@media (min-width: 640px) { grid-template-columns: repeat(2, minmax(0, 1fr)); }',
+  'sm:grid-cols-3':
+    '@media (min-width: 640px) { grid-template-columns: repeat(3, minmax(0, 1fr)); }',
   'md:grid-cols-2':
     '@media (min-width: 768px) { grid-template-columns: repeat(2, minmax(0, 1fr)); }',
+  'md:grid-cols-3':
+    '@media (min-width: 768px) { grid-template-columns: repeat(3, minmax(0, 1fr)); }',
+  'md:grid-cols-4':
+    '@media (min-width: 768px) { grid-template-columns: repeat(4, minmax(0, 1fr)); }',
   'lg:px-8': '@media (min-width: 1024px) { padding-left: 2rem; padding-right: 2rem; }',
   'lg:grid-cols-3':
     '@media (min-width: 1024px) { grid-template-columns: repeat(3, minmax(0, 1fr)); }',
+  'lg:grid-cols-4':
+    '@media (min-width: 1024px) { grid-template-columns: repeat(4, minmax(0, 1fr)); }',
   'xl:px-12': '@media (min-width: 1280px) { padding-left: 3rem; padding-right: 3rem; }',
   'xl:grid-cols-4':
     '@media (min-width: 1280px) { grid-template-columns: repeat(4, minmax(0, 1fr)); }',
+  'xl:grid-cols-5':
+    '@media (min-width: 1280px) { grid-template-columns: repeat(5, minmax(0, 1fr)); }',
   '2xl:grid-cols-5':
     '@media (min-width: 1536px) { grid-template-columns: repeat(5, minmax(0, 1fr)); }',
 };
@@ -581,6 +595,11 @@ th > a:not([class]):active {
   opacity: 0.7;
 }
 
+/* Button spacing - zero-config beauty for inline buttons */
+.inline-block {
+  margin: 0.5rem;
+}
+
 /* Offset anchor targets for fixed navbar */
 /* Account for fixed navbar when jumping to anchor links */
 :target {
@@ -698,6 +717,24 @@ pre {
   position: relative;
   font-size: 0.875rem;
   line-height: 1.6;
+  /* Prevent code blocks from exceeding viewport */
+  max-width: 100%;
+}
+
+/* Mobile: Respect body padding and prevent horizontal overflow */
+@media (max-width: 640px) {
+  pre {
+    max-width: calc(100vw - 2rem);
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* Larger screens: Respect increased body padding */
+@media (min-width: 640px) {
+  pre {
+    max-width: calc(100vw - 4rem);
+  }
 }
 
 /* Terminal header bar */

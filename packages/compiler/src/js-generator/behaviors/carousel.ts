@@ -8,7 +8,7 @@ import type { ComponentBehavior } from '../index';
 
 export const carouselBehavior: ComponentBehavior = {
   name: 'carousel',
-  size: 1800, // ~1.8KB
+  size: 2400, // ~2.4KB (includes touch + desktop drag support)
   code: `// Carousel Component
 getComponents('carousel').forEach(carousel => {
   const track = carousel.querySelector('[data-carousel-track]');
@@ -98,6 +98,56 @@ getComponents('carousel').forEach(carousel => {
       else prev();
     }
   }, { passive: true });
+  
+  // Desktop mouse drag support
+  let mouseStartX = 0;
+  let mouseEndX = 0;
+  let isDragging = false;
+  let hasMoved = false;
+  
+  carousel.addEventListener('mousedown', (e) => {
+    // Only respond to left mouse button
+    if (e.button !== 0) return;
+    isDragging = true;
+    hasMoved = false;
+    mouseStartX = e.screenX;
+    carousel.style.cursor = 'grabbing';
+    // Prevent text selection while dragging
+    e.preventDefault();
+  });
+  
+  carousel.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    hasMoved = true;
+    mouseEndX = e.screenX;
+  });
+  
+  carousel.addEventListener('mouseup', (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    carousel.style.cursor = 'grab';
+    
+    if (hasMoved) {
+      mouseEndX = e.screenX;
+      const diff = mouseStartX - mouseEndX;
+      
+      // Require at least 50px drag to trigger slide change
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) next();
+        else prev();
+      }
+    }
+  });
+  
+  carousel.addEventListener('mouseleave', () => {
+    if (isDragging) {
+      isDragging = false;
+      carousel.style.cursor = 'grab';
+    }
+  });
+  
+  // Set initial cursor style
+  carousel.style.cursor = 'grab';
   
   // Auto-play
   if (autoPlay) {

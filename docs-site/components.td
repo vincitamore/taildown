@@ -750,112 +750,229 @@ Third slide content
 
 # Overlay Components {#overlays huge-bold center primary}
 
-**Modals and tooltips for contextual information.**
+**Create stunning modals and tooltips with zero configuration - just add an attribute.**
+
+:::grid {3}
+:::card {glass padded center}
+:icon[layers]{primary huge}
+
+**Modals** {large-bold}
+
+Overlay dialogs with backdrop blur, focus management, and accessibility built-in.
+:::
+
+:::card {light-glass padded center}
+:icon[message-circle]{info huge}
+
+**Tooltips** {large-bold}
+
+Contextual help on hover or click. Perfect for definitions, hints, and extra context.
+:::
+
+:::card {subtle-glass padded center}
+:icon[zap]{warning huge}
+
+**Zero Config** {large-bold}
+
+No JavaScript setup required. Just add `modal="..."` or `tooltip="..."` to any element.
+:::
+:::
 
 ---
 
 ## Modal {#modal large-bold primary}
 
-**Overlay dialogs with backdrop blur and focus management.**
+**Powerful overlay dialogs that work beautifully across all devices.**
 
-### Inline Content {medium-bold}
+:::card {glass padded}
+### :icon[sparkles]{primary} Quick Start {medium-bold}
 
-The simplest way - content directly in the attribute:
+The simplest modal is just one attribute:
 
-[Simple Alert](#){button primary modal="This is a simple alert modal! Click the backdrop or press Escape to close."}
+[Try Simple Modal](#){button primary modal="Success! This is an inline modal. Click anywhere outside or press Escape to close."}
 
-[Warning Message](#){button warning modal="Simple inline modals can not contain rich content. You can use ID-referenced modals instead and call them inline."}
+```taildown
+[Click Me](#){button primary modal="Your message here"}
+```
 
-### ID-Referenced Content {medium-bold}
+**Perfect for:** Alerts, confirmations, simple messages
+:::
 
-For rich content, define the modal separately and reference it by ID:
+### Rich Content Modals {medium-bold}
 
-[Open Rich Modal](#){button success large hover-lift modal="#demo-modal"}
+For complex layouts with markdown, components, and interactivity, use ID-referenced modals:
 
-:::modal{id="demo-modal"}
-#### :icon[sparkles]{warning} Rich Modal Example
+:::grid {3}
+[Welcome Dialog](#){button primary large hover-lift modal="#welcome-modal"}
+[Feature Tour](#){button info large hover-lift modal="#feature-modal"}
+[Pricing Details](#){button success large hover-lift modal="#pricing-modal"}
+:::
 
-This modal demonstrates full markdown and component support!
+:::modal{id="welcome-modal"}
+### :icon[sparkles]{warning} Welcome to Taildown! {center}
+
+The future of content markup is here. {large-muted center}
+
+:::grid {2}
+:::card {subtle-glass padded}
+:icon[code]{primary}
+
+**Plain English** {medium-bold}
+
+Natural syntax that reads like regular text. No cryptic class names.
+:::
+
+:::card {subtle-glass padded}
+:icon[layers]{success}
+
+**Zero Config** {medium-bold}
+
+Beautiful by default. No setup, no build tools, no configuration files.
+:::
+
+:::card {subtle-glass padded}
+:icon[zap]{warning}
+
+**Lightning Fast** {medium-bold}
+
+Compiles to pure HTML, CSS, and vanilla JS. No framework overhead.
+:::
+
+:::card {subtle-glass padded}
+:icon[check-circle]{info}
+
+**Production Ready** {medium-bold}
+
+Battle-tested syntax with comprehensive test coverage.
+:::
+:::
+
+[Get Started](#getting-started){button primary large} [View Examples](#examples){button secondary large}
+:::
+
+:::modal{id="feature-modal"}
+### :icon[layers]{primary} Feature Highlights
+
+Everything you need to create modern, responsive content:
+
+- :icon[check]{success} **Components**: Cards, grids, tabs, accordions, carousels, modals, tooltips
+- :icon[check]{success} **Styling**: Plain English shorthands like `large-bold`, `center`, `glass-effect`
+- :icon[check]{success} **Icons**: 1000+ Lucide icons with `:icon[name]{attributes}` syntax
+- :icon[check]{success} **Interactive**: Tabs, accordions, carousels with automatic JavaScript generation
+- :icon[check]{success} **Responsive**: Mobile-first with smart breakpoints
+- :icon[check]{success} **Accessible**: ARIA attributes and keyboard navigation built-in
 
 :::alert {info}
-:icon[lightbulb]{warning} Modals can contain any Taildown content!
-:::
-
-**Features:**
-- :icon[check]{success} Full markdown support
-- :icon[check]{success} Nested components
-- :icon[check]{success} Backdrop blur effect
-- :icon[check]{success} Focus trap for accessibility
-- :icon[check]{success} Escape key to close
-- :icon[check]{success} Body scroll lock
-
-:::grid {cols-2}
-:::card {subtle-glass padded}
-**Column 1**
-
-Even grids work!
-:::
-
-:::card {subtle-glass padded}
-**Column 2**
-
-Perfectly responsive!
+:icon[lightbulb]{warning} **Pro Tip:** You can nest any Taildown content inside modals - even other components!
 :::
 :::
 
-:::button-group
-[Primary Action](#){button primary} [Secondary](#){button secondary}
+:::modal{id="pricing-modal"}
+### :icon[dollar-sign]{success} Simple Pricing
+
+:icon[gift]{success huge} {center}
+
+**100% Free & Open Source** {huge-bold center}
+
+Forever. No hidden costs, no premium tiers. {large-muted center}
+
+:::grid {3}
+:::card {padded center}
+:icon[check]{success}
+
+**MIT Licensed**
 :::
+
+:::card {padded center}
+:icon[check]{success}
+
+**No Watermarks**
+:::
+
+:::card {padded center}
+:icon[check]{success}
+
+**Commercial Use OK**
+:::
+:::
+
+[View on GitHub](#){button primary large} [Read Docs](#){button secondary large}
 :::
 
 ### Shared Modals {medium-bold}
 
-Define once, trigger from multiple elements:
+Define once, trigger from anywhere. Perfect for reusable content:
 
-[Trigger A](#){button primary modal="#shared-modal"} [Trigger B](#){button secondary modal="#shared-modal"} [Trigger C](#){button info modal="#shared-modal"}
+:::card {light-glass padded}
+[Trigger A](#){button primary modal="#shared-content"} [Trigger B](#){button secondary modal="#shared-content"} [Trigger C](#){button info modal="#shared-content"} [Trigger D](#){button success modal="#shared-content"}
 
-:::modal{id="shared-modal"}
-#### :icon[users]{primary} Shared Modal
+**All four buttons open the same modal** {muted}
+:::
 
-This modal is triggered by three different buttons - define once, use everywhere!
+:::modal{id="shared-content"}
+### :icon[users]{primary} Shared Modal
+
+This modal is defined once but can be triggered by any number of elements throughout your document.
 
 **Benefits:**
-- DRY principle (Don't Repeat Yourself)
-- Easy to maintain
-- Consistent user experience
-- Better performance
+- :icon[check]{success} DRY principle - Don't Repeat Yourself
+- :icon[check]{success} Single source of truth for content
+- :icon[check]{success} Easy to maintain and update
+- :icon[check]{success} Better performance (content only rendered once)
+- :icon[check]{success} Consistent user experience
+
+```taildown
+[Button 1](#){button modal="#shared"}
+[Button 2](#){button modal="#shared"}
+
+:::modal{id="shared"}
+Content defined once
+:::
+```
 :::
 
-### Usage Summary {medium-bold}
+### Modal Syntax Reference {medium-bold}
 
 :::grid {2}
-:::container
-**Inline:**
+:::card {padded}
+#### Inline Modals {medium-bold}
+
 ```taildown
-[Click me](#){button modal="Simple message"}
+[Button](#){button modal="Simple text"}
+[Link](#){modal="Also works on links"}
 ```
+
+**Best for:** Short messages, alerts, confirmations
 :::
 
-:::container
-**ID-referenced:**
+:::card {padded}
+#### ID-Referenced Modals {medium-bold}
+
 ```taildown
-[Open Modal](#){button modal="#my-modal"}
+[Open](#){button modal="#my-modal"}
 
 :::modal{id="my-modal"}
-# Modal Title
-Rich content with full markdown support
+# Full Markdown Support
+With components, styling, everything!
 :::
 ```
+
+**Best for:** Rich content, complex layouts, reusable modals
 :::
 :::
 
-**Features:**
-- Backdrop with blur effect
-- Close button (top-right)
-- Escape key / backdrop click to close
-- Focus trap for accessibility
-- Body scroll lock when open
-- Smooth fade animations
+:::card {elevated padded}
+### :icon[shield]{success} Accessibility Features {medium-bold}
+
+Modals include enterprise-grade accessibility out of the box:
+
+- :icon[check]{success} **Focus trap**: Tab stays within modal when open
+- :icon[check]{success} **Escape key**: Press ESC to close
+- :icon[check]{success} **Backdrop click**: Click outside to dismiss
+- :icon[check]{success} **Body scroll lock**: Prevents scrolling main content
+- :icon[check]{success} **ARIA attributes**: Proper roles and labels for screen readers
+- :icon[check]{success} **Keyboard navigation**: Full keyboard support
+:::
 
 [Back to top](#top){badge primary}
 
@@ -863,80 +980,149 @@ Rich content with full markdown support
 
 ## Tooltip {#tooltip large-bold primary}
 
-**Contextual help text on hover or click.**
+**Contextual help that appears on hover or click. Perfect for hints, definitions, and extra context.**
 
-### Inline Tooltips {medium-bold}
+:::card {glass padded}
+### :icon[message-circle]{info} Quick Start {medium-bold}
 
-Attach tooltips to any element with simple attributes:
+Add tooltips to any element with one attribute:
 
-Hover over [this text](#){tooltip="This is a helpful tooltip with inline content"} to see the tooltip.
+Hover over [this text](#){tooltip="Simple tooltip content!"} or [this link](#){primary tooltip="Tooltips provide context without cluttering your UI."} to see tooltips in action.
 
-Learn about [this feature](#){primary tooltip="Tooltips provide context without cluttering your interface. Perfect for help text and definitions."} with contextual help.
+```taildown
+[Hover me](#){tooltip="Helpful information"}
+```
 
-Click this [badge](#){badge warning tooltip="This tooltip explains what the badge means. Works on hover or click!"} for information.
+**Perfect for:** Help text, definitions, extra context, hints
+:::
 
-### ID-Referenced Tooltips {medium-bold}
+### Tooltip Showcase {medium-bold}
 
-For complex content, use ID references:
+:::grid {2}
+:::card {light-glass padded}
+**On Buttons** {medium-bold}
 
-[Complex tooltip](#){badge info tooltip="#rich-tooltip"}
+[Need Help?](#){button primary tooltip="This button submits your form after validation."} [Cancel](#){button secondary tooltip="Discard changes and return to the previous page."}
+:::
 
-:::tooltip {id="rich-tooltip"}
-**Rich Tooltip** with:
-- Full markdown support
+:::card {light-glass padded}
+**On Badges** {medium-bold}
+
+Status: [Active](#){badge success tooltip="Service is running normally"} [Beta](#){badge warning tooltip="Feature is in beta testing"} [v2.1.0](#){badge info tooltip="Latest stable release"}
+:::
+
+:::card {subtle-glass padded}
+**On Icons** {medium-bold}
+
+:icon[help-circle]{primary tooltip="Click for help documentation"}
+:icon[settings]{muted tooltip="Open settings panel"}
+:icon[info]{info tooltip="View additional information"}
+:::
+
+:::card {subtle-glass padded}
+**In Text** {medium-bold}
+
+The API uses REST[?](#){badge primary tooltip="REpresentational State Transfer - architectural style for distributed systems"} architecture with JSON[?](#){badge primary tooltip="JavaScript Object Notation - lightweight data format"} payloads.
+:::
+:::
+
+### Rich Content Tooltips {medium-bold}
+
+For complex tooltip content, use ID references:
+
+:::card {padded}
+Hover over [this badge](#){badge info tooltip="#rich-tooltip-demo"} for a rich tooltip with full markdown support.
+
+[Another trigger](#){primary tooltip="#rich-tooltip-demo"} can reference the same tooltip content.
+:::
+
+:::tooltip{id="rich-tooltip-demo"}
+**Rich Tooltip Example** {large-bold}
+
+Tooltips support full markdown:
+- Bulleted lists
 - `Code examples`
-- *Emphasis* and **bold**
-- Even [links](#)!
+- *Emphasis* and **bold text**
+- Even [links](#) work!
+
+Perfect for detailed explanations.
 :::
 
 ### Multiple Triggers {medium-bold}
 
-Share tooltips across elements:
+Share one tooltip across multiple triggers for consistency:
 
-Technical term 1[?](#){badge primary tooltip="#glossary"} and technical term 2[?](#){badge primary tooltip="#glossary"} both use the same tooltip.
+:::card {light-glass padded}
+Technical terms: API[?](#){badge primary tooltip="#api-definition"}, REST[?](#){badge primary tooltip="#api-definition"}, endpoint[?](#){badge primary tooltip="#api-definition"}, JSON[?](#){badge primary tooltip="#api-definition"}
 
-:::tooltip {id="glossary"}
-**Technical Definition:** A comprehensive explanation with full markdown support for complex concepts requiring detailed information.
+All four terms share the same tooltip definition.
 :::
 
-### In Context {medium-bold}
+:::tooltip{id="api-definition"}
+**API Terminology** {medium-bold}
 
-Tooltips work on buttons, badges, and links:
+These terms relate to Application Programming Interface design and implementation using RESTful architecture patterns.
+:::
 
-[Need Help?](#){button primary tooltip="Submit your form after filling all required fields."} [Cancel](#){button secondary tooltip="Discard changes and return to previous page."}
-
-Status: [Active](#){badge success tooltip="Service is running normally"} | Version: [v2.1.0](#){badge info tooltip="Latest stable release"} | [Beta Feature](#){badge warning tooltip="This feature is experimental"}
-
-### Usage Summary {medium-bold}
+### Tooltip Syntax Reference {medium-bold}
 
 :::grid {2}
-:::container
-**Inline:**
+:::card {padded}
+#### Inline Tooltips {medium-bold}
+
 ```taildown
-[Hover here](#){tooltip="Help text"}
+[Text](#){tooltip="Help text"}
+[Button](#){button tooltip="Hint"}
+[Badge](#){badge tooltip="Info"}
 ```
+
+**Best for:** Short hints, simple definitions
 :::
 
-:::container
-**ID-referenced:**
+:::card {padded}
+#### ID-Referenced Tooltips {medium-bold}
+
 ```taildown
-[Info](#){tooltip="#help"}
+[Term 1](#){tooltip="#def"}
+[Term 2](#){tooltip="#def"}
 
-:::tooltip {id="help"}
-Detailed help content with markdown
+:::tooltip{id="def"}
+**Definition** with full markdown
 :::
 ```
+
+**Best for:** Complex content, shared definitions
 :::
 :::
 
+:::card {elevated padded}
+### :icon[shield]{info} Tooltip Features {medium-bold}
 
-**Features:**
-- Show on hover (desktop)
-- Show on click (mobile/touch)
-- Auto-positioned relative to trigger
-- Fade animations
-- ARIA `aria-describedby` for accessibility
-- Attaches to any element
+Professional tooltips with excellent UX:
+
+- :icon[check]{info} **Smart positioning**: Auto-positions to stay in viewport
+- :icon[check]{info} **Hover on desktop**: Shows on mouse hover
+- :icon[check]{info} **Click on mobile**: Touch-friendly behavior
+- :icon[check]{info} **Fade animations**: Smooth appearance and dismissal
+- :icon[check]{info} **ARIA attributes**: `aria-describedby` for screen readers
+- :icon[check]{info} **Attaches to anything**: Works on any element
+:::
+
+:::card {glass padded}
+### :icon[lightbulb]{warning} Best Practices {medium-bold}
+
+**Do:**
+- :icon[check]{success} Use for supplementary information
+- :icon[check]{success} Keep tooltips concise (or use ID references for longer content)
+- :icon[check]{success} Ensure tooltip text is meaningful
+- :icon[check]{success} Use consistent terminology
+
+**Don't:**
+- :icon[x]{error} Put critical information only in tooltips
+- :icon[x]{error} Use tooltips for interactive content (use modals instead)
+- :icon[x]{error} Nest tooltips inside other tooltips
+- :icon[x]{error} Overuse - not everything needs a tooltip
+:::
 
 [Back to top](#top){badge primary}
 

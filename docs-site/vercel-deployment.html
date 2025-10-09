@@ -90,6 +90,11 @@ th > a:not([class]):active {
   opacity: 0.7;
 }
 
+/* Button spacing - zero-config beauty for inline buttons */
+.inline-block {
+  margin: 0.5rem;
+}
+
 /* Offset anchor targets for fixed navbar */
 /* Account for fixed navbar when jumping to anchor links */
 :target {
@@ -207,6 +212,24 @@ pre {
   position: relative;
   font-size: 0.875rem;
   line-height: 1.6;
+  /* Prevent code blocks from exceeding viewport */
+  max-width: 100%;
+}
+
+/* Mobile: Respect body padding and prevent horizontal overflow */
+@media (max-width: 640px) {
+  pre {
+    max-width: calc(100vw - 2rem);
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* Larger screens: Respect increased body padding */
+@media (min-width: 640px) {
+  pre {
+    max-width: calc(100vw - 4rem);
+  }
 }
 
 /* Terminal header bar */
@@ -2195,8 +2218,7 @@ td svg.icon {
 .hover\:text-accent-700:hover { color: rgb(190 24 93); }
 .text-green-600 { color: rgb(22 163 74); }
 .text-blue-600 { color: rgb(37 99 235); }
-.grid { display: grid; }
-.gap-4 { gap: 1rem; }
+.grid { display: grid; gap: 1rem; }
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .text-red-600 { color: rgb(220 38 38); }
 .border { border-width: 1px; border-style: solid; }
@@ -2207,7 +2229,6 @@ td svg.icon {
 .items-center { align-items: center; }
 .justify-between { justify-content: space-between; }
 .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
-.hover\:underline:hover { text-decoration: underline; }
 .text-left { text-align: left; }
 .w-full { width: 100%; }
 .h-4 { height: 1rem; }
@@ -4451,7 +4472,7 @@ git status
 git add docs-site/
 git commit -m &quot;Add documentation site&quot;
 git push origin main
-</code><button class="code-copy-btn" data-code-id="code-3qxjqabmw" data-code-text="# Make sure docs-site is in the main branch
+</code><button class="code-copy-btn" data-code-id="code-bypv1mfvq" data-code-text="# Make sure docs-site is in the main branch
 git status
 
 # If needed, commit any changes
@@ -4475,7 +4496,7 @@ git push origin main
 ├── packages/
 ├── package.json
 └── ... (other files)
-</code><button class="code-copy-btn" data-code-id="code-lkul7xgp6" data-code-text="taildown/
+</code><button class="code-copy-btn" data-code-id="code-2nrb27gsr" data-code-text="taildown/
 ├── docs-site/
 │   ├── index.td
 │   ├── getting-started.td
@@ -4515,7 +4536,7 @@ Root Directory: docs-site
 Build Command: node build.mjs
 Output Directory: .
 Install Command: (leave default)
-</code><button class="code-copy-btn" data-code-id="code-5m48rpkxb" data-code-text="Framework Preset: Other
+</code><button class="code-copy-btn" data-code-id="code-ettsjpawr" data-code-text="Framework Preset: Other
 Root Directory: docs-site
 Build Command: node build.mjs
 Output Directory: .
@@ -4573,7 +4594,7 @@ Value: 76.76.21.21
 Type: CNAME
 Name: www
 Value: cname.vercel-dns.com
-</code><button class="code-copy-btn" data-code-id="code-o2vi5i4r0" data-code-text="Type: A
+</code><button class="code-copy-btn" data-code-id="code-fb9w15sue" data-code-text="Type: A
 Name: @
 Value: 76.76.21.21
 
@@ -4617,7 +4638,7 @@ Value: cname.vercel-dns.com
 <p><strong>Clone Repository</strong>:</p>
 <pre data-copyable="true"><code class="language-bash code-highlight">git clone https://github.com/your-username/taildown-docs.git
 cd taildown-docs
-</code><button class="code-copy-btn" data-code-id="code-w2y3wgbld" data-code-text="git clone https://github.com/your-username/taildown-docs.git
+</code><button class="code-copy-btn" data-code-id="code-jez888qah" data-code-text="git clone https://github.com/your-username/taildown-docs.git
 cd taildown-docs
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4637,7 +4658,7 @@ cp ../taildown/docs-site/README.md .
 
 # Create .gitignore
 echo &quot;node_modules/&quot; &gt; .gitignore
-</code><button class="code-copy-btn" data-code-id="code-oqtox3sef" data-code-text="# Copy compiled HTML files
+</code><button class="code-copy-btn" data-code-id="code-itati915h" data-code-text="# Copy compiled HTML files
 cp ../taildown/docs-site/*.html .
 
 # Copy README for documentation
@@ -4658,7 +4679,7 @@ echo &#x26;quot;node_modules/&#x26;quot; &#x26;gt; .gitignore
 ├── getting-started.html
 ├── README.md
 └── .gitignore
-</code><button class="code-copy-btn" data-code-id="code-m0c95kh8p" data-code-text="taildown-docs/
+</code><button class="code-copy-btn" data-code-id="code-n4482acda" data-code-text="taildown-docs/
 ├── index.html
 ├── getting-started.html
 ├── README.md
@@ -4674,7 +4695,7 @@ echo &#x26;quot;node_modules/&#x26;quot; &#x26;gt; .gitignore
         <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><pre data-copyable="true"><code class="language-bash code-highlight">git add .
 git commit -m &quot;Initial commit - Taildown documentation&quot;
 git push origin main
-</code><button class="code-copy-btn" data-code-id="code-qrgotyrj9" data-code-text="git add .
+</code><button class="code-copy-btn" data-code-id="code-sgcnwp42g" data-code-text="git add .
 git commit -m &#x26;quot;Initial commit - Taildown documentation&#x26;quot;
 git push origin main
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4701,7 +4722,7 @@ Root Directory: ./
 Build Command: (leave empty - no build needed!)
 Output Directory: ./
 Install Command: (leave empty)
-</code><button class="code-copy-btn" data-code-id="code-0mfl0ra5x" data-code-text="Framework Preset: Other
+</code><button class="code-copy-btn" data-code-id="code-j4lbpqbhv" data-code-text="Framework Preset: Other
 Root Directory: ./
 Build Command: (leave empty - no build needed!)
 Output Directory: ./
@@ -4732,7 +4753,7 @@ Install Command: (leave empty)
 </ul><div class="taildown-component component-alert alert alert-success" data-component="alert"><p><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg><strong>Simpler deployment!</strong>No build step, just pure static files. Perfect for documentation sites.</p></div></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Comparison: Which Option to Choose?</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md" data-component="card"><h3 class="text-lg font-bold"><svg class="icon icon-box text-primary-600 hover:text-primary-700" data-icon="box" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg> Option 1: Main Repository</h3><p><strong>Pros:</strong></p><ul>
+<div class="taildown-component component-grid grid grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md" data-component="card"><h3 class="text-lg font-bold"><svg class="icon icon-box text-primary-600 hover:text-primary-700" data-icon="box" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg> Option 1: Main Repository</h3><p><strong>Pros:</strong></p><ul>
 <li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Single repository</li>
 <li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Auto-rebuild on changes</li>
 <li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Build logs in Vercel</li>
@@ -4776,7 +4797,7 @@ Install Command: (leave empty)
 <pre data-copyable="true"><code class="language-bash code-highlight">git add docs-site/
 git commit -m &quot;Update documentation&quot;
 git push origin main
-</code><button class="code-copy-btn" data-code-id="code-7255len2d" data-code-text="git add docs-site/
+</code><button class="code-copy-btn" data-code-id="code-yh2kr2ohl" data-code-text="git add docs-site/
 git commit -m &#x26;quot;Update documentation&#x26;quot;
 git push origin main
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4798,7 +4819,7 @@ git push origin main
 <li>Rebuild locally:
 <pre data-copyable="true"><code class="language-bash code-highlight">cd docs-site
 node build.mjs
-</code><button class="code-copy-btn" data-code-id="code-9wjm24uy5" data-code-text="cd docs-site
+</code><button class="code-copy-btn" data-code-id="code-l5ll1p6a3" data-code-text="cd docs-site
 node build.mjs
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4816,7 +4837,7 @@ cd ../taildown-docs
 git add .
 git commit -m &quot;Update documentation&quot;
 git push origin main
-</code><button class="code-copy-btn" data-code-id="code-6gfpffqni" data-code-text="cp *.html ../taildown-docs/
+</code><button class="code-copy-btn" data-code-id="code-oxz8rk8d5" data-code-text="cp *.html ../taildown-docs/
 cd ../taildown-docs
 git add .
 git commit -m &#x26;quot;Update documentation&#x26;quot;
@@ -4835,7 +4856,7 @@ git push origin main
 </ol>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Troubleshooting</h2>
-<div class="taildown-component component-accordion accordion border rounded-lg divide-y" data-component="accordion"><div data-accordion-item="" class="accordion-item border-b border-border last:border-b-0"><button data-accordion-trigger="" aria-expanded="true" class="accordion-trigger flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline text-left w-full text-sm"><p><strong><svg class="icon icon-alert-circle text-red-600" data-icon="alert-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" x2="12" y1="8" y2="12" /><line x1="12" x2="12.01" y1="16" y2="16" /></svg> Build fails with "Module not found"</strong></p><svg class="accordion-icon h-4 w-4 shrink-0 transition-transform duration-200 ml-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></button><div data-accordion-content="" class="accordion-content overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down pb-4 pt-0"><p><strong>Solution:</strong></p><ul>
+<div class="taildown-component component-accordion accordion border rounded-lg divide-y" data-component="accordion"><div data-accordion-item="" class="accordion-item border-b border-border last:border-b-0"><button data-accordion-trigger="" aria-expanded="true" class="accordion-trigger flex flex-1 items-center justify-between py-4 font-medium transition-all text-left w-full text-sm"><p><strong><svg class="icon icon-alert-circle text-red-600" data-icon="alert-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" x2="12" y1="8" y2="12" /><line x1="12" x2="12.01" y1="16" y2="16" /></svg> Build fails with "Module not found"</strong></p><svg class="accordion-icon h-4 w-4 shrink-0 transition-transform duration-200 ml-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></button><div data-accordion-content="" class="accordion-content overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down pb-4 pt-0"><p><strong>Solution:</strong></p><ul>
 <li>Check that <code>build.mjs</code> is in the <code>docs-site/</code> directory</li>
 <li>Verify Root Directory is set to <code>docs-site</code> in Vercel settings</li>
 <li>Ensure packages are built: <code>pnpm build</code> in main repo</li>
@@ -4886,7 +4907,7 @@ async function build() {
 }
 
 build();
-</code><button class="code-copy-btn" data-code-id="code-3bbx4k3qj" data-code-text="// docs-site/vercel-build.mjs
+</code><button class="code-copy-btn" data-code-id="code-q7cc8ezmw" data-code-text="// docs-site/vercel-build.mjs
 import { compile } from &#x26;#39;../packages/compiler/dist/index.js&#x26;#39;;
 import { promises as fs } from &#x26;#39;fs&#x26;#39;;
 
@@ -4921,7 +4942,7 @@ build();
 <pre data-copyable="true"><code class="language-bash code-highlight"># In Vercel dashboard: Settings → Environment Variables
 GOOGLE_ANALYTICS_ID=UA-XXXXXXXXX-X
 PLAUSIBLE_DOMAIN=taildown.dev
-</code><button class="code-copy-btn" data-code-id="code-t23u44zt3" data-code-text="# In Vercel dashboard: Settings → Environment Variables
+</code><button class="code-copy-btn" data-code-id="code-mbybofo4o" data-code-text="# In Vercel dashboard: Settings → Environment Variables
 GOOGLE_ANALYTICS_ID=UA-XXXXXXXXX-X
 PLAUSIBLE_DOMAIN=taildown.dev
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4956,7 +4977,7 @@ PLAUSIBLE_DOMAIN=taildown.dev
     }
   ]
 }
-</code><button class="code-copy-btn" data-code-id="code-zdh27tcjg" data-code-text="{
+</code><button class="code-copy-btn" data-code-id="code-z9bfyz3n4" data-code-text="{
   &#x26;quot;headers&#x26;quot;: [
     {
       &#x26;quot;source&#x26;quot;: &#x26;quot;/(.*)&#x26;quot;,
@@ -4988,7 +5009,7 @@ PLAUSIBLE_DOMAIN=taildown.dev
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Performance Optimization</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Speed</h3><p><strong>Already Optimized:</strong></p><ul>
+<div class="taildown-component component-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Speed</h3><p><strong>Already Optimized:</strong></p><ul>
 <li>Self-contained HTML</li>
 <li>Embedded CSS/JS</li>
 <li>No external dependencies</li>
@@ -5018,7 +5039,7 @@ PLAUSIBLE_DOMAIN=taildown.dev
 <div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-heavy shadow-xl p-6" data-component="card"><p class="text-center"><svg class="icon icon-party-popper text-green-600 text-4xl" data-icon="party-popper" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.8 11.3 2 22l10.7-3.79" /><path d="M4 3h.01" /><path d="M22 8h.01" /><path d="M15 2h.01" /><path d="M22 20h.01" /><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10" /><path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11c-.11.7-.72 1.22-1.43 1.22H17" /><path d="m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7" /><path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z" /></svg></p><p class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700"><strong>Your documentation site is live!</strong></p><p class="text-lg text-center text-gray-500">Visit <strong><a href="https://taildown.dev">taildown.dev</a></strong> to see your beautiful, dark-mode-enabled documentation site in action.</p><p><a href="https://taildown.dev" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">View Live Site</a><a href="index.td" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">Edit Documentation</a></p></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Next Steps</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-book-open text-primary-600 hover:text-primary-700 text-4xl" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg></h3><p class="text-lg font-bold text-center"><strong>Add More Pages</strong></p><p>Create syntax guides, component docs, and examples.</p><p><a href="../todo.txt" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg">View To-Do</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-palette text-accent-600 hover:text-accent-700 text-4xl" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg></h3><p class="text-lg font-bold text-center"><strong>Customize Design</strong></p><p>Edit <code>.td</code> files to match your vision and brand.</p><p><a href="index.td" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg">Edit Site</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-share-2 text-green-600 text-4xl" data-icon="share-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><line x1="8.59" x2="15.42" y1="13.51" y2="17.49" /><line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg></h3><p class="text-lg font-bold text-center"><strong>Share &#x26; Promote</strong></p><p>Share your new documentation site with the world!</p><p><a href="https://twitter.com/intent/tweet?text=Check%20out%20Taildown!" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700 shadow-md hover:shadow-lg">Tweet About It</a></p></div></div>
+<div class="taildown-component component-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-book-open text-primary-600 hover:text-primary-700 text-4xl" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg></h3><p class="text-lg font-bold text-center"><strong>Add More Pages</strong></p><p>Create syntax guides, component docs, and examples.</p><p><a href="../todo.txt" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg">View To-Do</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-palette text-accent-600 hover:text-accent-700 text-4xl" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg></h3><p class="text-lg font-bold text-center"><strong>Customize Design</strong></p><p>Edit <code>.td</code> files to match your vision and brand.</p><p><a href="index.td" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg">Edit Site</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-share-2 text-green-600 text-4xl" data-icon="share-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><line x1="8.59" x2="15.42" y1="13.51" y2="17.49" /><line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg></h3><p class="text-lg font-bold text-center"><strong>Share &#x26; Promote</strong></p><p>Share your new documentation site with the world!</p><p><a href="https://twitter.com/intent/tweet?text=Check%20out%20Taildown!" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700 shadow-md hover:shadow-lg">Tweet About It</a></p></div></div>
 <hr />
 <p><a href="index.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">Back to Home</a></p>
 </body>

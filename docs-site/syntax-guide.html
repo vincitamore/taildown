@@ -90,6 +90,11 @@ th > a:not([class]):active {
   opacity: 0.7;
 }
 
+/* Button spacing - zero-config beauty for inline buttons */
+.inline-block {
+  margin: 0.5rem;
+}
+
 /* Offset anchor targets for fixed navbar */
 /* Account for fixed navbar when jumping to anchor links */
 :target {
@@ -207,6 +212,24 @@ pre {
   position: relative;
   font-size: 0.875rem;
   line-height: 1.6;
+  /* Prevent code blocks from exceeding viewport */
+  max-width: 100%;
+}
+
+/* Mobile: Respect body padding and prevent horizontal overflow */
+@media (max-width: 640px) {
+  pre {
+    max-width: calc(100vw - 2rem);
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* Larger screens: Respect increased body padding */
+@media (min-width: 640px) {
+  pre {
+    max-width: calc(100vw - 4rem);
+  }
 }
 
 /* Terminal header bar */
@@ -2169,8 +2192,7 @@ td svg.icon {
 .hover\:text-primary-700:hover { color: rgb(82 123 222); }
 .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
 .text-gray-500 { color: rgb(107 114 128); }
-.grid { display: grid; }
-.gap-4 { gap: 1rem; }
+.grid { display: grid; gap: 1rem; }
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .rounded-lg { border-radius: 0.5rem; }
 .max-w-full { max-width: 100%; }
@@ -4252,7 +4274,7 @@ td svg.icon {
 <p class="text-center text-lg text-gray-500"><strong>Master every feature of Taildown's elegant markup language.</strong></p>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Quick Navigation</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 cols-3" data-component="grid"><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-subtle shadow-sm p-6" data-component="card"><p><strong>Basics</strong></p><ul>
+<div class="taildown-component component-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 cols-3" data-component="grid"><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-subtle shadow-sm p-6" data-component="card"><p><strong>Basics</strong></p><ul>
 <li><a href="#markdown">Markdown Compatibility</a></li>
 <li><a href="#attributes">Inline Attributes</a></li>
 <li><a href="#plain-english">Plain English</a></li>
@@ -4275,7 +4297,7 @@ td svg.icon {
 #### Heading 4
 ##### Heading 5
 ###### Heading 6
-</code><button class="code-copy-btn" data-code-id="code-4rssybej8" data-code-text="# Heading 1
+</code><button class="code-copy-btn" data-code-id="code-xjmfa3q53" data-code-text="# Heading 1
 ## Heading 2
 ### Heading 3
 #### Heading 4
@@ -4295,7 +4317,7 @@ td svg.icon {
 **bold** or __bold__
 ***bold italic***
 ~~strikethrough~~
-</code><button class="code-copy-btn" data-code-id="code-lv74pxzit" data-code-text="*italic* or _italic_
+</code><button class="code-copy-btn" data-code-id="code-nz95j73i0" data-code-text="*italic* or _italic_
 **bold** or __bold__
 ***bold italic***
 ~~strikethrough~~
@@ -4314,7 +4336,7 @@ td svg.icon {
 - Item two
   - Nested item
   - Another nested
-</code><button class="code-copy-btn" data-code-id="code-4xxv0r44d" data-code-text="- Item one
+</code><button class="code-copy-btn" data-code-id="code-ukiue0m4q" data-code-text="- Item one
 - Item two
   - Nested item
   - Another nested
@@ -4332,7 +4354,7 @@ td svg.icon {
 2. Second item
    1. Nested ordered
    2. Another nested
-</code><button class="code-copy-btn" data-code-id="code-ksfvngi6j" data-code-text="1. First item
+</code><button class="code-copy-btn" data-code-id="code-k9oozav6c" data-code-text="1. First item
 2. Second item
    1. Nested ordered
    2. Another nested
@@ -4351,7 +4373,7 @@ td svg.icon {
 
 ![Alt text](image.jpg)
 ![Image with title](image.jpg &quot;Image title&quot;)
-</code><button class="code-copy-btn" data-code-id="code-0y1iwiew9" data-code-text="[Link text](https://example.com)
+</code><button class="code-copy-btn" data-code-id="code-zurzpjt13" data-code-text="[Link text](https://example.com)
 [Link with title](https://example.com &#x26;quot;Title text&#x26;quot;)
 
 ![Alt text](image.jpg)
@@ -4368,7 +4390,7 @@ td svg.icon {
 <h3>Code</h3>
 <p><strong>Inline code:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">Use `backticks` for inline code
-</code><button class="code-copy-btn" data-code-id="code-15pwwm5bz" data-code-text="Use &#x60;backticks&#x60; for inline code
+</code><button class="code-copy-btn" data-code-id="code-vaufh9cxt" data-code-text="Use &#x60;backticks&#x60; for inline code
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4384,7 +4406,7 @@ function hello() {
   console.log(&quot;Hello, world!&quot;);
 }
 ```
-</code><button class="code-copy-btn" data-code-id="code-sukb92683" data-code-text="&#x60;&#x60;&#x60;javascript
+</code><button class="code-copy-btn" data-code-id="code-rdlgnfuhq" data-code-text="&#x60;&#x60;&#x60;javascript
 function hello() {
   console.log(&#x26;quot;Hello, world!&#x26;quot;);
 }
@@ -4403,7 +4425,7 @@ function hello() {
 &gt; It can span multiple lines
 &gt;
 &gt; &gt; And can be nested
-</code><button class="code-copy-btn" data-code-id="code-iuofanlzn" data-code-text="&#x26;gt; This is a blockquote
+</code><button class="code-copy-btn" data-code-id="code-mp4r68ai8" data-code-text="&#x26;gt; This is a blockquote
 &#x26;gt; It can span multiple lines
 &#x26;gt;
 &#x26;gt; &#x26;gt; And can be nested
@@ -4421,7 +4443,7 @@ function hello() {
 |---------|--------|-------|
 | Tables  | ✓      | Full GFM support |
 | Alignment | ✓    | Left, center, right |
-</code><button class="code-copy-btn" data-code-id="code-3kdd3wbq0" data-code-text="| Feature | Status | Notes |
+</code><button class="code-copy-btn" data-code-id="code-6b77d79fe" data-code-text="| Feature | Status | Notes |
 |---------|--------|-------|
 | Tables  | ✓      | Full GFM support |
 | Alignment | ✓    | Left, center, right |
@@ -4438,7 +4460,7 @@ function hello() {
 <pre data-copyable="true"><code class="language-markdown code-highlight">---
 ***
 ___
-</code><button class="code-copy-btn" data-code-id="code-ofoqwj30c" data-code-text="---
+</code><button class="code-copy-btn" data-code-id="code-z0w6z4ypf" data-code-text="---
 ***
 ___
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4458,7 +4480,7 @@ ___
 <pre data-copyable="true"><code class="language-markdown code-highlight"># Heading {large-bold center}
 Paragraph {muted}
 [Link](#){button primary}
-</code><button class="code-copy-btn" data-code-id="code-wfrgte7k8" data-code-text="# Heading {large-bold center}
+</code><button class="code-copy-btn" data-code-id="code-sipfsgod7" data-code-text="# Heading {large-bold center}
 Paragraph {muted}
 [Link](#){button primary}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4473,7 +4495,7 @@ Paragraph {muted}
 <h3>Attribute Types</h3>
 <p><strong>1. CSS Classes</strong> (prefix with <code>.</code>):</p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">{.text-4xl .font-bold .text-center}
-</code><button class="code-copy-btn" data-code-id="code-nm47tpee5" data-code-text="{.text-4xl .font-bold .text-center}
+</code><button class="code-copy-btn" data-code-id="code-5m8zult8y" data-code-text="{.text-4xl .font-bold .text-center}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4485,7 +4507,7 @@ Paragraph {muted}
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>2. Plain English Shorthands:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">{large-bold center primary}
-</code><button class="code-copy-btn" data-code-id="code-4zhdty84z" data-code-text="{large-bold center primary}
+</code><button class="code-copy-btn" data-code-id="code-yllyd4g9t" data-code-text="{large-bold center primary}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4499,7 +4521,7 @@ Paragraph {muted}
 <pre data-copyable="true"><code class="language-markdown code-highlight">{button primary large}
 {badge success}
 {alert error}
-</code><button class="code-copy-btn" data-code-id="code-xh60b5pe8" data-code-text="{button primary large}
+</code><button class="code-copy-btn" data-code-id="code-jph7jcmm7" data-code-text="{button primary large}
 {badge success}
 {alert error}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4515,7 +4537,7 @@ Paragraph {muted}
 <pre data-copyable="true"><code class="language-markdown code-highlight">{id=&quot;unique-id&quot;}
 {modal=&quot;Modal content&quot;}
 {tooltip=&quot;Help text&quot;}
-</code><button class="code-copy-btn" data-code-id="code-0wtxqzc99" data-code-text="{id=&#x26;quot;unique-id&#x26;quot;}
+</code><button class="code-copy-btn" data-code-id="code-xq4q1p7v8" data-code-text="{id=&#x26;quot;unique-id&#x26;quot;}
 {modal=&#x26;quot;Modal content&#x26;quot;}
 {tooltip=&#x26;quot;Help text&#x26;quot;}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4532,7 +4554,7 @@ Paragraph {muted}
 <pre data-copyable="true"><code class="language-markdown code-highlight"># Main Title {huge-bold center}
 ## Subtitle {large-primary}
 ### Section {muted}
-</code><button class="code-copy-btn" data-code-id="code-yig2jic11" data-code-text="# Main Title {huge-bold center}
+</code><button class="code-copy-btn" data-code-id="code-cw11j0pcv" data-code-text="# Main Title {huge-bold center}
 ## Subtitle {large-primary}
 ### Section {muted}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4548,7 +4570,7 @@ Paragraph {muted}
 <pre data-copyable="true"><code class="language-markdown code-highlight">This is large bold text. {large-bold}
 
 This is centered and muted. {center muted}
-</code><button class="code-copy-btn" data-code-id="code-1o5zjhj9i" data-code-text="This is large bold text. {large-bold}
+</code><button class="code-copy-btn" data-code-id="code-ob0c8u2uk" data-code-text="This is large bold text. {large-bold}
 
 This is centered and muted. {center muted}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4564,7 +4586,7 @@ This is centered and muted. {center muted}
 <pre data-copyable="true"><code class="language-markdown code-highlight">[Regular link](https://example.com)
 [Button link](#){button primary}
 [Badge link](#){badge success}
-</code><button class="code-copy-btn" data-code-id="code-wqcfmzasd" data-code-text="[Regular link](https://example.com)
+</code><button class="code-copy-btn" data-code-id="code-afborqs40" data-code-text="[Regular link](https://example.com)
 [Button link](#){button primary}
 [Badge link](#){badge success}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4581,7 +4603,7 @@ This is centered and muted. {center muted}
 <pre data-copyable="true"><code class="language-markdown code-highlight">{large-bold center primary rounded}
 {button primary large hover-lift}
 {subtle-glass padded-xl rounded-xl}
-</code><button class="code-copy-btn" data-code-id="code-tf8prhde4" data-code-text="{large-bold center primary rounded}
+</code><button class="code-copy-btn" data-code-id="code-homu3vn9g" data-code-text="{large-bold center primary rounded}
 {button primary large hover-lift}
 {subtle-glass padded-xl rounded-xl}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4598,7 +4620,7 @@ This is centered and muted. {center muted}
 <p class="text-lg"><svg class="icon icon-type text-green-600 text-lg" data-icon="type" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16" /><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2" /><path d="M9 20h6" /></svg> <strong>Style using natural English instead of CSS classes.</strong></p>
 <h3>The Natural English Principle</h3>
 <p>Taildown uses <strong>adjective-noun</strong> order (how English works), not <strong>property-value</strong> order (how CSS works).</p>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md p-6" data-component="card"><h4><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Natural English</h4><ul>
+<div class="taildown-component component-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md p-6" data-component="card"><h4><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Natural English</h4><ul>
 <li><code>large-text</code> (large text)</li>
 <li><code>bold-primary</code> (bold primary)</li>
 <li><code>subtle-glass</code> (subtle glass)</li>
@@ -4612,7 +4634,7 @@ This is centered and muted. {center muted}
 <h3>Typography</h3>
 <p><strong>Sizes:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">{xs} {small} {base} {large} {xl} {2xl} {3xl} {huge} {massive}
-</code><button class="code-copy-btn" data-code-id="code-a2gqxa2id" data-code-text="{xs} {small} {base} {large} {xl} {2xl} {3xl} {huge} {massive}
+</code><button class="code-copy-btn" data-code-id="code-df5oxe877" data-code-text="{xs} {small} {base} {large} {xl} {2xl} {3xl} {huge} {massive}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4624,7 +4646,7 @@ This is centered and muted. {center muted}
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Weights:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">{thin} {light} {normal} {medium} {semibold} {bold} {extra-bold} {black}
-</code><button class="code-copy-btn" data-code-id="code-xqlcweq63" data-code-text="{thin} {light} {normal} {medium} {semibold} {bold} {extra-bold} {black}
+</code><button class="code-copy-btn" data-code-id="code-x2e0l01zq" data-code-text="{thin} {light} {normal} {medium} {semibold} {bold} {extra-bold} {black}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4636,7 +4658,7 @@ This is centered and muted. {center muted}
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Combinations:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">{large-bold} {huge-bold} {xl-semibold} {small-light}
-</code><button class="code-copy-btn" data-code-id="code-hla61xjba" data-code-text="{large-bold} {huge-bold} {xl-semibold} {small-light}
+</code><button class="code-copy-btn" data-code-id="code-t095pmd3a" data-code-text="{large-bold} {huge-bold} {xl-semibold} {small-light}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4648,7 +4670,7 @@ This is centered and muted. {center muted}
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Colors:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">{primary} {secondary} {success} {warning} {error} {info} {muted}
-</code><button class="code-copy-btn" data-code-id="code-ve8bcnhdk" data-code-text="{primary} {secondary} {success} {warning} {error} {info} {muted}
+</code><button class="code-copy-btn" data-code-id="code-fmct2i51z" data-code-text="{primary} {secondary} {success} {warning} {error} {info} {muted}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4660,7 +4682,7 @@ This is centered and muted. {center muted}
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Styles:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">{italic} {uppercase} {lowercase} {capitalize}
-</code><button class="code-copy-btn" data-code-id="code-42gku1ikg" data-code-text="{italic} {uppercase} {lowercase} {capitalize}
+</code><button class="code-copy-btn" data-code-id="code-mi314guwe" data-code-text="{italic} {uppercase} {lowercase} {capitalize}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4673,7 +4695,7 @@ This is centered and muted. {center muted}
 <h3>Layout</h3>
 <p><strong>Alignment:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">{center} {left} {right} {justify}
-</code><button class="code-copy-btn" data-code-id="code-ri2h7mnfp" data-code-text="{center} {left} {right} {justify}
+</code><button class="code-copy-btn" data-code-id="code-hknwbmx42" data-code-text="{center} {left} {right} {justify}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4685,7 +4707,7 @@ This is centered and muted. {center muted}
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Flexbox:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">{flex} {flex-col} {flex-row} {flex-center}
-</code><button class="code-copy-btn" data-code-id="code-37336jltz" data-code-text="{flex} {flex-col} {flex-row} {flex-center}
+</code><button class="code-copy-btn" data-code-id="code-57qz17mjx" data-code-text="{flex} {flex-col} {flex-row} {flex-center}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4698,7 +4720,7 @@ This is centered and muted. {center muted}
 <p><strong>Grid:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">{grid-2} {grid-3} {grid-4}
 {cols-2} {cols-3} {cols-4}
-</code><button class="code-copy-btn" data-code-id="code-sj142cipp" data-code-text="{grid-2} {grid-3} {grid-4}
+</code><button class="code-copy-btn" data-code-id="code-6bdbn7lqu" data-code-text="{grid-2} {grid-3} {grid-4}
 {cols-2} {cols-3} {cols-4}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4713,7 +4735,7 @@ This is centered and muted. {center muted}
 <pre data-copyable="true"><code class="language-markdown code-highlight">{padded} {padded-sm} {padded-lg} {padded-xl}
 {gap} {gap-sm} {gap-lg} {gap-xl}
 {tight} {relaxed} {loose}
-</code><button class="code-copy-btn" data-code-id="code-femqnr7ad" data-code-text="{padded} {padded-sm} {padded-lg} {padded-xl}
+</code><button class="code-copy-btn" data-code-id="code-fc7e946at" data-code-text="{padded} {padded-sm} {padded-lg} {padded-xl}
 {gap} {gap-sm} {gap-lg} {gap-xl}
 {tight} {relaxed} {loose}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4728,7 +4750,7 @@ This is centered and muted. {center muted}
 <h3>Visual Effects</h3>
 <p><strong>Borders:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">{rounded} {rounded-sm} {rounded-lg} {rounded-xl} {rounded-full}
-</code><button class="code-copy-btn" data-code-id="code-7l55din63" data-code-text="{rounded} {rounded-sm} {rounded-lg} {rounded-xl} {rounded-full}
+</code><button class="code-copy-btn" data-code-id="code-nyt269cf5" data-code-text="{rounded} {rounded-sm} {rounded-lg} {rounded-xl} {rounded-full}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4740,7 +4762,7 @@ This is centered and muted. {center muted}
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Shadows:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">{shadow} {shadow-sm} {shadow-lg} {elevated} {floating}
-</code><button class="code-copy-btn" data-code-id="code-dq4wjdge4" data-code-text="{shadow} {shadow-sm} {shadow-lg} {elevated} {floating}
+</code><button class="code-copy-btn" data-code-id="code-ca7e3hazv" data-code-text="{shadow} {shadow-sm} {shadow-lg} {elevated} {floating}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4752,7 +4774,7 @@ This is centered and muted. {center muted}
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Glassmorphism:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">{subtle-glass} {light-glass} {glass} {heavy-glass}
-</code><button class="code-copy-btn" data-code-id="code-ru904q009" data-code-text="{subtle-glass} {light-glass} {glass} {heavy-glass}
+</code><button class="code-copy-btn" data-code-id="code-xdjoy4vfn" data-code-text="{subtle-glass} {light-glass} {glass} {heavy-glass}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4766,7 +4788,7 @@ This is centered and muted. {center muted}
 <pre data-copyable="true"><code class="language-markdown code-highlight">{fade-in} {slide-up} {slide-down} {zoom-in}
 {hover-lift} {hover-glow} {hover-scale}
 {fast} {smooth} {slow}
-</code><button class="code-copy-btn" data-code-id="code-sh8pifcuk" data-code-text="{fade-in} {slide-up} {slide-down} {zoom-in}
+</code><button class="code-copy-btn" data-code-id="code-o9kzk40ct" data-code-text="{fade-in} {slide-up} {slide-down} {zoom-in}
 {hover-lift} {hover-glow} {hover-scale}
 {fast} {smooth} {slow}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4785,7 +4807,7 @@ This is centered and muted. {center muted}
 <pre data-copyable="true"><code class="language-markdown code-highlight">:icon[home]
 :icon[heart]
 :icon[star]
-</code><button class="code-copy-btn" data-code-id="code-s2tob2iw3" data-code-text=":icon[home]
+</code><button class="code-copy-btn" data-code-id="code-g6k2kwfwu" data-code-text=":icon[home]
 :icon[heart]
 :icon[star]
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4803,7 +4825,7 @@ This is centered and muted. {center muted}
 :icon[alert-triangle]{warning large}
 :icon[heart]{error xl}
 :icon[zap]{primary huge}
-</code><button class="code-copy-btn" data-code-id="code-pnjfwsoh9" data-code-text=":icon[check]{success}
+</code><button class="code-copy-btn" data-code-id="code-gvsoyqs58" data-code-text=":icon[check]{success}
 :icon[alert-triangle]{warning large}
 :icon[heart]{error xl}
 :icon[zap]{primary huge}
@@ -4826,7 +4848,7 @@ This is centered and muted. {center muted}
 :icon[star]{xl}      → 40px
 :icon[star]{2xl}     → 48px
 :icon[star]{huge}    → 64px
-</code><button class="code-copy-btn" data-code-id="code-cx58qzdqg" data-code-text=":icon[star]{tiny}    → 12px
+</code><button class="code-copy-btn" data-code-id="code-g4eihiz4q" data-code-text=":icon[star]{tiny}    → 12px
 :icon[star]{xs}      → 16px
 :icon[star]{sm}      → 20px
 :icon[star]{md}      → 24px (default)
@@ -4850,7 +4872,7 @@ This is centered and muted. {center muted}
 :icon[circle]{warning}
 :icon[circle]{error}
 :icon[circle]{info}
-</code><button class="code-copy-btn" data-code-id="code-4mgv3bedr" data-code-text=":icon[circle]{primary}
+</code><button class="code-copy-btn" data-code-id="code-refguk498" data-code-text=":icon[circle]{primary}
 :icon[circle]{secondary}
 :icon[circle]{success}
 :icon[circle]{warning}
@@ -4871,7 +4893,7 @@ This is centered and muted. {center muted}
 <pre data-copyable="true"><code class="language-markdown code-highlight">- :icon[check]{success} Completed task
 - :icon[circle]{warning} In progress
 - :icon[x]{error} Failed task
-</code><button class="code-copy-btn" data-code-id="code-u0n7jms26" data-code-text="- :icon[check]{success} Completed task
+</code><button class="code-copy-btn" data-code-id="code-xkqoxbqud" data-code-text="- :icon[check]{success} Completed task
 - :icon[circle]{warning} In progress
 - :icon[x]{error} Failed task
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4904,7 +4926,7 @@ This is centered and muted. {center muted}
 <pre data-copyable="true"><code class="language-markdown code-highlight">:::card
 Content inside a card
 :::
-</code><button class="code-copy-btn" data-code-id="code-jz2h6h48r" data-code-text=":::card
+</code><button class="code-copy-btn" data-code-id="code-u3rmd9v04" data-code-text=":::card
 Content inside a card
 :::
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4920,7 +4942,7 @@ Content inside a card
 <pre data-copyable="true"><code class="language-markdown code-highlight">:::card {glass padded rounded-xl}
 Beautiful glassmorphic card
 :::
-</code><button class="code-copy-btn" data-code-id="code-oomr4ok8a" data-code-text=":::card {glass padded rounded-xl}
+</code><button class="code-copy-btn" data-code-id="code-x4u8z1qfa" data-code-text=":::card {glass padded rounded-xl}
 Beautiful glassmorphic card
 :::
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4942,7 +4964,7 @@ Column 1
 Column 2
 :::
 :::
-</code><button class="code-copy-btn" data-code-id="code-y5q8alk0n" data-code-text=":::grid {cols-2}
+</code><button class="code-copy-btn" data-code-id="code-ckgpnpnap" data-code-text=":::grid {cols-2}
 :::card
 Column 1
 :::
@@ -4990,7 +5012,7 @@ Content for second tab
 ## Tab Three
 Content for third tab
 :::
-</code><button class="code-copy-btn" data-code-id="code-8a27d5lw6" data-code-text=":::tabs
+</code><button class="code-copy-btn" data-code-id="code-nc8hm4fzp" data-code-text=":::tabs
 ## Tab One
 Content for first tab
 
@@ -5029,7 +5051,7 @@ Content for second section
 **Third Section**
 Content for third section
 :::
-</code><button class="code-copy-btn" data-code-id="code-gx42amsq2" data-code-text=":::accordion
+</code><button class="code-copy-btn" data-code-id="code-nk8tkp8ak" data-code-text=":::accordion
 **First Section**
 Content for first section
 
@@ -5068,7 +5090,7 @@ Second slide content
 
 Third slide content
 :::
-</code><button class="code-copy-btn" data-code-id="code-xbhtvesg8" data-code-text=":::carousel
+</code><button class="code-copy-btn" data-code-id="code-6005dd8ja" data-code-text=":::carousel
 First slide content
 
 ---
@@ -5100,7 +5122,7 @@ Third slide content
 <p><strong>Attachable to any element:</strong></p>
 <pre data-copyable="true"><code class="language-markdown code-highlight">[Click me](#){button modal=&quot;Simple alert!&quot;}
 [Hover me](#){tooltip=&quot;Help text&quot;}
-</code><button class="code-copy-btn" data-code-id="code-7aqxzwwsh" data-code-text="[Click me](#){button modal=&#x26;quot;Simple alert!&#x26;quot;}
+</code><button class="code-copy-btn" data-code-id="code-klnk4dv19" data-code-text="[Click me](#){button modal=&#x26;quot;Simple alert!&#x26;quot;}
 [Hover me](#){tooltip=&#x26;quot;Help text&#x26;quot;}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -5118,7 +5140,7 @@ Third slide content
 # Modal Title
 Rich content with **markdown** support
 :::
-</code><button class="code-copy-btn" data-code-id="code-87j9kkhrh" data-code-text="[Open Modal](#){button modal=&#x26;quot;#my-modal&#x26;quot;}
+</code><button class="code-copy-btn" data-code-id="code-r8daq8c3v" data-code-text="[Open Modal](#){button modal=&#x26;quot;#my-modal&#x26;quot;}
 
 :::modal {id=&#x26;quot;my-modal&#x26;quot;}
 # Modal Title
@@ -5143,10 +5165,10 @@ Rich content with **markdown** support
 </ul>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700" id="reference">Quick Reference Card</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-subtle shadow-sm p-6" data-component="card"><h3>Inline Attributes</h3><pre data-copyable="true"><code class="language-markdown code-highlight"># Text {attributes}
+<div class="taildown-component component-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-subtle shadow-sm p-6" data-component="card"><h3>Inline Attributes</h3><pre data-copyable="true"><code class="language-markdown code-highlight"># Text {attributes}
 Paragraph {attributes}
 [Link](#){attributes}
-</code><button class="code-copy-btn" data-code-id="code-t1jguochj" data-code-text="# Text {attributes}
+</code><button class="code-copy-btn" data-code-id="code-2zergjve3" data-code-text="# Text {attributes}
 Paragraph {attributes}
 [Link](#){attributes}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -5165,7 +5187,7 @@ Paragraph {attributes}
 </ul></div><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words glass-effect glass-subtle shadow-sm p-6" data-component="card"><h3>Icons</h3><pre data-copyable="true"><code class="language-markdown code-highlight">:icon[name]
 :icon[name]{size}
 :icon[name]{color size}
-</code><button class="code-copy-btn" data-code-id="code-ewhmxb68z" data-code-text=":icon[name]
+</code><button class="code-copy-btn" data-code-id="code-4qpxxsl3l" data-code-text=":icon[name]
 :icon[name]{size}
 :icon[name]{color size}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -5184,7 +5206,7 @@ Content
 :::component {attributes}
 Content with attributes
 :::
-</code><button class="code-copy-btn" data-code-id="code-trkrg1956" data-code-text=":::component-name
+</code><button class="code-copy-btn" data-code-id="code-7q12t0qt0" data-code-text=":::component-name
 Content
 :::
 

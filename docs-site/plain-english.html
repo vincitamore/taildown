@@ -90,6 +90,11 @@ th > a:not([class]):active {
   opacity: 0.7;
 }
 
+/* Button spacing - zero-config beauty for inline buttons */
+.inline-block {
+  margin: 0.5rem;
+}
+
 /* Offset anchor targets for fixed navbar */
 /* Account for fixed navbar when jumping to anchor links */
 :target {
@@ -207,6 +212,24 @@ pre {
   position: relative;
   font-size: 0.875rem;
   line-height: 1.6;
+  /* Prevent code blocks from exceeding viewport */
+  max-width: 100%;
+}
+
+/* Mobile: Respect body padding and prevent horizontal overflow */
+@media (max-width: 640px) {
+  pre {
+    max-width: calc(100vw - 2rem);
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* Larger screens: Respect increased body padding */
+@media (min-width: 640px) {
+  pre {
+    max-width: calc(100vw - 4rem);
+  }
 }
 
 /* Terminal header bar */
@@ -2176,8 +2199,7 @@ td svg.icon {
 .p-6 { padding: 1.5rem; }
 .text-green-600 { color: rgb(22 163 74); }
 .text-xs { font-size: 0.75rem; line-height: 1rem; }
-.grid { display: grid; }
-.gap-4 { gap: 1rem; }
+.grid { display: grid; gap: 1rem; }
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
 .text-secondary-600 { color: rgb(147 51 234); }
@@ -4465,7 +4487,7 @@ td svg.icon {
 </span><span class="code-line">Normal paragraph text <span class="token punctuation">{</span><span class="token number">base</span><span class="token punctuation">}</span>
 </span><span class="code-line">Small footnote <span class="token punctuation">{</span><span class="token number">small</span> <span class="token class-name">muted</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-nioo5ffki" data-code-text="# Huge Heading {huge}
+</span></code><button class="code-copy-btn" data-code-id="code-gvz6evdez" data-code-text="# Huge Heading {huge}
 Normal paragraph text {base}
 Small footnote {small muted}
 
@@ -4531,7 +4553,7 @@ Small footnote {small muted}
 </span><span class="code-line">Semibold emphasis <span class="token punctuation">{</span><span class="token emphasis">semibold</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
 </span><span class="code-line">Light muted text <span class="token punctuation">{</span><span class="token emphasis">light</span> <span class="token class-name">muted</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-hfekf9h86" data-code-text="# Bold Heading {bold}
+</span></code><button class="code-copy-btn" data-code-id="code-jpj5cigj8" data-code-text="# Bold Heading {bold}
 Semibold emphasis {semibold primary}
 Light muted text {light muted}
 
@@ -4547,7 +4569,7 @@ Light muted text {light muted}
 </span><span class="code-line">Medium weight subheading <span class="token punctuation">{</span><span class="token emphasis">medium</span><span class="token punctuation">}</span>
 </span><span class="code-line">Small light muted text <span class="token punctuation">{</span><span class="token emphasis">small-light</span> <span class="token class-name">muted</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-hlz19k7j6" data-code-text="# Large Bold Title {large-bold primary}
+</span></code><button class="code-copy-btn" data-code-id="code-15bzex1or" data-code-text="# Large Bold Title {large-bold primary}
 Medium weight subheading {medium}
 Small light muted text {small-light muted}
 
@@ -4592,7 +4614,7 @@ Small light muted text {small-light muted}
 </table></div><p><strong>Example:</strong></p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line">Paragraph with tight lines <span class="token punctuation">{</span><span class="token emphasis">tight-lines</span><span class="token punctuation">}</span>
 </span><span class="code-line">Paragraph with relaxed lines <span class="token punctuation">{</span><span class="token emphasis">relaxed-lines</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-9d6nfrd3x" data-code-text="Paragraph with tight lines {tight-lines}
+</span></code><button class="code-copy-btn" data-code-id="code-k5ezkjbo7" data-code-text="Paragraph with tight lines {tight-lines}
 Paragraph with relaxed lines {relaxed-lines}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4606,7 +4628,7 @@ Paragraph with relaxed lines {relaxed-lines}
         <span class="copied-text" style="display: none;">Copied!</span></button></pre></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Colors</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-palette text-primary-600 hover:text-primary-700" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg> Semantic Colors</h3><p>Use semantic color names for consistency:</p><div class="table-wrapper"><table>
+<div class="taildown-component component-grid grid grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-palette text-primary-600 hover:text-primary-700" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg> Semantic Colors</h3><p>Use semantic color names for consistency:</p><div class="table-wrapper"><table>
 <thead>
 <tr>
 <th>Color</th>
@@ -4661,7 +4683,7 @@ Paragraph with relaxed lines {relaxed-lines}
 </span><span class="code-line">Error alert <span class="token punctuation">{</span><span class="token class-name">error</span> <span class="token emphasis">bold</span><span class="token punctuation">}</span>
 </span><span class="code-line">Muted footer text <span class="token punctuation">{</span><span class="token class-name">muted</span> <span class="token number">small</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-rtv51svfi" data-code-text="# Primary Heading {primary}
+</span></code><button class="code-copy-btn" data-code-id="code-3w3k3x7u5" data-code-text="# Primary Heading {primary}
 Success message {success}
 Error alert {error bold}
 Muted footer text {muted small}
@@ -4711,7 +4733,7 @@ Muted footer text {muted small}
 </span><span class="code-line">Success message with background
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-8kq6me4pg" data-code-text=":::card {primary-bg}
+</span></code><button class="code-copy-btn" data-code-id="code-5hr6lrv56" data-code-text=":::card {primary-bg}
 Primary colored card
 :::
 
@@ -4763,7 +4785,7 @@ Success message with background
 </span><span class="code-line">Centered content
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-vz1wchp3r" data-code-text=":::card {flex flex-center}
+</span></code><button class="code-copy-btn" data-code-id="code-aya60t0fh" data-code-text=":::card {flex flex-center}
 Centered content
 :::
 
@@ -4808,7 +4830,7 @@ Centered content
 </span><span class="code-line">Three column grid
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-u101qksvl" data-code-text=":::grid {3}
+</span></code><button class="code-copy-btn" data-code-id="code-4a3ujxamt" data-code-text=":::grid {3}
 Three column grid
 :::
 
@@ -4850,7 +4872,7 @@ Three column grid
 </span><span class="code-line">Fully centered card
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-druxh9goa" data-code-text="# Centered Heading {center}
+</span></code><button class="code-copy-btn" data-code-id="code-mtpwipgza" data-code-text="# Centered Heading {center}
 :::card {center-both}
 Fully centered card
 :::
@@ -4866,7 +4888,7 @@ Fully centered card
         <span class="copied-text" style="display: none;">Copied!</span></button></pre></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Spacing</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle shadow-sm" data-component="card"><h3 class="medium-bold"><svg class="icon icon-box text-primary-600 hover:text-primary-700" data-icon="box" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg> Padding</h3><p>Control internal spacing:</p><div class="table-wrapper"><table>
+<div class="taildown-component component-grid grid grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle shadow-sm" data-component="card"><h3 class="medium-bold"><svg class="icon icon-box text-primary-600 hover:text-primary-700" data-icon="box" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg> Padding</h3><p>Control internal spacing:</p><div class="table-wrapper"><table>
 <thead>
 <tr>
 <th>Shorthand</th>
@@ -4899,7 +4921,7 @@ Fully centered card
 </span><span class="code-line">Large padded card
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-pykkhzi3a" data-code-text=":::card {padded-lg}
+</span></code><button class="code-copy-btn" data-code-id="code-f6jdgits0" data-code-text=":::card {padded-lg}
 Large padded card
 :::
 
@@ -4944,7 +4966,7 @@ Large padded card
 </span><span class="code-line">Grid with large gaps
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-so5v5mmqe" data-code-text=":::grid {3 gap-lg}
+</span></code><button class="code-copy-btn" data-code-id="code-t06sxd7z7" data-code-text=":::grid {3 gap-lg}
 Grid with large gaps
 :::
 
@@ -4994,7 +5016,7 @@ Grid with large gaps
 </span><span class="code-line">
 </span><span class="code-line"><span class="token punctuation">[</span>Pill Button<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token attr-name">rounded-full</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-q1kdtph8a" data-code-text=":::card {rounded-xl}
+</span></code><button class="code-copy-btn" data-code-id="code-lp030kmxa" data-code-text=":::card {rounded-xl}
 Extra rounded card
 :::
 
@@ -5049,7 +5071,7 @@ Extra rounded card
 </span><span class="code-line">Deep shadow card
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-ydakhq6gd" data-code-text=":::card {elevated}
+</span></code><button class="code-copy-btn" data-code-id="code-l6tvvrbh9" data-code-text=":::card {elevated}
 Elevated card
 :::
 
@@ -5103,7 +5125,7 @@ Deep shadow card
 </span><span class="code-line">Heavy frosted with padding
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-2s26xor3e" data-code-text=":::card {light-glass}
+</span></code><button class="code-copy-btn" data-code-id="code-ntjqmr6ii" data-code-text=":::card {light-glass}
 Light frosted glass card
 :::
 
@@ -5122,7 +5144,7 @@ Heavy frosted with padding
         <span class="copied-text" style="display: none;">Copied!</span></button></pre></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Animations</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md animate-fade-in" data-component="card"><h3 class="medium-bold"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Entrance</h3><p>Scroll-triggered entrance animations:</p><ul>
+<div class="taildown-component component-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md animate-fade-in" data-component="card"><h3 class="medium-bold"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Entrance</h3><p>Scroll-triggered entrance animations:</p><ul>
 <li><code>{fade-in}</code> - Fade in</li>
 <li><code>{slide-up}</code> - Slide up</li>
 <li><code>{slide-down}</code> - Slide down</li>
@@ -5143,9 +5165,9 @@ Heavy frosted with padding
 </ul><p><strong>This card has <code>{zoom-in}</code> applied!</strong></p></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Combining Shorthands</h2>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy shadow-xl p-8" data-component="card"><h3 class="text-lg font-bold text-center"><svg class="icon icon-layers text-primary-600 hover:text-primary-700 text-4xl" data-icon="layers" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg> The Power of Composition</h3><p>Taildown shorthands combine naturally to create complex styles with readable syntax.</p><div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><p><strong>Simple Example</strong></p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span>Heading <span class="token punctuation">{</span><span class="token emphasis">large-bold</span> <span class="token class-name">primary</span> <span class="token property">center</span><span class="token punctuation">}</span>
+<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-heavy shadow-xl p-8" data-component="card"><h3 class="text-lg font-bold text-center"><svg class="icon icon-layers text-primary-600 hover:text-primary-700 text-4xl" data-icon="layers" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg> The Power of Composition</h3><p>Taildown shorthands combine naturally to create complex styles with readable syntax.</p><div class="taildown-component component-grid grid grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><p><strong>Simple Example</strong></p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span>Heading <span class="token punctuation">{</span><span class="token emphasis">large-bold</span> <span class="token class-name">primary</span> <span class="token property">center</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-9bblh93ub" data-code-text="# Heading {large-bold primary center}
+</span></code><button class="code-copy-btn" data-code-id="code-nn0antb3g" data-code-text="# Heading {large-bold primary center}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -5164,7 +5186,7 @@ Heavy frosted with padding
 </span><span class="code-line">Card content
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-myebrboy7" data-code-text=":::card {light-glass padded-xl rounded-xl hover-lift fade-in}
+</span></code><button class="code-copy-btn" data-code-id="code-3rsmbevfx" data-code-text=":::card {light-glass padded-xl rounded-xl hover-lift fade-in}
 Card content
 :::
 
@@ -5185,7 +5207,7 @@ Card content
 </ul></div></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Best Practices</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle shadow-sm" data-component="card"><h3 class="text-lg font-bold text-green-600"><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> Do</h3><ul>
+<div class="taildown-component component-grid grid grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-subtle shadow-sm" data-component="card"><h3 class="text-lg font-bold text-green-600"><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> Do</h3><ul>
 <li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Use natural English word order</li>
 <li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Combine shorthands for rich effects</li>
 <li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Keep it readable and self-documenting</li>
@@ -5198,7 +5220,7 @@ Card content
 </span><span class="code-line">Beautiful, readable, and powerful!
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-izzdod5cx" data-code-text="# Great Title {huge-bold primary center}
+</span></code><button class="code-copy-btn" data-code-id="code-j629j3814" data-code-text="# Great Title {huge-bold primary center}
 
 :::card {light-glass padded-lg hover-lift}
 Beautiful, readable, and powerful!
@@ -5224,7 +5246,7 @@ Beautiful, readable, and powerful!
 </span><span class="code-line">Falls back to raw CSS classes
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-zfni16j8d" data-code-text="# Bad Title {.text-4xl .font-bold .text-blue-500}
+</span></code><button class="code-copy-btn" data-code-id="code-7r64stqr4" data-code-text="# Bad Title {.text-4xl .font-bold .text-blue-500}
 
 :::card {.bg-white .p-8}
 Falls back to raw CSS classes

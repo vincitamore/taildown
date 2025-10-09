@@ -642,6 +642,18 @@ Grid:    {grid-2 grid-3 grid-4}
 Center:  {center-x center-y center-both}
 ```
 
+**Note on Grid Responsiveness**:
+Grid layouts use intelligent mobile-first responsive behavior:
+- `grid-2`: Always 2 columns (scales gracefully on mobile with `minmax(min(200px, 100%), 1fr)`)
+- `grid-3`: 2 columns on mobile, 3 on tablet+ (768px)
+- `grid-4`: 2 columns on mobile, 3 on tablet (768px), 4 on desktop (1024px)
+- `grid-5`: 2 columns on mobile, 5 on extra-large screens (1280px)
+
+This ensures grids remain usable on mobile without forcing everything into a single column.
+
+**Note on Grid Spacing**:
+All grid layouts include a default `gap: 1rem` for zero-config beauty. Grid items (buttons, cards, etc.) automatically have comfortable spacing without needing explicit gap attributes.
+
 **Spacing**:
 ```taildown
 Padding:  {padded padded-sm padded-lg padded-xl}
@@ -1087,7 +1099,7 @@ Phase 1 requires these components:
 | Component | Purpose | Default Classes |
 |-----------|---------|----------------|
 | `card` | Content card | Padding, shadow, rounded corners |
-| `grid` | Grid layout | CSS Grid with gap |
+| `grid` | Grid layout | CSS Grid with 1rem default gap |
 | `container` | Max-width container | Centered, constrained width |
 | `tree` | Directory/hierarchy visualization | Semantic list markup with tree styling |
 | `flow` | Process/workflow diagrams | Sequential flow with connectors |
@@ -1386,7 +1398,9 @@ Third slide content
 - Navigation buttons (prev/next)
 - Indicator dots
 - Keyboard navigation (arrow keys)
-- Swipe support on touch devices
+- Touch swipe support on mobile devices
+- Mouse drag support on desktop (click and drag to change slides)
+- Cursor changes to `grab` on hover, `grabbing` while dragging
 - 3D card effects with glassmorphism
 - Auto-play (optional, via attributes)
 
@@ -1594,7 +1608,7 @@ Taildown generates vanilla JavaScript for interactive components.
 |-----------|------|---------------|
 | Tabs      | ~0.8KB | `:::tabs` found |
 | Accordion | ~0.7KB | `:::accordion` found |
-| Carousel  | ~1.2KB | `:::carousel` found |
+| Carousel  | ~2.4KB | `:::carousel` found |
 | Modal     | ~1.0KB | `:::modal` or `modal="..."` found |
 | Tooltip   | ~0.9KB | `:::tooltip` or `tooltip="..."` found |
 

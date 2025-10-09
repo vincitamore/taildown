@@ -90,6 +90,11 @@ th > a:not([class]):active {
   opacity: 0.7;
 }
 
+/* Button spacing - zero-config beauty for inline buttons */
+.inline-block {
+  margin: 0.5rem;
+}
+
 /* Offset anchor targets for fixed navbar */
 /* Account for fixed navbar when jumping to anchor links */
 :target {
@@ -207,6 +212,24 @@ pre {
   position: relative;
   font-size: 0.875rem;
   line-height: 1.6;
+  /* Prevent code blocks from exceeding viewport */
+  max-width: 100%;
+}
+
+/* Mobile: Respect body padding and prevent horizontal overflow */
+@media (max-width: 640px) {
+  pre {
+    max-width: calc(100vw - 2rem);
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* Larger screens: Respect increased body padding */
+@media (min-width: 640px) {
+  pre {
+    max-width: calc(100vw - 4rem);
+  }
 }
 
 /* Terminal header bar */
@@ -2175,8 +2198,7 @@ td svg.icon {
 .break-words { overflow-wrap: break-word; word-wrap: break-word; }
 .shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
 .p-6 { padding: 1.5rem; }
-.grid { display: grid; }
-.gap-4 { gap: 1rem; }
+.grid { display: grid; gap: 1rem; }
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .text-accent-600 { color: rgb(219 39 119); }
 .hover\:text-accent-700:hover { color: rgb(190 24 93); }
@@ -4412,7 +4434,7 @@ npm install -g taildown
 
 # Or use npx
 npx taildown compile document.td
-</code><button class="code-copy-btn" data-code-id="code-11j3hflk6" data-code-text="# Global installation
+</code><button class="code-copy-btn" data-code-id="code-hm9xrbpg8" data-code-text="# Global installation
 npm install -g taildown
 
 # Or use npx
@@ -4434,7 +4456,7 @@ pnpm install
 
 # Build all packages
 pnpm build
-</code><button class="code-copy-btn" data-code-id="code-27gambrh4" data-code-text="# Clone the repository
+</code><button class="code-copy-btn" data-code-id="code-05fhn5ajp" data-code-text="# Clone the repository
 git clone https://github.com/vincitamore/taildown.git
 cd taildown
 
@@ -4476,7 +4498,7 @@ pnpm build
 </span><span class="code-line"><span class="token punctuation">[</span>Learn More<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-xyxe6kv5y" data-code-text="# Hello World {huge-bold center primary}
+</span></code><button class="code-copy-btn" data-code-id="code-y2sl5fd45" data-code-text="# Hello World {huge-bold center primary}
 
 Welcome to Taildown! {large muted center}
 
@@ -4504,7 +4526,7 @@ This is a card with glassmorphism and a slide-up animation!
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Compile Your Document</h2>
 <div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md p-6" data-component="card"><h3>Basic Compilation</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile my-first-document.td
-</code><button class="code-copy-btn" data-code-id="code-bekz3hyuq" data-code-text="pnpm taildown compile my-first-document.td
+</code><button class="code-copy-btn" data-code-id="code-6xdzouaz6" data-code-text="pnpm taildown compile my-first-document.td
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4516,7 +4538,7 @@ This is a card with glassmorphism and a slide-up animation!
         <span class="copied-text" style="display: none;">Copied!</span></button></pre><p>This creates:</p><ul>
 <li><code>my-first-document.html</code> - Self-contained HTML with embedded CSS and JavaScript</li>
 </ul><h3>Separate CSS File</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile my-first-document.td --separate
-</code><button class="code-copy-btn" data-code-id="code-mnvjzokk3" data-code-text="pnpm taildown compile my-first-document.td --separate
+</code><button class="code-copy-btn" data-code-id="code-b2g3qd7yn" data-code-text="pnpm taildown compile my-first-document.td --separate
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4529,7 +4551,7 @@ This is a card with glassmorphism and a slide-up animation!
 <li><code>my-first-document.html</code> - HTML file</li>
 <li><code>my-first-document.css</code> - Separate CSS file</li>
 </ul><h3>Custom Output</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile my-first-document.td -o output/index.html --css output/styles.css
-</code><button class="code-copy-btn" data-code-id="code-onjimbm5z" data-code-text="pnpm taildown compile my-first-document.td -o output/index.html --css output/styles.css
+</code><button class="code-copy-btn" data-code-id="code-gv55vv491" data-code-text="pnpm taildown compile my-first-document.td -o output/index.html --css output/styles.css
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4541,7 +4563,7 @@ This is a card with glassmorphism and a slide-up animation!
         <span class="copied-text" style="display: none;">Copied!</span></button></pre></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Understanding the Output</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-file text-primary-600 hover:text-primary-700" data-icon="file" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /></svg> HTML Output</h3><ul>
+<div class="taildown-component component-grid grid grid-cols-1 sm:grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-file text-primary-600 hover:text-primary-700" data-icon="file" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /></svg> HTML Output</h3><ul>
 <li>Semantic HTML5 structure</li>
 <li>Proper heading hierarchy</li>
 <li>Accessible ARIA attributes</li>
@@ -4559,7 +4581,7 @@ This is a card with glassmorphism and a slide-up animation!
   &lt;script&gt;/* JS here */&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</code><button class="code-copy-btn" data-code-id="code-arb4sk28n" data-code-text="&#x26;lt;!DOCTYPE html&#x26;gt;
+</code><button class="code-copy-btn" data-code-id="code-kgp5sa6l4" data-code-text="&#x26;lt;!DOCTYPE html&#x26;gt;
 &#x26;lt;html&#x26;gt;
 &#x26;lt;head&#x26;gt;
   &#x26;lt;meta charset=&#x26;quot;UTF-8&#x26;quot;&#x26;gt;
@@ -4594,7 +4616,7 @@ This is a card with glassmorphism and a slide-up animation!
 .dark {
   --background: #030712;
 }
-</code><button class="code-copy-btn" data-code-id="code-tv6xhdv8r" data-code-text=":root {
+</code><button class="code-copy-btn" data-code-id="code-6gbtcy94s" data-code-text=":root {
   --primary: #3b82f6;
   --background: #ffffff;
 }
@@ -4619,7 +4641,7 @@ This is a card with glassmorphism and a slide-up animation!
 </span><span class="code-line">
 </span><span class="code-line"><span class="token punctuation">[</span>Click Me<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token number">large</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-wtt4674v3" data-code-text="# Large Bold Primary Heading {huge-bold primary center}
+</span></code><button class="code-copy-btn" data-code-id="code-dyjh5i123" data-code-text="# Large Bold Primary Heading {huge-bold primary center}
 
 This paragraph has muted text and relaxed line spacing. {large muted relaxed-lines}
 
@@ -4642,7 +4664,7 @@ This paragraph has muted text and relaxed line spacing. {large muted relaxed-lin
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check-circle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span> <span class="token number">large</span><span class="token punctuation">}</span> Completed
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">arrow-right</span><span class="token punctuation">]</span> Next step
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-9rflslkhp" data-code-text=":icon[heart]{primary} Love this feature
+</span></code><button class="code-copy-btn" data-code-id="code-ld2v5l6xz" data-code-text=":icon[heart]{primary} Love this feature
 :icon[check-circle]{success large} Completed
 :icon[arrow-right] Next step
 
@@ -4667,7 +4689,7 @@ This paragraph has muted text and relaxed line spacing. {large muted relaxed-lin
 </span><span class="code-line"><span class="token punctuation">[</span>Button Text<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-3yz6xjus8" data-code-text=":::card {elevated hover-lift}
+</span></code><button class="code-copy-btn" data-code-id="code-3avfqkz5l" data-code-text=":::card {elevated hover-lift}
 ## Card Title {large-bold}
 
 Card content with automatic styling.
@@ -4699,7 +4721,7 @@ Card content with automatic styling.
 </span><span class="code-line">Heavy frosted glass (60% transparency)
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-i3035pwe8" data-code-text=":::card {subtle-glass}
+</span></code><button class="code-copy-btn" data-code-id="code-ky95xiy7c" data-code-text=":::card {subtle-glass}
 Light frosted glass (90% transparency)
 :::
 
@@ -4750,7 +4772,7 @@ Heavy frosted glass (60% transparency)
   --foreground: #f9fafb;
   --primary: #3b82f6;
 }
-</code><button class="code-copy-btn" data-code-id="code-votj2fu0g" data-code-text=":root {
+</code><button class="code-copy-btn" data-code-id="code-dd82shy7d" data-code-text=":root {
   --background: #ffffff;
   --foreground: #111827;
   --primary: #3b82f6;
@@ -4772,7 +4794,7 @@ Heavy frosted glass (60% transparency)
         <span class="copied-text" style="display: none;">Copied!</span></button></pre><p>All components automatically adapt to dark mode!</p></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Next Steps</h2>
-<div class="taildown-component component-grid grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-book-open text-primary-600 hover:text-primary-700 text-4xl" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg></h3><p class="text-lg font-bold text-center"><strong>Syntax Guide</strong></p><p>Deep dive into Taildown syntax and capabilities.</p><p><a href="syntax-guide.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg">Read Guide</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-palette text-accent-600 hover:text-accent-700 text-4xl" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg></h3><p class="text-lg font-bold text-center"><strong>Plain English</strong></p><p>Complete reference of all styling shorthands.</p><p><a href="plain-english.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg">View Reference</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-package text-green-600 text-4xl" data-icon="package" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path d="m7.5 4.27 9 5.15" /></svg></h3><p class="text-lg font-bold text-center"><strong>Components</strong></p><p>Explore all 18+ built-in components.</p><p><a href="components.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700 shadow-md hover:shadow-lg">Browse Components</a></p></div></div>
+<div class="taildown-component component-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-book-open text-primary-600 hover:text-primary-700 text-4xl" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg></h3><p class="text-lg font-bold text-center"><strong>Syntax Guide</strong></p><p>Deep dive into Taildown syntax and capabilities.</p><p><a href="syntax-guide.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg">Read Guide</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-palette text-accent-600 hover:text-accent-700 text-4xl" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg></h3><p class="text-lg font-bold text-center"><strong>Plain English</strong></p><p>Complete reference of all styling shorthands.</p><p><a href="plain-english.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800 shadow-md hover:shadow-lg">View Reference</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden break-words bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-package text-green-600 text-4xl" data-icon="package" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path d="m7.5 4.27 9 5.15" /></svg></h3><p class="text-lg font-bold text-center"><strong>Components</strong></p><p>Explore all 18+ built-in components.</p><p><a href="components.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 cursor-pointer no-underline bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700 shadow-md hover:shadow-lg">Browse Components</a></p></div></div>
 <hr />
 <div class="taildown-component component-alert alert alert-success" data-component="alert"><p><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> <strong>You're ready to start!</strong> Create your first document and see the magic happen. Remember, dark mode works automatically - just try clicking the toggle button!</p></div>
 <p><a href="index.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center transition-all cursor-pointer no-underline bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-md hover:shadow-lg text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">Back to Home</a></p>
