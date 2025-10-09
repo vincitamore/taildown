@@ -53,7 +53,7 @@ export const cardComponent: ComponentDefinition = defineComponent({
     'p-6',
     'max-w-full',
     'overflow-x-hidden', // Prevent horizontal scroll on mobile
-    'break-words',       // Break long words to prevent overflow
+    'overflow-wrap-normal', // Don't break words mid-word - let them wrap naturally
   ],
   
   // Default variant if none specified

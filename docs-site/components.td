@@ -20,7 +20,7 @@ Jump directly to any component category:
 :::card {subtle-glass padded center hover-lift href="#layout"}
 :icon[layout]{primary huge}
 
-**Layout** {huge-bold}
+**Layout** {large-bold}
 
 Card, Grid, Button Group
 :::
@@ -28,7 +28,7 @@ Card, Grid, Button Group
 :::card {subtle-glass padded center hover-lift href="#interactive"}
 :icon[activity]{success huge}
 
-**Interactive** {huge-bold}
+**Interactive** {large-bold}
 
 Tabs, Accordion, Carousel
 :::
@@ -36,7 +36,7 @@ Tabs, Accordion, Carousel
 :::card {subtle-glass padded center hover-lift href="#overlays"}
 :icon[message-square]{warning huge}
 
-**Overlays** {huge-bold}
+**Overlays** {large-bold}
 
 Modal, Tooltip
 :::
@@ -44,7 +44,7 @@ Modal, Tooltip
 :::card {subtle-glass padded center hover-lift href="#feedback"}
 :icon[bell]{error huge}
 
-**Feedback** {huge-bold}
+**Feedback** {large-bold}
 
 Alert, Badge, Progress
 :::
@@ -199,7 +199,7 @@ Clickable card - entire card is a link
 
 **2 Columns:**
 
-:::grid {cols-2}
+:::grid {2}
 :::card {subtle-glass padded}
 #### :icon[zap]{warning} Column 1
 
@@ -215,7 +215,7 @@ This column has more content to demonstrate the equal-height behavior. Notice ho
 
 **3 Columns:**
 
-:::grid {cols-3}
+:::grid {3}
 :::card {subtle-glass padded center}
 :icon[code]{primary huge}
 
@@ -243,7 +243,7 @@ Sub-100ms compilation targets.
 
 **4 Columns:**
 
-:::grid {cols-4}
+:::grid {4}
 :::card {subtle-glass padded center}
 :icon[home]{primary}
 
@@ -271,11 +271,11 @@ Sub-100ms compilation targets.
 
 ### Nested Grids {medium-bold}
 
-:::grid {cols-2}
+:::grid {2}
 :::card {light-glass padded}
 #### Main Content
 
-:::grid {cols-2}
+:::grid {2}
 :::card {subtle-glass padded center}
 :icon[check]{success}
 
@@ -300,7 +300,7 @@ Grids can be nested infinitely for complex layouts that maintain equal heights t
 ### Syntax & Variants {medium-bold}
 
 ```taildown
-:::grid {cols-2}
+:::grid {2}
 :::card
 Column 1
 :::
@@ -310,12 +310,12 @@ Column 2
 :::
 :::
 
-:::grid {cols-3 gap-lg}
+:::grid {3 gap-lg}
 Three columns with large gap
 :::
 ```
 
-**Columns:** `cols-2` `cols-3` `cols-4`
+**Columns:** `2` `3` `4`
 
 **Gaps:** `gap-sm` `gap` `gap-lg`
 

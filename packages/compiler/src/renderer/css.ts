@@ -109,13 +109,13 @@ const TAILWIND_UTILITIES: Record<string, string> = {
 
   // Grid - Mobile-first with smart responsive behavior
   'grid-cols-1': 'grid-template-columns: repeat(1, minmax(0, 1fr));',
-  // 2 columns: Always 2 columns, even on mobile (scales down gracefully)
-  'grid-cols-2': 'grid-template-columns: repeat(2, minmax(min(200px, 100%), 1fr));',
-  // 3 columns: 2 on mobile, 3 on tablet+
+  // 2 columns: Always 2 equal columns (min-width: 0 ensures they fit any viewport)
+  'grid-cols-2': 'grid-template-columns: repeat(2, minmax(0, 1fr));',
+  // 3 columns: 2 equal columns on mobile, 3 on tablet+
   'grid-cols-3': 'grid-template-columns: repeat(2, minmax(0, 1fr));',
-  // 4 columns: 2 on mobile
+  // 4 columns: 2 equal columns on mobile
   'grid-cols-4': 'grid-template-columns: repeat(2, minmax(0, 1fr));',
-  // 5 columns: 2 on mobile
+  // 5 columns: 2 equal columns on mobile
   'grid-cols-5': 'grid-template-columns: repeat(2, minmax(0, 1fr));',
   'gap-2': 'gap: 0.5rem;',
   'gap-3': 'gap: 0.75rem;',
@@ -315,6 +315,7 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'text-right': 'text-align: right;',
   'text-white': 'color: rgb(255 255 255);',
   'whitespace-nowrap': 'white-space: nowrap;',
+  'overflow-wrap-normal': 'overflow-wrap: normal; word-break: normal;',
   'break-words': 'overflow-wrap: break-word; word-wrap: break-word;',
   'break-all': 'word-break: break-all;',
   
@@ -3230,6 +3231,149 @@ ${generateThemeCSS()}
 
 /* Note: Link button styles removed - buttons should use the {button} attribute which properly handles hover states with theme colors */
 `);
+
+  // Add safety constraint for all grids - prevent overflow
+  cssRules.push(`
+/* Grid safety: Ensure grid items never overflow their container */
+.grid > * {
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Intelligent text scaling for cards: Scale down to fit, never wrap mid-word */
+.card h1, .card h2, .card h3, .card h4, .card h5, .card h6,
+.card .huge-bold, .card .large-bold, .card .medium-bold {
+  /* Dynamic font sizing: scales down on small screens, grows on large screens */
+  font-size: clamp(0.875rem, 4vw, 2rem);
+  /* Wrap at word boundaries only, never mid-word */
+  overflow-wrap: normal;
+  word-break: normal;
+  /* Prefer balanced line breaks when wrapping is necessary */
+  text-wrap: balance;
+  /* Allow hyphens as last resort for very long words */
+  hyphens: auto;
+}
+
+/* For interactive nav cards - EXTREMELY aggressive scaling to fit grid cells */
+.grid .card h1, .grid .card h2, .grid .card h3,
+.grid .card h4, .grid .card h5, .grid .card h6,
+.grid .card .huge-bold, .grid .card .large-bold,
+.grid .card .text-4xl, .grid .card .text-3xl, .grid .card .text-2xl,
+.grid .card p.text-4xl, .grid .card p.text-3xl,
+.card.hover-lift h1, .card.hover-lift h2, .card.hover-lift h3,
+.card.hover-lift .huge-bold, .card.hover-lift .large-bold,
+.card.hover-lift .text-4xl, .card.hover-lift .text-3xl {
+  /* ULTRA aggressive scaling: 10px minimum to prevent overflow clipping */
+  font-size: clamp(0.625rem, 1.2vw + 0.3rem, 1.5rem) !important;
+  line-height: 1.3 !important;
+  /* Allow text to wrap and break if absolutely necessary to prevent overflow */
+  white-space: normal;
+  overflow-wrap: break-word; /* Break words if they're too long */
+  word-break: normal; /* Prefer breaking at word boundaries */
+  /* Balance lines for aesthetically pleasing wraps */
+  text-wrap: balance;
+  /* Use hyphens as visual indicator when breaking */
+  hyphens: auto;
+}
+
+/* MOBILE + TABLET: Force scaled text for 2-column grids to prevent clipping */
+@media (max-width: 768px) {
+  .grid.grid-cols-2 .card .text-4xl,
+  .grid.grid-cols-2 .card .text-3xl,
+  .grid.grid-cols-2 .card .text-2xl,
+  .grid.grid-cols-2 .card p.text-4xl,
+  .grid.grid-cols-2 .card p.text-3xl,
+  .grid.grid-cols-2 .card h1,
+  .grid.grid-cols-2 .card h2,
+  .grid.grid-cols-2 .card h3 {
+    font-size: 1.125rem !important; /* 18px for tablet */
+    line-height: 1.3 !important;
+  }
+}
+
+/* MOBILE ONLY: Even smaller text */
+@media (max-width: 640px) {
+  .grid.grid-cols-2 .card .text-4xl,
+  .grid.grid-cols-2 .card p.text-4xl {
+    font-size: 0.95rem !important; /* ~15px on mobile */
+    line-height: 1.2 !important;
+  }
+}
+
+/* Reduce card padding on mobile for grid layouts */
+@media (max-width: 640px) {
+  .grid .card,
+  .grid > .card {
+    padding: 0.75rem !important; /* Even more reduced */
+  }
+}
+
+/* Even tighter padding for very small screens */
+@media (max-width: 400px) {
+  .grid .card,
+  .grid > .card {
+    padding: 0.5rem !important; /* Maximum reduction */
+  }
+  
+  .grid .card .text-4xl,
+  .grid .card p.text-4xl,
+  .grid .card h1 {
+    font-size: 0.875rem !important; /* 14px for very small screens */
+  }
+}
+
+/* Regular card text - allow natural wrapping */
+.card p, .card li, .card .muted {
+  overflow-wrap: normal;
+  word-break: normal;
+  text-wrap: pretty; /* Modern CSS for optimal line breaks */
+}
+`);
+
+  // Add responsive grid rules for mobile-first behavior
+  // These ensure grids gracefully scale from 2 columns on mobile to full column count on larger screens
+  if (classes.has('grid-cols-3')) {
+    cssRules.push(`
+/* grid-cols-3: 2 columns on mobile, 3 on tablet+ */
+@media (min-width: 768px) {
+  .grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+`);
+  }
+  
+  if (classes.has('grid-cols-4')) {
+    cssRules.push(`
+/* grid-cols-4: 2 columns on mobile, 3 on tablet, 4 on desktop */
+@media (min-width: 768px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+@media (min-width: 1024px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+`);
+  }
+  
+  if (classes.has('grid-cols-5')) {
+    cssRules.push(`
+/* grid-cols-5: 2 columns on mobile, 3 on tablet, 5 on extra-large */
+@media (min-width: 768px) {
+  .grid-cols-5 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+@media (min-width: 1280px) {
+  .grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+}
+`);
+  }
 
   const css = cssRules.join('\n');
 
