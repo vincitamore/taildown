@@ -8,8 +8,11 @@ import type { Root } from 'mdast';
 import type { Plugin } from 'unified';
 import type { CompilationWarning, TaildownNodeData } from '@taildown/shared';
 import { COMPONENT_NAME_REGEX } from '@taildown/shared';
-import { registry } from '../components/component-registry';
+import { registry, registryInitialized } from '../components/component-registry';
 import { resolveComponentClasses } from '../components/variant-system';
+
+// Ensure registry is initialized before processing components
+await registryInitialized;
 
 // remark-directive creates these node types
 interface ContainerDirective {

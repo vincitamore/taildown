@@ -16,7 +16,7 @@
 
 Jump directly to any component category:
 
-:::grid {cols-4}
+:::grid {cols-5}
 :::card {subtle-glass padded center hover-lift href="#layout"}
 :icon[layout]{primary huge}
 
@@ -41,13 +41,20 @@ Tabs, Accordion, Carousel
 Modal, Tooltip
 :::
 
+:::card {subtle-glass padded center hover-lift href="#feedback"}
+:icon[bell]{error huge}
+
+**Feedback** {huge-bold}
+
+Alert, Badge, Progress
+:::
+
 :::card {subtle-glass padded center hover-lift href="#illustrations"}
 :icon[git-branch]{accent huge}
 
 **Illustrations** {huge-bold}
 
 Tree, Flow Diagrams
-:::
 :::
 :::
 
@@ -427,6 +434,7 @@ Right-aligned with large gaps
 
 ### Live Example {medium-bold}
 
+:::container
 :::tabs
 ### :icon[home]{primary} Overview
 
@@ -484,6 +492,7 @@ Cards work perfectly
 **Right Column**
 
 Grids too!
+:::
 :::
 :::
 :::
@@ -687,6 +696,7 @@ Tabs, accordions, modals with auto-generated JavaScript. {large-muted}
 
 ### Simple Content Example {medium-bold}
 
+:::container
 :::carousel
 :::card {light-glass padded-xl center}
 :icon[image]{primary huge}
@@ -714,6 +724,7 @@ Embed any media type or content. {large-muted}
 **Slide 3** {huge-bold}
 
 Build multimedia experiences effortlessly. {large-muted}
+:::
 :::
 :::
 
@@ -761,7 +772,7 @@ The simplest way - content directly in the attribute:
 
 [Simple Alert](#){button primary modal="This is a simple alert modal! Click the backdrop or press Escape to close."}
 
-[Warning Message](#){button warning modal="⚠️ **Warning:** This action cannot be undone. Please proceed with caution."}
+[Warning Message](#){button warning modal="Simple inline modals can not contain rich content. You can use ID-referenced modals instead and call them inline."}
 
 ### ID-Referenced Content {medium-bold}
 
@@ -825,13 +836,17 @@ This modal is triggered by three different buttons - define once, use everywhere
 
 ### Usage Summary {medium-bold}
 
+:::grid {2}
+:::container
 **Inline:**
-```markdown
+```taildown
 [Click me](#){button modal="Simple message"}
 ```
+:::
 
+:::container
 **ID-referenced:**
-```markdown
+```taildown
 [Open Modal](#){button modal="#my-modal"}
 
 :::modal{id="my-modal"}
@@ -839,6 +854,8 @@ This modal is triggered by three different buttons - define once, use everywhere
 Rich content with full markdown support
 :::
 ```
+:::
+:::
 
 **Features:**
 - Backdrop with blur effect
@@ -860,7 +877,7 @@ Rich content with full markdown support
 
 Attach tooltips to any element with simple attributes:
 
-Hover over [this text](#){tooltip="This is a helpful tooltip with inline content!"} to see the tooltip.
+Hover over [this text](#){tooltip="This is a helpful tooltip with inline content"} to see the tooltip.
 
 Learn about [this feature](#){primary tooltip="Tooltips provide context without cluttering your interface. Perfect for help text and definitions."} with contextual help.
 
@@ -872,7 +889,7 @@ For complex content, use ID references:
 
 [Complex tooltip](#){badge info tooltip="#rich-tooltip"}
 
-:::tooltip{id="rich-tooltip"}
+:::tooltip {id="rich-tooltip"}
 **Rich Tooltip** with:
 - Full markdown support
 - `Code examples`
@@ -886,7 +903,7 @@ Share tooltips across elements:
 
 Technical term 1[?](#){badge primary tooltip="#glossary"} and technical term 2[?](#){badge primary tooltip="#glossary"} both use the same tooltip.
 
-:::tooltip{id="glossary"}
+:::tooltip {id="glossary"}
 **Technical Definition:** A comprehensive explanation with full markdown support for complex concepts requiring detailed information.
 :::
 
@@ -900,19 +917,26 @@ Status: [Active](#){badge success tooltip="Service is running normally"} | Versi
 
 ### Usage Summary {medium-bold}
 
+:::grid {2}
+:::container
 **Inline:**
-```markdown
+```taildown
 [Hover here](#){tooltip="Help text"}
 ```
+:::
 
+:::container
 **ID-referenced:**
-```markdown
+```taildown
 [Info](#){tooltip="#help"}
 
-:::tooltip{id="help"}
+:::tooltip {id="help"}
 Detailed help content with markdown
 :::
 ```
+:::
+:::
+
 
 **Features:**
 - Show on hover (desktop)
@@ -932,7 +956,7 @@ Detailed help content with markdown
 
 ---
 
-## Alert {#alert large-bold primary}
+## Alert {#alert center large-bold primary}
 
 **Semantic message boxes with theming and icons.**
 
@@ -977,7 +1001,7 @@ Alerts support full markdown content:
 
 ### Usage Summary {medium-bold}
 
-```markdown
+```taildown
 :::alert {info}
 :icon[info]{info} Information message
 :::
@@ -995,7 +1019,23 @@ Alerts support full markdown content:
 :::
 ```
 
-**Variants:** `info` (blue) • `success` (green) • `warning` (yellow) • `error` (red)
+**Variants:** 
+
+:::badge {lg info}
+info
+:::
+
+:::badge {lg success}
+success
+:::
+
+:::badge {warning lg}
+warning
+:::
+
+:::badge {error lg}
+error
+:::
 
 **Features:** Proper theming • Dark mode support • Responsive padding • Smooth animations
 
@@ -1003,46 +1043,100 @@ Alerts support full markdown content:
 
 ---
 
-## Badge {#badge large-bold primary}
+## Badges {#badge center large-bold primary}
 
-**Inline labels and status indicators.**
+:::grid {2}
+:::card
+### Inline labels and status indicators
 
-### Color Variants {medium-bold}
+#### Color Variants {medium-bold}
+:::card
+:badge[default]{default} :badge[primary]{primary} :badge[secondary]{secondary} :badge[success]{success} :badge[warning]{warning} :badge[error]{error} :badge[info]{info} :badge[muted]{muted}
+:::
 
-[Default](#){badge} [Primary](#){badge primary} [Secondary](#){badge secondary} [Success](#){badge success} [Warning](#){badge warning} [Error](#){badge error} [Info](#){badge info} [Muted](#){badge muted}
+#### Size Variants {medium-bold}
+:::container
+:::card
+:::badge {muted sm}
+small badges for subtle badges
+:::
+:::badge {primary}
+medium badges for regular badges
+:::
+:::badge {warning lg}
+large badges for emphasized badges
+:::
+:::
+:::    
+:::
 
-### Size Variants {medium-bold}
-
-[Small](#){badge primary small} [Medium (default)](#){badge primary} [Large](#){badge primary large}
-
+:::card
 ### In Context {medium-bold}
 
 Use badges to highlight status and metadata:
 
-**Project Status:** [Active](#){badge success} | **Version:** [v2.1.0](#){badge info} | **License:** [MIT](#){badge primary}
+:::container
+    :::card
+#### Project Status: :badge[active]{success} 
+#### Version :badge[v2.1.0]{info} 
+#### License :badge[MIT]{primary}
+:::
+:::
 
-**Features:** [New](#){badge warning} [Beta](#){badge info} [Deprecated](#){badge error} [Coming Soon](#){badge secondary}
+**Features:** :badge[new]{warning} :badge[beta]{info} :badge[deprecated]{error} :badge[coming soon]{secondary}
 
 ### With Icons {medium-bold}
 
-Combine badges with icons for visual context:
+Combine badges with icons and markdown content for visual context and alternative use:
 
-[Featured](#){badge primary} :icon[star]{warning} • [Trending](#){badge success} :icon[trending-up]{success} • [Hot](#){badge error} :icon[flame]{error}
+:::badge {primary}
+:icon[lightbulb]{warning} Pro Tip: Badges support full markdown content:
+
+- **Bold text** and *emphasis*
+- `Code snippets` and technical terms
+- Lists and structured content
+- Useful for more subdued styled message boxes than alerts
+
+:::
+:::badge {success}
+:icon[trending-up]{success} trending
+:::
+:::badge {error}
+:icon[flame]{error} hot
+:::
+:::
+:::
 
 ### Usage Summary {medium-bold}
 
-```markdown
-[Text](#){badge}
-[Text](#){badge primary}
-[Text](#){badge success small}
-[Text](#){badge error large}
+```taildown
+# Inline badges
+Project Status: :badge[active]{success}
+Version: :badge[v2.1.0]{info}
+License: :badge[MIT]{primary}
+
+Features: :badge[new]{warning} :badge[beta]{info} :badge[deprecated]{error}
+
+# Component syntax
+Combine badges with icons for visual context:
+
+:::badge {primary}
+:icon[star]{warning} featured
+:::
+:::badge {success}
+:icon[trending-up]{success} trending
+:::
+:::badge {error}
+:icon[flame]{error} hot
+:::
+
 ```
 
 **Colors:** `default` `primary` `secondary` `success` `warning` `error` `info` `muted`
 
-**Sizes:** `small` `base` (default) `large`
+**Sizes:** `sm` `md (default)` `lg`
 
-[Back to top](#top){badge primary}
+[Back to top](#top){button link}
 
 ---
 
@@ -1235,7 +1329,7 @@ Color-coded by depth for better visual hierarchy:
 
 ### Syntax & Options {medium-bold}
 
-```markdown
+```taildown
 :::tree
 - Root Item
   - Child Item
@@ -1350,7 +1444,7 @@ Perfect for project phases and milestones:
 
 ### Syntax & Options {medium-bold}
 
-```markdown
+```taildown
 :::flow
 - Step 1
 - Step 2

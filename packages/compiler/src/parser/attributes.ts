@@ -41,42 +41,64 @@ function extractAttributesFromText(
   modal?: string;
   tooltip?: string;
 } {
-  const match = text.match(ATTRIBUTE_BLOCK_REGEX);
+  // Try to match attribute block at the END first (standard case)
+  let match = text.match(ATTRIBUTE_BLOCK_REGEX);
+  let attributeBlockRaw: string | null = null;
+  let remainingAfterRemoval: string = text;
 
-  if (!match) {
+  if (match && match[1]) {
+    attributeBlockRaw = match[1].trim();
+    // Remove trailing attribute block from text
+    remainingAfterRemoval = text.replace(ATTRIBUTE_BLOCK_REGEX, '').trimEnd();
+  } else {
+    // Fallback: Match attribute block at the START (common after links)
+    // CRITICAL FIX: Match the block but preserve the space after it
+    // Pattern: optional whitespace + { + content + } (but DON'T consume trailing space)
+    const START_BLOCK_REGEX = /^\s*\{([^}]+)\}/;
+    const startMatch = text.match(START_BLOCK_REGEX);
+    if (startMatch && startMatch[1]) {
+      attributeBlockRaw = startMatch[1].trim();
+      // Remove ONLY the attribute block, preserve everything after including spaces
+      // Replace the matched block with empty string, keeping any trailing space
+      remainingAfterRemoval = text.substring(startMatch[0].length);
+    }
+  }
+
+  if (!attributeBlockRaw) {
     return { classes: [], remainingText: text };
   }
 
-  const attributeBlock = match[1]?.trim();
+  const attributeBlock = attributeBlockRaw;
   if (!attributeBlock) {
     // Empty attribute block {}
-    return { classes: [], remainingText: text.replace(ATTRIBUTE_BLOCK_REGEX, '') };
+    return { classes: [], remainingText: remainingAfterRemoval };
   }
   
   // Extract key-value attributes (modal="..." tooltip="...") and ID (#anchor-id)
   const kvAttrs: { id?: string; modal?: string; tooltip?: string } = {};
   let cleanedBlock = attributeBlock;
   
-  // Match #anchor-id (ID syntax)
-  // ID must start with letter or underscore, can contain letters, numbers, hyphens, underscores
-  const idMatch = attributeBlock.match(/#([a-zA-Z_][\w-]*)/);
-  if (idMatch) {
-    kvAttrs.id = idMatch[1];
-    cleanedBlock = cleanedBlock.replace(idMatch[0], '').trim();
-  }
-  
-  // Match modal="..." or modal='...'
+  // Match modal="..." or modal='...' FIRST (before extracting IDs)
   const modalMatch = attributeBlock.match(/modal=["']([^"']+)["']/);
   if (modalMatch) {
     kvAttrs.modal = modalMatch[1];
     cleanedBlock = cleanedBlock.replace(modalMatch[0], '').trim();
   }
   
-  // Match tooltip="..." or tooltip='...'
+  // Match tooltip="..." or tooltip='...' FIRST (before extracting IDs)
   const tooltipMatch = attributeBlock.match(/tooltip=["']([^"']+)["']/);
   if (tooltipMatch) {
     kvAttrs.tooltip = tooltipMatch[1];
     cleanedBlock = cleanedBlock.replace(tooltipMatch[0], '').trim();
+  }
+  
+  // Match #anchor-id (ID syntax) - AFTER removing quoted values
+  // This prevents #id inside tooltip="#id" from being extracted as anchor
+  // ID must start with letter or underscore, can contain letters, numbers, hyphens, underscores
+  const idMatch = cleanedBlock.match(/#([a-zA-Z_][\w-]*)/);
+  if (idMatch) {
+    kvAttrs.id = idMatch[1];
+    cleanedBlock = cleanedBlock.replace(idMatch[0], '').trim();
   }
 
   // Phase 2: Extract both CSS classes and plain English
@@ -101,15 +123,30 @@ function extractAttributesFromText(
     // Invalid tokens are silently ignored (graceful degradation)
   }
 
-  // Phase 2: Check if first token is a component name
+  // Phase 2: Find component name (if any) - prefer LAST occurrence for natural English
+  // English grammar: adjective adjective NOUN (e.g., "large primary button")
+  // NOT: NOUN adjective adjective (CSS style)
   let classes: string[];
-  const firstToken = rawAttributes[0];
-  const component = firstToken ? registry.get(firstToken) : null;
+  let componentToken: string | null = null;
+  let componentIndex = -1;
   
-  if (component) {
-    // First token is a component (e.g., "button") - use component resolution
-    const remainingAttrs = rawAttributes.slice(1); // Remove component name
-    const result = resolveComponentClasses(firstToken, remainingAttrs, {
+  // Scan for component names, preferring the last one (noun position)
+  for (let i = rawAttributes.length - 1; i >= 0; i--) {
+    const token = rawAttributes[i];
+    if (registry.get(token)) {
+      componentToken = token;
+      componentIndex = i;
+      break; // Found the component (scanning backwards, so first match is last in array)
+    }
+  }
+  
+  if (componentToken && componentIndex >= 0) {
+    // Found a component - extract modifiers (all tokens except component name)
+    const modifiers = [
+      ...rawAttributes.slice(0, componentIndex),
+      ...rawAttributes.slice(componentIndex + 1)
+    ];
+    const result = resolveComponentClasses(componentToken, modifiers, {
       includeDefaults: true,
       warnOnUnknown: false,
     });
@@ -122,10 +159,7 @@ function extractAttributesFromText(
     classes = rawAttributes;
   }
 
-  // Remove attribute block from text
-  const remainingText = text.replace(ATTRIBUTE_BLOCK_REGEX, '').trimEnd();
-
-  return { classes, remainingText, ...kvAttrs };
+  return { classes, remainingText: remainingAfterRemoval, ...kvAttrs };
 }
 
 /**

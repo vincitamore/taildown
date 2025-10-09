@@ -30,48 +30,26 @@ export const badgeComponent: ComponentDefinition = defineComponent({
   htmlElement: 'span',
   
   defaultClasses: [
-    'inline-flex',
-    'items-center',
-    'px-3',
-    'py-1',
-    'rounded-full',
-    'font-medium',
-    'text-sm',
+    'badge',
   ],
   
   defaultVariant: 'default',
   
   variants: {
-    default: [
-      'bg-muted',
-      'text-muted-foreground',
-    ],
-    primary: [
-      'bg-blue-100',
-      'text-blue-700',
-    ],
-    success: [
-      'bg-green-100',
-      'text-green-700',
-    ],
-    warning: [
-      'bg-amber-100',
-      'text-amber-700',
-    ],
-    error: [
-      'bg-red-100',
-      'text-red-700',
-    ],
-    info: [
-      'bg-sky-100',
-      'text-sky-700',
-    ],
+    default: ['badge-default'],
+    primary: ['badge-primary'],
+    secondary: ['badge-secondary'],
+    success: ['badge-success'],
+    warning: ['badge-warning'],
+    error: ['badge-error'],
+    info: ['badge-info'],
+    muted: ['badge-muted'],
   },
   
   sizes: {
-    sm: ['px-2', 'py-0.5', 'text-xs'],
-    md: ['px-3', 'py-1', 'text-sm'],
-    lg: ['px-4', 'py-1.5', 'text-base'],
+    sm: ['badge-sm'],
+    md: [], // Default, no modifier
+    lg: ['badge-lg'],
   },
   
   description: 'Small labels for tags and status',
