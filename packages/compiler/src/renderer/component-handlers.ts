@@ -182,6 +182,7 @@ function wrapWithTooltip(triggerElement: Element, content: string, state?: State
       id: tooltipId,
       role: 'tooltip',
       'data-component': 'tooltip',
+      'data-portal-target': 'body', // CRITICAL: Portal to body to escape containing blocks created by backdrop-filter
       className: ['tooltip-content', 'tooltip-popup'],
       style: 'display: none; position: fixed; z-index: 9999;', // Fixed position, will be positioned by JS
       'data-tooltip-position': 'top' // Default position, JS will adjust
@@ -189,34 +190,13 @@ function wrapWithTooltip(triggerElement: Element, content: string, state?: State
     children: contentChildren
   };
 
-  // CRITICAL FIX: If tooltip has block content (div), use display:contents wrapper
-  // Block elements inside inline wrappers = invalid HTML, but display:contents makes wrapper invisible
-  // Tooltip will be portaled to body by rehypePortalComponents
-  if (hasBlockContent) {
-    // Mark tooltip for portal extraction to body
-    tooltipEl.properties = {
-      ...tooltipEl.properties,
-      'data-portal-target': 'body'
-    };
-    
-    // Wrap in display:contents so wrapper doesn't affect layout but keeps both elements in DOM
-    return {
-      type: 'element',
-      tagName: 'span',
-      properties: {
-        style: 'display: contents;' // Completely transparent wrapper
-      },
-      children: [enhancedTrigger, tooltipEl]
-    };
-  }
-  
-  // For inline tooltips (span), wrapping is safe and keeps everything inline
+  // CRITICAL FIX: ALL tooltips are portaled to body to escape containing blocks from backdrop-filter
+  // Use display:contents wrapper to keep trigger in place while tooltip gets portaled
   return {
     type: 'element',
     tagName: 'span',
     properties: {
-      className: ['tooltip-wrapper'],
-      style: 'display: inline;' // ONLY display inline, nothing else
+      style: 'display: contents;' // Completely transparent wrapper - tooltip will be portaled, trigger stays inline
     },
     children: [enhancedTrigger, tooltipEl]
   };
@@ -807,18 +787,10 @@ export function renderTooltip(state: State, node: ContainerDirectiveNode): Eleme
           'data-tooltip-content': '',
           hidden: true,
           role: 'tooltip',
-          className: [...existingClasses, 'tooltip-content', 'absolute', 'bottom-full', 'left-1/2', '-translate-x-1/2', 'mb-2', 'px-3', 'py-2', 'bg-gray-900', 'text-white', 'text-sm', 'rounded-lg', 'shadow-xl', 'whitespace-nowrap', 'z-50', 'pointer-events-none', 'opacity-0', 'transition-opacity']
+          className: [...existingClasses, 'tooltip-content', 'fixed', 'px-3', 'py-2', 'bg-gray-900', 'text-white', 'text-sm', 'rounded-lg', 'shadow-xl', 'whitespace-nowrap', 'z-50', 'pointer-events-none', 'opacity-0', 'transition-opacity']
         },
         children: [
-          // Add arrow
-          {
-            type: 'element',
-            tagName: 'div',
-            properties: {
-              className: ['absolute', 'top-full', 'left-1/2', '-translate-x-1/2', 'w-0', 'h-0', 'border-l-4', 'border-r-4', 'border-t-4', 'border-transparent', 'border-t-gray-900']
-            },
-            children: []
-          },
+          // Arrow removed for fixed positioning - JS will position tooltip correctly without arrow complications
           ...children
         ]
       }

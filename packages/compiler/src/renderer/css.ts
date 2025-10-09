@@ -2490,6 +2490,10 @@ ${generateThemeCSS()}
   padding: 1rem !important;
 }
 
+.dark .modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.75) !important;
+}
+
 .modal-backdrop[hidden] {
   display: none !important;
 }

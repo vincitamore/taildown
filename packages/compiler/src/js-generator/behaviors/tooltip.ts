@@ -8,8 +8,16 @@ import type { ComponentBehavior } from '../index';
 
 export const tooltipBehavior: ComponentBehavior = {
   name: 'tooltip',
-  size: 1650, // ~1.65KB (increased due to positioning logic)
+  size: 1800, // ~1.8KB (increased due to positioning logic and event handling)
   code: `// Tooltip Component with intelligent positioning and hover persistence
+// Prevent all tooltip triggers with href="#" from jumping to top
+document.querySelectorAll('[data-tooltip-trigger][href="#"]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  });
+});
+
 document.querySelectorAll('[data-tooltip-trigger]').forEach(trigger => {
   const tooltipId = trigger.getAttribute('aria-describedby');
   let tooltip = tooltipId ? document.getElementById(tooltipId) : null;
@@ -116,15 +124,14 @@ document.querySelectorAll('[data-tooltip-trigger]').forEach(trigger => {
   trigger.addEventListener('focus', show);
   trigger.addEventListener('blur', () => hide(false));
   
-  // Mobile: click to toggle
+  // Click to toggle (mobile and desktop)
   trigger.addEventListener('click', (e) => {
-    if ('ontouchstart' in window) {
-      e.preventDefault();
-      if (isVisible) {
-        hide(true);
-      } else {
-        show();
-      }
+    e.preventDefault(); // Always prevent default to avoid # jumps
+    e.stopPropagation(); // Stop event bubbling
+    if (isVisible) {
+      hide(true);
+    } else {
+      show();
     }
   });
   

@@ -16,7 +16,7 @@
 
 Jump directly to any component category:
 
-:::grid {cols-4}
+:::grid {2}
 :::card {subtle-glass padded center hover-lift href="#layout"}
 :icon[layout]{primary huge}
 
@@ -165,7 +165,7 @@ Content here
 
 ### Syntax & Variants {medium-bold}
 
-```markdown
+```taildown
 :::card {glass padded}
 Your content here
 :::
@@ -299,7 +299,7 @@ Grids can be nested infinitely for complex layouts that maintain equal heights t
 
 ### Syntax & Variants {medium-bold}
 
-```markdown
+```taildown
 :::grid {cols-2}
 :::card
 Column 1
@@ -395,7 +395,7 @@ Three columns with large gap
 
 ### Syntax & Variants {medium-bold}
 
-```markdown
+```taildown
 :::button-group
 [Primary](#){button primary large}
 [Secondary](#){button secondary large}
@@ -442,7 +442,7 @@ Tabs use headings (h2 or h3) as labels. Everything between headings becomes pane
 
 Simple, intuitive syntax:
 
-```markdown
+```taildown
 :::tabs
 ## First Tab
 Content for first tab
@@ -491,7 +491,7 @@ Grids too!
 
 ### Usage Summary {medium-bold}
 
-```markdown
+```taildown
 :::tabs
 ## First Tab
 Content
@@ -589,7 +589,7 @@ Dark mode
 
 Simple syntax:
 
-```markdown
+```taildown
 :::accordion
 **Section Title**
 Section content here
@@ -601,7 +601,7 @@ Clean, intuitive, and powerful!
 
 ### Usage Summary {medium-bold}
 
-```markdown
+```taildown
 :::accordion
 **First Section**
 Content (open by default)
@@ -722,7 +722,7 @@ Build multimedia experiences effortlessly. {large-muted}
 
 ### Usage Summary {medium-bold}
 
-```markdown
+```taildown
 :::carousel
 First slide content
 
@@ -1336,7 +1336,7 @@ Combine badges with icons for visual context:
 
 The navbar uses a heading for branding and paragraph links for navigation:
 
-```markdown
+```taildown
 :::navbar
 # Brand Name
 
@@ -1384,7 +1384,7 @@ The navbar uses a heading for branding and paragraph links for navigation:
 
 ### Usage Summary {medium-bold}
 
-```markdown
+```taildown
 :::navbar
 # Site Name
 

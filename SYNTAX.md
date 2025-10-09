@@ -1455,10 +1455,12 @@ Detailed help information
 **Features**:
 - Show on hover (desktop)
 - Show on click (mobile/touch)
-- Positioned relative to trigger
+- Fixed positioning for reliable rendering (works in nested contexts like cards)
+- Intelligent viewport edge detection
 - Fade in/out animations
 - `aria-describedby` for accessibility
 - Can be attached to any element (see §2.8)
+- Click events on `href="#"` properly prevented (no page jumps)
 
 #### 3.7.6 Component Attributes
 
@@ -1610,7 +1612,7 @@ Taildown generates vanilla JavaScript for interactive components.
 | Accordion | ~0.7KB | `:::accordion` found |
 | Carousel  | ~2.4KB | `:::carousel` found |
 | Modal     | ~1.0KB | `:::modal` or `modal="..."` found |
-| Tooltip   | ~0.9KB | `:::tooltip` or `tooltip="..."` found |
+| Tooltip   | ~1.8KB | `:::tooltip` or `tooltip="..."` found |
 
 **Example**: Document with only tabs → generates ~0.8KB JS, not 5KB.
 
