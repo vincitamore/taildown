@@ -1,18 +1,21 @@
 /**
  * Button Component Definition
- * Interactive button elements with semantic variants
+ * Interactive button elements with semantic variants using theme color system
+ * 
+ * All button variants use CSS variables from the theme, ensuring consistent
+ * soft, pastel coloring that matches the high-class aesthetic throughout the app.
  * 
  * Variants:
- * - primary: Main call-to-action button (blue)
- * - secondary: Secondary actions (purple)
- * - accent: Eye-catching accent button (pink)
- * - info: Informational actions (light blue)
+ * - primary: Main call-to-action button (theme primary color)
+ * - secondary: Secondary actions (theme secondary color)
+ * - accent: Eye-catching accent button (theme accent color)
+ * - info: Informational actions (theme info color)
  * - outline: Outlined button with transparent background
  * - ghost: Minimal button with hover effect
  * - link: Button styled as a link
- * - destructive: Dangerous/delete actions (red)
- * - success: Success/confirm actions (green)
- * - warning: Warning actions (yellow/amber)
+ * - destructive: Dangerous/delete actions (theme error color)
+ * - success: Success/confirm actions (theme success color)
+ * - warning: Warning actions (theme warning color)
  * 
  * Sizes:
  * - sm: Compact button
@@ -60,24 +63,28 @@ export const buttonComponent: ComponentDefinition = defineComponent({
   
   // Visual/semantic variants
   variants: {
-    // Primary: Main CTA with solid color
+    // Primary: Main CTA with solid color using theme system
     primary: [
-      'bg-blue-600',
-      'text-white',
-      'hover:bg-blue-700',
-      'active:bg-blue-800',
+      'bg-primary',
+      'text-primary-foreground',
+      'hover:bg-primary',
+      'hover:brightness-110',
+      'active:brightness-95',
       'shadow-md',
       'hover:shadow-lg',
+      'transition-all',
     ],
     
-    // Secondary: Secondary actions
+    // Secondary: Secondary actions using theme system
     secondary: [
-      'bg-purple-600',
-      'text-white',
-      'hover:bg-purple-700',
-      'active:bg-purple-800',
+      'bg-secondary',
+      'text-secondary-foreground',
+      'hover:bg-secondary',
+      'hover:brightness-110',
+      'active:brightness-95',
       'shadow-md',
       'hover:shadow-lg',
+      'transition-all',
     ],
     
     // Outline: Bordered with transparent background
@@ -88,6 +95,7 @@ export const buttonComponent: ComponentDefinition = defineComponent({
       'hover:bg-muted',
       'active:bg-muted',
       'bg-transparent',
+      'transition-all',
     ],
     
     // Ghost: Minimal with hover effect
@@ -96,66 +104,79 @@ export const buttonComponent: ComponentDefinition = defineComponent({
       'text-foreground',
       'hover:bg-muted',
       'active:bg-muted',
+      'transition-all',
     ],
     
-    // Link: Styled as link
+    // Link: Styled as link using theme primary color
     link: [
       'bg-transparent',
-      'text-blue-600',
-      'hover:text-blue-700',
+      'text-primary',
+      'hover:text-primary',
+      'hover:brightness-110',
       'px-0',
       'py-0',
       'shadow-none',
+      'transition-all',
     ],
     
-    // Destructive: Dangerous actions (delete, remove)
+    // Destructive: Dangerous actions using theme error color
     destructive: [
-      'bg-red-600',
-      'text-white',
-      'hover:bg-red-700',
-      'active:bg-red-800',
+      'bg-error',
+      'text-error-foreground',
+      'hover:bg-error',
+      'hover:brightness-110',
+      'active:brightness-95',
       'shadow-md',
       'hover:shadow-lg',
+      'transition-all',
     ],
     
-    // Success: Success/confirm actions
+    // Success: Success/confirm actions using theme success color
     success: [
-      'bg-green-600',
-      'text-white',
-      'hover:bg-green-700',
-      'active:bg-green-800',
+      'bg-success',
+      'text-success-foreground',
+      'hover:bg-success',
+      'hover:brightness-110',
+      'active:brightness-95',
       'shadow-md',
       'hover:shadow-lg',
+      'transition-all',
     ],
     
-    // Warning: Warning actions
+    // Warning: Warning actions using theme warning color
     warning: [
-      'bg-amber-600',
-      'text-white',
-      'hover:bg-amber-700',
-      'active:bg-amber-800',
+      'bg-warning',
+      'text-warning-foreground',
+      'hover:bg-warning',
+      'hover:brightness-110',
+      'active:brightness-95',
       'shadow-md',
       'hover:shadow-lg',
+      'transition-all',
     ],
     
-    // Accent: Eye-catching accent actions
+    // Accent: Eye-catching accent actions using theme accent color
     accent: [
-      'bg-pink-600',
-      'text-white',
-      'hover:bg-pink-700',
-      'active:bg-pink-800',
+      'bg-accent',
+      'text-accent-foreground',
+      'hover:bg-accent',
+      'hover:brightness-110',
+      'active:brightness-95',
       'shadow-md',
       'hover:shadow-lg',
+      'transition-all',
     ],
     
-    // Info: Informational actions
+    // Info: Informational actions using theme info color
     info: [
-      'bg-blue-500',
-      'text-white',
-      'hover:bg-blue-600',
-      'active:bg-blue-700',
+      'bg-info',
+      'text-info-foreground',
+      'hover:bg-info',
+      'hover:brightness-110',
+      'active:brightness-95',
       'shadow-md',
       'hover:shadow-lg',
+      'transition-all',
     ],
   },
   
@@ -212,72 +233,72 @@ export function getButtonClasses(
 export const buttonVariants = {
   primary: {
     name: 'Primary',
-    description: 'Main call-to-action button with solid blue background',
+    description: 'Main call-to-action button using theme primary color (soft, pastel aesthetic)',
     example: '[Click Me](#){button primary}',
-    color: 'Blue',
+    color: 'Theme Primary',
     use: 'Primary actions like submit, save, continue',
   },
   secondary: {
     name: 'Secondary',
-    description: 'Secondary action with purple background',
+    description: 'Secondary action using theme secondary color (soft, elegant)',
     example: '[Learn More](#){button secondary}',
-    color: 'Purple',
+    color: 'Theme Secondary',
     use: 'Secondary actions that support the primary action',
   },
   accent: {
     name: 'Accent',
-    description: 'Eye-catching accent button with pink background',
+    description: 'Eye-catching accent button using theme accent color',
     example: '[Special Offer](#){button accent}',
-    color: 'Pink',
+    color: 'Theme Accent',
     use: 'Special actions, promotions, unique features',
   },
   info: {
     name: 'Info',
-    description: 'Informational button with light blue background',
+    description: 'Informational button using theme info color',
     example: '[Learn More](#){button info}',
-    color: 'Light Blue',
+    color: 'Theme Info',
     use: 'Informational actions, help, documentation',
   },
   outline: {
     name: 'Outline',
     description: 'Outlined button with transparent background',
     example: '[Cancel](#){button outline}',
-    color: 'Gray',
+    color: 'Theme Border',
     use: 'Alternative actions, cancellation',
   },
   ghost: {
     name: 'Ghost',
     description: 'Minimal button with subtle hover effect',
     example: '[Options](#){button ghost}',
-    color: 'Gray',
+    color: 'Theme Muted',
     use: 'Tertiary actions, menu items',
   },
   link: {
     name: 'Link',
-    description: 'Button styled as a text link',
+    description: 'Button styled as a text link using theme primary color',
     example: '[Read More](#){button link}',
-    color: 'Blue',
+    color: 'Theme Primary',
     use: 'Text-based actions, navigation',
   },
   destructive: {
     name: 'Destructive',
-    description: 'Dangerous action button in red',
+    description: 'Dangerous action button using theme error color',
     example: '[Delete](#){button destructive}',
-    color: 'Red',
+    color: 'Theme Error',
     use: 'Delete, remove, destructive actions',
   },
   success: {
     name: 'Success',
-    description: 'Success or confirmation action in green',
+    description: 'Success or confirmation action using theme success color',
     example: '[Confirm](#){button success}',
-    color: 'Green',
+    color: 'Theme Success',
     use: 'Confirm, accept, success actions',
   },
   warning: {
     name: 'Warning',
-    description: 'Warning action in amber/yellow',
+    description: 'Warning action using theme warning color',
     example: '[Warning](#){button warning}',
-    color: 'Amber',
+    color: 'Theme Warning',
     use: 'Warning, caution actions',
   },
 };

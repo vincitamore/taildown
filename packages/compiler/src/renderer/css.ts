@@ -225,6 +225,17 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'backdrop-blur-lg': 'backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);',
   'backdrop-blur-xl': 'backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);',
 
+  // Filters (for brightness adjustments)
+  'brightness-50': 'filter: brightness(0.5);',
+  'brightness-75': 'filter: brightness(0.75);',
+  'brightness-90': 'filter: brightness(0.9);',
+  'brightness-95': 'filter: brightness(0.95);',
+  'brightness-100': 'filter: brightness(1);',
+  'brightness-105': 'filter: brightness(1.05);',
+  'brightness-110': 'filter: brightness(1.1);',
+  'brightness-125': 'filter: brightness(1.25);',
+  'brightness-150': 'filter: brightness(1.5);',
+
   // Background - Neutral
   'bg-white': 'background-color: rgb(255 255 255);',
   'bg-gray-50': 'background-color: rgb(249 250 251);',
