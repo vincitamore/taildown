@@ -151,7 +151,18 @@ async function compileTdFile(filePath) {
       darkMode: true,          // Enable dark mode
       title: metadata.title,
       description: metadata.description,
-      openGraph: metadata.openGraph
+      openGraph: metadata.openGraph,
+      favicon: {
+        basePath: '/favicon/',
+        ico: 'favicon.ico',
+        png16: 'favicon-16x16.png',
+        png32: 'favicon-32x32.png',
+        appleTouchIcon: 'apple-touch-icon.png',
+        android192: 'android-chrome-192x192.png',
+        android512: 'android-chrome-512x512.png',
+        webManifest: 'site.webmanifest',
+        themeColor: '#3b82f6'  // Taildown brand blue
+      }
     });
     
     // Write HTML output
