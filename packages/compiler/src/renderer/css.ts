@@ -109,14 +109,14 @@ const TAILWIND_UTILITIES: Record<string, string> = {
 
   // Grid - Mobile-first with smart responsive behavior
   'grid-cols-1': 'grid-template-columns: repeat(1, minmax(0, 1fr));',
-  // 2 columns: Always 2 equal columns (min-width: 0 ensures they fit any viewport)
-  'grid-cols-2': 'grid-template-columns: repeat(2, minmax(0, 1fr));',
-  // 3 columns: 2 equal columns on mobile, 3 on tablet+
-  'grid-cols-3': 'grid-template-columns: repeat(2, minmax(0, 1fr));',
-  // 4 columns: 2 equal columns on mobile
-  'grid-cols-4': 'grid-template-columns: repeat(2, minmax(0, 1fr));',
-  // 5 columns: 2 equal columns on mobile
-  'grid-cols-5': 'grid-template-columns: repeat(2, minmax(0, 1fr));',
+  // 2 columns: 1 column on mobile, 2 on tablet+
+  'grid-cols-2': 'grid-template-columns: repeat(1, minmax(0, 1fr));',
+  // 3 columns: 1 column on mobile, scales up on tablet+
+  'grid-cols-3': 'grid-template-columns: repeat(1, minmax(0, 1fr));',
+  // 4 columns: 1 column on mobile, scales up on tablet+
+  'grid-cols-4': 'grid-template-columns: repeat(1, minmax(0, 1fr));',
+  // 5 columns: 1 column on mobile, scales up on tablet+
+  'grid-cols-5': 'grid-template-columns: repeat(1, minmax(0, 1fr));',
   'gap-2': 'gap: 0.5rem;',
   'gap-3': 'gap: 0.75rem;',
   'gap-4': 'gap: 1rem;',
@@ -3342,10 +3342,21 @@ ${generateThemeCSS()}
 `);
 
   // Add responsive grid rules for mobile-first behavior
-  // These ensure grids gracefully scale from 2 columns on mobile to full column count on larger screens
+  // These ensure grids gracefully scale from 1 column on mobile to full column count on larger screens
+  if (classes.has('grid-cols-2')) {
+    cssRules.push(`
+/* grid-cols-2: 1 column on mobile, 2 on tablet+ */
+@media (min-width: 640px) {
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+`);
+  }
+  
   if (classes.has('grid-cols-3')) {
     cssRules.push(`
-/* grid-cols-3: 2 columns on mobile, 3 on tablet+ */
+/* grid-cols-3: 1 column on mobile, 3 on tablet+ */
 @media (min-width: 768px) {
   .grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
@@ -3356,7 +3367,12 @@ ${generateThemeCSS()}
   
   if (classes.has('grid-cols-4')) {
     cssRules.push(`
-/* grid-cols-4: 2 columns on mobile, 3 on tablet, 4 on desktop */
+/* grid-cols-4: 1 column on mobile, 2 on small, 3 on tablet, 4 on desktop */
+@media (min-width: 640px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
 @media (min-width: 768px) {
   .grid-cols-4 {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
@@ -3372,7 +3388,12 @@ ${generateThemeCSS()}
   
   if (classes.has('grid-cols-5')) {
     cssRules.push(`
-/* grid-cols-5: 2 columns on mobile, 3 on tablet, 5 on extra-large */
+/* grid-cols-5: 1 column on mobile, 2 on small, 3 on tablet, 5 on extra-large */
+@media (min-width: 640px) {
+  .grid-cols-5 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
 @media (min-width: 768px) {
   .grid-cols-5 {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
