@@ -928,6 +928,82 @@ Happy writing! :icon[sparkles]{primary}
       }
     });
 
+    // Touch events for mobile support
+    divider.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      divider.classList.add('dragging');
+      
+      const container = document.getElementById('editor-container');
+      const isVertical = window.innerWidth <= 768;
+      
+      // Disable pointer events on iframe to prevent it from capturing touch events
+      previewFrame.style.pointerEvents = 'none';
+      // Prevent text selection during drag
+      document.body.style.userSelect = 'none';
+      
+      const touch = e.touches[0];
+      
+      // Store the starting position and current editor percentage
+      if (isVertical) {
+        startY = touch.clientY;
+        const containerHeight = container.getBoundingClientRect().height;
+        const editorHeight = editorPane.getBoundingClientRect().height;
+        startEditorPercent = (editorHeight / containerHeight) * 100;
+      } else {
+        startX = touch.clientX;
+        const containerWidth = container.getBoundingClientRect().width;
+        const editorWidth = editorPane.getBoundingClientRect().width;
+        startEditorPercent = (editorWidth / containerWidth) * 100;
+      }
+      
+      e.preventDefault();
+    }, { passive: false });
+
+    document.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      
+      const container = document.getElementById('editor-container');
+      const isVertical = window.innerWidth <= 768;
+      const touch = e.touches[0];
+      
+      if (isVertical) {
+        // Calculate the new percentage based on touch movement
+        const containerHeight = container.getBoundingClientRect().height;
+        const deltaY = touch.clientY - startY;
+        const deltaPercent = (deltaY / containerHeight) * 100;
+        const newPercent = startEditorPercent + deltaPercent;
+        
+        // Allow resizing between 15% and 85%
+        if (newPercent >= 15 && newPercent <= 85) {
+          editorPane.style.flex = `0 0 ${newPercent}%`;
+        }
+      } else {
+        // Calculate the new percentage based on touch movement
+        const containerWidth = container.getBoundingClientRect().width;
+        const deltaX = touch.clientX - startX;
+        const deltaPercent = (deltaX / containerWidth) * 100;
+        const newPercent = startEditorPercent + deltaPercent;
+        
+        // Allow resizing between 15% and 85%
+        if (newPercent >= 15 && newPercent <= 85) {
+          editorPane.style.flex = `0 0 ${newPercent}%`;
+        }
+      }
+      
+      e.preventDefault();
+    }, { passive: false });
+
+    document.addEventListener('touchend', () => {
+      if (isDragging) {
+        isDragging = false;
+        divider.classList.remove('dragging');
+        
+        // Re-enable pointer events
+        previewFrame.style.pointerEvents = '';
+        document.body.style.userSelect = '';
+      }
+    });
+
     // Button event listeners
     newBtn.addEventListener('click', newDocument);
     openBtn.addEventListener('click', openFile);
