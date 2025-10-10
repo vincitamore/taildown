@@ -43,7 +43,7 @@
 
 ### Headings
 
-```markdown
+```taildown
 # Heading 1
 ## Heading 2
 ### Heading 3
@@ -54,7 +54,7 @@
 
 ### Text Formatting
 
-```markdown
+```taildown
 *italic* or _italic_
 **bold** or __bold__
 ***bold italic***
@@ -64,7 +64,7 @@
 ### Lists
 
 **Unordered:**
-```markdown
+```taildown
 - Item one
 - Item two
   - Nested item
@@ -72,7 +72,7 @@
 ```
 
 **Ordered:**
-```markdown
+```taildown
 1. First item
 2. Second item
    1. Nested ordered
@@ -81,7 +81,7 @@
 
 ### Links and Images
 
-```markdown
+```taildown
 [Link text](https://example.com)
 [Link with title](https://example.com "Title text")
 
@@ -92,22 +92,14 @@
 ### Code
 
 **Inline code:**
-```markdown
+```taildown
 Use `backticks` for inline code
 ```
 
-**Code blocks:**
-````markdown
-```javascript
-function hello() {
-  console.log("Hello, world!");
-}
-```
-````
 
 ### Blockquotes
 
-```markdown
+```taildown
 > This is a blockquote
 > It can span multiple lines
 >
@@ -116,7 +108,7 @@ function hello() {
 
 ### Tables
 
-```markdown
+```taildown
 | Feature | Status | Notes |
 |---------|--------|-------|
 | Tables  | ✓      | Full GFM support |
@@ -125,7 +117,7 @@ function hello() {
 
 ### Horizontal Rules
 
-```markdown
+```taildown
 ---
 ***
 ___
@@ -141,7 +133,7 @@ ___
 
 Attributes use `{...}` at the end of elements:
 
-```markdown
+```taildown
 # Heading {large-bold center}
 Paragraph {muted}
 [Link](#){button primary}
@@ -150,24 +142,24 @@ Paragraph {muted}
 ### Attribute Types
 
 **1. CSS Classes** (prefix with `.`):
-```markdown
+```taildown
 {.text-4xl .font-bold .text-center}
 ```
 
 **2. Plain English Shorthands:**
-```markdown
+```taildown
 {large-bold center primary}
 ```
 
 **3. Component Variants:**
-```markdown
+```taildown
 {button primary large}
 {badge success}
 {alert error}
 ```
 
 **4. Key-Value Pairs:**
-```markdown
+```taildown
 {id="unique-id"}
 {modal="Modal content"}
 {tooltip="Help text"}
@@ -176,21 +168,21 @@ Paragraph {muted}
 ### Where to Use Them
 
 **Headings:**
-```markdown
+```taildown
 # Main Title {huge-bold center}
 ## Subtitle {large-primary}
 ### Section {muted}
 ```
 
 **Paragraphs:**
-```markdown
+```taildown
 This is large bold text. {large-bold}
 
 This is centered and muted. {center muted}
 ```
 
 **Links:**
-```markdown
+```taildown
 [Regular link](https://example.com)
 [Button link](#){button primary}
 [Badge link](#){badge success}
@@ -200,7 +192,7 @@ This is centered and muted. {center muted}
 
 Combine multiple attributes with spaces:
 
-```markdown
+```taildown
 {large-bold center primary rounded}
 {button primary large hover-lift}
 {subtle-glass padded-xl rounded-xl}
@@ -241,50 +233,50 @@ Unnatural and confusing.
 ### Typography
 
 **Sizes:**
-```markdown
+```taildown
 {xs} {small} {base} {large} {xl} {2xl} {3xl} {huge} {massive}
 ```
 
 **Weights:**
-```markdown
+```taildown
 {thin} {light} {normal} {medium} {semibold} {bold} {extra-bold} {black}
 ```
 
 **Combinations:**
-```markdown
+```taildown
 {large-bold} {huge-bold} {xl-semibold} {small-light}
 ```
 
 **Colors:**
-```markdown
+```taildown
 {primary} {secondary} {success} {warning} {error} {info} {muted}
 ```
 
 **Styles:**
-```markdown
+```taildown
 {italic} {uppercase} {lowercase} {capitalize}
 ```
 
 ### Layout
 
 **Alignment:**
-```markdown
+```taildown
 {center} {left} {right} {justify}
 ```
 
 **Flexbox:**
-```markdown
+```taildown
 {flex} {flex-col} {flex-row} {flex-center}
 ```
 
 **Grid:**
-```markdown
+```taildown
 {grid-2} {grid-3} {grid-4}
 {cols-2} {cols-3} {cols-4}
 ```
 
 **Spacing:**
-```markdown
+```taildown
 {padded} {padded-sm} {padded-lg} {padded-xl}
 {gap} {gap-sm} {gap-lg} {gap-xl}
 {tight} {relaxed} {loose}
@@ -293,22 +285,22 @@ Unnatural and confusing.
 ### Visual Effects
 
 **Borders:**
-```markdown
+```taildown
 {rounded} {rounded-sm} {rounded-lg} {rounded-xl} {rounded-full}
 ```
 
 **Shadows:**
-```markdown
+```taildown
 {shadow} {shadow-sm} {shadow-lg} {elevated} {floating}
 ```
 
 **Glassmorphism:**
-```markdown
+```taildown
 {subtle-glass} {light-glass} {glass} {heavy-glass}
 ```
 
 **Animations:**
-```markdown
+```taildown
 {fade-in} {slide-up} {slide-down} {zoom-in}
 {hover-lift} {hover-glow} {hover-scale}
 {fast} {smooth} {slow}
@@ -322,7 +314,7 @@ Unnatural and confusing.
 
 ### Basic Usage
 
-```markdown
+```taildown
 :icon[home]
 :icon[heart]
 :icon[star]
@@ -332,7 +324,7 @@ Result: :icon[home] :icon[heart] :icon[star]
 
 ### With Attributes
 
-```markdown
+```taildown
 :icon[check]{success}
 :icon[alert-triangle]{warning large}
 :icon[heart]{error xl}
@@ -343,7 +335,7 @@ Result: :icon[check]{success} :icon[alert-triangle]{warning large} :icon[heart]{
 
 ### Size Keywords
 
-```markdown
+```taildown
 :icon[star]{tiny}    → 12px
 :icon[star]{xs}      → 16px
 :icon[star]{sm}      → 20px
@@ -356,7 +348,7 @@ Result: :icon[check]{success} :icon[alert-triangle]{warning large} :icon[heart]{
 
 ### Color Keywords
 
-```markdown
+```taildown
 :icon[circle]{primary}
 :icon[circle]{secondary}
 :icon[circle]{success}
@@ -371,7 +363,7 @@ Result: :icon[circle]{primary lg} :icon[circle]{secondary lg} :icon[circle]{succ
 
 Icons at the start of list items automatically hide the bullet:
 
-```markdown
+```taildown
 - :icon[check]{success} Completed task
 - :icon[circle]{warning} In progress
 - :icon[x]{error} Failed task
@@ -401,7 +393,7 @@ Result:
 
 ### Basic Syntax
 
-```markdown
+```taildown
 :::card
 Content inside a card
 :::
@@ -409,7 +401,7 @@ Content inside a card
 
 ### With Attributes
 
-```markdown
+```taildown
 :::card {glass padded rounded-xl}
 Beautiful glassmorphic card
 :::
@@ -417,7 +409,7 @@ Beautiful glassmorphic card
 
 ### Nesting
 
-```markdown
+```taildown
 :::grid {cols-2}
 :::card
 Column 1
@@ -452,7 +444,7 @@ Column 2
 
 **Create tabbed interfaces using headings:**
 
-```markdown
+```taildown
 :::tabs
 ## Tab One
 Content for first tab
@@ -476,7 +468,7 @@ Content for third tab
 
 **Expandable sections using bold text:**
 
-```markdown
+```taildown
 :::accordion
 **First Section**
 Content for first section
@@ -499,7 +491,7 @@ Content for third section
 
 **Slideshow using horizontal rules:**
 
-```markdown
+```taildown
 :::carousel
 First slide content
 
@@ -524,14 +516,14 @@ Third slide content
 
 **Attachable to any element:**
 
-```markdown
+```taildown
 [Click me](#){button modal="Simple alert!"}
 [Hover me](#){tooltip="Help text"}
 ```
 
 **With ID references:**
 
-```markdown
+```taildown
 [Open Modal](#){button modal="#my-modal"}
 
 :::modal{id="my-modal"}
@@ -554,7 +546,7 @@ Rich content with **markdown** support
 :::grid {cols-2}
 :::card {subtle-glass padded}
 ### Inline Attributes
-```markdown
+```taildown
 # Text {attributes}
 Paragraph {attributes}
 [Link](#){attributes}
@@ -569,7 +561,7 @@ Paragraph {attributes}
 
 :::card {subtle-glass padded}
 ### Icons
-```markdown
+```taildown
 :icon[name]
 :icon[name]{size}
 :icon[name]{color size}
@@ -581,7 +573,7 @@ Paragraph {attributes}
 
 :::card {subtle-glass padded}
 ### Components
-```markdown
+```taildown
 :::component-name
 Content
 :::

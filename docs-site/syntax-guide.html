@@ -4397,18 +4397,20 @@ td svg.icon {
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700" id="markdown">Markdown Compatibility</h2>
 <p class="text-lg"><svg class="icon icon-check text-green-600 text-lg" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Taildown is a superset of Markdown</strong> - every valid Markdown document is also valid Taildown.</p>
 <h3>Headings</h3>
-<pre data-copyable="true"><code class="language-markdown code-highlight"># Heading 1
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span>Heading 1
+</span><span class="code-line"><span class="token title punctuation">## </span>Heading 2
+</span><span class="code-line"><span class="token title punctuation">### </span>Heading 3
+</span><span class="code-line"><span class="token title punctuation">#### </span>Heading 4
+</span><span class="code-line"><span class="token title punctuation">##### </span>Heading 5
+</span><span class="code-line"><span class="token title punctuation">###### </span>Heading 6
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-kp9vbcyqj" data-code-text="# Heading 1
 ## Heading 2
 ### Heading 3
 #### Heading 4
 ##### Heading 5
 ###### Heading 6
-</code><button class="code-copy-btn" data-code-id="code-o0qqsh9r8" data-code-text="# Heading 1
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4419,14 +4421,16 @@ td svg.icon {
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <h3>Text Formatting</h3>
-<pre data-copyable="true"><code class="language-markdown code-highlight">*italic* or _italic_
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">*</span><span class="token italic">italic</span><span class="token punctuation">*</span> or _italic_
+</span><span class="code-line"><span class="token punctuation">**</span><span class="token bold">bold</span><span class="token punctuation">**</span> or __bold__
+</span><span class="code-line">*<span class="token punctuation">**</span><span class="token bold">bold italic</span><span class="token punctuation">**</span>*
+</span><span class="code-line"><span class="token punctuation">~~</span><span class="token deleted">strikethrough</span><span class="token punctuation">~~</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-9znwky2b1" data-code-text="*italic* or _italic_
 **bold** or __bold__
 ***bold italic***
 ~~strikethrough~~
-</code><button class="code-copy-btn" data-code-id="code-u6xa648yx" data-code-text="*italic* or _italic_
-**bold** or __bold__
-***bold italic***
-~~strikethrough~~
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4438,14 +4442,16 @@ td svg.icon {
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <h3>Lists</h3>
 <p><strong>Unordered:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">- Item one
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line">- Item one
+</span><span class="code-line">- Item two
+</span><span class="code-line">  <span class="token punctuation">-</span> Nested item
+</span><span class="code-line">  <span class="token punctuation">-</span> Another nested
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-5qbis4uik" data-code-text="- Item one
 - Item two
   - Nested item
   - Another nested
-</code><button class="code-copy-btn" data-code-id="code-q3q9dtbuy" data-code-text="- Item one
-- Item two
-  - Nested item
-  - Another nested
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4456,14 +4462,16 @@ td svg.icon {
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Ordered:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">1. First item
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line">1. First item
+</span><span class="code-line">2. Second item
+</span><span class="code-line">   <span class="token punctuation">1.</span> Nested ordered
+</span><span class="code-line">   <span class="token punctuation">2.</span> Another nested
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-lgfdo6z8y" data-code-text="1. First item
 2. Second item
    1. Nested ordered
    2. Another nested
-</code><button class="code-copy-btn" data-code-id="code-407oagqpk" data-code-text="1. First item
-2. Second item
-   1. Nested ordered
-   2. Another nested
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4474,16 +4482,18 @@ td svg.icon {
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <h3>Links and Images</h3>
-<pre data-copyable="true"><code class="language-markdown code-highlight">[Link text](https://example.com)
-[Link with title](https://example.com &quot;Title text&quot;)
-
-![Alt text](image.jpg)
-![Image with title](image.jpg &quot;Image title&quot;)
-</code><button class="code-copy-btn" data-code-id="code-gt7qtoibx" data-code-text="[Link text](https://example.com)
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">[</span>Link text<span class="token punctuation">](</span>https://example.com<span class="token punctuation">)</span>
+</span><span class="code-line"><span class="token punctuation">[</span>Link with title<span class="token punctuation">](</span>https://example.com &quot;Title text&quot;<span class="token punctuation">)</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token punctuation">![</span><span class="token string">Alt text</span><span class="token punctuation">](</span><span class="token url">image.jpg</span><span class="token punctuation">)</span>
+</span><span class="code-line"><span class="token punctuation">![</span><span class="token string">Image with title</span><span class="token punctuation">](</span><span class="token url">image.jpg &quot;Image title&quot;</span><span class="token punctuation">)</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-8olh8pyin" data-code-text="[Link text](https://example.com)
 [Link with title](https://example.com &#x26;quot;Title text&#x26;quot;)
 
 ![Alt text](image.jpg)
 ![Image with title](image.jpg &#x26;quot;Image title&#x26;quot;)
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4495,28 +4505,10 @@ td svg.icon {
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <h3>Code</h3>
 <p><strong>Inline code:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">Use `backticks` for inline code
-</code><button class="code-copy-btn" data-code-id="code-01bpmdcek" data-code-text="Use &#x60;backticks&#x60; for inline code
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre>
-<p><strong>Code blocks:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">```javascript
-function hello() {
-  console.log(&quot;Hello, world!&quot;);
-}
-```
-</code><button class="code-copy-btn" data-code-id="code-u7v4osj2x" data-code-text="&#x60;&#x60;&#x60;javascript
-function hello() {
-  console.log(&#x26;quot;Hello, world!&#x26;quot;);
-}
-&#x60;&#x60;&#x60;
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line">Use <span class="token punctuation">`</span><span class="token code">backticks</span><span class="token punctuation">`</span> for inline code
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-xpkjywdn9" data-code-text="Use &#x60;backticks&#x60; for inline code
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4527,14 +4519,16 @@ function hello() {
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <h3>Blockquotes</h3>
-<pre data-copyable="true"><code class="language-markdown code-highlight">&gt; This is a blockquote
-&gt; It can span multiple lines
-&gt;
-&gt; &gt; And can be nested
-</code><button class="code-copy-btn" data-code-id="code-zvaiy8xsn" data-code-text="&#x26;gt; This is a blockquote
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">&gt; </span>This is a blockquote
+</span><span class="code-line"><span class="token punctuation">&gt; </span>It can span multiple lines
+</span><span class="code-line"><span class="token punctuation">&gt;</span>
+</span><span class="code-line"><span class="token punctuation">&gt; &gt; </span>And can be nested
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-l50fn9oed" data-code-text="&#x26;gt; This is a blockquote
 &#x26;gt; It can span multiple lines
 &#x26;gt;
 &#x26;gt; &#x26;gt; And can be nested
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4545,14 +4539,16 @@ function hello() {
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <h3>Tables</h3>
-<pre data-copyable="true"><code class="language-markdown code-highlight">| Feature | Status | Notes |
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">|</span> Feature <span class="token punctuation">|</span> Status <span class="token punctuation">|</span> Notes <span class="token punctuation">|</span>
+</span><span class="code-line"><span class="token punctuation">|</span>---------<span class="token punctuation">|</span>--------<span class="token punctuation">|</span>-------<span class="token punctuation">|</span>
+</span><span class="code-line"><span class="token punctuation">|</span> Tables  <span class="token punctuation">|</span> ✓      <span class="token punctuation">|</span> Full GFM support <span class="token punctuation">|</span>
+</span><span class="code-line"><span class="token punctuation">|</span> Alignment <span class="token punctuation">|</span> ✓    <span class="token punctuation">|</span> Left, center, right <span class="token punctuation">|</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-mt4c0ynnh" data-code-text="| Feature | Status | Notes |
 |---------|--------|-------|
 | Tables  | ✓      | Full GFM support |
 | Alignment | ✓    | Left, center, right |
-</code><button class="code-copy-btn" data-code-id="code-oboxxg194" data-code-text="| Feature | Status | Notes |
-|---------|--------|-------|
-| Tables  | ✓      | Full GFM support |
-| Alignment | ✓    | Left, center, right |
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4563,12 +4559,14 @@ function hello() {
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <h3>Horizontal Rules</h3>
-<pre data-copyable="true"><code class="language-markdown code-highlight">---
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token hr">---</span>
+</span><span class="code-line"><span class="token hr">***</span>
+</span><span class="code-line">___
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-n3bvw3lo2" data-code-text="---
 ***
 ___
-</code><button class="code-copy-btn" data-code-id="code-twklk85y8" data-code-text="---
-***
-___
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4583,12 +4581,14 @@ ___
 <p class="text-lg"><svg class="icon icon-brackets text-primary-600 hover:text-primary-700 text-lg" data-icon="brackets" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h3a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-3" /><path d="M8 21H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h3" /></svg> <strong>Add styling to any element using curly brace notation.</strong></p>
 <h3>Basic Syntax</h3>
 <p>Attributes use <code>{...}</code> at the end of elements:</p>
-<pre data-copyable="true"><code class="language-markdown code-highlight"># Heading {large-bold center}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span>Heading <span class="token punctuation">{</span><span class="token emphasis">large-bold</span> <span class="token property">center</span><span class="token punctuation">}</span>
+</span><span class="code-line">Paragraph <span class="token punctuation">{</span><span class="token class-name">muted</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">[</span>Link<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-3pjc0m4vd" data-code-text="# Heading {large-bold center}
 Paragraph {muted}
 [Link](#){button primary}
-</code><button class="code-copy-btn" data-code-id="code-z71xznmck" data-code-text="# Heading {large-bold center}
-Paragraph {muted}
-[Link](#){button primary}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4600,8 +4600,10 @@ Paragraph {muted}
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <h3>Attribute Types</h3>
 <p><strong>1. CSS Classes</strong> (prefix with <code>.</code>):</p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{.text-4xl .font-bold .text-center}
-</code><button class="code-copy-btn" data-code-id="code-j8yygqv38" data-code-text="{.text-4xl .font-bold .text-center}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token class-name">.text-4xl</span> <span class="token class-name">.font-bold</span> <span class="token class-name">.text-center</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-v9cx8sks9" data-code-text="{.text-4xl .font-bold .text-center}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4612,8 +4614,10 @@ Paragraph {muted}
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>2. Plain English Shorthands:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{large-bold center primary}
-</code><button class="code-copy-btn" data-code-id="code-ydnzfqlxp" data-code-text="{large-bold center primary}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token emphasis">large-bold</span> <span class="token property">center</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-x8g2wtlz1" data-code-text="{large-bold center primary}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4624,12 +4628,14 @@ Paragraph {muted}
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>3. Component Variants:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{button primary large}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token number">large</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">{</span><span class="token keyword">badge</span> <span class="token class-name">success</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">{</span><span class="token keyword">alert</span> <span class="token class-name">error</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-jtyuz6bmm" data-code-text="{button primary large}
 {badge success}
 {alert error}
-</code><button class="code-copy-btn" data-code-id="code-m9xbkovzz" data-code-text="{button primary large}
-{badge success}
-{alert error}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4640,12 +4646,14 @@ Paragraph {muted}
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>4. Key-Value Pairs:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{id=&quot;unique-id&quot;}
-{modal=&quot;Modal content&quot;}
-{tooltip=&quot;Help text&quot;}
-</code><button class="code-copy-btn" data-code-id="code-a14hi1x7i" data-code-text="{id=&#x26;quot;unique-id&#x26;quot;}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token attr-name">id</span>=<span class="token string">&quot;unique-id&quot;</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">{</span><span class="token attr-name">modal</span>=<span class="token string">&quot;Modal content&quot;</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">{</span><span class="token attr-name">tooltip</span>=<span class="token string">&quot;Help text&quot;</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-40xpr83u2" data-code-text="{id=&#x26;quot;unique-id&#x26;quot;}
 {modal=&#x26;quot;Modal content&#x26;quot;}
 {tooltip=&#x26;quot;Help text&#x26;quot;}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4657,12 +4665,14 @@ Paragraph {muted}
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <h3>Where to Use Them</h3>
 <p><strong>Headings:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight"># Main Title {huge-bold center}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span>Main Title <span class="token punctuation">{</span><span class="token emphasis">huge-bold</span> <span class="token property">center</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token title punctuation">## </span>Subtitle <span class="token punctuation">{</span>large-primary<span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token title punctuation">### </span>Section <span class="token punctuation">{</span><span class="token class-name">muted</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-vxfznxkbt" data-code-text="# Main Title {huge-bold center}
 ## Subtitle {large-primary}
 ### Section {muted}
-</code><button class="code-copy-btn" data-code-id="code-k73ypduob" data-code-text="# Main Title {huge-bold center}
-## Subtitle {large-primary}
-### Section {muted}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4673,12 +4683,14 @@ Paragraph {muted}
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Paragraphs:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">This is large bold text. {large-bold}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line">This is large bold text. <span class="token punctuation">{</span><span class="token emphasis">large-bold</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span><span class="code-line">This is centered and muted. <span class="token punctuation">{</span><span class="token property">center</span> <span class="token class-name">muted</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-s5a5dwq9l" data-code-text="This is large bold text. {large-bold}
 
 This is centered and muted. {center muted}
-</code><button class="code-copy-btn" data-code-id="code-o62d2ryfe" data-code-text="This is large bold text. {large-bold}
 
-This is centered and muted. {center muted}
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4689,12 +4701,14 @@ This is centered and muted. {center muted}
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Links:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">[Regular link](https://example.com)
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">[</span>Regular link<span class="token punctuation">](</span>https://example.com<span class="token punctuation">)</span>
+</span><span class="code-line"><span class="token punctuation">[</span>Button link<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">[</span>Badge link<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">badge</span> <span class="token class-name">success</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-p0vsd7xoz" data-code-text="[Regular link](https://example.com)
 [Button link](#){button primary}
 [Badge link](#){badge success}
-</code><button class="code-copy-btn" data-code-id="code-dfbbyyi15" data-code-text="[Regular link](https://example.com)
-[Button link](#){button primary}
-[Badge link](#){badge success}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4706,12 +4720,14 @@ This is centered and muted. {center muted}
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <h3>Multiple Attributes</h3>
 <p>Combine multiple attributes with spaces:</p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{large-bold center primary rounded}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token emphasis">large-bold</span> <span class="token property">center</span> <span class="token class-name">primary</span> <span class="token attr-name">rounded</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token number">large</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">{</span><span class="token attr-name">subtle-glass</span> <span class="token property">padded-xl</span> rounded-xl<span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-uup3nxn2l" data-code-text="{large-bold center primary rounded}
 {button primary large hover-lift}
 {subtle-glass padded-xl rounded-xl}
-</code><button class="code-copy-btn" data-code-id="code-g9az28s9b" data-code-text="{large-bold center primary rounded}
-{button primary large hover-lift}
-{subtle-glass padded-xl rounded-xl}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4739,8 +4755,10 @@ This is centered and muted. {center muted}
 </ul><p>Unnatural and confusing.</p></div></div>
 <h3>Typography</h3>
 <p><strong>Sizes:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{xs} {small} {base} {large} {xl} {2xl} {3xl} {huge} {massive}
-</code><button class="code-copy-btn" data-code-id="code-wajsw11hh" data-code-text="{xs} {small} {base} {large} {xl} {2xl} {3xl} {huge} {massive}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token number">xs</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token number">small</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token number">base</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token number">large</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token number">xl</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token number">2xl</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token number">3xl</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token number">huge</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token number">massive</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-8jb72lzr2" data-code-text="{xs} {small} {base} {large} {xl} {2xl} {3xl} {huge} {massive}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4751,8 +4769,10 @@ This is centered and muted. {center muted}
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Weights:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{thin} {light} {normal} {medium} {semibold} {bold} {extra-bold} {black}
-</code><button class="code-copy-btn" data-code-id="code-urxurnd03" data-code-text="{thin} {light} {normal} {medium} {semibold} {bold} {extra-bold} {black}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token emphasis">thin</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">light</span><span class="token punctuation">}</span> <span class="token punctuation">{</span>normal<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">medium</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">semibold</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">bold</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">extra-bold</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">black</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-o3edk8f4q" data-code-text="{thin} {light} {normal} {medium} {semibold} {bold} {extra-bold} {black}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4763,8 +4783,10 @@ This is centered and muted. {center muted}
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Combinations:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{large-bold} {huge-bold} {xl-semibold} {small-light}
-</code><button class="code-copy-btn" data-code-id="code-9en9wnz6k" data-code-text="{large-bold} {huge-bold} {xl-semibold} {small-light}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token emphasis">large-bold</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">huge-bold</span><span class="token punctuation">}</span> <span class="token punctuation">{</span>xl-semibold<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">small-light</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-6cgjahnci" data-code-text="{large-bold} {huge-bold} {xl-semibold} {small-light}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4775,8 +4797,10 @@ This is centered and muted. {center muted}
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Colors:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{primary} {secondary} {success} {warning} {error} {info} {muted}
-</code><button class="code-copy-btn" data-code-id="code-wvqbkyurg" data-code-text="{primary} {secondary} {success} {warning} {error} {info} {muted}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token class-name">primary</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token class-name">secondary</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token class-name">warning</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token class-name">error</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token class-name">info</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token class-name">muted</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-5ijwyg487" data-code-text="{primary} {secondary} {success} {warning} {error} {info} {muted}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4787,8 +4811,10 @@ This is centered and muted. {center muted}
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Styles:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{italic} {uppercase} {lowercase} {capitalize}
-</code><button class="code-copy-btn" data-code-id="code-y4pt4byd8" data-code-text="{italic} {uppercase} {lowercase} {capitalize}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token emphasis">italic</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">uppercase</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">lowercase</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">capitalize</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-y3uos45wi" data-code-text="{italic} {uppercase} {lowercase} {capitalize}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4800,8 +4826,10 @@ This is centered and muted. {center muted}
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <h3>Layout</h3>
 <p><strong>Alignment:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{center} {left} {right} {justify}
-</code><button class="code-copy-btn" data-code-id="code-wcb3wgqli" data-code-text="{center} {left} {right} {justify}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token property">center</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">left</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">right</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">justify</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-2lthw6pt6" data-code-text="{center} {left} {right} {justify}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4812,8 +4840,10 @@ This is centered and muted. {center muted}
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Flexbox:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{flex} {flex-col} {flex-row} {flex-center}
-</code><button class="code-copy-btn" data-code-id="code-o7byzx9uj" data-code-text="{flex} {flex-col} {flex-row} {flex-center}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token property">flex</span><span class="token punctuation">}</span> <span class="token punctuation">{</span>flex-col<span class="token punctuation">}</span> <span class="token punctuation">{</span>flex-row<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">flex-center</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-sq6oj6u0e" data-code-text="{flex} {flex-col} {flex-row} {flex-center}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4824,10 +4854,12 @@ This is centered and muted. {center muted}
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Grid:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{grid-2} {grid-3} {grid-4}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token property">grid-2</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">grid-3</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">grid-4</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">{</span>cols-2<span class="token punctuation">}</span> <span class="token punctuation">{</span>cols-3<span class="token punctuation">}</span> <span class="token punctuation">{</span>cols-4<span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-c5a2ovovp" data-code-text="{grid-2} {grid-3} {grid-4}
 {cols-2} {cols-3} {cols-4}
-</code><button class="code-copy-btn" data-code-id="code-z26fasztq" data-code-text="{grid-2} {grid-3} {grid-4}
-{cols-2} {cols-3} {cols-4}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4838,12 +4870,14 @@ This is centered and muted. {center muted}
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Spacing:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{padded} {padded-sm} {padded-lg} {padded-xl}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token property">padded</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">padded-sm</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">padded-lg</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">padded-xl</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">{</span><span class="token property">gap</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">gap-sm</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">gap-lg</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">gap-xl</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">{</span>tight<span class="token punctuation">}</span> <span class="token punctuation">{</span>relaxed<span class="token punctuation">}</span> <span class="token punctuation">{</span>loose<span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-c0ymmuwye" data-code-text="{padded} {padded-sm} {padded-lg} {padded-xl}
 {gap} {gap-sm} {gap-lg} {gap-xl}
 {tight} {relaxed} {loose}
-</code><button class="code-copy-btn" data-code-id="code-tr4o07piz" data-code-text="{padded} {padded-sm} {padded-lg} {padded-xl}
-{gap} {gap-sm} {gap-lg} {gap-xl}
-{tight} {relaxed} {loose}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4855,8 +4889,10 @@ This is centered and muted. {center muted}
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <h3>Visual Effects</h3>
 <p><strong>Borders:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{rounded} {rounded-sm} {rounded-lg} {rounded-xl} {rounded-full}
-</code><button class="code-copy-btn" data-code-id="code-szgxg5rlt" data-code-text="{rounded} {rounded-sm} {rounded-lg} {rounded-xl} {rounded-full}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token attr-name">rounded</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">rounded-sm</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">rounded-lg</span><span class="token punctuation">}</span> <span class="token punctuation">{</span>rounded-xl<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">rounded-full</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-8a66hnqfk" data-code-text="{rounded} {rounded-sm} {rounded-lg} {rounded-xl} {rounded-full}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4867,8 +4903,10 @@ This is centered and muted. {center muted}
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Shadows:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{shadow} {shadow-sm} {shadow-lg} {elevated} {floating}
-</code><button class="code-copy-btn" data-code-id="code-hpoy7jfg4" data-code-text="{shadow} {shadow-sm} {shadow-lg} {elevated} {floating}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token attr-name">shadow</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">shadow-sm</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">shadow-lg</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">elevated</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">floating</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-z52j3udb9" data-code-text="{shadow} {shadow-sm} {shadow-lg} {elevated} {floating}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4879,8 +4917,10 @@ This is centered and muted. {center muted}
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Glassmorphism:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{subtle-glass} {light-glass} {glass} {heavy-glass}
-</code><button class="code-copy-btn" data-code-id="code-94p498muv" data-code-text="{subtle-glass} {light-glass} {glass} {heavy-glass}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token attr-name">subtle-glass</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">light-glass</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">glass</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">heavy-glass</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-prx6bv5ks" data-code-text="{subtle-glass} {light-glass} {glass} {heavy-glass}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4891,12 +4931,14 @@ This is centered and muted. {center muted}
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>Animations:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">{fade-in} {slide-up} {slide-down} {zoom-in}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token function">fade-in</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token function">slide-up</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token function">slide-down</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token function">zoom-in</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">{</span><span class="token function">hover-lift</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token function">hover-glow</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token function">hover-scale</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">{</span><span class="token function">fast</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token function">smooth</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token function">slow</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-futb2xqd2" data-code-text="{fade-in} {slide-up} {slide-down} {zoom-in}
 {hover-lift} {hover-glow} {hover-scale}
 {fast} {smooth} {slow}
-</code><button class="code-copy-btn" data-code-id="code-nshsh7276" data-code-text="{fade-in} {slide-up} {slide-down} {zoom-in}
-{hover-lift} {hover-glow} {hover-scale}
-{fast} {smooth} {slow}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4910,12 +4952,14 @@ This is centered and muted. {center muted}
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700" id="icons">Icon Syntax</h2>
 <p class="text-lg"><svg class="icon icon-smile text-yellow-600 text-lg" data-icon="smile" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M8 14s1.5 2 4 2 4-2 4-2" /><line x1="9" x2="9.01" y1="9" y2="9" /><line x1="15" x2="15.01" y1="9" y2="9" /></svg> <strong>Embed beautiful SVG icons anywhere with <code>:icon[name]</code> syntax.</strong></p>
 <h3>Basic Usage</h3>
-<pre data-copyable="true"><code class="language-markdown code-highlight">:icon[home]
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">home</span><span class="token punctuation">]</span>
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">heart</span><span class="token punctuation">]</span>
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">star</span><span class="token punctuation">]</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-qb5wsl6iy" data-code-text=":icon[home]
 :icon[heart]
 :icon[star]
-</code><button class="code-copy-btn" data-code-id="code-cjoudwy2j" data-code-text=":icon[home]
-:icon[heart]
-:icon[star]
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4927,14 +4971,16 @@ This is centered and muted. {center muted}
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p>Result: <svg class="icon icon-home" data-icon="home" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> <svg class="icon icon-heart" data-icon="heart" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" /></svg> <svg class="icon icon-star" data-icon="star" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></svg></p>
 <h3>With Attributes</h3>
-<pre data-copyable="true"><code class="language-markdown code-highlight">:icon[check]{success}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">alert-triangle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">warning</span> <span class="token number">large</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">heart</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">error</span> <span class="token number">xl</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">zap</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">primary</span> <span class="token number">huge</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-yw1q1hhvj" data-code-text=":icon[check]{success}
 :icon[alert-triangle]{warning large}
 :icon[heart]{error xl}
 :icon[zap]{primary huge}
-</code><button class="code-copy-btn" data-code-id="code-x4hgidv27" data-code-text=":icon[check]{success}
-:icon[alert-triangle]{warning large}
-:icon[heart]{error xl}
-:icon[zap]{primary huge}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4946,7 +4992,16 @@ This is centered and muted. {center muted}
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p>Result: <svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <svg class="icon icon-alert-triangle text-yellow-600 text-lg" data-icon="alert-triangle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg> <svg class="icon icon-heart text-red-600 text-xl" data-icon="heart" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" /></svg> <svg class="icon icon-zap text-primary-600 hover:text-primary-700 text-4xl" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg></p>
 <h3>Size Keywords</h3>
-<pre data-copyable="true"><code class="language-markdown code-highlight">:icon[star]{tiny}    → 12px
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">star</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">tiny</span><span class="token punctuation">}</span>    → 12px
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">star</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">xs</span><span class="token punctuation">}</span>      → 16px
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">star</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">sm</span><span class="token punctuation">}</span>      → 20px
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">star</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">md</span><span class="token punctuation">}</span>      → 24px (default)
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">star</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">lg</span><span class="token punctuation">}</span>      → 32px
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">star</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">xl</span><span class="token punctuation">}</span>      → 40px
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">star</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">2xl</span><span class="token punctuation">}</span>     → 48px
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">star</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">huge</span><span class="token punctuation">}</span>    → 64px
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-ah850cbhn" data-code-text=":icon[star]{tiny}    → 12px
 :icon[star]{xs}      → 16px
 :icon[star]{sm}      → 20px
 :icon[star]{md}      → 24px (default)
@@ -4954,14 +5009,7 @@ This is centered and muted. {center muted}
 :icon[star]{xl}      → 40px
 :icon[star]{2xl}     → 48px
 :icon[star]{huge}    → 64px
-</code><button class="code-copy-btn" data-code-id="code-k6vgqn8yh" data-code-text=":icon[star]{tiny}    → 12px
-:icon[star]{xs}      → 16px
-:icon[star]{sm}      → 20px
-:icon[star]{md}      → 24px (default)
-:icon[star]{lg}      → 32px
-:icon[star]{xl}      → 40px
-:icon[star]{2xl}     → 48px
-:icon[star]{huge}    → 64px
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4972,18 +5020,20 @@ This is centered and muted. {center muted}
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <h3>Color Keywords</h3>
-<pre data-copyable="true"><code class="language-markdown code-highlight">:icon[circle]{primary}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">circle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">primary</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">circle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">secondary</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">circle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">circle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">warning</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">circle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">error</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">circle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">info</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-ctk420lkn" data-code-text=":icon[circle]{primary}
 :icon[circle]{secondary}
 :icon[circle]{success}
 :icon[circle]{warning}
 :icon[circle]{error}
 :icon[circle]{info}
-</code><button class="code-copy-btn" data-code-id="code-w613tro87" data-code-text=":icon[circle]{primary}
-:icon[circle]{secondary}
-:icon[circle]{success}
-:icon[circle]{warning}
-:icon[circle]{error}
-:icon[circle]{info}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4996,12 +5046,14 @@ This is centered and muted. {center muted}
 <p>Result: <svg class="icon icon-circle text-primary-600 hover:text-primary-700 lg" data-icon="circle" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /></svg> <svg class="icon icon-circle text-secondary-600 hover:text-secondary-700 lg" data-icon="circle" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /></svg> <svg class="icon icon-circle text-green-600 lg" data-icon="circle" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /></svg> <svg class="icon icon-circle text-yellow-600 lg" data-icon="circle" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /></svg> <svg class="icon icon-circle text-red-600 lg" data-icon="circle" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /></svg> <svg class="icon icon-circle text-blue-600 lg" data-icon="circle" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /></svg></p>
 <h3>In Lists</h3>
 <p>Icons at the start of list items automatically hide the bullet:</p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">- :icon[check]{success} Completed task
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line">- <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span> Completed task
+</span><span class="code-line">- <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">circle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">warning</span><span class="token punctuation">}</span> In progress
+</span><span class="code-line">- <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">x</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">error</span><span class="token punctuation">}</span> Failed task
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-iplhqcocq" data-code-text="- :icon[check]{success} Completed task
 - :icon[circle]{warning} In progress
 - :icon[x]{error} Failed task
-</code><button class="code-copy-btn" data-code-id="code-kzrq4nrcx" data-code-text="- :icon[check]{success} Completed task
-- :icon[circle]{warning} In progress
-- :icon[x]{error} Failed task
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -5029,12 +5081,14 @@ This is centered and muted. {center muted}
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700" id="components">Component Blocks</h2>
 <p class="text-lg"><svg class="icon icon-package text-primary-600 hover:text-primary-700 text-lg" data-icon="package" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path d="m7.5 4.27 9 5.15" /></svg> <strong>Wrap content in components using <code>:::name</code> fences.</strong></p>
 <h3>Basic Syntax</h3>
-<pre data-copyable="true"><code class="language-markdown code-highlight">:::card
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span>
+</span><span class="code-line">Content inside a card
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-67enjs66p" data-code-text=":::card
 Content inside a card
 :::
-</code><button class="code-copy-btn" data-code-id="code-ezzlc69tb" data-code-text=":::card
-Content inside a card
-:::
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -5045,12 +5099,14 @@ Content inside a card
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <h3>With Attributes</h3>
-<pre data-copyable="true"><code class="language-markdown code-highlight">:::card {glass padded rounded-xl}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">glass</span> <span class="token property">padded</span> rounded-xl<span class="token punctuation">}</span>
+</span><span class="code-line">Beautiful glassmorphic card
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-5c77nkjs9" data-code-text=":::card {glass padded rounded-xl}
 Beautiful glassmorphic card
 :::
-</code><button class="code-copy-btn" data-code-id="code-txajqrlvn" data-code-text=":::card {glass padded rounded-xl}
-Beautiful glassmorphic card
-:::
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -5061,7 +5117,17 @@ Beautiful glassmorphic card
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <h3>Nesting</h3>
-<pre data-copyable="true"><code class="language-markdown code-highlight">:::grid {cols-2}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">grid</span> <span class="token punctuation">{</span>cols-2<span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span>
+</span><span class="code-line">Column 1
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span>
+</span><span class="code-line">Column 2
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-zjen4xfki" data-code-text=":::grid {cols-2}
 :::card
 Column 1
 :::
@@ -5070,15 +5136,7 @@ Column 1
 Column 2
 :::
 :::
-</code><button class="code-copy-btn" data-code-id="code-r3rs0frzv" data-code-text=":::grid {cols-2}
-:::card
-Column 1
-:::
 
-:::card
-Column 2
-:::
-:::
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -5108,7 +5166,18 @@ Column 2
 <p class="text-lg"><svg class="icon icon-activity text-green-600 text-lg" data-icon="activity" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg> <strong>Zero-config JavaScript generation for interactive components.</strong></p>
 <h3>Tabs</h3>
 <p><strong>Create tabbed interfaces using headings:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">:::tabs
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">tabs</span>
+</span><span class="code-line"><span class="token title punctuation">## </span>Tab One
+</span><span class="code-line">Content for first tab
+</span><span class="code-line">
+</span><span class="code-line"><span class="token title punctuation">## </span>Tab Two
+</span><span class="code-line">Content for second tab
+</span><span class="code-line">
+</span><span class="code-line"><span class="token title punctuation">## </span>Tab Three
+</span><span class="code-line">Content for third tab
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-d84jh0pem" data-code-text=":::tabs
 ## Tab One
 Content for first tab
 
@@ -5118,16 +5187,7 @@ Content for second tab
 ## Tab Three
 Content for third tab
 :::
-</code><button class="code-copy-btn" data-code-id="code-eqcp4n8td" data-code-text=":::tabs
-## Tab One
-Content for first tab
 
-## Tab Two
-Content for second tab
-
-## Tab Three
-Content for third tab
-:::
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -5147,7 +5207,18 @@ Content for third tab
 </ul>
 <h3>Accordion</h3>
 <p><strong>Expandable sections using bold text:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">:::accordion
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">accordion</span>
+</span><span class="code-line"><span class="token punctuation">**</span><span class="token bold">First Section</span><span class="token punctuation">**</span>
+</span><span class="code-line">Content for first section
+</span><span class="code-line">
+</span><span class="code-line"><span class="token punctuation">**</span><span class="token bold">Second Section</span><span class="token punctuation">**</span>
+</span><span class="code-line">Content for second section
+</span><span class="code-line">
+</span><span class="code-line"><span class="token punctuation">**</span><span class="token bold">Third Section</span><span class="token punctuation">**</span>
+</span><span class="code-line">Content for third section
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-7goh97awj" data-code-text=":::accordion
 **First Section**
 Content for first section
 
@@ -5157,16 +5228,7 @@ Content for second section
 **Third Section**
 Content for third section
 :::
-</code><button class="code-copy-btn" data-code-id="code-en0aoyfk7" data-code-text=":::accordion
-**First Section**
-Content for first section
 
-**Second Section**
-Content for second section
-
-**Third Section**
-Content for third section
-:::
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -5185,7 +5247,19 @@ Content for third section
 </ul>
 <h3>Carousel</h3>
 <p><strong>Slideshow using horizontal rules:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">:::carousel
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">carousel</span>
+</span><span class="code-line">First slide content
+</span><span class="code-line">
+</span><span class="code-line"><span class="token hr">---</span>
+</span><span class="code-line">
+</span><span class="code-line">Second slide content
+</span><span class="code-line">
+</span><span class="code-line"><span class="token hr">---</span>
+</span><span class="code-line">
+</span><span class="code-line">Third slide content
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-esbybr9r5" data-code-text=":::carousel
 First slide content
 
 ---
@@ -5196,17 +5270,7 @@ Second slide content
 
 Third slide content
 :::
-</code><button class="code-copy-btn" data-code-id="code-i83k50kyc" data-code-text=":::carousel
-First slide content
 
----
-
-Second slide content
-
----
-
-Third slide content
-:::
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -5226,10 +5290,12 @@ Third slide content
 </ul>
 <h3>Modal &#x26; Tooltip</h3>
 <p><strong>Attachable to any element:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">[Click me](#){button modal=&quot;Simple alert!&quot;}
-[Hover me](#){tooltip=&quot;Help text&quot;}
-</code><button class="code-copy-btn" data-code-id="code-zvrnmr3bf" data-code-text="[Click me](#){button modal=&#x26;quot;Simple alert!&#x26;quot;}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">[</span>Click me<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token attr-name">modal</span>=<span class="token string">&quot;Simple alert!&quot;</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">[</span>Hover me<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token attr-name">tooltip</span>=<span class="token string">&quot;Help text&quot;</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-kna9uchu1" data-code-text="[Click me](#){button modal=&#x26;quot;Simple alert!&#x26;quot;}
 [Hover me](#){tooltip=&#x26;quot;Help text&#x26;quot;}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -5240,18 +5306,20 @@ Third slide content
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <p><strong>With ID references:</strong></p>
-<pre data-copyable="true"><code class="language-markdown code-highlight">[Open Modal](#){button modal=&quot;#my-modal&quot;}
-
-:::modal {id=&quot;my-modal&quot;}
-# Modal Title
-Rich content with **markdown** support
-:::
-</code><button class="code-copy-btn" data-code-id="code-dph3r1uh8" data-code-text="[Open Modal](#){button modal=&#x26;quot;#my-modal&#x26;quot;}
+<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">[</span>Open Modal<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token attr-name">modal</span>=<span class="token string">&quot;#my-modal&quot;</span><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">modal</span> <span class="token punctuation">{</span><span class="token attr-name">id</span>=<span class="token string">&quot;my-modal&quot;</span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token title punctuation"># </span>Modal Title
+</span><span class="code-line">Rich content with <span class="token punctuation">**</span><span class="token bold">markdown</span><span class="token punctuation">**</span> support
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-njh694niy" data-code-text="[Open Modal](#){button modal=&#x26;quot;#my-modal&#x26;quot;}
 
 :::modal {id=&#x26;quot;my-modal&#x26;quot;}
 # Modal Title
 Rich content with **markdown** support
 :::
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -5271,12 +5339,14 @@ Rich content with **markdown** support
 </ul>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700" id="reference">Quick Reference Card</h2>
-<div class="taildown-component component-grid grid grid-cols-3 cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-subtle shadow-sm p-6" data-component="card"><h3>Inline Attributes</h3><pre data-copyable="true"><code class="language-markdown code-highlight"># Text {attributes}
+<div class="taildown-component component-grid grid grid-cols-3 cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-subtle shadow-sm p-6" data-component="card"><h3>Inline Attributes</h3><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span>Text <span class="token punctuation">{</span>attributes<span class="token punctuation">}</span>
+</span><span class="code-line">Paragraph <span class="token punctuation">{</span>attributes<span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">[</span>Link<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span>attributes<span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-4tuk4zhiy" data-code-text="# Text {attributes}
 Paragraph {attributes}
 [Link](#){attributes}
-</code><button class="code-copy-btn" data-code-id="code-a296w09el" data-code-text="# Text {attributes}
-Paragraph {attributes}
-[Link](#){attributes}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -5290,12 +5360,14 @@ Paragraph {attributes}
 <li>English: <code>large-bold</code></li>
 <li>Component: <code>button primary</code></li>
 <li>Key-value: <code>id="value"</code></li>
-</ul></div><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-subtle shadow-sm p-6" data-component="card"><h3>Icons</h3><pre data-copyable="true"><code class="language-markdown code-highlight">:icon[name]
+</ul></div><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-subtle shadow-sm p-6" data-component="card"><h3>Icons</h3><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">name</span><span class="token punctuation">]</span>
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">name</span><span class="token punctuation">]</span><span class="token punctuation">{</span>size<span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">name</span><span class="token punctuation">]</span><span class="token punctuation">{</span>color size<span class="token punctuation">}</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-1ym3bp0no" data-code-text=":icon[name]
 :icon[name]{size}
 :icon[name]{color size}
-</code><button class="code-copy-btn" data-code-id="code-0eoi353dr" data-code-text=":icon[name]
-:icon[name]{size}
-:icon[name]{color size}
+
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -5305,20 +5377,22 @@ Paragraph {attributes}
         </svg>
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre><p><strong>Sizes:</strong> tiny, xs, sm, md, lg, xl, 2xl, huge<br />
-<strong>Colors:</strong>primary, success, warning, error, info</p></div><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-subtle shadow-sm p-6" data-component="card"><h3>Components</h3><pre data-copyable="true"><code class="language-markdown code-highlight">:::component-name
+<strong>Colors:</strong>primary, success, warning, error, info</p></div><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-subtle shadow-sm p-6" data-component="card"><h3>Components</h3><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">component-name</span>
+</span><span class="code-line">Content
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">component</span> <span class="token punctuation">{</span>attributes<span class="token punctuation">}</span>
+</span><span class="code-line">Content with attributes
+</span><span class="code-line"><span class="token punctuation">:::</span>
+</span><span class="code-line">
+</span></code><button class="code-copy-btn" data-code-id="code-9uy2483f5" data-code-text=":::component-name
 Content
 :::
 
 :::component {attributes}
 Content with attributes
 :::
-</code><button class="code-copy-btn" data-code-id="code-zltg7p7cg" data-code-text=":::component-name
-Content
-:::
 
-:::component {attributes}
-Content with attributes
-:::
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
