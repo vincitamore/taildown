@@ -1268,13 +1268,7 @@ Use badges to highlight status and metadata:
 Combine badges with icons and markdown content for visual context and alternative use:
 
 :::badge {primary}
-:icon[lightbulb]{warning} Pro Tip: Badges support full markdown content:
-
-- **Bold text** and *emphasis*
-- `Code snippets` and technical terms
-- Lists and structured content
-- Useful for more subdued styled message boxes than alerts
-
+:icon[lightbulb]{warning} Pro Tip: Badges support content but don't go overboard.
 :::
 :::badge {success}
 :icon[trending-up]{success} trending
