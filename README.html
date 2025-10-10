@@ -2184,7 +2184,7 @@ td svg.icon {
 .hover\:text-accent-700:hover { color: rgb(190 24 93); }
 .text-gray-500 { color: rgb(107 114 128); }
 .grid { display: grid; gap: 1rem; }
-.grid-cols-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-cols-3 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .rounded-lg { border-radius: 0.5rem; }
 .p-6 { padding: 1.5rem; }
 .max-w-full { max-width: 100%; }
@@ -2192,7 +2192,7 @@ td svg.icon {
 .overflow-wrap-normal { overflow-wrap: normal; word-break: normal; }
 .text-green-600 { color: rgb(22 163 74); }
 .text-yellow-600 { color: rgb(202 138 4); }
-.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-cols-2 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .text-blue-600 { color: rgb(37 99 235); }
 .shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
 .overflow-x-auto { overflow-x: auto; }
@@ -4119,7 +4119,15 @@ td svg.icon {
 }
 
 
-/* grid-cols-3: 2 columns on mobile, 3 on tablet+ */
+/* grid-cols-2: 1 column on mobile, 2 on tablet+ */
+@media (min-width: 640px) {
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+
+/* grid-cols-3: 1 column on mobile, 3 on tablet+ */
 @media (min-width: 768px) {
   .grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
@@ -4586,7 +4594,7 @@ pnpm install
 
 # Build all packages
 pnpm build
-</code><button class="code-copy-btn" data-code-id="code-z9a1voq6e" data-code-text="# Clone the repository
+</code><button class="code-copy-btn" data-code-id="code-34xh0lc1m" data-code-text="# Clone the repository
 git clone https://github.com/taildown/taildown.git
 cd taildown
 
@@ -4629,7 +4637,7 @@ pnpm build
 </span><span class="code-line">See SYNTAX.md for complete syntax reference.
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-ogntvcvm1" data-code-text="# Hello Taildown {huge-bold center primary}
+</span></code><button class="code-copy-btn" data-code-id="code-reoe7hw7o" data-code-text="# Hello Taildown {huge-bold center primary}
 
 Welcome to the future of beautiful documents! {large muted}
 
@@ -4664,7 +4672,7 @@ See SYNTAX.md for complete syntax reference.
         </svg>
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile hello.td
-</code><button class="code-copy-btn" data-code-id="code-drrxbyfzx" data-code-text="pnpm taildown compile hello.td
+</code><button class="code-copy-btn" data-code-id="code-yqyjl9xph" data-code-text="pnpm taildown compile hello.td
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4677,7 +4685,7 @@ See SYNTAX.md for complete syntax reference.
 <li><code>hello.html</code> - Semantic HTML5 with embedded CSS <svg class="icon icon-file text-xs" data-icon="file" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /></svg></li>
 <li>JavaScript is automatically included inline if interactive components are used <svg class="icon icon-code text-xs" data-icon="code" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg></li>
 </ul><p><strong>Want separate files?</strong> Use the <code>--separate</code> flag:</p><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile hello.td --separate
-</code><button class="code-copy-btn" data-code-id="code-2x3vlwf9r" data-code-text="pnpm taildown compile hello.td --separate
+</code><button class="code-copy-btn" data-code-id="code-2xl6kffmc" data-code-text="pnpm taildown compile hello.td --separate
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -4696,7 +4704,7 @@ See SYNTAX.md for complete syntax reference.
 </span><span class="code-line">
 </span><span class="code-line">This text is centered. <span class="token punctuation">{</span><span class="token property">center</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-n1q7ekgye" data-code-text="# Large Bold Primary Heading {huge-bold primary}
+</span></code><button class="code-copy-btn" data-code-id="code-ww9ga0hvn" data-code-text="# Large Bold Primary Heading {huge-bold primary}
 
 This paragraph is muted with relaxed line spacing. {large muted relaxed-lines}
 
@@ -4720,7 +4728,7 @@ This text is centered. {center}
 </span><span class="code-line">
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">arrow-right</span><span class="token punctuation">]</span> Learn more
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-gcr2y5dnh" data-code-text=":icon[heart]{primary} Love this feature
+</span></code><button class="code-copy-btn" data-code-id="code-zka888wgp" data-code-text=":icon[heart]{primary} Love this feature
 
 :icon[check-circle]{success xs} Completed task
 
@@ -4742,7 +4750,7 @@ This text is centered. {center}
 </span><span class="code-line"><span class="token punctuation">[</span>Button Text<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-32paywghm" data-code-text=":::card {elevated hover-lift}
+</span></code><button class="code-copy-btn" data-code-id="code-tzzfzsq0i" data-code-text=":::card {elevated hover-lift}
 ## Card Title {large-bold}
 
 Card content with automatic styling.
@@ -4770,7 +4778,7 @@ Card content with automatic styling.
 </span><span class="code-line">Heavy frosted glass with 60% transparency
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-npckx76nh" data-code-text=":::card {subtle-glass}
+</span></code><button class="code-copy-btn" data-code-id="code-huo52t3y9" data-code-text=":::card {subtle-glass}
 Light frosted glass with 90% transparency
 :::
 
@@ -4802,7 +4810,7 @@ Heavy frosted glass with 60% transparency
 </span><span class="code-line">Zooms in on scroll, lifts on hover
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-evisr57n5" data-code-text=":::card {elevated fade-in}
+</span></code><button class="code-copy-btn" data-code-id="code-yahlk1ak2" data-code-text=":::card {elevated fade-in}
 Fades in when scrolled into view
 :::
 
@@ -4837,7 +4845,7 @@ Zooms in on scroll, lifts on hover
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-mq9958ct7" data-code-text=":::grid
+</span></code><button class="code-copy-btn" data-code-id="code-teyc6aiys" data-code-text=":::grid
 :::card {elevated fade-in}
 Content 1
 :::
@@ -4871,7 +4879,7 @@ Content 3
 </span><span class="code-line">More content
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-xl988g0wg" data-code-text=":::tabs
+</span></code><button class="code-copy-btn" data-code-id="code-cw5v6ar4z" data-code-text=":::tabs
 ## First Tab
 Content here
 
@@ -4895,7 +4903,7 @@ More content
 </span><span class="code-line">Click to expand
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-p2t1utvsu" data-code-text=":::accordion
+</span></code><button class="code-copy-btn" data-code-id="code-kkaa461d1" data-code-text=":::accordion
 **Section 1**
 Content (open by default)
 
@@ -4919,7 +4927,7 @@ Click to expand
 </span><span class="code-line">Slide 2
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-gp9fij3re" data-code-text=":::carousel
+</span></code><button class="code-copy-btn" data-code-id="code-6qd38zly3" data-code-text=":::carousel
 Slide 1
 
 ---
@@ -4945,7 +4953,7 @@ Slide 2
 </span><span class="code-line">Full <span class="token punctuation">**</span><span class="token bold">markdown</span><span class="token punctuation">**</span> support here.
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-2g07eo956" data-code-text="[Click Me](#){modal=&#x26;quot;Your message&#x26;quot;}
+</span></code><button class="code-copy-btn" data-code-id="code-tuk9svch8" data-code-text="[Click Me](#){modal=&#x26;quot;Your message&#x26;quot;}
 [Hover](#){tooltip=&#x26;quot;Help text&#x26;quot;}
 
 [Open Rich Modal](#){modal=&#x26;quot;#welcome&#x26;quot;}
@@ -4973,7 +4981,7 @@ Full **markdown** support here.
 </span><span class="code-line"><span class="token punctuation">[</span>Login<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">secondary</span> <span class="token number">small</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-op5s9my2x" data-code-text=":::navbar
+</span></code><button class="code-copy-btn" data-code-id="code-h6ji8p0bw" data-code-text=":::navbar
 # Brand
 
 - [Home](#)
@@ -4999,7 +5007,7 @@ Full **markdown** support here.
 </span><span class="code-line"><span class="token punctuation">[</span>Help<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token attr-name">tooltip</span>=<span class="token string">&quot;Quick tip&quot;</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">[</span>Button<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token attr-name">modal</span>=<span class="token string">&quot;#details&quot;</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-57kowkzzn" data-code-text="[Info](#){modal=&#x26;quot;Simple message&#x26;quot;}
+</span></code><button class="code-copy-btn" data-code-id="code-18uia9e9b" data-code-text="[Info](#){modal=&#x26;quot;Simple message&#x26;quot;}
 [Help](#){tooltip=&#x26;quot;Quick tip&#x26;quot;}
 [Button](#){button primary modal=&#x26;quot;#details&#x26;quot;}
 
@@ -5019,7 +5027,7 @@ Full **markdown** support here.
 </span><span class="code-line">Content defined once, used twice!
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-mdmp89zkq" data-code-text="[Open 1](#){modal=&#x26;quot;#shared&#x26;quot;}
+</span></code><button class="code-copy-btn" data-code-id="code-er89c091e" data-code-text="[Open 1](#){modal=&#x26;quot;#shared&#x26;quot;}
 [Open 2](#){modal=&#x26;quot;#shared&#x26;quot;}
 
 :::modal {id=&#x26;quot;shared&#x26;quot;}
@@ -5060,7 +5068,7 @@ Content defined once, used twice!
 </span><span class="code-line">Glass card with animations
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-67z33v2ns" data-code-text=":::card {elevated}
+</span></code><button class="code-copy-btn" data-code-id="code-55jroc3ry" data-code-text=":::card {elevated}
 Basic elevated card
 :::
 
@@ -5081,7 +5089,7 @@ Glass card with animations
 </span><span class="code-line">
 </span><span class="code-line"><span class="token punctuation">[</span>Learn More <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">arrow-right</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">xs</span><span class="token punctuation">}</span><span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">secondary</span> <span class="token number">large</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-56tr7i3ae" data-code-text="[Click Me](#){button primary}
+</span></code><button class="code-copy-btn" data-code-id="code-6oae4452w" data-code-text="[Click Me](#){button primary}
 
 [Learn More :icon[arrow-right]{xs}](#){button secondary large}
 
@@ -5102,7 +5110,7 @@ Glass card with animations
 </span><span class="code-line">Success alert for completed actions.
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-ah0jcfqtk" data-code-text=":::alert {info}
+</span></code><button class="code-copy-btn" data-code-id="code-tek5p4oz2" data-code-text=":::alert {info}
 Information alert for general notices.
 :::
 
@@ -5127,7 +5135,7 @@ Success alert for completed actions.
 </span><span class="code-line">Active
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-wid5nwkys" data-code-text=":::badge {primary}
+</span></code><button class="code-copy-btn" data-code-id="code-kv2fjfhop" data-code-text=":::badge {primary}
 New
 :::
 
@@ -5148,7 +5156,7 @@ Active
 </span><span class="code-line"><span class="token punctuation">![</span><span class="token string">User</span><span class="token punctuation">](</span><span class="token url">avatar.jpg</span><span class="token punctuation">)</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-wfbskpbmj" data-code-text=":::avatar {circular md}
+</span></code><button class="code-copy-btn" data-code-id="code-u8rg6teyv" data-code-text=":::avatar {circular md}
 ![User](avatar.jpg)
 :::
 
@@ -5170,7 +5178,7 @@ Active
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-fy9hwm0kf" data-code-text=":::grid
+</span></code><button class="code-copy-btn" data-code-id="code-npxst73fp" data-code-text=":::grid
 :::card
 Item 1
 :::
@@ -5191,7 +5199,7 @@ Item 2
 </span><span class="code-line">Centered content with max-width
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-oud1jmybb" data-code-text=":::container
+</span></code><button class="code-copy-btn" data-code-id="code-ws0akhlnh" data-code-text=":::container
 Centered content with max-width
 :::
 
@@ -5208,7 +5216,7 @@ Centered content with max-width
 </span><span class="code-line">Content
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-k1ozkz8dh" data-code-text=":::tabs
+</span></code><button class="code-copy-btn" data-code-id="code-qg5vlok8s" data-code-text=":::tabs
 ## Tab One
 Content
 :::
@@ -5226,7 +5234,7 @@ Content
 </span><span class="code-line">Content
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-k7meiwczo" data-code-text=":::accordion
+</span></code><button class="code-copy-btn" data-code-id="code-tzapqn91t" data-code-text=":::accordion
 **Section**
 Content
 :::
@@ -5245,7 +5253,7 @@ Content
 </span><span class="code-line">Slide 2
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-b2xs79xju" data-code-text=":::carousel
+</span></code><button class="code-copy-btn" data-code-id="code-iz0hyuo86" data-code-text=":::carousel
 Slide 1
 ---
 Slide 2
@@ -5262,7 +5270,7 @@ Slide 2
         <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal bg-card text-card-foreground shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-message-square text-blue-600" data-icon="message-square" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" /></svg> Modal</h3><p>Dialog overlays.</p><p><strong>Features:</strong> Backdrop blur, focus trap, keyboard support</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">[</span>Open<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token attr-name">modal</span>=<span class="token string">&quot;Message&quot;</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-yhkc9s489" data-code-text="[Open](#){modal=&#x26;quot;Message&#x26;quot;}
+</span></code><button class="code-copy-btn" data-code-id="code-w5nlx6ii9" data-code-text="[Open](#){modal=&#x26;quot;Message&#x26;quot;}
 :::
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -5276,7 +5284,7 @@ Slide 2
         <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal bg-card text-card-foreground shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-help-circle text-green-600" data-icon="help-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg> Tooltip</h3><p>Contextual help.</p><p><strong>Features:</strong> Smart positioning, mobile support</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">[</span>Help<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token attr-name">tooltip</span>=<span class="token string">&quot;Info&quot;</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-c2303jaev" data-code-text="[Help](#){tooltip=&#x26;quot;Info&#x26;quot;}
+</span></code><button class="code-copy-btn" data-code-id="code-qkj2ylnei" data-code-text="[Help](#){tooltip=&#x26;quot;Info&#x26;quot;}
 :::
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -5292,7 +5300,7 @@ Slide 2
 </span><span class="code-line">- <span class="token punctuation">[</span>Link<span class="token punctuation">](</span>#<span class="token punctuation">)</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-g1wzirj2b" data-code-text=":::navbar
+</span></code><button class="code-copy-btn" data-code-id="code-74nu957fj" data-code-text=":::navbar
 # Brand
 - [Link](#)
 :::
@@ -5310,7 +5318,7 @@ Slide 2
 </span><span class="code-line">  <span class="token punctuation">-</span> src/
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-d0ve9cpr2" data-code-text=":::tree {colored}
+</span></code><button class="code-copy-btn" data-code-id="code-yx9bv3brb" data-code-text=":::tree {colored}
 - project/
   - src/
 :::
@@ -5328,7 +5336,7 @@ Slide 2
 </span><span class="code-line">- Step 2
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-gb8mnojyy" data-code-text=":::flow {stepped}
+</span></code><button class="code-copy-btn" data-code-id="code-6xvig2oz4" data-code-text=":::flow {stepped}
 - Step 1
 - Step 2
 :::
@@ -5346,7 +5354,7 @@ Slide 2
 </span><span class="code-line"><span class="token punctuation">[</span>Two<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-obwu8wyje" data-code-text=":::button-group
+</span></code><button class="code-copy-btn" data-code-id="code-gzo3fller" data-code-text=":::button-group
 [One](#){button}
 [Two](#){button}
 :::
@@ -5363,7 +5371,7 @@ Slide 2
 </span><span class="code-line">Navigation
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-7zdknal8d" data-code-text=":::sidebar
+</span></code><button class="code-copy-btn" data-code-id="code-sod6qodbe" data-code-text=":::sidebar
 Navigation
 :::
 
@@ -5380,7 +5388,7 @@ Navigation
 </span><span class="code-line">- Current
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-hrpr9vkun" data-code-text=":::breadcrumb
+</span></code><button class="code-copy-btn" data-code-id="code-aixrp6u52" data-code-text=":::breadcrumb
 - [Home](#)
 - Current
 :::
@@ -5397,7 +5405,7 @@ Navigation
 </span><span class="code-line">1-10 of 100
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-m2og6bon1" data-code-text=":::pagination
+</span></code><button class="code-copy-btn" data-code-id="code-9avfg1s25" data-code-text=":::pagination
 1-10 of 100
 :::
 
@@ -5413,7 +5421,7 @@ Navigation
 </span><span class="code-line">75% complete
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-6jwdkw5hi" data-code-text=":::progress {bar}
+</span></code><button class="code-copy-btn" data-code-id="code-jtw80wwfe" data-code-text=":::progress {bar}
 75% complete
 :::
 
@@ -5429,7 +5437,7 @@ Navigation
 </span><span class="code-line">Loading...
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-0sh2d54lc" data-code-text=":::skeleton
+</span></code><button class="code-copy-btn" data-code-id="code-8zx92ra02" data-code-text=":::skeleton
 Loading...
 :::
 
@@ -5458,7 +5466,7 @@ Loading...
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">CLI Usage</h2>
 <p class="text-center text-gray-500">Master the Taildown CLI with these common patterns:</p>
 <div class="taildown-component component-tabs tabs" data-component="tabs"><div role="tablist" class="tabs-list"><button role="tab" aria-selected="true" tabindex="0" class="tab-button"><svg class="icon icon-terminal text-primary-600 hover:text-primary-700 text-xs" data-icon="terminal" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19h8" /><path d="m4 17 6-6-6-6" /></svg> Basic Usage</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button"><svg class="icon icon-file-plus text-accent-600 hover:text-accent-700 text-xs" data-icon="file-plus" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M9 15h6" /><path d="M12 18v-6" /></svg> Separate Files</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button"><svg class="icon icon-settings text-green-600 text-xs" data-icon="settings" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></svg> Advanced Options</button></div><div role="tabpanel" class="tab-panel"><p><strong>Compile a file (inline CSS by default):</strong></p><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile input.td
-</code><button class="code-copy-btn" data-code-id="code-p1cm1rggj" data-code-text="pnpm taildown compile input.td
+</code><button class="code-copy-btn" data-code-id="code-kvc1vl9dl" data-code-text="pnpm taildown compile input.td
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -5468,7 +5476,7 @@ Loading...
         </svg>
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre><p><strong>Specify custom output location:</strong></p><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile input.td -o output.html
-</code><button class="code-copy-btn" data-code-id="code-9m329tm93" data-code-text="pnpm taildown compile input.td -o output.html
+</code><button class="code-copy-btn" data-code-id="code-nztkvg6dg" data-code-text="pnpm taildown compile input.td -o output.html
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -5479,7 +5487,7 @@ Loading...
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre><p><strong>Files are generated in the same directory as input:</strong></p><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile examples/01-basic-markdown.td
 # Creates: examples/01-basic-markdown.html (self-contained)
-</code><button class="code-copy-btn" data-code-id="code-d1khbcvjr" data-code-text="pnpm taildown compile examples/01-basic-markdown.td
+</code><button class="code-copy-btn" data-code-id="code-5c8g0kpt5" data-code-text="pnpm taildown compile examples/01-basic-markdown.td
 # Creates: examples/01-basic-markdown.html (self-contained)
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -5491,7 +5499,7 @@ Loading...
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><p><strong>Generate separate CSS file:</strong></p><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile input.td --separate
 # Creates: input.html, input.css
-</code><button class="code-copy-btn" data-code-id="code-nhq5z0h8n" data-code-text="pnpm taildown compile input.td --separate
+</code><button class="code-copy-btn" data-code-id="code-mnozk4ytg" data-code-text="pnpm taildown compile input.td --separate
 # Creates: input.html, input.css
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -5503,7 +5511,7 @@ Loading...
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre><p><strong>Specify custom CSS location:</strong></p><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile input.td --separate --css styles.css
 # Creates: input.html, styles.css
-</code><button class="code-copy-btn" data-code-id="code-1percwj6p" data-code-text="pnpm taildown compile input.td --separate --css styles.css
+</code><button class="code-copy-btn" data-code-id="code-rovv0wowb" data-code-text="pnpm taildown compile input.td --separate --css styles.css
 # Creates: input.html, styles.css
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -5514,7 +5522,7 @@ Loading...
         </svg>
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><p><strong>Minify output:</strong></p><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile input.td --minify
-</code><button class="code-copy-btn" data-code-id="code-m230dm9vl" data-code-text="pnpm taildown compile input.td --minify
+</code><button class="code-copy-btn" data-code-id="code-3cqcke5be" data-code-text="pnpm taildown compile input.td --minify
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -5524,7 +5532,7 @@ Loading...
         </svg>
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre><p><strong>Combine flags:</strong></p><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile input.td --separate --minify -o dist/output.html --css dist/styles.css
-</code><button class="code-copy-btn" data-code-id="code-s6t91s4xi" data-code-text="pnpm taildown compile input.td --separate --minify -o dist/output.html --css dist/styles.css
+</code><button class="code-copy-btn" data-code-id="code-ioq9m75g5" data-code-text="pnpm taildown compile input.td --separate --minify -o dist/output.html --css dist/styles.css
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -5549,7 +5557,7 @@ Long-form blog with icons and glass</p></div><div class="taildown-component comp
 Portfolio with heavy glassmorphism</p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal bg-card text-card-foreground shadow-md" data-component="card"><p><svg class="icon icon-star text-yellow-600" data-icon="star" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></svg><strong><a href="https://github.com/vincitamore/taildown/blob/main/examples/10-complete-page.td">10-complete-page.td</a></strong><br />
 Ultimate feature showcase (1000+ nodes)</p></div></div>
 <div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-subtle shadow-sm" data-component="card"><h3 class="medium-bold text-center"><svg class="icon icon-terminal text-primary-600 hover:text-primary-700" data-icon="terminal" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19h8" /><path d="m4 17 6-6-6-6" /></svg> To compile any example:</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile examples/10-complete-page.td
-</code><button class="code-copy-btn" data-code-id="code-dktgcyqoa" data-code-text="pnpm taildown compile examples/10-complete-page.td
+</code><button class="code-copy-btn" data-code-id="code-7m6fwjpwf" data-code-text="pnpm taildown compile examples/10-complete-page.td
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -5601,7 +5609,7 @@ pnpm lint
 
 # Format code
 pnpm format
-</code><button class="code-copy-btn" data-code-id="code-i7x87ovfm" data-code-text="# Install dependencies
+</code><button class="code-copy-btn" data-code-id="code-ts8zm39xb" data-code-text="# Install dependencies
 pnpm install
 
 # Build all packages

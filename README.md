@@ -103,12 +103,16 @@ See SYNTAX.md for complete syntax reference.
 pnpm taildown compile hello.td
 ```
 
-This generates three files:
-- `hello.html` - Semantic HTML5 markup
-- `hello.css` - Optimized, scoped styles  
-- `hello.js` - Minimal vanilla JavaScript (only if interactive components used)
+This generates a single self-contained file:
+- `hello.html` - Semantic HTML5 with embedded CSS and JavaScript
 
 Open `hello.html` in your browser to see your interactive document!
+
+**Want separate files?** Use the `--separate` flag:
+```bash
+pnpm taildown compile hello.td --separate
+# Generates: hello.html, hello.css, hello.js (if interactive components used)
+```
 
 ---
 
@@ -324,11 +328,16 @@ Taildown generates ~2-8KB of optimized vanilla JavaScript (only for interactive 
 **Accessible**: Full ARIA support, keyboard navigation  
 **Browser Support**: Chrome 51+, Firefox 54+, Safari 10+, Edge 15+
 
-**Output structure**:
+**Default output** (inline):
+```
+document.td → document.html (single file with embedded CSS/JS)
+```
+
+**With `--separate` flag**:
 ```
 document.td → document.html (HTML5)
            → document.css (scoped CSS)
-           → document.js (always includes dark mode + interactive components)
+           → document.js (dark mode + interactive components)
 ```
 
 **See [`SYNTAX.md`](SYNTAX.md) §3.9 for complete JavaScript generation documentation.**

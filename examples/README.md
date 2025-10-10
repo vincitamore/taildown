@@ -7,16 +7,18 @@ This directory contains 10 example documents demonstrating progressively more co
 Compile any example:
 
 ```bash
-taildown compile examples/01-basic-markdown.td -o output.html --inline
+taildown compile examples/01-basic-markdown.td -o output.html
 ```
 
 Or compile all examples:
 
 ```bash
 for file in examples/*.td; do
-  taildown compile "$file" -o "${file%.td}.html" --inline
+  taildown compile "$file" -o "${file%.td}.html"
 done
 ```
+
+> **Note**: By default, Taildown generates a single HTML file with embedded CSS and JavaScript. Use `--separate` to generate separate `.html`, `.css`, and `.js` files.
 
 ## Phase 2 Features
 

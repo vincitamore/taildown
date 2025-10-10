@@ -211,16 +211,17 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
-                "hover:shadow-lg"
+                "hover:shadow-lg",
+                "transition-all"
               ]
             }
           }
@@ -421,16 +422,17 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
-                "hover:shadow-lg"
+                "hover:shadow-lg",
+                "transition-all"
               ],
               "data-modal-attach": "This is a simple alert!"
             }
@@ -981,16 +983,17 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
+                "transition-all",
                 "text-lg"
               ],
               "data-modal-attach": "Form submitted successfully!"
@@ -1076,16 +1079,17 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-purple-600",
-                "text-white",
-                "hover:bg-purple-700",
-                "active:bg-purple-800",
+                "bg-secondary",
+                "text-secondary-foreground",
+                "hover:bg-secondary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
+                "transition-all",
                 "custom-class"
               ]
             }
