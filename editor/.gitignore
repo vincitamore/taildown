@@ -1,0 +1,7 @@
+# Editor build artifacts are committed to dist for easy distribution
+# but we ignore temporary files
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+

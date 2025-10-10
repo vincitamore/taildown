@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taildown Live Editor</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* Colors - Professional palette */
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8fafc;
+      --bg-tertiary: #f1f5f9;
+      --bg-toolbar: linear-gradient(to bottom, #ffffff, #f8fafc);
+      --text-primary: #0f172a;
+      --text-secondary: #64748b;
+      --text-tertiary: #94a3b8;
+      --border-color: #e2e8f0;
+      --border-hover: #cbd5e1;
+      
+      /* Accent colors - Modern blue */
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --accent-light: #dbeafe;
+      --accent-glow: rgba(59, 130, 246, 0.2);
+      
+      /* Status colors */
+      --success: #10b981;
+      --success-light: #d1fae5;
+      --error: #ef4444;
+      --error-light: #fee2e2;
+      --warning: #f59e0b;
+      --warning-light: #fef3c7;
+      
+      /* Shadows - Layered depth */
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      
+      /* Transitions */
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      
+      /* Typography */
+      --font-mono: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'Courier New', monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Toolbar - Premium glass effect */
+    #toolbar {
+      background: var(--bg-toolbar);
+      border-bottom: 1px solid var(--border-color);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+      height: 56px;
+      backdrop-filter: blur(8px);
+      box-shadow: var(--shadow-sm);
+      z-index: 10;
+    }
+
+    #toolbar button {
+      position: relative;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      transition: all var(--transition-base);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    #toolbar button::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+      opacity: 0;
+      transition: opacity var(--transition-base);
+    }
+
+    #toolbar button:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--accent);
+    }
+
+    #toolbar button:hover::before {
+      opacity: 1;
+    }
+
+    #toolbar button:hover span,
+    #toolbar button:hover {
+      color: white;
+      position: relative;
+      z-index: 1;
+    }
+
+    #toolbar button:active {
+      transform: translateY(0);
+      box-shadow: var(--shadow-sm);
+    }
+
+    #toolbar button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    #toolbar button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: var(--shadow-sm) !important;
+    }
+
+    #toolbar button:disabled:hover::before {
+      opacity: 0;
+    }
+
+    #filename-display {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-left: 4px;
+      padding: 6px 12px;
+      background: var(--bg-tertiary);
+      border-radius: 6px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      letter-spacing: -0.02em;
+      border: 1px solid transparent;
+      transition: all var(--transition-base);
+    }
+
+    #filename-display:hover {
+      border-color: var(--border-hover);
+      color: var(--text-primary);
+    }
+
+    #status {
+      margin-left: auto;
+      color: var(--text-secondary);
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-weight: 500;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      transition: all var(--transition-base);
+      font-family: var(--font-mono);
+      letter-spacing: -0.01em;
+    }
+
+    #status.success {
+      color: var(--success);
+      background: var(--success-light);
+      border-color: var(--success);
+    }
+
+    #status.error {
+      color: var(--error);
+      background: var(--error-light);
+      border-color: var(--error);
+    }
+
+    /* Editor container */
+    #editor-container {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      background: var(--bg-secondary);
+    }
+
+    #editor-pane {
+      flex: 1;
+      overflow: auto;
+      background: var(--bg-primary);
+      border-right: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    #preview-pane {
+      flex: 1;
+      overflow: hidden;
+      background: var(--bg-tertiary);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Draggable divider - Enhanced */
+    #divider {
+      width: 5px;
+      background: var(--border-color);
+      cursor: col-resize;
+      flex-shrink: 0;
+      transition: all var(--transition-fast);
+      position: relative;
+      z-index: 5;
+    }
+
+    #divider::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 3px;
+      height: 40px;
+      background: var(--border-hover);
+      border-radius: 999px;
+      opacity: 0;
+      transition: opacity var(--transition-base);
+    }
+
+    #divider:hover {
+      background: var(--accent-light);
+    }
+
+    #divider:hover::before {
+      opacity: 1;
+      background: var(--accent);
+    }
+
+    #divider.dragging {
+      background: var(--accent);
+    }
+
+    #divider.dragging::before {
+      opacity: 1;
+      background: white;
+    }
+
+    #preview-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: white;
+      border-radius: 0;
+    }
+
+    /* CodeMirror styling enhancements */
+    .cm-editor {
+      height: 100%;
+      font-size: 15px;
+      line-height: 1.6;
+      font-family: var(--font-mono);
+    }
+
+    .cm-scroller {
+      overflow: auto;
+      font-feature-settings: 'liga' 1, 'calt' 1;
+    }
+
+    .cm-gutters {
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border-color);
+      color: var(--text-tertiary);
+      padding-right: 8px;
+    }
+
+    .cm-activeLineGutter {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    .cm-content {
+      padding: 16px 0;
+    }
+
+    .cm-line {
+      padding: 0 16px;
+    }
+
+    /* Loading indicator - Premium design */
+    #loading {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 32px 40px;
+      border-radius: 16px;
+      box-shadow: var(--shadow-xl);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(8px);
+    }
+
+    #loading.hidden {
+      display: none;
+    }
+
+    #loading span {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 15px;
+    }
+
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid var(--accent-light);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Smooth fade-in animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #toolbar, #editor-container {
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-hover);
+      border-radius: 6px;
+      border: 3px solid var(--bg-secondary);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-tertiary);
+    }
+
+    /* Focus styles for accessibility */
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Responsive: Stack vertically on small screens */
+    @media (max-width: 768px) {
+      #editor-container {
+        flex-direction: column;
+      }
+
+      #editor-pane {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      #divider {
+        width: 100%;
+        height: 5px;
+        cursor: row-resize;
+      }
+
+      #divider::before {
+        width: 40px;
+        height: 3px;
+      }
+
+      #toolbar {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 12px;
+        gap: 8px;
+      }
+
+      #toolbar button {
+        font-size: 13px;
+        padding: 7px 14px;
+      }
+
+      #filename-display,
+      #status {
+        font-size: 12px;
+      }
+    }
+
+    /* Print styles */
+    @media print {
+      #toolbar, #editor-pane, #divider {
+        display: none !important;
+      }
+      #preview-pane {
+        overflow: visible;
+      }
+    }
+
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+      :root {
+        --border-color: #94a3b8;
+        --text-secondary: #475569;
+      }
+    }
+
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <div class="spinner"></div>
+    <span>Loading Taildown Editor...</span>
+  </div>
+
+  <div id="toolbar">
+    <button id="new-btn" title="Create new document (Ctrl+N)">New</button>
+    <button id="open-btn" title="Open file (Ctrl+O)">Open</button>
+    <button id="save-btn" title="Save file (Ctrl+S)">Save</button>
+    <button id="download-btn" title="Download .td file">Download</button>
+    <button id="export-btn" title="Export HTML (Ctrl+E)">Export HTML</button>
+    <span id="filename-display">untitled.td</span>
+    <span id="status"></span>
+  </div>
+
+  <div id="editor-container">
+    <div id="editor-pane"></div>
+    <div id="divider"></div>
+    <div id="preview-pane">
+      <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin"></iframe>
+    </div>
+  </div>
+
+  <script type="module">
+    // Import Taildown bundle from relative path (development)
+    // In production build, this will be replaced with an inline data URL
+    import * as Taildown from '../packages/compiler/dist/taildown-browser.js';
+    
+    const {
+      compile,
+      EditorView,
+      EditorState,
+      keymap,
+      lineNumbers,
+      highlightActiveLineGutter,
+      history,
+      historyKeymap,
+      defaultKeymap,
+      indentWithTab,
+      searchKeymap,
+      highlightSelectionMatches,
+      autocompletion,
+      completionKeymap,
+      closeBrackets,
+      closeBracketsKeymap,
+      indentOnInput,
+      bracketMatching,
+      foldGutter,
+      foldKeymap,
+      lintKeymap,
+      taildown,
+      taildownHighlightStyle,
+    } = Taildown;
+
+    // Default welcome template
+    const DEFAULT_TEMPLATE = `# Welcome to Taildown! {huge-bold primary center}
+
+Start writing your document here. {large muted}
+
+:::card {light-glass slide-up}
+### :icon[zap]{warning} Getting Started
+
+Try editing this document to see live updates in the preview pane!
+
+Features:
+- **Full syntax highlighting** with CodeMirror 6
+- **Live preview** as you type
+- **Save/load files** with File System API
+- **Export HTML** for deployment
+- **Auto-save** to localStorage
+
+[Learn More](#){button primary modal="Welcome to Taildown! This is a modal component."}
+[Need Help?](#){button secondary tooltip="Click any button to try interactive components"}
+:::
+
+:::tabs
+## Features
+Taildown includes tabs, modals, tooltips, carousels, and more interactive components!
+
+## Plain English
+Style your content with natural language: \`{huge-bold primary}\`, \`{light-glass}\`, \`{slide-up}\`
+
+## Components
+Use triple-colon blocks for cards, grids, alerts, badges, and layouts.
+:::
+
+## Quick Syntax Guide {large-bold}
+
+### Icons
+:icon[heart]{primary} :icon[check-circle]{success} :icon[alert-triangle]{warning}
+
+### Cards and Glass Effects
+:::card {elevated hover-lift}
+Standard elevated card with hover effect
+:::
+
+:::card {subtle-glass}
+Subtle frosted glass (90% transparency)
+:::
+
+### Grid Layouts
+:::grid
+:::card {fade-in}
+Grid item 1
+:::
+:::card {fade-in}
+Grid item 2
+:::
+:::card {fade-in}
+Grid item 3
+:::
+:::
+
+### Alerts
+:::alert {success}
+Success alert with contextual styling
+:::
+
+:::alert {warning}
+Warning alert for important notices
+:::
+
+Happy writing! :icon[sparkles]{primary}
+`;
+
+    // State
+    let editor;
+    let currentFilename = 'untitled.td';
+    let currentFileHandle = null;
+    let updateTimeout = null;
+    let isDragging = false;
+
+    // DOM elements
+    const editorPane = document.getElementById('editor-pane');
+    const previewFrame = document.getElementById('preview-frame');
+    const statusBar = document.getElementById('status');
+    const filenameDisplay = document.getElementById('filename-display');
+    const divider = document.getElementById('divider');
+    const loading = document.getElementById('loading');
+
+    // Buttons
+    const newBtn = document.getElementById('new-btn');
+    const openBtn = document.getElementById('open-btn');
+    const saveBtn = document.getElementById('save-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const exportBtn = document.getElementById('export-btn');
+
+    // Initialize editor
+    function initEditor() {
+      try {
+        // Create editor (using pre-defined taildownHighlightStyle)
+        editor = new EditorView({
+          doc: DEFAULT_TEMPLATE,
+          extensions: [
+            lineNumbers(),
+            highlightActiveLineGutter(),
+            history(),
+            foldGutter(),
+            indentOnInput(),
+            bracketMatching(),
+            closeBrackets(),
+            autocompletion(),
+            highlightSelectionMatches(),
+            taildown(),
+            taildownHighlightStyle, // Already includes syntaxHighlighting()
+            keymap.of([
+              ...defaultKeymap,
+              ...historyKeymap,
+              ...foldKeymap,
+              ...completionKeymap,
+              ...closeBracketsKeymap,
+              ...searchKeymap,
+              ...lintKeymap,
+              indentWithTab,
+              // Custom keybindings
+              { key: 'Ctrl-s', run: () => { saveFile(); return true; } },
+              { key: 'Cmd-s', run: () => { saveFile(); return true; } },
+              { key: 'Ctrl-o', run: () => { openFile(); return true; } },
+              { key: 'Cmd-o', run: () => { openFile(); return true; } },
+              { key: 'Ctrl-e', run: () => { exportHTML(); return true; } },
+              { key: 'Cmd-e', run: () => { exportHTML(); return true; } },
+              { key: 'Ctrl-n', run: () => { newDocument(); return true; } },
+              { key: 'Cmd-n', run: () => { newDocument(); return true; } },
+            ]),
+            EditorView.updateListener.of((update) => {
+              if (update.docChanged) {
+                scheduleUpdate();
+              }
+            }),
+          ],
+          parent: editorPane,
+        });
+
+        // Try to restore from localStorage
+        const saved = localStorage.getItem('taildown-editor-content');
+        const savedFilename = localStorage.getItem('taildown-editor-filename');
+        if (saved) {
+          editor.dispatch({
+            changes: { from: 0, to: editor.state.doc.length, insert: saved }
+          });
+          if (savedFilename) {
+            currentFilename = savedFilename;
+            filenameDisplay.textContent = currentFilename;
+          }
+        }
+
+        // Initial preview
+        updatePreview(editor.state.doc.toString());
+
+        // Hide loading indicator
+        loading.classList.add('hidden');
+
+        console.log('✓ Taildown Editor initialized');
+      } catch (error) {
+        console.error('Failed to initialize editor:', error);
+        loading.innerHTML = `<div style="color: var(--error)">Failed to load editor: ${error.message}</div>`;
+      }
+    }
+
+    // Schedule preview update (debounced)
+    function scheduleUpdate() {
+      clearTimeout(updateTimeout);
+      updateTimeout = setTimeout(() => {
+        const content = editor.state.doc.toString();
+        updatePreview(content);
+        // Auto-save to localStorage
+        localStorage.setItem('taildown-editor-content', content);
+        localStorage.setItem('taildown-editor-filename', currentFilename);
+      }, 300);
+    }
+
+    // Update preview
+    async function updatePreview(source) {
+      try {
+        const startTime = performance.now();
+        const result = await compile(source, {
+          inlineStyles: true,
+          inlineScripts: true,
+          darkMode: true,
+        });
+        const compileTime = performance.now() - startTime;
+
+        previewFrame.srcdoc = result.html;
+        statusBar.textContent = `✓ Compiled in ${compileTime.toFixed(0)}ms`;
+        statusBar.className = 'success';
+      } catch (error) {
+        statusBar.textContent = `✗ Error: ${error.message}`;
+        statusBar.className = 'error';
+        console.error('Compilation error:', error);
+      }
+    }
+
+    // New document
+    function newDocument() {
+      if (confirm('Create new document? Any unsaved changes will be lost.')) {
+        editor.dispatch({
+          changes: { from: 0, to: editor.state.doc.length, insert: DEFAULT_TEMPLATE }
+        });
+        currentFilename = 'untitled.td';
+        currentFileHandle = null;
+        filenameDisplay.textContent = currentFilename;
+        localStorage.removeItem('taildown-editor-content');
+        localStorage.removeItem('taildown-editor-filename');
+      }
+    }
+
+    // Open file
+    async function openFile() {
+      try {
+        if ('showOpenFilePicker' in window) {
+          // Modern File System API
+          const [fileHandle] = await window.showOpenFilePicker({
+            types: [{
+              description: 'Taildown Files',
+              accept: { 'text/plain': ['.td', '.taildown'] }
+            }],
+            multiple: false
+          });
+          const file = await fileHandle.getFile();
+          const content = await file.text();
+          
+          editor.dispatch({
+            changes: { from: 0, to: editor.state.doc.length, insert: content }
+          });
+          
+          currentFileHandle = fileHandle;
+          currentFilename = file.name;
+          filenameDisplay.textContent = currentFilename;
+          
+          statusBar.textContent = `✓ Opened ${currentFilename}`;
+          statusBar.className = 'success';
+        } else {
+          // Fallback: traditional file input
+          const input = document.createElement('input');
+          input.type = 'file';
+          input.accept = '.td,.taildown';
+          input.onchange = async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+              const content = await file.text();
+              editor.dispatch({
+                changes: { from: 0, to: editor.state.doc.length, insert: content }
+              });
+              currentFilename = file.name;
+              currentFileHandle = null;
+              filenameDisplay.textContent = currentFilename;
+              statusBar.textContent = `✓ Opened ${currentFilename}`;
+              statusBar.className = 'success';
+            }
+          };
+          input.click();
+        }
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          statusBar.textContent = `✗ Error opening file: ${error.message}`;
+          statusBar.className = 'error';
+          console.error('Error opening file:', error);
+        }
+      }
+    }
+
+    // Save file
+    async function saveFile() {
+      try {
+        const content = editor.state.doc.toString();
+        
+        if (currentFileHandle && 'createWritable' in currentFileHandle) {
+          // File System API save
+          const writable = await currentFileHandle.createWritable();
+          await writable.write(content);
+          await writable.close();
+          statusBar.textContent = `✓ Saved ${currentFilename}`;
+          statusBar.className = 'success';
+        } else if ('showSaveFilePicker' in window) {
+          // Show save dialog
+          const fileHandle = await window.showSaveFilePicker({
+            types: [{
+              description: 'Taildown Files',
+              accept: { 'text/plain': ['.td'] }
+            }],
+            suggestedName: currentFilename
+          });
+          const writable = await fileHandle.createWritable();
+          await writable.write(content);
+          await writable.close();
+          currentFileHandle = fileHandle;
+          currentFilename = (await fileHandle.getFile()).name;
+          filenameDisplay.textContent = currentFilename;
+          statusBar.textContent = `✓ Saved ${currentFilename}`;
+          statusBar.className = 'success';
+        } else {
+          // Fallback: download
+          downloadFile(content, currentFilename);
+        }
+        
+        // Also save to localStorage
+        localStorage.setItem('taildown-editor-content', content);
+        localStorage.setItem('taildown-editor-filename', currentFilename);
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          statusBar.textContent = `✗ Error saving: ${error.message}`;
+          statusBar.className = 'error';
+          console.error('Error saving file:', error);
+        }
+      }
+    }
+
+    // Download file
+    function downloadFile(content, filename) {
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+      statusBar.textContent = `✓ Downloaded ${filename}`;
+      statusBar.className = 'success';
+    }
+
+    // Export HTML
+    async function exportHTML() {
+      try {
+        const source = editor.state.doc.toString();
+        const result = await compile(source, {
+          inlineStyles: true,
+          inlineScripts: true,
+          darkMode: true,
+        });
+        
+        const htmlFilename = currentFilename.replace(/\.td$/, '.html');
+        downloadFile(result.html, htmlFilename);
+        statusBar.textContent = `✓ Exported ${htmlFilename}`;
+        statusBar.className = 'success';
+      } catch (error) {
+        statusBar.textContent = `✗ Export failed: ${error.message}`;
+        statusBar.className = 'error';
+        console.error('Export error:', error);
+      }
+    }
+
+    // Draggable divider
+    let startX = 0;
+    let startY = 0;
+    let startEditorPercent = 0;
+
+    divider.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      divider.classList.add('dragging');
+      
+      const container = document.getElementById('editor-container');
+      const isVertical = window.innerWidth <= 768;
+      
+      // Disable pointer events on iframe to prevent it from capturing mouse events
+      previewFrame.style.pointerEvents = 'none';
+      // Prevent text selection during drag
+      document.body.style.userSelect = 'none';
+      document.body.style.cursor = isVertical ? 'row-resize' : 'col-resize';
+      
+      // Store the starting position and current editor percentage
+      if (isVertical) {
+        startY = e.clientY;
+        const containerHeight = container.getBoundingClientRect().height;
+        const editorHeight = editorPane.getBoundingClientRect().height;
+        startEditorPercent = (editorHeight / containerHeight) * 100;
+      } else {
+        startX = e.clientX;
+        const containerWidth = container.getBoundingClientRect().width;
+        const editorWidth = editorPane.getBoundingClientRect().width;
+        startEditorPercent = (editorWidth / containerWidth) * 100;
+      }
+      
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      
+      const container = document.getElementById('editor-container');
+      const isVertical = window.innerWidth <= 768;
+      
+      if (isVertical) {
+        // Calculate the new percentage based on mouse movement
+        const containerHeight = container.getBoundingClientRect().height;
+        const deltaY = e.clientY - startY;
+        const deltaPercent = (deltaY / containerHeight) * 100;
+        const newPercent = startEditorPercent + deltaPercent;
+        
+        // Allow resizing between 15% and 85%
+        if (newPercent >= 15 && newPercent <= 85) {
+          editorPane.style.flex = `0 0 ${newPercent}%`;
+        }
+      } else {
+        // Calculate the new percentage based on mouse movement
+        const containerWidth = container.getBoundingClientRect().width;
+        const deltaX = e.clientX - startX;
+        const deltaPercent = (deltaX / containerWidth) * 100;
+        const newPercent = startEditorPercent + deltaPercent;
+        
+        // Allow resizing between 15% and 85%
+        if (newPercent >= 15 && newPercent <= 85) {
+          editorPane.style.flex = `0 0 ${newPercent}%`;
+        }
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        divider.classList.remove('dragging');
+        
+        // Re-enable pointer events and restore cursor
+        previewFrame.style.pointerEvents = '';
+        document.body.style.userSelect = '';
+        document.body.style.cursor = '';
+      }
+    });
+
+    // Button event listeners
+    newBtn.addEventListener('click', newDocument);
+    openBtn.addEventListener('click', openFile);
+    saveBtn.addEventListener('click', saveFile);
+    downloadBtn.addEventListener('click', () => {
+      const content = editor.state.doc.toString();
+      downloadFile(content, currentFilename);
+    });
+    exportBtn.addEventListener('click', exportHTML);
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initEditor);
+    } else {
+      initEditor();
+    }
+
+    // Warn before closing with unsaved changes
+    window.addEventListener('beforeunload', (e) => {
+      const current = editor?.state.doc.toString();
+      const saved = localStorage.getItem('taildown-editor-content');
+      if (current && current !== saved) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+  </script>
+</body>
+</html>
+

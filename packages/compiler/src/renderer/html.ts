@@ -177,10 +177,10 @@ function processAttachments(node: any): any {
  * @param ast - Taildown AST
  * @returns HAST tree
  */
-export function astToHast(ast: TaildownRoot): any {
+export async function astToHast(ast: TaildownRoot): Promise<any> {
   // Pre-pass: Populate modal/tooltip registries BEFORE converting to HAST
   // This ensures ID-referenced modals/tooltips can be looked up during conversion
-  prepopulateRegistries(ast as Root);
+  await prepopulateRegistries(ast as Root);
   
   // First, convert MDAST to HAST using default handlers + our custom component handler
   const hast = toHast(ast as Root, { 
@@ -207,7 +207,7 @@ export function astToHast(ast: TaildownRoot): any {
 export async function renderHTML(ast: TaildownRoot, minify: boolean = false): Promise<string> {
   // Convert MDAST to HAST (HTML AST)
   // Use custom handlers for interactive components
-  const hast = astToHast(ast);
+  const hast = await astToHast(ast);
 
   if (!hast) {
     return '';

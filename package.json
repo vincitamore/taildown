@@ -16,6 +16,7 @@
   ],
   "scripts": {
     "build": "pnpm -r build",
+    "build:editor": "cd packages/compiler && pnpm build:browser && cd ../.. && node editor/build.mjs",
     "dev": "pnpm -r --parallel dev",
     "test": "vitest",
     "test:syntax": "vitest syntax-tests",

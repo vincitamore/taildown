@@ -23,9 +23,6 @@ import type { Root } from 'mdast';
 import { toHast } from 'mdast-util-to-hast';
 import { registry, registryInitialized } from '../components/component-registry';
 
-// Ensure registry is initialized (this promise resolves when auto-init completes)
-await registryInitialized;
-
 // Global registry of defined modal/tooltip blocks (ID -> content)
 const modalRegistry = new Map<string, Element>();
 const tooltipRegistry = new Map<string, Element>();
@@ -34,12 +31,26 @@ const tooltipRegistry = new Map<string, Element>();
 // This prevents duplicate tooltip elements in the DOM
 const renderedTooltipIds = new Set<string>();
 
+// Track if registry has been initialized
+let registryReady = false;
+registryInitialized.then(() => { registryReady = true; });
+
+// Ensure registry is initialized before using it
+async function ensureRegistryInitialized(): Promise<void> {
+  if (!registryReady) {
+    await registryInitialized;
+    registryReady = true;
+  }
+}
+
 /**
  * Pre-populate modal and tooltip registries before HAST conversion
  * Scans the MDAST tree for :::modal{id="..."} and :::tooltip{id="..."} blocks
  * and stores their content for later reference by ID
  */
-export function prepopulateRegistries(ast: Root): void {
+export async function prepopulateRegistries(ast: Root): Promise<void> {
+  // Ensure registry is initialized before using it
+  await ensureRegistryInitialized();
   // Clear registries before populating
   modalRegistry.clear();
   tooltipRegistry.clear();

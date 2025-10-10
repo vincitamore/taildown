@@ -67,7 +67,7 @@ export async function compile(
   findComponents(ast);
 
   // Convert MDAST to HAST first (this applies component handlers and adds Tailwind classes)
-  const hast = astToHast(ast);
+  const hast = await astToHast(ast);
   
   // Scan HAST for additional interactive components (attachable modals/tooltips)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

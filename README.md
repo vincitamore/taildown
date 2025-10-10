@@ -116,6 +116,50 @@ pnpm taildown compile hello.td --separate
 
 ---
 
+## Live Editor
+
+**Try Taildown in your browser without installing anything!**
+
+The Taildown Live Editor is a fully self-contained, browser-based editor with:
+
+- **Full syntax highlighting** powered by CodeMirror 6
+- **Live split-pane preview** that updates as you type
+- **Save/load files** with File System API or traditional download/upload
+- **Export HTML** for production deployment
+- **Auto-save** to localStorage every 5 seconds
+- **Keyboard shortcuts** for professional workflow
+- **Draggable divider** to resize editor and preview panes
+- **Completely offline** - works with no internet connection
+
+### Quick Start
+
+```bash
+# Build the standalone editor
+pnpm build:editor
+
+# Open in browser
+open editor/dist/editor.html
+```
+
+The output is a single ~1.5MB HTML file that includes everything: CodeMirror 6, the Taildown compiler, and all UI. You can:
+
+- Open it directly in any modern browser
+- Host it on any static web server
+- Email it or share via USB drive
+- Use it completely offline
+
+### Features
+
+- **Development mode**: Open `editor/index.html` for quick testing
+- **Production build**: Run `pnpm build:editor` for standalone file
+- **File System API**: Direct file saving on Chrome/Edge (fallback for others)
+- **Responsive**: Works on desktop and mobile devices
+- **Persistent**: Auto-saves your work to localStorage
+
+See [`editor/README.md`](editor/README.md) for complete documentation, keyboard shortcuts, and troubleshooting.
+
+---
+
 ## Syntax Guide
 
 > **Complete Syntax Reference**: See [`SYNTAX.md`](SYNTAX.md) for the canonical, comprehensive syntax specification.
