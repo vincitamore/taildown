@@ -215,6 +215,20 @@ Professional text-based illustration components with:
 - Branching decision trees
 - Timeline-style presentations
 
+### 12. Scroll Animations (`12-scroll-animations.td`)
+**Complexity:** Beginner  
+**Features:** Scroll-triggered entrance animations with zero configuration  
+**Use Case:** Engaging landing pages, modern UX with professional polish
+
+Complete demonstration of scroll-triggered animations:
+- All 7 animation types (fade-in, slide-up, slide-down, slide-left, slide-right, scale-in, zoom-in)
+- Intersection Observer API usage
+- Zero-config automatic behavior
+- Accessibility with reduced-motion support
+- Staggered timing for multiple elements
+- Professional timing and easing curves
+- Progressive enhancement fallbacks
+
 ### 10. Complete Page (Kitchen Sink)
 
 Kitchen-sink example showcasing:
@@ -245,8 +259,9 @@ Kitchen-sink example showcasing:
 | 09-portfolio-page.td | 215 | 5.7 KB | ~11ms |
 | 10-complete-page.td | 289 | 7.9 KB | ~13ms |
 | 11-text-illustrations.td | 334 | 8.9 KB | ~14ms |
+| 12-scroll-animations.td | 121 | 3.1 KB | ~9ms |
 
-**Total:** 1,711 lines • 44.4 KB
+**Total:** 1,832 lines • 47.5 KB
 
 ## Learning Path
 
@@ -391,6 +406,64 @@ Description with plain English classes.
 - Deploy to Production
 :::
 ```
+
+### Scroll-Triggered Animations
+
+```taildown
+:::grid
+:::card {glass padded slide-up}
+### Feature One
+Slides up when scrolled into view
+:::
+
+:::card {glass padded fade-in}
+### Feature Two  
+Fades in smoothly (75ms delay after first card)
+:::
+
+:::card {glass padded zoom-in}
+### Feature Three
+Zooms in dramatically (150ms delay)
+:::
+:::
+```
+
+**Available Animations:**
+- `fade-in` - Gentle opacity fade
+- `slide-up` - Slide from below
+- `slide-down` - Slide from above
+- `slide-left` - Slide from right
+- `slide-right` - Slide from left
+- `scale-in` - Grow from center
+- `zoom-in` - Dramatic zoom
+
+**Features:**
+- Zero configuration - just add classes
+- Automatic Intersection Observer inclusion
+- Respects `prefers-reduced-motion`
+- Staggered timing (75ms between elements)
+- Professional 4.5s duration
+
+### Dark Mode Usage
+
+Dark mode is automatically included in every compiled document. No configuration needed!
+
+**System Preference Detection:**
+```taildown
+:::card {glass padded}
+This card automatically adapts to light/dark mode based on user's system preference.
+:::
+```
+
+**Manual Toggle:**
+Every compiled HTML includes a floating toggle button (moon/sun icon) in the bottom-right corner.
+
+**Features:**
+- Automatic system preference detection
+- LocalStorage persistence across visits  
+- Smooth 300ms transitions
+- CSS variables for clean theming
+- Works on all components automatically
 
 ## Tips for Using Examples
 

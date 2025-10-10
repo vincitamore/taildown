@@ -1094,13 +1094,29 @@ All three are equivalent; indentation is for readability only.
 
 ### 3.4 Standard Components **[REQUIRED]**
 
-Phase 1 requires these components:
+Taildown includes 21 standard components out of the box:
 
 | Component | Purpose | Default Classes |
 |-----------|---------|----------------|
 | `card` | Content card | Padding, shadow, rounded corners |
+| `button` | Styled links/actions | Button styling with variants |
+| `button-group` | Button container | Grouped button layout |
+| `alert` | Contextual messages | Color-coded alerts (info, success, warning, error) |
+| `badge` | Status indicators | Inline labels with semantic colors |
+| `avatar` | Profile images | Circular/square image containers |
 | `grid` | Grid layout | CSS Grid with 1rem default gap |
 | `container` | Max-width container | Centered, constrained width |
+| `tabs` | Tabbed interface | Interactive tab navigation |
+| `accordion` | Collapsible sections | Expandable content panels |
+| `modal` | Dialog overlays | Backdrop with centered content |
+| `tooltip` | Contextual help | Hover/click tooltips |
+| `carousel` | Image/content slider | Swipeable slides with navigation |
+| `navbar` | Site navigation | Responsive navigation bar |
+| `sidebar` | Side navigation | Collapsible side panel |
+| `breadcrumb` | Navigation trail | Breadcrumb navigation |
+| `pagination` | Page navigation | Numbered page controls |
+| `progress` | Progress indicator | Progress bars and spinners |
+| `skeleton` | Loading placeholder | Skeleton screen elements |
 | `tree` | Directory/hierarchy visualization | Semantic list markup with tree styling |
 | `flow` | Process/workflow diagrams | Sequential flow with connectors |
 
@@ -1321,7 +1337,7 @@ Test fixtures:
 
 ### 3.7 Interactive Components **[REQUIRED]**
 
-Taildown includes five interactive components that work with zero configuration and generate vanilla JavaScript.
+Taildown includes six interactive components that work with zero configuration and generate vanilla JavaScript.
 
 **Philosophy**: Intelligent parsing with sensible defaults. No explicit markup required for common patterns.
 
@@ -1462,7 +1478,35 @@ Detailed help information
 - Can be attached to any element (see §2.8)
 - Click events on `href="#"` properly prevented (no page jumps)
 
-#### 3.7.6 Component Attributes
+#### 3.7.6 Navbar Component
+
+**Zero-Config Syntax**: Responsive navigation bar with automatic mobile menu.
+
+```taildown
+:::navbar
+# Brand Name
+
+- [Home](#)
+- [Features](#)
+- [Pricing](#)
+- [Contact](#)
+
+[Login](#){button secondary small}
+[Sign Up](#){button primary small}
+:::
+```
+
+**Features**:
+- Responsive design with automatic mobile hamburger menu
+- Sticky positioning option
+- Brand/logo section (first heading)
+- Navigation links (list items)
+- Action buttons (inline buttons/links)
+- Mobile menu toggle (hamburger icon)
+- Smooth animations for menu open/close
+- ARIA attributes for accessibility
+
+#### 3.7.7 Component Attributes
 
 All interactive components support attributes:
 
@@ -1480,14 +1524,16 @@ Content
 :::
 ```
 
-#### 3.7.7 JavaScript Generation
+#### 3.7.8 JavaScript Generation
 
 **Automatic**: JavaScript is generated ONLY for components actually used.
 - Tree-shaking: Only includes necessary behaviors
-- Small footprint: ~2-5KB total for all components
+- Small footprint: ~2-8KB total for all components
 - Vanilla ES6+: No framework dependencies
 - Event delegation: Efficient event handling
 - Data attributes: `data-component`, `data-tab`, etc.
+
+**Note**: Dark mode behavior is always included by default for automatic theme switching.
 
 **Output**: `.js` file alongside `.html` and `.css`
 
@@ -1497,7 +1543,7 @@ input.td → compile → input.html
                    → input.js (only if interactive components used)
 ```
 
-#### 3.7.8 Accessibility
+#### 3.7.9 Accessibility
 
 All interactive components include:
 - Proper ARIA roles and attributes
@@ -1600,7 +1646,7 @@ Taildown generates vanilla JavaScript for interactive components.
 - Strict mode
 - Self-contained (no global pollution)
 - ES6+ syntax
-- ~2-5KB total (minified)
+- ~2-8KB total (minified, includes dark mode by default)
 
 #### 3.9.2 Tree-Shaking
 
@@ -1613,8 +1659,14 @@ Taildown generates vanilla JavaScript for interactive components.
 | Carousel  | ~2.4KB | `:::carousel` found |
 | Modal     | ~1.0KB | `:::modal` or `modal="..."` found |
 | Tooltip   | ~1.8KB | `:::tooltip` or `tooltip="..."` found |
+| Navbar    | ~1.2KB | `:::navbar` found |
+| Dark Mode | ~0.8KB | Always included by default |
+| Scroll Animations | ~1.2KB | Auto-detected when animation classes used |
+| Copy Code | ~0.5KB | Auto-detected when code blocks present |
 
-**Example**: Document with only tabs → generates ~0.8KB JS, not 5KB.
+**Example**: Document with only tabs → generates ~1.6KB JS (0.8KB tabs + 0.8KB dark mode).
+
+**Note**: Dark mode is always included for automatic theme switching. Scroll animations and copy-code behaviors are automatically detected and included only when needed.
 
 #### 3.9.3 Data Attributes
 

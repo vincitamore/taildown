@@ -130,7 +130,7 @@
       "children": [
         {
           "type": "text",
-          "value": "Heading ",
+          "value": "Heading {  }",
           "position": {
             "start": {
               "line": 9,
@@ -703,11 +703,15 @@
       "children": [
         {
           "type": "text",
-          "value": "{.invalid} # Heading"
+          "value": " # Heading"
         }
       ],
       "data": {
-        "hProperties": {}
+        "hProperties": {
+          "className": [
+            "invalid"
+          ]
+        }
       }
     },
     {

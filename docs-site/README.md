@@ -60,6 +60,23 @@ When editing the documentation:
 - LocalStorage persistence
 - Smooth 300ms transitions
 - CSS variables for theming
+- Always included (~0.8KB) in every document
+
+### Scroll Animations
+- Zero-config entrance animations
+- Intersection Observer API
+- Triggers at 15% visibility
+- Respects `prefers-reduced-motion`
+- Staggered timing for multiple elements
+- 7 animation types (fade-in, slide-up, slide-down, etc.)
+- Auto-included when animation classes detected
+
+### Copy Code Functionality
+- One-click copy buttons on all code blocks
+- Visual feedback on copy success
+- Automatic clipboard integration
+- Auto-included when code blocks present
+- ~0.5KB behavior
 
 ### Components Used
 - Cards with glassmorphism (`:::card{light-glass}`)
@@ -67,6 +84,8 @@ When editing the documentation:
 - Interactive tabs (`:::tabs`)
 - Alert boxes (`:::alert{success}`)
 - Icons (`:icon[name]{attributes}`)
+- Tree diagrams (`:::tree{colored}`)
+- Flow diagrams (`:::flow{stepped}`)
 
 ### Plain English Styling
 - `{huge-bold center primary}` - Large, bold, centered, primary-colored text
@@ -125,15 +144,21 @@ Typical file sizes:
 - `index.html`: ~120KB (fully featured landing page)
 - `getting-started.html`: ~110KB (documentation guide)
 
-## Future Pages
+## Documentation Pages
 
-Additional documentation pages to be added:
+Current pages (completed):
+- ✅ `index.html` - Main landing page with dark mode and animations
+- ✅ `getting-started.html` - Installation and quick start guide
+- ✅ `syntax-guide.html` - Complete syntax reference  
+- ✅ `plain-english.html` - Plain English styling reference
+- ✅ `components.html` - Component library with examples
+- ✅ `vercel-deployment.html` - Deployment guide
 
-- `syntax-guide.html` - Complete syntax reference
-- `plain-english.html` - Plain English styling reference
-- `components.html` - Component library with examples
+Future pages to be added:
 - `configuration.html` - Configuration guide
+- `api-reference.html` - Compiler API documentation
 - `examples/` - Example pages showcasing different use cases
+- `migration-guide.html` - Migration from other formats
 
 ## Notes
 

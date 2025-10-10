@@ -35,6 +35,9 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 - **Carousel** - Image/content carousels with 3D effects
 - **Modal** - Dialog boxes with backdrop blur
 - **Tooltip** - Contextual help on hover/click
+- **Navbar** - Responsive navigation with automatic mobile menu
+- **Scroll Animations** - Entrance animations triggered on scroll (zero-config)
+- **Dark Mode** - Automatic theme switching with system preference detection
 :::
 
 :::card {subtle-glass zoom-in}
@@ -52,10 +55,12 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 :::card {subtle-glass zoom-in}
 ### :icon[code]{primary} JavaScript Generation {medium-bold}
 
-- **Vanilla JS** - ~2-5KB of clean, dependency-free code
+- **Vanilla JS** - ~2-8KB of clean, dependency-free code
 - **Tree-Shaking** - Only includes JS for components you use
+- **Auto-Detection** - Scroll animations and copy-code automatically included
 - **Event Delegation** - Efficient, performant event handling
 - **Accessibility** - Full ARIA support, keyboard navigation
+- **Dark Mode Included** - Theme switching automatically included in every document
 :::
 
 :::card {subtle-glass zoom-in}
@@ -277,7 +282,7 @@ Grid automatically adapts: **1 column on mobile, 2 on tablet, 3 on desktop**.
 
 ## Interactive Components {large-bold primary}
 
-Taildown includes five interactive components with zero configuration required. JavaScript is automatically generated only for components you use. {center muted}
+Taildown includes six interactive components with zero configuration required. JavaScript is automatically generated only for components you use. {center muted}
 
 :::grid {2}
 :::card {light-glass}
@@ -345,6 +350,24 @@ Full **markdown** support here.
 
 **Features:** Backdrop blur, focus management, keyboard navigation
 :::
+
+:::card {light-glass}
+### :icon[menu]{success} Navbar {medium-bold}
+
+```taildown
+:::navbar
+# Brand
+
+- [Home](#)
+- [Features](#)
+- [Contact](#)
+
+[Login](#){button secondary small}
+:::
+```
+
+**Features:** Responsive design, mobile hamburger menu, sticky positioning
+:::
 :::
 
 ---
@@ -399,7 +422,7 @@ Zero configuration. Zero complexity. Maximum readability. {center large}
 :::card {elevated}
 ### :icon[file-code]{primary} Tree-Shaking {medium-bold}
 
-Only includes JS for components you actually use. Animation classes automatically trigger scroll behavior inclusion!
+Only includes JS for components you actually use (~2-8KB total). Dark mode always included. Animation classes automatically trigger scroll behavior!
 :::
 
 :::card {elevated}
@@ -424,7 +447,7 @@ Full ARIA support, keyboard navigation, focus management built-in.
 - document.td
 - document.html (HTML5)
 - document.css (scoped CSS)
-- document.js (if interactive)
+- document.js (always includes dark mode)
 :::
 :::
 
@@ -560,18 +583,202 @@ Centered content with max-width
 :::
 
 :::card {elevated}
-### :icon[layout]{warning} Tabs, Accordion, Carousel {medium-bold}
+### :icon[layout]{primary} Tabs {medium-bold}
 
-Interactive components with zero configuration.
+Interactive tabbed interface.
 
-**Features:**
-- Automatic JavaScript generation
-- Keyboard navigation
-- ARIA support
-- Smooth animations
-- Mobile-responsive
+**Features:** Keyboard navigation, smooth transitions, ARIA support
 
-See [`SYNTAX.md`](SYNTAX.md) §3.7 for complete documentation.
+```taildown
+:::tabs
+## Tab One
+Content
+:::
+```
+:::
+
+:::card {elevated}
+### :icon[list]{accent} Accordion {medium-bold}
+
+Collapsible content sections.
+
+**Features:** Smooth animations, ARIA support
+
+```taildown
+:::accordion
+**Section**
+Content
+:::
+```
+:::
+
+:::card {elevated}
+### :icon[image]{warning} Carousel {medium-bold}
+
+Image/content slider.
+
+**Features:** Touch swipe, keyboard navigation
+
+```taildown
+:::carousel
+Slide 1
+---
+Slide 2
+:::
+```
+:::
+
+:::card {elevated}
+### :icon[message-square]{info} Modal {medium-bold}
+
+Dialog overlays.
+
+**Features:** Backdrop blur, focus trap, keyboard support
+
+```taildown
+[Open](#){modal="Message"}
+:::
+```
+:::
+
+:::card {elevated}
+### :icon[help-circle]{success} Tooltip {medium-bold}
+
+Contextual help.
+
+**Features:** Smart positioning, mobile support
+
+```taildown
+[Help](#){tooltip="Info"}
+:::
+```
+:::
+
+:::card {elevated}
+### :icon[menu]{primary} Navbar {medium-bold}
+
+Responsive navigation.
+
+**Features:** Mobile menu, sticky positioning
+
+```taildown
+:::navbar
+# Brand
+- [Link](#)
+:::
+```
+:::
+
+:::card {elevated}
+### :icon[file-tree]{accent} Tree {medium-bold}
+
+Directory visualization.
+
+**Variants:** `vscode`, `colored`, `rounded`
+
+```taildown
+:::tree {colored}
+- project/
+  - src/
+:::
+```
+:::
+
+:::card {elevated}
+### :icon[git-branch]{warning} Flow {medium-bold}
+
+Process diagrams.
+
+**Variants:** `stepped`, `horizontal`
+
+```taildown
+:::flow {stepped}
+- Step 1
+- Step 2
+:::
+```
+:::
+
+:::card {elevated}
+### :icon[square-stack]{info} Button Group {medium-bold}
+
+Grouped buttons.
+
+```taildown
+:::button-group
+[One](#){button}
+[Two](#){button}
+:::
+```
+:::
+
+:::card {elevated}
+### :icon[panel-left]{success} Sidebar {medium-bold}
+
+Side navigation panel.
+
+**Features:** Collapsible, responsive
+
+```taildown
+:::sidebar
+Navigation
+:::
+```
+:::
+
+:::card {elevated}
+### :icon[chevrons-right]{primary} Breadcrumb {medium-bold}
+
+Navigation trail.
+
+```taildown
+:::breadcrumb
+- [Home](#)
+- Current
+:::
+```
+:::
+
+:::card {elevated}
+### :icon[more-horizontal]{accent} Pagination {medium-bold}
+
+Page navigation.
+
+**Features:** Numbered pages, active state
+
+```taildown
+:::pagination
+1-10 of 100
+:::
+```
+:::
+
+:::card {elevated}
+### :icon[activity]{warning} Progress {medium-bold}
+
+Progress indicators.
+
+**Variants:** `bar`, `spinner`
+
+```taildown
+:::progress {bar}
+75% complete
+:::
+```
+:::
+
+:::card {elevated}
+### :icon[loader]{info} Skeleton {medium-bold}
+
+Loading placeholders.
+
+**Features:** Shimmer animation
+
+```taildown
+:::skeleton
+Loading...
+:::
+```
 :::
 :::
 

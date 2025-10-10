@@ -286,7 +286,7 @@
             "p-6",
             "max-w-full",
             "overflow-x-hidden",
-            "break-words",
+            "overflow-wrap-normal",
             "glass-effect",
             "glass-subtle",
             "shadow-sm"
@@ -444,11 +444,15 @@
       "children": [
         {
           "type": "text",
-          "value": "{.at-start} This paragraph starts with braces - treated as text"
+          "value": " This paragraph starts with braces - treated as text"
         }
       ],
       "data": {
-        "hProperties": {}
+        "hProperties": {
+          "className": [
+            "at-start"
+          ]
+        }
       }
     },
     {

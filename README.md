@@ -28,6 +28,9 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 - **Carousel**: Image/content carousels with 3D effects and swipe support
 - **Modal**: Dialog boxes with backdrop blur and focus management
 - **Tooltip**: Contextual help on hover/click with fade animations
+- **Navbar**: Responsive navigation with automatic mobile menu
+- **Scroll Animations**: Entrance animations triggered on scroll (zero-config)
+- **Dark Mode**: Automatic theme switching with system preference detection
 
 #### Attachable Components
 - **One-Line Modals**: `[Click Me](#){modal="Your message here"}`
@@ -37,10 +40,12 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 - **Full Markdown**: Rich content in tooltips/modals with complete markdown support
 
 #### JavaScript Generation
-- **Vanilla JS**: ~2-5KB of clean, dependency-free JavaScript
+- **Vanilla JS**: ~2-8KB of clean, dependency-free JavaScript
 - **Tree-Shaking**: Only includes JS for components you actually use
+- **Auto-Detection**: Scroll animations and copy-code automatically included when needed
 - **Event Delegation**: Efficient, performant event handling
 - **Accessibility**: Full ARIA support, keyboard navigation, focus management
+- **Dark Mode Included**: Theme switching automatically included in every document
 
 ---
 
@@ -310,9 +315,11 @@ Zero configuration. Zero complexity. Maximum readability.
 
 ## JavaScript Output
 
-Taildown generates ~2-5KB of optimized vanilla JavaScript (only for interactive components).
+Taildown generates ~2-8KB of optimized vanilla JavaScript (only for interactive components).
 
 **Tree-Shaking**: Only includes JS for components you actually use  
+**Dark Mode Included**: Theme switching always included by default  
+**Auto-Detection**: Scroll animations and copy-code automatically included when needed  
 **Vanilla ES6+**: No framework dependencies  
 **Accessible**: Full ARIA support, keyboard navigation  
 **Browser Support**: Chrome 51+, Firefox 54+, Safari 10+, Edge 15+
@@ -321,10 +328,109 @@ Taildown generates ~2-5KB of optimized vanilla JavaScript (only for interactive 
 ```
 document.td → document.html (HTML5)
            → document.css (scoped CSS)
-           → document.js (only if interactive components present)
+           → document.js (always includes dark mode + interactive components)
 ```
 
 **See [`SYNTAX.md`](SYNTAX.md) §3.9 for complete JavaScript generation documentation.**
+
+---
+
+## Dark Mode
+
+Taildown automatically includes dark mode support in every compiled document with zero configuration required.
+
+### Features
+
+- **Automatic Detection**: Respects system color scheme preference
+- **Manual Toggle**: Floating button (moon/sun icon) in bottom-right corner
+- **LocalStorage Persistence**: Theme choice saved across sessions
+- **Smooth Transitions**: 300ms fade between light and dark themes
+- **CSS Variables**: Clean theming system using custom properties
+- **Always Included**: Dark mode JS (~0.8KB) included in every document
+
+### How It Works
+
+The dark mode system:
+1. Checks system preference on page load
+2. Loads saved preference from localStorage
+3. Applies appropriate theme immediately (no flash)
+4. Provides toggle button for manual switching
+5. Saves user preference for future visits
+
+### CSS Variables
+
+Dark mode uses CSS variables for theming:
+
+```css
+/* Light mode (default) */
+:root {
+  --bg-primary: #ffffff;
+  --text-primary: #1f2937;
+  --accent: #3b82f6;
+}
+
+/* Dark mode */
+.dark {
+  --bg-primary: #1f2937;
+  --text-primary: #f9fafb;
+  --accent: #60a5fa;
+}
+```
+
+All components automatically adapt to dark mode without additional configuration.
+
+---
+
+## Scroll Animations
+
+Scroll-triggered animations using the Intersection Observer API with zero configuration.
+
+### Features
+
+- **Zero Config**: Just add animation classes, behavior included automatically
+- **Intersection Observer**: Modern, performant scroll detection
+- **Accessibility**: Respects `prefers-reduced-motion` setting
+- **Smart Triggering**: Animations start at 15% visibility
+- **Staggered Timing**: 75ms delay between multiple elements
+- **One-Time Animation**: Elements animate once when scrolling into view
+
+### Available Animations
+
+```taildown
+{fade-in}        - Fade in smoothly
+{slide-up}       - Slide up from below
+{slide-down}     - Slide down from above
+{slide-left}     - Slide in from left
+{slide-right}    - Slide in from right
+{zoom-in}        - Zoom in from small
+{scale-in}       - Scale in with fade
+```
+
+### Example Usage
+
+```taildown
+:::card {elevated fade-in}
+Fades in when scrolled into view
+:::
+
+:::card {light-glass slide-up}
+Slides up from below
+:::
+
+:::grid
+:::card {zoom-in}
+Card 1 - animates first
+:::
+:::card {zoom-in}
+Card 2 - animates 75ms later
+:::
+:::card {zoom-in}
+Card 3 - animates 150ms later
+:::
+:::
+```
+
+The scroll-animations behavior (~1.2KB) is automatically included when animation classes are detected.
 
 ---
 
@@ -435,6 +541,203 @@ Max-width container with automatic centering.
 ```taildown
 :::container
 Centered content with max-width
+:::
+```
+
+### Tabs
+
+Interactive tabbed interface with zero configuration.
+
+**Features:** Keyboard navigation, smooth transitions, ARIA support
+
+```taildown
+:::tabs
+## Tab One
+Content for first tab
+
+## Tab Two
+Content for second tab
+:::
+```
+
+### Accordion
+
+Collapsible content sections with smooth animations.
+
+**Features:** First item open by default, smooth animations, ARIA support
+
+```taildown
+:::accordion
+**Section Title**
+Content here
+
+**Another Section**
+More content
+:::
+```
+
+### Modal
+
+Dialog overlays with backdrop blur and focus management.
+
+**Features:** Backdrop click to close, escape key support, focus trap, body scroll lock
+
+```taildown
+[Open Modal](#){button modal="Simple message"}
+
+[Open Rich Modal](#){modal="#welcome"}
+:::modal{id="welcome"}
+# Welcome!
+Full markdown support here.
+:::
+```
+
+### Tooltip
+
+Contextual help on hover or click with fade animations.
+
+**Features:** Smart positioning, viewport edge detection, mobile touch support
+
+```taildown
+[Hover for help](#){tooltip="Helpful information"}
+```
+
+### Carousel
+
+Image/content carousel with 3D effects and swipe support.
+
+**Features:** Touch swipe, mouse drag, keyboard navigation, indicator dots
+
+```taildown
+:::carousel
+First slide
+
+---
+
+Second slide
+:::
+```
+
+### Navbar
+
+Responsive navigation bar with automatic mobile menu.
+
+**Features:** Mobile hamburger menu, sticky positioning, responsive design
+
+```taildown
+:::navbar
+# Brand
+
+- [Home](#)
+- [Features](#)
+- [Contact](#)
+
+[Login](#){button secondary small}
+:::
+```
+
+### Tree
+
+Directory and hierarchy visualization with multiple styles.
+
+**Variants:** `vscode`, `minimal`, `colored`, `rounded`, `glass`, `dark`
+
+```taildown
+:::tree {colored}
+- project/
+  - src/
+    - components/
+  - tests/
+:::
+```
+
+### Flow
+
+Process flow and workflow diagrams.
+
+**Variants:** `vertical`, `horizontal`, `stepped`, `branching`, `timeline`
+
+```taildown
+:::flow {stepped}
+- Initialize
+- Process
+- Complete
+:::
+```
+
+### Button Group
+
+Grouped button layout for related actions.
+
+**Features:** Horizontal or vertical orientation, connected styling
+
+```taildown
+:::button-group
+[Option 1](#){button}
+[Option 2](#){button}
+[Option 3](#){button}
+:::
+```
+
+### Sidebar
+
+Collapsible side navigation panel.
+
+**Features:** Collapsible, responsive, position left or right
+
+```taildown
+:::sidebar
+Navigation content here
+:::
+```
+
+### Breadcrumb
+
+Navigation trail showing page hierarchy.
+
+**Features:** Separator styling, active page indication
+
+```taildown
+:::breadcrumb
+- [Home](#)
+- [Products](#)
+- Current Page
+:::
+```
+
+### Pagination
+
+Page navigation controls.
+
+**Features:** Previous/next buttons, numbered pages, active state
+
+```taildown
+:::pagination
+Pages 1-10 of 100
+:::
+```
+
+### Progress
+
+Progress bars and loading indicators.
+
+**Variants:** `bar`, `spinner`, `circular`
+
+```taildown
+:::progress {bar}
+75% complete
+:::
+```
+
+### Skeleton
+
+Loading placeholder screens.
+
+**Features:** Animated shimmer effect, various shapes
+
+```taildown
+:::skeleton
+Loading content...
 :::
 ```
 

@@ -40,7 +40,7 @@
             "p-6",
             "max-w-full",
             "overflow-x-hidden",
-            "break-words",
+            "overflow-wrap-normal",
             "glass-effect",
             "glass-subtle",
             "shadow-sm"
@@ -89,10 +89,7 @@
             "taildown-component",
             "component-grid",
             "grid",
-            "gap-4",
-            "grid-cols-1",
-            "sm:grid-cols-2",
-            "lg:grid-cols-3"
+            "grid-cols-3"
           ],
           "data-component": "grid"
         },
@@ -202,7 +199,7 @@
             "p-6",
             "max-w-full",
             "overflow-x-hidden",
-            "break-words",
+            "overflow-wrap-normal",
             "glass-effect",
             "glass-subtle",
             "shadow-sm"
@@ -241,7 +238,7 @@
             "p-6",
             "max-w-full",
             "overflow-x-hidden",
-            "break-words",
+            "overflow-wrap-normal",
             "glass-effect",
             "glass-subtle",
             "shadow-sm"
@@ -302,10 +299,7 @@
             "taildown-component",
             "component-grid",
             "grid",
-            "gap-4",
-            "grid-cols-1",
-            "sm:grid-cols-2",
-            "lg:grid-cols-3"
+            "grid-cols-3"
           ],
           "data-component": "grid"
         },

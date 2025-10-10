@@ -263,11 +263,15 @@
       "children": [
         {
           "type": "text",
-          "value": "{.invalid} This paragraph has attributes at the start, not the end."
+          "value": " This paragraph has attributes at the start, not the end."
         }
       ],
       "data": {
-        "hProperties": {}
+        "hProperties": {
+          "className": [
+            "invalid"
+          ]
+        }
       }
     },
     {
