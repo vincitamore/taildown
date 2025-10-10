@@ -180,7 +180,7 @@ function processAttachments(node: any): any {
 export async function astToHast(ast: TaildownRoot): Promise<any> {
   // Pre-pass: Populate modal/tooltip registries BEFORE converting to HAST
   // This ensures ID-referenced modals/tooltips can be looked up during conversion
-  await prepopulateRegistries(ast as Root);
+  prepopulateRegistries(ast as Root);
   
   // First, convert MDAST to HAST using default handlers + our custom component handler
   const hast = toHast(ast as Root, { 

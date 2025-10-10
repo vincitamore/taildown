@@ -8,6 +8,7 @@ import { parseWithWarnings } from './parser';
 import { renderHTMLDocument, astToHast, generateCSS, collectClassesFromHast } from './renderer';
 import { generateJavaScript, hasInteractiveBehavior } from './js-generator';
 import { autoFixSyntax } from './parser/syntax-fixer';
+import { ensureRegistryInitialized } from './renderer/component-handlers';
 
 /**
  * Compile Taildown source to HTML and CSS
@@ -21,6 +22,9 @@ export async function compile(
   source: string,
   options: CompileOptions = {}
 ): Promise<CompileResult> {
+  // CRITICAL: Ensure component registry is initialized before any processing
+  await ensureRegistryInitialized();
+  
   const startTime = performance.now();
 
   // Auto-fix common syntax errors before parsing

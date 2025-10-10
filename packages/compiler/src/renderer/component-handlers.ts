@@ -33,10 +33,9 @@ const renderedTooltipIds = new Set<string>();
 
 // Track if registry has been initialized
 let registryReady = false;
-registryInitialized.then(() => { registryReady = true; });
 
-// Ensure registry is initialized before using it
-async function ensureRegistryInitialized(): Promise<void> {
+// Ensure registry is initialized before using it (call this at start of compile)
+export async function ensureRegistryInitialized(): Promise<void> {
   if (!registryReady) {
     await registryInitialized;
     registryReady = true;
@@ -48,9 +47,7 @@ async function ensureRegistryInitialized(): Promise<void> {
  * Scans the MDAST tree for :::modal{id="..."} and :::tooltip{id="..."} blocks
  * and stores their content for later reference by ID
  */
-export async function prepopulateRegistries(ast: Root): Promise<void> {
-  // Ensure registry is initialized before using it
-  await ensureRegistryInitialized();
+export function prepopulateRegistries(ast: Root): void {
   // Clear registries before populating
   modalRegistry.clear();
   tooltipRegistry.clear();
