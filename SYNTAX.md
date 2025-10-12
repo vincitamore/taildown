@@ -506,6 +506,214 @@ Add fixtures under: syntax-tests/fixtures/07-inline-badges/
 
 ---
 
+### 2.6B Keyboard Keys **[REQUIRED]**
+
+Keyboard key notation displays keyboard shortcuts with professional 3D styling and platform-specific symbols.
+
+**Grammar:**
+```
+kbd_element     ::= ":kbd[" key_sequence "]" platform_hint?
+key_sequence    ::= key ("+" key)*
+key             ::= alpha | digit | special_key
+platform_hint   ::= "{" platform "}"
+platform        ::= "mac" | "macos" | "windows" | "win"
+```
+
+**Basic Examples:**
+```taildown
+Press :kbd[Enter] to submit the form.
+
+Save your work with :kbd[Ctrl+S]
+
+Copy text with :kbd[Ctrl+C] and paste with :kbd[Ctrl+V]
+
+Undo with :kbd[Ctrl+Z] and redo with :kbd[Ctrl+Y]
+```
+
+**Platform-Specific Symbols:**
+
+When `{mac}` platform hint is used, keys are automatically converted to Mac symbols:
+
+| Text | Symbol | Description |
+|------|--------|-------------|
+| Cmd, Command | ⌘ | Command key |
+| Opt, Option, Alt | ⌥ | Option/Alt key |
+| Ctrl, Control | ⌃ | Control key |
+| Shift | ⇧ | Shift key |
+| Enter, Return | ⏎ | Return key |
+| Delete, Backspace | ⌫ | Delete key |
+| Tab | ⇥ | Tab key |
+| Esc, Escape | ⎋ | Escape key |
+| Space | ␣ | Space key |
+| Up/Down/Left/Right | ↑↓←→ | Arrow keys |
+
+**Mac Platform Examples:**
+```taildown
+Copy: :kbd[Cmd+C]{mac}  → ⌘ C
+Paste: :kbd[Cmd+V]{mac}  → ⌘ V
+Save: :kbd[Cmd+S]{mac}  → ⌘ S
+Screenshot: :kbd[Cmd+Shift+4]{mac}  → ⌘ ⇧ 4
+Force Quit: :kbd[Cmd+Opt+Esc]{mac}  → ⌘ ⌥ ⎋
+```
+
+**Windows Platform Examples:**
+```taildown
+Copy: :kbd[Ctrl+C]{windows}  → Ctrl C
+Task Manager: :kbd[Ctrl+Shift+Esc]{windows}  → Ctrl Shift Esc
+Windows Menu: :kbd[Win+X]{windows}  → Win X
+```
+
+When `{windows}` is used, certain keys are normalized:
+- `Cmd` → `Win`
+- `Opt`, `Option` → `Alt`
+
+**HTML Output:**
+
+Single key:
+```html
+<kbd class="kbd-key" data-platform="default">Enter</kbd>
+```
+
+Key combination:
+```html
+<span class="kbd-group">
+  <kbd class="kbd-key" data-platform="default">Ctrl</kbd>
+  <kbd class="kbd-key" data-platform="default">C</kbd>
+</span>
+```
+
+Mac platform:
+```html
+<span class="kbd-group">
+  <kbd class="kbd-key" data-platform="mac">⌘</kbd>
+  <kbd class="kbd-key" data-platform="mac">C</kbd>
+</span>
+```
+
+**Styling:**
+
+Keyboard keys feature professional 3D styling:
+- Gradient background (light to dark)
+- Subtle inner highlight (top)
+- Shadow for depth
+- Thicker bottom border for 3D effect
+- Hover state with "press" animation
+- Platform-specific fonts and border radius
+- Full dark mode support
+
+**Key Separators:**
+
+Key combinations automatically split on `+` or `-`:
+```taildown
+:kbd[Ctrl+Alt+Delete]  → Ctrl  Alt  Delete
+:kbd[Cmd-Shift-P]       → Cmd  Shift  P  (also works)
+```
+
+**Common Use Cases:**
+
+**Documentation:**
+```taildown
+## Keyboard Shortcuts
+
+- Save: :kbd[Ctrl+S]
+- Copy: :kbd[Ctrl+C]
+- Paste: :kbd[Ctrl+V]
+- Undo: :kbd[Ctrl+Z]
+- Redo: :kbd[Ctrl+Y]
+```
+
+**Tutorial Steps:**
+```taildown
+:::steps
+## Open Command Palette {step}
+
+Press :kbd[Ctrl+Shift+P] to open the command palette.
+
+## Search for Command {step}
+
+Type your command and press :kbd[Enter] to execute.
+:::
+```
+
+**Inline Usage:**
+```taildown
+You can navigate between tabs using :kbd[Ctrl+Tab] and :kbd[Ctrl+Shift+Tab].
+
+The :kbd[Escape] key closes dialogs and modals.
+
+Use :kbd[Tab] to move forward and :kbd[Shift+Tab] to move backward through form fields.
+```
+
+**Rules:**
+
+**Rule 2.6B.1 - Key Parsing**:
+- Keys are split on `+` or `-` characters (whitespace optional)
+- Each key part is normalized (first letter capitalized)
+- Platform symbols applied only when platform hint provided
+
+**Rule 2.6B.2 - Platform Normalization**:
+- Mac platform: Apply symbol mapping table
+- Windows platform: Apply Win/Alt normalization
+- Default platform: Capitalize first letter only
+
+**Rule 2.6B.3 - HTML Structure**:
+- Single key: Direct `<kbd>` element
+- Multiple keys: Wrapped in `<span class="kbd-group">` with space separators
+- All keys get `data-platform` attribute
+
+**Rule 2.6B.4 - Accessibility**:
+- `<kbd>` is semantic HTML for keyboard input
+- Symbols have appropriate Unicode characters
+- Platform-specific rendering doesn't change semantic meaning
+
+**Edge Cases:**
+
+**Empty or Invalid:**
+```taildown
+:kbd[]  → Treated as plain text (invalid)
+:kbd[+] → Treated as plain text (empty keys)
+```
+
+**Inside Code:**
+```taildown
+`Use :kbd[Enter]` → Not parsed (inside backticks)
+```
+
+**Multiple Separators:**
+```taildown
+:kbd[Ctrl++]        → Ctrl  + (plus key)
+:kbd[Ctrl+Shift+]]  → Ctrl  Shift  ] (bracket key)
+```
+
+**Case Handling:**
+```taildown
+:kbd[enter]   → Enter (normalized)
+:kbd[CTRL+C]  → Ctrl  C (normalized)
+:kbd[cmd+v]{mac}  → ⌘  V (symbol + normalized)
+```
+
+**Integration:**
+
+Works seamlessly with:
+- Paragraphs and headings
+- Lists and tables
+- Component content (cards, alerts, etc.)
+- Link text
+- Strong/em emphasis
+
+**Test Coverage:**
+```
+Add fixtures under: syntax-tests/fixtures/08-keyboard-keys/
+- 01-basic.td
+- 02-combinations.td
+- 03-platforms.td
+- 04-symbols.td
+- 05-integration.td
+- 06-edge-cases.td
+```
+
+---
+
 ### 2.7 Plain English Grammar Rules **[REQUIRED]**
 
 Taildown prioritizes **natural English grammar and word order** over CSS conventions for all styling shorthands.
@@ -1094,33 +1302,1120 @@ All three are equivalent; indentation is for readability only.
 
 ### 3.4 Standard Components **[REQUIRED]**
 
-Taildown includes 21 standard components out of the box:
+Taildown includes 28 standard components out of the box:
 
 | Component | Purpose | Default Classes |
 |-----------|---------|----------------|
+| **Layout Components** | | |
 | `card` | Content card | Padding, shadow, rounded corners |
-| `button` | Styled links/actions | Button styling with variants |
-| `button-group` | Button container | Grouped button layout |
-| `alert` | Contextual messages | Color-coded alerts (info, success, warning, error) |
-| `badge` | Status indicators | Inline labels with semantic colors |
-| `avatar` | Profile images | Circular/square image containers |
 | `grid` | Grid layout | CSS Grid with 1rem default gap |
 | `container` | Max-width container | Centered, constrained width |
+| `button-group` | Button container | Grouped button layout |
+| **Interactive Components** | | |
 | `tabs` | Tabbed interface | Interactive tab navigation |
 | `accordion` | Collapsible sections | Expandable content panels |
+| `carousel` | Image/content slider | Swipeable slides with navigation |
+| **Overlay Components** | | |
 | `modal` | Dialog overlays | Backdrop with centered content |
 | `tooltip` | Contextual help | Hover/click tooltips |
-| `carousel` | Image/content slider | Swipeable slides with navigation |
+| **Feedback Components** | | |
+| `alert` | Contextual messages | Color-coded alerts (info, success, warning, error) |
+| `badge` | Status indicators | Inline labels with semantic colors |
+| `progress` | Progress indicator | Progress bars and spinners |
+| **Content Components** | | |
+| `details` | Progressive disclosure | Native HTML5 `<details>` element with glass styling |
+| `callout` | Semantic admonitions | Color-coded callouts (note, tip, warning, danger, success, info, error) |
+| `columns` | Multi-column layout | CSS columns for magazine-style text flow |
+| `definitions` | Term-definition pairs | Semantic `<dl>` with vertical/horizontal layouts |
+| `stats` | Metrics display | Large numbers for landing pages and dashboards |
+| `divider` | Enhanced separators | Horizontal rules with text, icons, and decorative styles |
+| **Navigation Components** | | |
 | `navbar` | Site navigation | Responsive navigation bar |
 | `sidebar` | Side navigation | Collapsible side panel |
 | `breadcrumb` | Navigation trail | Breadcrumb navigation |
 | `pagination` | Page navigation | Numbered page controls |
-| `progress` | Progress indicator | Progress bars and spinners |
+| **Utility Components** | | |
+| `avatar` | Profile images | Circular/square image containers |
 | `skeleton` | Loading placeholder | Skeleton screen elements |
 | `tree` | Directory/hierarchy visualization | Semantic list markup with tree styling |
 | `flow` | Process/workflow diagrams | Sequential flow with connectors |
+| `button` | Styled links/actions | Button styling with variants |
 
 **Note**: Component default classes are defined in implementation, not syntax spec.
+
+### 3.4A Content Components **[REQUIRED]**
+
+Content components added in v0.1.1 for better content organization:
+
+#### 3.4A.1 Details Component
+
+Native HTML5 `<details>` element for progressive disclosure:
+
+```taildown
+:::details {glass}
+**What is Taildown?** {bold}
+
+Taildown is a markup language for creating beautiful UIs.
+:::
+
+:::details {elevated open}
+**Installation**
+
+Run: `pnpm install @taildown/cli`
+:::
+```
+
+**Variants**: `glass`, `subtle-glass`, `light-glass`, `heavy-glass`, `elevated`, `bordered`
+
+**Attributes**: `open` - Start expanded
+
+**Features**:
+- Zero JavaScript (native HTML5)
+- Full ARIA accessibility
+- Keyboard navigation (Enter/Space)
+- Smooth CSS animations
+- First bold text becomes summary
+
+#### 3.4A.2 Callout Component
+
+Semantic alert boxes with type-based coloring:
+
+```taildown
+:::callout {note}
+:icon[info]{primary} **Note:** Additional information here
+:::
+
+:::callout {tip glass}
+:icon[lightbulb]{success} **Pro Tip:** Helpful advice
+:::
+
+:::callout {warning}
+:icon[alert-triangle]{warning} **Warning:** Proceed with caution
+:::
+
+:::callout {danger}
+:icon[alert-octagon]{error} **Danger:** Critical alert
+:::
+```
+
+**Types**: `note`, `info`, `tip`, `success`, `warning`, `danger`, `error`
+
+**Visual Variants**: `glass`, `elevated`, `bordered`
+
+**Features**:
+- Color-coded left border (4px)
+- Background tint matching type
+- Supports glass effects
+- Bold text becomes title
+
+#### 3.4A.3 Columns Component
+
+CSS multi-column layout for magazine-style text flow:
+
+```taildown
+:::columns {2}
+Text flows naturally between columns like a magazine.
+:::
+
+:::columns {3 gap-lg}
+Three column layout with large gap
+:::
+
+:::columns {4 divider}
+Four columns with divider lines between
+:::
+```
+
+**Column Counts**: `2`, `3`, `4`, `auto`
+
+**Gap Sizes**: `gap-sm`, `gap`, `gap-lg`, `gap-xl`
+
+**Options**: `divider` (column rule), `balanced` (equal heights)
+
+**Responsive**:
+- Mobile: Always 1 column
+- Tablet: Reduced column count
+- Desktop: Full column count
+
+#### 3.4A.4 Definitions Component
+
+Semantic definition list (`<dl>`) for term-definition pairs:
+
+```taildown
+:::definitions {glass}
+**API Key** {term}
+: A unique identifier for authentication
+
+**Base URL** {term}
+: https://api.example.com/v1
+:::
+
+:::definitions {horizontal}
+**Name:** John Doe
+**Email:** john@example.com
+:::
+```
+
+**Layouts**: `vertical` (default), `horizontal`, `compact`
+
+**Visual Variants**: `glass`, `subtle-glass`, `elevated`, `bordered`
+
+**Parsing**:
+- Bold text = term (`<dt>`)
+- Text after `:` = definition (`<dd>`)
+- Alternative: `{term}` explicit marker
+
+#### 3.4A.5 Stats Component
+
+Large statistics display for landing pages:
+
+```taildown
+:::stats {3 glass}
+### 10,000+ {stat}
+:icon[users]{primary huge}
+Active Users
+
+### 99.9% {stat}
+:icon[check-circle]{success huge}
+Uptime
+
+### < 50ms {stat}
+:icon[zap]{warning huge}
+Response Time
+:::
+```
+
+**Column Counts**: `2`, `3` (default), `4`
+
+**Visual Variants**: `glass`, `elevated`, `bordered`, `compact`
+
+**Parsing**:
+- Heading with `{stat}` marker = value
+- Icon (if present) displays above
+- Following text = label
+
+#### 3.4A.6 Divider Component
+
+Enhanced horizontal rules with decorative options:
+
+```taildown
+:::divider
+Simple divider
+:::
+
+:::divider {text}
+Section Break
+:::
+
+:::divider {icon}
+:icon[star]{warning}
+:::
+
+:::divider {gradient primary}
+Colored gradient divider
+:::
+
+:::divider {dots muted}
+Dotted decorative line
+:::
+```
+
+**Styles**: `solid`, `text`, `icon`, `gradient`, `dots`, `dashed`, `double`, `wavy`, `thick`
+
+**Colors**: `primary`, `accent`, `muted`, `success`, `warning`, `error`
+
+#### 3.4A.7 Enhanced Table Component **[REQUIRED]**
+
+Extends standard GFM tables with professional features like sorting, zebra striping, glass effects, and sticky headers.
+
+**Syntax:**
+
+Tables use standard GitHub Flavored Markdown syntax, with an attribute block on the last row or immediately after the table:
+
+```taildown
+| Name | Role | Salary |
+|------|------|--------|
+| Alice | Developer | $85,000 |
+| Bob | Designer | $75,000 |
+{sortable zebra}
+```
+
+**Variants:**
+
+- `sortable` - Clickable column headers for client-side sorting (~1KB JS)
+- `zebra` / `striped` - Alternating row colors for better readability
+- `bordered` - Full cell borders
+- `glass` - Glassmorphism effect
+- `sticky-header` - Header stays visible on scroll
+- `compact` - Tighter spacing for data-dense tables
+- `hoverable` - Row hover effects with subtle transform
+
+**Size Modifiers:**
+
+- `sm` - Smaller text and padding (0.5rem/0.75rem)
+- `md` - Standard size (default)
+- `lg` - Larger text and padding (1rem/1.25rem)
+
+**Examples:**
+
+```taildown
+# Sortable table with zebra striping
+
+| Employee | Department | Performance |
+|----------|-----------|-------------|
+| Alice | Engineering | Excellent |
+| Bob | Design | Good |
+| Charlie | Management | Excellent |
+{sortable zebra hoverable}
+
+# Glass effect with sticky header
+
+| Metric | Q1 | Q2 | Q3 |
+|--------|-----|-----|-----|
+| Revenue | $1.2M | $1.5M | $1.8M |
+| Users | 10,500 | 12,300 | 14,800 |
+{glass sticky-header}
+
+# Compact bordered table
+
+| ID | Status | Priority |
+|----|--------|----------|
+| #001 | Active | High |
+| #002 | Pending | Medium |
+{compact bordered}
+```
+
+**Rendering:**
+
+- Generates standard `<table>` with enhanced classes
+- Sortable tables include `data-sortable="true"` attribute
+- Header cells in sortable tables get sort icons and keyboard support
+- Mobile-responsive with horizontal scrolling wrapper
+- First column remains sticky on mobile for context
+
+**Sorting Behavior:**
+
+- Clicking a header toggles sort direction (ascending ↑ / descending ↓)
+- Supports multiple data types: strings, numbers, dates
+- Keyboard accessible (Enter/Space to sort, focus visible)
+- ARIA attributes for screen readers (`aria-sort`)
+- Visual indicators show current sort state
+
+**Accessibility:**
+
+- Semantic `<table>`, `<thead>`, `<tbody>`, `<th>`, `<td>` elements
+- Sortable headers have `role="button"` and `tabindex="0"`
+- ARIA sort attributes updated on interaction
+- Keyboard navigation fully supported
+- Focus visible indicators
+
+#### 3.4A.8 Image Comparison Slider **[REQUIRED]**
+
+Interactive before/after image comparison with a draggable slider, perfect for showcasing transformations, design changes, or any visual differences.
+
+**Syntax:**
+
+```taildown
+:::compare-images {horizontal}
+before: https://example.com/before.jpg
+after: https://example.com/after.jpg
+alt: Workspace transformation
+:::
+
+:::compare-images {vertical labels sm}
+before: /images/old-design.png
+after: /images/new-design.png
+beforeAlt: Old website design
+afterAlt: New website design
+:::
+```
+
+**Variants:**
+
+- `horizontal` - Left/right comparison (default)
+- `vertical` - Top/bottom comparison
+- `labels` - Show "Before" and "After" labels overlaid on images
+- `glass` - Glassmorphism effect on slider handle and labels
+- `shadow` - Enhanced shadow on handle
+
+**Size Modifiers:**
+
+- `sm` - Small: 280px height, 36px handle, max 35vh
+- `md` - Medium: 450px height, 48px handle, max 55vh (default)
+- `lg` - Large: 580px height, 48px handle, max 70vh
+- `xl` - Extra Large: 700px height, 56px handle, max 80vh
+- `full` - Full height with 400px minimum
+
+**Required Attributes:**
+
+- `before` - URL to the "before" image
+- `after` - URL to the "after" image
+
+**Optional Attributes:**
+
+- `alt` - Alternative text for both images (default: "Image comparison")
+- `beforeAlt` - Specific alt text for before image
+- `afterAlt` - Specific alt text for after image
+
+**Examples:**
+
+```taildown
+# Basic horizontal comparison
+
+:::compare-images {horizontal}
+before: https://images.unsplash.com/photo-1560807707-8cc77767d783?w=800
+after: https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800
+alt: Office workspace comparison
+:::
+
+# Vertical with labels
+
+:::compare-images {vertical labels}
+before: /images/design-v1.png
+after: /images/design-v2.png
+alt: Design evolution
+:::
+
+# Small size with glass effect
+
+:::compare-images {sm glass labels}
+before: /img/before.jpg
+after: /img/after.jpg
+beforeAlt: Original photo
+afterAlt: Enhanced photo
+:::
+
+# Extra large showcase
+
+:::compare-images {xl labels shadow}
+before: /portfolio/mockup-before.png
+after: /portfolio/mockup-after.png
+alt: Website redesign project
+:::
+```
+
+**Rendering:**
+
+- Generates a container with two absolutely positioned images
+- "After" image uses `clip-path` for the reveal effect
+- Slider is a vertical (horizontal mode) or horizontal (vertical mode) line with a circular handle
+- Handle includes directional arrow icons (left/right or up/down)
+- Draggable via mouse, touch, or keyboard (arrow keys)
+
+**Interactive Behavior:**
+
+- **Mouse:** Click and drag the handle to slide
+- **Touch:** Touch and drag on mobile devices
+- **Keyboard:** Focus the slider, use arrow keys to adjust (5% increments)
+- **Accessibility:** Full ARIA support with `role="slider"` and `aria-valuenow`
+
+**Zero-Config Beauty:**
+
+- Rounded corners (`rounded-xl`) and subtle shadow by default
+- Viewport-aware sizing prevents awkward scrolling on large screens
+- 16:9 aspect ratio by default for landscape images
+- Handle scales with component size for visual hierarchy
+
+**Accessibility:**
+
+- Slider has `role="slider"` with proper ARIA attributes
+- `aria-valuenow` updates as slider moves (0-100)
+- Keyboard navigation fully supported
+- Images have proper `alt` text for screen readers
+- Handle includes invisible text for screen reader context
+
+#### 3.4A.9 Code Diff Component **[REQUIRED]**
+
+Visual diff viewer for showing code changes, perfect for documentation, tutorials, and pull request reviews.
+
+**Syntax:**
+
+Code diffs are created using special fence blocks with `diff` language and side-by-side/unified variants:
+
+```taildown
+:::diff {side-by-side}
+```before
+function calculateTotal(items) {
+  return items.reduce((sum, item) => sum + item.price, 0);
+}
+```
+
+```after
+function calculateTotal(items) {
+  const subtotal = items.reduce((sum, item) => sum + item.price, 0);
+  const tax = subtotal * 0.1;
+  return subtotal + tax;
+}
+```
+:::
+
+# Or unified diff format
+```diff
+function calculateTotal(items) {
+-  return items.reduce((sum, item) => sum + item.price, 0);
++  const subtotal = items.reduce((sum, item) => sum + item.price, 0);
++  const tax = subtotal * 0.1;
++  return subtotal + tax;
+}
+```
+```
+
+**Variants:**
+
+- `side-by-side` - Before and after code in side-by-side panes (default)
+- `unified` - Traditional +/- diff format in single pane
+- `glass` - Glassmorphism effect on container
+- `compact` - Reduced padding for space efficiency
+- `no-header` - Hide the "Before" and "After" labels
+
+**Features:**
+
+- Syntax highlighting for all supported languages (via Shiki)
+- Line numbers for easy reference
+- Visual indicators: removed lines (red tint), added lines (green tint)
+- Synchronized scrolling in side-by-side mode
+- Terminal-style header with traffic light dots
+- Rounded corners and professional styling
+
+**Examples:**
+
+```taildown
+# Side-by-side TypeScript diff with glass effect
+
+:::diff {side-by-side glass}
+```before
+async function fetchUser(id: number) {
+  const response = await fetch(`/api/users/${id}`);
+  return response.json();
+}
+```
+
+```after
+async function fetchUser(id: number) {
+  const response = await fetch(`/api/users/${id}`);
+  if (!response.ok) {
+    throw new Error(`User ${id} not found`);
+  }
+  const data = await response.json();
+  return { ...data, createdAt: new Date(data.createdAt) };
+}
+```
+:::
+
+# Unified diff format (compact)
+
+```diff {compact}
+ async function fetchUser(id: number) {
+   const response = await fetch(`/api/users/${id}`);
++  if (!response.ok) {
++    throw new Error(`User ${id} not found`);
++  }
+-  return response.json();
++  const data = await response.json();
++  return { ...data, createdAt: new Date(data.createdAt) };
+ }
+```
+```
+
+**Rendering:**
+
+- Side-by-side: Two column layout with synced scrolling
+- Unified: Single pane with +/- line prefixes
+- Each line marked with `data-change` attribute (`added`, `removed`, `unchanged`)
+- Syntax highlighting applied to code content
+- Line numbers generated automatically
+- Terminal-style border with traffic light dots
+
+**Accessibility:**
+
+- Semantic `<pre>` and `<code>` elements
+- Color not the only indicator (uses +/- symbols in unified)
+- Keyboard scrolling works naturally
+- Screen readers announce "code diff" role
+
+#### 3.4A.10 Footnotes System **[REQUIRED]**
+
+Reference-style footnotes with auto-numbering, backlinks, and optional hover preview.
+
+**Syntax:**
+
+Uses GitHub Flavored Markdown footnote syntax (handled by `remark-gfm`):
+
+```taildown
+Here is a sentence with a footnote.[^1]
+
+Another sentence with a different note.[^note-id]
+
+You can also use inline footnotes.^[This is an inline note]
+
+[^1]: This is the first footnote.
+[^note-id]: This is another footnote with a custom ID.
+```
+
+**Features:**
+
+- Auto-numbered references in order of appearance
+- Footnote definitions collected at document end
+- Backlinks (↩ symbol) from definition to reference
+- Multiple references to same footnote supported (↩², ↩³, etc.)
+- Hover preview popup showing footnote content
+- Smooth scroll to footnote definition on click
+
+**Examples:**
+
+```taildown
+# Research Paper
+
+The theory of relativity[^einstein] revolutionized physics.
+
+Einstein's work[^einstein] also influenced quantum mechanics[^quantum].
+
+Modern physics builds on both theories.[^modern]
+
+[^einstein]: Albert Einstein published the theory of relativity in 1905.
+[^quantum]: Quantum mechanics emerged in the early 20th century.
+[^modern]: These foundational theories continue to shape research today.
+```
+
+**Rendering:**
+
+- References: `<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref>1</a></sup>`
+- Definitions: Collected in `<section data-footnotes class="footnotes">` at document end
+- Each definition includes backlink to reference
+- Separator line above footnotes section
+
+**Interactive Behavior:**
+
+- Clicking reference scrolls to definition
+- Hovering over reference shows preview popup
+- Clicking backlink returns to reference
+- Popup positioned above reference with speech bubble arrow
+- Popup dismissed on mouse leave or click outside
+
+**Styling:**
+
+- References: Superscript with primary color and subtle underline on hover
+- Definitions: Smaller text, secondary color, hanging indent
+- Popup: Card background, shadow, rounded corners, smooth fade transition
+- Separator: Horizontal rule with muted color
+
+**Accessibility:**
+
+- Semantic ARIA attributes (`role="doc-footnote"`, `role="doc-backlink"`)
+- Screen readers announce "footnote 1", "return to reference"
+- Keyboard accessible (Tab to focus, Enter to follow)
+- Focus visible indicators
+
+#### 3.4A.11 Mermaid Diagram Support **[REQUIRED]**
+
+Client-side rendered diagrams using Mermaid.js with zero-overhead tree-shaking.
+
+**Syntax:**
+
+Use standard Mermaid syntax in fenced code blocks with `mermaid` language:
+
+```taildown
+```mermaid
+graph LR
+  A[Start] --> B{Decision}
+  B -->|Yes| C[Action 1]
+  B -->|No| D[Action 2]
+  C --> E[End]
+  D --> E
+```
+```
+
+**Supported Diagram Types:**
+
+- **Flowchart** (`graph` / `flowchart`) - Process flows and decision trees
+- **Sequence** (`sequenceDiagram`) - UML sequence diagrams
+- **Class** (`classDiagram`) - UML class diagrams
+- **State** (`stateDiagram-v2`) - State machines
+- **Gantt** (`gantt`) - Project timelines
+- **Pie** (`pie`) - Pie charts
+- **Git Graph** (`gitGraph`) - Git branching visualization
+- **ER Diagram** (`erDiagram`) - Entity-relationship diagrams
+- **Journey** (`journey`) - User journey maps
+
+**Rendering:**
+
+- **Tree-Shaken**: 0KB overhead when no Mermaid diagrams present
+- **Self-Contained**: ~2.7MB inline UMD bundle when diagrams detected
+- **Client-Side**: Diagrams render in browser (zero compile-time overhead)
+- **Theme-Aware**: Automatically respects light/dark mode
+- **SVG Output**: Clean, scalable vector graphics
+
+**Styling:**
+
+- Rounded corners (`border-radius: 0.75rem`)
+- Subtle shadow with hover elevation
+- Card background with border
+- Responsive padding and sizing
+- Professional glassmorphism variants
+
+**Variants:**
+
+- `glass` - Glassmorphism effect
+- `elevated` - Enhanced shadow
+- `compact` - Reduced padding
+- `full` - Full width container
+- `bordered` - Prominent border
+
+**Size Modifiers:**
+
+- `sm` - Small container (max-width: 640px)
+- `md` - Medium container (max-width: 768px, default)
+- `lg` - Large container (max-width: 1024px)
+- `xl` - Extra large container (max-width: 1280px)
+
+**Examples:**
+
+```taildown
+# Basic flowchart
+
+```mermaid
+graph TD
+  A[Christmas] -->|Get money| B(Go shopping)
+  B --> C{Let me think}
+  C -->|One| D[Laptop]
+  C -->|Two| E[iPhone]
+  C -->|Three| F[Car]
+```
+
+# Sequence diagram with glass effect
+
+```mermaid {glass}
+sequenceDiagram
+  Alice->>John: Hello John, how are you?
+  John-->>Alice: Great!
+  Alice-)John: See you later!
+```
+
+# Large Gantt chart
+
+```mermaid {lg}
+gantt
+  title Project Timeline
+  dateFormat YYYY-MM-DD
+  section Design
+  Research :a1, 2024-01-01, 30d
+  Mockups  :a2, after a1, 20d
+  section Development
+  Backend  :b1, 2024-02-01, 45d
+  Frontend :b2, after b1, 30d
+```
+
+# Compact state diagram
+
+```mermaid {compact bordered}
+stateDiagram-v2
+  [*] --> Still
+  Still --> [*]
+  Still --> Moving
+  Moving --> Still
+  Moving --> Crash
+  Crash --> [*]
+```
+```
+
+**Performance:**
+
+- Early exit detection (scans AST for mermaid blocks)
+- Only loads library when diagrams present
+- Code blocks cached for quick re-renders
+- Minimal JavaScript footprint (~2.7MB inline, gzipped ~500KB)
+
+**Accessibility:**
+
+- SVG includes proper `<title>` and `<desc>` elements
+- Semantic container with `role="img"`
+- Keyboard navigable focus
+- Screen reader compatible
+
+**Theme Integration:**
+
+- Automatically detects light/dark mode from `<html>` class
+- Re-renders on theme toggle
+- Color schemes match Taildown design system
+- Node colors adapt to theme
+
+#### 3.4A.12 Math Equations (LaTeX) **[REQUIRED]**
+
+Compile-time LaTeX to MathML conversion with zero runtime JavaScript overhead.
+
+**Syntax:**
+
+Use `$` delimiters for inline math and `$$` for display math (centered):
+
+```taildown
+Inline math: $E = mc^2$ is Einstein's famous equation.
+
+Display math (centered):
+
+$$
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+$$
+```
+
+**Rendering:**
+
+- **Compile-Time Conversion**: LaTeX → MathML using `temml` library
+- **Zero Runtime JS**: MathML is generated at compile time
+- **Native Browser Support**: Uses native MathML rendering
+- **Professional Styling**: Math-specific fonts and spacing
+- **Theme-Aware**: Adapts to light/dark mode automatically
+
+**Inline Math (`$...$`):**
+
+- Rendered as `<span class="math math-inline">`
+- Baseline-aligned with surrounding text
+- Suitable for formulas within paragraphs
+
+```taildown
+The Pythagorean theorem $a^2 + b^2 = c^2$ is fundamental.
+
+Greek letters: $\alpha$, $\beta$, $\gamma$, $\Delta$
+
+Subscripts: $x_1$, $x_2$, $x_n$
+
+Superscripts: $x^2$, $e^{i\pi}$
+
+Combined: $x_{i,j}^{n+1}$
+```
+
+**Display Math (`$$...$$`):**
+
+- Rendered as `<div class="math math-display">`
+- Centered on page
+- Larger font size
+- Suitable for important equations
+
+```taildown
+Euler's identity:
+
+$$
+e^{i\pi} + 1 = 0
+$$
+
+The Gaussian integral:
+
+$$
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+$$
+```
+
+**Supported LaTeX Features:**
+
+- **Basic Operations**: `+`, `-`, `\times`, `\div`, `\pm`, `\mp`
+- **Fractions**: `\frac{numerator}{denominator}`
+- **Roots**: `\sqrt{x}`, `\sqrt[n]{x}`
+- **Exponents/Subscripts**: `x^2`, `x_i`, `x_i^j`
+- **Greek Letters**: `\alpha`, `\beta`, `\gamma`, `\Delta`, `\Sigma`, `\Omega`
+- **Operators**: `\sum`, `\prod`, `\int`, `\lim`, `\log`, `\sin`, `\cos`
+- **Delimiters**: `\left(`, `\right)`, `\left[`, `\right]`, `\left\{`, `\right\}`
+- **Matrices**: `\begin{bmatrix}...\end{bmatrix}`
+- **Alignment**: `\begin{aligned}...\end{aligned}`
+- **Special**: `\infty`, `\partial`, `\nabla`, `\approx`, `\neq`, `\leq`, `\geq`
+
+**Examples:**
+
+```taildown
+# Fractions
+
+Nested fractions:
+
+$$
+\frac{1}{\displaystyle 1+\frac{1}{\displaystyle 2+\frac{1}{3}}}
+$$
+
+# Summations
+
+Sum of natural numbers:
+
+$$
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+$$
+
+# Calculus
+
+Definition of derivative:
+
+$$
+f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}
+$$
+
+# Matrices
+
+Identity matrix:
+
+$$
+I = \begin{bmatrix}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+$$
+
+# Aligned Equations
+
+Maxwell's equations:
+
+$$
+\begin{aligned}
+\nabla \cdot \mathbf{E} &= \frac{\rho}{\epsilon_0} \\
+\nabla \cdot \mathbf{B} &= 0 \\
+\nabla \times \mathbf{E} &= -\frac{\partial \mathbf{B}}{\partial t} \\
+\nabla \times \mathbf{B} &= \mu_0\mathbf{J} + \mu_0\epsilon_0\frac{\partial \mathbf{E}}{\partial t}
+\end{aligned}
+$$
+```
+
+**Styling:**
+
+- Professional math fonts: 'Latin Modern Math', 'STIX Two Math', 'Cambria Math'
+- Proper baseline alignment for inline math
+- Scaled sizing for display math (1.2em)
+- Responsive sizing on mobile devices
+- Theme-aware colors (text matches document theme)
+
+**Error Handling:**
+
+- Invalid LaTeX shows error message with red background
+- Original LaTeX source preserved on error
+- Compilation continues even if individual equations fail
+
+**Accessibility:**
+
+- MathML provides semantic meaning for screen readers
+- Equations are keyboard navigable
+- High contrast in both light and dark modes
+- Scales properly with user font size preferences
+
+**Browser Support:**
+
+- Modern browsers (Chrome 109+, Firefox 78+, Safari 14.1+)
+- MathML natively supported
+- Fallback: LaTeX source shown on very old browsers
+
+**Performance:**
+
+- Zero runtime JavaScript overhead
+- All conversion done at compile time
+- Small output size (MathML is compact)
+- No external libraries loaded in browser
+
+---
+
+#### 3.4A.13 Timeline Component **[REQUIRED]**
+
+Display chronological events and milestones with a vertical timeline visualization.
+
+**Syntax:**
+
+Use the `:::timeline` directive with H2 headings as milestones:
+
+```taildown
+:::timeline
+## Project Kickoff {completed}
+
+Initial planning and requirements gathering.
+
+- Set project scope
+- Assign team roles
+- Create timeline
+
+## Development Sprint 1 {current}
+
+Building core features and functionality.
+
+- Authentication system
+- Database setup
+- API endpoints
+
+## Testing & QA
+
+Comprehensive testing phase.
+:::
+```
+
+**Rendering:**
+
+- **H2 Headings**: Automatically become timeline milestones
+- **State Markers**: `{completed}`, `{current}`, or default to `pending`
+- **Visual Indicators**: ✓ for completed, ● for current, ○ for pending
+- **Connecting Line**: Vertical line connects all milestones
+- **Content Sections**: All content between milestones is grouped
+
+**States:**
+
+Milestones can be in one of three states:
+
+- **Completed** `{completed}`: Green marker with checkmark ✓
+- **Current** `{current}`: Primary color marker with dot ●, pulsing animation
+- **Pending** (default): Muted marker with circle ○
+
+```taildown
+## Milestone 1 {completed}
+Finished task with green checkmark.
+
+## Milestone 2 {current}
+Active milestone with pulsing indicator.
+
+## Milestone 3
+Future milestone (pending by default).
+```
+
+**Variants:**
+
+- **Default (Vertical)**: Left-aligned milestones with connecting line
+- **Centered** `{centered}`: Alternating left/right alignment
+- **Compact** `{compact}`: Smaller markers and tighter spacing
+- **Glass** `{glass}`: Glassmorphism effect on content cards
+- **Elevated** `{elevated}`: Shadow elevation on content
+- **Bordered** `{bordered}`: Primary color border on content
+
+```taildown
+:::timeline {centered glass}
+## 2020 {completed}
+Company founded with initial seed funding.
+
+## 2021 {completed}
+Launched MVP and acquired first 100 customers.
+
+## 2022 {current}
+Expanding to new markets.
+:::
+```
+
+**HTML Structure:**
+
+```html
+<div class="timeline-container [variants]" data-component="timeline">
+  <div class="timeline-item timeline-completed" data-timeline-state="completed">
+    <div class="timeline-marker">
+      <span class="timeline-icon" aria-label="completed milestone">✓</span>
+    </div>
+    <div class="timeline-content">
+      <h3 class="timeline-title">Milestone Title</h3>
+      <div class="timeline-body">
+        <p>Content goes here...</p>
+      </div>
+    </div>
+  </div>
+  <!-- More milestones... -->
+</div>
+```
+
+**Use Cases:**
+
+- Project roadmaps and milestones
+- Company history and achievements
+- Product release timelines
+- Process workflows and stages
+- Event chronologies
+- Tutorial step sequences
+
+**Styling:**
+
+- **Markers**: Circular badges with icons, colored by state
+- **Connecting Line**: Gradient vertical line between milestones
+- **Content Cards**: Optional glass/elevated styling
+- **Animations**: Pulsing effect on current milestone
+- **Responsive**: Centered variant becomes vertical on mobile
+
+**Best Practices:**
+
+- Use clear, concise milestone titles
+- Keep content within each milestone focused
+- Use state markers to show progress
+- Combine with glass variant for modern aesthetic
+- Consider compact variant for dense timelines
+
+**Accessibility:**
+
+- Semantic H3 headings for milestone titles
+- ARIA labels on state icons
+- High contrast markers in both themes
+- Keyboard navigation through milestones
+- Screen reader friendly structure
+
+**Examples:**
+
+```taildown
+# Project Timeline
+
+:::timeline {glass}
+## Phase 1: Research {completed}
+
+Deep dive into user needs and market analysis.
+
+**Duration:** 4 weeks
+
+## Phase 2: Design {completed}
+
+Created comprehensive designs and prototypes.
+
+**Duration:** 6 weeks
+
+## Phase 3: Development {current}
+
+Building core features and functionality.
+
+**Duration:** 12 weeks (in progress)
+
+**Progress:**
+- [x] Backend API
+- [x] Database schema
+- [ ] Frontend components
+- [ ] Testing
+
+## Phase 4: Launch
+
+Final testing and deployment.
+
+**Duration:** 4 weeks (upcoming)
+:::
+
+# Daily Schedule
+
+:::timeline {compact}
+## 9:00 AM {completed}
+Team standup meeting
+
+## 10:30 AM {completed}
+Client presentation
+
+## 12:00 PM {current}
+Lunch break
+
+## 2:00 PM
+Code review session
+
+## 4:00 PM
+Sprint planning
+:::
+
+# Company History
+
+:::timeline {centered elevated}
+## 2020 {completed}
+Founded with seed funding of $1M
+
+## 2021 {completed}
+Launched MVP, 100 customers
+
+## 2022 {completed}
+Series A: $10M
+
+## 2023 {current}
+Expanding to EMEA, 1000+ customers
+
+## 2024
+Planning IPO
+:::
+```
+
+---
 
 ### 3.4.1 Clickable Components **[REQUIRED]**
 
@@ -2012,6 +3307,21 @@ Attributes should be stored in node metadata, following rehype conventions:
 ---
 
 ## 11. Version History
+
+### v0.1.1 (2025-10-11) - Content Components Update
+
+**Added:**
+- Details/Summary component (§3.4A.1) - Native HTML5 progressive disclosure
+- Callout/Admonition component (§3.4A.2) - Semantic alert boxes with 7 types
+- Multi-Column Layout component (§3.4A.3) - CSS columns for magazine layouts
+- Definition List component (§3.4A.4) - Semantic `<dl>` term-definition pairs
+- Stats/Metrics component (§3.4A.5) - Prominent statistics display
+- Divider/Separator component (§3.4A.6) - Enhanced horizontal rules
+- Enhanced blockquote styling - Pull-quote, testimonial, glass variants
+
+**Total Components**: 28 (up from 21)
+
+**JavaScript Impact**: 0 KB (all new components are CSS-only)
 
 ### v0.1.0 (2025-10-04) - Initial Specification
 

@@ -1,12 +1,16 @@
 /**
- * Rehype plugin for CodeMirror6-based syntax highlighting
+ * Rehype plugin for syntax highlighting
  * 
- * Replaces rehype-prism-plus with a CodeMirror6-based solution
- * that provides better control over Taildown syntax highlighting.
+ * Uses CodeMirror 6 for Taildown syntax highlighting and Shiki for all other languages.
+ * This hybrid approach provides:
+ * - Custom Taildown highlighting optimized for our syntax
+ * - VS Code-quality highlighting for 180+ programming languages
+ * - Zero runtime JavaScript (all highlighting at compile time)
  */
 
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
+import { highlightWithShiki } from './shiki-highlighter.js';
 
 /**
  * Interface for highlighting a code block
@@ -37,30 +41,50 @@ interface RawNode {
 }
 
 /**
- * Highlight code using CodeMirror6 language definition
- * This simulates the tokenization process to generate highlighted HTML
+ * Highlight code using Taildown (CodeMirror) or Shiki
+ * 
+ * Strategy:
+ * 1. Taildown files → Use custom CodeMirror-based highlighting
+ * 2. Other languages → Use Shiki (VS Code quality)
+ * 3. Fallback → Plain escaped HTML
  */
-function highlightCode(code: string, language: string): HighlightResult {
-  if (language !== 'taildown' && language !== 'td') {
-    // For non-Taildown languages, return with basic styling
+async function highlightCode(code: string, language: string): Promise<HighlightResult> {
+  // Use Taildown syntax highlighting for .td and .taildown files
+  if (language === 'taildown' || language === 'td') {
+    const lines = code.split('\n');
+    const highlightedLines: string[] = [];
+    
+    for (const line of lines) {
+      const highlightedLine = highlightLine(line);
+      highlightedLines.push(`<span class="code-line">${highlightedLine}\n</span>`);
+    }
+
     return {
-      html: escapeHtml(code),
-      classes: ['code-highlight'],
+      html: highlightedLines.join(''),
+      classes: ['code-highlight', 'language-taildown'],
     };
   }
-
-  // Use our streaming parser to tokenize the code
-  const lines = code.split('\n');
-  const highlightedLines: string[] = [];
   
-  for (const line of lines) {
-    const highlightedLine = highlightLine(line);
-    highlightedLines.push(`<span class="code-line">${highlightedLine}\n</span>`);
+  // Try Shiki for all other languages
+  if (language) {
+    const shikiHtml = await highlightWithShiki(code, language, 'dark-plus');
+    
+    if (shikiHtml) {
+      // Shiki returns a complete <pre><code> structure, extract just the inner HTML
+      const codeMatch = shikiHtml.match(/<code[^>]*>([\s\S]*)<\/code>/);
+      const innerHtml: string = (codeMatch && codeMatch[1]) ? codeMatch[1] : shikiHtml;
+      
+      return {
+        html: innerHtml,
+        classes: ['code-highlight', `language-${language}`, 'shiki'],
+      };
+    }
   }
-
+  
+  // Fallback to plain escaped HTML if Shiki doesn't support the language
   return {
-    html: highlightedLines.join(''),
-    classes: ['code-highlight', 'language-taildown'],
+    html: escapeHtml(code),
+    classes: ['code-highlight', language ? `language-${language}` : ''],
   };
 }
 
@@ -530,10 +554,19 @@ function escapeHtml(text: string): string {
 
 
 /**
- * Rehype plugin for CodeMirror6-based syntax highlighting
+ * Rehype plugin for syntax highlighting
+ * Supports both synchronous (Taildown) and asynchronous (Shiki) highlighting
  */
 export const rehypeCodeMirror6: Plugin = () => {
-  return (tree) => {
+  return async (tree) => {
+    // Collect all code nodes that need highlighting
+    const codeNodesToHighlight: Array<{
+      node: Element;
+      language: string;
+      code: string;
+      classes: string[];
+    }> = [];
+    
     visit(tree, 'element', (node: Element) => {
       if (node.tagName === 'code' && node.properties?.className) {
         const classes = Array.isArray(node.properties.className) 
@@ -549,21 +582,28 @@ export const rehypeCodeMirror6: Plugin = () => {
           const textNode = node.children.find((child: any) => child.type === 'text');
           if (textNode && 'value' in textNode) {
             const code = textNode.value as string;
-            
-            // Highlight the code
-            const result = highlightCode(code, language);
-            
-            // Replace content with highlighted HTML
-            node.children = [{
-              type: 'raw',
-              value: result.html,
-            }];
-            
-            // Add highlighting classes
-            node.properties.className = [...classes, ...result.classes];
+            codeNodesToHighlight.push({ node, language, code, classes });
           }
         }
       }
     });
+    
+    // Highlight all code blocks (potentially in parallel for performance)
+    await Promise.all(
+      codeNodesToHighlight.map(async ({ node, language, code, classes }) => {
+        const result = await highlightCode(code, language);
+        
+        // Replace content with highlighted HTML
+        node.children = [{
+          type: 'raw',
+          value: result.html,
+        }];
+        
+        // Add highlighting classes
+        if (node.properties) {
+          node.properties.className = [...classes, ...result.classes];
+        }
+      })
+    );
   };
 };

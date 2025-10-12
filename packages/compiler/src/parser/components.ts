@@ -64,8 +64,19 @@ function processDirectiveNode(
       data.hProperties = data.hProperties || {};
 
       // Collect raw attributes from directive parser (variant names, size names, plain English)
+      // Attributes come from the directive parser as node.attributes (e.g., {horizontal sm} becomes {horizontal: '', sm: ''})
+      const rawAttributes: string[] = [];
+      if (node.attributes) {
+        // Convert attribute keys to array (directive parser stores them as object keys)
+        rawAttributes.push(...Object.keys(node.attributes));
+      }
+      // Also include any existing classes from data.hProperties
       const existingClasses = data.hProperties.className || [];
-      const rawAttributes = Array.isArray(existingClasses) ? existingClasses : [existingClasses];
+      if (Array.isArray(existingClasses)) {
+        rawAttributes.push(...existingClasses);
+      } else if (existingClasses) {
+        rawAttributes.push(existingClasses);
+      }
 
       // Add component class prefix
       const classNames = ['taildown-component', `component-${componentName}`];

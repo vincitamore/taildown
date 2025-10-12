@@ -13,9 +13,10 @@ import { renderIcons } from '../icons/icon-renderer';
 import { renderInlineBadges } from '../components/inline-badge-renderer';
 import { rehypeCodeMirror6 } from '../syntax-highlighting/rehype-codemirror6';
 import { rehypeCopyCode } from './rehype-copy-code';
-import { containerDirectiveHandler, wrapWithAttachments, prepopulateRegistries } from './component-handlers';
+import { containerDirectiveHandler, wrapWithAttachments, prepopulateRegistries, renderDiff } from './component-handlers';
 import type { TaildownNodeData } from '@taildown/shared';
 import { visit } from 'unist-util-visit';
+import { rehypeEnhanceTables } from '../parser/table-parser';
 
 /**
  * Rehype plugin to wrap tables in a scrollable container
@@ -182,16 +183,57 @@ export async function astToHast(ast: TaildownRoot): Promise<any> {
   // This ensures ID-referenced modals/tooltips can be looked up during conversion
   prepopulateRegistries(ast as Root);
   
-  // First, convert MDAST to HAST using default handlers + our custom component handler
+  // Convert MDAST to HAST using default handlers + our custom component handler
   const hast = toHast(ast as Root, { 
     allowDangerousHtml: false,
     handlers: {
       // @ts-expect-error - containerDirective is our custom node type
-      containerDirective: containerDirectiveHandler
+      containerDirective: containerDirectiveHandler,
+      // Math handler for LaTeX equations
+      // @ts-expect-error - math is our custom node type
+      math: (state: any, node: any) => {
+        // Math nodes have MathML stored in node.mathML
+        return {
+          type: 'element',
+          tagName: node.data.hName || 'span',
+          properties: node.data.hProperties || {},
+          children: [{
+            type: 'raw',
+            value: node.mathML || ''
+          }]
+        };
+      },
+      // Code handler for diff blocks and explicit mermaid handling
+      code: (state: any, node: any) => {
+        // Handle diff blocks with custom rendering
+        if (node.isDiff && node.data?.hProperties?.['data-component'] === 'diff') {
+          return renderDiff(state, node);
+        }
+        
+        // For mermaid blocks, explicitly create the structure for client-side rendering
+        if (node.lang === 'mermaid') {
+          return {
+            type: 'element',
+            tagName: 'pre',
+            properties: { className: ['code-block', 'mermaid-block'] },
+            children: [
+              {
+                type: 'element',
+                tagName: 'code',
+                properties: { className: ['language-mermaid'] },
+                children: [{ type: 'text', value: node.value || '' }]
+              }
+            ]
+          };
+        }
+        
+        // For all other code blocks, use default handler
+        return undefined;
+      }
     }
   });
   
-  // Then, walk the HAST tree and process modal/tooltip attachments
+  // Walk the HAST tree and process modal/tooltip attachments
   const processedHast = processAttachments(hast);
   
   return processedHast;
@@ -220,6 +262,7 @@ export async function renderHTML(ast: TaildownRoot, minify: boolean = false): Pr
     .use(renderIcons) // Render icon nodes as SVG
     .use(renderInlineBadges) // Render inline badge nodes
     .use(rehypeWrapTables) // Wrap tables in scrollable container
+    .use(rehypeEnhanceTables) // Add enhanced table features (sortable, zebra, glass, etc.)
     .use(rehypeMarkTreeFolders) // Mark folder items in tree components
     .use(rehypePortalComponents) // Extract modals/tooltips to document root
     .use(rehypeStringify, {
@@ -266,6 +309,7 @@ export async function renderHTMLDocument(
     inlineScripts?: boolean;
     minify?: boolean;
     hasInteractiveComponents?: boolean;
+    hasMermaid?: boolean;
   } = {}
 ): Promise<string> {
   const bodyHTML = await renderHTML(ast, options.minify);
@@ -281,6 +325,95 @@ export async function renderHTMLDocument(
       ? `<script>${options.js}</script>`
       : `<script src="${options.jsFilename || 'script.js'}" defer></script>`
     : '';
+
+  // Generate Mermaid.js inline bundle if diagrams detected (tree-shaken)
+  let mermaidScript = '';
+  if (options.hasMermaid) {
+    try {
+      // Read Mermaid.js from node_modules
+      const { readFileSync } = await import('fs');
+      const { resolve, dirname } = await import('path');
+      const { fileURLToPath } = await import('url');
+      
+      // Get the directory of this module
+      const __filename = fileURLToPath(import.meta.url);
+      const __dirname = dirname(__filename);
+      
+      // Find mermaid in @taildown/compiler's node_modules
+      // From dist/ (packages/compiler/dist) go up one level to packages/compiler/ then to node_modules/
+      // Use UMD build (mermaid.min.js) which is fully self-contained, not ESM which has chunk dependencies
+      const mermaidPath = resolve(__dirname, '../node_modules/mermaid/dist/mermaid.min.js');
+      const mermaidCode = readFileSync(mermaidPath, 'utf-8');
+      
+      mermaidScript = `
+  <script>
+    // Inline Mermaid.js UMD build for self-contained offline support
+    ${mermaidCode}
+  </script>
+  <script type="module">
+    // Mermaid is now available as a global variable
+    
+    // Initialize Mermaid with theme support
+    const isDark = document.documentElement.classList.contains('dark');
+    mermaid.initialize({ 
+      startOnLoad: false, // We'll manually trigger rendering
+      theme: isDark ? 'dark' : 'default',
+      securityLevel: 'loose',
+      flowchart: { useMaxWidth: true },
+      sequence: { useMaxWidth: true },
+      gantt: { useMaxWidth: true }
+    });
+    
+    // Render all mermaid diagrams
+    document.addEventListener('DOMContentLoaded', async () => {
+      const mermaidBlocks = document.querySelectorAll('code.language-mermaid');
+      
+      for (const block of mermaidBlocks) {
+        const source = block.textContent;
+        const pre = block.parentElement;
+        
+        try {
+          // Render the diagram
+          const { svg } = await mermaid.render('mermaid-' + Math.random().toString(36).substr(2, 9), source);
+          
+          // Replace the code block with the rendered SVG
+          const container = document.createElement('div');
+          container.className = 'mermaid-container';
+          container.innerHTML = svg;
+          pre.replaceWith(container);
+        } catch (error) {
+          console.error('Mermaid rendering error:', error);
+          // Keep the code block on error
+        }
+      }
+    });
+    
+    // Re-render on theme change
+    const observer = new MutationObserver(async () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      mermaid.initialize({ 
+        startOnLoad: false,
+        theme: isDark ? 'dark' : 'default'
+      });
+      
+      // Re-render all diagrams
+      const containers = document.querySelectorAll('.mermaid-container');
+      for (const container of containers) {
+        // Store original source in data attribute on first render
+        // For now, just reload the page or accept theme won't update live
+        // TODO: Store diagram source for re-rendering
+      }
+    });
+    observer.observe(document.documentElement, { 
+      attributes: true, 
+      attributeFilter: ['class'] 
+    });
+  </script>`;
+    } catch (error) {
+      // Mermaid.js not installed or not found - graceful fallback
+      console.warn('Mermaid.js not found in node_modules. Diagrams will show as code blocks.');
+    }
+  }
 
   // Generate meta description tag
   const descriptionTag = options.description
@@ -332,7 +465,7 @@ export async function renderHTMLDocument(
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${options.title || 'Taildown Document'}</title>${descriptionTag ? '\n  ' + descriptionTag : ''}${ogTags}
   ${styleTag}
-  ${scriptTag}
+  ${scriptTag}${mermaidScript}
 </head>
 <body>
   ${bodyHTML}

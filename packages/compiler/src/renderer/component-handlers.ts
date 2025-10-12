@@ -444,6 +444,276 @@ export function renderTabs(state: State, node: ContainerDirectiveNode): Element 
 }
 
 /**
+ * Render steps component
+ * Parses headings with {step} markers and creates structured step indicators
+ */
+/**
+ * Render timeline component with milestones
+ * H2 headings act as timeline milestones
+ */
+export function renderTimeline(state: State, node: ContainerDirectiveNode): Element {
+  const children = state.all(node as any);
+  
+  // Get component classes from the node (already resolved by component processor)
+  const containerClasses = Array.isArray(node.data?.hProperties?.className) 
+    ? node.data.hProperties.className 
+    : [];
+  
+  // Find milestone headings (marked by parser) and group content
+  const milestones: { heading: Element; content: Element[]; state: string }[] = [];
+  let currentMilestone: { heading: Element; content: Element[]; state: string } | null = null;
+  
+  for (const child of children) {
+    // Check if this is an H2 milestone heading (marked by parser)
+    if (child.type === 'element' && child.tagName === 'h2') {
+      // Check for timelineMilestone data (set by parser)
+      const element = child as Element;
+      const milestoneData = (element.properties as any)?.['data-timeline-state'];
+      const isMilestone = (element.properties as any)?.['data-is-milestone'];
+      
+      if (milestoneData || isMilestone) {
+        // Save previous milestone
+        if (currentMilestone) {
+          milestones.push(currentMilestone);
+        }
+        
+        // Start new milestone
+        const state = milestoneData || 'pending';
+        currentMilestone = {
+          heading: element,
+          content: [],
+          state: state as string
+        };
+      } else if (currentMilestone) {
+        // Not a milestone heading, add to current milestone content
+        currentMilestone.content.push(element);
+      }
+    } else if (currentMilestone) {
+      // Add to current milestone content
+      currentMilestone.content.push(child);
+    }
+  }
+  
+  // Add last milestone
+  if (currentMilestone) {
+    milestones.push(currentMilestone);
+  }
+  
+  // Build timeline structure
+  const milestoneElements: Element[] = milestones.map((milestone, index) => {
+    // Determine icon based on state
+    const iconMap: Record<string, string> = {
+      completed: '✓',
+      current: '●',
+      pending: '○'
+    };
+    const icon = iconMap[milestone.state] || '○';
+    
+    return {
+      type: 'element',
+      tagName: 'div',
+      properties: {
+        className: [
+          'timeline-item',
+          `timeline-${milestone.state}`,
+          index === 0 ? 'timeline-first' : '',
+          index === milestones.length - 1 ? 'timeline-last' : ''
+        ].filter(Boolean),
+        'data-timeline-state': milestone.state
+      },
+      children: [
+        // Timeline marker (dot/icon)
+        {
+          type: 'element',
+          tagName: 'div',
+          properties: {
+            className: ['timeline-marker']
+          },
+          children: [
+            {
+              type: 'element',
+              tagName: 'span',
+              properties: {
+                className: ['timeline-icon'],
+                'aria-label': `${milestone.state} milestone`
+              },
+              children: [
+                { type: 'text', value: icon }
+              ]
+            }
+          ]
+        },
+        // Timeline content (heading + body)
+        {
+          type: 'element',
+          tagName: 'div',
+          properties: {
+            className: ['timeline-content']
+          },
+          children: [
+            // Milestone title (from heading)
+            {
+              type: 'element',
+              tagName: 'h3',
+              properties: {
+                className: ['timeline-title']
+              },
+              children: milestone.heading.children
+            },
+            // Milestone body content
+            ...(milestone.content.length > 0 ? [{
+              type: 'element',
+              tagName: 'div',
+              properties: {
+                className: ['timeline-body']
+              },
+              children: milestone.content
+            }] : [])
+          ]
+        }
+      ]
+    };
+  });
+  
+  // Return timeline container
+  return {
+    type: 'element',
+    tagName: 'div',
+    properties: {
+      className: containerClasses,
+      'data-component': 'timeline'
+    },
+    children: milestoneElements
+  };
+}
+
+export function renderSteps(state: State, node: ContainerDirectiveNode): Element {
+  const children = state.all(node);
+  
+  // Find step headings and group content
+  const steps: { heading: Element; content: Element[]; number: number; state: string }[] = [];
+  let currentStep: { heading: Element; content: Element[]; number: number; state: string } | null = null;
+  
+  for (const child of children) {
+    // Check if this is a step heading (marked by parser)
+    if (child.type === 'element' && (child.tagName === 'h2' || child.tagName === 'h3')) {
+      // Check for step marker attributes
+      const stepNumber = (child.properties as any)?.['data-step-number'];
+      const stepState = (child.properties as any)?.['data-step-state'] || 'pending';
+      
+      if (stepNumber) {
+        // Save previous step
+        if (currentStep) {
+          steps.push(currentStep);
+        }
+        
+        // Start new step
+        currentStep = {
+          heading: child,
+          content: [],
+          number: typeof stepNumber === 'number' ? stepNumber : parseInt(stepNumber as string, 10),
+          state: stepState as string
+        };
+      } else if (currentStep) {
+        // Not a step heading, add to current step content
+        currentStep.content.push(child);
+      }
+    } else if (currentStep) {
+      // Add to current step content
+      currentStep.content.push(child);
+    }
+  }
+  
+  // Add last step
+  if (currentStep) {
+    steps.push(currentStep);
+  }
+  
+  // Build step structure
+  const stepElements: Element[] = steps.map((step, index) => {
+    return {
+      type: 'element',
+      tagName: 'div',
+      properties: {
+        className: [
+          'step-item',
+          `step-${step.state}`,
+          index === 0 ? 'step-first' : '',
+          index === steps.length - 1 ? 'step-last' : ''
+        ].filter(Boolean),
+        'data-step-number': step.number,
+        'data-step-state': step.state
+      },
+      children: [
+        // Step indicator with number
+        {
+          type: 'element',
+          tagName: 'div',
+          properties: {
+            className: ['step-indicator']
+          },
+          children: [
+            {
+              type: 'element',
+              tagName: 'span',
+              properties: {
+                className: ['step-number'],
+                'aria-label': `Step ${step.number}`
+              },
+              children: [
+                { type: 'text', value: step.number.toString() }
+              ]
+            }
+          ]
+        },
+        // Step content (heading + body)
+        {
+          type: 'element',
+          tagName: 'div',
+          properties: {
+            className: ['step-content']
+          },
+          children: [
+            // Step title (from heading)
+            {
+              type: 'element',
+              tagName: 'h3',
+              properties: {
+                className: ['step-title']
+              },
+              children: step.heading.children
+            },
+            // Step body content
+            ...(step.content.length > 0 ? [{
+              type: 'element',
+              tagName: 'div',
+              properties: {
+                className: ['step-body']
+              },
+              children: step.content
+            }] : [])
+          ]
+        }
+      ]
+    };
+  });
+  
+  // Get existing classes from component definition
+  const existingClasses = node.data?.hProperties?.className || [];
+  const dataComponent = node.data?.hProperties?.['data-component'] || node.name;
+  
+  return {
+    type: 'element',
+    tagName: 'div',
+    properties: {
+      className: [...existingClasses],
+      'data-component': dataComponent
+    },
+    children: stepElements
+  };
+}
+
+/**
  * Render accordion component
  * Parses by hr separators or by strong/bold text as triggers
  */
@@ -672,6 +942,483 @@ export function renderCarousel(state: State, node: ContainerDirectiveNode): Elem
       }
     ]
   };
+}
+
+/**
+ * Render image comparison slider component
+ * Creates before/after image comparison with draggable slider
+ */
+export function renderImageCompare(state: State, node: ContainerDirectiveNode): Element {
+  const hProps = node.data?.hProperties || {};
+  const existingClasses = hProps.className || [];
+  const dataComponent = hProps['data-component'] || 'compare-images';
+  
+  // Extract image URLs from hProperties (set by parser)
+  const beforeImage = (hProps.before as string) || '';
+  const afterImage = (hProps.after as string) || '';
+  const alt = (hProps.alt as string) || 'Image comparison';
+  const beforeAlt = (hProps.beforeAlt as string) || `Before: ${alt}`;
+  const afterAlt = (hProps.afterAlt as string) || `After: ${alt}`;
+  
+  // Determine orientation (horizontal or vertical)
+  const isVertical = existingClasses.includes('image-compare-vertical');
+  const hasLabels = existingClasses.includes('image-compare-labels');
+  
+  // Generate unique ID for this comparison
+  const compareId = `compare-${Math.random().toString(36).substr(2, 9)}`;
+  
+  // Build the image comparison structure
+  return {
+    type: 'element',
+    tagName: 'div',
+    properties: {
+      className: existingClasses,
+      'data-component': dataComponent,
+      'data-compare-id': compareId,
+      'data-orientation': isVertical ? 'vertical' : 'horizontal',
+    },
+    children: [
+      // Before image (background)
+      {
+        type: 'element',
+        tagName: 'div',
+        properties: {
+          className: ['image-compare-before', 'absolute', 'inset-0', 'overflow-hidden'],
+        },
+        children: [
+          {
+            type: 'element',
+            tagName: 'img',
+            properties: {
+              src: beforeImage,
+              alt: beforeAlt,
+              draggable: 'false',
+              className: ['w-full', 'h-full', 'object-cover', 'select-none', 'pointer-events-none'],
+            },
+            children: [],
+          },
+          // Before label (if enabled)
+          ...(hasLabels
+            ? [
+                {
+                  type: 'element',
+                  tagName: 'div',
+                  properties: {
+                    className: [
+                      'image-compare-label',
+                      'image-compare-label-before',
+                      'absolute',
+                      'top-4',
+                      'left-4',
+                      'bg-black/60',
+                      'text-white',
+                      'px-3',
+                      'py-1.5',
+                      'rounded-lg',
+                      'text-sm',
+                      'font-medium',
+                      'backdrop-blur-sm',
+                      'pointer-events-none',
+                      'select-none',
+                    ],
+                  },
+                  children: [{ type: 'text', value: 'Before' }],
+                },
+              ]
+            : []),
+        ],
+      },
+      // After image (foreground with clip)
+      {
+        type: 'element',
+        tagName: 'div',
+        properties: {
+          className: ['image-compare-after', 'absolute', 'inset-0', 'overflow-hidden'],
+          'data-compare-after': '',
+          style: isVertical
+            ? 'clip-path: inset(50% 0 0 0);'
+            : 'clip-path: inset(0 0 0 50%);',
+        },
+        children: [
+          {
+            type: 'element',
+            tagName: 'img',
+            properties: {
+              src: afterImage,
+              alt: afterAlt,
+              draggable: 'false',
+              className: ['w-full', 'h-full', 'object-cover', 'select-none', 'pointer-events-none'],
+            },
+            children: [],
+          },
+          // After label (if enabled)
+          ...(hasLabels
+            ? [
+                {
+                  type: 'element',
+                  tagName: 'div',
+                  properties: {
+                    className: [
+                      'image-compare-label',
+                      'image-compare-label-after',
+                      'absolute',
+                      'top-4',
+                      'right-4',
+                      'bg-white/80',
+                      'text-gray-900',
+                      'px-3',
+                      'py-1.5',
+                      'rounded-lg',
+                      'text-sm',
+                      'font-medium',
+                      'backdrop-blur-sm',
+                      'pointer-events-none',
+                      'select-none',
+                    ],
+                  },
+                  children: [{ type: 'text', value: 'After' }],
+                },
+              ]
+            : []),
+        ],
+      },
+      // Slider handle
+      {
+        type: 'element',
+        tagName: 'div',
+        properties: {
+          className: [
+            'image-compare-slider',
+            'absolute',
+            ...(isVertical
+              ? ['left-0', 'right-0', 'top-1/2', 'h-1', 'cursor-ns-resize']
+              : ['top-0', 'bottom-0', 'left-1/2', 'w-1', 'cursor-ew-resize']),
+            'bg-white',
+            'shadow-2xl',
+            'z-10',
+          ],
+          'data-compare-slider': '',
+          style: isVertical ? 'transform: translateY(-50%);' : 'transform: translateX(-50%);',
+          role: 'slider',
+          'aria-label': 'Image comparison slider',
+          'aria-valuemin': '0',
+          'aria-valuemax': '100',
+          'aria-valuenow': '50',
+          tabindex: '0',
+        },
+        children: [
+          // Slider handle circle
+          {
+            type: 'element',
+            tagName: 'div',
+            properties: {
+              className: [
+                'image-compare-handle',
+                'absolute',
+                ...(isVertical
+                  ? ['left-1/2', '-translate-x-1/2', '-translate-y-1/2']
+                  : ['top-1/2', '-translate-y-1/2', '-translate-x-1/2']),
+                'w-12',
+                'h-12',
+                'rounded-full',
+                'bg-white',
+                'shadow-2xl',
+                'flex',
+                'items-center',
+                'justify-center',
+                'border-4',
+                'border-white/30',
+                'transition-transform',
+                'hover:scale-110',
+                'active:scale-95',
+              ],
+            },
+            children: [
+              // Arrow icons (left-right or up-down)
+              {
+                type: 'element',
+                tagName: 'svg',
+                properties: {
+                  className: ['w-6', 'h-6', 'text-gray-700'],
+                  fill: 'none',
+                  stroke: 'currentColor',
+                  viewBox: '0 0 24 24',
+                  strokeWidth: '2.5',
+                  xmlns: 'http://www.w3.org/2000/svg',
+                },
+                children: isVertical
+                  ? [
+                      // Up arrow
+                      {
+                        type: 'element',
+                        tagName: 'path',
+                        properties: {
+                          strokeLinecap: 'round',
+                          strokeLinejoin: 'round',
+                          d: 'M12 19V5m0 0l-4 4m4-4l4 4',
+                        },
+                        children: [],
+                      },
+                    ]
+                  : [
+                      // Left arrow
+                      {
+                        type: 'element',
+                        tagName: 'path',
+                        properties: {
+                          strokeLinecap: 'round',
+                          strokeLinejoin: 'round',
+                          d: 'M15 19l-7-7 7-7',
+                        },
+                        children: [],
+                      },
+                      // Right arrow
+                      {
+                        type: 'element',
+                        tagName: 'path',
+                        properties: {
+                          strokeLinecap: 'round',
+                          strokeLinejoin: 'round',
+                          d: 'M9 5l7 7-7 7',
+                        },
+                        children: [],
+                      },
+                    ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
+}
+
+/**
+ * Render code diff component
+ * Supports both unified diff format and side-by-side before/after comparison
+ */
+export function renderDiff(state: State, node: any): Element {
+  const hProps = node.data?.hProperties || {};
+  const existingClasses = hProps.className || [];
+  const diffFormat = hProps.diffFormat || 'unified';
+  
+  // Escape HTML in code to prevent XSS
+  const escapeHtml = (text: string): string => {
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  };
+  
+  if (diffFormat === 'unified') {
+    // Unified diff format with +/- line markers
+    // Parse JSON if it's a string
+    let lines = hProps.diffLines || [];
+    if (typeof lines === 'string') {
+      try {
+        lines = JSON.parse(lines);
+      } catch (e) {
+        lines = [];
+      }
+    }
+    
+    const lineElements = lines.map((line: any) => {
+      const lineClasses = ['diff-line'];
+      
+      if (line.type === 'added') {
+        lineClasses.push('diff-line-added', 'bg-green-50', 'dark:bg-green-900/20');
+      } else if (line.type === 'removed') {
+        lineClasses.push('diff-line-removed', 'bg-red-50', 'dark:bg-red-900/20');
+      } else if (line.type === 'info') {
+        lineClasses.push('diff-line-info', 'bg-blue-50', 'dark:bg-blue-900/20', 'font-semibold');
+      } else {
+        lineClasses.push('diff-line-unchanged');
+      }
+      
+      return {
+        type: 'element',
+        tagName: 'div',
+        properties: {
+          className: lineClasses,
+        },
+        children: [
+          // Line numbers
+          line.oldLineNumber !== undefined ? {
+            type: 'element',
+            tagName: 'span',
+            properties: {
+              className: ['diff-line-number', 'select-none', 'text-slate-400', 'dark:text-slate-600'],
+            },
+            children: [{
+              type: 'text',
+              value: String(line.oldLineNumber),
+            }],
+          } : null,
+          line.newLineNumber !== undefined ? {
+            type: 'element',
+            tagName: 'span',
+            properties: {
+              className: ['diff-line-number', 'select-none', 'text-slate-400', 'dark:text-slate-600'],
+            },
+            children: [{
+              type: 'text',
+              value: String(line.newLineNumber),
+            }],
+          } : null,
+          // Line content
+          {
+            type: 'element',
+            tagName: 'span',
+            properties: {
+              className: ['diff-line-content'],
+            },
+            children: [{
+              type: 'text',
+              value: line.content,
+            }],
+          },
+        ].filter(Boolean),
+      };
+    });
+    
+    return {
+      type: 'element',
+      tagName: 'div',
+      properties: {
+        className: [...existingClasses, 'diff-unified'],
+        'data-component': 'diff',
+      },
+      children: [
+        {
+          type: 'element',
+          tagName: 'pre',
+          properties: {
+            className: ['diff-pre', 'overflow-x-auto', 'm-0'],
+          },
+          children: [
+            {
+              type: 'element',
+              tagName: 'code',
+              properties: {
+                className: ['diff-code', 'block'],
+              },
+              children: lineElements,
+            },
+          ],
+        },
+      ],
+    };
+  } else {
+    // Side-by-side format with before/after panes
+    const beforeCode = hProps.beforeCode || '';
+    const afterCode = hProps.afterCode || '';
+    const language = hProps.language || '';
+    
+    // Render before pane (text nodes will be highlighted by rehype plugin)
+    const beforePane = {
+      type: 'element',
+      tagName: 'div',
+      properties: {
+        className: ['diff-pane', 'diff-pane-before'],
+      },
+      children: [
+        {
+          type: 'element',
+          tagName: 'div',
+          properties: {
+            className: ['diff-pane-header'],
+          },
+          children: [{
+            type: 'text',
+            value: 'BEFORE',
+          }],
+        },
+        {
+          type: 'element',
+          tagName: 'pre',
+          properties: {
+            className: ['diff-pre'],
+          },
+          children: [
+            {
+              type: 'element',
+              tagName: 'code',
+              properties: {
+                className: language ? [`language-${language}`] : [],
+              },
+              children: [{
+                type: 'text',
+                value: beforeCode,
+              }],
+            },
+          ],
+        },
+      ],
+    };
+    
+    // Render after pane (text nodes will be highlighted by rehype plugin)
+    const afterPane = {
+      type: 'element',
+      tagName: 'div',
+      properties: {
+        className: ['diff-pane', 'diff-pane-after'],
+      },
+      children: [
+        {
+          type: 'element',
+          tagName: 'div',
+          properties: {
+            className: ['diff-pane-header'],
+          },
+          children: [{
+            type: 'text',
+            value: 'AFTER',
+          }],
+        },
+        {
+          type: 'element',
+          tagName: 'pre',
+          properties: {
+            className: ['diff-pre'],
+          },
+          children: [
+            {
+              type: 'element',
+              tagName: 'code',
+              properties: {
+                className: language ? [`language-${language}`] : [],
+              },
+              children: [{
+                type: 'text',
+                value: afterCode,
+              }],
+            },
+          ],
+        },
+      ],
+    };
+    
+    return {
+      type: 'element',
+      tagName: 'div',
+      properties: {
+        className: [...existingClasses, 'diff-side-by-side'],
+        'data-component': 'diff',
+      },
+      children: [
+        {
+          type: 'element',
+          tagName: 'div',
+          properties: {
+            className: ['diff-panes', 'flex', 'gap-0'],
+          },
+          children: [beforePane, afterPane],
+        },
+      ],
+    };
+  }
 }
 
 /**
@@ -929,6 +1676,10 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
   switch (componentName) {
     case 'tabs':
       return renderTabs(state, node);
+    case 'steps':
+      return renderSteps(state, node);
+    case 'timeline':
+      return renderTimeline(state, node);
     case 'accordion':
       return renderAccordion(state, node);
     case 'carousel':
@@ -937,6 +1688,10 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
       return renderModal(state, node);
     case 'tooltip':
       return renderTooltip(state, node);
+    case 'compare-images':
+      return renderImageCompare(state, node);
+    case 'diff':
+      return renderDiff(state, node);
     default:
       // For other components (card, alert, grid, etc.), use generic renderer
       return renderGenericComponent(state, node);

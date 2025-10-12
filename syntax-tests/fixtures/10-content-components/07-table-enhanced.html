@@ -3,19 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plain English Styling - Taildown</title>
-  <meta name="description" content="Natural language styling reference for Taildown. Use {huge-bold primary center} instead of cryptic CSS classes.">
-  <meta property="og:title" content="Plain English Styling - Taildown">
-  <meta property="og:description" content="Natural language styling reference for Taildown. Use {huge-bold primary center} instead of cryptic CSS classes.">
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://taildown.dev/plain-english.html">
-  <meta property="og:image" content="https://taildown.dev/1759672632566.jpg">
-  <meta property="og:image:alt" content="Taildown - Modern markup language with glassmorphism and dark mode">
-  <meta property="og:site_name" content="Taildown">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://taildown.dev/1759672632566.jpg">
-  <meta name="twitter:title" content="Plain English Styling - Taildown">
-  <meta name="twitter:description" content="Natural language styling reference for Taildown. Use {huge-bold primary center} instead of cryptic CSS classes.">
+  <title>Taildown Document</title>
   <style>
 /* Taildown Generated Styles */
 *, ::before, ::after {
@@ -1061,633 +1049,6 @@ td svg.icon {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
-}
-
-/* ========================================
- * Image Comparison Slider Styles
- * Interactive before/after image comparison with draggable slider
- * ======================================== */
-
-/* Container */
-.image-compare {
-  width: 100%;
-  position: relative;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  touch-action: none; /* Prevent default touch behaviors */
-}
-
-/* Ensure proper aspect ratio (16:9 by default for landscape images) */
-.image-compare::before {
-  content: '';
-  display: block;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio by default */
-}
-
-/* Override for height-set containers */
-.image-compare.h-[280px]::before,
-.image-compare.h-[450px]::before,
-.image-compare.h-[580px]::before,
-.image-compare.h-[700px]::before,
-.image-compare.h-full::before {
-  padding-bottom: 0;
-}
-
-/* Ensure viewport constraints work */
-.image-compare.max-h-[35vh],
-.image-compare.max-h-[40vh],
-.image-compare.max-h-[55vh],
-.image-compare.max-h-[60vh],
-.image-compare.max-h-[70vh],
-.image-compare.max-h-[80vh] {
-  /* Height is constrained by max-h utility */
-}
-
-/* Before and After image containers */
-.image-compare-before,
-.image-compare-after {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-
-/* Images should fill container */
-.image-compare img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-drag: none;
-}
-
-/* Slider line */
-.image-compare-slider {
-  position: absolute;
-  background: white;
-  z-index: 10;
-  transition: none; /* No transition during drag for smoothness */
-}
-
-/* Horizontal slider (default) */
-.image-compare-horizontal .image-compare-slider {
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 2px;
-  transform: translateX(-50%);
-  cursor: ew-resize;
-}
-
-/* Vertical slider */
-.image-compare-vertical .image-compare-slider {
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 2px;
-  transform: translateY(-50%);
-  cursor: ns-resize;
-}
-
-/* Slider handle (circle with arrows) */
-.image-compare-handle {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 3px solid rgba(255, 255, 255, 0.5);
-  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  pointer-events: auto; /* Allow handle to capture events */
-  cursor: inherit; /* Inherit cursor from parent slider */
-}
-
-/* Horizontal handle position */
-.image-compare-horizontal .image-compare-handle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-/* Vertical handle position */
-.image-compare-vertical .image-compare-handle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-/* Handle hover/active states */
-.image-compare-slider:hover .image-compare-handle {
-  transform: translate(-50%, -50%) scale(1.1);
-}
-
-.image-compare-slider:active .image-compare-handle {
-  transform: translate(-50%, -50%) scale(0.95);
-}
-
-/* Glass effect variant for handle */
-.image-compare-glass .image-compare-handle {
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 3px solid rgba(255, 255, 255, 0.6);
-}
-
-/* Labels */
-.image-compare-label {
-  position: absolute;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  pointer-events: none;
-  user-select: none;
-  z-index: 5;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.image-compare-label-before {
-  top: 16px;
-  left: 16px;
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
-}
-
-.image-compare-label-after {
-  top: 16px;
-  right: 16px;
-  background: rgba(255, 255, 255, 0.8);
-  color: #1a1a1a;
-}
-
-/* Dark mode adjustments */
-.dark .image-compare-label-after {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-}
-
-/* Rounded corners variant */
-.image-compare.rounded-lg {
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-/* Shadow variant */
-.image-compare.shadow-lg {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-/* Focus styles for accessibility */
-.image-compare-slider:focus {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
-}
-
-.image-compare-slider:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* Size-specific adjustments */
-.image-compare.h-[280px] .image-compare-handle,
-.image-compare.max-h-[35vh] .image-compare-handle {
-  width: 36px;
-  height: 36px;
-}
-
-.image-compare.h-[700px] .image-compare-handle,
-.image-compare.max-h-[80vh] .image-compare-handle {
-  width: 56px;
-  height: 56px;
-}
-
-/* Mobile optimizations */
-@media (max-width: 640px) {
-  .image-compare-handle {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .image-compare-label {
-    font-size: 0.75rem;
-    padding: 4px 8px;
-  }
-  
-  .image-compare-label-before {
-    top: 12px;
-    left: 12px;
-  }
-  
-  .image-compare-label-after {
-    top: 12px;
-    right: 12px;
-  }
-}
-
-/* Prevent text selection during drag */
-.image-compare * {
-  -webkit-touch-callout: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Ensure SVG in handle doesn't block pointer events */
-.image-compare-handle svg {
-  pointer-events: none;
-}
-
-/* ========================================
- * Code Diff Component Styles
- * Side-by-side and unified diff viewer with syntax highlighting
- * ======================================== */
-
-/* Base diff container */
-.code-diff {
-  background: var(--card);
-  font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  overflow: hidden;
-}
-
-/* Unified diff format */
-.diff-unified {
-  display: block;
-  border: 1px solid var(--border);
-}
-
-.diff-unified .diff-pre {
-  background: var(--background);
-  border: none;
-  border-radius: 0;
-}
-
-.diff-unified .diff-code {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Diff line styles for unified format */
-.diff-line {
-  display: flex;
-  padding: 0.25rem 0;
-  min-height: 1.5rem;
-}
-
-.diff-line-number {
-  display: inline-block;
-  width: 3rem;
-  text-align: right;
-  padding-right: 1rem;
-  padding-left: 0.5rem;
-  border-right: 1px solid var(--border);
-  margin-right: 1rem;
-}
-
-.diff-line-content {
-  flex: 1;
-  white-space: pre;
-  padding-right: 1rem;
-}
-
-/* Added lines (green) - for unified format */
-.diff-line-added {
-  background-color: rgba(34, 197, 94, 0.1);
-  border-left: 3px solid rgb(34, 197, 94);
-}
-
-.dark .diff-line-added {
-  background-color: rgba(34, 197, 94, 0.15);
-}
-
-/* Removed lines (red) - for unified format */
-.diff-line-removed {
-  background-color: rgba(239, 68, 68, 0.1);
-  border-left: 3px solid rgb(239, 68, 68);
-}
-
-.dark .diff-line-removed {
-  background-color: rgba(239, 68, 68, 0.15);
-}
-
-/* Unchanged lines */
-.diff-line-unchanged {
-  background-color: transparent;
-  border-left: 3px solid transparent;
-}
-
-/* Info/header lines (blue) */
-.diff-line-info {
-  color: var(--info);
-  font-weight: 600;
-  border-left: 3px solid var(--info);
-}
-
-/* Side-by-side diff visual styling */
-[data-diff-side="before"] {
-  background: linear-gradient(to right, rgba(239, 68, 68, 0.03), transparent 3px);
-  border-left: 3px solid rgba(239, 68, 68, 0.3);
-}
-
-.dark [data-diff-side="before"] {
-  background: linear-gradient(to right, rgba(239, 68, 68, 0.08), transparent 3px);
-  border-left-color: rgba(239, 68, 68, 0.4);
-}
-
-[data-diff-side="after"] {
-  background: linear-gradient(to right, rgba(34, 197, 94, 0.03), transparent 3px);
-  border-left: 3px solid rgba(34, 197, 94, 0.3);
-}
-
-.dark [data-diff-side="after"] {
-  background: linear-gradient(to right, rgba(34, 197, 94, 0.08), transparent 3px);
-  border-left-color: rgba(34, 197, 94, 0.4);
-}
-
-/* Side-by-side diff format */
-.diff-side-by-side {
-  display: flex;
-  flex-direction: column;
-  background: transparent;
-}
-
-.diff-panes {
-  display: flex;
-  width: 100%;
-  gap: 0;
-  overflow: hidden;
-}
-
-.diff-pane {
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  background: var(--background);
-}
-
-.diff-pane-before {
-  border-right: 2px solid var(--border);
-}
-
-.diff-pane-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.5rem;
-  border-bottom: 2px solid var(--border);
-}
-
-/* Enhanced header styling */
-.diff-pane-before .diff-pane-header {
-  background: linear-gradient(to bottom, rgba(239, 68, 68, 0.08), rgba(239, 68, 68, 0.04));
-  color: rgb(185, 28, 28);
-  border-bottom-color: rgba(239, 68, 68, 0.2);
-}
-
-.dark .diff-pane-before .diff-pane-header {
-  background: linear-gradient(to bottom, rgba(239, 68, 68, 0.12), rgba(239, 68, 68, 0.06));
-  color: rgb(252, 165, 165);
-  border-bottom-color: rgba(239, 68, 68, 0.3);
-}
-
-.diff-pane-after .diff-pane-header {
-  background: linear-gradient(to bottom, rgba(34, 197, 94, 0.08), rgba(34, 197, 94, 0.04));
-  color: rgb(21, 128, 61);
-  border-bottom-color: rgba(34, 197, 94, 0.2);
-}
-
-.dark .diff-pane-after .diff-pane-header {
-  background: linear-gradient(to bottom, rgba(34, 197, 94, 0.12), rgba(34, 197, 94, 0.06));
-  color: rgb(134, 239, 172);
-  border-bottom-color: rgba(34, 197, 94, 0.3);
-}
-
-.diff-pane .diff-pre {
-  background: var(--background);
-  overflow-x: auto;
-  overflow-y: auto;
-  flex: 1;
-  margin: 0;
-  padding: 0;
-  border: none;
-  border-radius: 0;
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Fira Code', monospace;
-  position: relative;
-}
-
-/* Ensure traffic lights appear on diff panes - needs !important to override data-copyable */
-.diff-pane .diff-pre::after {
-  content: '' !important;
-  position: absolute !important;
-  top: 1rem !important;
-  left: 1rem !important;
-  width: 0.75rem !important;
-  height: 0.75rem !important;
-  background: #ef4444 !important;
-  border-radius: 50% !important;
-  box-shadow:
-    1.25rem 0 0 #f59e0b,
-    2.5rem 0 0 #10b981 !important;
-  z-index: 10 !important;
-  pointer-events: none !important;
-}
-
-.diff-pane .diff-pre code {
-  display: block;
-  padding: 1.5rem 1.5rem 1.5rem 4.5rem;
-  margin: 0;
-  background: transparent;
-  line-height: 1.7;
-  font-size: 0.875rem;
-  font-family: inherit;
-  white-space: pre;
-  overflow-wrap: normal;
-  word-break: normal;
-  color: #e2e8f0;
-}
-
-/* Synchronized scrolling for side-by-side */
-.diff-panes.scrolling {
-  overflow: hidden;
-}
-
-/* Compact variant */
-.diff-compact .diff-line {
-  padding: 0.125rem 0;
-  font-size: 0.8125rem;
-}
-
-.diff-compact .diff-line-number {
-  width: 2.5rem;
-  padding-right: 0.5rem;
-}
-
-/* Size variants */
-.diff-sm {
-  font-size: 0.75rem;
-}
-
-.diff-md {
-  font-size: 0.875rem;
-}
-
-.diff-lg {
-  font-size: 1rem;
-}
-
-/* Mobile optimizations */
-@media (max-width: 768px) {
-  /* Stack panes vertically on mobile */
-  .diff-panes {
-    flex-direction: column;
-  }
-  
-  .diff-pane-before {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-  
-  .diff-line-number {
-    width: 2.5rem;
-    padding-right: 0.5rem;
-    padding-left: 0.25rem;
-  }
-  
-  .code-diff {
-    font-size: 0.75rem;
-  }
-}
-
-/* CodeMirror Syntax Highlighting Classes */
-.cm-keyword {
-  color: rgb(207, 34, 119);
-  font-weight: 600;
-}
-
-.dark .cm-keyword {
-  color: rgb(255, 121, 198);
-}
-
-.cm-variable {
-  color: rgb(71, 85, 105);
-}
-
-.dark .cm-variable {
-  color: rgb(148, 163, 184);
-}
-
-.cm-string {
-  color: rgb(22, 163, 74);
-}
-
-.dark .cm-string {
-  color: rgb(134, 239, 172);
-}
-
-.cm-comment {
-  color: rgb(107, 114, 128);
-  font-style: italic;
-}
-
-.dark .cm-comment {
-  color: rgb(156, 163, 175);
-}
-
-.cm-number {
-  color: rgb(192, 38, 211);
-}
-
-.dark .cm-number {
-  color: rgb(232, 121, 249);
-}
-
-.cm-operator {
-  color: rgb(15, 118, 110);
-}
-
-.dark .cm-operator {
-  color: rgb(94, 234, 212);
-}
-
-.cm-function {
-  color: rgb(37, 99, 235);
-  font-weight: 500;
-}
-
-.dark .cm-function {
-  color: rgb(147, 197, 253);
-}
-
-.cm-type,
-.cm-class {
-  color: rgb(234, 88, 12);
-  font-weight: 500;
-}
-
-.dark .cm-type,
-.dark .cm-class {
-  color: rgb(251, 146, 60);
-}
-
-.cm-property {
-  color: rgb(5, 150, 105);
-}
-
-.dark .cm-property {
-  color: rgb(110, 231, 183);
-}
-
-.cm-bool,
-.cm-null {
-  color: rgb(127, 29, 29);
-  font-weight: 600;
-}
-
-.dark .cm-bool,
-.dark .cm-null {
-  color: rgb(252, 165, 165);
-}
-
-.cm-punctuation,
-.cm-bracket {
-  color: rgb(71, 85, 105);
-}
-
-.dark .cm-punctuation,
-.dark .cm-bracket {
-  color: rgb(203, 213, 225);
-}
-
-.cm-tag {
-  color: rgb(220, 38, 38);
-  font-weight: 600;
-}
-
-.dark .cm-tag {
-  color: rgb(248, 113, 113);
-}
-
-.cm-attribute {
-  color: rgb(29, 78, 216);
-}
-
-.dark .cm-attribute {
-  color: rgb(147, 197, 253);
 }
 
 /* Icon Utilities */
@@ -3052,36 +2413,7 @@ td svg.icon {
   }
 }
 
-.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
-.font-bold { font-weight: 700; }
-.text-center { text-align: center; }
-.text-primary-600 { color: rgb(106 142 239); }
-.hover\:text-primary-700:hover { color: rgb(82 123 222); }
-.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
-.text-gray-500 { color: rgb(107 114 128); }
-.rounded-lg { border-radius: 0.5rem; }
-.max-w-full { max-width: 100%; }
-.overflow-x-hidden { overflow-x: hidden; }
-.overflow-wrap-normal { overflow-wrap: normal; word-break: normal; }
-.p-6 { padding: 1.5rem; }
-.text-green-600 { color: rgb(22 163 74); }
-.text-xs { font-size: 0.75rem; line-height: 1rem; }
-.grid { display: grid; gap: 1rem; }
-.grid-cols-2 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-.shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
-.text-secondary-600 { color: rgb(147 51 234); }
-.hover\:text-secondary-700:hover { color: rgb(126 34 206); }
-.text-accent-600 { color: rgb(219 39 119); }
-.hover\:text-accent-700:hover { color: rgb(190 24 93); }
-.text-yellow-600 { color: rgb(202 138 4); }
-.text-red-600 { color: rgb(220 38 38); }
-.text-blue-600 { color: rgb(37 99 235); }
-.grid-cols-3 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-.shadow-xl { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
-.p-8 { padding: 2rem; }
-.hover\:transform:hover { transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
-.duration-200 { transition-duration: 200ms; }
-.p-12 { padding: 3rem; }
+
 
 /* ========================================
  * COMPONENT STYLES
@@ -6250,390 +5582,6 @@ mark,
 /* Note: Link button styles removed - buttons should use the {button} attribute which properly handles hover states with theme colors */
 
 
-/* ========================================
- * FOOTNOTES COMPONENT
- * Academic-style footnotes with auto-numbering, backlinks, and optional hover preview
- * ======================================== */
-
-/* Footnote section container */
-.footnotes {
-  margin-top: 4rem;
-  padding-top: 2rem;
-  border-top: 2px solid var(--border);
-  font-size: 0.9375rem;
-  color: var(--muted);
-}
-
-.footnotes h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  color: var(--foreground);
-}
-
-/* Footnote list */
-.footnotes ol {
-  list-style-position: outside;
-  padding-left: 2rem;
-  margin: 0;
-}
-
-.footnotes li {
-  margin-bottom: 0.75rem;
-  line-height: 1.6;
-  position: relative;
-  color: var(--foreground);
-}
-
-.footnotes li:last-child {
-  margin-bottom: 0;
-}
-
-.footnotes li::marker {
-  color: var(--primary);
-  font-weight: 600;
-}
-
-/* Footnote content */
-.footnotes p {
-  margin: 0.25rem 0;
-  display: inline;
-}
-
-/* Footnote reference (superscript in text) */
-a[data-footnote-ref] {
-  font-size: 0.75em;
-  line-height: 0;
-  position: relative;
-  vertical-align: super;
-  text-decoration: none;
-  font-weight: 600;
-  color: var(--primary);
-  padding: 0 0.2em;
-  margin: 0 0.1em;
-  transition: all 0.2s ease;
-}
-
-a[data-footnote-ref]:hover {
-  color: var(--primary-hover);
-  text-decoration: none;
-}
-
-a[data-footnote-ref]:before {
-  content: "[";
-}
-
-a[data-footnote-ref]:after {
-  content: "]";
-}
-
-/* Footnote definition */
-li[role="doc-footnote"] {
-  scroll-margin-top: 2rem;
-  transition: background-color 0.3s ease;
-}
-
-/* Highlight target footnote when navigating via anchor */
-li[role="doc-footnote"]:target {
-  background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.1);
-  padding: 0.5rem;
-  margin-left: -0.5rem;
-  border-radius: 0.25rem;
-  animation: footnote-highlight 2s ease-out;
-}
-
-@keyframes footnote-highlight {
-  0% {
-    background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.2);
-  }
-  100% {
-    background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.05);
-  }
-}
-
-/* Backlink (return to content) */
-.footnote-backlink {
-  font-size: 1.25em;
-  text-decoration: none;
-  color: var(--muted);
-  margin-left: 0.5rem;
-  transition: all 0.2s ease;
-  display: inline-block;
-}
-
-.footnote-backlink:hover {
-  color: var(--primary);
-  transform: translateX(-2px);
-}
-
-/* Footnote hover preview (added via JavaScript) */
-.footnote-preview {
-  position: fixed;
-  z-index: 1000;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
-  padding: 0.75rem 1rem;
-  max-width: 24rem;
-  box-shadow: 
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  font-size: 0.875rem;
-  line-height: 1.5;
-  color: var(--foreground);
-  pointer-events: none;
-  opacity: 0;
-  transform: translateY(0.5rem);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.footnote-preview.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.footnote-preview:before {
-  content: '';
-  position: absolute;
-  bottom: -0.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 0.5rem solid transparent;
-  border-right: 0.5rem solid transparent;
-  border-top: 0.5rem solid var(--border);
-}
-
-.footnote-preview:after {
-  content: '';
-  position: absolute;
-  bottom: -0.375rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 0.375rem solid transparent;
-  border-right: 0.375rem solid transparent;
-  border-top: 0.375rem solid var(--card);
-}
-
-/* Dark mode adjustments */
-.dark .footnotes {
-  color: var(--muted);
-  border-top-color: var(--border);
-}
-
-.dark .footnote-preview {
-  box-shadow: 
-    0 10px 15px -3px rgba(0, 0, 0, 0.3),
-    0 4px 6px -2px rgba(0, 0, 0, 0.2);
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .footnotes {
-    font-size: 0.875rem;
-    margin-top: 3rem;
-    padding-top: 1.5rem;
-  }
-  
-  .footnotes ol {
-    padding-left: 1.5rem;
-  }
-  
-  .footnote-preview {
-    max-width: calc(100vw - 2rem);
-    left: 1rem !important;
-    right: 1rem;
-  }
-}
-
-/* ========================================
- * MERMAID DIAGRAM COMPONENT
- * Server-side rendered diagrams with zero runtime JS
- * ======================================== */
-
-/* Mermaid diagram container */
-.mermaid-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 0.75rem;
-  margin: 1.5rem 0;
-  overflow: hidden;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  transition: all 0.2s ease;
-}
-
-.mermaid-container:hover {
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-}
-
-/* Glass effect variant */
-.mermaid-container.glass-effect {
-  background: var(--glass-bg, rgba(255, 255, 255, 0.7));
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.18));
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-}
-
-.dark .mermaid-container.glass-effect {
-  background: var(--glass-bg, rgba(15, 15, 15, 0.7));
-  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-}
-
-/* Elevated variant */
-.mermaid-container.elevated {
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-}
-
-/* Compact variant */
-.mermaid-container.compact {
-  padding: 1rem;
-  margin: 1rem 0;
-}
-
-/* Full width variant */
-.mermaid-container.full {
-  width: 100%;
-}
-
-/* Bordered variant */
-.mermaid-container.bordered {
-  border: 2px solid var(--primary);
-}
-
-/* SVG styling */
-.mermaid-container svg {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
-
-/* Theme-aware text colors for diagrams */
-.mermaid-container text {
-  fill: var(--foreground) !important;
-}
-
-/* Dark mode adjustments */
-.dark .mermaid-container .node rect,
-.dark .mermaid-container .node circle,
-.dark .mermaid-container .node ellipse,
-.dark .mermaid-container .node polygon {
-  fill: var(--card);
-  stroke: var(--border);
-}
-
-.dark .mermaid-container .edgePath .path {
-  stroke: var(--muted);
-}
-
-/* Responsive sizing */
-@media (max-width: 768px) {
-  .mermaid-container {
-    padding: 1rem;
-  }
-  
-  .mermaid-container svg {
-    font-size: 12px;
-  }
-}
-
-/* Error state styling */
-.mermaid-error {
-  margin: 1.5rem 0;
-}
-
-/* ========================================
- * MATH EQUATIONS (LaTeX)
- * Compile-time MathML generation with zero runtime JS
- * ======================================== */
-
-/* Inline math */
-.math-inline {
-  display: inline;
-  vertical-align: baseline;
-  font-size: 1em;
-}
-
-/* Display math (block-level, centered) */
-.math-display {
-  display: block;
-  margin: 1.5rem 0;
-  text-align: center;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
-/* MathML styling */
-.math math {
-  font-family: 'Latin Modern Math', 'STIX Two Math', 'Cambria Math', 'Asana Math', serif;
-}
-
-/* Display math scaling */
-.math-display math {
-  font-size: 1.2em;
-}
-
-/* Error handling */
-.math-error {
-  color: var(--error, #ef4444);
-  font-family: var(--font-mono, monospace);
-  font-size: 0.875em;
-  background: rgba(239, 68, 68, 0.1);
-  padding: 0.125rem 0.375rem;
-  border-radius: 0.25rem;
-  cursor: help;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .math-display {
-    margin: 1rem 0;
-  }
-  
-  .math-display math {
-    font-size: 1em;
-  }
-}
-
-/* Dark mode adjustments */
-.dark .math-error {
-  background: rgba(239, 68, 68, 0.2);
-}
-
-/* Ensure MathML doesn't overflow */
-.math mrow,
-.math mfrac,
-.math mtable {
-  max-width: 100%;
-}
-
-/* Table in math (for matrices) */
-.math mtable {
-  margin: 0 auto;
-}
-
-/* Fraction line styling */
-.math mfrac {
-  vertical-align: middle;
-}
-
-/* Subscript/superscript positioning */
-.math msub,
-.math msup,
-.math msubsup {
-  vertical-align: baseline;
-}
-
-
 /* Grid safety: Ensure grid items never overflow their container */
 .grid > * {
   min-width: 0;
@@ -6728,26 +5676,10 @@ li[role="doc-footnote"]:target {
   word-break: normal;
   text-wrap: pretty; /* Modern CSS for optimal line breaks */
 }
-
-
-/* grid-cols-2: 1 column on mobile, 2 on tablet+ */
-@media (min-width: 640px) {
-  .grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-
-
-/* grid-cols-3: 1 column on mobile, 3 on tablet+ */
-@media (min-width: 768px) {
-  .grid-cols-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
-}
 </style>
   <script>// Taildown Interactive Components
 // Generated by Taildown compiler
-// Total size: ~4.49KB
+// Total size: ~2.83KB
 
 (function() {
   'use strict';
@@ -6859,192 +5791,112 @@ li[role="doc-footnote"]:target {
 
   function init() {
     console.log('[Taildown] Initializing interactive components');
-    // Navbar scroll effect
-    const navbar = document.querySelector('.navbar');
+    // Table Sorting Component
+    const sortableTables = document.querySelectorAll('[data-sortable="true"]');
+    console.log('[Taildown Table] Found', sortableTables.length, 'sortable tables');
 
-    if (navbar) {
-      let ticking = false;
-      const scrollThreshold = 50; // pixels
-
-      function updateNavbar() {
-        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-
-        if (scrollY > scrollThreshold) {
-          if (!navbar.classList.contains('scrolled')) {
-            navbar.classList.add('scrolled');
+    sortableTables.forEach(table => {
+      console.log('[Taildown Table] Initializing sortable table', table);
+      const headers = table.querySelectorAll('th[data-sortable="true"]');
+      console.log('[Taildown Table] Found', headers.length, 'sortable headers');
+      
+      headers.forEach((header, index) => {
+        // Make header focusable for keyboard nav
+        header.setAttribute('tabindex', '0');
+        header.setAttribute('role', 'button');
+        header.setAttribute('aria-sort', 'none');
+        
+        // Add click handler
+        header.addEventListener('click', () => {
+          console.log('[Taildown Table] Header clicked:', index);
+          sortTable(table, index, header);
+        });
+        
+        // Add keyboard handler
+        header.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            console.log('[Taildown Table] Header activated via keyboard:', index);
+            sortTable(table, index, header);
           }
-        } else {
-          if (navbar.classList.contains('scrolled')) {
-            navbar.classList.remove('scrolled');
-          }
-        }
+        });
+      });
+      
+      console.log('[Taildown Table] Table initialization complete');
+    });
 
-        ticking = false;
-      }
-
-      function onScroll() {
-        if (!ticking) {
-          window.requestAnimationFrame(updateNavbar);
-          ticking = true;
-        }
-      }
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-
-      // Check initial state
-      updateNavbar();
-    }
-
-    // Tabs Component
-    const tabElements = getComponents('tabs');
-    console.log('[Taildown Tabs] Found', tabElements.length, 'tabs components');
-    tabElements.forEach(tabs => {
-      console.log('[Taildown Tabs] Initializing tabs component', tabs);
-      const tabList = tabs.querySelector('[role="tablist"]');
-      console.log('[Taildown Tabs] Tab list:', tabList);
-      if (!tabList) {
-        console.warn('[Taildown Tabs] No tablist found, skipping');
+    // Sort table by column index
+    function sortTable(table, columnIndex, header) {
+      console.log('[Taildown Table] Sorting table by column', columnIndex);
+      const tbody = table.querySelector('tbody');
+      if (!tbody) {
+        console.warn('[Taildown Table] No tbody found, skipping sort');
         return;
       }
       
-      const tabButtons = Array.from(tabList.querySelectorAll('[role="tab"]'));
-      console.log('[Taildown Tabs] Found', tabButtons.length, 'tab buttons');
-      const tabPanels = Array.from(tabs.querySelectorAll('[role="tabpanel"]'));
-      console.log('[Taildown Tabs] Found', tabPanels.length, 'tab panels');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      console.log('[Taildown Table] Found', rows.length, 'rows to sort');
+      const currentSort = header.getAttribute('aria-sort');
+      const newSort = currentSort === 'ascending' ? 'descending' : 'ascending';
+      console.log('[Taildown Table] Sort direction:', currentSort, '->', newSort);
       
-      // Set initial active tab
-      let activeIndex = tabButtons.findIndex(btn => btn.getAttribute('aria-selected') === 'true');
-      console.log('[Taildown Tabs] Initial active index:', activeIndex);
-      if (activeIndex === -1) activeIndex = 0;
+      // Clear other headers
+      table.querySelectorAll('th[data-sortable="true"]').forEach(h => {
+        h.setAttribute('aria-sort', 'none');
+        h.classList.remove('sort-asc', 'sort-desc');
+      });
       
-      // Switch to tab
-      function switchTab(index) {
-        // Update buttons
-        tabButtons.forEach((btn, i) => {
-          const isActive = i === index;
-          btn.setAttribute('aria-selected', isActive);
-          btn.setAttribute('tabindex', isActive ? '0' : '-1');
-          toggleClass(btn, 'active', isActive);
-        });
+      // Set new sort direction
+      header.setAttribute('aria-sort', newSort);
+      header.classList.add(newSort === 'ascending' ? 'sort-asc' : 'sort-desc');
+      
+      // Sort rows
+      rows.sort((a, b) => {
+        const aCell = a.querySelectorAll('td')[columnIndex];
+        const bCell = b.querySelectorAll('td')[columnIndex];
         
-        // Update panels
-        tabPanels.forEach((panel, i) => {
-          const isActive = i === index;
-          panel.hidden = !isActive;
-          toggleClass(panel, 'active', isActive);
-        });
+        if (!aCell || !bCell) return 0;
         
-        activeIndex = index;
+        const aValue = getCellValue(aCell);
+        const bValue = getCellValue(bCell);
+        
+        // Detect data type and compare
+        const comparison = compareValues(aValue, bValue);
+        
+        return newSort === 'ascending' ? comparison : -comparison;
+      });
+      
+      console.log('[Taildown Table] Reordering rows in DOM');
+      // Reorder rows in DOM
+      rows.forEach(row => tbody.appendChild(row));
+      console.log('[Taildown Table] Sort complete');
+    }
+
+    // Extract cell value (handles nested elements)
+    function getCellValue(cell) {
+      return cell.textContent.trim();
+    }
+
+    // Compare values with type detection
+    function compareValues(a, b) {
+      // Try numeric comparison
+      const aNum = parseFloat(a.replace(/[^0-9.-]/g, ''));
+      const bNum = parseFloat(b.replace(/[^0-9.-]/g, ''));
+      
+      if (!isNaN(aNum) && !isNaN(bNum)) {
+        return aNum - bNum;
       }
       
-      // Click handlers
-      console.log('[Taildown Tabs] Attaching click handlers to', tabButtons.length, 'buttons');
-      tabButtons.forEach((btn, index) => {
-        console.log('[Taildown Tabs] Attaching handler to button', index);
-        btn.addEventListener('click', () => {
-          console.log('[Taildown Tabs] Tab clicked:', index);
-          switchTab(index);
-        });
-      });
-      console.log('[Taildown Tabs] Click handlers attached');
+      // Try date comparison
+      const aDate = Date.parse(a);
+      const bDate = Date.parse(b);
       
-      // Keyboard navigation
-      tabList.addEventListener('keydown', (e) => {
-        let newIndex = activeIndex;
-        
-        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-          newIndex = activeIndex > 0 ? activeIndex - 1 : tabButtons.length - 1;
-          e.preventDefault();
-        } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-          newIndex = activeIndex < tabButtons.length - 1 ? activeIndex + 1 : 0;
-          e.preventDefault();
-        } else if (e.key === 'Home') {
-          newIndex = 0;
-          e.preventDefault();
-        } else if (e.key === 'End') {
-          newIndex = tabButtons.length - 1;
-          e.preventDefault();
-        }
-        
-        if (newIndex !== activeIndex) {
-          switchTab(newIndex);
-          tabButtons[newIndex].focus();
-        }
-      });
+      if (!isNaN(aDate) && !isNaN(bDate)) {
+        return aDate - bDate;
+      }
       
-      // Initialize
-      switchTab(activeIndex);
-    });
-
-    // Scroll-Triggered Animations
-    // Zero-config: Automatically animates elements when they scroll into view
-
-    // Check if user prefers reduced motion
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Animation class selectors
-    const animationClasses = [
-      '.animate-fade-in',
-      '.animate-slide-up',
-      '.animate-slide-down',
-      '.animate-slide-left',
-      '.animate-slide-right',
-      '.animate-scale-in',
-      '.animate-zoom-in'
-    ];
-
-    // Find all elements with animation classes
-    const animatedElements = document.querySelectorAll(animationClasses.join(', '));
-
-    if (animatedElements.length > 0 && !prefersReducedMotion) {
-      console.log(`[Taildown] Found ${animatedElements.length} animated elements`);
-
-      // Add initial class to prevent animation on page load
-      animatedElements.forEach(el => {
-        el.classList.add('animation-paused');
-      });
-
-      // Create Intersection Observer
-      const observerOptions = {
-        root: null, // viewport
-        rootMargin: '0px 0px -10% 0px', // Trigger slightly before entering viewport
-        threshold: 0.15 // Trigger when 15% visible
-      };
-
-      const animationObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-          if (entry.isIntersecting) {
-            // Element is in view - trigger animation
-            const element = entry.target;
-            
-            // Add a small stagger delay for multiple elements
-            const delay = index * 75; // 75ms between elements
-            
-            setTimeout(() => {
-              element.classList.remove('animation-paused');
-              element.classList.add('animation-playing');
-            }, delay);
-            
-            // Stop observing this element (animate only once)
-            animationObserver.unobserve(element);
-          }
-        });
-      }, observerOptions);
-
-      // Observe all animated elements
-      animatedElements.forEach(el => {
-        animationObserver.observe(el);
-      });
-      
-      console.log('[Taildown] Scroll animations initialized');
-    } else if (prefersReducedMotion) {
-      console.log('[Taildown] Reduced motion preferred - animations disabled');
-      // Remove animation classes if reduced motion preferred
-      animatedElements.forEach(el => {
-        animationClasses.forEach(className => {
-          el.classList.remove(className.slice(1)); // Remove leading dot
-        });
-      });
+      // String comparison (case-insensitive)
+      return a.toLowerCase().localeCompare(b.toLowerCase());
     }
     console.log('[Taildown] Initialization complete');
   }
@@ -7069,534 +5921,118 @@ li[role="doc-footnote"]:target {
 </script>
 </head>
 <body>
-  <nav class="taildown-component component-navbar navbar" data-component="navbar"><h1>Taildown</h1><p><a href="index.html">Home</a> <a href="getting-started.html">Getting Started</a> <a href="syntax-guide.html">Syntax Guide</a> <a href="components.html">Components</a> <a href="plain-english.html">Plain English</a> <a href="editor.html">Live Editor</a></p></nav>
-<h1 class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700">Plain English Reference</h1>
-<p class="text-center text-lg text-gray-500"><strong>Complete guide to natural language styling in Taildown</strong></p>
-<p class="text-center">Natural language styling is Taildown's superpower. Write <code>{large-bold primary}</code> instead of cryptic CSS classes.</p>
-<hr />
-<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Philosophy</h2>
-<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-subtle shadow-sm p-6" data-component="card"><h3 class="medium-bold"><svg class="icon icon-type text-primary-600 hover:text-primary-700" data-icon="type" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16" /><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2" /><path d="M9 20h6" /></svg> Natural Grammar First</h3><p>Taildown follows <strong>natural English grammar and word order</strong>, not CSS conventions. This makes styling intuitive and self-documenting.</p><p><strong>Core Principles:</strong></p><ul>
-<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Adjective-Noun Order</strong> - "large text" not "text-large"</li>
-<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Single Descriptive Words</strong> - "bold" not "font-bold"</li>
-<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>State Modifiers First</strong> - "hover-lift" not "lift-hover"</li>
-<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> <strong>Natural Phrases</strong>- Reads like English, compiles to CSS</li>
-</ul></div>
-<hr />
-<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Typography</h2>
-<div class="taildown-component component-tabs tabs" data-component="tabs"><div role="tablist" class="tabs-list"><button role="tab" aria-selected="true" tabindex="0" class="tab-button">Sizes</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Weights</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Combinations</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Line Height</button></div><div role="tabpanel" class="tab-panel"><p>Control text size with natural keywords:</p><div class="table-wrapper"><table>
+  <h1>Enhanced Table Tests</h1>
+<h2>Basic Table (no enhancements)</h2>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
-<th>Shorthand</th>
-<th>Result</th>
-<th>CSS Equivalent</th>
+<th>Name</th>
+<th>Role</th>
+<th>Experience</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>{xs}</code></td>
-<td>Extra small text</td>
-<td><code>text-xs</code></td>
+<td>Alice</td>
+<td>Developer</td>
+<td>5 years</td>
 </tr>
 <tr>
-<td><code>{small}</code></td>
-<td>Small text</td>
-<td><code>text-sm</code></td>
-</tr>
-<tr>
-<td><code>{base}</code></td>
-<td>Base size (default)</td>
-<td><code>text-base</code></td>
-</tr>
-<tr>
-<td><code>{large}</code></td>
-<td>Large text</td>
-<td><code>text-lg</code></td>
-</tr>
-<tr>
-<td><code>{xl}</code></td>
-<td>Extra large text</td>
-<td><code>text-xl</code></td>
-</tr>
-<tr>
-<td><code>{2xl}</code></td>
-<td>2X large text</td>
-<td><code>text-2xl</code></td>
-</tr>
-<tr>
-<td><code>{3xl}</code></td>
-<td>3X large text</td>
-<td><code>text-3xl</code></td>
-</tr>
-<tr>
-<td><code>{huge}</code></td>
-<td>Huge text</td>
-<td><code>text-4xl</code></td>
-</tr>
-<tr>
-<td><code>{massive}</code></td>
-<td>Massive text</td>
-<td><code>text-6xl</code></td>
+<td>Bob</td>
+<td>Designer</td>
+<td>3 years</td>
 </tr>
 </tbody>
-</table></div><p><strong>Examples:</strong></p></div><div role="tabpanel" hidden class="tab-panel"><p>Control font weight naturally:</p><div class="table-wrapper"><table>
+</table></div>
+<h2>Sortable Table</h2>
+<div class="table-wrapper"><table class="table-enhanced table-sortable" data-component="table" data-sortable="true" data-enhanced="true">
 <thead>
 <tr>
-<th>Shorthand</th>
-<th>Result</th>
-<th>CSS Equivalent</th>
+<th data-sortable="true" class="sortable-header">Name<span class="sort-icon" aria-hidden="true"></span></th>
+<th data-sortable="true" class="sortable-header">Role<span class="sort-icon" aria-hidden="true"></span></th>
+<th data-sortable="true" class="sortable-header">Salary<span class="sort-icon" aria-hidden="true"></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>{thin}</code></td>
-<td>Thin weight</td>
-<td><code>font-thin</code></td>
+<td>Alice</td>
+<td>Developer</td>
+<td>$85,000</td>
 </tr>
 <tr>
-<td><code>{light}</code></td>
-<td>Light weight</td>
-<td><code>font-light</code></td>
+<td>Bob</td>
+<td>Designer</td>
+<td>$75,000</td>
 </tr>
 <tr>
-<td><code>{normal}</code></td>
-<td>Normal weight</td>
-<td><code>font-normal</code></td>
-</tr>
-<tr>
-<td><code>{medium}</code></td>
-<td>Medium weight</td>
-<td><code>font-medium</code></td>
-</tr>
-<tr>
-<td><code>{semibold}</code></td>
-<td>Semi-bold</td>
-<td><code>font-semibold</code></td>
-</tr>
-<tr>
-<td><code>{bold}</code></td>
-<td>Bold weight</td>
-<td><code>font-bold</code></td>
-</tr>
-<tr>
-<td><code>{extra-bold}</code></td>
-<td>Extra bold</td>
-<td><code>font-extrabold</code></td>
-</tr>
-<tr>
-<td><code>{black}</code></td>
-<td>Black weight</td>
-<td><code>font-black</code></td>
+<td>Charlie</td>
+<td>Manager</td>
+<td>$120,000</td>
 </tr>
 </tbody>
-</table></div><p><strong>Examples:</strong></p></div><div role="tabpanel" hidden class="tab-panel"><p>Combine size and weight naturally:</p><p><strong>Common combinations:</strong></p><ul>
-<li><code>{large-bold}</code> - Large and bold</li>
-<li><code>{huge-bold}</code> - Huge and bold</li>
-<li><code>{small-light}</code> - Small and light</li>
-<li><code>{xl-semibold}</code> - XL and semi-bold</li>
-</ul></div><div role="tabpanel" hidden class="tab-panel"><p>Control line spacing with natural phrases:</p><div class="table-wrapper"><table>
+</table></div>
+<h2>Zebra Striped Table</h2>
+<div class="table-wrapper"><table class="table-enhanced table-zebra" data-component="table" data-enhanced="true">
 <thead>
 <tr>
-<th>Shorthand</th>
-<th>Result</th>
+<th>Product</th>
+<th>Price</th>
+<th>Stock</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>{tight-lines}</code></td>
-<td>Tight line spacing</td>
+<td>Widget A</td>
+<td>$19.99</td>
+<td>150</td>
 </tr>
 <tr>
-<td><code>{normal-lines}</code></td>
-<td>Normal spacing (default)</td>
-</tr>
-<tr>
-<td><code>{relaxed-lines}</code></td>
-<td>Relaxed spacing</td>
-</tr>
-<tr>
-<td><code>{loose-lines}</code></td>
-<td>Loose spacing</td>
+<td>Widget B</td>
+<td>$29.99</td>
+<td>75</td>
 </tr>
 </tbody>
-</table></div><p><strong>Example:</strong></p></div></div>
-<hr />
-<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Colors</h2>
-<div class="taildown-component component-grid grid grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-palette text-primary-600 hover:text-primary-700" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg> Semantic Colors</h3><p>Use semantic color names for consistency:</p><div class="table-wrapper"><table>
+</table></div>
+<h2>Glass Table</h2>
+<div class="table-wrapper"><table class="table-enhanced glass-effect table-glass" data-component="table" data-enhanced="true">
 <thead>
 <tr>
-<th>Color</th>
-<th>Usage</th>
-<th>Example</th>
+<th>Metric</th>
+<th>Value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>primary</code></td>
-<td>Primary brand color</td>
-<td><svg class="icon icon-circle text-primary-600 hover:text-primary-700" data-icon="circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /></svg> Primary</td>
+<td>Users</td>
+<td>1,250</td>
 </tr>
 <tr>
-<td><code>secondary</code></td>
-<td>Secondary brand color</td>
-<td><svg class="icon icon-circle text-secondary-600 hover:text-secondary-700" data-icon="circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /></svg> Secondary</td>
-</tr>
-<tr>
-<td><code>accent</code></td>
-<td>Accent highlights</td>
-<td><svg class="icon icon-circle text-accent-600 hover:text-accent-700" data-icon="circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /></svg> Accent</td>
-</tr>
-<tr>
-<td><code>success</code></td>
-<td>Success states</td>
-<td><svg class="icon icon-circle text-green-600" data-icon="circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /></svg> Success</td>
-</tr>
-<tr>
-<td><code>warning</code></td>
-<td>Warning states</td>
-<td><svg class="icon icon-circle text-yellow-600" data-icon="circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /></svg> Warning</td>
-</tr>
-<tr>
-<td><code>error</code></td>
-<td>Error states</td>
-<td><svg class="icon icon-circle text-red-600" data-icon="circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /></svg> Error</td>
-</tr>
-<tr>
-<td><code>info</code></td>
-<td>Information</td>
-<td><svg class="icon icon-circle text-blue-600" data-icon="circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /></svg> Info</td>
-</tr>
-<tr>
-<td><code>muted</code></td>
-<td>Muted/subtle text</td>
-<td><svg class="icon icon-circle text-gray-500" data-icon="circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /></svg> Muted</td>
+<td>Revenue</td>
+<td>$45k</td>
 </tr>
 </tbody>
-</table></div><p><strong>Examples:</strong></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-droplet text-accent-600 hover:text-accent-700" data-icon="droplet" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z" /></svg> Background Colors</h3><p>Add <code>-bg</code> suffix for background colors:</p><div class="table-wrapper"><table>
+</table></div>
+<h2>Combined Features</h2>
+<div class="table-wrapper"><table class="table-enhanced table-sortable table-zebra table-hoverable glass-effect table-glass" data-component="table" data-sortable="true" data-enhanced="true">
 <thead>
 <tr>
-<th>Shorthand</th>
-<th>Result</th>
+<th data-sortable="true" class="sortable-header">Project<span class="sort-icon" aria-hidden="true"></span></th>
+<th data-sortable="true" class="sortable-header">Lead<span class="sort-icon" aria-hidden="true"></span></th>
+<th data-sortable="true" class="sortable-header">Status<span class="sort-icon" aria-hidden="true"></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>{primary-bg}</code></td>
-<td>Primary background + white text</td>
+<td>Web App</td>
+<td>Alice</td>
+<td>Active</td>
 </tr>
 <tr>
-<td><code>{success-bg}</code></td>
-<td>Success background + white text</td>
-</tr>
-<tr>
-<td><code>{warning-bg}</code></td>
-<td>Warning background + dark text</td>
-</tr>
-<tr>
-<td><code>{error-bg}</code></td>
-<td>Error background + white text</td>
-</tr>
-<tr>
-<td><code>{muted-bg}</code></td>
-<td>Muted background + dark text</td>
+<td>Mobile</td>
+<td>Bob</td>
+<td>Complete</td>
 </tr>
 </tbody>
-</table></div><p><strong>Examples:</strong></p></div></div>
-<hr />
-<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Layout</h2>
-<div class="taildown-component component-tabs tabs" data-component="tabs"><div role="tablist" class="tabs-list"><button role="tab" aria-selected="true" tabindex="0" class="tab-button">Flex</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Grid</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Centering</button></div><div role="tabpanel" class="tab-panel"><p>Flexible layout with natural syntax:</p><div class="table-wrapper"><table>
-<thead>
-<tr>
-<th>Shorthand</th>
-<th>Result</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>{flex}</code></td>
-<td>Flex container</td>
-</tr>
-<tr>
-<td><code>{flex-col}</code></td>
-<td>Flex column direction</td>
-</tr>
-<tr>
-<td><code>{flex-row}</code></td>
-<td>Flex row direction</td>
-</tr>
-<tr>
-<td><code>{flex-center}</code></td>
-<td>Flex with centered items</td>
-</tr>
-<tr>
-<td><code>{flex-wrap}</code></td>
-<td>Flex with wrapping</td>
-</tr>
-</tbody>
-</table></div><p><strong>Example:</strong></p></div><div role="tabpanel" hidden class="tab-panel"><p>Grid layouts made simple:</p><div class="table-wrapper"><table>
-<thead>
-<tr>
-<th>Shorthand</th>
-<th>Result</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>{grid}</code></td>
-<td>Grid container</td>
-</tr>
-<tr>
-<td><code>{grid-2}</code></td>
-<td>2-column grid</td>
-</tr>
-<tr>
-<td><code>{grid-3}</code></td>
-<td>3-column grid</td>
-</tr>
-<tr>
-<td><code>{grid-4}</code></td>
-<td>4-column grid</td>
-</tr>
-<tr>
-<td><code>{grid-auto}</code></td>
-<td>Auto-fit grid</td>
-</tr>
-</tbody>
-</table></div><p><strong>Example:</strong></p></div><div role="tabpanel" hidden class="tab-panel"><p>Center elements naturally:</p><div class="table-wrapper"><table>
-<thead>
-<tr>
-<th>Shorthand</th>
-<th>Result</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>{center}</code></td>
-<td>Center text</td>
-</tr>
-<tr>
-<td><code>{center-x}</code></td>
-<td>Center horizontally</td>
-</tr>
-<tr>
-<td><code>{center-y}</code></td>
-<td>Center vertically</td>
-</tr>
-<tr>
-<td><code>{center-both}</code></td>
-<td>Center both directions</td>
-</tr>
-</tbody>
-</table></div><p><strong>Example:</strong></p></div></div>
-<hr />
-<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Spacing</h2>
-<div class="taildown-component component-grid grid grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-subtle shadow-sm" data-component="card"><h3 class="medium-bold"><svg class="icon icon-box text-primary-600 hover:text-primary-700" data-icon="box" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg> Padding</h3><p>Control internal spacing:</p><div class="table-wrapper"><table>
-<thead>
-<tr>
-<th>Shorthand</th>
-<th>Size</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>{padded-xs}</code></td>
-<td>Extra small padding</td>
-</tr>
-<tr>
-<td><code>{padded-sm}</code></td>
-<td>Small padding</td>
-</tr>
-<tr>
-<td><code>{padded}</code></td>
-<td>Default padding</td>
-</tr>
-<tr>
-<td><code>{padded-lg}</code></td>
-<td>Large padding</td>
-</tr>
-<tr>
-<td><code>{padded-xl}</code></td>
-<td>Extra large padding</td>
-</tr>
-</tbody>
-</table></div><p><strong>Example:</strong></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-subtle shadow-sm" data-component="card"><h3 class="medium-bold"><svg class="icon icon-maximize text-accent-600 hover:text-accent-700" data-icon="maximize" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3" /><path d="M21 8V5a2 2 0 0 0-2-2h-3" /><path d="M3 16v3a2 2 0 0 0 2 2h3" /><path d="M16 21h3a2 2 0 0 0 2-2v-3" /></svg> Gap</h3><p>Control spacing between items:</p><div class="table-wrapper"><table>
-<thead>
-<tr>
-<th>Shorthand</th>
-<th>Size</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>{gap-xs}</code></td>
-<td>Extra small gap</td>
-</tr>
-<tr>
-<td><code>{gap-sm}</code></td>
-<td>Small gap</td>
-</tr>
-<tr>
-<td><code>{gap}</code></td>
-<td>Default gap</td>
-</tr>
-<tr>
-<td><code>{gap-lg}</code></td>
-<td>Large gap</td>
-</tr>
-<tr>
-<td><code>{gap-xl}</code></td>
-<td>Extra large gap</td>
-</tr>
-</tbody>
-</table></div><p><strong>Example:</strong></p></div></div>
-<hr />
-<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Effects</h2>
-<div class="taildown-component component-tabs tabs" data-component="tabs"><div role="tablist" class="tabs-list"><button role="tab" aria-selected="true" tabindex="0" class="tab-button">Borders &#x26; Corners</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Shadows</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Glassmorphism</button></div><div role="tabpanel" class="tab-panel"><p>Rounded corners and borders:</p><div class="table-wrapper"><table>
-<thead>
-<tr>
-<th>Shorthand</th>
-<th>Result</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>{rounded}</code></td>
-<td>Default rounded corners</td>
-</tr>
-<tr>
-<td><code>{rounded-sm}</code></td>
-<td>Small rounded corners</td>
-</tr>
-<tr>
-<td><code>{rounded-lg}</code></td>
-<td>Large rounded corners</td>
-</tr>
-<tr>
-<td><code>{rounded-xl}</code></td>
-<td>Extra large rounded</td>
-</tr>
-<tr>
-<td><code>{rounded-full}</code></td>
-<td>Fully rounded (circle/pill)</td>
-</tr>
-</tbody>
-</table></div><p><strong>Example:</strong></p></div><div role="tabpanel" hidden class="tab-panel"><p>Add depth with shadows:</p><div class="table-wrapper"><table>
-<thead>
-<tr>
-<th>Shorthand</th>
-<th>Result</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>{shadow}</code></td>
-<td>Default shadow</td>
-</tr>
-<tr>
-<td><code>{shadow-sm}</code></td>
-<td>Small shadow</td>
-</tr>
-<tr>
-<td><code>{shadow-lg}</code></td>
-<td>Large shadow</td>
-</tr>
-<tr>
-<td><code>{shadow-xl}</code></td>
-<td>Extra large shadow</td>
-</tr>
-<tr>
-<td><code>{elevated}</code></td>
-<td>Elevated appearance</td>
-</tr>
-<tr>
-<td><code>{floating}</code></td>
-<td>Floating effect</td>
-</tr>
-</tbody>
-</table></div><p><strong>Example:</strong></p></div><div role="tabpanel" hidden class="tab-panel"><p>Frosted glass effects:</p><div class="table-wrapper"><table>
-<thead>
-<tr>
-<th>Shorthand</th>
-<th>Transparency</th>
-<th>Use Case</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>{subtle-glass}</code></td>
-<td>90%</td>
-<td>Very subtle</td>
-</tr>
-<tr>
-<td><code>{light-glass}</code></td>
-<td>75%</td>
-<td>Light frosted</td>
-</tr>
-<tr>
-<td><code>{glass}</code></td>
-<td>60%</td>
-<td>Standard glass</td>
-</tr>
-<tr>
-<td><code>{heavy-glass}</code></td>
-<td>40%</td>
-<td>Heavy frosted</td>
-</tr>
-</tbody>
-</table></div><p><strong>Example:</strong></p></div></div>
-<hr />
-<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Animations</h2>
-<div class="taildown-component component-grid grid grid-cols-3" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-light shadow-md animate-fade-in" data-component="card"><h3 class="medium-bold"><svg class="icon icon-zap text-yellow-600" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg> Entrance</h3><p>Scroll-triggered entrance animations:</p><ul>
-<li><code>{fade-in}</code> - Fade in</li>
-<li><code>{slide-up}</code> - Slide up</li>
-<li><code>{slide-down}</code> - Slide down</li>
-<li><code>{slide-left}</code> - Slide left</li>
-<li><code>{slide-right}</code> - Slide right</li>
-<li><code>{zoom-in}</code> - Zoom in</li>
-<li><code>{zoom-out}</code> - Zoom out</li>
-</ul><p><strong>This card has <code>{fade-in}</code> applied!</strong></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-light shadow-md animate-slide-up" data-component="card"><h3 class="medium-bold"><svg class="icon icon-mouse-pointer text-primary-600 hover:text-primary-700" data-icon="mouse-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.586 12.586 19 19" /><path d="M3.688 3.037a.497.497 0 0 0-.651.651l6.5 15.999a.501.501 0 0 0 .947-.062l1.569-6.083a2 2 0 0 1 1.448-1.479l6.124-1.579a.5.5 0 0 0 .063-.947z" /></svg> Hover Effects</h3><p>Interactive hover animations:</p><ul>
-<li><code>{hover-lift}</code> - Lift on hover</li>
-<li><code>{hover-glow}</code> - Glow on hover</li>
-<li><code>{hover-scale}</code> - Scale up on hover</li>
-<li><code>{hover-rotate}</code> - Rotate on hover</li>
-<li><code>{hover-grow}</code> - Grow on hover</li>
-</ul><p><strong>This card has <code>{slide-up}</code> applied!</strong></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-light shadow-md animate-zoom-in" data-component="card"><h3 class="medium-bold"><svg class="icon icon-clock text-accent-600 hover:text-accent-700" data-icon="clock" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2" /><circle cx="12" cy="12" r="10" /></svg> Speed</h3><p>Control animation speed:</p><ul>
-<li><code>{fast}</code> - Fast animations (150ms)</li>
-<li><code>{smooth}</code> - Smooth (300ms, default)</li>
-<li><code>{slow}</code> - Slow animations (500ms)</li>
-</ul><p><strong>This card has <code>{zoom-in}</code> applied!</strong></p></div></div>
-<hr />
-<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Combining Shorthands</h2>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-heavy shadow-xl p-8" data-component="card"><h3 class="text-lg font-bold text-center"><svg class="icon icon-layers text-primary-600 hover:text-primary-700 text-4xl" data-icon="layers" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg> The Power of Composition</h3><p>Taildown shorthands combine naturally to create complex styles with readable syntax.</p><div class="taildown-component component-grid grid grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal bg-card text-card-foreground shadow-md hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><p><strong>Simple Example</strong></p><p>Combines:</p><ul>
-<li><code>large</code> - Large text size</li>
-<li><code>bold</code> - Bold font weight</li>
-<li><code>primary</code> - Primary color</li>
-<li><code>center</code>- Centered alignment</li>
-</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal bg-card text-card-foreground shadow-md hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><p><strong>Complex Example</strong></p><p>Combines:</p><ul>
-<li><code>light-glass</code> - Frosted glass effect</li>
-<li><code>padded-xl</code> - Extra large padding</li>
-<li><code>rounded-xl</code> - Extra large corners</li>
-<li><code>hover-lift</code> - Lift on hover</li>
-<li><code>fade-in</code>- Entrance animation</li>
-</ul></div></div></div>
-<hr />
-<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Best Practices</h2>
-<div class="taildown-component component-grid grid grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-subtle shadow-sm" data-component="card"><h3 class="text-lg font-bold text-green-600"><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> Do</h3><ul>
-<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Use natural English word order</li>
-<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Combine shorthands for rich effects</li>
-<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Keep it readable and self-documenting</li>
-<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Use semantic color names</li>
-<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Leverage glassmorphism for modern looks</li>
-<li><svg class="icon icon-check text-green-600 text-xs" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Add hover effects for interactivity</li>
-</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-subtle shadow-sm" data-component="card"><h3 class="text-lg font-bold text-red-600"><svg class="icon icon-x-circle text-red-600" data-icon="x-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="m15 9-6 6" /><path d="m9 9 6 6" /></svg> Don't</h3><ul>
-<li><svg class="icon icon-x text-red-600 text-xs" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Don't use CSS property names</li>
-<li><svg class="icon icon-x text-red-600 text-xs" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Don't reverse natural word order</li>
-<li><svg class="icon icon-x text-red-600 text-xs" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Don't overuse effects</li>
-<li><svg class="icon icon-x text-red-600 text-xs" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Don't hardcode colors</li>
-<li><svg class="icon icon-x text-red-600 text-xs" data-icon="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> Don't ignore semantic meaning</li>
-</ul></div></div>
-<hr />
-<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Quick Reference Card</h2>
-<div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-heavy shadow-xl p-12" data-component="card"><h3 class="text-lg font-bold text-center"><svg class="icon icon-bookmark text-primary-600 hover:text-primary-700" data-icon="bookmark" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" /></svg> Cheat Sheet</h3><p><strong>Typography:</strong> <code>xs</code> <code>small</code> <code>large</code> <code>xl</code> <code>2xl</code> <code>3xl</code> <code>huge</code> <code>massive</code> | <code>thin</code> <code>light</code> <code>normal</code> <code>medium</code> <code>semibold</code> <code>bold</code> <code>extra-bold</code> <code>black</code></p><p><strong>Colors:</strong> <code>primary</code> <code>secondary</code> <code>accent</code> <code>success</code> <code>warning</code> <code>error</code> <code>info</code> <code>muted</code></p><p><strong>Layout:</strong> <code>flex</code> <code>flex-col</code> <code>flex-row</code> <code>flex-center</code> | <code>grid</code> <code>grid-2</code> <code>grid-3</code> <code>grid-4</code> | <code>center</code> <code>center-x</code> <code>center-y</code></p><p><strong>Spacing:</strong> <code>padded-xs</code> <code>padded-sm</code> <code>padded</code> <code>padded-lg</code> <code>padded-xl</code> | <code>gap-xs</code> <code>gap-sm</code> <code>gap</code> <code>gap-lg</code> <code>gap-xl</code></p><p><strong>Effects:</strong> <code>rounded</code> <code>rounded-sm</code> <code>rounded-lg</code> <code>rounded-xl</code> <code>rounded-full</code> | <code>shadow</code> <code>shadow-sm</code> <code>shadow-lg</code> <code>elevated</code> <code>floating</code></p><p><strong>Glass:</strong> <code>subtle-glass</code> <code>light-glass</code> <code>glass</code> <code>heavy-glass</code></p><p><strong>Animations:</strong> <code>fade-in</code> <code>slide-up</code> <code>slide-down</code> <code>zoom-in</code> | <code>hover-lift</code> <code>hover-glow</code> <code>hover-scale</code> | <code>fast</code> <code>smooth</code> <code>slow</code></p></div>
-<hr />
+</table></div>
 </body>
 </html>
