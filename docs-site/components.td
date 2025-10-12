@@ -62,7 +62,7 @@ Details, Callout, Columns, Definitions, Stats, Divider, Steps, Mark
 
 **Data & Comparison** {large-bold}
 
-Enhanced Tables, Image Comparison Slider, Mermaid Diagrams
+Enhanced Tables, Image Comparison Slider, Mermaid Diagrams, Math Equations, Timeline
 :::
 
 :::card {subtle-glass padded center hover-lift href="#media"}
@@ -2850,6 +2850,690 @@ Control diagram container size:
 
 ---
 
+## Math Equations {#math large-bold primary}
+
+**Compile-time LaTeX to MathML conversion with zero runtime JavaScript.**
+
+:::alert {info}
+:icon[zap]{warning} **Zero Overhead:** MathML is generated at compile time. No JavaScript libraries loaded in browser!
+:::
+
+### What are Math Equations? {medium-bold}
+
+Write beautiful mathematical equations using standard LaTeX syntax. Rendered as native MathML for perfect rendering in modern browsers:
+
+**Inline Math:** The quadratic formula $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$ is fundamental in algebra.
+
+**Display Math (Centered):**
+
+$$
+E = mc^2
+$$
+
+### Basic Syntax {medium-bold}
+
+:::grid {cols-2}
+:::card {subtle-glass padded}
+#### :icon[type]{primary} Inline Math
+Use single `$` delimiters for inline equations:
+
+```taildown
+Einstein's $E = mc^2$ changed physics.
+```
+
+**Result:** Einstein's $E = mc^2$ changed physics.
+:::
+
+:::card {subtle-glass padded}
+#### :icon[maximize]{success} Display Math
+Use double `$$` for centered display equations:
+
+```taildown
+$$
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+$$
+```
+
+**Result:**
+
+$$
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+$$
+:::
+:::
+
+### Common Examples {medium-bold}
+
+#### Greek Letters & Symbols {medium-bold}
+
+Greek letters: $\alpha$, $\beta$, $\gamma$, $\Delta$, $\Sigma$, $\Omega$
+
+Special symbols: $\infty$, $\partial$, $\nabla$, $\approx$, $\neq$, $\leq$, $\geq$
+
+#### Subscripts & Superscripts {medium-bold}
+
+Simple: $x_1$, $x^2$, $x_1^2$
+
+Complex: $x_{i,j}^{n+1}$, $e^{i\pi}$
+
+#### Fractions & Roots {medium-bold}
+
+Fraction: $\frac{numerator}{denominator}$
+
+Roots: $\sqrt{x}$, $\sqrt[3]{x}$, $\sqrt[n]{x}$
+
+#### Summations & Products {medium-bold}
+
+Sum of natural numbers:
+
+$$
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+$$
+
+Product notation:
+
+$$
+\prod_{i=1}^{n} i = n!
+$$
+
+### Advanced Examples {medium-bold}
+
+:::grid {cols-2}
+:::card {subtle-glass padded}
+#### Calculus
+
+Definition of derivative:
+
+$$
+f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}
+$$
+
+Fundamental theorem:
+
+$$
+\int_a^b f(x) dx = F(b) - F(a)
+$$
+:::
+
+:::card {subtle-glass padded}
+#### Linear Algebra
+
+Identity matrix:
+
+$$
+I = \begin{bmatrix}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+$$
+:::
+:::
+
+### Complex Equations {medium-bold}
+
+#### Euler's Identity {medium-bold}
+
+Often called the most beautiful equation in mathematics:
+
+$$
+e^{i\pi} + 1 = 0
+$$
+
+#### Normal Distribution {medium-bold}
+
+The probability density function:
+
+$$
+f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
+$$
+
+#### Maxwell's Equations {medium-bold}
+
+The foundations of electromagnetism:
+
+$$
+\begin{aligned}
+\nabla \cdot \mathbf{E} &= \frac{\rho}{\epsilon_0} \\
+\nabla \cdot \mathbf{B} &= 0 \\
+\nabla \times \mathbf{E} &= -\frac{\partial \mathbf{B}}{\partial t} \\
+\nabla \times \mathbf{B} &= \mu_0\mathbf{J} + \mu_0\epsilon_0\frac{\partial \mathbf{E}}{\partial t}
+\end{aligned}
+$$
+
+### Supported LaTeX Features {medium-bold}
+
+:::grid {cols-3}
+:::card {subtle-glass padded}
+#### :icon[plus]{primary} Basic Operations
+- `+`, `-`, `\times`, `\div`
+- `\pm`, `\mp`
+- `=`, `\neq`
+- `<`, `>`, `\leq`, `\geq`
+:::
+
+:::card {subtle-glass padded}
+#### :icon[code]{success} Functions
+- `\frac{a}{b}` - Fractions
+- `\sqrt{x}` - Square root
+- `\sqrt[n]{x}` - Nth root
+- `x^2`, `x_i` - Exponents/subscripts
+:::
+
+:::card {subtle-glass padded}
+#### :icon[star]{info} Advanced
+- `\sum`, `\prod`, `\int`
+- `\lim`, `\log`, `\sin`, `\cos`
+- `\begin{bmatrix}` - Matrices
+- `\begin{aligned}` - Alignment
+:::
+:::
+
+### Features & Performance {medium-bold}
+
+:::grid {cols-2}
+:::card {light-glass padded}
+**Performance:**
+- :icon[zap]{warning} Zero runtime JavaScript
+- :icon[clock]{success} Compile-time conversion
+- :icon[feather]{info} Small MathML output
+- :icon[check]{success} No external libraries
+:::
+
+:::card {light-glass padded}
+**Features:**
+- :icon[check]{success} Full LaTeX syntax
+- :icon[check]{success} Professional math fonts
+- :icon[check]{success} Theme-aware colors
+- :icon[check]{success} Responsive scaling
+:::
+:::
+
+### Browser Support {medium-bold}
+
+:::card {light-glass padded}
+**Modern Browser Support:**
+- :icon[check]{success} Chrome 109+ (native MathML)
+- :icon[check]{success} Firefox 78+ (native MathML)
+- :icon[check]{success} Safari 14.1+ (native MathML)
+- :icon[check]{success} Edge 109+ (native MathML)
+
+**Accessibility:** MathML provides semantic meaning for screen readers, making equations accessible to all users.
+:::
+
+### Best Practices {medium-bold}
+
+:::alert {success}
+**Tips for Beautiful Math:**
+
+1. Use display math (`$$`) for important equations
+2. Use inline math (`$`) for simple formulas in text
+3. Break complex equations into multiple lines
+4. Use `\begin{aligned}` for equation systems
+5. Add spacing with `\,` `\:` `\;` `\quad` where needed
+:::
+
+[Back to top](#top){badge primary}
+
+---
+
+## Timeline {#timeline large-bold primary}
+
+**Chronological visualization of events and milestones with state management.**
+
+:::alert {info}
+:icon[clock]{info} **Perfect For:** Project roadmaps, company history, process workflows, and event chronologies!
+:::
+
+### What is a Timeline? {medium-bold}
+
+Display events in chronological order with visual state indicators and connecting lines. H2 headings automatically become milestones:
+
+:::timeline {compact glass}
+## Example Started {completed}
+This milestone is marked as completed with a checkmark.
+
+## Currently Here {current}
+This milestone is marked as current with a pulsing dot.
+
+## Coming Soon
+This milestone has no state (pending by default).
+:::
+
+### Basic Syntax {medium-bold}
+
+:::grid {cols-2}
+:::card {subtle-glass padded}
+#### :icon[file-text]{primary} Structure
+```taildown
+:::timeline
+## Milestone Title {state}
+
+Content for this milestone goes here.
+
+- List items
+- More details
+
+## Next Milestone {state}
+
+More content...
+:::
+```
+
+**H2 headings** become milestones automatically.
+:::
+
+:::card {subtle-glass padded}
+#### :icon[check-circle]{success} States
+Add state markers to milestones:
+
+- `{completed}` - Green checkmark ✓
+- `{current}` - Pulsing dot ●
+- No marker - Pending ○
+
+```taildown
+## Done {completed}
+## Active {current}
+## Todo
+```
+:::
+:::
+
+### Timeline Variants {medium-bold}
+
+:::grid {cols-3}
+:::card {subtle-glass padded center}
+:icon[align-left]{primary huge}
+
+**Default (Vertical)**
+
+Left-aligned milestones with connecting line
+
+```taildown
+:::timeline
+## Milestone 1
+:::
+```
+:::
+
+:::card {subtle-glass padded center}
+:icon[align-center]{success huge}
+
+**Centered**
+
+Alternating left/right alignment
+
+```taildown
+:::timeline {centered}
+## Milestone 1
+:::
+```
+:::
+
+:::card {subtle-glass padded center}
+:icon[minimize]{info huge}
+
+**Compact**
+
+Smaller markers, tighter spacing
+
+```taildown
+:::timeline {compact}
+## Milestone 1
+:::
+```
+:::
+:::
+
+### Styling Variants {medium-bold}
+
+:::grid {cols-3}
+:::card {subtle-glass padded center}
+:icon[droplet]{primary huge}
+
+**Glass Effect**
+
+Glassmorphism on content
+
+```taildown
+:::timeline {glass}
+## Milestone
+:::
+```
+:::
+
+:::card {subtle-glass padded center}
+:icon[box]{success huge}
+
+**Elevated**
+
+Shadow elevation
+
+```taildown
+:::timeline {elevated}
+## Milestone
+:::
+```
+:::
+
+:::card {subtle-glass padded center}
+:icon[square]{warning huge}
+
+**Bordered**
+
+Primary color border
+
+```taildown
+:::timeline {bordered}
+## Milestone
+:::
+```
+:::
+:::
+
+### Project Roadmap Example {medium-bold}
+
+A typical project timeline with phases and current status:
+
+:::timeline {glass}
+## Phase 1: Research & Planning {completed}
+
+**Duration:** 4 weeks | **Status:** ✓ Complete
+
+Initial planning and requirements gathering phase.
+
+**Key Deliverables:**
+- Requirements document
+- User personas
+- Technical architecture
+- Project timeline
+
+> "Understanding the problem is half the solution"
+
+## Phase 2: Design & Prototyping {completed}
+
+**Duration:** 6 weeks | **Status:** ✓ Complete
+
+Created comprehensive designs and interactive prototypes.
+
+**Achievements:**
+- Wireframes for all 20+ screens
+- Interactive Figma prototype
+- Design system components
+- Accessibility guidelines (WCAG 2.1 AA)
+
+**Team:** 3 designers, 1 UX researcher
+
+## Phase 3: Development {current}
+
+**Duration:** 12 weeks | **Status:** 🔄 In Progress (Week 7)
+
+Building core features and functionality.
+
+**Current Sprint Focus:**
+- [ ] Backend API development
+- [x] Database schema design
+- [x] Authentication system
+- [x] User management
+- [ ] Frontend components
+- [ ] Integration tests
+
+**Tech Stack:**
+- Next.js 15 + TypeScript
+- PostgreSQL + Prisma
+- Tailwind CSS
+- Vercel deployment
+
+**Progress:** 60% complete
+
+## Phase 4: Testing & QA
+
+**Duration:** 4 weeks | **Status:** ⏳ Upcoming
+
+Comprehensive testing and quality assurance phase.
+
+**Testing Plan:**
+- Unit tests (target: 80% coverage)
+- Integration tests
+- End-to-end tests
+- Performance testing
+- Security audit
+- User acceptance testing
+
+## Phase 5: Launch
+
+**Duration:** 2 weeks | **Status:** ⏳ Planned
+
+Final deployment and go-live.
+
+**Launch Checklist:**
+- Production deployment
+- DNS configuration
+- SSL certificates
+- Monitoring setup
+- Analytics integration
+- Marketing campaign
+:::
+
+### Company History Timeline {medium-bold}
+
+Centered layout for alternating presentation:
+
+:::timeline {centered elevated}
+## 2020 - Foundation {completed}
+
+Company founded with initial seed funding of $1M.
+
+**Founders:** Alex Kim, Sarah Chen, Michael Rodriguez
+
+**Mission:** Transform how teams collaborate on complex projects.
+
+## 2021 - Product Launch {completed}
+
+Launched MVP and acquired first 100 customers.
+
+**Metrics:**
+- 100 paying customers
+- $500K ARR
+- 4.8/5 customer satisfaction
+- Team grew to 15 people
+
+## 2022 - Series A {completed}
+
+Closed $10M Series A led by Accel Partners.
+
+**Achievements:**
+- Expanded to 1,000 customers
+- $5M ARR
+- Opened European office (London)
+- Team grew to 45 people
+- Launched mobile apps
+
+## 2023 - Expansion {current}
+
+Expanding into EMEA and APAC markets.
+
+**Current Status:**
+- 5,000+ customers worldwide
+- $25M ARR run rate
+- 3 offices (SF, London, Singapore)
+- 120 employees
+- Launched enterprise tier
+
+## 2024 - IPO Planning
+
+Planning initial public offering.
+
+**Targets:**
+- 20,000 customers
+- $100M ARR
+- Profitable unit economics
+- SOC 2 Type II certified
+:::
+
+### Daily Schedule Example {medium-bold}
+
+Compact timeline for dense information:
+
+:::timeline {compact}
+## 9:00 AM {completed}
+
+**Team Standup Meeting**
+
+Daily sync - 15 minutes
+
+## 10:30 AM {completed}
+
+**Client Presentation**
+
+Q4 roadmap review with Acme Corp
+
+## 12:00 PM {current}
+
+**Lunch Break**
+
+Team lunch at the new cafe
+
+## 2:00 PM
+
+**Code Review Session**
+
+Review PRs from morning work
+
+## 3:30 PM
+
+**1-on-1 with Manager**
+
+Quarterly goal check-in
+
+## 4:00 PM
+
+**Sprint Planning**
+
+Plan next week's sprint
+:::
+
+### Process Workflow Timeline {medium-bold}
+
+Timeline for documenting multi-stage processes:
+
+:::timeline {bordered glass}
+## Stage 1: Awareness {completed}
+
+**Goal:** Build brand recognition and attract potential customers.
+
+**Tactics:**
+- Content marketing (blog, videos)
+- Social media campaigns
+- SEO optimization
+- Conference presence
+
+**KPIs:**
+- Website traffic: 50K monthly visitors
+- Social followers: 10K+
+- Brand mentions: 500+/month
+
+## Stage 2: Interest {completed}
+
+**Goal:** Convert awareness into qualified leads.
+
+**Tactics:**
+- Lead magnets (ebooks, webinars)
+- Email marketing campaigns
+- Retargeting ads
+- Free tools and calculators
+
+**KPIs:**
+- Email list growth: 1,000/month
+- Lead quality score: 7+/10
+- Engagement rate: 25%+
+
+## Stage 3: Consideration {current}
+
+**Goal:** Nurture leads and demonstrate value.
+
+**Tactics:**
+- Product demos and trials
+- Case studies and testimonials
+- Comparison guides
+- Free consultations
+
+**KPIs:**
+- Demo requests: 200/month
+- Trial signups: 150/month
+- Trial-to-paid: 30%
+
+## Stage 4: Conversion
+
+**Goal:** Close deals and onboard customers.
+
+**Tactics:**
+- Sales calls and negotiations
+- Custom proposals
+- Onboarding support
+- Quick wins demonstration
+
+**KPIs:**
+- Closed deals: 45/month
+- Average deal size: $10K
+- Sales cycle: 30 days
+
+## Stage 5: Retention & Advocacy
+
+**Goal:** Keep customers happy and turn them into advocates.
+
+**Tactics:**
+- Customer success programs
+- Regular check-ins
+- Feature updates
+- Referral incentives
+
+**KPIs:**
+- Churn rate: <5%/year
+- NPS score: 50+
+- Referrals: 20%
+:::
+
+### Features & Best Practices {medium-bold}
+
+:::grid {cols-2}
+:::card {light-glass padded}
+**Visual Features:**
+- :icon[circle]{success} State markers (completed, current, pending)
+- :icon[git-branch]{primary} Connecting gradient line
+- :icon[circle]{info} Animated pulsing on current
+- :icon[layout]{warning} Responsive design
+:::
+
+:::card {light-glass padded}
+**Best Practices:**
+- :icon[check]{success} Use H2 for milestone titles
+- :icon[check]{success} Keep titles concise and clear
+- :icon[check]{success} Group related content
+- :icon[check]{success} Combine glass + elevated for impact
+:::
+
+:::card {light-glass padded}
+**Use Cases:**
+- :icon[briefcase]{primary} Project roadmaps
+- :icon[trending-up]{success} Company milestones
+- :icon[calendar]{info} Event schedules
+- :icon[settings]{warning} Process workflows
+:::
+
+:::card {light-glass padded}
+**Accessibility:**
+- :icon[check]{success} Semantic H3 headings
+- :icon[check]{success} ARIA labels on icons
+- :icon[check]{success} High contrast markers
+- :icon[check]{success} Screen reader friendly
+:::
+:::
+
+[Back to top](#top){badge primary}
+
+---
+
 # Navigation Components {#navigation huge-bold center primary}
 
 **Components for site navigation and wayfinding.**
@@ -3150,6 +3834,7 @@ Taildown focuses on zero-config simplicity with plain English syntax, while MDX 
 - :icon[check]{success} **Enhanced Table** - Sortable, zebra, glass effects
 - :icon[check]{success} **Image Comparison** - Interactive before/after slider
 - :icon[check]{success} **Mermaid Diagrams** - Flowcharts, sequence, Gantt, and more
+- :icon[check]{success} **Math Equations** - LaTeX to MathML conversion
 :::
 
 :::card {light-glass padded}

@@ -823,6 +823,873 @@ td svg.icon {
   }
 }
 
+/* ========================================
+ * Enhanced Table Styles
+ * Feature-rich tables with sorting, zebra, glass, sticky headers
+ * ======================================== */
+
+/* Enhanced table wrapper with better styling */
+.enhanced-table-wrapper {
+  position: relative;
+  background: var(--card);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* Enhanced table base */
+.table-enhanced {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* Sortable table styles */
+.table-sortable th.sortable-header {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-right: 2rem;
+}
+
+.table-sortable th.sortable-header:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark .table-sortable th.sortable-header:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Sort indicator icons */
+.table-sortable th.sortable-header .sort-icon {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.75rem;
+  height: 0.75rem;
+  opacity: 0.3;
+  transition: opacity 200ms;
+}
+
+.table-sortable th.sortable-header:hover .sort-icon {
+  opacity: 0.6;
+}
+
+/* Sort icons - using CSS to create arrow indicators */
+.table-sortable th.sortable-header .sort-icon::before {
+  content: '⇅';
+  font-size: 0.875rem;
+  color: var(--foreground);
+}
+
+.table-sortable th.sort-asc .sort-icon::before {
+  content: '↑';
+  opacity: 1;
+  color: var(--primary);
+}
+
+.table-sortable th.sort-desc .sort-icon::before {
+  content: '↓';
+  opacity: 1;
+  color: var(--primary);
+}
+
+/* Zebra striping */
+.table-zebra tbody tr:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.dark .table-zebra tbody tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.table-zebra tbody tr:nth-child(even) {
+  background-color: transparent;
+}
+
+/* Preserve zebra on hover */
+.table-zebra.table-hoverable tbody tr:nth-child(odd):hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark .table-zebra.table-hoverable tbody tr:nth-child(odd):hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.table-zebra.table-hoverable tbody tr:nth-child(even):hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.dark .table-zebra.table-hoverable tbody tr:nth-child(even):hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Bordered table */
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid var(--border);
+}
+
+.table-bordered thead th {
+  border-bottom-width: 2px;
+}
+
+/* Glass effect table */
+.table-glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.table-glass thead {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.dark .table-glass {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.dark .table-glass thead {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Sticky header */
+.table-sticky-header thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+}
+
+.table-sticky-header.table-glass thead {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Compact table */
+.table-compact th,
+.table-compact td {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+}
+
+/* Hoverable rows */
+.table-hoverable tbody tr {
+  cursor: pointer;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.table-hoverable tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  transform: scale(1.002);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+}
+
+.dark .table-hoverable tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* Size variants */
+.table-sm {
+  font-size: 0.8125rem;
+}
+
+.table-sm th,
+.table-sm td {
+  padding: 0.5rem 0.75rem;
+}
+
+.table-md {
+  font-size: 0.875rem;
+}
+
+.table-lg {
+  font-size: 1rem;
+}
+
+.table-lg th,
+.table-lg td {
+  padding: 1rem 1.25rem;
+}
+
+/* Responsive behavior for enhanced tables */
+@media (max-width: 640px) {
+  .table-enhanced {
+    font-size: 0.75rem;
+  }
+  
+  .table-enhanced th,
+  .table-enhanced td {
+    padding: 0.5rem;
+    min-width: 80px;
+  }
+  
+  .table-sortable th.sortable-header {
+    padding-right: 1.5rem;
+  }
+  
+  .table-sortable th.sortable-header .sort-icon {
+    right: 0.25rem;
+  }
+}
+
+/* Loading state for sortable tables */
+.table-sortable[data-loading="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Accessibility: Focus styles for sortable headers */
+.table-sortable th.sortable-header:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+.table-sortable th.sortable-header:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ARIA live region for screen readers (hidden visually) */
+.table-sort-announcement {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ========================================
+ * Image Comparison Slider Styles
+ * Interactive before/after image comparison with draggable slider
+ * ======================================== */
+
+/* Container */
+.image-compare {
+  width: 100%;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  touch-action: none; /* Prevent default touch behaviors */
+}
+
+/* Ensure proper aspect ratio (16:9 by default for landscape images) */
+.image-compare::before {
+  content: '';
+  display: block;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio by default */
+}
+
+/* Override for height-set containers */
+.image-compare.h-[280px]::before,
+.image-compare.h-[450px]::before,
+.image-compare.h-[580px]::before,
+.image-compare.h-[700px]::before,
+.image-compare.h-full::before {
+  padding-bottom: 0;
+}
+
+/* Ensure viewport constraints work */
+.image-compare.max-h-[35vh],
+.image-compare.max-h-[40vh],
+.image-compare.max-h-[55vh],
+.image-compare.max-h-[60vh],
+.image-compare.max-h-[70vh],
+.image-compare.max-h-[80vh] {
+  /* Height is constrained by max-h utility */
+}
+
+/* Before and After image containers */
+.image-compare-before,
+.image-compare-after {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* Images should fill container */
+.image-compare img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Slider line */
+.image-compare-slider {
+  position: absolute;
+  background: white;
+  z-index: 10;
+  transition: none; /* No transition during drag for smoothness */
+}
+
+/* Horizontal slider (default) */
+.image-compare-horizontal .image-compare-slider {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  cursor: ew-resize;
+}
+
+/* Vertical slider */
+.image-compare-vertical .image-compare-slider {
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+  cursor: ns-resize;
+}
+
+/* Slider handle (circle with arrows) */
+.image-compare-handle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: auto; /* Allow handle to capture events */
+  cursor: inherit; /* Inherit cursor from parent slider */
+}
+
+/* Horizontal handle position */
+.image-compare-horizontal .image-compare-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Vertical handle position */
+.image-compare-vertical .image-compare-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Handle hover/active states */
+.image-compare-slider:hover .image-compare-handle {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.image-compare-slider:active .image-compare-handle {
+  transform: translate(-50%, -50%) scale(0.95);
+}
+
+/* Glass effect variant for handle */
+.image-compare-glass .image-compare-handle {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 3px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Labels */
+.image-compare-label {
+  position: absolute;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  pointer-events: none;
+  user-select: none;
+  z-index: 5;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.image-compare-label-before {
+  top: 16px;
+  left: 16px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+}
+
+.image-compare-label-after {
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.8);
+  color: #1a1a1a;
+}
+
+/* Dark mode adjustments */
+.dark .image-compare-label-after {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+/* Rounded corners variant */
+.image-compare.rounded-lg {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Shadow variant */
+.image-compare.shadow-lg {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Focus styles for accessibility */
+.image-compare-slider:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.image-compare-slider:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Size-specific adjustments */
+.image-compare.h-[280px] .image-compare-handle,
+.image-compare.max-h-[35vh] .image-compare-handle {
+  width: 36px;
+  height: 36px;
+}
+
+.image-compare.h-[700px] .image-compare-handle,
+.image-compare.max-h-[80vh] .image-compare-handle {
+  width: 56px;
+  height: 56px;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .image-compare-handle {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .image-compare-label {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+  }
+  
+  .image-compare-label-before {
+    top: 12px;
+    left: 12px;
+  }
+  
+  .image-compare-label-after {
+    top: 12px;
+    right: 12px;
+  }
+}
+
+/* Prevent text selection during drag */
+.image-compare * {
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure SVG in handle doesn't block pointer events */
+.image-compare-handle svg {
+  pointer-events: none;
+}
+
+/* ========================================
+ * Code Diff Component Styles
+ * Side-by-side and unified diff viewer with syntax highlighting
+ * ======================================== */
+
+/* Base diff container */
+.code-diff {
+  background: var(--card);
+  font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+/* Unified diff format */
+.diff-unified {
+  display: block;
+  border: 1px solid var(--border);
+}
+
+.diff-unified .diff-pre {
+  background: var(--background);
+  border: none;
+  border-radius: 0;
+}
+
+.diff-unified .diff-code {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Diff line styles for unified format */
+.diff-line {
+  display: flex;
+  padding: 0.25rem 0;
+  min-height: 1.5rem;
+}
+
+.diff-line-number {
+  display: inline-block;
+  width: 3rem;
+  text-align: right;
+  padding-right: 1rem;
+  padding-left: 0.5rem;
+  border-right: 1px solid var(--border);
+  margin-right: 1rem;
+}
+
+.diff-line-content {
+  flex: 1;
+  white-space: pre;
+  padding-right: 1rem;
+}
+
+/* Added lines (green) - for unified format */
+.diff-line-added {
+  background-color: rgba(34, 197, 94, 0.1);
+  border-left: 3px solid rgb(34, 197, 94);
+}
+
+.dark .diff-line-added {
+  background-color: rgba(34, 197, 94, 0.15);
+}
+
+/* Removed lines (red) - for unified format */
+.diff-line-removed {
+  background-color: rgba(239, 68, 68, 0.1);
+  border-left: 3px solid rgb(239, 68, 68);
+}
+
+.dark .diff-line-removed {
+  background-color: rgba(239, 68, 68, 0.15);
+}
+
+/* Unchanged lines */
+.diff-line-unchanged {
+  background-color: transparent;
+  border-left: 3px solid transparent;
+}
+
+/* Info/header lines (blue) */
+.diff-line-info {
+  color: var(--info);
+  font-weight: 600;
+  border-left: 3px solid var(--info);
+}
+
+/* Side-by-side diff visual styling */
+[data-diff-side="before"] {
+  background: linear-gradient(to right, rgba(239, 68, 68, 0.03), transparent 3px);
+  border-left: 3px solid rgba(239, 68, 68, 0.3);
+}
+
+.dark [data-diff-side="before"] {
+  background: linear-gradient(to right, rgba(239, 68, 68, 0.08), transparent 3px);
+  border-left-color: rgba(239, 68, 68, 0.4);
+}
+
+[data-diff-side="after"] {
+  background: linear-gradient(to right, rgba(34, 197, 94, 0.03), transparent 3px);
+  border-left: 3px solid rgba(34, 197, 94, 0.3);
+}
+
+.dark [data-diff-side="after"] {
+  background: linear-gradient(to right, rgba(34, 197, 94, 0.08), transparent 3px);
+  border-left-color: rgba(34, 197, 94, 0.4);
+}
+
+/* Side-by-side diff format */
+.diff-side-by-side {
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+}
+
+.diff-panes {
+  display: flex;
+  width: 100%;
+  gap: 0;
+  overflow: hidden;
+}
+
+.diff-pane {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--background);
+}
+
+.diff-pane-before {
+  border-right: 2px solid var(--border);
+}
+
+.diff-pane-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  border-bottom: 2px solid var(--border);
+}
+
+/* Enhanced header styling */
+.diff-pane-before .diff-pane-header {
+  background: linear-gradient(to bottom, rgba(239, 68, 68, 0.08), rgba(239, 68, 68, 0.04));
+  color: rgb(185, 28, 28);
+  border-bottom-color: rgba(239, 68, 68, 0.2);
+}
+
+.dark .diff-pane-before .diff-pane-header {
+  background: linear-gradient(to bottom, rgba(239, 68, 68, 0.12), rgba(239, 68, 68, 0.06));
+  color: rgb(252, 165, 165);
+  border-bottom-color: rgba(239, 68, 68, 0.3);
+}
+
+.diff-pane-after .diff-pane-header {
+  background: linear-gradient(to bottom, rgba(34, 197, 94, 0.08), rgba(34, 197, 94, 0.04));
+  color: rgb(21, 128, 61);
+  border-bottom-color: rgba(34, 197, 94, 0.2);
+}
+
+.dark .diff-pane-after .diff-pane-header {
+  background: linear-gradient(to bottom, rgba(34, 197, 94, 0.12), rgba(34, 197, 94, 0.06));
+  color: rgb(134, 239, 172);
+  border-bottom-color: rgba(34, 197, 94, 0.3);
+}
+
+.diff-pane .diff-pre {
+  background: var(--background);
+  overflow-x: auto;
+  overflow-y: auto;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Fira Code', monospace;
+  position: relative;
+}
+
+/* Ensure traffic lights appear on diff panes - needs !important to override data-copyable */
+.diff-pane .diff-pre::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 1rem !important;
+  left: 1rem !important;
+  width: 0.75rem !important;
+  height: 0.75rem !important;
+  background: #ef4444 !important;
+  border-radius: 50% !important;
+  box-shadow:
+    1.25rem 0 0 #f59e0b,
+    2.5rem 0 0 #10b981 !important;
+  z-index: 10 !important;
+  pointer-events: none !important;
+}
+
+.diff-pane .diff-pre code {
+  display: block;
+  padding: 1.5rem 1.5rem 1.5rem 4.5rem;
+  margin: 0;
+  background: transparent;
+  line-height: 1.7;
+  font-size: 0.875rem;
+  font-family: inherit;
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+  color: #e2e8f0;
+}
+
+/* Synchronized scrolling for side-by-side */
+.diff-panes.scrolling {
+  overflow: hidden;
+}
+
+/* Compact variant */
+.diff-compact .diff-line {
+  padding: 0.125rem 0;
+  font-size: 0.8125rem;
+}
+
+.diff-compact .diff-line-number {
+  width: 2.5rem;
+  padding-right: 0.5rem;
+}
+
+/* Size variants */
+.diff-sm {
+  font-size: 0.75rem;
+}
+
+.diff-md {
+  font-size: 0.875rem;
+}
+
+.diff-lg {
+  font-size: 1rem;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  /* Stack panes vertically on mobile */
+  .diff-panes {
+    flex-direction: column;
+  }
+  
+  .diff-pane-before {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .diff-line-number {
+    width: 2.5rem;
+    padding-right: 0.5rem;
+    padding-left: 0.25rem;
+  }
+  
+  .code-diff {
+    font-size: 0.75rem;
+  }
+}
+
+/* CodeMirror Syntax Highlighting Classes */
+.cm-keyword {
+  color: rgb(207, 34, 119);
+  font-weight: 600;
+}
+
+.dark .cm-keyword {
+  color: rgb(255, 121, 198);
+}
+
+.cm-variable {
+  color: rgb(71, 85, 105);
+}
+
+.dark .cm-variable {
+  color: rgb(148, 163, 184);
+}
+
+.cm-string {
+  color: rgb(22, 163, 74);
+}
+
+.dark .cm-string {
+  color: rgb(134, 239, 172);
+}
+
+.cm-comment {
+  color: rgb(107, 114, 128);
+  font-style: italic;
+}
+
+.dark .cm-comment {
+  color: rgb(156, 163, 175);
+}
+
+.cm-number {
+  color: rgb(192, 38, 211);
+}
+
+.dark .cm-number {
+  color: rgb(232, 121, 249);
+}
+
+.cm-operator {
+  color: rgb(15, 118, 110);
+}
+
+.dark .cm-operator {
+  color: rgb(94, 234, 212);
+}
+
+.cm-function {
+  color: rgb(37, 99, 235);
+  font-weight: 500;
+}
+
+.dark .cm-function {
+  color: rgb(147, 197, 253);
+}
+
+.cm-type,
+.cm-class {
+  color: rgb(234, 88, 12);
+  font-weight: 500;
+}
+
+.dark .cm-type,
+.dark .cm-class {
+  color: rgb(251, 146, 60);
+}
+
+.cm-property {
+  color: rgb(5, 150, 105);
+}
+
+.dark .cm-property {
+  color: rgb(110, 231, 183);
+}
+
+.cm-bool,
+.cm-null {
+  color: rgb(127, 29, 29);
+  font-weight: 600;
+}
+
+.dark .cm-bool,
+.dark .cm-null {
+  color: rgb(252, 165, 165);
+}
+
+.cm-punctuation,
+.cm-bracket {
+  color: rgb(71, 85, 105);
+}
+
+.dark .cm-punctuation,
+.dark .cm-bracket {
+  color: rgb(203, 213, 225);
+}
+
+.cm-tag {
+  color: rgb(220, 38, 38);
+  font-weight: 600;
+}
+
+.dark .cm-tag {
+  color: rgb(248, 113, 113);
+}
+
+.cm-attribute {
+  color: rgb(29, 78, 216);
+}
+
+.dark .cm-attribute {
+  color: rgb(147, 197, 253);
+}
+
 /* Icon Utilities */
 .icon {
   display: inline-block;
@@ -5385,6 +6252,390 @@ mark,
 /* Note: Link button styles removed - buttons should use the {button} attribute which properly handles hover states with theme colors */
 
 
+/* ========================================
+ * FOOTNOTES COMPONENT
+ * Academic-style footnotes with auto-numbering, backlinks, and optional hover preview
+ * ======================================== */
+
+/* Footnote section container */
+.footnotes {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--border);
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+.footnotes h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--foreground);
+}
+
+/* Footnote list */
+.footnotes ol {
+  list-style-position: outside;
+  padding-left: 2rem;
+  margin: 0;
+}
+
+.footnotes li {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+  position: relative;
+  color: var(--foreground);
+}
+
+.footnotes li:last-child {
+  margin-bottom: 0;
+}
+
+.footnotes li::marker {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Footnote content */
+.footnotes p {
+  margin: 0.25rem 0;
+  display: inline;
+}
+
+/* Footnote reference (superscript in text) */
+a[data-footnote-ref] {
+  font-size: 0.75em;
+  line-height: 0;
+  position: relative;
+  vertical-align: super;
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--primary);
+  padding: 0 0.2em;
+  margin: 0 0.1em;
+  transition: all 0.2s ease;
+}
+
+a[data-footnote-ref]:hover {
+  color: var(--primary-hover);
+  text-decoration: none;
+}
+
+a[data-footnote-ref]:before {
+  content: "[";
+}
+
+a[data-footnote-ref]:after {
+  content: "]";
+}
+
+/* Footnote definition */
+li[role="doc-footnote"] {
+  scroll-margin-top: 2rem;
+  transition: background-color 0.3s ease;
+}
+
+/* Highlight target footnote when navigating via anchor */
+li[role="doc-footnote"]:target {
+  background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.1);
+  padding: 0.5rem;
+  margin-left: -0.5rem;
+  border-radius: 0.25rem;
+  animation: footnote-highlight 2s ease-out;
+}
+
+@keyframes footnote-highlight {
+  0% {
+    background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.2);
+  }
+  100% {
+    background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.05);
+  }
+}
+
+/* Backlink (return to content) */
+.footnote-backlink {
+  font-size: 1.25em;
+  text-decoration: none;
+  color: var(--muted);
+  margin-left: 0.5rem;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.footnote-backlink:hover {
+  color: var(--primary);
+  transform: translateX(-2px);
+}
+
+/* Footnote hover preview (added via JavaScript) */
+.footnote-preview {
+  position: fixed;
+  z-index: 1000;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  max-width: 24rem;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--foreground);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(0.5rem);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.footnote-preview.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.footnote-preview:before {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 0.5rem solid transparent;
+  border-right: 0.5rem solid transparent;
+  border-top: 0.5rem solid var(--border);
+}
+
+.footnote-preview:after {
+  content: '';
+  position: absolute;
+  bottom: -0.375rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 0.375rem solid transparent;
+  border-right: 0.375rem solid transparent;
+  border-top: 0.375rem solid var(--card);
+}
+
+/* Dark mode adjustments */
+.dark .footnotes {
+  color: var(--muted);
+  border-top-color: var(--border);
+}
+
+.dark .footnote-preview {
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.3),
+    0 4px 6px -2px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .footnotes {
+    font-size: 0.875rem;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+  }
+  
+  .footnotes ol {
+    padding-left: 1.5rem;
+  }
+  
+  .footnote-preview {
+    max-width: calc(100vw - 2rem);
+    left: 1rem !important;
+    right: 1rem;
+  }
+}
+
+/* ========================================
+ * MERMAID DIAGRAM COMPONENT
+ * Server-side rendered diagrams with zero runtime JS
+ * ======================================== */
+
+/* Mermaid diagram container */
+.mermaid-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  transition: all 0.2s ease;
+}
+
+.mermaid-container:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+/* Glass effect variant */
+.mermaid-container.glass-effect {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.7));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.18));
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+.dark .mermaid-container.glass-effect {
+  background: var(--glass-bg, rgba(15, 15, 15, 0.7));
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Elevated variant */
+.mermaid-container.elevated {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* Compact variant */
+.mermaid-container.compact {
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+/* Full width variant */
+.mermaid-container.full {
+  width: 100%;
+}
+
+/* Bordered variant */
+.mermaid-container.bordered {
+  border: 2px solid var(--primary);
+}
+
+/* SVG styling */
+.mermaid-container svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Theme-aware text colors for diagrams */
+.mermaid-container text {
+  fill: var(--foreground) !important;
+}
+
+/* Dark mode adjustments */
+.dark .mermaid-container .node rect,
+.dark .mermaid-container .node circle,
+.dark .mermaid-container .node ellipse,
+.dark .mermaid-container .node polygon {
+  fill: var(--card);
+  stroke: var(--border);
+}
+
+.dark .mermaid-container .edgePath .path {
+  stroke: var(--muted);
+}
+
+/* Responsive sizing */
+@media (max-width: 768px) {
+  .mermaid-container {
+    padding: 1rem;
+  }
+  
+  .mermaid-container svg {
+    font-size: 12px;
+  }
+}
+
+/* Error state styling */
+.mermaid-error {
+  margin: 1.5rem 0;
+}
+
+/* ========================================
+ * MATH EQUATIONS (LaTeX)
+ * Compile-time MathML generation with zero runtime JS
+ * ======================================== */
+
+/* Inline math */
+.math-inline {
+  display: inline;
+  vertical-align: baseline;
+  font-size: 1em;
+}
+
+/* Display math (block-level, centered) */
+.math-display {
+  display: block;
+  margin: 1.5rem 0;
+  text-align: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* MathML styling */
+.math math {
+  font-family: 'Latin Modern Math', 'STIX Two Math', 'Cambria Math', 'Asana Math', serif;
+}
+
+/* Display math scaling */
+.math-display math {
+  font-size: 1.2em;
+}
+
+/* Error handling */
+.math-error {
+  color: var(--error, #ef4444);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.875em;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  cursor: help;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .math-display {
+    margin: 1rem 0;
+  }
+  
+  .math-display math {
+    font-size: 1em;
+  }
+}
+
+/* Dark mode adjustments */
+.dark .math-error {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+/* Ensure MathML doesn't overflow */
+.math mrow,
+.math mfrac,
+.math mtable {
+  max-width: 100%;
+}
+
+/* Table in math (for matrices) */
+.math mtable {
+  margin: 0 auto;
+}
+
+/* Fraction line styling */
+.math mfrac {
+  vertical-align: middle;
+}
+
+/* Subscript/superscript positioning */
+.math msub,
+.math msup,
+.math msubsup {
+  vertical-align: baseline;
+}
+
+
 /* Grid safety: Ensure grid items never overflow their container */
 .grid > * {
   min-width: 0;
@@ -5498,7 +6749,7 @@ mark,
 </style>
   <script>// Taildown Interactive Components
 // Generated by Taildown compiler
-// Total size: ~5.66KB
+// Total size: ~4.49KB
 
 (function() {
   'use strict';
@@ -5797,82 +7048,6 @@ mark,
         });
       });
     }
-
-    // Copy Code Functionality
-        function initCopyCode() {
-          console.log('[Taildown] Initializing copy code buttons');
-          
-          const copyButtons = document.querySelectorAll('.code-copy-btn');
-          console.log(`[Taildown] Found ${copyButtons.length} copy buttons`);
-          
-          copyButtons.forEach((button, index) => {
-            button.addEventListener('click', async function() {
-              const codeText = this.getAttribute('data-code-text');
-              if (!codeText) {
-                console.warn('[Taildown] No code text found for copy button');
-                return;
-              }
-              
-              console.log(`[Taildown] Copying code block ${index + 1}`);
-              
-              try {
-                // Use modern clipboard API if available
-                if (navigator.clipboard && window.isSecureContext) {
-                  await navigator.clipboard.writeText(codeText);
-                } else {
-                  // Fallback for older browsers
-                  const textArea = document.createElement('textarea');
-                  textArea.value = codeText;
-                  textArea.style.position = 'fixed';
-                  textArea.style.left = '-999999px';
-                  textArea.style.top = '-999999px';
-                  document.body.appendChild(textArea);
-                  textArea.focus();
-                  textArea.select();
-                  document.execCommand('copy');
-                  textArea.remove();
-                }
-                
-                // Show success feedback
-                showCopySuccess(this);
-                
-              } catch (err) {
-                console.warn('[Taildown] Failed to copy code:', err);
-                // Still show feedback even if copy failed
-                showCopySuccess(this);
-              }
-            });
-          });
-        }
-        
-        function showCopySuccess(button) {
-          // Get elements
-          const copyIcon = button.querySelector('.copy-icon');
-          const checkIcon = button.querySelector('.check-icon');
-          const copyText = button.querySelector('.copy-text');
-          const copiedText = button.querySelector('.copied-text');
-          
-          // Add success class
-          button.classList.add('copied');
-          
-          // Switch icons and text
-          if (copyIcon) copyIcon.style.display = 'none';
-          if (checkIcon) checkIcon.style.display = 'block';
-          if (copyText) copyText.style.display = 'none';
-          if (copiedText) copiedText.style.display = 'block';
-          
-          // Reset after 2 seconds
-          setTimeout(() => {
-            button.classList.remove('copied');
-            if (copyIcon) copyIcon.style.display = 'block';
-            if (checkIcon) checkIcon.style.display = 'none';
-            if (copyText) copyText.style.display = 'block';
-            if (copiedText) copiedText.style.display = 'none';
-          }, 2000);
-        }
-        
-        // Initialize copy code functionality
-        initCopyCode();
     console.log('[Taildown] Initialization complete');
   }
 
@@ -5901,51 +7076,7 @@ mark,
 <p class="text-center text-lg text-gray-500"><strong>From zero to beautiful documents in 5 minutes</strong></p>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Installation</h2>
-<div class="taildown-component component-tabs tabs" data-component="tabs"><div role="tablist" class="tabs-list"><button role="tab" aria-selected="true" tabindex="0" class="tab-button">npm (Coming Soon)</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Clone Repository</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Manual Setup</button></div><div role="tabpanel" class="tab-panel"><pre data-copyable="true"><code class="language-bash code-highlight"># Global installation
-npm install -g taildown
-
-# Or use npx
-npx taildown compile document.td
-</code><button class="code-copy-btn" data-code-id="code-fh62hfrxm" data-code-text="# Global installation
-npm install -g taildown
-
-# Or use npx
-npx taildown compile document.td
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><pre data-copyable="true"><code class="language-bash code-highlight"># Clone the repository
-git clone https://github.com/vincitamore/taildown.git
-cd taildown
-
-# Install dependencies
-pnpm install
-
-# Build all packages
-pnpm build
-</code><button class="code-copy-btn" data-code-id="code-8crtvsh3m" data-code-text="# Clone the repository
-git clone https://github.com/vincitamore/taildown.git
-cd taildown
-
-# Install dependencies
-pnpm install
-
-# Build all packages
-pnpm build
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><ol>
+<div class="taildown-component component-tabs tabs" data-component="tabs"><div role="tablist" class="tabs-list"><button role="tab" aria-selected="true" tabindex="0" class="tab-button">npm (Coming Soon)</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Clone Repository</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Manual Setup</button></div><div role="tabpanel" class="tab-panel"></div><div role="tabpanel" hidden class="tab-panel"></div><div role="tabpanel" hidden class="tab-panel"><ol>
 <li>Download the latest release from GitHub</li>
 <li>Extract to your preferred location</li>
 <li>Run <code>pnpm install</code> in the extracted directory</li>
@@ -5954,85 +7085,14 @@ pnpm build
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Your First Document</h2>
 <p>Create a file named <code>my-first-document.td</code>:</p>
-<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span>Hello World <span class="token punctuation">{</span><span class="token emphasis">huge-bold</span> <span class="token property">center</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line">Welcome to Taildown! <span class="token punctuation">{</span><span class="token number">large</span> <span class="token class-name">muted</span> <span class="token property">center</span><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">light-glass</span> <span class="token function">slide-up</span><span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token title punctuation">## </span>Your First Card <span class="token punctuation">{</span>medium-bold<span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line">This is a card with glassmorphism and a slide-up animation!
-</span><span class="code-line">
-</span><span class="code-line">- <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span> Beautiful by default
-</span><span class="code-line">- <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span> No configuration needed
-</span><span class="code-line">- <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span> Dark mode included
-</span><span class="code-line">
-</span><span class="code-line"><span class="token punctuation">[</span>Learn More<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token punctuation">:::</span>
-</span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-jqp0t9a1x" data-code-text="# Hello World {huge-bold center primary}
-
-Welcome to Taildown! {large muted center}
-
-:::card {light-glass slide-up}
-## Your First Card {medium-bold}
-
-This is a card with glassmorphism and a slide-up animation!
-
-- :icon[check]{success} Beautiful by default
-- :icon[check]{success} No configuration needed
-- :icon[check]{success} Dark mode included
-
-[Learn More](#){button primary}
-:::
-
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Compile Your Document</h2>
-<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal bg-card text-card-foreground shadow-md p-6" data-component="card"><h3>Basic Compilation</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile my-first-document.td
-</code><button class="code-copy-btn" data-code-id="code-gjvrrqnz8" data-code-text="pnpm taildown compile my-first-document.td
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre><p>This creates:</p><ul>
+<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal bg-card text-card-foreground shadow-md p-6" data-component="card"><h3>Basic Compilation</h3><p>This creates:</p><ul>
 <li><code>my-first-document.html</code> - Self-contained HTML with embedded CSS and JavaScript</li>
-</ul><h3>Separate CSS File</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile my-first-document.td --separate
-</code><button class="code-copy-btn" data-code-id="code-r9glo8rra" data-code-text="pnpm taildown compile my-first-document.td --separate
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre><p>This creates:</p><ul>
+</ul><h3>Separate CSS File</h3><p>This creates:</p><ul>
 <li><code>my-first-document.html</code> - HTML file</li>
 <li><code>my-first-document.css</code> - Separate CSS file</li>
-</ul><h3>Custom Output</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile my-first-document.td -o output/index.html --css output/styles.css
-</code><button class="code-copy-btn" data-code-id="code-4dxil3l78" data-code-text="pnpm taildown compile my-first-document.td -o output/index.html --css output/styles.css
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div>
+</ul><h3>Custom Output</h3></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Understanding the Output</h2>
 <div class="taildown-component component-grid grid grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-file text-primary-600 hover:text-primary-700" data-icon="file" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /></svg> HTML Output</h3><ul>
@@ -6041,179 +7101,31 @@ This is a card with glassmorphism and a slide-up animation!
 <li>Accessible ARIA attributes</li>
 <li>Mobile-responsive viewport</li>
 <li>Dark mode support</li>
-</ul><pre data-copyable="true"><code class="language-html code-highlight">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-  &lt;meta charset=&quot;UTF-8&quot;&gt;
-  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-  &lt;style&gt;/* CSS here */&lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;!-- Your content --&gt;
-  &lt;script&gt;/* JS here */&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code><button class="code-copy-btn" data-code-id="code-rsrfgolpo" data-code-text="&#x26;lt;!DOCTYPE html&#x26;gt;
-&#x26;lt;html&#x26;gt;
-&#x26;lt;head&#x26;gt;
-  &#x26;lt;meta charset=&#x26;quot;UTF-8&#x26;quot;&#x26;gt;
-  &#x26;lt;meta name=&#x26;quot;viewport&#x26;quot; content=&#x26;quot;width=device-width, initial-scale=1.0&#x26;quot;&#x26;gt;
-  &#x26;lt;style&#x26;gt;/* CSS here */&#x26;lt;/style&#x26;gt;
-&#x26;lt;/head&#x26;gt;
-&#x26;lt;body&#x26;gt;
-  &#x26;lt;!-- Your content --&#x26;gt;
-  &#x26;lt;script&#x26;gt;/* JS here */&#x26;lt;/script&#x26;gt;
-&#x26;lt;/body&#x26;gt;
-&#x26;lt;/html&#x26;gt;
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-palette text-accent-600 hover:text-accent-700" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg> CSS Output</h3><ul>
+</ul></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-palette text-accent-600 hover:text-accent-700" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg> CSS Output</h3><ul>
 <li>Tailwind-inspired utilities</li>
 <li>CSS custom properties for themes</li>
 <li>Dark mode with <code>.dark</code> class</li>
 <li>Glassmorphism effects</li>
 <li>Scroll animations</li>
 <li>Component styles</li>
-</ul><pre data-copyable="true"><code class="language-css code-highlight">:root {
-  --primary: #3b82f6;
-  --background: #ffffff;
-}
-
-.dark {
-  --background: #030712;
-}
-</code><button class="code-copy-btn" data-code-id="code-qpm03fcpd" data-code-text=":root {
-  --primary: #3b82f6;
-  --background: #ffffff;
-}
-
-.dark {
-  --background: #030712;
-}
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div></div>
+</ul></div></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Basic Syntax Overview</h2>
-<div class="taildown-component component-tabs tabs" data-component="tabs"><div role="tablist" class="tabs-list"><button role="tab" aria-selected="true" tabindex="0" class="tab-button">Plain English Styling</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Icons</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Components</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Glassmorphism</button></div><div role="tabpanel" class="tab-panel"><p>Use natural language for styling:</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span>Large Bold Primary Heading <span class="token punctuation">{</span><span class="token emphasis">huge-bold</span> <span class="token class-name">primary</span> <span class="token property">center</span><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line">This paragraph has muted text and relaxed line spacing. <span class="token punctuation">{</span><span class="token number">large</span> <span class="token class-name">muted</span> <span class="token emphasis">relaxed-lines</span><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token punctuation">[</span>Click Me<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token number">large</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-zbe2xixqt" data-code-text="# Large Bold Primary Heading {huge-bold primary center}
-
-This paragraph has muted text and relaxed line spacing. {large muted relaxed-lines}
-
-[Click Me](#){button primary large hover-lift}
-
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre><p><strong>Common shorthands:</strong></p><ul>
+<div class="taildown-component component-tabs tabs" data-component="tabs"><div role="tablist" class="tabs-list"><button role="tab" aria-selected="true" tabindex="0" class="tab-button">Plain English Styling</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Icons</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Components</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Glassmorphism</button></div><div role="tabpanel" class="tab-panel"><p>Use natural language for styling:</p><p><strong>Common shorthands:</strong></p><ul>
 <li>Sizes: <code>xs</code>, <code>small</code>, <code>large</code>, <code>xl</code>, <code>2xl</code>, <code>huge</code>, <code>massive</code></li>
 <li>Colors: <code>primary</code>, <code>secondary</code>, <code>accent</code>, <code>success</code>, <code>warning</code>, <code>error</code>, <code>muted</code></li>
 <li>Weights: <code>thin</code>, <code>light</code>, <code>normal</code>, <code>semibold</code>, <code>bold</code></li>
 <li>Effects: <code>rounded</code>, <code>shadow</code>, <code>elevated</code>, <code>glass</code></li>
-</ul></div><div role="tabpanel" hidden class="tab-panel"><p>Use the <code>:icon[]</code> syntax for Lucide icons:</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">heart</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">primary</span><span class="token punctuation">}</span> Love this feature
-</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check-circle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span> <span class="token number">large</span><span class="token punctuation">}</span> Completed
-</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">arrow-right</span><span class="token punctuation">]</span> Next step
-</span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-0ani847gp" data-code-text=":icon[heart]{primary} Love this feature
-:icon[check-circle]{success large} Completed
-:icon[arrow-right] Next step
-
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre><p><strong>Popular icons:</strong></p><ul>
+</ul></div><div role="tabpanel" hidden class="tab-panel"><p>Use the <code>:icon[]</code> syntax for Lucide icons:</p><p><strong>Popular icons:</strong></p><ul>
 <li>Navigation: <code>home</code>, <code>menu</code>, <code>search</code>, <code>settings</code>, <code>user</code></li>
 <li>Actions: <code>check</code>, <code>x</code>, <code>plus</code>, <code>edit</code>, <code>trash</code></li>
 <li>Social: <code>github</code>, <code>twitter</code>, <code>linkedin</code></li>
 <li>UI: <code>heart</code>, <code>star</code>, <code>bookmark</code>, <code>share</code></li>
-</ul></div><div role="tabpanel" hidden class="tab-panel"><p>Use <code>:::component</code> syntax for component blocks:</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">elevated</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token title punctuation">## </span>Card Title <span class="token punctuation">{</span><span class="token emphasis">large-bold</span><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line">Card content with automatic styling.
-</span><span class="code-line">
-</span><span class="code-line"><span class="token punctuation">[</span>Button Text<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token punctuation">:::</span>
-</span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-rmrz53t4z" data-code-text=":::card {elevated hover-lift}
-## Card Title {large-bold}
-
-Card content with automatic styling.
-
-[Button Text](#){button primary}
-:::
-
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre><p><strong>Built-in components:</strong></p><ul>
+</ul></div><div role="tabpanel" hidden class="tab-panel"><p>Use <code>:::component</code> syntax for component blocks:</p><p><strong>Built-in components:</strong></p><ul>
 <li>Containers: <code>card</code>, <code>container</code>, <code>grid</code></li>
 <li>Interactive: <code>tabs</code>, <code>accordion</code>, <code>carousel</code>, <code>modal</code>, <code>tooltip</code></li>
 <li>UI: <code>alert</code>, <code>button</code>, <code>badge</code>, <code>avatar</code></li>
-</ul></div><div role="tabpanel" hidden class="tab-panel"><p>Add frosted glass effects:</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">subtle-glass</span><span class="token punctuation">}</span>
-</span><span class="code-line">Light frosted glass (90% transparency)
-</span><span class="code-line"><span class="token punctuation">:::</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">light-glass</span><span class="token punctuation">}</span>
-</span><span class="code-line">Medium frosted glass (75% transparency)
-</span><span class="code-line"><span class="token punctuation">:::</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">heavy-glass</span><span class="token punctuation">}</span>
-</span><span class="code-line">Heavy frosted glass (60% transparency)
-</span><span class="code-line"><span class="token punctuation">:::</span>
-</span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-7th4mora9" data-code-text=":::card {subtle-glass}
-Light frosted glass (90% transparency)
-:::
-
-:::card {light-glass}
-Medium frosted glass (75% transparency)
-:::
-
-:::card {heavy-glass}
-Heavy frosted glass (60% transparency)
-:::
-
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre><p>All glass effects include:</p><ul>
+</ul></div><div role="tabpanel" hidden class="tab-panel"><p>Add frosted glass effects:</p><p>All glass effects include:</p><ul>
 <li>Backdrop blur</li>
 <li>Gradient borders</li>
 <li>Subtle shadows</li>
@@ -6233,37 +7145,7 @@ Heavy frosted glass (60% transparency)
 <li><strong>Toggle:</strong> Click the moon/sun button to switch themes</li>
 <li><strong>Persistence:</strong> Your choice is saved to localStorage</li>
 <li><strong>Consistency:</strong> Same theme on all future visits</li>
-</ol><p><strong>CSS Variables:</strong></p><pre data-copyable="true"><code class="language-css code-highlight">:root {
-  --background: #ffffff;
-  --foreground: #111827;
-  --primary: #3b82f6;
-}
-
-.dark {
-  --background: #030712;
-  --foreground: #f9fafb;
-  --primary: #3b82f6;
-}
-</code><button class="code-copy-btn" data-code-id="code-or7pkdp7h" data-code-text=":root {
-  --background: #ffffff;
-  --foreground: #111827;
-  --primary: #3b82f6;
-}
-
-.dark {
-  --background: #030712;
-  --foreground: #f9fafb;
-  --primary: #3b82f6;
-}
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre><p>All components automatically adapt to dark mode!</p></div>
+</ol><p><strong>CSS Variables:</strong></p><p>All components automatically adapt to dark mode!</p></div>
 <hr />
 <h2 class="text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Next Steps</h2>
 <div class="taildown-component component-grid grid grid-cols-3" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-book-open text-primary-600 hover:text-primary-700 text-4xl" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg></h3><p class="text-lg font-bold text-center"><strong>Syntax Guide</strong></p><p>Deep dive into Taildown syntax and capabilities.</p><p><a href="syntax-guide.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center duration-200 cursor-pointer no-underline bg-primary text-primary-foreground hover:bg-primary hover:brightness-110 active:brightness-95 shadow-md hover:shadow-lg transition-all">Read Guide</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-palette text-accent-600 hover:text-accent-700 text-4xl" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg></h3><p class="text-lg font-bold text-center"><strong>Plain English</strong></p><p>Complete reference of all styling shorthands.</p><p><a href="plain-english.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center duration-200 cursor-pointer no-underline bg-secondary text-secondary-foreground hover:bg-secondary hover:brightness-110 active:brightness-95 shadow-md hover:shadow-lg transition-all">View Reference</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-package text-green-600 text-4xl" data-icon="package" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path d="m7.5 4.27 9 5.15" /></svg></h3><p class="text-lg font-bold text-center"><strong>Components</strong></p><p>Explore all 18+ built-in components.</p><p><a href="components.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center duration-200 cursor-pointer no-underline bg-info text-info-foreground hover:bg-info hover:brightness-110 active:brightness-95 shadow-md hover:shadow-lg transition-all">Browse Components</a></p></div></div>

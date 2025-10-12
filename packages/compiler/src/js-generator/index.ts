@@ -25,6 +25,7 @@ import { tableBehavior } from './behaviors/table';
 import { imageCompareBehavior } from './behaviors/image-compare';
 import { diffBehavior } from './behaviors/diff';
 import { footnoteBehavior } from './behaviors/footnote';
+import { taskListBehavior } from './behaviors/task-list';
 
 /**
  * Component behavior definition
@@ -52,6 +53,7 @@ const BEHAVIORS: Map<string, ComponentBehavior> = new Map([
   ['compare-images', imageCompareBehavior],
   ['diff', diffBehavior],
   ['footnotes', footnoteBehavior],
+  ['task-list', taskListBehavior],
   ['scroll-animations', scrollAnimationsBehavior],
   ['copy-code', copyCodeBehavior],
   ['dark-mode', darkModeBehavior],

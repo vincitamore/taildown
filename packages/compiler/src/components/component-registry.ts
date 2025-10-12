@@ -264,6 +264,7 @@ export async function registerStandardComponents(): Promise<void> {
   const { imageCompareComponent } = await import('./standard/image-compare.js');
   const { codeDiffComponent } = await import('./standard/code-diff.js');
   const { mermaidComponent } = await import('./standard/mermaid.js');
+  const { timelineComponent } = await import('./standard/timeline.js');
   
   // Register all components
   registry.register(cardComponent);
@@ -297,6 +298,7 @@ export async function registerStandardComponents(): Promise<void> {
   registry.register(imageCompareComponent);
   registry.register(codeDiffComponent);
   registry.register(mermaidComponent);
+  registry.register(timelineComponent);
   
   // Grid Component
   registry.register(

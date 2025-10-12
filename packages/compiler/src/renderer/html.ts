@@ -189,6 +189,20 @@ export async function astToHast(ast: TaildownRoot): Promise<any> {
     handlers: {
       // @ts-expect-error - containerDirective is our custom node type
       containerDirective: containerDirectiveHandler,
+      // Math handler for LaTeX equations
+      // @ts-expect-error - math is our custom node type
+      math: (state: any, node: any) => {
+        // Math nodes have MathML stored in node.mathML
+        return {
+          type: 'element',
+          tagName: node.data.hName || 'span',
+          properties: node.data.hProperties || {},
+          children: [{
+            type: 'raw',
+            value: node.mathML || ''
+          }]
+        };
+      },
       // Code handler for diff blocks and explicit mermaid handling
       code: (state: any, node: any) => {
         // Handle diff blocks with custom rendering

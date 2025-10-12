@@ -447,6 +447,146 @@ export function renderTabs(state: State, node: ContainerDirectiveNode): Element 
  * Render steps component
  * Parses headings with {step} markers and creates structured step indicators
  */
+/**
+ * Render timeline component with milestones
+ * H2 headings act as timeline milestones
+ */
+export function renderTimeline(state: State, node: ContainerDirectiveNode): Element {
+  const children = state.all(node as any);
+  
+  // Get component classes from the node (already resolved by component processor)
+  const containerClasses = Array.isArray(node.data?.hProperties?.className) 
+    ? node.data.hProperties.className 
+    : [];
+  
+  // Find milestone headings (marked by parser) and group content
+  const milestones: { heading: Element; content: Element[]; state: string }[] = [];
+  let currentMilestone: { heading: Element; content: Element[]; state: string } | null = null;
+  
+  for (const child of children) {
+    // Check if this is an H2 milestone heading (marked by parser)
+    if (child.type === 'element' && child.tagName === 'h2') {
+      // Check for timelineMilestone data (set by parser)
+      const element = child as Element;
+      const milestoneData = (element.properties as any)?.['data-timeline-state'];
+      const isMilestone = (element.properties as any)?.['data-is-milestone'];
+      
+      if (milestoneData || isMilestone) {
+        // Save previous milestone
+        if (currentMilestone) {
+          milestones.push(currentMilestone);
+        }
+        
+        // Start new milestone
+        const state = milestoneData || 'pending';
+        currentMilestone = {
+          heading: element,
+          content: [],
+          state: state as string
+        };
+      } else if (currentMilestone) {
+        // Not a milestone heading, add to current milestone content
+        currentMilestone.content.push(element);
+      }
+    } else if (currentMilestone) {
+      // Add to current milestone content
+      currentMilestone.content.push(child);
+    }
+  }
+  
+  // Add last milestone
+  if (currentMilestone) {
+    milestones.push(currentMilestone);
+  }
+  
+  // Build timeline structure
+  const milestoneElements: Element[] = milestones.map((milestone, index) => {
+    // Determine icon based on state
+    const iconMap: Record<string, string> = {
+      completed: '✓',
+      current: '●',
+      pending: '○'
+    };
+    const icon = iconMap[milestone.state] || '○';
+    
+    return {
+      type: 'element',
+      tagName: 'div',
+      properties: {
+        className: [
+          'timeline-item',
+          `timeline-${milestone.state}`,
+          index === 0 ? 'timeline-first' : '',
+          index === milestones.length - 1 ? 'timeline-last' : ''
+        ].filter(Boolean),
+        'data-timeline-state': milestone.state
+      },
+      children: [
+        // Timeline marker (dot/icon)
+        {
+          type: 'element',
+          tagName: 'div',
+          properties: {
+            className: ['timeline-marker']
+          },
+          children: [
+            {
+              type: 'element',
+              tagName: 'span',
+              properties: {
+                className: ['timeline-icon'],
+                'aria-label': `${milestone.state} milestone`
+              },
+              children: [
+                { type: 'text', value: icon }
+              ]
+            }
+          ]
+        },
+        // Timeline content (heading + body)
+        {
+          type: 'element',
+          tagName: 'div',
+          properties: {
+            className: ['timeline-content']
+          },
+          children: [
+            // Milestone title (from heading)
+            {
+              type: 'element',
+              tagName: 'h3',
+              properties: {
+                className: ['timeline-title']
+              },
+              children: milestone.heading.children
+            },
+            // Milestone body content
+            ...(milestone.content.length > 0 ? [{
+              type: 'element',
+              tagName: 'div',
+              properties: {
+                className: ['timeline-body']
+              },
+              children: milestone.content
+            }] : [])
+          ]
+        }
+      ]
+    };
+  });
+  
+  // Return timeline container
+  return {
+    type: 'element',
+    tagName: 'div',
+    properties: {
+      className: containerClasses,
+      'data-component': 'timeline'
+    },
+    children: milestoneElements
+  };
+}
+
 export function renderSteps(state: State, node: ContainerDirectiveNode): Element {
   const children = state.all(node);
   
@@ -1538,6 +1678,8 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
       return renderTabs(state, node);
     case 'steps':
       return renderSteps(state, node);
+    case 'timeline':
+      return renderTimeline(state, node);
     case 'accordion':
       return renderAccordion(state, node);
     case 'carousel':

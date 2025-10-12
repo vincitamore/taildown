@@ -539,6 +539,132 @@ Rich content with **markdown** support
 - Focus management
 - Responsive positioning
 
+### Math Equations
+
+**LaTeX math rendering with zero runtime JS:**
+
+```taildown
+Inline math: $E = mc^2$ is Einstein's famous equation.
+
+Display math (centered):
+
+$$
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+$$
+```
+
+**Features:**
+- Compile-time LaTeX → MathML conversion
+- Zero runtime JavaScript overhead
+- Full LaTeX syntax support
+- Professional math fonts
+- Theme-aware (light/dark mode)
+- Native browser rendering
+
+**Common Examples:**
+
+```taildown
+Greek letters: $\alpha$, $\beta$, $\gamma$
+
+Fractions: $\frac{numerator}{denominator}$
+
+Summations: $\sum_{i=1}^{n} i$
+
+Integrals: $\int_{-\infty}^{\infty} e^{-x^2} dx$
+
+Matrices:
+
+$$
+\begin{bmatrix}
+1 & 0 \\
+0 & 1
+\end{bmatrix}
+$$
+```
+
+### Timeline
+
+**Chronological events and milestones:**
+
+```taildown
+:::timeline
+## Project Kickoff {completed}
+
+Initial planning and requirements gathering.
+
+## Development Sprint 1 {current}
+
+Building core features and functionality.
+
+## Testing & QA
+
+Comprehensive testing phase.
+:::
+```
+
+**Features:**
+- Vertical timeline with connecting line
+- State markers: `{completed}`, `{current}`, pending (default)
+- Visual indicators: ✓ (completed), ● (current), ○ (pending)
+- H2 headings automatically become milestones
+- Animated pulsing effect on current milestone
+
+**Variants:**
+
+```taildown
+:::timeline {centered}
+Alternating left/right alignment
+
+:::timeline {compact}
+Smaller markers, tighter spacing
+
+:::timeline {glass}
+Glassmorphism effect on content
+
+:::timeline {elevated}
+Shadow elevation on content cards
+
+:::timeline {bordered}
+Primary color border on content
+```
+
+**Examples:**
+
+```taildown
+# Project Roadmap
+
+:::timeline {glass}
+## Phase 1: Research {completed}
+User research and market analysis  
+Duration: 4 weeks
+
+## Phase 2: Design {completed}
+Wireframes and prototypes  
+Duration: 6 weeks
+
+## Phase 3: Development {current}
+Building core features  
+Duration: 12 weeks (in progress)
+
+## Phase 4: Launch
+Testing and deployment  
+Duration: 4 weeks (upcoming)
+:::
+
+# Daily Schedule
+
+:::timeline {compact}
+## 9:00 AM {completed}
+Team standup meeting
+
+## 12:00 PM {current}
+Lunch break
+
+## 2:00 PM
+Code review session
+:::
+```
+
 ---
 
 ## Quick Reference Card {#reference large-bold primary}

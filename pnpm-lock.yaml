@@ -107,6 +107,9 @@ importers:
       shiki:
         specifier: ^3.13.0
         version: 3.13.0
+      temml:
+        specifier: ^0.11.11
+        version: 0.11.11
       unified:
         specifier: ^11.0.0
         version: 11.0.5
@@ -4346,6 +4349,11 @@ packages:
     dependencies:
       has-flag: 4.0.0
     dev: true
+
+  /temml@0.11.11:
+    resolution: {integrity: sha512-Z/Ihgwad+ges0ez6+KmKWZ3o4BYbP6aZ/cU94cVtN+DwxwqxjHgcF4Z6cb9jLkKN+aU7uni165HsIxLHs5/TqA==}
+    engines: {node: '>=18.13.0'}
+    dev: false
 
   /test-exclude@6.0.0:
     resolution: {integrity: sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==}

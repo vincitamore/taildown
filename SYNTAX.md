@@ -506,6 +506,214 @@ Add fixtures under: syntax-tests/fixtures/07-inline-badges/
 
 ---
 
+### 2.6B Keyboard Keys **[REQUIRED]**
+
+Keyboard key notation displays keyboard shortcuts with professional 3D styling and platform-specific symbols.
+
+**Grammar:**
+```
+kbd_element     ::= ":kbd[" key_sequence "]" platform_hint?
+key_sequence    ::= key ("+" key)*
+key             ::= alpha | digit | special_key
+platform_hint   ::= "{" platform "}"
+platform        ::= "mac" | "macos" | "windows" | "win"
+```
+
+**Basic Examples:**
+```taildown
+Press :kbd[Enter] to submit the form.
+
+Save your work with :kbd[Ctrl+S]
+
+Copy text with :kbd[Ctrl+C] and paste with :kbd[Ctrl+V]
+
+Undo with :kbd[Ctrl+Z] and redo with :kbd[Ctrl+Y]
+```
+
+**Platform-Specific Symbols:**
+
+When `{mac}` platform hint is used, keys are automatically converted to Mac symbols:
+
+| Text | Symbol | Description |
+|------|--------|-------------|
+| Cmd, Command | ⌘ | Command key |
+| Opt, Option, Alt | ⌥ | Option/Alt key |
+| Ctrl, Control | ⌃ | Control key |
+| Shift | ⇧ | Shift key |
+| Enter, Return | ⏎ | Return key |
+| Delete, Backspace | ⌫ | Delete key |
+| Tab | ⇥ | Tab key |
+| Esc, Escape | ⎋ | Escape key |
+| Space | ␣ | Space key |
+| Up/Down/Left/Right | ↑↓←→ | Arrow keys |
+
+**Mac Platform Examples:**
+```taildown
+Copy: :kbd[Cmd+C]{mac}  → ⌘ C
+Paste: :kbd[Cmd+V]{mac}  → ⌘ V
+Save: :kbd[Cmd+S]{mac}  → ⌘ S
+Screenshot: :kbd[Cmd+Shift+4]{mac}  → ⌘ ⇧ 4
+Force Quit: :kbd[Cmd+Opt+Esc]{mac}  → ⌘ ⌥ ⎋
+```
+
+**Windows Platform Examples:**
+```taildown
+Copy: :kbd[Ctrl+C]{windows}  → Ctrl C
+Task Manager: :kbd[Ctrl+Shift+Esc]{windows}  → Ctrl Shift Esc
+Windows Menu: :kbd[Win+X]{windows}  → Win X
+```
+
+When `{windows}` is used, certain keys are normalized:
+- `Cmd` → `Win`
+- `Opt`, `Option` → `Alt`
+
+**HTML Output:**
+
+Single key:
+```html
+<kbd class="kbd-key" data-platform="default">Enter</kbd>
+```
+
+Key combination:
+```html
+<span class="kbd-group">
+  <kbd class="kbd-key" data-platform="default">Ctrl</kbd>
+  <kbd class="kbd-key" data-platform="default">C</kbd>
+</span>
+```
+
+Mac platform:
+```html
+<span class="kbd-group">
+  <kbd class="kbd-key" data-platform="mac">⌘</kbd>
+  <kbd class="kbd-key" data-platform="mac">C</kbd>
+</span>
+```
+
+**Styling:**
+
+Keyboard keys feature professional 3D styling:
+- Gradient background (light to dark)
+- Subtle inner highlight (top)
+- Shadow for depth
+- Thicker bottom border for 3D effect
+- Hover state with "press" animation
+- Platform-specific fonts and border radius
+- Full dark mode support
+
+**Key Separators:**
+
+Key combinations automatically split on `+` or `-`:
+```taildown
+:kbd[Ctrl+Alt+Delete]  → Ctrl  Alt  Delete
+:kbd[Cmd-Shift-P]       → Cmd  Shift  P  (also works)
+```
+
+**Common Use Cases:**
+
+**Documentation:**
+```taildown
+## Keyboard Shortcuts
+
+- Save: :kbd[Ctrl+S]
+- Copy: :kbd[Ctrl+C]
+- Paste: :kbd[Ctrl+V]
+- Undo: :kbd[Ctrl+Z]
+- Redo: :kbd[Ctrl+Y]
+```
+
+**Tutorial Steps:**
+```taildown
+:::steps
+## Open Command Palette {step}
+
+Press :kbd[Ctrl+Shift+P] to open the command palette.
+
+## Search for Command {step}
+
+Type your command and press :kbd[Enter] to execute.
+:::
+```
+
+**Inline Usage:**
+```taildown
+You can navigate between tabs using :kbd[Ctrl+Tab] and :kbd[Ctrl+Shift+Tab].
+
+The :kbd[Escape] key closes dialogs and modals.
+
+Use :kbd[Tab] to move forward and :kbd[Shift+Tab] to move backward through form fields.
+```
+
+**Rules:**
+
+**Rule 2.6B.1 - Key Parsing**:
+- Keys are split on `+` or `-` characters (whitespace optional)
+- Each key part is normalized (first letter capitalized)
+- Platform symbols applied only when platform hint provided
+
+**Rule 2.6B.2 - Platform Normalization**:
+- Mac platform: Apply symbol mapping table
+- Windows platform: Apply Win/Alt normalization
+- Default platform: Capitalize first letter only
+
+**Rule 2.6B.3 - HTML Structure**:
+- Single key: Direct `<kbd>` element
+- Multiple keys: Wrapped in `<span class="kbd-group">` with space separators
+- All keys get `data-platform` attribute
+
+**Rule 2.6B.4 - Accessibility**:
+- `<kbd>` is semantic HTML for keyboard input
+- Symbols have appropriate Unicode characters
+- Platform-specific rendering doesn't change semantic meaning
+
+**Edge Cases:**
+
+**Empty or Invalid:**
+```taildown
+:kbd[]  → Treated as plain text (invalid)
+:kbd[+] → Treated as plain text (empty keys)
+```
+
+**Inside Code:**
+```taildown
+`Use :kbd[Enter]` → Not parsed (inside backticks)
+```
+
+**Multiple Separators:**
+```taildown
+:kbd[Ctrl++]        → Ctrl  + (plus key)
+:kbd[Ctrl+Shift+]]  → Ctrl  Shift  ] (bracket key)
+```
+
+**Case Handling:**
+```taildown
+:kbd[enter]   → Enter (normalized)
+:kbd[CTRL+C]  → Ctrl  C (normalized)
+:kbd[cmd+v]{mac}  → ⌘  V (symbol + normalized)
+```
+
+**Integration:**
+
+Works seamlessly with:
+- Paragraphs and headings
+- Lists and tables
+- Component content (cards, alerts, etc.)
+- Link text
+- Strong/em emphasis
+
+**Test Coverage:**
+```
+Add fixtures under: syntax-tests/fixtures/08-keyboard-keys/
+- 01-basic.td
+- 02-combinations.td
+- 03-platforms.td
+- 04-symbols.td
+- 05-integration.td
+- 06-edge-cases.td
+```
+
+---
+
 ### 2.7 Plain English Grammar Rules **[REQUIRED]**
 
 Taildown prioritizes **natural English grammar and word order** over CSS conventions for all styling shorthands.
@@ -1830,6 +2038,384 @@ stateDiagram-v2
 - Re-renders on theme toggle
 - Color schemes match Taildown design system
 - Node colors adapt to theme
+
+#### 3.4A.12 Math Equations (LaTeX) **[REQUIRED]**
+
+Compile-time LaTeX to MathML conversion with zero runtime JavaScript overhead.
+
+**Syntax:**
+
+Use `$` delimiters for inline math and `$$` for display math (centered):
+
+```taildown
+Inline math: $E = mc^2$ is Einstein's famous equation.
+
+Display math (centered):
+
+$$
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+$$
+```
+
+**Rendering:**
+
+- **Compile-Time Conversion**: LaTeX → MathML using `temml` library
+- **Zero Runtime JS**: MathML is generated at compile time
+- **Native Browser Support**: Uses native MathML rendering
+- **Professional Styling**: Math-specific fonts and spacing
+- **Theme-Aware**: Adapts to light/dark mode automatically
+
+**Inline Math (`$...$`):**
+
+- Rendered as `<span class="math math-inline">`
+- Baseline-aligned with surrounding text
+- Suitable for formulas within paragraphs
+
+```taildown
+The Pythagorean theorem $a^2 + b^2 = c^2$ is fundamental.
+
+Greek letters: $\alpha$, $\beta$, $\gamma$, $\Delta$
+
+Subscripts: $x_1$, $x_2$, $x_n$
+
+Superscripts: $x^2$, $e^{i\pi}$
+
+Combined: $x_{i,j}^{n+1}$
+```
+
+**Display Math (`$$...$$`):**
+
+- Rendered as `<div class="math math-display">`
+- Centered on page
+- Larger font size
+- Suitable for important equations
+
+```taildown
+Euler's identity:
+
+$$
+e^{i\pi} + 1 = 0
+$$
+
+The Gaussian integral:
+
+$$
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+$$
+```
+
+**Supported LaTeX Features:**
+
+- **Basic Operations**: `+`, `-`, `\times`, `\div`, `\pm`, `\mp`
+- **Fractions**: `\frac{numerator}{denominator}`
+- **Roots**: `\sqrt{x}`, `\sqrt[n]{x}`
+- **Exponents/Subscripts**: `x^2`, `x_i`, `x_i^j`
+- **Greek Letters**: `\alpha`, `\beta`, `\gamma`, `\Delta`, `\Sigma`, `\Omega`
+- **Operators**: `\sum`, `\prod`, `\int`, `\lim`, `\log`, `\sin`, `\cos`
+- **Delimiters**: `\left(`, `\right)`, `\left[`, `\right]`, `\left\{`, `\right\}`
+- **Matrices**: `\begin{bmatrix}...\end{bmatrix}`
+- **Alignment**: `\begin{aligned}...\end{aligned}`
+- **Special**: `\infty`, `\partial`, `\nabla`, `\approx`, `\neq`, `\leq`, `\geq`
+
+**Examples:**
+
+```taildown
+# Fractions
+
+Nested fractions:
+
+$$
+\frac{1}{\displaystyle 1+\frac{1}{\displaystyle 2+\frac{1}{3}}}
+$$
+
+# Summations
+
+Sum of natural numbers:
+
+$$
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+$$
+
+# Calculus
+
+Definition of derivative:
+
+$$
+f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}
+$$
+
+# Matrices
+
+Identity matrix:
+
+$$
+I = \begin{bmatrix}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+$$
+
+# Aligned Equations
+
+Maxwell's equations:
+
+$$
+\begin{aligned}
+\nabla \cdot \mathbf{E} &= \frac{\rho}{\epsilon_0} \\
+\nabla \cdot \mathbf{B} &= 0 \\
+\nabla \times \mathbf{E} &= -\frac{\partial \mathbf{B}}{\partial t} \\
+\nabla \times \mathbf{B} &= \mu_0\mathbf{J} + \mu_0\epsilon_0\frac{\partial \mathbf{E}}{\partial t}
+\end{aligned}
+$$
+```
+
+**Styling:**
+
+- Professional math fonts: 'Latin Modern Math', 'STIX Two Math', 'Cambria Math'
+- Proper baseline alignment for inline math
+- Scaled sizing for display math (1.2em)
+- Responsive sizing on mobile devices
+- Theme-aware colors (text matches document theme)
+
+**Error Handling:**
+
+- Invalid LaTeX shows error message with red background
+- Original LaTeX source preserved on error
+- Compilation continues even if individual equations fail
+
+**Accessibility:**
+
+- MathML provides semantic meaning for screen readers
+- Equations are keyboard navigable
+- High contrast in both light and dark modes
+- Scales properly with user font size preferences
+
+**Browser Support:**
+
+- Modern browsers (Chrome 109+, Firefox 78+, Safari 14.1+)
+- MathML natively supported
+- Fallback: LaTeX source shown on very old browsers
+
+**Performance:**
+
+- Zero runtime JavaScript overhead
+- All conversion done at compile time
+- Small output size (MathML is compact)
+- No external libraries loaded in browser
+
+---
+
+#### 3.4A.13 Timeline Component **[REQUIRED]**
+
+Display chronological events and milestones with a vertical timeline visualization.
+
+**Syntax:**
+
+Use the `:::timeline` directive with H2 headings as milestones:
+
+```taildown
+:::timeline
+## Project Kickoff {completed}
+
+Initial planning and requirements gathering.
+
+- Set project scope
+- Assign team roles
+- Create timeline
+
+## Development Sprint 1 {current}
+
+Building core features and functionality.
+
+- Authentication system
+- Database setup
+- API endpoints
+
+## Testing & QA
+
+Comprehensive testing phase.
+:::
+```
+
+**Rendering:**
+
+- **H2 Headings**: Automatically become timeline milestones
+- **State Markers**: `{completed}`, `{current}`, or default to `pending`
+- **Visual Indicators**: ✓ for completed, ● for current, ○ for pending
+- **Connecting Line**: Vertical line connects all milestones
+- **Content Sections**: All content between milestones is grouped
+
+**States:**
+
+Milestones can be in one of three states:
+
+- **Completed** `{completed}`: Green marker with checkmark ✓
+- **Current** `{current}`: Primary color marker with dot ●, pulsing animation
+- **Pending** (default): Muted marker with circle ○
+
+```taildown
+## Milestone 1 {completed}
+Finished task with green checkmark.
+
+## Milestone 2 {current}
+Active milestone with pulsing indicator.
+
+## Milestone 3
+Future milestone (pending by default).
+```
+
+**Variants:**
+
+- **Default (Vertical)**: Left-aligned milestones with connecting line
+- **Centered** `{centered}`: Alternating left/right alignment
+- **Compact** `{compact}`: Smaller markers and tighter spacing
+- **Glass** `{glass}`: Glassmorphism effect on content cards
+- **Elevated** `{elevated}`: Shadow elevation on content
+- **Bordered** `{bordered}`: Primary color border on content
+
+```taildown
+:::timeline {centered glass}
+## 2020 {completed}
+Company founded with initial seed funding.
+
+## 2021 {completed}
+Launched MVP and acquired first 100 customers.
+
+## 2022 {current}
+Expanding to new markets.
+:::
+```
+
+**HTML Structure:**
+
+```html
+<div class="timeline-container [variants]" data-component="timeline">
+  <div class="timeline-item timeline-completed" data-timeline-state="completed">
+    <div class="timeline-marker">
+      <span class="timeline-icon" aria-label="completed milestone">✓</span>
+    </div>
+    <div class="timeline-content">
+      <h3 class="timeline-title">Milestone Title</h3>
+      <div class="timeline-body">
+        <p>Content goes here...</p>
+      </div>
+    </div>
+  </div>
+  <!-- More milestones... -->
+</div>
+```
+
+**Use Cases:**
+
+- Project roadmaps and milestones
+- Company history and achievements
+- Product release timelines
+- Process workflows and stages
+- Event chronologies
+- Tutorial step sequences
+
+**Styling:**
+
+- **Markers**: Circular badges with icons, colored by state
+- **Connecting Line**: Gradient vertical line between milestones
+- **Content Cards**: Optional glass/elevated styling
+- **Animations**: Pulsing effect on current milestone
+- **Responsive**: Centered variant becomes vertical on mobile
+
+**Best Practices:**
+
+- Use clear, concise milestone titles
+- Keep content within each milestone focused
+- Use state markers to show progress
+- Combine with glass variant for modern aesthetic
+- Consider compact variant for dense timelines
+
+**Accessibility:**
+
+- Semantic H3 headings for milestone titles
+- ARIA labels on state icons
+- High contrast markers in both themes
+- Keyboard navigation through milestones
+- Screen reader friendly structure
+
+**Examples:**
+
+```taildown
+# Project Timeline
+
+:::timeline {glass}
+## Phase 1: Research {completed}
+
+Deep dive into user needs and market analysis.
+
+**Duration:** 4 weeks
+
+## Phase 2: Design {completed}
+
+Created comprehensive designs and prototypes.
+
+**Duration:** 6 weeks
+
+## Phase 3: Development {current}
+
+Building core features and functionality.
+
+**Duration:** 12 weeks (in progress)
+
+**Progress:**
+- [x] Backend API
+- [x] Database schema
+- [ ] Frontend components
+- [ ] Testing
+
+## Phase 4: Launch
+
+Final testing and deployment.
+
+**Duration:** 4 weeks (upcoming)
+:::
+
+# Daily Schedule
+
+:::timeline {compact}
+## 9:00 AM {completed}
+Team standup meeting
+
+## 10:30 AM {completed}
+Client presentation
+
+## 12:00 PM {current}
+Lunch break
+
+## 2:00 PM
+Code review session
+
+## 4:00 PM
+Sprint planning
+:::
+
+# Company History
+
+:::timeline {centered elevated}
+## 2020 {completed}
+Founded with seed funding of $1M
+
+## 2021 {completed}
+Launched MVP, 100 customers
+
+## 2022 {completed}
+Series A: $10M
+
+## 2023 {current}
+Expanding to EMEA, 1000+ customers
+
+## 2024
+Planning IPO
+:::
+```
+
+---
 
 ### 3.4.1 Clickable Components **[REQUIRED]**
 

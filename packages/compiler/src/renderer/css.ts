@@ -671,6 +671,267 @@ li:has(> .icon:first-child) {
   list-style: none;
 }
 
+/* ========================================
+ * ENHANCED TASK LISTS
+ * GFM task lists with priorities, assignees, and custom states
+ * ======================================== */
+
+/* Task list container */
+.task-list,
+.task-list-enhanced {
+  list-style: none;
+  padding-left: 0;
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Task list item - clean card-based design */
+.task-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border-radius: 0.5rem;
+  border-left: 3px solid var(--muted, #94a3b8);
+  background: var(--card);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  position: relative;
+  min-height: 2.5rem;
+}
+
+.task-list-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+/* Checkbox styling */
+.task-list-item input[type="checkbox"] {
+  flex-shrink: 0;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-top: 0.125rem;
+  cursor: pointer;
+  accent-color: var(--primary);
+  border-radius: 0.25rem;
+}
+
+/* Task states - border color and background */
+
+/* Todo (unchecked) */
+.task-todo {
+  border-left-color: var(--muted, #94a3b8);
+}
+
+/* Done (checked) - green with strikethrough */
+.task-done {
+  border-left-color: var(--success, #22c55e);
+  background: rgba(34, 197, 94, 0.03);
+  opacity: 0.85;
+}
+
+.task-done input[type="checkbox"] + * {
+  text-decoration: line-through;
+  color: var(--muted-foreground);
+}
+
+/* In-progress [~] - blue with icon */
+.task-in-progress {
+  border-left-color: var(--primary, #6366f1);
+  background: rgba(99, 102, 241, 0.03);
+}
+
+/* Blocked [-] - red with muted appearance */
+.task-blocked {
+  border-left-color: var(--error, #ef4444);
+  background: rgba(239, 68, 68, 0.03);
+  opacity: 0.7;
+}
+
+/* Priority badges - positioned in top right */
+.task-priority-high::after,
+.task-priority-medium::after,
+.task-priority-low::after {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.075em;
+  padding: 0.1875rem 0.4375rem;
+  border-radius: 0.3125rem;
+  line-height: 1;
+}
+
+/* High priority - red */
+.task-priority-high {
+  border-left-width: 4px;
+  border-left-color: var(--error, #ef4444);
+}
+
+.task-priority-high::after {
+  content: 'HIGH';
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.15);
+}
+
+.dark .task-priority-high::after {
+  color: #fca5a5;
+  background: rgba(220, 38, 38, 0.2);
+}
+
+/* Medium priority - orange */
+.task-priority-medium {
+  border-left-width: 4px;
+  border-left-color: var(--warning, #f59e0b);
+}
+
+.task-priority-medium::after {
+  content: 'MED';
+  color: #ea580c;
+  background: rgba(234, 88, 12, 0.15);
+}
+
+.dark .task-priority-medium::after {
+  color: #fdba74;
+  background: rgba(234, 88, 12, 0.2);
+}
+
+/* Low priority - cyan */
+.task-priority-low {
+  border-left-width: 4px;
+  border-left-color: var(--info, #06b6d4);
+}
+
+.task-priority-low::after {
+  content: 'LOW';
+  color: #0891b2;
+  background: rgba(8, 145, 178, 0.15);
+}
+
+.dark .task-priority-low::after {
+  color: #67e8f9;
+  background: rgba(8, 145, 178, 0.2);
+}
+
+/* Assignee badge - positioned in bottom left */
+.task-list-item[data-task-assignee]::before {
+  content: '@' attr(data-task-assignee);
+  position: absolute;
+  left: 2.5rem;
+  bottom: 0.375rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--primary);
+  background: rgba(99, 102, 241, 0.12);
+  padding: 0.1875rem 0.4375rem;
+  border-radius: 0.3125rem;
+  line-height: 1;
+}
+
+/* Adjust padding when assignee is present */
+.task-list-item[data-task-assignee] {
+  padding-bottom: 2.125rem;
+}
+
+/* Dark mode */
+.dark .task-list-item {
+  background: rgba(30, 41, 59, 0.4);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.dark .task-list-item:hover {
+  background: rgba(30, 41, 59, 0.6);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dark .task-done {
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.dark .task-in-progress {
+  background: rgba(99, 102, 241, 0.08);
+}
+
+.dark .task-blocked {
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.dark .task-list-item[data-task-assignee]::before {
+  background: rgba(99, 102, 241, 0.2);
+}
+
+/* Progress bar (optional, shown when tasks are present) */
+.task-list[data-task-progress]::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 4px;
+  background: var(--muted, rgba(148, 163, 184, 0.2));
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.task-list[data-task-progress]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: calc(var(--task-progress, 0) * 1%);
+  background: linear-gradient(90deg, var(--success, #22c55e), var(--primary, #6366f1));
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.dark .task-list[data-task-progress]::before {
+  background: rgba(71, 85, 105, 0.3);
+}
+
+/* Nested task lists */
+.task-list .task-list {
+  margin-left: 2rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+}
+
+/* Nested task lists don't show progress bars */
+.task-list .task-list::before,
+.task-list .task-list::after {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .task-list-item {
+    padding: 0.625rem 0.75rem;
+    gap: 0.625rem;
+  }
+  
+  .task-priority-high::after,
+  .task-priority-medium::after,
+  .task-priority-low::after {
+    right: 0.5rem;
+    top: 0.5rem;
+    font-size: 0.5625rem;
+    padding: 0.15625rem 0.375rem;
+  }
+  
+  .task-list-item[data-task-assignee] {
+    padding-bottom: 1.875rem;
+  }
+  
+  .task-list-item[data-task-assignee]::before {
+    left: 2.25rem;
+    bottom: 0.3125rem;
+    font-size: 0.625rem;
+  }
+}
+
 /* NO overlay - keep it simple */
 body::before {
   content: '';
@@ -723,6 +984,124 @@ code {
   /* Mobile-friendly: break long paths/strings to prevent overflow */
   word-break: break-all;
   overflow-wrap: anywhere;
+}
+
+/* ========================================
+ * KEYBOARD KEYS
+ * 3D keyboard key styling with gradients
+ * ======================================== */
+
+/* Keyboard key group wrapper */
+.kbd-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+
+/* Individual keyboard key */
+.kbd-key,
+kbd {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  min-width: 1.75rem;
+  text-align: center;
+  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--foreground);
+  background: linear-gradient(180deg, 
+    rgba(255, 255, 255, 0.95) 0%, 
+    rgba(248, 250, 252, 0.90) 50%,
+    rgba(226, 232, 240, 0.85) 100%);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 0.375rem;
+  box-shadow: 
+    0 1px 0 0 rgba(255, 255, 255, 0.7) inset,
+    0 2px 4px rgba(15, 23, 42, 0.15),
+    0 1px 2px rgba(15, 23, 42, 0.1);
+  cursor: default;
+  user-select: none;
+  vertical-align: middle;
+  position: relative;
+  /* 3D effect with subtle bottom border */
+  border-bottom-width: 2px;
+  border-bottom-color: rgba(100, 116, 139, 0.4);
+  transition: all 0.15s ease;
+}
+
+/* Hover state - subtle press effect */
+.kbd-key:hover,
+kbd:hover {
+  transform: translateY(1px);
+  box-shadow: 
+    0 1px 0 0 rgba(255, 255, 255, 0.7) inset,
+    0 1px 2px rgba(15, 23, 42, 0.15);
+  border-bottom-width: 1px;
+}
+
+/* Dark mode keyboard keys */
+.dark .kbd-key,
+.dark kbd {
+  color: #e2e8f0;
+  background: linear-gradient(180deg, 
+    rgba(51, 65, 85, 0.95) 0%, 
+    rgba(30, 41, 59, 0.90) 50%,
+    rgba(15, 23, 42, 0.85) 100%);
+  border-color: rgba(71, 85, 105, 0.5);
+  box-shadow: 
+    0 1px 0 0 rgba(148, 163, 184, 0.15) inset,
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.2);
+  border-bottom-color: rgba(15, 23, 42, 0.8);
+}
+
+.dark .kbd-key:hover,
+.dark kbd:hover {
+  box-shadow: 
+    0 1px 0 0 rgba(148, 163, 184, 0.15) inset,
+    0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Platform-specific styling */
+.kbd-key[data-platform="mac"],
+kbd[data-platform="mac"] {
+  /* Mac keys are slightly rounder */
+  border-radius: 0.4375rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+}
+
+.kbd-key[data-platform="windows"],
+kbd[data-platform="windows"] {
+  /* Windows keys are slightly more angular */
+  border-radius: 0.25rem;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Special keys (modifiers) - slightly wider */
+.kbd-key:is([data-platform]) {
+  min-width: 2rem;
+}
+
+/* Monospace for special symbols */
+.kbd-key[data-platform="mac"] {
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+}
+
+/* Responsive sizing */
+@media (max-width: 640px) {
+  .kbd-key,
+  kbd {
+    font-size: 0.75rem;
+    padding: 0.0625rem 0.375rem;
+    min-width: 1.5rem;
+  }
+  
+  .kbd-group {
+    gap: 0.1875rem;
+  }
 }
 
 /* Code blocks - Terminal-inspired modern design */
@@ -4473,6 +4852,248 @@ mark,
 }
 
 /* ========================================
+ * TIMELINE COMPONENT
+ * Vertical timeline with milestones and connecting line
+ * ======================================== */
+
+/* Timeline container */
+.timeline-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+  padding: 1rem 0;
+}
+
+/* Individual timeline item */
+.timeline-item {
+  display: flex;
+  gap: 1.5rem;
+  position: relative;
+}
+
+/* Timeline marker (dot/icon) */
+.timeline-marker {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background);
+  border: 3px solid var(--primary);
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.timeline-icon {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary);
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Timeline content */
+.timeline-content {
+  flex: 1;
+  padding-bottom: 1rem;
+}
+
+.timeline-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.timeline-body {
+  color: var(--muted-foreground);
+  line-height: 1.6;
+}
+
+.timeline-body > *:first-child {
+  margin-top: 0;
+}
+
+.timeline-body > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Connecting line between timeline items */
+.timeline-item:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 1.4rem;
+  top: 3rem;
+  bottom: -2rem;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--primary), rgba(var(--primary-rgb, 99, 102, 241), 0.3));
+  z-index: 1;
+}
+
+/* State variants */
+
+/* Completed milestone */
+.timeline-completed .timeline-marker {
+  background: var(--success, #22c55e);
+  border-color: var(--success, #22c55e);
+}
+
+.timeline-completed .timeline-icon {
+  color: white;
+}
+
+/* Current milestone */
+.timeline-current .timeline-marker {
+  background: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(var(--primary-rgb, 99, 102, 241), 0.2);
+  animation: timeline-pulse 2s ease-in-out infinite;
+}
+
+.timeline-current .timeline-icon {
+  color: white;
+}
+
+.timeline-current .timeline-title {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* Pending milestone */
+.timeline-pending .timeline-marker {
+  background: var(--background);
+  border-color: var(--border);
+}
+
+.timeline-pending .timeline-icon {
+  color: var(--muted-foreground);
+}
+
+/* Pulse animation for current milestone */
+@keyframes timeline-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 4px rgba(var(--primary-rgb, 99, 102, 241), 0.2);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(var(--primary-rgb, 99, 102, 241), 0.1);
+  }
+}
+
+/* Centered variant */
+.timeline-centered {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.timeline-centered .timeline-item {
+  width: 100%;
+}
+
+.timeline-centered .timeline-item:nth-child(odd) {
+  flex-direction: row;
+}
+
+.timeline-centered .timeline-item:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.timeline-centered .timeline-item:nth-child(even) .timeline-content {
+  text-align: right;
+}
+
+/* Compact variant */
+.timeline-compact .timeline-item {
+  gap: 1rem;
+}
+
+.timeline-compact .timeline-marker {
+  width: 2rem;
+  height: 2rem;
+}
+
+.timeline-compact .timeline-icon {
+  font-size: 0.875rem;
+}
+
+.timeline-compact .timeline-title {
+  font-size: 1rem;
+}
+
+.timeline-compact .timeline-item:not(:last-child)::before {
+  left: 0.9rem;
+}
+
+/* Glass variant */
+.timeline-container.glass-effect .timeline-content {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.dark .timeline-container.glass-effect .timeline-content {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Elevated variant */
+.timeline-container.shadow-xl .timeline-content {
+  background: var(--card);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.timeline-container.shadow-xl .timeline-content:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 25px 30px -5px rgba(0, 0, 0, 0.15), 0 15px 15px -5px rgba(0, 0, 0, 0.06);
+}
+
+/* Bordered variant */
+.timeline-container.border-2 .timeline-content {
+  border: 2px solid var(--primary);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .timeline-centered .timeline-item:nth-child(even) {
+    flex-direction: row;
+  }
+  
+  .timeline-centered .timeline-item:nth-child(even) .timeline-content {
+    text-align: left;
+  }
+  
+  .timeline-marker {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .timeline-icon {
+    font-size: 1rem;
+  }
+  
+  .timeline-title {
+    font-size: 1.125rem;
+  }
+  
+  .timeline-item:not(:last-child)::before {
+    left: 1.15rem;
+  }
+}
+
+/* ========================================
  * VIDEO EMBED COMPONENT
  * Responsive video embeds with aspect ratio preservation
  * ======================================== */
@@ -5798,6 +6419,88 @@ li[role="doc-footnote"]:target {
 /* Error state styling */
 .mermaid-error {
   margin: 1.5rem 0;
+}
+
+/* ========================================
+ * MATH EQUATIONS (LaTeX)
+ * Compile-time MathML generation with zero runtime JS
+ * ======================================== */
+
+/* Inline math */
+.math-inline {
+  display: inline;
+  vertical-align: baseline;
+  font-size: 1em;
+}
+
+/* Display math (block-level, centered) */
+.math-display {
+  display: block;
+  margin: 1.5rem 0;
+  text-align: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* MathML styling */
+.math math {
+  font-family: 'Latin Modern Math', 'STIX Two Math', 'Cambria Math', 'Asana Math', serif;
+}
+
+/* Display math scaling */
+.math-display math {
+  font-size: 1.2em;
+}
+
+/* Error handling */
+.math-error {
+  color: var(--error, #ef4444);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.875em;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  cursor: help;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .math-display {
+    margin: 1rem 0;
+  }
+  
+  .math-display math {
+    font-size: 1em;
+  }
+}
+
+/* Dark mode adjustments */
+.dark .math-error {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+/* Ensure MathML doesn't overflow */
+.math mrow,
+.math mfrac,
+.math mtable {
+  max-width: 100%;
+}
+
+/* Table in math (for matrices) */
+.math mtable {
+  margin: 0 auto;
+}
+
+/* Fraction line styling */
+.math mfrac {
+  vertical-align: middle;
+}
+
+/* Subscript/superscript positioning */
+.math msub,
+.math msup,
+.math msubsup {
+  vertical-align: baseline;
 }
 `);
 
