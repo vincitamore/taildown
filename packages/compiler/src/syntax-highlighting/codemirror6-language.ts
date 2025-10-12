@@ -46,8 +46,16 @@ const taildownParser = {
       const fence = stream.current();
       state.inCodeBlock = true;
       state.codeBlockFence = fence;
-      // Consume language identifier if present
-      stream.match(/\w+/);
+      // Check for special language identifiers
+      if (stream.match(/mermaid/)) {
+        return 'special(keyword)';
+      } else if (stream.match(/before|after/)) {
+        // Code diff markers
+        return 'special(keyword)';
+      } else if (stream.match(/\w+/)) {
+        // Generic language identifier
+        return 'processingInstruction';
+      }
       return 'processingInstruction';
     }
     
@@ -72,18 +80,37 @@ const taildownParser = {
       }
     }
     
-    // Icon syntax: :icon[name]{attributes}
+    // Inline directive syntax
     if (stream.match(/:icon/)) {
       return 'keyword';
     }
     
-    // Badge syntax: :badge[text]{attributes}
     if (stream.match(/:badge/)) {
+      return 'keyword';
+    }
+    
+    // Keyboard key syntax: :kbd[key]
+    if (stream.match(/:kbd/)) {
+      return 'keyword';
+    }
+    
+    // Mark/highlight syntax: :mark[text]
+    if (stream.match(/:mark/)) {
       return 'keyword';
     }
     
     if (stream.match(/\[([a-z][a-z0-9-]*)\]/)) {
       return 'function';
+    }
+    
+    // Footnote references: [^1] or [^id]
+    if (stream.match(/\[\^[a-zA-Z0-9_-]+\]/)) {
+      return 'link';
+    }
+    
+    // Inline footnote definitions: [^id]:
+    if (stream.sol() && stream.match(/\[\^[a-zA-Z0-9_-]+\]:/)) {
+      return 'link';
     }
     
     // Attribute blocks
@@ -147,8 +174,13 @@ const taildownParser = {
         return 'attributeName';
       }
       
-      // Component keywords
-      if (stream.match(/\b(button|badge|alert|modal|tooltip|details|callout|columns|definitions|stats|divider|steps|video|elevated|floating|outlined|interactive)\b/)) {
+      // Component keywords (all tiers)
+      if (stream.match(/\b(button|badge|alert|modal|tooltip|details|callout|columns|definitions|stats|divider|steps|video|elevated|floating|outlined|interactive|table|compare-images|diff|footnotes|mermaid|timeline|tasks?|task-list)\b/)) {
+        return 'keyword';
+      }
+      
+      // Component-specific keywords
+      if (stream.match(/\b(sortable|zebra|sticky-header|bordered|compact|side-by-side|unified|vertical|horizontal|centered|milestone|in-progress|blocked|high|medium|low)\b/)) {
         return 'keyword';
       }
       
@@ -179,9 +211,14 @@ const taildownParser = {
       return 'list';
     }
     
-    // Task lists
-    if (stream.sol() && stream.match(/^[\s]*-\s+\[[x ]\]\s/)) {
+    // Task lists - standard [x] and [ ], plus enhanced [~] and [-]
+    if (stream.sol() && stream.match(/^[\s]*-\s+\[[x ~-]\]\s/i)) {
       return 'list';
+    }
+    
+    // Task list assignees: @username (only in list context)
+    if (state.inComponent === false && stream.match(/@[a-zA-Z0-9_-]+/)) {
+      return 'variableName';
     }
     
     // Blockquotes
@@ -214,7 +251,17 @@ const taildownParser = {
       return 'monospace';
     }
     
-    // Highlight/mark text
+    // Math equations - display: $$ ... $$
+    if (stream.match(/\$\$([^$]+)\$\$/)) {
+      return 'special(monospace)';
+    }
+    
+    // Math equations - inline: $ ... $
+    if (stream.match(/\$([^$]+)\$/)) {
+      return 'special(monospace)';
+    }
+    
+    // Highlight/mark text: ==text== or ==text=={variant}
     if (stream.match(/==([^=]+)==(?:\{[^}]+\})?/)) {
       return 'inserted';
     }
