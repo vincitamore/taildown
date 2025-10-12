@@ -252,6 +252,18 @@ export async function registerStandardComponents(): Promise<void> {
   const { carouselComponent } = await import('./standard/carousel.js');
   const { treeComponent } = await import('./standard/tree.js');
   const { flowComponent } = await import('./standard/flow.js');
+  const { detailsComponent } = await import('./standard/details.js');
+  const { calloutComponent } = await import('./standard/callout.js');
+  const { columnsComponent } = await import('./standard/columns.js');
+  const { definitionsComponent } = await import('./standard/definitions.js');
+  const { statsComponent } = await import('./standard/stats.js');
+  const { dividerComponent } = await import('./standard/divider.js');
+  const { stepsComponent } = await import('./standard/steps.js');
+  const { videoComponent } = await import('./standard/video.js');
+  const { tableEnhancedComponent } = await import('./standard/table-enhanced.js');
+  const { imageCompareComponent } = await import('./standard/image-compare.js');
+  const { codeDiffComponent } = await import('./standard/code-diff.js');
+  const { mermaidComponent } = await import('./standard/mermaid.js');
   
   // Register all components
   registry.register(cardComponent);
@@ -273,6 +285,18 @@ export async function registerStandardComponents(): Promise<void> {
   registry.register(carouselComponent);
   registry.register(treeComponent);
   registry.register(flowComponent);
+  registry.register(detailsComponent);
+  registry.register(calloutComponent);
+  registry.register(columnsComponent);
+  registry.register(definitionsComponent);
+  registry.register(statsComponent);
+  registry.register(dividerComponent);
+  registry.register(stepsComponent);
+  registry.register(videoComponent);
+  registry.register(tableEnhancedComponent);
+  registry.register(imageCompareComponent);
+  registry.register(codeDiffComponent);
+  registry.register(mermaidComponent);
   
   // Grid Component
   registry.register(

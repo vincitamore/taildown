@@ -148,7 +148,7 @@ const taildownParser = {
       }
       
       // Component keywords
-      if (stream.match(/\b(button|badge|alert|modal|tooltip|elevated|floating|outlined|interactive)\b/)) {
+      if (stream.match(/\b(button|badge|alert|modal|tooltip|details|callout|columns|definitions|stats|divider|steps|video|elevated|floating|outlined|interactive)\b/)) {
         return 'keyword';
       }
       
@@ -212,6 +212,11 @@ const taildownParser = {
     // Inline code
     if (stream.match(/`([^`]+)`/)) {
       return 'monospace';
+    }
+    
+    // Highlight/mark text
+    if (stream.match(/==([^=]+)==(?:\{[^}]+\})?/)) {
+      return 'inserted';
     }
     
     // Links

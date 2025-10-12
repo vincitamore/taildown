@@ -243,27 +243,31 @@ export function applyVariantAndSize(
 /**
  * Parse variant and size from attribute strings
  * Supports syntax like: {primary}, {large}, {primary large}
+ * Now supports MULTIPLE variants: {horizontal numbered connected}
  * 
  * @param attributes - Array of attribute tokens
  * @param component - Component definition
- * @returns Parsed variant and size
+ * @returns Parsed variants (array), size, and remaining attributes
  */
 export function parseVariantAttributes(
   attributes: string[],
   component: ComponentDefinition
 ): {
   variant?: string;
+  variants: string[];  // NEW: Support multiple variants
   size?: string;
   remainingAttributes: string[];
 } {
   let variant: string | undefined;
+  const variants: string[] = [];  // NEW: Collect ALL variants
   let size: string | undefined;
   const remainingAttributes: string[] = [];
   
   for (const attr of attributes) {
     // Check if it's a known variant
     if (component.variants[attr]) {
-      variant = attr;
+      variants.push(attr);  // NEW: Add to array instead of overwriting
+      if (!variant) variant = attr;  // Keep first for backwards compat
       continue;
     }
     
@@ -277,7 +281,7 @@ export function parseVariantAttributes(
     remainingAttributes.push(attr);
   }
   
-  return { variant, size, remainingAttributes };
+  return { variant, variants, size, remainingAttributes };
 }
 
 /**
@@ -314,6 +318,7 @@ export function deduplicateClasses(classes: string[]): string[] {
 /**
  * Resolve component classes with all features
  * Main entry point for component class resolution
+ * Now supports MULTIPLE variants applied simultaneously
  * 
  * @param componentName - Component name
  * @param rawAttributes - Raw attribute tokens from parser
@@ -334,8 +339,8 @@ export function resolveComponentClasses(
     };
   }
   
-  // Parse variant and size from attributes
-  const { variant, size, remainingAttributes } = parseVariantAttributes(
+  // Parse ALL variants and size from attributes
+  const { variant, variants, size, remainingAttributes } = parseVariantAttributes(
     rawAttributes,
     component
   );
@@ -347,14 +352,51 @@ export function resolveComponentClasses(
     darkMode: false,
   });
   
-  // Apply variant and size
-  const result = applyVariantAndSize(componentName, variant, size, {
-    ...options,
-    customClasses: resolvedCustomClasses,
-  });
+  // Build classes manually to support multiple variants
+  const classes: string[] = [];
+  const warnings: string[] = [];
   
-  // Deduplicate classes
-  result.classes = deduplicateClasses(result.classes);
+  // Add default classes
+  if (options.includeDefaults !== false) {
+    classes.push(...component.defaultClasses);
+  }
+  
+  // Apply ALL variants (not just one!)
+  if (variants.length > 0) {
+    for (const variantName of variants) {
+      if (component.variants[variantName]) {
+        classes.push(...component.variants[variantName]);
+      }
+    }
+  } else if (component.defaultVariant && component.variants[component.defaultVariant]) {
+    // Apply default variant if no variants specified
+    classes.push(...component.variants[component.defaultVariant]);
+  }
+  
+  // Apply size
+  let appliedSize: string | undefined;
+  if (size) {
+    if (component.sizes[size]) {
+      classes.push(...component.sizes[size]);
+      appliedSize = size;
+    } else if (options.warnOnUnknown !== false) {
+      warnings.push(`Unknown size "${size}" for component "${componentName}"`);
+    }
+  } else if (component.defaultSize && component.sizes[component.defaultSize]) {
+    classes.push(...component.sizes[component.defaultSize]);
+    appliedSize = component.defaultSize;
+  }
+  
+  // Add custom classes last
+  classes.push(...resolvedCustomClasses);
+  
+  // Build result
+  const result: VariantResult = {
+    classes: deduplicateClasses(classes),
+    variant,  // Keep first variant for backwards compat
+    size: appliedSize,
+    warnings,
+  };
   
   return result;
 }

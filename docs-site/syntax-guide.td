@@ -583,7 +583,7 @@ Content with attributes
 :::
 ```
 
-**Common:** card, grid, tabs, accordion, carousel, modal, tooltip, alert, navbar
+**Common:** card, grid, tabs, accordion, carousel, modal, tooltip, alert, navbar, table, compare-images
 :::
 
 :::card {subtle-glass padded}
@@ -605,6 +605,192 @@ Content with attributes
 
 ---
 
+## Enhanced Table Component {#table large-bold primary}
+
+:icon[table]{success large} **Professional tables with sorting, zebra striping, and glass effects - zero JavaScript unless you need sorting.** {large}
+
+### Basic Syntax
+
+Tables use standard GitHub Flavored Markdown with an attribute block:
+
+```taildown
+| Name | Role | Status |
+|------|------|--------|
+| Alice | Developer | Active |
+| Bob | Designer | Active |
+{sortable zebra}
+```
+
+### Live Example - Sortable Table
+
+| Employee | Department | Salary | Status |
+|----------|-----------|--------|--------|
+| Alice Chen | Engineering | $95,000 | Active |
+| Bob Smith | Design | $82,000 | Active |
+| Charlie Davis | Product | $105,000 | Active |
+| Diana Wilson | Marketing | $78,000 | Active |
+{sortable zebra hoverable}
+
+**Try clicking the headers to sort!**
+
+### Variants
+
+**Styling:**
+- `sortable` - Click headers to sort (auto JS generation)
+- `zebra` / `striped` - Alternating row colors
+- `bordered` - Full cell borders
+- `glass` - Glassmorphism effect
+- `sticky-header` - Header stays visible on scroll
+- `compact` - Tighter spacing for dense data
+- `hoverable` - Row hover effects
+
+**Sizes:**
+- `sm` - Smaller padding and text
+- `md` - Standard size (default)
+- `lg` - Larger padding and text
+
+### Usage Examples
+
+```taildown
+# Data table with sorting
+| ID | Name | Value |
+|----|------|-------|
+| 1 | Item A | 100 |
+| 2 | Item B | 200 |
+{sortable bordered}
+
+# Metrics dashboard
+| Metric | Q1 | Q2 | Q3 |
+|--------|-----|-----|-----|
+| Revenue | $1.2M | $1.5M | $1.8M |
+| Users | 10.5K | 12.3K | 14.8K |
+{glass sticky-header zebra}
+
+# Compact data list
+| Key | Value |
+|-----|-------|
+| Version | 2.1.0 |
+| License | MIT |
+{compact sm}
+```
+
+---
+
+## Image Comparison Slider {#image-comparison large-bold primary}
+
+:icon[image]{warning large} **Interactive before/after comparisons with draggable slider - perfect for showcasing transformations.** {large}
+
+### Basic Syntax
+
+```taildown
+:::compare-images {horizontal}
+before: https://example.com/before.jpg
+after: https://example.com/after.jpg
+alt: Transformation showcase
+:::
+```
+
+### Orientation Variants
+
+**Horizontal (default):**
+```taildown
+:::compare-images {horizontal}
+before: /images/old-workspace.jpg
+after: /images/new-workspace.jpg
+alt: Office renovation
+:::
+```
+
+**Vertical:**
+```taildown
+:::compare-images {vertical}
+before: /images/design-v1.png
+after: /images/design-v2.png
+alt: Design evolution
+:::
+```
+
+### With Labels
+
+Add `{labels}` to show "Before" and "After" overlays:
+
+```taildown
+:::compare-images {horizontal labels}
+before: /photos/original.jpg
+after: /photos/edited.jpg
+alt: Photo editing showcase
+:::
+```
+
+### Size Variants
+
+Control the height with size modifiers:
+
+```taildown
+# Small (280px, great for thumbnails)
+:::compare-images {sm}
+before: /img/a.jpg
+after: /img/b.jpg
+:::
+
+# Medium (450px, default)
+:::compare-images {md}
+before: /img/a.jpg
+after: /img/b.jpg
+:::
+
+# Large (580px)
+:::compare-images {lg labels}
+before: /img/a.jpg
+after: /img/b.jpg
+:::
+
+# Extra Large (700px, for hero sections)
+:::compare-images {xl labels glass}
+before: /img/a.jpg
+after: /img/b.jpg
+:::
+```
+
+### Visual Effects
+
+**Glass Effect:**
+```taildown
+:::compare-images {glass labels}
+before: /img/before.jpg
+after: /img/after.jpg
+:::
+```
+
+**Enhanced Shadow:**
+```taildown
+:::compare-images {shadow labels}
+before: /img/before.jpg
+after: /img/after.jpg
+:::
+```
+
+### Features
+
+**Interaction:**
+- :icon[mouse-pointer]{primary} **Mouse:** Click and drag the handle
+- :icon[smartphone]{success} **Touch:** Swipe on mobile devices
+- :icon[keyboard]{info} **Keyboard:** Arrow keys to adjust (5% steps)
+
+**Accessibility:**
+- Full ARIA support with `role="slider"`
+- Proper `alt` text for images
+- Keyboard navigation
+- Screen reader friendly
+
+**Zero-Config Beauty:**
+- Rounded corners and shadow by default
+- Viewport-aware sizing (no awkward scrolling)
+- 16:9 aspect ratio for landscape images
+- Handle scales with component size
+
+---
+
 ## Complete Component List {#component-list large-bold primary}
 
 | Component | Purpose | Usage | Variants |
@@ -621,6 +807,8 @@ Content with attributes
 | **tooltip** | Contextual help | Attach with `tooltip="..."` | Inline or ID-referenced |
 | **badge** | Inline label | `[Text](#){badge}` | primary, success, warning |
 | **button** | Button styling | `[Text](#){button}` | primary, secondary, outline |
+| **table** | Enhanced tables | GFM table + `{attributes}` | sortable, zebra, glass, sticky-header |
+| **compare-images** | Image comparison | `:::compare-images` | horizontal, vertical, labels, glass |
 
 ---
 

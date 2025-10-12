@@ -3115,6 +3115,1375 @@ td svg.icon {
 }
 
 /* ========================================
+ * DETAILS/SUMMARY COMPONENT
+ * Native HTML5 disclosure widget with modern styling
+ * ======================================== */
+
+.details-component {
+  position: relative;
+  transition: var(--transition-base);
+  cursor: pointer;
+}
+
+/* Summary element - the clickable header */
+.details-component summary {
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.125rem 0;
+  color: var(--foreground);
+  user-select: none;
+  outline: none;
+  transition: color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Remove default disclosure triangle across browsers */
+.details-component summary::-webkit-details-marker {
+  display: none;
+}
+
+.details-component summary::marker {
+  display: none;
+}
+
+/* Add custom chevron icon with smooth rotation */
+.details-component summary::after {
+  content: '▶';
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1), color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  margin-left: auto;
+  padding-left: 0.5rem;
+}
+
+/* Hover effect on summary */
+.details-component summary:hover {
+  color: var(--primary);
+}
+
+.details-component summary:hover::after {
+  color: var(--primary);
+}
+
+/* Rotate chevron when open */
+.details-component[open] summary::after {
+  transform: rotate(90deg);
+}
+
+/* Details content - the expandable section */
+.details-component .details-content,
+.details-component > *:not(summary) {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  animation: detailsSlideIn 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Remove margins from first and last children */
+.details-component > *:first-child:not(summary) {
+  margin-top: 0;
+}
+
+.details-component > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Slide in animation */
+@keyframes detailsSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus states for accessibility */
+.details-component summary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .details-component {
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .details-component summary {
+    font-size: 0.9375rem;
+  }
+}
+
+/* Dark mode adjustments */
+.dark .details-component summary::after {
+  color: var(--muted-foreground);
+}
+
+/* ========================================
+ * CALLOUT/ADMONITION COMPONENT
+ * Semantic alert boxes with type-based coloring
+ * ======================================== */
+
+.callout-component {
+  position: relative;
+  margin-bottom: 1.5rem;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Callout icon area */
+.callout-component .icon:first-child {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+/* Callout content area */
+.callout-component > * {
+  margin: 0;
+}
+
+.callout-component > *:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+
+/* Callout title (bold text) */
+.callout-component strong:first-of-type {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.375rem;
+}
+
+/* Type-specific styling with proper color combinations */
+
+/* Note - Blue */
+.callout-note {
+  background: rgba(59, 130, 246, 0.08);
+  border-color: rgba(59, 130, 246, 0.6);
+}
+
+.dark .callout-note {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: rgba(59, 130, 246, 0.5);
+  color: rgb(147, 197, 253);
+}
+
+/* Info - Sky Blue */
+.callout-info {
+  background: rgba(14, 165, 233, 0.08);
+  border-color: rgba(14, 165, 233, 0.6);
+}
+
+.dark .callout-info {
+  background: rgba(14, 165, 233, 0.12);
+  border-color: rgba(14, 165, 233, 0.5);
+  color: rgb(125, 211, 252);
+}
+
+/* Tip - Green */
+.callout-tip {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.6);
+}
+
+.dark .callout-tip {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.5);
+  color: rgb(134, 239, 172);
+}
+
+/* Success - Emerald */
+.callout-success {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.6);
+}
+
+.dark .callout-success {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.5);
+  color: rgb(110, 231, 183);
+}
+
+/* Warning - Amber */
+.callout-warning {
+  background: rgba(245, 158, 11, 0.08);
+  border-color: rgba(245, 158, 11, 0.6);
+}
+
+.dark .callout-warning {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.5);
+  color: rgb(252, 211, 77);
+}
+
+/* Danger - Red */
+.callout-danger {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.6);
+}
+
+.dark .callout-danger {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: rgb(252, 165, 165);
+}
+
+/* Error - Rose */
+.callout-error {
+  background: rgba(244, 63, 94, 0.08);
+  border-color: rgba(244, 63, 94, 0.6);
+}
+
+.dark .callout-error {
+  background: rgba(244, 63, 94, 0.12);
+  border-color: rgba(244, 63, 94, 0.5);
+  color: rgb(251, 113, 133);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .callout-component {
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .callout-component strong:first-of-type {
+    font-size: 0.9375rem;
+  }
+}
+
+/* ========================================
+ * MULTI-COLUMN LAYOUT COMPONENT
+ * CSS columns for magazine-style text flow
+ * ======================================== */
+
+.columns-component {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+/* Column count variants */
+.columns-2 {
+  column-count: 2;
+  column-gap: 2rem;
+}
+
+.columns-3 {
+  column-count: 3;
+  column-gap: 2rem;
+}
+
+.columns-4 {
+  column-count: 4;
+  column-gap: 2rem;
+}
+
+.columns-auto {
+  column-width: 18rem;
+  column-gap: 2rem;
+}
+
+/* Gap variants */
+.columns-component.gap-sm {
+  column-gap: 1rem;
+}
+
+.columns-component.gap {
+  column-gap: 2rem;
+}
+
+.columns-component.gap-lg {
+  column-gap: 3rem;
+}
+
+.columns-component.gap-xl {
+  column-gap: 4rem;
+}
+
+/* Column divider line */
+.column-divider {
+  column-rule: 1px solid var(--border);
+}
+
+/* Balanced columns */
+.column-balanced {
+  column-fill: balance;
+}
+
+/* Prevent awkward breaks */
+.columns-component h1,
+.columns-component h2,
+.columns-component h3,
+.columns-component h4,
+.columns-component h5,
+.columns-component h6 {
+  break-after: avoid;
+  break-inside: avoid;
+  column-span: none;
+}
+
+.columns-component p {
+  break-inside: avoid;
+}
+
+.columns-component img,
+.columns-component figure {
+  break-inside: avoid;
+  max-width: 100%;
+}
+
+/* Mobile: Always single column for readability */
+@media (max-width: 640px) {
+  .columns-2,
+  .columns-3,
+  .columns-4,
+  .columns-auto {
+    column-count: 1;
+  }
+}
+
+/* Tablet: Reduce column count */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .columns-3 {
+    column-count: 2;
+  }
+  
+  .columns-4 {
+    column-count: 2;
+  }
+}
+
+/* Desktop: Full column count */
+@media (min-width: 1025px) {
+  .columns-2 {
+    column-count: 2;
+  }
+  
+  .columns-3 {
+    column-count: 3;
+  }
+  
+  .columns-4 {
+    column-count: 4;
+  }
+}
+
+/* Dark mode support */
+.dark .column-divider {
+  column-rule-color: var(--border);
+}
+
+/* ========================================
+ * DEFINITION LIST COMPONENT
+ * Semantic <dl> element for term-definition pairs
+ * ======================================== */
+
+.definitions-component {
+  margin-bottom: 1.5rem;
+  max-width: 100%;
+}
+
+/* Definition item wrapper */
+.definitions-component > div,
+.definition-item {
+  margin-bottom: 1rem;
+}
+
+.definitions-component > div:last-child,
+.definition-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Term styling (dt) */
+.definitions-component dt {
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 0.25rem;
+  font-size: 0.9375rem;
+}
+
+/* Definition styling (dd) */
+.definitions-component dd {
+  margin-left: 0;
+  padding-left: 1.5rem;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+}
+
+/* Vertical layout (default) */
+.definitions-vertical dt {
+  margin-bottom: 0.375rem;
+}
+
+.definitions-vertical dd {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--border);
+}
+
+/* Horizontal layout - side by side */
+.definitions-horizontal {
+  display: grid;
+  grid-template-columns: minmax(150px, 200px) 1fr;
+  gap: 1rem 2rem;
+  align-items: baseline;
+}
+
+.definitions-horizontal dt {
+  margin-bottom: 0;
+  text-align: right;
+  padding-right: 1rem;
+  border-right: 2px solid var(--border);
+}
+
+.definitions-horizontal dd {
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+/* Compact layout - tighter spacing */
+.definitions-compact > div,
+.definitions-compact .definition-item {
+  margin-bottom: 0.5rem;
+}
+
+.definitions-compact dt {
+  font-size: 0.875rem;
+}
+
+.definitions-compact dd {
+  font-size: 0.875rem;
+  padding-left: 1rem;
+}
+
+/* Mobile: Force vertical layout */
+@media (max-width: 640px) {
+  .definitions-horizontal {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .definitions-horizontal dt {
+    text-align: left;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding-right: 0;
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .definitions-horizontal dd {
+    padding-left: 0.75rem;
+  }
+  
+  .definitions-component {
+    font-size: 0.875rem;
+  }
+}
+
+/* Dark mode adjustments */
+.dark .definitions-component dt {
+  color: var(--foreground);
+}
+
+.dark .definitions-component dd {
+  color: var(--muted-foreground);
+}
+
+/* ========================================
+ * STATS/METRICS COMPONENT
+ * Prominent statistics display for landing pages
+ * ======================================== */
+
+.stats-component {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Column count variants - responsive */
+.stats-cols-2 {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.stats-cols-3 {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.stats-cols-4 {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+/* Tablet */
+@media (min-width: 641px) {
+  .stats-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .stats-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .stats-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  .stats-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .stats-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Individual stat item */
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2rem 1.5rem;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Stat value - large and prominent */
+.stat-value,
+.stat-item > h3,
+.stat-item > strong {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--foreground);
+  margin: 0;
+}
+
+/* Stat label - descriptive text */
+.stat-label,
+.stat-item > p {
+  font-size: 0.9375rem;
+  color: var(--muted-foreground);
+  font-weight: 500;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Stat icon */
+.stat-item .icon {
+  flex-shrink: 0;
+  margin-bottom: 0.5rem;
+}
+
+/* Glass variant for stat items */
+.stats-glass .stat-item {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.dark .stats-glass .stat-item {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Elevated variant */
+.stats-elevated .stat-item {
+  background: var(--card);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
+}
+
+/* Bordered variant */
+.stats-bordered .stat-item {
+  border: 2px solid var(--border);
+  border-radius: 0.75rem;
+}
+
+/* Hover effects on stats */
+.stat-item:hover {
+  transform: translateY(-2px);
+}
+
+.stats-glass .stat-item:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .stat-value,
+  .stat-item > h3,
+  .stat-item > strong {
+    font-size: 2rem;
+  }
+  
+  .stat-label,
+  .stat-item > p {
+    font-size: 0.8125rem;
+  }
+  
+  .stat-item {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* ========================================
+ * DIVIDER/SEPARATOR COMPONENT
+ * Enhanced horizontal rules with decorative options
+ * ======================================== */
+
+.divider-component {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem 0;
+  width: 100%;
+}
+
+/* Solid divider */
+.divider-solid {
+  height: 1px;
+  background: var(--border);
+}
+
+/* Text divider */
+.divider-text {
+  text-align: center;
+  color: var(--muted-foreground);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.divider-text::before,
+.divider-text::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  margin: 0 1rem;
+}
+
+/* Icon divider */
+.divider-icon {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.divider-icon::before,
+.divider-icon::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Gradient divider */
+.divider-gradient {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+}
+
+/* Dotted divider */
+.divider-dots {
+  height: 1px;
+  background-image: linear-gradient(90deg, var(--border) 50%, transparent 50%);
+  background-size: 8px 1px;
+  background-repeat: repeat-x;
+}
+
+/* Dashed divider */
+.divider-dashed {
+  height: 1px;
+  background-image: linear-gradient(90deg, var(--border) 60%, transparent 40%);
+  background-size: 16px 1px;
+  background-repeat: repeat-x;
+}
+
+/* Double divider */
+.divider-double {
+  height: 3px;
+  background: linear-gradient(180deg, var(--border) 0%, var(--border) 33%, transparent 33%, transparent 66%, var(--border) 66%, var(--border) 100%);
+}
+
+/* Wavy divider */
+.divider-wavy {
+  height: 4px;
+  background: repeating-linear-gradient(90deg, transparent, transparent 8px, var(--border) 8px, var(--border) 12px);
+  border-radius: 2px;
+}
+
+/* Thick divider */
+.divider-thick {
+  height: 3px;
+  background: var(--border);
+}
+
+/* Color variants */
+.divider-primary::before,
+.divider-primary::after,
+.divider-primary {
+  background: var(--primary);
+}
+
+.divider-accent::before,
+.divider-accent::after,
+.divider-accent {
+  background: var(--accent);
+}
+
+.divider-muted::before,
+.divider-muted::after,
+.divider-muted {
+  background: var(--muted-foreground);
+  opacity: 0.3;
+}
+
+.divider-success::before,
+.divider-success::after,
+.divider-success {
+  background: var(--success);
+}
+
+.divider-warning::before,
+.divider-warning::after,
+.divider-warning {
+  background: var(--warning);
+}
+
+.divider-error::before,
+.divider-error::after,
+.divider-error {
+  background: var(--error);
+}
+
+/* Text color for text dividers */
+.divider-text.divider-primary {
+  color: var(--primary);
+}
+
+.divider-text.divider-accent {
+  color: var(--accent);
+}
+
+.divider-text.divider-success {
+  color: var(--success);
+}
+
+.divider-text.divider-warning {
+  color: var(--warning);
+}
+
+.divider-text.divider-error {
+  color: var(--error);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .divider-component {
+    margin: 1.5rem 0;
+  }
+  
+  .divider-text {
+    font-size: 0.8125rem;
+  }
+  
+  .divider-text::before,
+  .divider-text::after {
+    margin: 0 0.75rem;
+  }
+}
+
+/* ========================================
+ * ENHANCED BLOCKQUOTE COMPONENT
+ * Beautiful blockquotes with attribution and styling variants
+ * ======================================== */
+
+/* Base blockquote styling */
+blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid var(--primary);
+  background: rgba(0, 0, 0, 0.02);
+  font-style: italic;
+  color: var(--foreground);
+  position: relative;
+}
+
+.dark blockquote {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Decorative quote marks */
+blockquote::before {
+  content: '"';
+  position: absolute;
+  top: -0.5rem;
+  left: 0.5rem;
+  font-size: 3rem;
+  color: var(--primary);
+  opacity: 0.2;
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+/* Remove margins from content */
+blockquote > *:first-child {
+  margin-top: 0;
+}
+
+blockquote > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Pull Quote Variant - Large, centered, emphasized */
+blockquote.pull-quote {
+  border-left: none;
+  border-top: 3px solid var(--primary);
+  border-bottom: 3px solid var(--primary);
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  padding: 2rem 3rem;
+  margin: 2rem auto;
+  max-width: 42rem;
+  font-weight: 500;
+  background: transparent;
+}
+
+blockquote.pull-quote::before {
+  display: none;
+}
+
+/* Testimonial Variant - With attribution styling */
+blockquote.testimonial {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  border-radius: 0.75rem;
+  border-left: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.dark blockquote.testimonial {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+blockquote.testimonial::before {
+  font-size: 4rem;
+  top: -1rem;
+  left: 1rem;
+  opacity: 0.15;
+}
+
+/* Attribution detection - lines starting with em dash */
+blockquote cite,
+blockquote .attribution,
+blockquote p:last-child:has(em:first-child) {
+  display: block;
+  margin-top: 1rem;
+  font-style: normal;
+  font-size: 0.9375rem;
+  color: var(--muted-foreground);
+  font-weight: 500;
+}
+
+/* Bordered Variant - Heavy border left */
+blockquote.bordered {
+  border-left-width: 6px;
+  background: transparent;
+}
+
+/* Glass Variant - Glassmorphism effect */
+blockquote.glass {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.dark blockquote.glass {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+blockquote.glass::before {
+  opacity: 0.1;
+}
+
+/* Subtle Glass Variant */
+blockquote.subtle-glass {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  border-radius: 0.5rem;
+  border-left: 4px solid var(--primary);
+}
+
+.dark blockquote.subtle-glass {
+  background: rgba(15, 23, 42, 0.3);
+}
+
+/* Color variants for blockquote borders */
+blockquote.primary {
+  border-color: var(--primary);
+}
+
+blockquote.success {
+  border-color: var(--success);
+}
+
+blockquote.warning {
+  border-color: var(--warning);
+}
+
+blockquote.error {
+  border-color: var(--error);
+}
+
+blockquote.accent {
+  border-color: var(--accent);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  blockquote {
+    padding: 0.875rem 1rem;
+    font-size: 0.9375rem;
+  }
+  
+  blockquote.pull-quote {
+    font-size: 1.25rem;
+    padding: 1.5rem 1rem;
+  }
+  
+  blockquote::before {
+    font-size: 2rem;
+    top: -0.25rem;
+  }
+}
+
+/* ========================================
+ * MARK/HIGHLIGHT COMPONENT
+ * Inline text highlighting with semantic colors
+ * ======================================== */
+
+mark,
+.highlight {
+  background: rgba(250, 204, 21, 0.3);
+  color: rgb(113, 63, 18);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  display: inline;
+}
+
+.dark mark,
+.dark .highlight {
+  background: rgba(250, 204, 21, 0.25);
+  color: rgb(253, 224, 71);
+}
+
+/* Warning variant - Orange/yellow */
+.highlight-warning {
+  background: rgba(251, 146, 60, 0.3);
+  color: rgb(154, 52, 18);
+}
+
+.dark .highlight-warning {
+  background: rgba(251, 146, 60, 0.25);
+  color: rgb(253, 186, 116);
+}
+
+/* Success variant - Green */
+.highlight-success {
+  background: rgba(34, 197, 94, 0.25);
+  color: rgb(21, 128, 61);
+}
+
+.dark .highlight-success {
+  background: rgba(34, 197, 94, 0.2);
+  color: rgb(134, 239, 172);
+}
+
+/* Error variant - Red */
+.highlight-error {
+  background: rgba(239, 68, 68, 0.25);
+  color: rgb(153, 27, 27);
+}
+
+.dark .highlight-error {
+  background: rgba(239, 68, 68, 0.2);
+  color: rgb(252, 165, 165);
+}
+
+/* Info variant - Blue */
+.highlight-info {
+  background: rgba(59, 130, 246, 0.25);
+  color: rgb(29, 78, 216);
+}
+
+.dark .highlight-info {
+  background: rgba(59, 130, 246, 0.2);
+  color: rgb(147, 197, 253);
+}
+
+/* Primary variant - Brand color */
+.highlight-primary {
+  background: rgba(59, 130, 246, 0.25);
+  color: rgb(29, 78, 216);
+}
+
+.dark .highlight-primary {
+  background: rgba(59, 130, 246, 0.2);
+  color: rgb(147, 197, 253);
+}
+
+/* Muted variant - Gray */
+.highlight-muted {
+  background: rgba(107, 114, 128, 0.2);
+  color: rgb(55, 65, 81);
+}
+
+.dark .highlight-muted {
+  background: rgba(107, 114, 128, 0.15);
+  color: rgb(209, 213, 219);
+}
+
+/* Maintain text flow */
+mark,
+.highlight {
+  line-height: inherit;
+  vertical-align: baseline;
+}
+
+/* ========================================
+ * STEP INDICATOR COMPONENT
+ * Visual progress indicator for multi-step processes
+ * ======================================== */
+
+.steps-component {
+  margin-bottom: 1.5rem;
+  max-width: 100%;
+}
+
+/* Vertical layout (default) */
+.steps-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Individual step */
+.step-item {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+}
+
+/* Step indicator - circular number/icon */
+.step-indicator {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--muted);
+  color: var(--muted-foreground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 2px solid var(--border);
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Step content */
+.step-content {
+  flex: 1;
+  padding-top: 0.25rem;
+}
+
+.step-content h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.step-content p {
+  color: var(--muted-foreground);
+  margin: 0.5rem 0;
+}
+
+/* Connecting lines between steps */
+.steps-connected .step-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 1.25rem;
+  top: 2.5rem;
+  bottom: -1.5rem;
+  width: 2px;
+  background: var(--border);
+}
+
+/* Current step state */
+.step-current .step-indicator {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+/* Completed step state */
+.step-completed .step-indicator {
+  background: var(--success);
+  color: white;
+  border-color: var(--success);
+}
+
+.step-completed .step-indicator::after {
+  content: '✓';
+}
+
+/* Horizontal layout - higher specificity to override vertical */
+.steps-component.steps-horizontal {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  overflow-x: auto;
+}
+
+.steps-component.steps-horizontal .step-item {
+  flex-direction: column;
+  text-align: center;
+  flex: 1;
+  min-width: 150px;
+  align-items: center;
+}
+
+.steps-component.steps-horizontal .step-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.steps-component.steps-horizontal .step-content h3 {
+  font-size: 1rem;
+}
+
+/* Connecting lines for horizontal */
+.steps-component.steps-horizontal.steps-connected .step-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 1.25rem;
+  left: 100%;
+  width: 2rem;
+  height: 2px;
+  background: var(--border);
+  margin-left: 0.5rem;
+}
+
+/* Compact variant */
+.steps-compact {
+  gap: 1rem;
+}
+
+.steps-compact .step-indicator {
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.875rem;
+}
+
+.steps-compact .step-content h3 {
+  font-size: 1rem;
+}
+
+/* Glass variant for step cards */
+.steps-glass .step-item {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .steps-glass .step-item {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile responsiveness - horizontal becomes vertical */
+@media (max-width: 640px) {
+  .steps-horizontal {
+    flex-direction: column;
+  }
+  
+  .steps-horizontal .step-item {
+    flex-direction: row;
+    text-align: left;
+  }
+  
+  .steps-horizontal.steps-connected .step-item:not(:last-child)::after {
+    left: 1.25rem;
+    top: 2.5rem;
+    bottom: -1rem;
+    width: 2px;
+    height: auto;
+  }
+  
+  .step-indicator {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.875rem;
+  }
+  
+  .step-content h3 {
+    font-size: 1rem;
+  }
+}
+
+/* ========================================
+ * VIDEO EMBED COMPONENT
+ * Responsive video embeds with aspect ratio preservation
+ * ======================================== */
+
+.video-component {
+  margin-bottom: 1.5rem;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Aspect ratio containers */
+.aspect-16-9 {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-4-3 {
+  aspect-ratio: 4 / 3;
+}
+
+.aspect-21-9 {
+  aspect-ratio: 21 / 9;
+}
+
+.aspect-1-1 {
+  aspect-ratio: 1 / 1;
+}
+
+/* Fallback for older browsers */
+@supports not (aspect-ratio: 16 / 9) {
+  .aspect-16-9 {
+    padding-bottom: 56.25%; /* 16:9 */
+  }
+  
+  .aspect-4-3 {
+    padding-bottom: 75%; /* 4:3 */
+  }
+  
+  .aspect-21-9 {
+    padding-bottom: 42.86%; /* 21:9 */
+  }
+  
+  .aspect-1-1 {
+    padding-bottom: 100%; /* 1:1 */
+  }
+}
+
+/* Video and iframe elements */
+.video-component video,
+.video-component iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: inherit;
+}
+
+/* Modern aspect-ratio support */
+@supports (aspect-ratio: 16 / 9) {
+  .video-component video,
+  .video-component iframe {
+    position: static;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* Glass frame for videos */
+.video-component.glass-effect {
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.dark .video-component.glass-effect {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Video loading/placeholder */
+.video-component::before {
+  content: '';
+  display: block;
+  background: var(--muted);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+/* Play button overlay (optional) */
+.video-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.video-play-overlay:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.video-play-icon {
+  width: 4rem;
+  height: 4rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+/* ========================================
  * ACCORDION COMPONENT
  * ======================================== */
 
@@ -4398,7 +5767,7 @@ td svg.icon {
 </span><span class="code-line"><span class="token title punctuation">##### </span>Heading 5
 </span><span class="code-line"><span class="token title punctuation">###### </span>Heading 6
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-v59mbeqw9" data-code-text="# Heading 1
+</span></code><button class="code-copy-btn" data-code-id="code-ft7nfnko4" data-code-text="# Heading 1
 ## Heading 2
 ### Heading 3
 #### Heading 4
@@ -4420,7 +5789,7 @@ td svg.icon {
 </span><span class="code-line">*<span class="token punctuation">**</span><span class="token bold">bold italic</span><span class="token punctuation">**</span>*
 </span><span class="code-line"><span class="token punctuation">~~</span><span class="token deleted">strikethrough</span><span class="token punctuation">~~</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-tqe7trtg3" data-code-text="*italic* or _italic_
+</span></code><button class="code-copy-btn" data-code-id="code-6bptusf2j" data-code-text="*italic* or _italic_
 **bold** or __bold__
 ***bold italic***
 ~~strikethrough~~
@@ -4441,7 +5810,7 @@ td svg.icon {
 </span><span class="code-line">  <span class="token punctuation">-</span> Nested item
 </span><span class="code-line">  <span class="token punctuation">-</span> Another nested
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-s1sizzi67" data-code-text="- Item one
+</span></code><button class="code-copy-btn" data-code-id="code-vewgko5l4" data-code-text="- Item one
 - Item two
   - Nested item
   - Another nested
@@ -4461,7 +5830,7 @@ td svg.icon {
 </span><span class="code-line">   <span class="token punctuation">1.</span> Nested ordered
 </span><span class="code-line">   <span class="token punctuation">2.</span> Another nested
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-ct0sy8qly" data-code-text="1. First item
+</span></code><button class="code-copy-btn" data-code-id="code-qxtanw7w1" data-code-text="1. First item
 2. Second item
    1. Nested ordered
    2. Another nested
@@ -4482,7 +5851,7 @@ td svg.icon {
 </span><span class="code-line"><span class="token punctuation">![</span><span class="token string">Alt text</span><span class="token punctuation">](</span><span class="token url">image.jpg</span><span class="token punctuation">)</span>
 </span><span class="code-line"><span class="token punctuation">![</span><span class="token string">Image with title</span><span class="token punctuation">](</span><span class="token url">image.jpg &quot;Image title&quot;</span><span class="token punctuation">)</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-p1loc0ik6" data-code-text="[Link text](https://example.com)
+</span></code><button class="code-copy-btn" data-code-id="code-4a14nfmhw" data-code-text="[Link text](https://example.com)
 [Link with title](https://example.com &#x26;quot;Title text&#x26;quot;)
 
 ![Alt text](image.jpg)
@@ -4501,7 +5870,7 @@ td svg.icon {
 <p><strong>Inline code:</strong></p>
 <pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line">Use <span class="token punctuation">`</span><span class="token code">backticks</span><span class="token punctuation">`</span> for inline code
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-ql4dimixc" data-code-text="Use &#x60;backticks&#x60; for inline code
+</span></code><button class="code-copy-btn" data-code-id="code-imvl2ifer" data-code-text="Use &#x60;backticks&#x60; for inline code
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4518,7 +5887,7 @@ td svg.icon {
 </span><span class="code-line"><span class="token punctuation">&gt;</span>
 </span><span class="code-line"><span class="token punctuation">&gt; &gt; </span>And can be nested
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-gvlundmop" data-code-text="&#x26;gt; This is a blockquote
+</span></code><button class="code-copy-btn" data-code-id="code-3nu1en7yg" data-code-text="&#x26;gt; This is a blockquote
 &#x26;gt; It can span multiple lines
 &#x26;gt;
 &#x26;gt; &#x26;gt; And can be nested
@@ -4538,7 +5907,7 @@ td svg.icon {
 </span><span class="code-line"><span class="token punctuation">|</span> Tables  <span class="token punctuation">|</span> ✓      <span class="token punctuation">|</span> Full GFM support <span class="token punctuation">|</span>
 </span><span class="code-line"><span class="token punctuation">|</span> Alignment <span class="token punctuation">|</span> ✓    <span class="token punctuation">|</span> Left, center, right <span class="token punctuation">|</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-7ebwahu0c" data-code-text="| Feature | Status | Notes |
+</span></code><button class="code-copy-btn" data-code-id="code-nmcltqcmw" data-code-text="| Feature | Status | Notes |
 |---------|--------|-------|
 | Tables  | ✓      | Full GFM support |
 | Alignment | ✓    | Left, center, right |
@@ -4557,7 +5926,7 @@ td svg.icon {
 </span><span class="code-line"><span class="token hr">***</span>
 </span><span class="code-line">___
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-3lf7namoa" data-code-text="---
+</span></code><button class="code-copy-btn" data-code-id="code-l3ds1n6jf" data-code-text="---
 ***
 ___
 
@@ -4579,7 +5948,7 @@ ___
 </span><span class="code-line">Paragraph <span class="token punctuation">{</span><span class="token class-name">muted</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">[</span>Link<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-y6uaj277w" data-code-text="# Heading {large-bold center}
+</span></code><button class="code-copy-btn" data-code-id="code-d2qlz7hef" data-code-text="# Heading {large-bold center}
 Paragraph {muted}
 [Link](#){button primary}
 
@@ -4596,7 +5965,7 @@ Paragraph {muted}
 <p><strong>1. CSS Classes</strong> (prefix with <code>.</code>):</p>
 <pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token class-name">.text-4xl</span> <span class="token class-name">.font-bold</span> <span class="token class-name">.text-center</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-ayvgq950n" data-code-text="{.text-4xl .font-bold .text-center}
+</span></code><button class="code-copy-btn" data-code-id="code-vvgq42k6m" data-code-text="{.text-4xl .font-bold .text-center}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4610,7 +5979,7 @@ Paragraph {muted}
 <p><strong>2. Plain English Shorthands:</strong></p>
 <pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token emphasis">large-bold</span> <span class="token property">center</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-7hzwrskjz" data-code-text="{large-bold center primary}
+</span></code><button class="code-copy-btn" data-code-id="code-orxzlaf5h" data-code-text="{large-bold center primary}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4626,7 +5995,7 @@ Paragraph {muted}
 </span><span class="code-line"><span class="token punctuation">{</span><span class="token keyword">badge</span> <span class="token class-name">success</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">{</span><span class="token keyword">alert</span> <span class="token class-name">error</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-t8m1djo0w" data-code-text="{button primary large}
+</span></code><button class="code-copy-btn" data-code-id="code-a05uh5kiv" data-code-text="{button primary large}
 {badge success}
 {alert error}
 
@@ -4644,7 +6013,7 @@ Paragraph {muted}
 </span><span class="code-line"><span class="token punctuation">{</span><span class="token attr-name">modal</span>=<span class="token string">&quot;Modal content&quot;</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">{</span><span class="token attr-name">tooltip</span>=<span class="token string">&quot;Help text&quot;</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-dwctaxfil" data-code-text="{id=&#x26;quot;unique-id&#x26;quot;}
+</span></code><button class="code-copy-btn" data-code-id="code-lvndewp2k" data-code-text="{id=&#x26;quot;unique-id&#x26;quot;}
 {modal=&#x26;quot;Modal content&#x26;quot;}
 {tooltip=&#x26;quot;Help text&#x26;quot;}
 
@@ -4663,7 +6032,7 @@ Paragraph {muted}
 </span><span class="code-line"><span class="token title punctuation">## </span>Subtitle <span class="token punctuation">{</span>large-primary<span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token title punctuation">### </span>Section <span class="token punctuation">{</span><span class="token class-name">muted</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-3d02f1jhm" data-code-text="# Main Title {huge-bold center}
+</span></code><button class="code-copy-btn" data-code-id="code-fg5ah2ur7" data-code-text="# Main Title {huge-bold center}
 ## Subtitle {large-primary}
 ### Section {muted}
 
@@ -4681,7 +6050,7 @@ Paragraph {muted}
 </span><span class="code-line">
 </span><span class="code-line">This is centered and muted. <span class="token punctuation">{</span><span class="token property">center</span> <span class="token class-name">muted</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-1c48tz96e" data-code-text="This is large bold text. {large-bold}
+</span></code><button class="code-copy-btn" data-code-id="code-y86cb6ygi" data-code-text="This is large bold text. {large-bold}
 
 This is centered and muted. {center muted}
 
@@ -4699,7 +6068,7 @@ This is centered and muted. {center muted}
 </span><span class="code-line"><span class="token punctuation">[</span>Button link<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">[</span>Badge link<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">badge</span> <span class="token class-name">success</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-mkisfnmw9" data-code-text="[Regular link](https://example.com)
+</span></code><button class="code-copy-btn" data-code-id="code-d96cgaxwb" data-code-text="[Regular link](https://example.com)
 [Button link](#){button primary}
 [Badge link](#){badge success}
 
@@ -4718,7 +6087,7 @@ This is centered and muted. {center muted}
 </span><span class="code-line"><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token number">large</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">{</span><span class="token attr-name">subtle-glass</span> <span class="token property">padded-xl</span> rounded-xl<span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-r2gbgv5du" data-code-text="{large-bold center primary rounded}
+</span></code><button class="code-copy-btn" data-code-id="code-ndj6i1dxt" data-code-text="{large-bold center primary rounded}
 {button primary large hover-lift}
 {subtle-glass padded-xl rounded-xl}
 
@@ -4751,7 +6120,7 @@ This is centered and muted. {center muted}
 <p><strong>Sizes:</strong></p>
 <pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token number">xs</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token number">small</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token number">base</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token number">large</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token number">xl</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token number">2xl</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token number">3xl</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token number">huge</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token number">massive</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-qj97aoiup" data-code-text="{xs} {small} {base} {large} {xl} {2xl} {3xl} {huge} {massive}
+</span></code><button class="code-copy-btn" data-code-id="code-soohc61s0" data-code-text="{xs} {small} {base} {large} {xl} {2xl} {3xl} {huge} {massive}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4765,7 +6134,7 @@ This is centered and muted. {center muted}
 <p><strong>Weights:</strong></p>
 <pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token emphasis">thin</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">light</span><span class="token punctuation">}</span> <span class="token punctuation">{</span>normal<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">medium</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">semibold</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">bold</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">extra-bold</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">black</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-3tiop2wi3" data-code-text="{thin} {light} {normal} {medium} {semibold} {bold} {extra-bold} {black}
+</span></code><button class="code-copy-btn" data-code-id="code-6v9chywhx" data-code-text="{thin} {light} {normal} {medium} {semibold} {bold} {extra-bold} {black}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4779,7 +6148,7 @@ This is centered and muted. {center muted}
 <p><strong>Combinations:</strong></p>
 <pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token emphasis">large-bold</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">huge-bold</span><span class="token punctuation">}</span> <span class="token punctuation">{</span>xl-semibold<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">small-light</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-fg7ysw11f" data-code-text="{large-bold} {huge-bold} {xl-semibold} {small-light}
+</span></code><button class="code-copy-btn" data-code-id="code-ce6cbd7kb" data-code-text="{large-bold} {huge-bold} {xl-semibold} {small-light}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4793,7 +6162,7 @@ This is centered and muted. {center muted}
 <p><strong>Colors:</strong></p>
 <pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token class-name">primary</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token class-name">secondary</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token class-name">warning</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token class-name">error</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token class-name">info</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token class-name">muted</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-cnup61tce" data-code-text="{primary} {secondary} {success} {warning} {error} {info} {muted}
+</span></code><button class="code-copy-btn" data-code-id="code-nvyze9a2n" data-code-text="{primary} {secondary} {success} {warning} {error} {info} {muted}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4807,7 +6176,7 @@ This is centered and muted. {center muted}
 <p><strong>Styles:</strong></p>
 <pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token emphasis">italic</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">uppercase</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">lowercase</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token emphasis">capitalize</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-wkim9inmk" data-code-text="{italic} {uppercase} {lowercase} {capitalize}
+</span></code><button class="code-copy-btn" data-code-id="code-imnz81lci" data-code-text="{italic} {uppercase} {lowercase} {capitalize}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4822,7 +6191,7 @@ This is centered and muted. {center muted}
 <p><strong>Alignment:</strong></p>
 <pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token property">center</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">left</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">right</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">justify</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-f8dqqyrsj" data-code-text="{center} {left} {right} {justify}
+</span></code><button class="code-copy-btn" data-code-id="code-4asmb3hjp" data-code-text="{center} {left} {right} {justify}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4836,7 +6205,7 @@ This is centered and muted. {center muted}
 <p><strong>Flexbox:</strong></p>
 <pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token property">flex</span><span class="token punctuation">}</span> <span class="token punctuation">{</span>flex-col<span class="token punctuation">}</span> <span class="token punctuation">{</span>flex-row<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">flex-center</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-9n9ukxt8p" data-code-text="{flex} {flex-col} {flex-row} {flex-center}
+</span></code><button class="code-copy-btn" data-code-id="code-n4mebe0l8" data-code-text="{flex} {flex-col} {flex-row} {flex-center}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4851,7 +6220,7 @@ This is centered and muted. {center muted}
 <pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token property">grid-2</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">grid-3</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">grid-4</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">{</span>cols-2<span class="token punctuation">}</span> <span class="token punctuation">{</span>cols-3<span class="token punctuation">}</span> <span class="token punctuation">{</span>cols-4<span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-33psqy0pw" data-code-text="{grid-2} {grid-3} {grid-4}
+</span></code><button class="code-copy-btn" data-code-id="code-f31bc31db" data-code-text="{grid-2} {grid-3} {grid-4}
 {cols-2} {cols-3} {cols-4}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4868,7 +6237,7 @@ This is centered and muted. {center muted}
 </span><span class="code-line"><span class="token punctuation">{</span><span class="token property">gap</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">gap-sm</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">gap-lg</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token property">gap-xl</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">{</span>tight<span class="token punctuation">}</span> <span class="token punctuation">{</span>relaxed<span class="token punctuation">}</span> <span class="token punctuation">{</span>loose<span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-0t1jx61fb" data-code-text="{padded} {padded-sm} {padded-lg} {padded-xl}
+</span></code><button class="code-copy-btn" data-code-id="code-ilyr5zlp6" data-code-text="{padded} {padded-sm} {padded-lg} {padded-xl}
 {gap} {gap-sm} {gap-lg} {gap-xl}
 {tight} {relaxed} {loose}
 
@@ -4885,7 +6254,7 @@ This is centered and muted. {center muted}
 <p><strong>Borders:</strong></p>
 <pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token attr-name">rounded</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">rounded-sm</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">rounded-lg</span><span class="token punctuation">}</span> <span class="token punctuation">{</span>rounded-xl<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">rounded-full</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-fpsoc66p9" data-code-text="{rounded} {rounded-sm} {rounded-lg} {rounded-xl} {rounded-full}
+</span></code><button class="code-copy-btn" data-code-id="code-vlvt37g1e" data-code-text="{rounded} {rounded-sm} {rounded-lg} {rounded-xl} {rounded-full}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4899,7 +6268,7 @@ This is centered and muted. {center muted}
 <p><strong>Shadows:</strong></p>
 <pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token attr-name">shadow</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">shadow-sm</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">shadow-lg</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">elevated</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">floating</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-7sthjxwam" data-code-text="{shadow} {shadow-sm} {shadow-lg} {elevated} {floating}
+</span></code><button class="code-copy-btn" data-code-id="code-3lx67h7cd" data-code-text="{shadow} {shadow-sm} {shadow-lg} {elevated} {floating}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4913,7 +6282,7 @@ This is centered and muted. {center muted}
 <p><strong>Glassmorphism:</strong></p>
 <pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">{</span><span class="token attr-name">subtle-glass</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">light-glass</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">glass</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token attr-name">heavy-glass</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-ytrc6xitl" data-code-text="{subtle-glass} {light-glass} {glass} {heavy-glass}
+</span></code><button class="code-copy-btn" data-code-id="code-l3opxxmny" data-code-text="{subtle-glass} {light-glass} {glass} {heavy-glass}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
@@ -4929,7 +6298,7 @@ This is centered and muted. {center muted}
 </span><span class="code-line"><span class="token punctuation">{</span><span class="token function">hover-lift</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token function">hover-glow</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token function">hover-scale</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">{</span><span class="token function">fast</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token function">smooth</span><span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token function">slow</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-5pdolag09" data-code-text="{fade-in} {slide-up} {slide-down} {zoom-in}
+</span></code><button class="code-copy-btn" data-code-id="code-aquwu2ieh" data-code-text="{fade-in} {slide-up} {slide-down} {zoom-in}
 {hover-lift} {hover-glow} {hover-scale}
 {fast} {smooth} {slow}
 
@@ -4950,7 +6319,7 @@ This is centered and muted. {center muted}
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">heart</span><span class="token punctuation">]</span>
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">star</span><span class="token punctuation">]</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-1mx0hivwc" data-code-text=":icon[home]
+</span></code><button class="code-copy-btn" data-code-id="code-jby0y4am6" data-code-text=":icon[home]
 :icon[heart]
 :icon[star]
 
@@ -4970,7 +6339,7 @@ This is centered and muted. {center muted}
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">heart</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">error</span> <span class="token number">xl</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">zap</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">primary</span> <span class="token number">huge</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-0nyb8s0u7" data-code-text=":icon[check]{success}
+</span></code><button class="code-copy-btn" data-code-id="code-uwm5d5jn4" data-code-text=":icon[check]{success}
 :icon[alert-triangle]{warning large}
 :icon[heart]{error xl}
 :icon[zap]{primary huge}
@@ -4995,7 +6364,7 @@ This is centered and muted. {center muted}
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">star</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">2xl</span><span class="token punctuation">}</span>     → 48px
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">star</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">huge</span><span class="token punctuation">}</span>    → 64px
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-y0qsn4zl4" data-code-text=":icon[star]{tiny}    → 12px
+</span></code><button class="code-copy-btn" data-code-id="code-qh0puck4f" data-code-text=":icon[star]{tiny}    → 12px
 :icon[star]{xs}      → 16px
 :icon[star]{sm}      → 20px
 :icon[star]{md}      → 24px (default)
@@ -5021,7 +6390,7 @@ This is centered and muted. {center muted}
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">circle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">error</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">circle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">info</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-6euelnj0f" data-code-text=":icon[circle]{primary}
+</span></code><button class="code-copy-btn" data-code-id="code-bf33jefjn" data-code-text=":icon[circle]{primary}
 :icon[circle]{secondary}
 :icon[circle]{success}
 :icon[circle]{warning}
@@ -5044,7 +6413,7 @@ This is centered and muted. {center muted}
 </span><span class="code-line">- <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">circle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">warning</span><span class="token punctuation">}</span> In progress
 </span><span class="code-line">- <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">x</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">error</span><span class="token punctuation">}</span> Failed task
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-vwlt75ipm" data-code-text="- :icon[check]{success} Completed task
+</span></code><button class="code-copy-btn" data-code-id="code-r5qp86q6e" data-code-text="- :icon[check]{success} Completed task
 - :icon[circle]{warning} In progress
 - :icon[x]{error} Failed task
 
@@ -5079,7 +6448,7 @@ This is centered and muted. {center muted}
 </span><span class="code-line">Content inside a card
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-zl8anet2r" data-code-text=":::card
+</span></code><button class="code-copy-btn" data-code-id="code-68cdod9lt" data-code-text=":::card
 Content inside a card
 :::
 
@@ -5097,7 +6466,7 @@ Content inside a card
 </span><span class="code-line">Beautiful glassmorphic card
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-f9cfhezxl" data-code-text=":::card {glass padded rounded-xl}
+</span></code><button class="code-copy-btn" data-code-id="code-wdli71ijs" data-code-text=":::card {glass padded rounded-xl}
 Beautiful glassmorphic card
 :::
 
@@ -5121,7 +6490,7 @@ Beautiful glassmorphic card
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-q7ds04kse" data-code-text=":::grid {cols-2}
+</span></code><button class="code-copy-btn" data-code-id="code-n0izd4dz0" data-code-text=":::grid {cols-2}
 :::card
 Column 1
 :::
@@ -5171,7 +6540,7 @@ Column 2
 </span><span class="code-line">Content for third tab
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-tmtk07q0k" data-code-text=":::tabs
+</span></code><button class="code-copy-btn" data-code-id="code-22sre7bzy" data-code-text=":::tabs
 ## Tab One
 Content for first tab
 
@@ -5212,7 +6581,7 @@ Content for third tab
 </span><span class="code-line">Content for third section
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-nkh2efd3m" data-code-text=":::accordion
+</span></code><button class="code-copy-btn" data-code-id="code-4yivny8n6" data-code-text=":::accordion
 **First Section**
 Content for first section
 
@@ -5253,7 +6622,7 @@ Content for third section
 </span><span class="code-line">Third slide content
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-so8v0g9m7" data-code-text=":::carousel
+</span></code><button class="code-copy-btn" data-code-id="code-jci50zv8l" data-code-text=":::carousel
 First slide content
 
 ---
@@ -5287,7 +6656,7 @@ Third slide content
 <pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">[</span>Click me<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token attr-name">modal</span>=<span class="token string">&quot;Simple alert!&quot;</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">[</span>Hover me<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token attr-name">tooltip</span>=<span class="token string">&quot;Help text&quot;</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-e2tznpuu6" data-code-text="[Click me](#){button modal=&#x26;quot;Simple alert!&#x26;quot;}
+</span></code><button class="code-copy-btn" data-code-id="code-pp5ac2zjs" data-code-text="[Click me](#){button modal=&#x26;quot;Simple alert!&#x26;quot;}
 [Hover me](#){tooltip=&#x26;quot;Help text&#x26;quot;}
 
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -5307,7 +6676,7 @@ Third slide content
 </span><span class="code-line">Rich content with <span class="token punctuation">**</span><span class="token bold">markdown</span><span class="token punctuation">**</span> support
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-b5e83tnxd" data-code-text="[Open Modal](#){button modal=&#x26;quot;#my-modal&#x26;quot;}
+</span></code><button class="code-copy-btn" data-code-id="code-0mlh2qxjn" data-code-text="[Open Modal](#){button modal=&#x26;quot;#my-modal&#x26;quot;}
 
 :::modal {id=&#x26;quot;my-modal&#x26;quot;}
 # Modal Title
@@ -5337,7 +6706,7 @@ Rich content with **markdown** support
 </span><span class="code-line">Paragraph <span class="token punctuation">{</span>attributes<span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">[</span>Link<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span>attributes<span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-lwjv6pt3v" data-code-text="# Text {attributes}
+</span></code><button class="code-copy-btn" data-code-id="code-14g5v7lr1" data-code-text="# Text {attributes}
 Paragraph {attributes}
 [Link](#){attributes}
 
@@ -5358,7 +6727,7 @@ Paragraph {attributes}
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">name</span><span class="token punctuation">]</span><span class="token punctuation">{</span>size<span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">name</span><span class="token punctuation">]</span><span class="token punctuation">{</span>color size<span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-hxsmwsybj" data-code-text=":icon[name]
+</span></code><button class="code-copy-btn" data-code-id="code-quy4rgm9h" data-code-text=":icon[name]
 :icon[name]{size}
 :icon[name]{color size}
 
@@ -5379,7 +6748,7 @@ Paragraph {attributes}
 </span><span class="code-line">Content with attributes
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-umyuorj8n" data-code-text=":::component-name
+</span></code><button class="code-copy-btn" data-code-id="code-p2trw9mic" data-code-text=":::component-name
 Content
 :::
 

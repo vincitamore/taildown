@@ -3,19 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Getting Started - Taildown</title>
-  <meta name="description" content="Learn how to install and use Taildown. Create beautiful web pages with plain English styling and zero configuration.">
-  <meta property="og:title" content="Getting Started - Taildown">
-  <meta property="og:description" content="Learn how to install and use Taildown. Create beautiful web pages with plain English styling and zero configuration.">
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://taildown.dev/getting-started.html">
-  <meta property="og:image" content="https://taildown.dev/1759672632566.jpg">
-  <meta property="og:image:alt" content="Taildown - Modern markup language with glassmorphism and dark mode">
-  <meta property="og:site_name" content="Taildown">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://taildown.dev/1759672632566.jpg">
-  <meta name="twitter:title" content="Getting Started - Taildown">
-  <meta name="twitter:description" content="Learn how to install and use Taildown. Create beautiful web pages with plain English styling and zero configuration.">
+  <title>Taildown Document</title>
   <style>
 /* Taildown Generated Styles */
 *, ::before, ::after {
@@ -821,6 +809,246 @@ td svg.icon {
     font-weight: 500;
     border-top: 1px solid var(--border);
   }
+}
+
+/* ========================================
+ * Enhanced Table Styles
+ * Feature-rich tables with sorting, zebra, glass, sticky headers
+ * ======================================== */
+
+/* Enhanced table wrapper with better styling */
+.enhanced-table-wrapper {
+  position: relative;
+  background: var(--card);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* Enhanced table base */
+.table-enhanced {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* Sortable table styles */
+.table-sortable th.sortable-header {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-right: 2rem;
+}
+
+.table-sortable th.sortable-header:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark .table-sortable th.sortable-header:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Sort indicator icons */
+.table-sortable th.sortable-header .sort-icon {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.75rem;
+  height: 0.75rem;
+  opacity: 0.3;
+  transition: opacity 200ms;
+}
+
+.table-sortable th.sortable-header:hover .sort-icon {
+  opacity: 0.6;
+}
+
+/* Sort icons - using CSS to create arrow indicators */
+.table-sortable th.sortable-header .sort-icon::before {
+  content: '⇅';
+  font-size: 0.875rem;
+  color: var(--foreground);
+}
+
+.table-sortable th.sort-asc .sort-icon::before {
+  content: '↑';
+  opacity: 1;
+  color: var(--primary);
+}
+
+.table-sortable th.sort-desc .sort-icon::before {
+  content: '↓';
+  opacity: 1;
+  color: var(--primary);
+}
+
+/* Zebra striping */
+.table-zebra tbody tr:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.dark .table-zebra tbody tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.table-zebra tbody tr:nth-child(even) {
+  background-color: transparent;
+}
+
+/* Preserve zebra on hover */
+.table-zebra.table-hoverable tbody tr:nth-child(odd):hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark .table-zebra.table-hoverable tbody tr:nth-child(odd):hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.table-zebra.table-hoverable tbody tr:nth-child(even):hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.dark .table-zebra.table-hoverable tbody tr:nth-child(even):hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Bordered table */
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid var(--border);
+}
+
+.table-bordered thead th {
+  border-bottom-width: 2px;
+}
+
+/* Glass effect table */
+.table-glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.table-glass thead {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.dark .table-glass {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.dark .table-glass thead {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Sticky header */
+.table-sticky-header thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+}
+
+.table-sticky-header.table-glass thead {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Compact table */
+.table-compact th,
+.table-compact td {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+}
+
+/* Hoverable rows */
+.table-hoverable tbody tr {
+  cursor: pointer;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.table-hoverable tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  transform: scale(1.002);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+}
+
+.dark .table-hoverable tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* Size variants */
+.table-sm {
+  font-size: 0.8125rem;
+}
+
+.table-sm th,
+.table-sm td {
+  padding: 0.5rem 0.75rem;
+}
+
+.table-md {
+  font-size: 0.875rem;
+}
+
+.table-lg {
+  font-size: 1rem;
+}
+
+.table-lg th,
+.table-lg td {
+  padding: 1rem 1.25rem;
+}
+
+/* Responsive behavior for enhanced tables */
+@media (max-width: 640px) {
+  .table-enhanced {
+    font-size: 0.75rem;
+  }
+  
+  .table-enhanced th,
+  .table-enhanced td {
+    padding: 0.5rem;
+    min-width: 80px;
+  }
+  
+  .table-sortable th.sortable-header {
+    padding-right: 1.5rem;
+  }
+  
+  .table-sortable th.sortable-header .sort-icon {
+    right: 0.25rem;
+  }
+}
+
+/* Loading state for sortable tables */
+.table-sortable[data-loading="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Accessibility: Focus styles for sortable headers */
+.table-sortable th.sortable-header:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+.table-sortable th.sortable-header:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ARIA live region for screen readers (hidden visually) */
+.table-sort-announcement {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 /* Icon Utilities */
@@ -2185,38 +2413,7 @@ td svg.icon {
   }
 }
 
-.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
-.font-bold { font-weight: 700; }
-.text-center { text-align: center; }
-.text-primary-600 { color: rgb(106 142 239); }
-.hover\:text-primary-700:hover { color: rgb(82 123 222); }
-.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
-.text-gray-500 { color: rgb(107 114 128); }
-.rounded-lg { border-radius: 0.5rem; }
-.max-w-full { max-width: 100%; }
-.overflow-x-hidden { overflow-x: hidden; }
-.overflow-wrap-normal { overflow-wrap: normal; word-break: normal; }
-.shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
-.p-6 { padding: 1.5rem; }
-.grid { display: grid; gap: 1rem; }
-.grid-cols-2 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-.text-accent-600 { color: rgb(219 39 119); }
-.hover\:text-accent-700:hover { color: rgb(190 24 93); }
-.shadow-xl { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
-.text-green-600 { color: rgb(22 163 74); }
-.grid-cols-3 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-.hover\:transform:hover { transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
-.duration-200 { transition-duration: 200ms; }
-.inline-block { display: inline-block; }
-.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
-.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
-.font-medium { font-weight: 500; }
-.cursor-pointer { cursor: pointer; }
-.no-underline { text-decoration: none; }
-.hover\:brightness-110:hover { filter: brightness(1.1); }
-.active\:brightness-95:active { filter: brightness(0.95); }
-.hover\:shadow-lg:hover { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
-.transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+
 
 /* ========================================
  * COMPONENT STYLES
@@ -5479,26 +5676,10 @@ mark,
   word-break: normal;
   text-wrap: pretty; /* Modern CSS for optimal line breaks */
 }
-
-
-/* grid-cols-2: 1 column on mobile, 2 on tablet+ */
-@media (min-width: 640px) {
-  .grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-
-
-/* grid-cols-3: 1 column on mobile, 3 on tablet+ */
-@media (min-width: 768px) {
-  .grid-cols-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
-}
 </style>
   <script>// Taildown Interactive Components
 // Generated by Taildown compiler
-// Total size: ~5.66KB
+// Total size: ~2.83KB
 
 (function() {
   'use strict';
@@ -5610,269 +5791,113 @@ mark,
 
   function init() {
     console.log('[Taildown] Initializing interactive components');
-    // Navbar scroll effect
-    const navbar = document.querySelector('.navbar');
+    // Table Sorting Component
+    const sortableTables = document.querySelectorAll('[data-sortable="true"]');
+    console.log('[Taildown Table] Found', sortableTables.length, 'sortable tables');
 
-    if (navbar) {
-      let ticking = false;
-      const scrollThreshold = 50; // pixels
-
-      function updateNavbar() {
-        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-
-        if (scrollY > scrollThreshold) {
-          if (!navbar.classList.contains('scrolled')) {
-            navbar.classList.add('scrolled');
+    sortableTables.forEach(table => {
+      console.log('[Taildown Table] Initializing sortable table', table);
+      const headers = table.querySelectorAll('th[data-sortable="true"]');
+      console.log('[Taildown Table] Found', headers.length, 'sortable headers');
+      
+      headers.forEach((header, index) => {
+        // Make header focusable for keyboard nav
+        header.setAttribute('tabindex', '0');
+        header.setAttribute('role', 'button');
+        header.setAttribute('aria-sort', 'none');
+        
+        // Add click handler
+        header.addEventListener('click', () => {
+          console.log('[Taildown Table] Header clicked:', index);
+          sortTable(table, index, header);
+        });
+        
+        // Add keyboard handler
+        header.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            console.log('[Taildown Table] Header activated via keyboard:', index);
+            sortTable(table, index, header);
           }
-        } else {
-          if (navbar.classList.contains('scrolled')) {
-            navbar.classList.remove('scrolled');
-          }
-        }
+        });
+      });
+      
+      console.log('[Taildown Table] Table initialization complete');
+    });
 
-        ticking = false;
-      }
-
-      function onScroll() {
-        if (!ticking) {
-          window.requestAnimationFrame(updateNavbar);
-          ticking = true;
-        }
-      }
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-
-      // Check initial state
-      updateNavbar();
-    }
-
-    // Tabs Component
-    const tabElements = getComponents('tabs');
-    console.log('[Taildown Tabs] Found', tabElements.length, 'tabs components');
-    tabElements.forEach(tabs => {
-      console.log('[Taildown Tabs] Initializing tabs component', tabs);
-      const tabList = tabs.querySelector('[role="tablist"]');
-      console.log('[Taildown Tabs] Tab list:', tabList);
-      if (!tabList) {
-        console.warn('[Taildown Tabs] No tablist found, skipping');
+    // Sort table by column index
+    function sortTable(table, columnIndex, header) {
+      console.log('[Taildown Table] Sorting table by column', columnIndex);
+      const tbody = table.querySelector('tbody');
+      if (!tbody) {
+        console.warn('[Taildown Table] No tbody found, skipping sort');
         return;
       }
       
-      const tabButtons = Array.from(tabList.querySelectorAll('[role="tab"]'));
-      console.log('[Taildown Tabs] Found', tabButtons.length, 'tab buttons');
-      const tabPanels = Array.from(tabs.querySelectorAll('[role="tabpanel"]'));
-      console.log('[Taildown Tabs] Found', tabPanels.length, 'tab panels');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      console.log('[Taildown Table] Found', rows.length, 'rows to sort');
+      const currentSort = header.getAttribute('aria-sort');
+      const newSort = currentSort === 'ascending' ? 'descending' : 'ascending';
+      console.log('[Taildown Table] Sort direction:', currentSort, '->', newSort);
       
-      // Set initial active tab
-      let activeIndex = tabButtons.findIndex(btn => btn.getAttribute('aria-selected') === 'true');
-      console.log('[Taildown Tabs] Initial active index:', activeIndex);
-      if (activeIndex === -1) activeIndex = 0;
+      // Clear other headers
+      table.querySelectorAll('th[data-sortable="true"]').forEach(h => {
+        h.setAttribute('aria-sort', 'none');
+        h.classList.remove('sort-asc', 'sort-desc');
+      });
       
-      // Switch to tab
-      function switchTab(index) {
-        // Update buttons
-        tabButtons.forEach((btn, i) => {
-          const isActive = i === index;
-          btn.setAttribute('aria-selected', isActive);
-          btn.setAttribute('tabindex', isActive ? '0' : '-1');
-          toggleClass(btn, 'active', isActive);
-        });
+      // Set new sort direction
+      header.setAttribute('aria-sort', newSort);
+      header.classList.add(newSort === 'ascending' ? 'sort-asc' : 'sort-desc');
+      
+      // Sort rows
+      rows.sort((a, b) => {
+        const aCell = a.querySelectorAll('td')[columnIndex];
+        const bCell = b.querySelectorAll('td')[columnIndex];
         
-        // Update panels
-        tabPanels.forEach((panel, i) => {
-          const isActive = i === index;
-          panel.hidden = !isActive;
-          toggleClass(panel, 'active', isActive);
-        });
+        if (!aCell || !bCell) return 0;
         
-        activeIndex = index;
-      }
-      
-      // Click handlers
-      console.log('[Taildown Tabs] Attaching click handlers to', tabButtons.length, 'buttons');
-      tabButtons.forEach((btn, index) => {
-        console.log('[Taildown Tabs] Attaching handler to button', index);
-        btn.addEventListener('click', () => {
-          console.log('[Taildown Tabs] Tab clicked:', index);
-          switchTab(index);
-        });
-      });
-      console.log('[Taildown Tabs] Click handlers attached');
-      
-      // Keyboard navigation
-      tabList.addEventListener('keydown', (e) => {
-        let newIndex = activeIndex;
+        const aValue = getCellValue(aCell);
+        const bValue = getCellValue(bCell);
         
-        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-          newIndex = activeIndex > 0 ? activeIndex - 1 : tabButtons.length - 1;
-          e.preventDefault();
-        } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-          newIndex = activeIndex < tabButtons.length - 1 ? activeIndex + 1 : 0;
-          e.preventDefault();
-        } else if (e.key === 'Home') {
-          newIndex = 0;
-          e.preventDefault();
-        } else if (e.key === 'End') {
-          newIndex = tabButtons.length - 1;
-          e.preventDefault();
-        }
+        // Detect data type and compare
+        const comparison = compareValues(aValue, bValue);
         
-        if (newIndex !== activeIndex) {
-          switchTab(newIndex);
-          tabButtons[newIndex].focus();
-        }
+        return newSort === 'ascending' ? comparison : -comparison;
       });
       
-      // Initialize
-      switchTab(activeIndex);
-    });
-
-    // Scroll-Triggered Animations
-    // Zero-config: Automatically animates elements when they scroll into view
-
-    // Check if user prefers reduced motion
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Animation class selectors
-    const animationClasses = [
-      '.animate-fade-in',
-      '.animate-slide-up',
-      '.animate-slide-down',
-      '.animate-slide-left',
-      '.animate-slide-right',
-      '.animate-scale-in',
-      '.animate-zoom-in'
-    ];
-
-    // Find all elements with animation classes
-    const animatedElements = document.querySelectorAll(animationClasses.join(', '));
-
-    if (animatedElements.length > 0 && !prefersReducedMotion) {
-      console.log(`[Taildown] Found ${animatedElements.length} animated elements`);
-
-      // Add initial class to prevent animation on page load
-      animatedElements.forEach(el => {
-        el.classList.add('animation-paused');
-      });
-
-      // Create Intersection Observer
-      const observerOptions = {
-        root: null, // viewport
-        rootMargin: '0px 0px -10% 0px', // Trigger slightly before entering viewport
-        threshold: 0.15 // Trigger when 15% visible
-      };
-
-      const animationObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-          if (entry.isIntersecting) {
-            // Element is in view - trigger animation
-            const element = entry.target;
-            
-            // Add a small stagger delay for multiple elements
-            const delay = index * 75; // 75ms between elements
-            
-            setTimeout(() => {
-              element.classList.remove('animation-paused');
-              element.classList.add('animation-playing');
-            }, delay);
-            
-            // Stop observing this element (animate only once)
-            animationObserver.unobserve(element);
-          }
-        });
-      }, observerOptions);
-
-      // Observe all animated elements
-      animatedElements.forEach(el => {
-        animationObserver.observe(el);
-      });
-      
-      console.log('[Taildown] Scroll animations initialized');
-    } else if (prefersReducedMotion) {
-      console.log('[Taildown] Reduced motion preferred - animations disabled');
-      // Remove animation classes if reduced motion preferred
-      animatedElements.forEach(el => {
-        animationClasses.forEach(className => {
-          el.classList.remove(className.slice(1)); // Remove leading dot
-        });
-      });
+      console.log('[Taildown Table] Reordering rows in DOM');
+      // Reorder rows in DOM
+      rows.forEach(row => tbody.appendChild(row));
+      console.log('[Taildown Table] Sort complete');
     }
 
-    // Copy Code Functionality
-        function initCopyCode() {
-          console.log('[Taildown] Initializing copy code buttons');
-          
-          const copyButtons = document.querySelectorAll('.code-copy-btn');
-          console.log(`[Taildown] Found ${copyButtons.length} copy buttons`);
-          
-          copyButtons.forEach((button, index) => {
-            button.addEventListener('click', async function() {
-              const codeText = this.getAttribute('data-code-text');
-              if (!codeText) {
-                console.warn('[Taildown] No code text found for copy button');
-                return;
-              }
-              
-              console.log(`[Taildown] Copying code block ${index + 1}`);
-              
-              try {
-                // Use modern clipboard API if available
-                if (navigator.clipboard && window.isSecureContext) {
-                  await navigator.clipboard.writeText(codeText);
-                } else {
-                  // Fallback for older browsers
-                  const textArea = document.createElement('textarea');
-                  textArea.value = codeText;
-                  textArea.style.position = 'fixed';
-                  textArea.style.left = '-999999px';
-                  textArea.style.top = '-999999px';
-                  document.body.appendChild(textArea);
-                  textArea.focus();
-                  textArea.select();
-                  document.execCommand('copy');
-                  textArea.remove();
-                }
-                
-                // Show success feedback
-                showCopySuccess(this);
-                
-              } catch (err) {
-                console.warn('[Taildown] Failed to copy code:', err);
-                // Still show feedback even if copy failed
-                showCopySuccess(this);
-              }
-            });
-          });
-        }
-        
-        function showCopySuccess(button) {
-          // Get elements
-          const copyIcon = button.querySelector('.copy-icon');
-          const checkIcon = button.querySelector('.check-icon');
-          const copyText = button.querySelector('.copy-text');
-          const copiedText = button.querySelector('.copied-text');
-          
-          // Add success class
-          button.classList.add('copied');
-          
-          // Switch icons and text
-          if (copyIcon) copyIcon.style.display = 'none';
-          if (checkIcon) checkIcon.style.display = 'block';
-          if (copyText) copyText.style.display = 'none';
-          if (copiedText) copiedText.style.display = 'block';
-          
-          // Reset after 2 seconds
-          setTimeout(() => {
-            button.classList.remove('copied');
-            if (copyIcon) copyIcon.style.display = 'block';
-            if (checkIcon) checkIcon.style.display = 'none';
-            if (copyText) copyText.style.display = 'block';
-            if (copiedText) copiedText.style.display = 'none';
-          }, 2000);
-        }
-        
-        // Initialize copy code functionality
-        initCopyCode();
+    // Extract cell value (handles nested elements)
+    function getCellValue(cell) {
+      return cell.textContent.trim();
+    }
+
+    // Compare values with type detection
+    function compareValues(a, b) {
+      // Try numeric comparison
+      const aNum = parseFloat(a.replace(/[^0-9.-]/g, ''));
+      const bNum = parseFloat(b.replace(/[^0-9.-]/g, ''));
+      
+      if (!isNaN(aNum) && !isNaN(bNum)) {
+        return aNum - bNum;
+      }
+      
+      // Try date comparison
+      const aDate = Date.parse(a);
+      const bDate = Date.parse(b);
+      
+      if (!isNaN(aDate) && !isNaN(bDate)) {
+        return aDate - bDate;
+      }
+      
+      // String comparison (case-insensitive)
+      return a.toLowerCase().localeCompare(b.toLowerCase());
+    }
     console.log('[Taildown] Initialization complete');
   }
 
@@ -5896,379 +5921,118 @@ mark,
 </script>
 </head>
 <body>
-  <nav class="taildown-component component-navbar navbar" data-component="navbar"><h1>Taildown</h1><p><a href="index.html">Home</a> <a href="getting-started.html">Getting Started</a> <a href="syntax-guide.html">Syntax Guide</a> <a href="components.html">Components</a> <a href="plain-english.html">Plain English</a> <a href="editor.html">Live Editor</a></p></nav>
-<h1 class="text-4xl font-bold text-center text-primary-600 hover:text-primary-700">Getting Started with Taildown</h1>
-<p class="text-center text-lg text-gray-500"><strong>From zero to beautiful documents in 5 minutes</strong></p>
-<hr />
-<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Installation</h2>
-<div class="taildown-component component-tabs tabs" data-component="tabs"><div role="tablist" class="tabs-list"><button role="tab" aria-selected="true" tabindex="0" class="tab-button">npm (Coming Soon)</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Clone Repository</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Manual Setup</button></div><div role="tabpanel" class="tab-panel"><pre data-copyable="true"><code class="language-bash code-highlight"># Global installation
-npm install -g taildown
-
-# Or use npx
-npx taildown compile document.td
-</code><button class="code-copy-btn" data-code-id="code-fh62hfrxm" data-code-text="# Global installation
-npm install -g taildown
-
-# Or use npx
-npx taildown compile document.td
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><pre data-copyable="true"><code class="language-bash code-highlight"># Clone the repository
-git clone https://github.com/vincitamore/taildown.git
-cd taildown
-
-# Install dependencies
-pnpm install
-
-# Build all packages
-pnpm build
-</code><button class="code-copy-btn" data-code-id="code-8crtvsh3m" data-code-text="# Clone the repository
-git clone https://github.com/vincitamore/taildown.git
-cd taildown
-
-# Install dependencies
-pnpm install
-
-# Build all packages
-pnpm build
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div role="tabpanel" hidden class="tab-panel"><ol>
-<li>Download the latest release from GitHub</li>
-<li>Extract to your preferred location</li>
-<li>Run <code>pnpm install</code> in the extracted directory</li>
-<li>Run <code>pnpm build</code>to compile packages</li>
-</ol></div></div>
-<hr />
-<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Your First Document</h2>
-<p>Create a file named <code>my-first-document.td</code>:</p>
-<pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span>Hello World <span class="token punctuation">{</span><span class="token emphasis">huge-bold</span> <span class="token property">center</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line">Welcome to Taildown! <span class="token punctuation">{</span><span class="token number">large</span> <span class="token class-name">muted</span> <span class="token property">center</span><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">light-glass</span> <span class="token function">slide-up</span><span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token title punctuation">## </span>Your First Card <span class="token punctuation">{</span>medium-bold<span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line">This is a card with glassmorphism and a slide-up animation!
-</span><span class="code-line">
-</span><span class="code-line">- <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span> Beautiful by default
-</span><span class="code-line">- <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span> No configuration needed
-</span><span class="code-line">- <span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span><span class="token punctuation">}</span> Dark mode included
-</span><span class="code-line">
-</span><span class="code-line"><span class="token punctuation">[</span>Learn More<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token punctuation">:::</span>
-</span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-jqp0t9a1x" data-code-text="# Hello World {huge-bold center primary}
-
-Welcome to Taildown! {large muted center}
-
-:::card {light-glass slide-up}
-## Your First Card {medium-bold}
-
-This is a card with glassmorphism and a slide-up animation!
-
-- :icon[check]{success} Beautiful by default
-- :icon[check]{success} No configuration needed
-- :icon[check]{success} Dark mode included
-
-[Learn More](#){button primary}
-:::
-
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre>
-<hr />
-<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Compile Your Document</h2>
-<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal bg-card text-card-foreground shadow-md p-6" data-component="card"><h3>Basic Compilation</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile my-first-document.td
-</code><button class="code-copy-btn" data-code-id="code-gjvrrqnz8" data-code-text="pnpm taildown compile my-first-document.td
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre><p>This creates:</p><ul>
-<li><code>my-first-document.html</code> - Self-contained HTML with embedded CSS and JavaScript</li>
-</ul><h3>Separate CSS File</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile my-first-document.td --separate
-</code><button class="code-copy-btn" data-code-id="code-r9glo8rra" data-code-text="pnpm taildown compile my-first-document.td --separate
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre><p>This creates:</p><ul>
-<li><code>my-first-document.html</code> - HTML file</li>
-<li><code>my-first-document.css</code> - Separate CSS file</li>
-</ul><h3>Custom Output</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile my-first-document.td -o output/index.html --css output/styles.css
-</code><button class="code-copy-btn" data-code-id="code-4dxil3l78" data-code-text="pnpm taildown compile my-first-document.td -o output/index.html --css output/styles.css
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div>
-<hr />
-<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Understanding the Output</h2>
-<div class="taildown-component component-grid grid grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-file text-primary-600 hover:text-primary-700" data-icon="file" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /></svg> HTML Output</h3><ul>
-<li>Semantic HTML5 structure</li>
-<li>Proper heading hierarchy</li>
-<li>Accessible ARIA attributes</li>
-<li>Mobile-responsive viewport</li>
-<li>Dark mode support</li>
-</ul><pre data-copyable="true"><code class="language-html code-highlight">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-  &lt;meta charset=&quot;UTF-8&quot;&gt;
-  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-  &lt;style&gt;/* CSS here */&lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;!-- Your content --&gt;
-  &lt;script&gt;/* JS here */&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code><button class="code-copy-btn" data-code-id="code-rsrfgolpo" data-code-text="&#x26;lt;!DOCTYPE html&#x26;gt;
-&#x26;lt;html&#x26;gt;
-&#x26;lt;head&#x26;gt;
-  &#x26;lt;meta charset=&#x26;quot;UTF-8&#x26;quot;&#x26;gt;
-  &#x26;lt;meta name=&#x26;quot;viewport&#x26;quot; content=&#x26;quot;width=device-width, initial-scale=1.0&#x26;quot;&#x26;gt;
-  &#x26;lt;style&#x26;gt;/* CSS here */&#x26;lt;/style&#x26;gt;
-&#x26;lt;/head&#x26;gt;
-&#x26;lt;body&#x26;gt;
-  &#x26;lt;!-- Your content --&#x26;gt;
-  &#x26;lt;script&#x26;gt;/* JS here */&#x26;lt;/script&#x26;gt;
-&#x26;lt;/body&#x26;gt;
-&#x26;lt;/html&#x26;gt;
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-light shadow-md" data-component="card"><h3 class="medium-bold"><svg class="icon icon-palette text-accent-600 hover:text-accent-700" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg> CSS Output</h3><ul>
-<li>Tailwind-inspired utilities</li>
-<li>CSS custom properties for themes</li>
-<li>Dark mode with <code>.dark</code> class</li>
-<li>Glassmorphism effects</li>
-<li>Scroll animations</li>
-<li>Component styles</li>
-</ul><pre data-copyable="true"><code class="language-css code-highlight">:root {
-  --primary: #3b82f6;
-  --background: #ffffff;
-}
-
-.dark {
-  --background: #030712;
-}
-</code><button class="code-copy-btn" data-code-id="code-qpm03fcpd" data-code-text=":root {
-  --primary: #3b82f6;
-  --background: #ffffff;
-}
-
-.dark {
-  --background: #030712;
-}
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre></div></div>
-<hr />
-<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Basic Syntax Overview</h2>
-<div class="taildown-component component-tabs tabs" data-component="tabs"><div role="tablist" class="tabs-list"><button role="tab" aria-selected="true" tabindex="0" class="tab-button">Plain English Styling</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Icons</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Components</button><button role="tab" aria-selected="false" tabindex="-1" class="tab-button">Glassmorphism</button></div><div role="tabpanel" class="tab-panel"><p>Use natural language for styling:</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token title punctuation"># </span>Large Bold Primary Heading <span class="token punctuation">{</span><span class="token emphasis">huge-bold</span> <span class="token class-name">primary</span> <span class="token property">center</span><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line">This paragraph has muted text and relaxed line spacing. <span class="token punctuation">{</span><span class="token number">large</span> <span class="token class-name">muted</span> <span class="token emphasis">relaxed-lines</span><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token punctuation">[</span>Click Me<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token number">large</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-zbe2xixqt" data-code-text="# Large Bold Primary Heading {huge-bold primary center}
-
-This paragraph has muted text and relaxed line spacing. {large muted relaxed-lines}
-
-[Click Me](#){button primary large hover-lift}
-
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre><p><strong>Common shorthands:</strong></p><ul>
-<li>Sizes: <code>xs</code>, <code>small</code>, <code>large</code>, <code>xl</code>, <code>2xl</code>, <code>huge</code>, <code>massive</code></li>
-<li>Colors: <code>primary</code>, <code>secondary</code>, <code>accent</code>, <code>success</code>, <code>warning</code>, <code>error</code>, <code>muted</code></li>
-<li>Weights: <code>thin</code>, <code>light</code>, <code>normal</code>, <code>semibold</code>, <code>bold</code></li>
-<li>Effects: <code>rounded</code>, <code>shadow</code>, <code>elevated</code>, <code>glass</code></li>
-</ul></div><div role="tabpanel" hidden class="tab-panel"><p>Use the <code>:icon[]</code> syntax for Lucide icons:</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">heart</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">primary</span><span class="token punctuation">}</span> Love this feature
-</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">check-circle</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">success</span> <span class="token number">large</span><span class="token punctuation">}</span> Completed
-</span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">arrow-right</span><span class="token punctuation">]</span> Next step
-</span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-0ani847gp" data-code-text=":icon[heart]{primary} Love this feature
-:icon[check-circle]{success large} Completed
-:icon[arrow-right] Next step
-
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre><p><strong>Popular icons:</strong></p><ul>
-<li>Navigation: <code>home</code>, <code>menu</code>, <code>search</code>, <code>settings</code>, <code>user</code></li>
-<li>Actions: <code>check</code>, <code>x</code>, <code>plus</code>, <code>edit</code>, <code>trash</code></li>
-<li>Social: <code>github</code>, <code>twitter</code>, <code>linkedin</code></li>
-<li>UI: <code>heart</code>, <code>star</code>, <code>bookmark</code>, <code>share</code></li>
-</ul></div><div role="tabpanel" hidden class="tab-panel"><p>Use <code>:::component</code> syntax for component blocks:</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">elevated</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token title punctuation">## </span>Card Title <span class="token punctuation">{</span><span class="token emphasis">large-bold</span><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line">Card content with automatic styling.
-</span><span class="code-line">
-</span><span class="code-line"><span class="token punctuation">[</span>Button Text<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span><span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token punctuation">:::</span>
-</span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-rmrz53t4z" data-code-text=":::card {elevated hover-lift}
-## Card Title {large-bold}
-
-Card content with automatic styling.
-
-[Button Text](#){button primary}
-:::
-
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre><p><strong>Built-in components:</strong></p><ul>
-<li>Containers: <code>card</code>, <code>container</code>, <code>grid</code></li>
-<li>Interactive: <code>tabs</code>, <code>accordion</code>, <code>carousel</code>, <code>modal</code>, <code>tooltip</code></li>
-<li>UI: <code>alert</code>, <code>button</code>, <code>badge</code>, <code>avatar</code></li>
-</ul></div><div role="tabpanel" hidden class="tab-panel"><p>Add frosted glass effects:</p><pre data-copyable="true"><code class="language-taildown code-highlight language-taildown"><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">subtle-glass</span><span class="token punctuation">}</span>
-</span><span class="code-line">Light frosted glass (90% transparency)
-</span><span class="code-line"><span class="token punctuation">:::</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">light-glass</span><span class="token punctuation">}</span>
-</span><span class="code-line">Medium frosted glass (75% transparency)
-</span><span class="code-line"><span class="token punctuation">:::</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token punctuation">:::</span><span class="token tag">card</span> <span class="token punctuation">{</span><span class="token attr-name">heavy-glass</span><span class="token punctuation">}</span>
-</span><span class="code-line">Heavy frosted glass (60% transparency)
-</span><span class="code-line"><span class="token punctuation">:::</span>
-</span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-7th4mora9" data-code-text=":::card {subtle-glass}
-Light frosted glass (90% transparency)
-:::
-
-:::card {light-glass}
-Medium frosted glass (75% transparency)
-:::
-
-:::card {heavy-glass}
-Heavy frosted glass (60% transparency)
-:::
-
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre><p>All glass effects include:</p><ul>
-<li>Backdrop blur</li>
-<li>Gradient borders</li>
-<li>Subtle shadows</li>
-<li>Smooth transitions</li>
-</ul></div></div>
-<hr />
-<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700">Dark Mode Guide</h2>
-<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-heavy shadow-xl p-6" data-component="card"><h3 class="text-lg font-bold text-center"><svg class="icon icon-moon text-accent-600 hover:text-accent-700 text-4xl" data-icon="moon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" /></svg> Dark Mode is Automatic</h3><p>Every Taildown document includes dark mode by default:</p><p><strong>Features:</strong></p><ul>
-<li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Auto-detection of system preference</li>
-<li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Floating toggle button (bottom-right)</li>
-<li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> LocalStorage persistence</li>
-<li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Smooth 300ms transitions</li>
-<li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> CSS variables for colors</li>
-<li><svg class="icon icon-check text-green-600" data-icon="check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg> Zero configuration required</li>
-</ul><p><strong>How it works:</strong></p><ol>
-<li><strong>First Visit:</strong> Detects system dark mode preference (<code>prefers-color-scheme</code>)</li>
-<li><strong>Toggle:</strong> Click the moon/sun button to switch themes</li>
-<li><strong>Persistence:</strong> Your choice is saved to localStorage</li>
-<li><strong>Consistency:</strong> Same theme on all future visits</li>
-</ol><p><strong>CSS Variables:</strong></p><pre data-copyable="true"><code class="language-css code-highlight">:root {
-  --background: #ffffff;
-  --foreground: #111827;
-  --primary: #3b82f6;
-}
-
-.dark {
-  --background: #030712;
-  --foreground: #f9fafb;
-  --primary: #3b82f6;
-}
-</code><button class="code-copy-btn" data-code-id="code-or7pkdp7h" data-code-text=":root {
-  --background: #ffffff;
-  --foreground: #111827;
-  --primary: #3b82f6;
-}
-
-.dark {
-  --background: #030712;
-  --foreground: #f9fafb;
-  --primary: #3b82f6;
-}
-" aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-          <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M20 6 9 17l-5-5"/>
-        </svg>
-        <span class="copy-text">Copy</span>
-        <span class="copied-text" style="display: none;">Copied!</span></button></pre><p>All components automatically adapt to dark mode!</p></div>
-<hr />
-<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700 text-center">Next Steps</h2>
-<div class="taildown-component component-grid grid grid-cols-3" data-component="grid"><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-book-open text-primary-600 hover:text-primary-700 text-4xl" data-icon="book-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg></h3><p class="text-lg font-bold text-center"><strong>Syntax Guide</strong></p><p>Deep dive into Taildown syntax and capabilities.</p><p><a href="syntax-guide.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center duration-200 cursor-pointer no-underline bg-primary text-primary-foreground hover:bg-primary hover:brightness-110 active:brightness-95 shadow-md hover:shadow-lg transition-all">Read Guide</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-palette text-accent-600 hover:text-accent-700 text-4xl" data-icon="palette" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg></h3><p class="text-lg font-bold text-center"><strong>Plain English</strong></p><p>Complete reference of all styling shorthands.</p><p><a href="plain-english.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center duration-200 cursor-pointer no-underline bg-secondary text-secondary-foreground hover:bg-secondary hover:brightness-110 active:brightness-95 shadow-md hover:shadow-lg transition-all">View Reference</a></p></div><div class="taildown-component component-card rounded-lg p-6 max-w-full overflow-x-hidden overflow-wrap-normal bg-card text-card-foreground shadow-md animate-zoom-in hover:transform hover:-translate-y-1 transition-transform duration-200" data-component="card"><h3 class="text-center"><svg class="icon icon-package text-green-600 text-4xl" data-icon="package" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path d="m7.5 4.27 9 5.15" /></svg></h3><p class="text-lg font-bold text-center"><strong>Components</strong></p><p>Explore all 18+ built-in components.</p><p><a href="components.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center duration-200 cursor-pointer no-underline bg-info text-info-foreground hover:bg-info hover:brightness-110 active:brightness-95 shadow-md hover:shadow-lg transition-all">Browse Components</a></p></div></div>
-<hr />
-<div class="taildown-component component-alert alert alert-success" data-component="alert"><p><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> <strong>You're ready to start!</strong> Create your first document and see the magic happen. Remember, dark mode works automatically - just try clicking the toggle button!</p></div>
-<p><a href="index.html" class="inline-block px-6 py-3 rounded-lg font-medium text-center cursor-pointer no-underline bg-primary text-primary-foreground hover:bg-primary hover:brightness-110 active:brightness-95 shadow-md hover:shadow-lg transition-all text-lg hover:transform hover:-translate-y-1 transition-transform duration-200">Back to Home</a></p>
+  <h1>Enhanced Table Tests</h1>
+<h2>Basic Table (no enhancements)</h2>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Role</th>
+<th>Experience</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alice</td>
+<td>Developer</td>
+<td>5 years</td>
+</tr>
+<tr>
+<td>Bob</td>
+<td>Designer</td>
+<td>3 years</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Sortable Table</h2>
+<div class="table-wrapper"><table class="table-enhanced table-sortable" data-component="table" data-sortable="true" data-enhanced="true">
+<thead>
+<tr>
+<th data-sortable="true" class="sortable-header">Name<span class="sort-icon" aria-hidden="true"></span></th>
+<th data-sortable="true" class="sortable-header">Role<span class="sort-icon" aria-hidden="true"></span></th>
+<th data-sortable="true" class="sortable-header">Salary<span class="sort-icon" aria-hidden="true"></span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alice</td>
+<td>Developer</td>
+<td>$85,000</td>
+</tr>
+<tr>
+<td>Bob</td>
+<td>Designer</td>
+<td>$75,000</td>
+</tr>
+<tr>
+<td>Charlie</td>
+<td>Manager</td>
+<td>$120,000</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Zebra Striped Table</h2>
+<div class="table-wrapper"><table class="table-enhanced table-zebra" data-component="table" data-enhanced="true">
+<thead>
+<tr>
+<th>Product</th>
+<th>Price</th>
+<th>Stock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Widget A</td>
+<td>$19.99</td>
+<td>150</td>
+</tr>
+<tr>
+<td>Widget B</td>
+<td>$29.99</td>
+<td>75</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Glass Table</h2>
+<div class="table-wrapper"><table class="table-enhanced glass-effect table-glass" data-component="table" data-enhanced="true">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Users</td>
+<td>1,250</td>
+</tr>
+<tr>
+<td>Revenue</td>
+<td>$45k</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Combined Features</h2>
+<div class="table-wrapper"><table class="table-enhanced table-sortable table-zebra table-hoverable glass-effect table-glass" data-component="table" data-sortable="true" data-enhanced="true">
+<thead>
+<tr>
+<th data-sortable="true" class="sortable-header">Project<span class="sort-icon" aria-hidden="true"></span></th>
+<th data-sortable="true" class="sortable-header">Lead<span class="sort-icon" aria-hidden="true"></span></th>
+<th data-sortable="true" class="sortable-header">Status<span class="sort-icon" aria-hidden="true"></span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web App</td>
+<td>Alice</td>
+<td>Active</td>
+</tr>
+<tr>
+<td>Mobile</td>
+<td>Bob</td>
+<td>Complete</td>
+</tr>
+</tbody>
+</table></div>
 </body>
 </html>

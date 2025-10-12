@@ -70,6 +70,27 @@ export async function compile(
   }
   findComponents(ast);
 
+  // Detect if document contains Mermaid diagrams for tree-shaken inline bundling
+  let hasMermaid = false;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function detectMermaid(node: any): void {
+    if (hasMermaid) return; // Early exit if already found
+    
+    // Check for code blocks with language-mermaid
+    if (node.type === 'code' && node.lang === 'mermaid') {
+      hasMermaid = true;
+      return;
+    }
+    
+    if (node.children) {
+      for (const child of node.children) {
+        detectMermaid(child);
+        if (hasMermaid) break; // Early exit
+      }
+    }
+  }
+  detectMermaid(ast);
+
   // Convert MDAST to HAST first (this applies component handlers and adds Tailwind classes)
   const hast = await astToHast(ast);
   
@@ -138,6 +159,31 @@ export async function compile(
     usedComponents.add('copy-code');
   }
   
+  // Check for sortable tables
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function hasSortableTables(node: any): boolean {
+    if (node && typeof node === 'object') {
+      if (node.type === 'element' && node.tagName === 'table') {
+        if (node.properties?.dataSortable === 'true' || 
+            node.properties?.className?.includes('table-sortable')) {
+          return true;
+        }
+      }
+      if (node.children && Array.isArray(node.children)) {
+        for (const child of node.children) {
+          if (hasSortableTables(child)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+  
+  if (hasSortableTables(hast)) {
+    usedComponents.add('table');
+  }
+  
   // Navbar components are already tracked via containerDirective detection
   // Just verify it's in the set for JavaScript generation
   
@@ -155,6 +201,7 @@ export async function compile(
     openGraph: options.openGraph,
     css: css,
     js: js,
+    hasMermaid: hasMermaid,
     cssFilename: options.cssFilename,
     jsFilename: options.jsFilename,
     inlineStyles: options.inlineStyles,

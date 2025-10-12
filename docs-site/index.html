@@ -3120,6 +3120,1375 @@ td svg.icon {
 }
 
 /* ========================================
+ * DETAILS/SUMMARY COMPONENT
+ * Native HTML5 disclosure widget with modern styling
+ * ======================================== */
+
+.details-component {
+  position: relative;
+  transition: var(--transition-base);
+  cursor: pointer;
+}
+
+/* Summary element - the clickable header */
+.details-component summary {
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.125rem 0;
+  color: var(--foreground);
+  user-select: none;
+  outline: none;
+  transition: color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Remove default disclosure triangle across browsers */
+.details-component summary::-webkit-details-marker {
+  display: none;
+}
+
+.details-component summary::marker {
+  display: none;
+}
+
+/* Add custom chevron icon with smooth rotation */
+.details-component summary::after {
+  content: '▶';
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1), color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  margin-left: auto;
+  padding-left: 0.5rem;
+}
+
+/* Hover effect on summary */
+.details-component summary:hover {
+  color: var(--primary);
+}
+
+.details-component summary:hover::after {
+  color: var(--primary);
+}
+
+/* Rotate chevron when open */
+.details-component[open] summary::after {
+  transform: rotate(90deg);
+}
+
+/* Details content - the expandable section */
+.details-component .details-content,
+.details-component > *:not(summary) {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  animation: detailsSlideIn 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Remove margins from first and last children */
+.details-component > *:first-child:not(summary) {
+  margin-top: 0;
+}
+
+.details-component > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Slide in animation */
+@keyframes detailsSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus states for accessibility */
+.details-component summary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .details-component {
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .details-component summary {
+    font-size: 0.9375rem;
+  }
+}
+
+/* Dark mode adjustments */
+.dark .details-component summary::after {
+  color: var(--muted-foreground);
+}
+
+/* ========================================
+ * CALLOUT/ADMONITION COMPONENT
+ * Semantic alert boxes with type-based coloring
+ * ======================================== */
+
+.callout-component {
+  position: relative;
+  margin-bottom: 1.5rem;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Callout icon area */
+.callout-component .icon:first-child {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+/* Callout content area */
+.callout-component > * {
+  margin: 0;
+}
+
+.callout-component > *:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+
+/* Callout title (bold text) */
+.callout-component strong:first-of-type {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.375rem;
+}
+
+/* Type-specific styling with proper color combinations */
+
+/* Note - Blue */
+.callout-note {
+  background: rgba(59, 130, 246, 0.08);
+  border-color: rgba(59, 130, 246, 0.6);
+}
+
+.dark .callout-note {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: rgba(59, 130, 246, 0.5);
+  color: rgb(147, 197, 253);
+}
+
+/* Info - Sky Blue */
+.callout-info {
+  background: rgba(14, 165, 233, 0.08);
+  border-color: rgba(14, 165, 233, 0.6);
+}
+
+.dark .callout-info {
+  background: rgba(14, 165, 233, 0.12);
+  border-color: rgba(14, 165, 233, 0.5);
+  color: rgb(125, 211, 252);
+}
+
+/* Tip - Green */
+.callout-tip {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.6);
+}
+
+.dark .callout-tip {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.5);
+  color: rgb(134, 239, 172);
+}
+
+/* Success - Emerald */
+.callout-success {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.6);
+}
+
+.dark .callout-success {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.5);
+  color: rgb(110, 231, 183);
+}
+
+/* Warning - Amber */
+.callout-warning {
+  background: rgba(245, 158, 11, 0.08);
+  border-color: rgba(245, 158, 11, 0.6);
+}
+
+.dark .callout-warning {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.5);
+  color: rgb(252, 211, 77);
+}
+
+/* Danger - Red */
+.callout-danger {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.6);
+}
+
+.dark .callout-danger {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: rgb(252, 165, 165);
+}
+
+/* Error - Rose */
+.callout-error {
+  background: rgba(244, 63, 94, 0.08);
+  border-color: rgba(244, 63, 94, 0.6);
+}
+
+.dark .callout-error {
+  background: rgba(244, 63, 94, 0.12);
+  border-color: rgba(244, 63, 94, 0.5);
+  color: rgb(251, 113, 133);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .callout-component {
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .callout-component strong:first-of-type {
+    font-size: 0.9375rem;
+  }
+}
+
+/* ========================================
+ * MULTI-COLUMN LAYOUT COMPONENT
+ * CSS columns for magazine-style text flow
+ * ======================================== */
+
+.columns-component {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+/* Column count variants */
+.columns-2 {
+  column-count: 2;
+  column-gap: 2rem;
+}
+
+.columns-3 {
+  column-count: 3;
+  column-gap: 2rem;
+}
+
+.columns-4 {
+  column-count: 4;
+  column-gap: 2rem;
+}
+
+.columns-auto {
+  column-width: 18rem;
+  column-gap: 2rem;
+}
+
+/* Gap variants */
+.columns-component.gap-sm {
+  column-gap: 1rem;
+}
+
+.columns-component.gap {
+  column-gap: 2rem;
+}
+
+.columns-component.gap-lg {
+  column-gap: 3rem;
+}
+
+.columns-component.gap-xl {
+  column-gap: 4rem;
+}
+
+/* Column divider line */
+.column-divider {
+  column-rule: 1px solid var(--border);
+}
+
+/* Balanced columns */
+.column-balanced {
+  column-fill: balance;
+}
+
+/* Prevent awkward breaks */
+.columns-component h1,
+.columns-component h2,
+.columns-component h3,
+.columns-component h4,
+.columns-component h5,
+.columns-component h6 {
+  break-after: avoid;
+  break-inside: avoid;
+  column-span: none;
+}
+
+.columns-component p {
+  break-inside: avoid;
+}
+
+.columns-component img,
+.columns-component figure {
+  break-inside: avoid;
+  max-width: 100%;
+}
+
+/* Mobile: Always single column for readability */
+@media (max-width: 640px) {
+  .columns-2,
+  .columns-3,
+  .columns-4,
+  .columns-auto {
+    column-count: 1;
+  }
+}
+
+/* Tablet: Reduce column count */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .columns-3 {
+    column-count: 2;
+  }
+  
+  .columns-4 {
+    column-count: 2;
+  }
+}
+
+/* Desktop: Full column count */
+@media (min-width: 1025px) {
+  .columns-2 {
+    column-count: 2;
+  }
+  
+  .columns-3 {
+    column-count: 3;
+  }
+  
+  .columns-4 {
+    column-count: 4;
+  }
+}
+
+/* Dark mode support */
+.dark .column-divider {
+  column-rule-color: var(--border);
+}
+
+/* ========================================
+ * DEFINITION LIST COMPONENT
+ * Semantic <dl> element for term-definition pairs
+ * ======================================== */
+
+.definitions-component {
+  margin-bottom: 1.5rem;
+  max-width: 100%;
+}
+
+/* Definition item wrapper */
+.definitions-component > div,
+.definition-item {
+  margin-bottom: 1rem;
+}
+
+.definitions-component > div:last-child,
+.definition-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Term styling (dt) */
+.definitions-component dt {
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 0.25rem;
+  font-size: 0.9375rem;
+}
+
+/* Definition styling (dd) */
+.definitions-component dd {
+  margin-left: 0;
+  padding-left: 1.5rem;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+}
+
+/* Vertical layout (default) */
+.definitions-vertical dt {
+  margin-bottom: 0.375rem;
+}
+
+.definitions-vertical dd {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--border);
+}
+
+/* Horizontal layout - side by side */
+.definitions-horizontal {
+  display: grid;
+  grid-template-columns: minmax(150px, 200px) 1fr;
+  gap: 1rem 2rem;
+  align-items: baseline;
+}
+
+.definitions-horizontal dt {
+  margin-bottom: 0;
+  text-align: right;
+  padding-right: 1rem;
+  border-right: 2px solid var(--border);
+}
+
+.definitions-horizontal dd {
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+/* Compact layout - tighter spacing */
+.definitions-compact > div,
+.definitions-compact .definition-item {
+  margin-bottom: 0.5rem;
+}
+
+.definitions-compact dt {
+  font-size: 0.875rem;
+}
+
+.definitions-compact dd {
+  font-size: 0.875rem;
+  padding-left: 1rem;
+}
+
+/* Mobile: Force vertical layout */
+@media (max-width: 640px) {
+  .definitions-horizontal {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .definitions-horizontal dt {
+    text-align: left;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding-right: 0;
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .definitions-horizontal dd {
+    padding-left: 0.75rem;
+  }
+  
+  .definitions-component {
+    font-size: 0.875rem;
+  }
+}
+
+/* Dark mode adjustments */
+.dark .definitions-component dt {
+  color: var(--foreground);
+}
+
+.dark .definitions-component dd {
+  color: var(--muted-foreground);
+}
+
+/* ========================================
+ * STATS/METRICS COMPONENT
+ * Prominent statistics display for landing pages
+ * ======================================== */
+
+.stats-component {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Column count variants - responsive */
+.stats-cols-2 {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.stats-cols-3 {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.stats-cols-4 {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+/* Tablet */
+@media (min-width: 641px) {
+  .stats-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .stats-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .stats-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  .stats-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .stats-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Individual stat item */
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2rem 1.5rem;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Stat value - large and prominent */
+.stat-value,
+.stat-item > h3,
+.stat-item > strong {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--foreground);
+  margin: 0;
+}
+
+/* Stat label - descriptive text */
+.stat-label,
+.stat-item > p {
+  font-size: 0.9375rem;
+  color: var(--muted-foreground);
+  font-weight: 500;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Stat icon */
+.stat-item .icon {
+  flex-shrink: 0;
+  margin-bottom: 0.5rem;
+}
+
+/* Glass variant for stat items */
+.stats-glass .stat-item {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.dark .stats-glass .stat-item {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Elevated variant */
+.stats-elevated .stat-item {
+  background: var(--card);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
+}
+
+/* Bordered variant */
+.stats-bordered .stat-item {
+  border: 2px solid var(--border);
+  border-radius: 0.75rem;
+}
+
+/* Hover effects on stats */
+.stat-item:hover {
+  transform: translateY(-2px);
+}
+
+.stats-glass .stat-item:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .stat-value,
+  .stat-item > h3,
+  .stat-item > strong {
+    font-size: 2rem;
+  }
+  
+  .stat-label,
+  .stat-item > p {
+    font-size: 0.8125rem;
+  }
+  
+  .stat-item {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* ========================================
+ * DIVIDER/SEPARATOR COMPONENT
+ * Enhanced horizontal rules with decorative options
+ * ======================================== */
+
+.divider-component {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem 0;
+  width: 100%;
+}
+
+/* Solid divider */
+.divider-solid {
+  height: 1px;
+  background: var(--border);
+}
+
+/* Text divider */
+.divider-text {
+  text-align: center;
+  color: var(--muted-foreground);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.divider-text::before,
+.divider-text::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  margin: 0 1rem;
+}
+
+/* Icon divider */
+.divider-icon {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.divider-icon::before,
+.divider-icon::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Gradient divider */
+.divider-gradient {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+}
+
+/* Dotted divider */
+.divider-dots {
+  height: 1px;
+  background-image: linear-gradient(90deg, var(--border) 50%, transparent 50%);
+  background-size: 8px 1px;
+  background-repeat: repeat-x;
+}
+
+/* Dashed divider */
+.divider-dashed {
+  height: 1px;
+  background-image: linear-gradient(90deg, var(--border) 60%, transparent 40%);
+  background-size: 16px 1px;
+  background-repeat: repeat-x;
+}
+
+/* Double divider */
+.divider-double {
+  height: 3px;
+  background: linear-gradient(180deg, var(--border) 0%, var(--border) 33%, transparent 33%, transparent 66%, var(--border) 66%, var(--border) 100%);
+}
+
+/* Wavy divider */
+.divider-wavy {
+  height: 4px;
+  background: repeating-linear-gradient(90deg, transparent, transparent 8px, var(--border) 8px, var(--border) 12px);
+  border-radius: 2px;
+}
+
+/* Thick divider */
+.divider-thick {
+  height: 3px;
+  background: var(--border);
+}
+
+/* Color variants */
+.divider-primary::before,
+.divider-primary::after,
+.divider-primary {
+  background: var(--primary);
+}
+
+.divider-accent::before,
+.divider-accent::after,
+.divider-accent {
+  background: var(--accent);
+}
+
+.divider-muted::before,
+.divider-muted::after,
+.divider-muted {
+  background: var(--muted-foreground);
+  opacity: 0.3;
+}
+
+.divider-success::before,
+.divider-success::after,
+.divider-success {
+  background: var(--success);
+}
+
+.divider-warning::before,
+.divider-warning::after,
+.divider-warning {
+  background: var(--warning);
+}
+
+.divider-error::before,
+.divider-error::after,
+.divider-error {
+  background: var(--error);
+}
+
+/* Text color for text dividers */
+.divider-text.divider-primary {
+  color: var(--primary);
+}
+
+.divider-text.divider-accent {
+  color: var(--accent);
+}
+
+.divider-text.divider-success {
+  color: var(--success);
+}
+
+.divider-text.divider-warning {
+  color: var(--warning);
+}
+
+.divider-text.divider-error {
+  color: var(--error);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .divider-component {
+    margin: 1.5rem 0;
+  }
+  
+  .divider-text {
+    font-size: 0.8125rem;
+  }
+  
+  .divider-text::before,
+  .divider-text::after {
+    margin: 0 0.75rem;
+  }
+}
+
+/* ========================================
+ * ENHANCED BLOCKQUOTE COMPONENT
+ * Beautiful blockquotes with attribution and styling variants
+ * ======================================== */
+
+/* Base blockquote styling */
+blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid var(--primary);
+  background: rgba(0, 0, 0, 0.02);
+  font-style: italic;
+  color: var(--foreground);
+  position: relative;
+}
+
+.dark blockquote {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Decorative quote marks */
+blockquote::before {
+  content: '"';
+  position: absolute;
+  top: -0.5rem;
+  left: 0.5rem;
+  font-size: 3rem;
+  color: var(--primary);
+  opacity: 0.2;
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+/* Remove margins from content */
+blockquote > *:first-child {
+  margin-top: 0;
+}
+
+blockquote > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Pull Quote Variant - Large, centered, emphasized */
+blockquote.pull-quote {
+  border-left: none;
+  border-top: 3px solid var(--primary);
+  border-bottom: 3px solid var(--primary);
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  padding: 2rem 3rem;
+  margin: 2rem auto;
+  max-width: 42rem;
+  font-weight: 500;
+  background: transparent;
+}
+
+blockquote.pull-quote::before {
+  display: none;
+}
+
+/* Testimonial Variant - With attribution styling */
+blockquote.testimonial {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  border-radius: 0.75rem;
+  border-left: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.dark blockquote.testimonial {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+blockquote.testimonial::before {
+  font-size: 4rem;
+  top: -1rem;
+  left: 1rem;
+  opacity: 0.15;
+}
+
+/* Attribution detection - lines starting with em dash */
+blockquote cite,
+blockquote .attribution,
+blockquote p:last-child:has(em:first-child) {
+  display: block;
+  margin-top: 1rem;
+  font-style: normal;
+  font-size: 0.9375rem;
+  color: var(--muted-foreground);
+  font-weight: 500;
+}
+
+/* Bordered Variant - Heavy border left */
+blockquote.bordered {
+  border-left-width: 6px;
+  background: transparent;
+}
+
+/* Glass Variant - Glassmorphism effect */
+blockquote.glass {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.dark blockquote.glass {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+blockquote.glass::before {
+  opacity: 0.1;
+}
+
+/* Subtle Glass Variant */
+blockquote.subtle-glass {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  border-radius: 0.5rem;
+  border-left: 4px solid var(--primary);
+}
+
+.dark blockquote.subtle-glass {
+  background: rgba(15, 23, 42, 0.3);
+}
+
+/* Color variants for blockquote borders */
+blockquote.primary {
+  border-color: var(--primary);
+}
+
+blockquote.success {
+  border-color: var(--success);
+}
+
+blockquote.warning {
+  border-color: var(--warning);
+}
+
+blockquote.error {
+  border-color: var(--error);
+}
+
+blockquote.accent {
+  border-color: var(--accent);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  blockquote {
+    padding: 0.875rem 1rem;
+    font-size: 0.9375rem;
+  }
+  
+  blockquote.pull-quote {
+    font-size: 1.25rem;
+    padding: 1.5rem 1rem;
+  }
+  
+  blockquote::before {
+    font-size: 2rem;
+    top: -0.25rem;
+  }
+}
+
+/* ========================================
+ * MARK/HIGHLIGHT COMPONENT
+ * Inline text highlighting with semantic colors
+ * ======================================== */
+
+mark,
+.highlight {
+  background: rgba(250, 204, 21, 0.3);
+  color: rgb(113, 63, 18);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  display: inline;
+}
+
+.dark mark,
+.dark .highlight {
+  background: rgba(250, 204, 21, 0.25);
+  color: rgb(253, 224, 71);
+}
+
+/* Warning variant - Orange/yellow */
+.highlight-warning {
+  background: rgba(251, 146, 60, 0.3);
+  color: rgb(154, 52, 18);
+}
+
+.dark .highlight-warning {
+  background: rgba(251, 146, 60, 0.25);
+  color: rgb(253, 186, 116);
+}
+
+/* Success variant - Green */
+.highlight-success {
+  background: rgba(34, 197, 94, 0.25);
+  color: rgb(21, 128, 61);
+}
+
+.dark .highlight-success {
+  background: rgba(34, 197, 94, 0.2);
+  color: rgb(134, 239, 172);
+}
+
+/* Error variant - Red */
+.highlight-error {
+  background: rgba(239, 68, 68, 0.25);
+  color: rgb(153, 27, 27);
+}
+
+.dark .highlight-error {
+  background: rgba(239, 68, 68, 0.2);
+  color: rgb(252, 165, 165);
+}
+
+/* Info variant - Blue */
+.highlight-info {
+  background: rgba(59, 130, 246, 0.25);
+  color: rgb(29, 78, 216);
+}
+
+.dark .highlight-info {
+  background: rgba(59, 130, 246, 0.2);
+  color: rgb(147, 197, 253);
+}
+
+/* Primary variant - Brand color */
+.highlight-primary {
+  background: rgba(59, 130, 246, 0.25);
+  color: rgb(29, 78, 216);
+}
+
+.dark .highlight-primary {
+  background: rgba(59, 130, 246, 0.2);
+  color: rgb(147, 197, 253);
+}
+
+/* Muted variant - Gray */
+.highlight-muted {
+  background: rgba(107, 114, 128, 0.2);
+  color: rgb(55, 65, 81);
+}
+
+.dark .highlight-muted {
+  background: rgba(107, 114, 128, 0.15);
+  color: rgb(209, 213, 219);
+}
+
+/* Maintain text flow */
+mark,
+.highlight {
+  line-height: inherit;
+  vertical-align: baseline;
+}
+
+/* ========================================
+ * STEP INDICATOR COMPONENT
+ * Visual progress indicator for multi-step processes
+ * ======================================== */
+
+.steps-component {
+  margin-bottom: 1.5rem;
+  max-width: 100%;
+}
+
+/* Vertical layout (default) */
+.steps-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Individual step */
+.step-item {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+}
+
+/* Step indicator - circular number/icon */
+.step-indicator {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--muted);
+  color: var(--muted-foreground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 2px solid var(--border);
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Step content */
+.step-content {
+  flex: 1;
+  padding-top: 0.25rem;
+}
+
+.step-content h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.step-content p {
+  color: var(--muted-foreground);
+  margin: 0.5rem 0;
+}
+
+/* Connecting lines between steps */
+.steps-connected .step-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 1.25rem;
+  top: 2.5rem;
+  bottom: -1.5rem;
+  width: 2px;
+  background: var(--border);
+}
+
+/* Current step state */
+.step-current .step-indicator {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+/* Completed step state */
+.step-completed .step-indicator {
+  background: var(--success);
+  color: white;
+  border-color: var(--success);
+}
+
+.step-completed .step-indicator::after {
+  content: '✓';
+}
+
+/* Horizontal layout - higher specificity to override vertical */
+.steps-component.steps-horizontal {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  overflow-x: auto;
+}
+
+.steps-component.steps-horizontal .step-item {
+  flex-direction: column;
+  text-align: center;
+  flex: 1;
+  min-width: 150px;
+  align-items: center;
+}
+
+.steps-component.steps-horizontal .step-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.steps-component.steps-horizontal .step-content h3 {
+  font-size: 1rem;
+}
+
+/* Connecting lines for horizontal */
+.steps-component.steps-horizontal.steps-connected .step-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 1.25rem;
+  left: 100%;
+  width: 2rem;
+  height: 2px;
+  background: var(--border);
+  margin-left: 0.5rem;
+}
+
+/* Compact variant */
+.steps-compact {
+  gap: 1rem;
+}
+
+.steps-compact .step-indicator {
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.875rem;
+}
+
+.steps-compact .step-content h3 {
+  font-size: 1rem;
+}
+
+/* Glass variant for step cards */
+.steps-glass .step-item {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .steps-glass .step-item {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile responsiveness - horizontal becomes vertical */
+@media (max-width: 640px) {
+  .steps-horizontal {
+    flex-direction: column;
+  }
+  
+  .steps-horizontal .step-item {
+    flex-direction: row;
+    text-align: left;
+  }
+  
+  .steps-horizontal.steps-connected .step-item:not(:last-child)::after {
+    left: 1.25rem;
+    top: 2.5rem;
+    bottom: -1rem;
+    width: 2px;
+    height: auto;
+  }
+  
+  .step-indicator {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.875rem;
+  }
+  
+  .step-content h3 {
+    font-size: 1rem;
+  }
+}
+
+/* ========================================
+ * VIDEO EMBED COMPONENT
+ * Responsive video embeds with aspect ratio preservation
+ * ======================================== */
+
+.video-component {
+  margin-bottom: 1.5rem;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Aspect ratio containers */
+.aspect-16-9 {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-4-3 {
+  aspect-ratio: 4 / 3;
+}
+
+.aspect-21-9 {
+  aspect-ratio: 21 / 9;
+}
+
+.aspect-1-1 {
+  aspect-ratio: 1 / 1;
+}
+
+/* Fallback for older browsers */
+@supports not (aspect-ratio: 16 / 9) {
+  .aspect-16-9 {
+    padding-bottom: 56.25%; /* 16:9 */
+  }
+  
+  .aspect-4-3 {
+    padding-bottom: 75%; /* 4:3 */
+  }
+  
+  .aspect-21-9 {
+    padding-bottom: 42.86%; /* 21:9 */
+  }
+  
+  .aspect-1-1 {
+    padding-bottom: 100%; /* 1:1 */
+  }
+}
+
+/* Video and iframe elements */
+.video-component video,
+.video-component iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: inherit;
+}
+
+/* Modern aspect-ratio support */
+@supports (aspect-ratio: 16 / 9) {
+  .video-component video,
+  .video-component iframe {
+    position: static;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* Glass frame for videos */
+.video-component.glass-effect {
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.dark .video-component.glass-effect {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Video loading/placeholder */
+.video-component::before {
+  content: '';
+  display: block;
+  background: var(--muted);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+/* Play button overlay (optional) */
+.video-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.video-play-overlay:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.video-play-icon {
+  width: 4rem;
+  height: 4rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+/* ========================================
  * ACCORDION COMPONENT
  * ======================================== */
 
@@ -4585,7 +5954,7 @@ td svg.icon {
 </span><span class="code-line"><span class="token punctuation">[</span>Click Me<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-esbr32pe0" data-code-text=":::card {light-glass padded-lg hover-lift}
+</span></code><button class="code-copy-btn" data-code-id="code-r8fldqw0k" data-code-text=":::card {light-glass padded-lg hover-lift}
 ## Welcome! {large-bold primary}
 
 This card has glassmorphism, padding, and hover effects with **zero CSS**.
@@ -4612,7 +5981,7 @@ This card has glassmorphism, padding, and hover effects with **zero CSS**.
     Click Me
   &lt;/a&gt;
 &lt;/div&gt;
-</code><button class="code-copy-btn" data-code-id="code-mfx4bup90" data-code-text="&#x26;lt;div class=&#x26;quot;backdrop-blur-md bg-white/75 border border-white/50 
+</code><button class="code-copy-btn" data-code-id="code-65d3n71hx" data-code-text="&#x26;lt;div class=&#x26;quot;backdrop-blur-md bg-white/75 border border-white/50 
      rounded-xl shadow-lg p-8 transition-transform 
      hover:-translate-y-1&#x26;quot;&#x26;gt;
   &#x26;lt;h2 class=&#x26;quot;text-2xl font-bold text-blue-600&#x26;quot;&#x26;gt;Welcome!&#x26;lt;/h2&#x26;gt;
@@ -4674,7 +6043,7 @@ This card has glassmorphism, padding, and hover effects with **zero CSS**.
 </span><span class="code-line">Operation completed successfully!
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-emgrv3ene" data-code-text=":::card {light-glass}
+</span></code><button class="code-copy-btn" data-code-id="code-qurtmiuva" data-code-text=":::card {light-glass}
 Card with glassmorphism
 :::
 
@@ -4701,7 +6070,7 @@ Operation completed successfully!
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">heart</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">error</span> <span class="token number">large</span><span class="token punctuation">}</span> Love it
 </span><span class="code-line"><span class="token keyword">:icon</span><span class="token punctuation">[</span><span class="token function">zap</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token class-name">warning</span> <span class="token number">huge</span><span class="token punctuation">}</span> Fast
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-tgp9agdyr" data-code-text=":icon[check]{success} Task complete
+</span></code><button class="code-copy-btn" data-code-id="code-cxozh9ofd" data-code-text=":icon[check]{success} Task complete
 :icon[heart]{error large} Love it
 :icon[zap]{warning huge} Fast
 
@@ -4729,7 +6098,7 @@ Operation completed successfully!
 </span><span class="code-line">40% transparency - heavy frosted
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-jgzs3y2e0" data-code-text=":::card {subtle-glass}
+</span></code><button class="code-copy-btn" data-code-id="code-5jtg14r8i" data-code-text=":::card {subtle-glass}
 90% transparency - very subtle
 :::
 
@@ -4769,7 +6138,7 @@ Operation completed successfully!
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-fzn82iikc" data-code-text=":::card {fade-in hover-lift}
+</span></code><button class="code-copy-btn" data-code-id="code-eiujomqt3" data-code-text=":::card {fade-in hover-lift}
 Fades in on scroll, lifts on hover
 :::
 
@@ -4811,7 +6180,7 @@ Slides from the right
 </span><span class="code-line">Content for second tab
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-yrz5apf4o" data-code-text=":::tabs
+</span></code><button class="code-copy-btn" data-code-id="code-qtofrc5kj" data-code-text=":::tabs
 ## First Tab
 Content for first tab
 ## Second Tab
@@ -4838,7 +6207,7 @@ Content for second tab
 </span><span class="code-line">Content for second section
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-3hpzdhkt7" data-code-text=":::accordion
+</span></code><button class="code-copy-btn" data-code-id="code-1pc6mkmlp" data-code-text=":::accordion
 **First Section**
 Content for first section
 **Second Section**
@@ -4870,7 +6239,7 @@ Content for second section
 </span><span class="code-line">Third slide
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-alva48awy" data-code-text=":::carousel
+</span></code><button class="code-copy-btn" data-code-id="code-74u9j504a" data-code-text=":::carousel
 First slide
 
 ---
@@ -4899,7 +6268,7 @@ Third slide
 </span><span class="code-line">
 </span><span class="code-line"><span class="token punctuation">[</span>Help<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token attr-name">tooltip</span>=<span class="token string">&quot;Helpful tip&quot;</span><span class="token punctuation">}</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-hzv3mvtbe" data-code-text="[Click Me](#){button modal=&#x26;quot;Hello!&#x26;quot;}
+</span></code><button class="code-copy-btn" data-code-id="code-9xek4e9uh" data-code-text="[Click Me](#){button modal=&#x26;quot;Hello!&#x26;quot;}
 
 [Help](#){tooltip=&#x26;quot;Helpful tip&#x26;quot;}
 
@@ -4946,7 +6315,7 @@ npm install -g taildown
 # Or clone repository
 git clone https://github.com/vincitamore/taildown.git
 cd taildown &amp;&amp; pnpm install &amp;&amp; pnpm build
-</code><button class="code-copy-btn" data-code-id="code-rxgupkpqi" data-code-text="# Via npm (coming soon)
+</code><button class="code-copy-btn" data-code-id="code-2blovs4ks" data-code-text="# Via npm (coming soon)
 npm install -g taildown
 
 # Or clone repository
@@ -4972,7 +6341,7 @@ cd taildown &#x26;amp;&#x26;amp; pnpm install &#x26;amp;&#x26;amp; pnpm build
 </span><span class="code-line"><span class="token punctuation">[</span>Get Started<span class="token punctuation">](</span>#<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token keyword">button</span> <span class="token class-name">primary</span> <span class="token function">hover-lift</span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">:::</span>
 </span><span class="code-line">
-</span></code><button class="code-copy-btn" data-code-id="code-gudn4f3sk" data-code-text="# Hello World {huge-bold center primary}
+</span></code><button class="code-copy-btn" data-code-id="code-gu4603pl5" data-code-text="# Hello World {huge-bold center primary}
 
 Welcome to Taildown! {large center muted}
 
@@ -4993,7 +6362,7 @@ Beautiful by default with zero configuration.
         </svg>
         <span class="copy-text">Copy</span>
         <span class="copied-text" style="display: none;">Copied!</span></button></pre><h3 class="medium-bold"><svg class="icon icon-terminal text-green-600" data-icon="terminal" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19h8" /><path d="m4 17 6-6-6-6" /></svg> Step 3: Compile</h3><pre data-copyable="true"><code class="language-bash code-highlight">pnpm taildown compile hello.td
-</code><button class="code-copy-btn" data-code-id="code-20w7p9lkq" data-code-text="pnpm taildown compile hello.td
+</code><button class="code-copy-btn" data-code-id="code-n5s5wz9af" data-code-text="pnpm taildown compile hello.td
 " aria-label="Copy code to clipboard" title="Copy code" type="button"><svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
           <path d="m4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>

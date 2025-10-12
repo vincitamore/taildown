@@ -21,6 +21,10 @@ import { scrollAnimationsBehavior } from './behaviors/scroll-animations';
 import { copyCodeBehavior } from './behaviors/copy-code';
 import { darkModeBehavior } from './behaviors/dark-mode';
 import { navbarBehavior } from './behaviors/navbar';
+import { tableBehavior } from './behaviors/table';
+import { imageCompareBehavior } from './behaviors/image-compare';
+import { diffBehavior } from './behaviors/diff';
+import { footnoteBehavior } from './behaviors/footnote';
 
 /**
  * Component behavior definition
@@ -44,6 +48,10 @@ const BEHAVIORS: Map<string, ComponentBehavior> = new Map([
   ['tooltip', tooltipBehavior],
   ['carousel', carouselBehavior],
   ['navbar', navbarBehavior],
+  ['table', tableBehavior],
+  ['compare-images', imageCompareBehavior],
+  ['diff', diffBehavior],
+  ['footnotes', footnoteBehavior],
   ['scroll-animations', scrollAnimationsBehavior],
   ['copy-code', copyCodeBehavior],
   ['dark-mode', darkModeBehavior],
