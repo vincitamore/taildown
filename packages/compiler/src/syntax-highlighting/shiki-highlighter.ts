@@ -7,6 +7,9 @@
  * - Uses the same grammars as VS Code (perfect for extension alignment)
  * - Supports 180+ languages out of the box
  * - Produces semantic HTML with token-level spans
+ * 
+ * NOTE: This is ONLY used for server-side/CLI compilation, NOT in the browser bundle.
+ * The browser bundle externalizes Shiki and uses CodeMirror for live syntax highlighting.
  */
 
 import { createHighlighter, type Highlighter, type BundledLanguage, type BundledTheme } from 'shiki';
@@ -185,4 +188,3 @@ export function extractTokenClasses(html: string): string[] {
   
   return Array.from(classes);
 }
-

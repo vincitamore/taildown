@@ -27,7 +27,7 @@ export const taildownDarkHighlightStyle = syntaxHighlighting(HighlightStyle.defi
 
 // Re-export CodeMirror 6 core modules
 export { EditorView, keymap, lineNumbers, highlightActiveLineGutter } from '@codemirror/view';
-export { EditorState, Compartment } from '@codemirror/state';
+export { EditorState, Compartment, Prec } from '@codemirror/state';
 export { 
   defaultKeymap, 
   history, 
@@ -35,7 +35,7 @@ export {
   indentWithTab 
 } from '@codemirror/commands';
 export { searchKeymap, highlightSelectionMatches } from '@codemirror/search';
-export { autocompletion, completionKeymap, closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete';
+export { autocompletion, completionKeymap, startCompletion, acceptCompletion, closeCompletion, moveCompletionSelection, closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete';
 export { indentOnInput, bracketMatching, foldGutter, foldKeymap } from '@codemirror/language';
 export { lintKeymap } from '@codemirror/lint';
 

@@ -1912,10 +1912,25 @@ Client-side rendered diagrams using Mermaid.js with zero-overhead tree-shaking.
 
 **Syntax:**
 
-Use standard Mermaid syntax in fenced code blocks with `mermaid` language:
+Taildown supports **two syntaxes** for Mermaid diagrams:
+
+**1. Component Block Syntax (Recommended):**
 
 ```taildown
-```mermaid
+:::mermaid {glass lg}
+graph LR
+  A[Start] --> B{Decision}
+  B -->|Yes| C[Action 1]
+  B -->|No| D[Action 2]
+  C --> E[End]
+  D --> E
+:::
+```
+
+**2. Fenced Code Block Syntax (CommonMark-style):**
+
+```taildown
+```mermaid {glass lg}
 graph LR
   A[Start] --> B{Decision}
   B -->|Yes| C[Action 1]
@@ -1924,6 +1939,11 @@ graph LR
   D --> E
 ```
 ```
+
+**Which to use?**
+
+- **Component syntax (`:::mermaid`)** is recommended for consistency with other Taildown components and more natural attribute placement
+- **Fenced code block syntax** (```mermaid```) is also supported for compatibility with GitHub/GitLab Markdown
 
 **Supported Diagram Types:**
 
@@ -1973,27 +1993,27 @@ graph LR
 ```taildown
 # Basic flowchart
 
-```mermaid
+:::mermaid
 graph TD
   A[Christmas] -->|Get money| B(Go shopping)
   B --> C{Let me think}
   C -->|One| D[Laptop]
   C -->|Two| E[iPhone]
   C -->|Three| F[Car]
-```
+:::
 
 # Sequence diagram with glass effect
 
-```mermaid {glass}
+:::mermaid {glass}
 sequenceDiagram
   Alice->>John: Hello John, how are you?
   John-->>Alice: Great!
   Alice-)John: See you later!
-```
+:::
 
 # Large Gantt chart
 
-```mermaid {lg}
+:::mermaid {lg}
 gantt
   title Project Timeline
   dateFormat YYYY-MM-DD
@@ -2003,11 +2023,11 @@ gantt
   section Development
   Backend  :b1, 2024-02-01, 45d
   Frontend :b2, after b1, 30d
-```
+:::
 
 # Compact state diagram
 
-```mermaid {compact bordered}
+:::mermaid {compact bordered}
 stateDiagram-v2
   [*] --> Still
   Still --> [*]
@@ -2015,7 +2035,7 @@ stateDiagram-v2
   Moving --> Still
   Moving --> Crash
   Crash --> [*]
-```
+:::
 ```
 
 **Performance:**

@@ -227,8 +227,21 @@ export async function astToHast(ast: TaildownRoot): Promise<any> {
           };
         }
         
-        // For all other code blocks, use default handler
-        return undefined;
+        // For all other code blocks, create standard structure
+        // (will be processed by rehypeCodeMirror6 for syntax highlighting)
+        return {
+          type: 'element',
+          tagName: 'pre',
+          properties: { className: ['code-block'] },
+          children: [
+            {
+              type: 'element',
+              tagName: 'code',
+              properties: { className: node.lang ? [`language-${node.lang}`] : [] },
+              children: [{ type: 'text', value: node.value || '' }]
+            }
+          ]
+        };
       }
     }
   });

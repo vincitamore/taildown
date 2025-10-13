@@ -120,16 +120,36 @@ pnpm taildown compile hello.td --separate
 
 **Try Taildown in your browser without installing anything!**
 
-The Taildown Live Editor is a fully self-contained, browser-based editor with:
+The Taildown Live Editor is a fully self-contained, browser-based editor with modern UX features inspired by Notion and Tiptap:
 
-- **Full syntax highlighting** powered by CodeMirror 6
-- **Live split-pane preview** that updates as you type
+### Core Features
+
+- **Full syntax highlighting** powered by CodeMirror 6 with custom Taildown language support
+- **Live split-pane preview** that updates as you type with 300ms debouncing
+- **Slash commands** - Type `/` to insert headings, components, formatting, diagrams, and more
+- **Mermaid diagrams** - Live rendering of flowcharts, sequence diagrams, and graphs
+- **Smart cursor positioning** - Insertions place cursor intelligently for immediate editing
+- **Modern monospace font** - JetBrains Mono for beautiful code editing
 - **Save/load files** with File System API or traditional download/upload
 - **Export HTML** for production deployment
 - **Auto-save** to localStorage every 5 seconds
 - **Keyboard shortcuts** for professional workflow
 - **Draggable divider** to resize editor and preview panes
 - **Completely offline** - works with no internet connection
+
+### Slash Commands
+
+Type `/` anywhere to trigger a beautiful menu with 20 quick-insert commands:
+
+- **Headings** (H1, H2, H3)
+- **Formatting** (Bold, Italic, Code, Quote)
+- **Lists** (Bullet, Numbered)
+- **Links & Images**
+- **Tables** with smart cursor placement
+- **Components** (Card, Alert, Callout, Button, Tabs)
+- **Mermaid Diagrams** with syntax templates
+- **Keyboard navigation** (↑↓ arrows, Enter, Escape)
+- **Fuzzy search** filtering
 
 ### Quick Start
 
@@ -141,20 +161,21 @@ pnpm build:editor
 open editor/dist/editor.html
 ```
 
-The output is a single ~1.5MB HTML file that includes everything: CodeMirror 6, the Taildown compiler, and all UI. You can:
+The output is a single ~1.5MB HTML file that includes everything: CodeMirror 6, the Taildown compiler, and all UI. Mermaid is loaded dynamically (2.6MB) only when diagrams are detected. You can:
 
 - Open it directly in any modern browser
 - Host it on any static web server
 - Email it or share via USB drive
-- Use it completely offline
+- Use it completely offline (Mermaid loads locally)
 
-### Features
+### Additional Features
 
 - **Development mode**: Open `editor/index.html` for quick testing
 - **Production build**: Run `pnpm build:editor` for standalone file
 - **File System API**: Direct file saving on Chrome/Edge (fallback for others)
 - **Responsive**: Works on desktop and mobile devices
 - **Persistent**: Auto-saves your work to localStorage
+- **Smart path resolution**: Automatically handles `file://`, `localhost`, and `https://` URLs
 
 See [`editor/README.md`](editor/README.md) for complete documentation, keyboard shortcuts, and troubleshooting.
 
