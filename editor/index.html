@@ -1219,12 +1219,12 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       { name: 'Numbered List', icon: 'list-ordered', insert: '1. ', description: 'Numbered list' },
       { name: 'Link', icon: 'link', insert: '[](url)', description: 'Hyperlink', cursorOffset: -5 },
       { name: 'Image', icon: 'image', insert: '![](url)', description: 'Insert image', cursorOffset: -5 },
-      { name: 'Divider', icon: 'minus', insert: '\n---\n', description: 'Horizontal rule' },
+      { name: 'Divider', icon: 'minus', insert: ':::divider\n\n:::', description: 'Decorative divider', cursorOffset: -4 },
       { name: 'Table', icon: 'table', insert: '| Header 1 | Header 2 |\n|----------|----------|\n|  |  |', description: '2-column table', cursorOffset: -6 },
-      { name: 'Card', icon: 'box', insert: ':::card title=""\n\n:::', description: 'Card component', cursorOffset: -6 },
+      { name: 'Card', icon: 'box', insert: ':::card\n\n:::', description: 'Card component', cursorOffset: -4 },
       { name: 'Alert', icon: 'alert-circle', insert: ':::alert\n\n:::', description: 'Alert box', cursorOffset: -4 },
       { name: 'Callout', icon: 'lightbulb', insert: ':::callout\n\n:::', description: 'Callout box', cursorOffset: -4 },
-      { name: 'Button', icon: 'box', insert: ':::button\n\n:::', description: 'Button component', cursorOffset: -4 },
+      { name: 'Button', icon: 'box', insert: '[Button Text](#){button}', description: 'Inline button', cursorOffset: -17 },
       { name: 'Tabs', icon: 'layout', insert: ':::tabs\n## Tab 1\n\n## Tab 2\n\n:::', description: 'Tabbed interface', cursorOffset: -17 },
       { name: 'Mermaid', icon: 'wand-2', insert: ':::mermaid\ngraph TD\n  A --> B\n:::', description: 'Diagram', cursorOffset: -16 },
     ];
@@ -1360,7 +1360,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       const line = context.state.doc.lineAt(context.pos);
       const textBefore = line.text.slice(0, context.pos - line.from);
       
-      // Colon trigger - suggest ::: or :icon[
+      // Colon trigger - suggest ::: or inline elements
       if (textBefore.endsWith(':') && !textBefore.endsWith('::')) {
         const colonSuggestions = [
           { 
@@ -1374,6 +1374,18 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
             insert: 'icon[]', 
             info: 'inline icon',
             retrigger: true,
+            cursorOffset: -1  // Place cursor between brackets
+          },
+          { 
+            label: ':badge[]', 
+            insert: 'badge[]', 
+            info: 'inline badge',
+            cursorOffset: -1  // Place cursor between brackets
+          },
+          { 
+            label: ':kbd[]', 
+            insert: 'kbd[]', 
+            info: 'keyboard key',
             cursorOffset: -1  // Place cursor between brackets
           }
         ];
@@ -1489,6 +1501,50 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
             info: 'icon-style',
             render: renderAutocompleteItem(attr, 'property', 'icon-style'),
             apply: attr
+          }))
+        };
+      }
+      
+      // Attribute autocomplete after badge text - :badge[text]{
+      const badgeAttrMatch = textBefore.match(/:badge\[[^\]]+\]\{([^}]*)$/);
+      if (badgeAttrMatch) {
+        const typed = badgeAttrMatch[1];
+        const badgeStyles = ['default', 'primary', 'secondary', 'success', 'warning', 'error', 'info', 'muted', 'sm', 'md', 'lg'];
+        const filtered = badgeStyles.filter(attr => 
+          attr.toLowerCase().includes(typed.toLowerCase())
+        );
+        
+        return {
+          from: context.pos - typed.length,
+          validFor: /^[\w-]*$/,  // Stay open while typing badge styles
+          options: filtered.map(attr => ({
+            label: attr,
+            type: 'property',
+            info: 'badge-style',
+            render: renderAutocompleteItem(attr, 'property', 'badge-style'),
+            apply: attr
+          }))
+        };
+      }
+      
+      // Platform hint autocomplete after kbd text - :kbd[keys]{
+      const kbdAttrMatch = textBefore.match(/:kbd\[[^\]]+\]\{([^}]*)$/);
+      if (kbdAttrMatch) {
+        const typed = kbdAttrMatch[1];
+        const platforms = ['mac', 'macos', 'windows', 'win'];
+        const filtered = platforms.filter(p => 
+          p.toLowerCase().includes(typed.toLowerCase())
+        );
+        
+        return {
+          from: context.pos - typed.length,
+          validFor: /^[\w-]*$/,  // Stay open while typing platforms
+          options: filtered.map(platform => ({
+            label: platform,
+            type: 'property',
+            info: 'platform',
+            render: renderAutocompleteItem(platform, 'property', 'platform'),
+            apply: platform
           }))
         };
       }
