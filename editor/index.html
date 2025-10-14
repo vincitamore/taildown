@@ -1226,7 +1226,14 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       { name: 'Callout', icon: 'lightbulb', insert: ':::callout\n\n:::', description: 'Callout box', cursorOffset: -4 },
       { name: 'Button', icon: 'box', insert: '[Button Text](#){button}', description: 'Inline button', cursorOffset: -17 },
       { name: 'Tabs', icon: 'layout', insert: ':::tabs\n## Tab 1\n\n## Tab 2\n\n:::', description: 'Tabbed interface', cursorOffset: -17 },
-      { name: 'Mermaid', icon: 'wand-2', insert: ':::mermaid\ngraph TD\n  A --> B\n:::', description: 'Diagram', cursorOffset: -16 },
+      { name: 'Mermaid', icon: 'wand-2', insert: ':::mermaid\n\n:::', description: 'Empty diagram', cursorOffset: -4 },
+      { name: 'Mermaid: Flowchart', icon: 'git-branch', insert: ':::mermaid\ngraph TD\n  A[Start] --> B{Decision}\n  B -->|Yes| C[Action 1]\n  B -->|No| D[Action 2]\n  C --> E[End]\n  D --> E\n:::', description: 'Process flow diagram', cursorOffset: -4 },
+      { name: 'Mermaid: Sequence', icon: 'arrow-right-left', insert: ':::mermaid\nsequenceDiagram\n  participant A as Alice\n  participant B as Bob\n  A->>B: Hello Bob!\n  B-->>A: Hi Alice!\n:::', description: 'UML sequence diagram', cursorOffset: -4 },
+      { name: 'Mermaid: Gantt', icon: 'calendar', insert: ':::mermaid\ngantt\n  title Project Timeline\n  dateFormat YYYY-MM-DD\n  section Phase 1\n  Task 1 :a1, 2024-01-01, 30d\n  Task 2 :after a1, 20d\n  section Phase 2\n  Task 3 :2024-03-01, 45d\n:::', description: 'Project timeline', cursorOffset: -4 },
+      { name: 'Mermaid: Class', icon: 'box', insert: ':::mermaid\nclassDiagram\n  class Animal {\n    +String name\n    +int age\n    +makeSound()\n  }\n  class Dog {\n    +bark()\n  }\n  Animal <|-- Dog\n:::', description: 'UML class diagram', cursorOffset: -4 },
+      { name: 'Mermaid: State', icon: 'git-commit', insert: ':::mermaid\nstateDiagram-v2\n  [*] --> Idle\n  Idle --> Active : Start\n  Active --> Idle : Stop\n  Active --> Error : Failure\n  Error --> Idle : Reset\n  Error --> [*]\n:::', description: 'State machine', cursorOffset: -4 },
+      { name: 'Mermaid: ER Diagram', icon: 'database', insert: ':::mermaid\nerDiagram\n  CUSTOMER ||--o{ ORDER : places\n  ORDER ||--|{ LINE-ITEM : contains\n  CUSTOMER {\n    string name\n    string email\n  }\n  ORDER {\n    int orderNumber\n    date orderDate\n  }\n:::', description: 'Database schema', cursorOffset: -4 },
+      { name: 'Mermaid: Pie Chart', icon: 'pie-chart', insert: ':::mermaid\npie title Distribution\n  "Category A" : 45\n  "Category B" : 30\n  "Category C" : 15\n  "Category D" : 10\n:::', description: 'Pie chart', cursorOffset: -4 },
     ];
 
     // Slash command functions
