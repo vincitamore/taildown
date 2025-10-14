@@ -1,549 +1,10 @@
-/**
- * CSS Generator for Taildown
- * Collects classes from AST and generates CSS
- */
-
-import { visit } from 'unist-util-visit';
-import type { TaildownRoot, TaildownNodeData } from '@taildown/shared';
-import { generateIconCSS } from '../icons/icon-renderer';
-import { generateGlassmorphismCSS } from '../themes/glassmorphism';
-import { generateAnimationCSS } from '../themes/animations';
-import { createThemeResolver } from '../themes/theme-resolver';
-import { getDefaultConfig } from '../config/default-config';
-
-/**
- * Tailwind CSS utility class definitions
- * Phase 1: Basic utilities needed for standard components
- */
-const TAILWIND_UTILITIES: Record<string, string> = {
-  // Padding
-  'p-2': 'padding: 0.5rem;',
-  'p-3': 'padding: 0.75rem;',
-  'p-4': 'padding: 1rem;',
-  'p-5': 'padding: 1.25rem;',
-  'p-6': 'padding: 1.5rem;',
-  'p-8': 'padding: 2rem;',
-  'p-10': 'padding: 2.5rem;',
-  'p-12': 'padding: 3rem;',
-  'px-2': 'padding-left: 0.5rem; padding-right: 0.5rem;',
-  'px-3': 'padding-left: 0.75rem; padding-right: 0.75rem;',
-  'px-4': 'padding-left: 1rem; padding-right: 1rem;',
-  'px-6': 'padding-left: 1.5rem; padding-right: 1.5rem;',
-  'px-8': 'padding-left: 2rem; padding-right: 2rem;',
-  'px-10': 'padding-left: 2.5rem; padding-right: 2.5rem;',
-  'px-12': 'padding-left: 3rem; padding-right: 3rem;',
-  'py-0.5': 'padding-top: 0.125rem; padding-bottom: 0.125rem;',
-  'py-1': 'padding-top: 0.25rem; padding-bottom: 0.25rem;',
-  'py-1.5': 'padding-top: 0.375rem; padding-bottom: 0.375rem;',
-  'py-2': 'padding-top: 0.5rem; padding-bottom: 0.5rem;',
-  'py-2.5': 'padding-top: 0.625rem; padding-bottom: 0.625rem;',
-  'py-3': 'padding-top: 0.75rem; padding-bottom: 0.75rem;',
-  'py-4': 'padding-top: 1rem; padding-bottom: 1rem;',
-  'py-5': 'padding-top: 1.25rem; padding-bottom: 1.25rem;',
-  'py-6': 'padding-top: 1.5rem; padding-bottom: 1.5rem;',
-  'pb-4': 'padding-bottom: 1rem;',
-  'pt-0': 'padding-top: 0;',
-
-  // Margin
-  'mx-auto': 'margin-left: auto; margin-right: auto;',
-  'm-4': 'margin: 1rem;',
-  'm-6': 'margin: 1.5rem;',
-  'mt-6': 'margin-top: 1.5rem;',
-  'ml-2': 'margin-left: 0.5rem;',
-  '-mb-px': 'margin-bottom: -1px;',
-
-  // Width & Height
-  'w-2': 'width: 0.5rem;',
-  'w-4': 'width: 1rem;',
-  'w-6': 'width: 1.5rem;',
-  'w-8': 'width: 2rem;',
-  'w-10': 'width: 2.5rem;',
-  'w-12': 'width: 3rem;',
-  'w-16': 'width: 4rem;',
-  'w-20': 'width: 5rem;',
-  'w-full': 'width: 100%;',
-  'h-2': 'height: 0.5rem;',
-  'h-4': 'height: 1rem;',
-  'h-6': 'height: 1.5rem;',
-  'h-8': 'height: 2rem;',
-  'h-10': 'height: 2.5rem;',
-  'h-12': 'height: 3rem;',
-  'h-16': 'height: 4rem;',
-  'h-20': 'height: 5rem;',
-  'min-h-[400px]': 'min-height: 400px;',
-  'max-h-[35vh]': 'max-height: 35vh;',
-  'max-h-[40vh]': 'max-height: 40vh;',
-  'max-h-[55vh]': 'max-height: 55vh;',
-  'max-h-[60vh]': 'max-height: 60vh;',
-  'max-h-[70vh]': 'max-height: 70vh;',
-  'max-h-[80vh]': 'max-height: 80vh;',
-  'max-h-[90vh]': 'max-height: 90vh;',
-  'h-[280px]': 'height: 280px;',
-  'h-[450px]': 'height: 450px;',
-  'h-[580px]': 'height: 580px;',
-  'h-[700px]': 'height: 700px;',
-  'inset-0': 'top: 0; right: 0; bottom: 0; left: 0;',
-  'max-w-6xl': 'max-width: 72rem;',
-  'max-w-4xl': 'max-width: 56rem;',
-  'max-w-2xl': 'max-width: 42rem;',
-  'max-w-screen-2xl': 'max-width: 1536px;',
-  'max-w-full': 'max-width: 100%;',
-  'min-w-[200px]': 'min-width: 200px;',
-
-  // Display
-  grid: 'display: grid; gap: 1rem;', // Default gap for zero-config beauty
-  flex: 'display: flex;',
-  'inline-flex': 'display: inline-flex;',
-  block: 'display: block;',
-  'inline-block': 'display: inline-block;',
-  
-  // Position
-  relative: 'position: relative;',
-  absolute: 'position: absolute;',
-  fixed: 'position: fixed;',
-  
-  // Z-index
-  'z-10': 'z-index: 10;',
-  'z-50': 'z-index: 50;',
-  
-  // Flexbox
-  'items-center': 'align-items: center;',
-  'items-start': 'align-items: flex-start;',
-  'justify-center': 'justify-content: center;',
-  'justify-between': 'justify-content: space-between;',
-  'justify-start': 'justify-content: flex-start;',
-  'flex-col': 'flex-direction: column;',
-  'flex-1': 'flex: 1 1 0%;',
-  'shrink-0': 'flex-shrink: 0;',
-  'flex-shrink-0': 'flex-shrink: 0;',
-
-  // Grid - Mobile-first with smart responsive behavior
-  'grid-cols-1': 'grid-template-columns: repeat(1, minmax(0, 1fr));',
-  // 2 columns: 1 column on mobile, 2 on tablet+
-  'grid-cols-2': 'grid-template-columns: repeat(1, minmax(0, 1fr));',
-  // 3 columns: 1 column on mobile, scales up on tablet+
-  'grid-cols-3': 'grid-template-columns: repeat(1, minmax(0, 1fr));',
-  // 4 columns: 1 column on mobile, scales up on tablet+
-  'grid-cols-4': 'grid-template-columns: repeat(1, minmax(0, 1fr));',
-  // 5 columns: 1 column on mobile, scales up on tablet+
-  'grid-cols-5': 'grid-template-columns: repeat(1, minmax(0, 1fr));',
-  'gap-2': 'gap: 0.5rem;',
-  'gap-3': 'gap: 0.75rem;',
-  'gap-4': 'gap: 1rem;',
-  'gap-6': 'gap: 1.5rem;',
-  'gap-8': 'gap: 2rem;',
-
-  // Border radius
-  rounded: 'border-radius: 0.25rem;',
-  'rounded-md': 'border-radius: 0.375rem;',
-  'rounded-lg': 'border-radius: 0.5rem;',
-  'rounded-xl': 'border-radius: 0.75rem;',
-  'rounded-2xl': 'border-radius: 1rem;',
-  'rounded-full': 'border-radius: 9999px;',
-  'rounded-t-lg': 'border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;',
-  
-  // Borders
-  border: 'border-width: 1px; border-style: solid;',
-  'border-2': 'border-width: 2px; border-style: solid;',
-  'border-b': 'border-bottom-width: 1px; border-style: solid;',
-  'border-b-2': 'border-bottom-width: 2px; border-style: solid;',
-  'border-b-0': 'border-bottom-width: 0;',
-  'border-gray-200': 'border-color: rgb(229 231 235);',
-  'border-gray-300': 'border-color: rgb(209 213 219);',
-  'border-blue-600': 'border-color: rgb(37 99 235);',
-  'border-transparent': 'border-color: transparent;',
-  'border-gray-200/50': 'border-color: rgb(229 231 235 / 0.5);',
-  'border-gray-300/50': 'border-color: rgb(209 213 219 / 0.5);',
-  'border-blue-200': 'border-color: rgb(191 219 254);',
-  'border-green-200': 'border-color: rgb(187 247 208);',
-  'border-amber-200': 'border-color: rgb(253 230 138);',
-  'border-red-200': 'border-color: rgb(254 202 202);',
-  'border-white/10': 'border-color: rgb(255 255 255 / 0.1);',
-  'border-white/20': 'border-color: rgb(255 255 255 / 0.2);',
-  'border-white/30': 'border-color: rgb(255 255 255 / 0.3);',
-  'border-white/40': 'border-color: rgb(255 255 255 / 0.4);',
-  'border-white/50': 'border-color: rgb(255 255 255 / 0.5);',
-  'border-white/60': 'border-color: rgb(255 255 255 / 0.6);',
-  'shadow-none': 'box-shadow: none;',
-
-  // Shadow
-  shadow: 'box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);',
-  'shadow-md':
-    'box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);',
-  'shadow-lg':
-    'box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);',
-  'shadow-xl':
-    'box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);',
-  'shadow-2xl':
-    'box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);',
-  'shadow-3xl':
-    'box-shadow: 0 35px 60px -15px rgb(0 0 0 / 0.3);',
-
-  // Transitions
-  transition:
-    'transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;',
-  'transition-all':
-    'transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;',
-  'duration-150': 'transition-duration: 150ms;',
-  'duration-200': 'transition-duration: 200ms;',
-  'duration-300': 'transition-duration: 300ms;',
-  'duration-500': 'transition-duration: 500ms;',
-  'ease-in': 'transition-timing-function: cubic-bezier(0.4, 0, 1, 1);',
-  'ease-out': 'transition-timing-function: cubic-bezier(0, 0, 0.2, 1);',
-  'ease-in-out': 'transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);',
-
-  // Overflow
-  'overflow-auto': 'overflow: auto;',
-  'overflow-hidden': 'overflow: hidden;',
-  'overflow-x-hidden': 'overflow-x: hidden;',
-  'overflow-x-auto': 'overflow-x: auto;',
-  'overflow-y-auto': 'overflow-y: auto;',
-  
-  // Cursor
-  'cursor-pointer': 'cursor: pointer;',
-  'cursor-default': 'cursor: default;',
-  'cursor-not-allowed': 'cursor: not-allowed;',
-  
-  // Opacity
-  'opacity-0': 'opacity: 0;',
-  'opacity-50': 'opacity: 0.5;',
-  'opacity-100': 'opacity: 1;',
-  
-  // Focus/Ring States
-  'outline-none': 'outline: 2px solid transparent; outline-offset: 2px;',
-  'ring-2': 'box-shadow: 0 0 0 2px rgb(59 130 246 / 0.5);',
-  'ring-offset-2': 'box-shadow: 0 0 0 2px white, 0 0 0 4px rgb(59 130 246 / 0.5);',
-  
-  // Transform
-  transform: 'transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));',
-  'scale-110': 'transform: scale(1.1);',
-  'scale-100': 'transform: scale(1);',
-  'scale-[1.02]': 'transform: scale(1.02);',
-  'rotate-180': 'transform: rotate(180deg);',
-  '-translate-y-1/2': 'transform: translateY(-50%);',
-  '-translate-x-1/2': 'transform: translateX(-50%);',
-  'translate-x-0': 'transform: translateX(0);',
-  
-  // SVG
-  'stroke-current': 'stroke: currentColor;',
-  'fill-none': 'fill: none;',
-  'fill-current': 'fill: currentColor;',
-  
-  // Backdrop Filters (for glassmorphism)
-  'backdrop-blur-sm': 'backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);',
-  'backdrop-blur-md': 'backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);',
-  'backdrop-blur-lg': 'backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);',
-  'backdrop-blur-xl': 'backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);',
-
-  // Filters (for brightness adjustments)
-  'brightness-50': 'filter: brightness(0.5);',
-  'brightness-75': 'filter: brightness(0.75);',
-  'brightness-90': 'filter: brightness(0.9);',
-  'brightness-95': 'filter: brightness(0.95);',
-  'brightness-100': 'filter: brightness(1);',
-  'brightness-105': 'filter: brightness(1.05);',
-  'brightness-110': 'filter: brightness(1.1);',
-  'brightness-125': 'filter: brightness(1.25);',
-  'brightness-150': 'filter: brightness(1.5);',
-
-  // Background - Neutral
-  'bg-white': 'background-color: rgb(255 255 255);',
-  'bg-gray-50': 'background-color: rgb(249 250 251);',
-  'bg-gray-100': 'background-color: rgb(243 244 246);',
-  'bg-gray-200': 'background-color: rgb(229 231 235);',
-  'bg-gray-300': 'background-color: rgb(209 213 219);',
-  'bg-gray-400': 'background-color: rgb(156 163 175);',
-  'bg-black': 'background-color: rgb(0 0 0);',
-  'bg-opacity-50': 'background-color: rgba(0, 0, 0, 0.5);',
-  'bg-gradient-to-br': 'background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));',
-  'from-gray-50': '--tw-gradient-from: rgb(249 250 251); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(249 250 251 / 0));',
-  'to-gray-100': '--tw-gradient-to: rgb(243 244 246);',
-  
-  // Background - Blue
-  'bg-blue-50': 'background-color: rgb(239 246 255);',
-  'bg-blue-100': 'background-color: rgb(219 234 254);',
-  'bg-blue-500': 'background-color: rgb(59 130 246);',
-  'bg-blue-600': 'background-color: rgb(37 99 235);',
-  'bg-blue-700': 'background-color: rgb(29 78 216);',
-  'bg-blue-800': 'background-color: rgb(30 64 175);',
-  
-  // Background - Green
-  'bg-green-50': 'background-color: rgb(240 253 244);',
-  'bg-green-100': 'background-color: rgb(220 252 231);',
-  'bg-green-200': 'background-color: rgb(187 247 208);',
-  'bg-green-600': 'background-color: rgb(22 163 74);',
-  'bg-green-700': 'background-color: rgb(21 128 61);',
-  'bg-green-800': 'background-color: rgb(22 101 52);',
-  
-  // Background - Red
-  'bg-red-50': 'background-color: rgb(254 242 242);',
-  'bg-red-100': 'background-color: rgb(254 226 226);',
-  'bg-red-200': 'background-color: rgb(254 202 202);',
-  'bg-red-600': 'background-color: rgb(220 38 38);',
-  'bg-red-700': 'background-color: rgb(185 28 28);',
-  'bg-red-800': 'background-color: rgb(153 27 27);',
-  
-  // Background - Amber
-  'bg-amber-50': 'background-color: rgb(255 251 235);',
-  'bg-amber-100': 'background-color: rgb(254 243 199);',
-  'bg-amber-200': 'background-color: rgb(253 230 138);',
-  'bg-amber-600': 'background-color: rgb(217 119 6);',
-  'bg-amber-700': 'background-color: rgb(180 83 9);',
-  'bg-amber-800': 'background-color: rgb(146 64 14);',
-  
-  // Background - Sky (Light Blue)
-  'bg-sky-50': 'background-color: rgb(240 249 255);',
-  'bg-sky-100': 'background-color: rgb(224 242 254);',
-  'bg-sky-700': 'background-color: rgb(3 105 161);',
-  
-  // Background - Purple
-  'bg-purple-600': 'background-color: rgb(147 51 234);',
-  'bg-purple-700': 'background-color: rgb(126 34 206);',
-  'bg-purple-800': 'background-color: rgb(107 33 168);',
-  
-  // Background - Pink (for accent button)
-  'bg-pink-600': 'background-color: rgb(219 39 119);',
-  'bg-pink-700': 'background-color: rgb(190 24 93);',
-  'bg-pink-800': 'background-color: rgb(157 23 77);',
-  
-  // Background - Yellow (for warnings)
-  'bg-yellow-600': 'background-color: rgb(202 138 4);',
-  
-  // Background - Opacity (for glass effects)
-  'bg-white/25': 'background-color: rgb(255 255 255 / 0.25);',
-  'bg-white/30': 'background-color: rgb(255 255 255 / 0.3);',
-  'bg-white/40': 'background-color: rgb(255 255 255 / 0.4);',
-  'bg-white/45': 'background-color: rgb(255 255 255 / 0.45);',
-  'bg-white/50': 'background-color: rgb(255 255 255 / 0.5);',
-  'bg-white/65': 'background-color: rgb(255 255 255 / 0.65);',
-  'bg-white/70': 'background-color: rgb(255 255 255 / 0.7);',
-  'bg-white/80': 'background-color: rgb(255 255 255 / 0.8);',
-  'bg-white/85': 'background-color: rgb(255 255 255 / 0.85);',
-  'bg-white/90': 'background-color: rgb(255 255 255 / 0.9);',
-  'bg-white/95': 'background-color: rgb(255 255 255 / 0.95);',
-  'bg-white/98': 'background-color: rgb(255 255 255 / 0.98);',
-  'bg-transparent': 'background-color: transparent;',
-  
-  // Tinted glass backgrounds (blue-tinted for professional glassmorphism)
-  'bg-glass-subtle': 'background-color: rgba(248, 250, 252, 0.9);',
-  'bg-glass-light': 'background-color: rgba(241, 245, 249, 0.75);',
-  'bg-glass-medium': 'background-color: rgba(226, 232, 240, 0.6);',
-  'bg-glass-heavy': 'background-color: rgba(203, 213, 225, 0.4);',
-
-  // Text
-  'text-center': 'text-align: center;',
-  'text-left': 'text-align: left;',
-  'text-right': 'text-align: right;',
-  'text-white': 'color: rgb(255 255 255);',
-  'whitespace-nowrap': 'white-space: nowrap;',
-  'overflow-wrap-normal': 'overflow-wrap: normal; word-break: normal;',
-  'break-words': 'overflow-wrap: break-word; word-wrap: break-word;',
-  'break-all': 'word-break: break-all;',
-  
-  // Text decoration
-  'underline': 'text-decoration: underline;',
-  'no-underline': 'text-decoration: none;',
-
-  // Typography
-  'text-xs': 'font-size: 0.75rem; line-height: 1rem;',
-  'text-sm': 'font-size: 0.875rem; line-height: 1.25rem;',
-  'text-base': 'font-size: 1rem; line-height: 1.5rem;',
-  'text-lg': 'font-size: 1.125rem; line-height: 1.75rem;',
-  'text-xl': 'font-size: 1.25rem; line-height: 1.75rem;',
-  'text-2xl': 'font-size: 1.5rem; line-height: 2rem;',
-  'text-3xl': 'font-size: 1.875rem; line-height: 2.25rem;',
-  'text-4xl': 'font-size: 2.25rem; line-height: 2.5rem;',
-  'text-5xl': 'font-size: 3rem; line-height: 1;',
-  'text-6xl': 'font-size: 3.75rem; line-height: 1;',
-  'font-normal': 'font-weight: 400;',
-  'font-medium': 'font-weight: 500;',
-  'font-semibold': 'font-weight: 600;',
-  'font-bold': 'font-weight: 700;',
-  'font-extrabold': 'font-weight: 800;',
-
-  // Text color - Gray scale
-  'text-gray-400': 'color: rgb(156 163 175);',
-  'text-gray-500': 'color: rgb(107 114 128);',
-  'text-gray-600': 'color: rgb(75 85 99);',
-  'text-gray-700': 'color: rgb(55 65 81);',
-  'text-gray-800': 'color: rgb(31 41 55);',
-  'text-gray-900': 'color: rgb(17 24 39);',
-
-  // Text color - Primary (Blue)
-  'text-primary-500': 'color: rgb(130 160 255);',
-  'text-primary-600': 'color: rgb(106 142 239);',
-  'text-primary-700': 'color: rgb(82 123 222);',
-  'text-blue-500': 'color: rgb(59 130 246);',
-  'text-blue-600': 'color: rgb(37 99 235);',
-  'text-blue-700': 'color: rgb(29 78 216);',
-  'text-blue-800': 'color: rgb(30 64 175);',
-  'text-blue-900': 'color: rgb(30 58 138);',
-
-  // Text color - Secondary (Purple)
-  'text-secondary-500': 'color: rgb(168 85 247);',
-  'text-secondary-600': 'color: rgb(147 51 234);',
-  'text-secondary-700': 'color: rgb(126 34 206);',
-  'text-purple-500': 'color: rgb(168 85 247);',
-  'text-purple-600': 'color: rgb(147 51 234);',
-  'text-purple-700': 'color: rgb(126 34 206);',
-
-  // Text color - Accent (Pink)
-  'text-accent-500': 'color: rgb(236 72 153);',
-  'text-accent-600': 'color: rgb(219 39 119);',
-  'text-accent-700': 'color: rgb(190 24 93);',
-  'text-pink-500': 'color: rgb(236 72 153);',
-  'text-pink-600': 'color: rgb(219 39 119);',
-  'text-pink-700': 'color: rgb(190 24 93);',
-
-  // Text color - Success (Green)
-  'text-success-500': 'color: rgb(34 197 94);',
-  'text-success-600': 'color: rgb(22 163 74);',
-  'text-success-700': 'color: rgb(21 128 61);',
-  'text-green-500': 'color: rgb(34 197 94);',
-  'text-green-600': 'color: rgb(22 163 74);',
-  'text-green-700': 'color: rgb(21 128 61);',
-  'text-green-800': 'color: rgb(22 101 52);',
-  'text-green-900': 'color: rgb(20 83 45);',
-
-  // Text color - Warning (Yellow/Amber)
-  'text-warning-500': 'color: rgb(245 158 11);',
-  'text-warning-600': 'color: rgb(217 119 6);',
-  'text-warning-700': 'color: rgb(180 83 9);',
-  'text-yellow-500': 'color: rgb(234 179 8);',
-  'text-yellow-600': 'color: rgb(202 138 4);',
-  'text-amber-500': 'color: rgb(245 158 11);',
-  'text-amber-600': 'color: rgb(217 119 6);',
-  'text-amber-700': 'color: rgb(180 83 9);',
-  'text-amber-800': 'color: rgb(146 64 14);',
-  'text-amber-900': 'color: rgb(120 53 15);',
-  
-  // Text color - Info (Sky)
-  'text-sky-600': 'color: rgb(2 132 199);',
-  'text-sky-700': 'color: rgb(3 105 161);',
-
-  // Text color - Error/Danger (Red)
-  'text-error-500': 'color: rgb(239 68 68);',
-  'text-error-600': 'color: rgb(220 38 38);',
-  'text-error-700': 'color: rgb(185 28 28);',
-  'text-red-500': 'color: rgb(239 68 68);',
-  'text-red-600': 'color: rgb(220 38 38);',
-  'text-red-700': 'color: rgb(185 28 28);',
-  'text-red-800': 'color: rgb(153 27 27);',
-  'text-red-900': 'color: rgb(127 29 29);',
-
-  // NOTE: Hover states are generated dynamically (see generateCSS function)
-  // DO NOT add hover: prefixed classes here - they're handled automatically
-
-  // Leading (line-height)
-  'leading-relaxed': 'line-height: 1.625;',
-  'leading-loose': 'line-height: 2;',
-
-  // Responsive breakpoints (simplified for Phase 1)
-  'sm:px-6': '@media (min-width: 640px) { padding-left: 1.5rem; padding-right: 1.5rem; }',
-  'sm:grid-cols-2':
-    '@media (min-width: 640px) { grid-template-columns: repeat(2, minmax(0, 1fr)); }',
-  'sm:grid-cols-3':
-    '@media (min-width: 640px) { grid-template-columns: repeat(3, minmax(0, 1fr)); }',
-  'md:grid-cols-2':
-    '@media (min-width: 768px) { grid-template-columns: repeat(2, minmax(0, 1fr)); }',
-  'md:grid-cols-3':
-    '@media (min-width: 768px) { grid-template-columns: repeat(3, minmax(0, 1fr)); }',
-  'md:grid-cols-4':
-    '@media (min-width: 768px) { grid-template-columns: repeat(4, minmax(0, 1fr)); }',
-  'lg:px-8': '@media (min-width: 1024px) { padding-left: 2rem; padding-right: 2rem; }',
-  'lg:grid-cols-3':
-    '@media (min-width: 1024px) { grid-template-columns: repeat(3, minmax(0, 1fr)); }',
-  'lg:grid-cols-4':
-    '@media (min-width: 1024px) { grid-template-columns: repeat(4, minmax(0, 1fr)); }',
-  'xl:px-12': '@media (min-width: 1280px) { padding-left: 3rem; padding-right: 3rem; }',
-  'xl:grid-cols-4':
-    '@media (min-width: 1280px) { grid-template-columns: repeat(4, minmax(0, 1fr)); }',
-  'xl:grid-cols-5':
-    '@media (min-width: 1280px) { grid-template-columns: repeat(5, minmax(0, 1fr)); }',
-  '2xl:grid-cols-5':
-    '@media (min-width: 1536px) { grid-template-columns: repeat(5, minmax(0, 1fr)); }',
-};
-
-/**
- * Collect all CSS classes used in the AST
- * 
- * @param ast - Taildown AST
- * @returns Set of unique class names
- */
-export function collectClasses(ast: TaildownRoot): Set<string> {
-  const classes = new Set<string>();
-
-  visit(ast, (node) => {
-    if (node.data) {
-      const data = node.data as TaildownNodeData;
-      if (data.hProperties?.className) {
-        for (const className of data.hProperties.className) {
-          classes.add(className);
-        }
-      }
-    }
-  });
-
-  return classes;
-}
-
-/**
- * Collect all CSS classes from HAST (HTML AST)
- * 
- * @param hast - HAST node
- * @returns Set of unique class names
- */
-export function collectClassesFromHast(hast: any): Set<string> {
-  const classes = new Set<string>();
-  
-  function traverse(node: any) {
-    if (node.properties?.className) {
-      const classNames = Array.isArray(node.properties.className)
-        ? node.properties.className
-        : [node.properties.className];
-      for (const className of classNames) {
-        // Handle both string and array formats
-        if (typeof className === 'string') {
-          // Split space-separated classes
-          className.split(/\s+/).forEach(cls => {
-            if (cls) classes.add(cls);
-          });
-        }
-      }
-    }
-    
-    if (node.children) {
-      for (const child of node.children) {
-        traverse(child);
-      }
-    }
-  }
-  
-  traverse(hast);
-  return classes;
-}
-
-/**
- * Generate CSS from collected classes
- * 
- * @param classes - Set of class names to generate CSS for
- * @param minify - Whether to minify CSS
- * @returns Generated CSS string
- */
-/**
- * Generate theme CSS (dark mode, color palette)
- */
-function generateThemeCSS(): string {
-  const config = getDefaultConfig();
-  const themeResolver = createThemeResolver(config);
-  return themeResolver.generateThemeCSS();
-}
-
-export function generateCSS(classes: Set<string>, minify: boolean = false): string {
-  const cssRules: string[] = [];
-
-  // Add base reset/normalization
-  cssRules.push(`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taildown Document</title>
+  <style>
 /* Taildown Generated Styles */
 *, ::before, ::after {
   box-sizing: border-box;
@@ -1999,21 +1460,21 @@ td svg.icon {
 }
 
 /* Override for height-set containers */
-.image-compare.h-\[280px\]::before,
-.image-compare.h-\[450px\]::before,
-.image-compare.h-\[580px\]::before,
-.image-compare.h-\[700px\]::before,
+.image-compare.h-[280px]::before,
+.image-compare.h-[450px]::before,
+.image-compare.h-[580px]::before,
+.image-compare.h-[700px]::before,
 .image-compare.h-full::before {
   padding-bottom: 0;
 }
 
 /* Ensure viewport constraints work */
-.image-compare.max-h-\[35vh\],
-.image-compare.max-h-\[40vh\],
-.image-compare.max-h-\[55vh\],
-.image-compare.max-h-\[60vh\],
-.image-compare.max-h-\[70vh\],
-.image-compare.max-h-\[80vh\] {
+.image-compare.max-h-[35vh],
+.image-compare.max-h-[40vh],
+.image-compare.max-h-[55vh],
+.image-compare.max-h-[60vh],
+.image-compare.max-h-[70vh],
+.image-compare.max-h-[80vh] {
   /* Height is constrained by max-h utility */
 }
 
@@ -2169,14 +1630,14 @@ td svg.icon {
 }
 
 /* Size-specific adjustments */
-.image-compare.h-\[280px\] .image-compare-handle,
-.image-compare.max-h-\[35vh\] .image-compare-handle {
+.image-compare.h-[280px] .image-compare-handle,
+.image-compare.max-h-[35vh] .image-compare-handle {
   width: 36px;
   height: 36px;
 }
 
-.image-compare.h-\[700px\] .image-compare-handle,
-.image-compare.max-h-\[80vh\] .image-compare-handle {
+.image-compare.h-[700px] .image-compare-handle,
+.image-compare.max-h-[80vh] .image-compare-handle {
   width: 56px;
   height: 56px;
 }
@@ -2603,119 +2064,1398 @@ td svg.icon {
   color: rgb(147, 197, 253);
 }
 
-${generateIconCSS()}
+/* Icon Utilities */
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
 
-${generateGlassmorphismCSS()}
+.icon-missing,
+.icon-error {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background-color: rgb(254 202 202);
+  color: rgb(153 27 27);
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-family: monospace;
+}
 
-${generateAnimationCSS()}
+/* Icon size utilities */
+.icon.tiny { width: 12px; height: 12px; }
+.icon.xs { width: 16px; height: 16px; }
+.icon.sm { width: 20px; height: 20px; }
+.icon.md { width: 24px; height: 24px; }
+.icon.lg { width: 32px; height: 32px; }
+.icon.xl { width: 40px; height: 40px; }
+.icon.\32xl { width: 48px; height: 48px; }
+.icon.huge { width: 64px; height: 64px; }
 
-${generateThemeCSS()}
-`);
+/* Glassmorphism Effects */
+.glass-effect {
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturation, 110%));
+  backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturation, 110%));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  // Generate utility classes
-  const utilityRules: string[] = [];
-  const mediaQueries: Map<string, string[]> = new Map();
+/* Glass intensity variants - each includes full effect with premium gradient borders */
+.glass-subtle {
+  -webkit-backdrop-filter: blur(4px) saturate(100%);
+  backdrop-filter: blur(4px) saturate(100%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.35) 0%, 
+      rgba(255, 255, 255, 0.15) 50%, 
+      rgba(255, 255, 255, 0.35) 100%) border-box;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  for (const className of classes) {
-    let cssDeclarations = TAILWIND_UTILITIES[className];
+.dark .glass-subtle {
+  background: 
+    linear-gradient(rgba(28, 41, 56, 0.9), rgba(28, 41, 56, 0.9)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.35) 0%, 
+      rgba(47, 60, 76, 0.15) 50%, 
+      rgba(47, 60, 76, 0.35) 100%) border-box;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  color: #e7e9ea;
+}
 
-    // Helper function to escape CSS special characters
-    const escapeCSS = (str: string) => str
-      .replace(/:/g, '\\:')
-      .replace(/\[/g, '\\[')
-      .replace(/\]/g, '\\]')
-      .replace(/\(/g, '\\(')
-      .replace(/\)/g, '\\)')
-      .replace(/\//g, '\\/')
-      .replace(/\./g, '\\.');
+.glass-light {
+  -webkit-backdrop-filter: blur(8px) saturate(105%);
+  backdrop-filter: blur(8px) saturate(105%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(241, 245, 249, 0.75), rgba(241, 245, 249, 0.75)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.3) 0%, 
+      rgba(255, 255, 255, 0.12) 50%, 
+      rgba(255, 255, 255, 0.3) 100%) border-box;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-    // Handle hover: prefix dynamically
-    if (!cssDeclarations && className.startsWith('hover:')) {
-      const baseClass = className.substring(6); // Remove 'hover:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
-      if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
-        // Generate hover variant
-        const escapedClassName = escapeCSS(className);
-        utilityRules.push(`.${escapedClassName}:hover { ${baseDeclarations} }`);
-        continue;
-      }
-    }
-    
-    // Handle active: prefix dynamically
-    if (!cssDeclarations && className.startsWith('active:')) {
-      const baseClass = className.substring(7); // Remove 'active:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
-      if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
-        // Generate active variant
-        const escapedClassName = escapeCSS(className);
-        utilityRules.push(`.${escapedClassName}:active { ${baseDeclarations} }`);
-        continue;
-      }
-    }
-    
-    // Handle focus-visible: prefix dynamically
-    if (!cssDeclarations && className.startsWith('focus-visible:')) {
-      const baseClass = className.substring(14); // Remove 'focus-visible:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
-      if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
-        const escapedClassName = escapeCSS(className);
-        utilityRules.push(`.${escapedClassName}:focus-visible { ${baseDeclarations} }`);
-        continue;
-      }
-    }
-    
-    // Handle disabled: prefix dynamically
-    if (!cssDeclarations && className.startsWith('disabled:')) {
-      const baseClass = className.substring(9); // Remove 'disabled:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
-      if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
-        const escapedClassName = escapeCSS(className);
-        utilityRules.push(`.${escapedClassName}:disabled { ${baseDeclarations} }`);
-        continue;
-      }
-    }
-    
-    // Handle last: prefix dynamically
-    if (!cssDeclarations && className.startsWith('last:')) {
-      const baseClass = className.substring(5); // Remove 'last:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
-      if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
-        const escapedClassName = escapeCSS(className);
-        utilityRules.push(`.${escapedClassName}:last-child { ${baseDeclarations} }`);
-        continue;
-      }
-    }
+.dark .glass-light {
+  background: 
+    linear-gradient(rgba(25, 39, 52, 0.75), rgba(25, 39, 52, 0.75)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.3) 0%, 
+      rgba(47, 60, 76, 0.12) 50%, 
+      rgba(47, 60, 76, 0.3) 100%) border-box;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.3), 
+    0 4px 6px -2px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  color: #e7e9ea;
+}
 
-    if (cssDeclarations) {
-      // Use escapeCSS helper for consistent escaping
-      const escapedClassName = escapeCSS(className);
+.glass-medium {
+  -webkit-backdrop-filter: blur(12px) saturate(110%);
+  backdrop-filter: blur(12px) saturate(110%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(226, 232, 240, 0.6), rgba(226, 232, 240, 0.6)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.25) 0%, 
+      rgba(255, 255, 255, 0.1) 50%, 
+      rgba(255, 255, 255, 0.25) 100%) border-box;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-      if (cssDeclarations.startsWith('@media')) {
-        // Extract media query and content
-        const match = cssDeclarations.match(/@media ([^{]+) \{ (.+) \}/);
-        if (match && match[1] && match[2]) {
-          const mediaQuery = match[1];
-          const declarations = match[2];
-          if (!mediaQueries.has(mediaQuery)) {
-            mediaQueries.set(mediaQuery, []);
-          }
-          mediaQueries.get(mediaQuery)!.push(`.${escapedClassName} { ${declarations} }`);
-        }
-      } else {
-        utilityRules.push(`.${escapedClassName} { ${cssDeclarations} }`);
-      }
-    }
+.dark .glass-medium {
+  background: 
+    linear-gradient(rgba(25, 39, 52, 0.6), rgba(25, 39, 52, 0.6)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.25) 0%, 
+      rgba(47, 60, 76, 0.1) 50%, 
+      rgba(47, 60, 76, 0.25) 100%) border-box;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.3), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+  color: #e7e9ea;
+}
+
+.glass-heavy {
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(203, 213, 225, 0.4), rgba(203, 213, 225, 0.4)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.2) 0%, 
+      rgba(56, 189, 248, 0.12) 25%,
+      rgba(14, 165, 233, 0.12) 50%,
+      rgba(59, 130, 246, 0.12) 75%,
+      rgba(255, 255, 255, 0.2) 100%) border-box;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
+    inset 0 0 20px 0 rgba(255, 255, 255, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .glass-heavy {
+  background: 
+    linear-gradient(rgba(25, 39, 52, 0.4), rgba(25, 39, 52, 0.4)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.2) 0%, 
+      rgba(59, 130, 246, 0.08) 25%,
+      rgba(59, 130, 246, 0.08) 50%,
+      rgba(59, 130, 246, 0.08) 75%,
+      rgba(47, 60, 76, 0.2) 100%) border-box;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
+    inset 0 0 20px 0 rgba(255, 255, 255, 0.02);
+  color: #e7e9ea;
+}
+
+.glass-extreme {
+  --glass-blur: 24px;
+  --glass-saturation: 130%;
+}
+
+/* Glass hover effects - subtle interactive feedback */
+.glass-effect:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+}
+
+.glass-effect:active {
+  transform: translateY(0);
+}
+
+/* Browser fallbacks for older browsers */
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.85);
   }
-
-  cssRules.push(utilityRules.join('\n'));
-
-  // Add media queries
-  for (const [mediaQuery, rules] of mediaQueries) {
-    cssRules.push(`@media ${mediaQuery} {\n  ${rules.join('\n  ')}\n}`);
+  
+  .dark .glass-effect {
+    background: rgba(0, 0, 0, 0.7);
   }
+}
 
-  // Add component-specific styles
-  cssRules.push(`
+/* Backdrop blur utilities (non-standard values) */
+.backdrop-blur-4 {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.backdrop-blur-8 {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.backdrop-blur-12 {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.backdrop-blur-16 {
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.backdrop-blur-24 {
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+
+/* Saturation utilities */
+.saturate-105 {
+  filter: saturate(105%);
+}
+
+.saturate-110 {
+  filter: saturate(110%);
+}
+
+.saturate-120 {
+  filter: saturate(120%);
+}
+
+.saturate-130 {
+  filter: saturate(130%);
+}
+
+/* Background opacity utilities */
+.bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.bg-white\/20 {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.bg-white\/70 {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Border opacity utilities */
+.border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Dark mode overrides */
+.dark .bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.dark .border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Entrance Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5); // Twice as far away (0.7 -> 0.5)
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Entrance animation classes - scroll-triggered, elegant, professional */
+/* Initial state: Elements start hidden to prevent flash */
+/* GPU acceleration for smooth rendering */
+/* Animation is paused by default and triggered when scrolling into view */
+
+/* Base animation states */
+.animate-fade-in,
+.animate-slide-up,
+.animate-slide-down,
+.animate-slide-left,
+.animate-slide-right,
+.animate-scale-in,
+.animate-zoom-in {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Paused state (before element scrolls into view) */
+.animate-fade-in.animation-paused { opacity: 0; }
+.animate-slide-up.animation-paused { opacity: 0; transform: translateY(40px); }
+.animate-slide-down.animation-paused { opacity: 0; transform: translateY(-40px); }
+.animate-slide-left.animation-paused { opacity: 0; transform: translateX(16px); }
+.animate-slide-right.animation-paused { opacity: 0; transform: translateX(-16px); }
+.animate-scale-in.animation-paused { opacity: 0; transform: scale(0.8); }
+.animate-zoom-in.animation-paused { opacity: 0; transform: scale(0.5); }
+
+/* Playing state (when element is in view) - triggers animation */
+.animate-fade-in.animation-playing {
+  animation: fadeIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-up.animation-playing {
+  animation: slideUp 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-down.animation-playing {
+  animation: slideDown 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-left.animation-playing {
+  animation: slideLeft 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-right.animation-playing {
+  animation: slideRight 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in.animation-playing {
+  animation: scaleIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-zoom-in.animation-playing {
+  animation: zoomIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Fallback: If JS doesn't load, still show content (accessibility) */
+/* Elements without .animation-paused will be visible */
+.animate-fade-in:not(.animation-paused):not(.animation-playing),
+.animate-slide-up:not(.animation-paused):not(.animation-playing),
+.animate-slide-down:not(.animation-paused):not(.animation-playing),
+.animate-slide-left:not(.animation-paused):not(.animation-playing),
+.animate-slide-right:not(.animation-paused):not(.animation-playing),
+.animate-scale-in:not(.animation-paused):not(.animation-playing),
+.animate-zoom-in:not(.animation-paused):not(.animation-playing) {
+  opacity: 1;
+  transform: none;
+}
+
+/* Animation delays for staggered effects */
+.animation-delay-75 {
+  animation-delay: 75ms;
+}
+
+.animation-delay-150 {
+  animation-delay: 150ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Hover Animations */
+.hover-lift {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1),
+              0 4px 8px -2px rgba(0, 0, 0, 0.05);
+}
+
+.hover-lift:active {
+  transform: translateY(0);
+}
+
+.hover-glow {
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4),
+              0 0 40px rgba(59, 130, 246, 0.2);
+}
+
+.hover-scale {
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.6, 1);
+  /* Prevent scale from causing horizontal scroll - critical for good UX */
+  overflow: hidden;
+  will-change: transform;
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.hover-scale:active {
+  transform: scale(0.99);
+}
+
+.hover-brighten {
+  transition: filter 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-brighten:hover {
+  filter: brightness(1.1);
+}
+
+.hover-tilt {
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+.hover-tilt:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(2deg);
+}
+
+/* Loading Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 1000ms ease infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 2s linear infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* Interactive State Animations */
+.transition-smooth {
+  transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-fast {
+  transition: all 150ms cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.transition-colors {
+  transition: color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-transform {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-shadow {
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Focus ring with smooth animation */
+.focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              outline-offset 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.focus-ring:focus {
+  outline-color: rgb(59, 130, 246);
+  outline-offset: 4px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Color Palette - Light Mode */
+:root {
+  --background: #ffffff;
+  --foreground: #111827;
+  --muted: #f3f4f6;
+  --muted-foreground: #4b5563;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #82a0ff;
+  
+  --primary: #82a0ff;
+  --primary-foreground: #ffffff;
+  --secondary: #8b5cf6;
+  --secondary-foreground: #ffffff;
+  --accent: #ec4899;
+  --accent-foreground: #ffffff;
+  
+  --success: #10b981;
+  --success-foreground: #ffffff;
+  --warning: #f59e0b;
+  --warning-foreground: #ffffff;
+  --error: #ef4444;
+  --error-foreground: #ffffff;
+  --info: #3b82f6;
+  --info-foreground: #ffffff;
+  
+  --card: #ffffff;
+  --card-foreground: #111827;
+}
+
+/* Color Palette - Dark Mode */
+.dark {
+  --background: #15202b;
+  --foreground: #f5f5f5;
+  --muted: #1c2938;
+  --muted-foreground: #b8c5d0;
+  --border: #2f3c4c;
+  --input: #1c2938;
+  --ring: #60a5fa;
+  
+  --primary: #82a0ff;
+  --primary-foreground: #f5f5f5;
+  --secondary: #9333ea;
+  --secondary-foreground: #f5f5f5;
+  --accent: #ec4899;
+  --accent-foreground: #f5f5f5;
+  
+  --success: #10b981;
+  --success-foreground: #15202b;
+  --warning: #f59e0b;
+  --warning-foreground: #15202b;
+  --error: #ef4444;
+  --error-foreground: #ffffff;
+  --info: #3b82f6;
+  --info-foreground: #ffffff;
+  
+  --card: #192734;
+  --card-foreground: #f5f5f5;
+}
+
+/* CSS Variable utilities - background colors */
+.bg-background { background-color: var(--background); }
+.bg-foreground { background-color: var(--foreground); }
+.bg-muted { background-color: var(--muted); }
+.bg-card { background-color: var(--card); }
+.bg-primary { background-color: var(--primary); }
+.bg-secondary { background-color: var(--secondary); }
+.bg-accent { background-color: var(--accent); }
+.bg-success { background-color: var(--success); }
+.bg-warning { background-color: var(--warning); }
+.bg-error { background-color: var(--error); }
+.bg-info { background-color: var(--info); }
+
+/* CSS Variable utilities - text colors */
+.text-foreground { color: var(--foreground); }
+.text-muted-foreground { color: var(--muted-foreground); }
+.text-card-foreground { color: var(--card-foreground); }
+.text-primary { color: var(--primary); }
+.text-primary-foreground { color: var(--primary-foreground); }
+.text-secondary { color: var(--secondary); }
+.text-secondary-foreground { color: var(--secondary-foreground); }
+.text-accent { color: var(--accent); }
+.text-accent-foreground { color: var(--accent-foreground); }
+.text-success { color: var(--success); }
+.text-success-foreground { color: var(--success-foreground); }
+.text-warning { color: var(--warning); }
+.text-warning-foreground { color: var(--warning-foreground); }
+.text-error { color: var(--error); }
+.text-error-foreground { color: var(--error-foreground); }
+.text-info { color: var(--info); }
+.text-info-foreground { color: var(--info-foreground); }
+
+/* CSS Variable utilities - border colors */
+.border-border { border-color: var(--border); }
+.border-input { border-color: var(--input); }
+.border-primary { border-color: var(--primary); }
+.border-secondary { border-color: var(--secondary); }
+.border-accent { border-color: var(--accent); }
+.border-success { border-color: var(--success); }
+.border-warning { border-color: var(--warning); }
+.border-error { border-color: var(--error); }
+.border-info { border-color: var(--info); }
+
+/* Ring color for focus states */
+.ring-ring { --tw-ring-color: var(--ring); }
+
+/* Dark Mode Transitions */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Disable transitions on page load to prevent flash */
+.no-transitions * {
+  transition: none !important;
+}
+
+/* Dark Mode Toggle Button */
+.dark-mode-toggle {
+  position: fixed;
+  bottom: 1rem; right: 1rem;
+  z-index: 9999;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dark-mode-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark-mode-toggle:active {
+  transform: translateY(0);
+}
+
+.dark-mode-toggle:focus {
+  outline: none;
+}
+
+.dark-mode-toggle:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.dark-mode-toggle svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--foreground);
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark-mode-toggle:hover svg {
+  transform: rotate(15deg);
+}
+
+/* Hide sun icon in light mode, moon icon in dark mode */
+.dark-mode-toggle .sun-icon {
+  display: none;
+}
+
+.dark .dark-mode-toggle .sun-icon {
+  display: block;
+}
+
+.dark-mode-toggle .moon-icon {
+  display: block;
+}
+
+.dark .dark-mode-toggle .moon-icon {
+  display: none;
+}
+
+/* Glassmorphism Effects */
+.glass-effect {
+  background-clip: padding-box;
+  -webkit-backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturation, 110%));
+  backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturation, 110%));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glass intensity variants - each includes full effect with premium gradient borders */
+.glass-subtle {
+  -webkit-backdrop-filter: blur(4px) saturate(100%);
+  backdrop-filter: blur(4px) saturate(100%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.35) 0%, 
+      rgba(255, 255, 255, 0.15) 50%, 
+      rgba(255, 255, 255, 0.35) 100%) border-box;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .glass-subtle {
+  background: 
+    linear-gradient(rgba(28, 41, 56, 0.9), rgba(28, 41, 56, 0.9)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.35) 0%, 
+      rgba(47, 60, 76, 0.15) 50%, 
+      rgba(47, 60, 76, 0.35) 100%) border-box;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  color: #e7e9ea;
+}
+
+.glass-light {
+  -webkit-backdrop-filter: blur(8px) saturate(105%);
+  backdrop-filter: blur(8px) saturate(105%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(241, 245, 249, 0.75), rgba(241, 245, 249, 0.75)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.3) 0%, 
+      rgba(255, 255, 255, 0.12) 50%, 
+      rgba(255, 255, 255, 0.3) 100%) border-box;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .glass-light {
+  background: 
+    linear-gradient(rgba(25, 39, 52, 0.75), rgba(25, 39, 52, 0.75)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.3) 0%, 
+      rgba(47, 60, 76, 0.12) 50%, 
+      rgba(47, 60, 76, 0.3) 100%) border-box;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.3), 
+    0 4px 6px -2px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  color: #e7e9ea;
+}
+
+.glass-medium {
+  -webkit-backdrop-filter: blur(12px) saturate(110%);
+  backdrop-filter: blur(12px) saturate(110%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(226, 232, 240, 0.6), rgba(226, 232, 240, 0.6)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.25) 0%, 
+      rgba(255, 255, 255, 0.1) 50%, 
+      rgba(255, 255, 255, 0.25) 100%) border-box;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .glass-medium {
+  background: 
+    linear-gradient(rgba(25, 39, 52, 0.6), rgba(25, 39, 52, 0.6)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.25) 0%, 
+      rgba(47, 60, 76, 0.1) 50%, 
+      rgba(47, 60, 76, 0.25) 100%) border-box;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.3), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+  color: #e7e9ea;
+}
+
+.glass-heavy {
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(rgba(203, 213, 225, 0.4), rgba(203, 213, 225, 0.4)) padding-box,
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.2) 0%, 
+      rgba(56, 189, 248, 0.12) 25%,
+      rgba(14, 165, 233, 0.12) 50%,
+      rgba(59, 130, 246, 0.12) 75%,
+      rgba(255, 255, 255, 0.2) 100%) border-box;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
+    inset 0 0 20px 0 rgba(255, 255, 255, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .glass-heavy {
+  background: 
+    linear-gradient(rgba(25, 39, 52, 0.4), rgba(25, 39, 52, 0.4)) padding-box,
+    linear-gradient(135deg, 
+      rgba(47, 60, 76, 0.2) 0%, 
+      rgba(59, 130, 246, 0.08) 25%,
+      rgba(59, 130, 246, 0.08) 50%,
+      rgba(59, 130, 246, 0.08) 75%,
+      rgba(47, 60, 76, 0.2) 100%) border-box;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
+    inset 0 0 20px 0 rgba(255, 255, 255, 0.02);
+  color: #e7e9ea;
+}
+
+.glass-extreme {
+  --glass-blur: 24px;
+  --glass-saturation: 130%;
+}
+
+/* Glass hover effects - subtle interactive feedback */
+.glass-effect:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+}
+
+.glass-effect:active {
+  transform: translateY(0);
+}
+
+/* Browser fallbacks for older browsers */
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.85);
+  }
+  
+  .dark .glass-effect {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* Backdrop blur utilities (non-standard values) */
+.backdrop-blur-4 {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.backdrop-blur-8 {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.backdrop-blur-12 {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.backdrop-blur-16 {
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.backdrop-blur-24 {
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+
+/* Saturation utilities */
+.saturate-105 {
+  filter: saturate(105%);
+}
+
+.saturate-110 {
+  filter: saturate(110%);
+}
+
+.saturate-120 {
+  filter: saturate(120%);
+}
+
+.saturate-130 {
+  filter: saturate(130%);
+}
+
+/* Background opacity utilities */
+.bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.bg-white\/20 {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.bg-white\/70 {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Border opacity utilities */
+.border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Dark mode overrides */
+.dark .bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.dark .border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Entrance Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5); // Twice as far away (0.7 -> 0.5)
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Entrance animation classes - scroll-triggered, elegant, professional */
+/* Initial state: Elements start hidden to prevent flash */
+/* GPU acceleration for smooth rendering */
+/* Animation is paused by default and triggered when scrolling into view */
+
+/* Base animation states */
+.animate-fade-in,
+.animate-slide-up,
+.animate-slide-down,
+.animate-slide-left,
+.animate-slide-right,
+.animate-scale-in,
+.animate-zoom-in {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Paused state (before element scrolls into view) */
+.animate-fade-in.animation-paused { opacity: 0; }
+.animate-slide-up.animation-paused { opacity: 0; transform: translateY(40px); }
+.animate-slide-down.animation-paused { opacity: 0; transform: translateY(-40px); }
+.animate-slide-left.animation-paused { opacity: 0; transform: translateX(16px); }
+.animate-slide-right.animation-paused { opacity: 0; transform: translateX(-16px); }
+.animate-scale-in.animation-paused { opacity: 0; transform: scale(0.8); }
+.animate-zoom-in.animation-paused { opacity: 0; transform: scale(0.5); }
+
+/* Playing state (when element is in view) - triggers animation */
+.animate-fade-in.animation-playing {
+  animation: fadeIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-up.animation-playing {
+  animation: slideUp 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-down.animation-playing {
+  animation: slideDown 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-left.animation-playing {
+  animation: slideLeft 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-right.animation-playing {
+  animation: slideRight 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in.animation-playing {
+  animation: scaleIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-zoom-in.animation-playing {
+  animation: zoomIn 4500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Fallback: If JS doesn't load, still show content (accessibility) */
+/* Elements without .animation-paused will be visible */
+.animate-fade-in:not(.animation-paused):not(.animation-playing),
+.animate-slide-up:not(.animation-paused):not(.animation-playing),
+.animate-slide-down:not(.animation-paused):not(.animation-playing),
+.animate-slide-left:not(.animation-paused):not(.animation-playing),
+.animate-slide-right:not(.animation-paused):not(.animation-playing),
+.animate-scale-in:not(.animation-paused):not(.animation-playing),
+.animate-zoom-in:not(.animation-paused):not(.animation-playing) {
+  opacity: 1;
+  transform: none;
+}
+
+/* Animation delays for staggered effects */
+.animation-delay-75 {
+  animation-delay: 75ms;
+}
+
+.animation-delay-150 {
+  animation-delay: 150ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Hover Animations */
+.hover-lift {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1),
+              0 4px 8px -2px rgba(0, 0, 0, 0.05);
+}
+
+.hover-lift:active {
+  transform: translateY(0);
+}
+
+.hover-glow {
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4),
+              0 0 40px rgba(59, 130, 246, 0.2);
+}
+
+.hover-scale {
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.6, 1);
+  /* Prevent scale from causing horizontal scroll - critical for good UX */
+  overflow: hidden;
+  will-change: transform;
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.hover-scale:active {
+  transform: scale(0.99);
+}
+
+.hover-brighten {
+  transition: filter 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-brighten:hover {
+  filter: brightness(1.1);
+}
+
+.hover-tilt {
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+.hover-tilt:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(2deg);
+}
+
+/* Loading Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 1000ms ease infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 2s linear infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* Interactive State Animations */
+.transition-smooth {
+  transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-fast {
+  transition: all 150ms cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.transition-colors {
+  transition: color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-transform {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-shadow {
+  transition: box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Focus ring with smooth animation */
+.focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              outline-offset 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.focus-ring:focus {
+  outline-color: rgb(59, 130, 246);
+  outline-offset: 4px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+.font-bold { font-weight: 700; }
+.text-center { text-align: center; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-gray-500 { color: rgb(107 114 128); }
+.text-primary-600 { color: rgb(106 142 239); }
+.hover\:text-primary-700:hover { color: rgb(82 123 222); }
+.rounded-lg { border-radius: 0.5rem; }
+.p-4 { padding: 1rem; }
+.flex { display: flex; }
+.gap-3 { gap: 0.75rem; }
+.items-start { align-items: flex-start; }
+.bg-blue-50 { background-color: rgb(239 246 255); }
+.text-blue-900 { color: rgb(30 58 138); }
+.text-blue-600 { color: rgb(37 99 235); }
+.bg-amber-50 { background-color: rgb(255 251 235); }
+.text-amber-900 { color: rgb(120 53 15); }
+.text-yellow-600 { color: rgb(202 138 4); }
+.max-w-full { max-width: 100%; }
+.overflow-x-hidden { overflow-x: hidden; }
+.overflow-wrap-normal { overflow-wrap: normal; word-break: normal; }
+.shadow-lg { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
+.p-6 { padding: 1.5rem; }
+.text-green-600 { color: rgb(22 163 74); }
+.grid-cols-3 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.grid { display: grid; gap: 1rem; }
+.grid-cols-2 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.text-accent-600 { color: rgb(219 39 119); }
+.hover\:text-accent-700:hover { color: rgb(190 24 93); }
+
 /* ========================================
  * COMPONENT STYLES
  * ======================================== */
@@ -6123,10 +6863,8 @@ mark,
 }
 
 /* Note: Link button styles removed - buttons should use the {button} attribute which properly handles hover states with theme colors */
-`);
 
-  //Add footnotes styles
-  cssRules.push(`
+
 /* ========================================
  * FOOTNOTES COMPONENT
  * Academic-style footnotes with auto-numbering, backlinks, and optional hover preview
@@ -6509,10 +7247,8 @@ li[role="doc-footnote"]:target {
 .math msubsup {
   vertical-align: baseline;
 }
-`);
 
-  // Add safety constraint for all grids - prevent overflow
-  cssRules.push(`
+
 /* Grid safety: Ensure grid items never overflow their container */
 .grid > * {
   min-width: 0;
@@ -6607,96 +7343,288 @@ li[role="doc-footnote"]:target {
   word-break: normal;
   text-wrap: pretty; /* Modern CSS for optimal line breaks */
 }
-`);
 
-  // Add responsive grid rules for mobile-first behavior
-  // These ensure grids gracefully scale from 1 column on mobile to full column count on larger screens
-  if (classes.has('grid-cols-2')) {
-    cssRules.push(`
+
 /* grid-cols-2: 1 column on mobile, 2 on tablet+ */
 @media (min-width: 640px) {
   .grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
-`);
-  }
-  
-  if (classes.has('grid-cols-3')) {
-    cssRules.push(`
+
+
 /* grid-cols-3: 1 column on mobile, 3 on tablet+ */
 @media (min-width: 768px) {
   .grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 }
-`);
-  }
-  
-  if (classes.has('grid-cols-4')) {
-    cssRules.push(`
-/* grid-cols-4: 1 column on mobile, 2 on small, 3 on tablet, 4 on desktop */
-@media (min-width: 640px) {
-  .grid-cols-4 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-@media (min-width: 768px) {
-  .grid-cols-4 {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
-}
-@media (min-width: 1024px) {
-  .grid-cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  }
-}
-`);
-  }
-  
-  if (classes.has('grid-cols-5')) {
-    cssRules.push(`
-/* grid-cols-5: 1 column on mobile, 2 on small, 3 on tablet, 5 on extra-large */
-@media (min-width: 640px) {
-  .grid-cols-5 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-@media (min-width: 768px) {
-  .grid-cols-5 {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
-}
-@media (min-width: 1280px) {
-  .grid-cols-5 {
-    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-  }
-}
-`);
+</style>
+  <script>// Taildown Interactive Components
+// Generated by Taildown compiler
+// Total size: ~1.76KB
+
+(function() {
+  'use strict';
+
+  console.log('[Taildown] JavaScript loaded');
+
+  // Dark Mode - runs immediately to prevent flash
+  // Dark Mode Toggle
+  const STORAGE_KEY = 'taildown-dark-mode';
+  const DARK_CLASS = 'dark';
+
+  // Get initial theme from localStorage or system preference
+  function getInitialTheme() {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      return stored === 'dark';
+    }
+    
+    // Check system preference
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return true;
+    }
+    
+    return false;
   }
 
-  const css = cssRules.join('\n');
-
-  if (minify) {
-    return css
-      .replace(/\/\*[^*]*\*\//g, '') // Remove comments
-      .replace(/\s+/g, ' ') // Collapse whitespace
-      .replace(/\s*([{}:;,])\s*/g, '$1') // Remove whitespace around punctuation
-      .trim();
+  // Apply theme
+  function applyTheme(isDark) {
+    if (isDark) {
+      document.documentElement.classList.add(DARK_CLASS);
+    } else {
+      document.documentElement.classList.remove(DARK_CLASS);
+    }
   }
 
-  return css;
-}
+  // Toggle theme
+  function toggleTheme() {
+    const isDark = document.documentElement.classList.contains(DARK_CLASS);
+    const newTheme = !isDark;
+    
+    applyTheme(newTheme);
+    localStorage.setItem(STORAGE_KEY, newTheme ? 'dark' : 'light');
+  }
 
-/**
- * Generate CSS from AST
- * 
- * @param ast - Taildown AST
- * @param minify - Whether to minify CSS
- * @returns Generated CSS string
- */
-export function renderCSS(ast: TaildownRoot, minify: boolean = false): string {
-  const classes = collectClasses(ast);
-  return generateCSS(classes, minify);
-}
+  // Create toggle button
+  function createToggleButton() {
+    const button = document.createElement('button');
+    button.className = 'dark-mode-toggle';
+    button.setAttribute('aria-label', 'Toggle dark mode');
+    button.innerHTML = `
+      <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    `;
+    return button;
+  }
 
+  // Apply initial theme immediately (prevent flash)
+  applyTheme(getInitialTheme());
+
+  // Create toggle button when DOM is ready
+  function initToggleButton() {
+    const toggleButton = createToggleButton();
+    document.body.appendChild(toggleButton);
+    toggleButton.addEventListener('click', toggleTheme);
+    
+    // Listen for system preference changes
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        // Only auto-switch if user hasn't set a preference
+        if (!localStorage.getItem(STORAGE_KEY)) {
+          applyTheme(e.matches);
+        }
+      });
+    }
+    
+    console.log('[Taildown] Dark mode toggle button initialized');
+  }
+
+  // Wait for body to exist before creating button
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initToggleButton);
+  } else {
+    initToggleButton();
+  }
+
+  console.log('[Taildown] Dark mode theme applied');
+
+
+  // Utility: Get all elements with data-component attribute
+  function getComponents(name) {
+    return document.querySelectorAll(`[data-component="${name}"]`);
+  }
+
+  // Utility: Toggle class on element
+  function toggleClass(el, className, force) {
+    el.classList.toggle(className, force);
+  }
+
+  // Utility: Set multiple attributes
+  function setAttrs(el, attrs) {
+    for (const [key, value] of Object.entries(attrs)) {
+      el.setAttribute(key, value);
+    }
+  }
+})();
+</script>
+</head>
+<body>
+  <h1 class="text-4xl font-bold text-center">Infinity at the Origin: A Hyperreal Framework for Dynamics Across Scales</h1>
+<p class="text-center text-lg text-gray-500"><strong>Qui Vincit</strong></p>
+<hr />
+<h2 class="text-lg font-bold text-primary-600 hover:text-primary-700" id="abstract">Abstract</h2>
+<div class="taildown-component component-callout callout-component rounded-lg p-4 border-l-4 flex gap-3 items-start callout-note bg-blue-50 border-blue-500 text-blue-900 glass-effect shadow-sm" data-component="callout"><p>To overcome the constraints of traditional geometric systems at infinite and infinitesimal scales, this article introduces an innovative framework anchored in the hyperreal number system <span class="math math-inline" data-math-type="inline"><math><mrow><msup><mrow></mrow><mo>∗</mo></msup><mi>ℝ</mi></mrow></math></span>. Through the <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-transformation—a reciprocal mapping—this approach repositions infinite spatial extents at the origin and infinitesimal scales at infinity. For multi-particle systems, it employs a scale-shape decomposition paired with a scale-dependent time transformation to manage dynamics across vast scale disparities. This unified methodology adeptly handles individual points, multi-particle configurations, and their temporal evolution, excelling in contexts involving asymptotic behavior or singularities. Key properties—spatial compactification, metric inversion, and dynamic regularization—make it a powerful tool for tackling challenges in asymptotic analysis, differential equations, multi-body dynamics, and numerical simulation, providing a rigorous and versatile approach to phenomena spanning extreme magnitudes.</p></div>
+<hr />
+<h2 id="introduction">Introduction</h2>
+<p>Conventional geometric frameworks, such as Euclidean space <span class="math math-inline" data-math-type="inline"><math><msup><mi>ℝ</mi><mi>d</mi></msup></math></span>, struggle to address phenomena at the extremes of scale. Asymptotic analysis often depends on cumbersome limits, singularities near the origin disrupt continuity, and unbounded domains challenge computational precision. Inspired by the <a href="principle-of-transformative-representation.html"><strong>Principle of Transformative Representation</strong></a>—the belief that significant mathematical challenges require a reconceptualization or extension of the underlying system—we propose a novel structure rooted in the hyperreal numbers <span class="math math-inline" data-math-type="inline"><math><mrow><msup><mrow></mrow><mo>∗</mo></msup><mi>ℝ</mi></mrow></math></span>. This system extends <span class="math math-inline" data-math-type="inline"><math><mi>ℝ</mi></math></span> with infinite numbers exceeding all reals and infinitesimals smaller than any positive real, retaining the first-order properties of <span class="math math-inline" data-math-type="inline"><math><mi>ℝ</mi></math></span> via the Transfer Principle.</p>
+<p>The <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-mapping realizes this vision by inverting the spatial domain: infinite extents in r-space collapse to a finite region near the <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-origin, while infinitesimal scales expand to its infinite boundary. Three core innovations define this framework:</p>
+<ol>
+<li>A <strong>reciprocal coordinate transformation</strong> mapping r-space positions <span class="math math-inline" data-math-type="inline"><math><mi>𝐫</mi></math></span> to <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-space via <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>𝐫</mi><mi>i</mi></msub><mo>=</mo></mrow><mrow><mn>1</mn><mi>/</mi><msub><mi>𝝉</mi><mi>i</mi></msub></mrow></math></span>, effectively turning space inside out.</li>
+<li>A <strong>scale-shape decomposition</strong> for multi-particle systems, parameterized by a logarithmic scale factor <span class="math math-inline" data-math-type="inline"><math><mi>σ</mi></math></span>, shape coordinates <span class="math math-inline" data-math-type="inline"><math><mi>θ</mi></math></span>, and orientation <span class="math math-inline" data-math-type="inline"><math><mi>ϕ</mi></math></span>.</li>
+<li>A <strong>scale-dependent time transformation</strong>, regularizing dynamics to ensure stability across extreme scales.</li>
+</ol>
+<p>This structure unifies single-point geometry and multi-particle dynamics into a seamless, reconceptualized approach, blending theoretical sophistication with practical utility to address scale-driven phenomena across mathematics and science.</p>
+<hr />
+<h2 id="hyperreal-numbers">Foundational Choice: The Hyperreal Numbers</h2>
+<p>The hyperreal numbers <span class="math math-inline" data-math-type="inline"><math><mrow><msup><mrow></mrow><mo>∗</mo></msup><mi>ℝ</mi></mrow></math></span> form the bedrock of this framework, extending <span class="math math-inline" data-math-type="inline"><math><mi>ℝ</mi></math></span> with a rigorous basis for infinite and infinitesimal quantities. Defined within non-standard analysis (e.g., via ultrapowers; see Robinson, 1966), <span class="math math-inline" data-math-type="inline"><math><mrow><msup><mrow></mrow><mo>∗</mo></msup><mi>ℝ</mi></mrow></math></span> adheres to the Transfer Principle, preserving all first-order properties of <span class="math math-inline" data-math-type="inline"><math><mi>ℝ</mi></math></span>. This foundation offers three essential capabilities:</p>
+<ul>
+<li><strong>Direct Representation of Scale:</strong> Infinite and infinitesimal magnitudes are concrete hyperreal entities, bypassing the abstraction of limits.</li>
+<li><strong>Algebraic Flexibility:</strong> Functions can be evaluated directly at infinite or infinitesimal points, simplifying analysis where traditional methods falter.</li>
+<li><strong>Reciprocal Precision:</strong> The <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-mapping, defined as <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>r</mi><mi>i</mi></msub><mo>=</mo></mrow><mrow><mn>1</mn><mi>/</mi><msub><mi>τ</mi><mi>i</mi></msub></mrow></math></span>, leverages hyperreals to treat <span class="math math-inline" data-math-type="inline"><math><mrow><mn>1</mn><mi>/</mi><mi>τ</mi></mrow></math></span> as infinite when <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span> is infinitesimal, and vice versa, with full mathematical consistency.</li>
+</ul>
+<p>This choice distinguishes the framework from alternative methods, enabling its unique reciprocal geometry and dynamic regularization.</p>
+<hr />
+<h2 id="axiomatic-foundation">Axiomatic Foundation</h2>
+<p>The framework is built on a comprehensive set of axioms, organized into three domains: <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-space for individual points, configuration spaces for multi-particle systems, and dynamics for temporal evolution.</p>
+<h3 id="tau-space-axioms">Axioms for the <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-Space (Single Point in <span class="math math-inline" data-math-type="inline"><math><mi>d</mi></math></span> Dimensions)</h3>
+<p>The <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-space reimagines spatial geometry to address extreme scales with precision.</p>
+<p class="font-bold text-blue-600" id="axiom-1"><strong>Axiom 1: Definition of <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-Space</strong></p>
+<p>The <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-space is <span class="math math-inline" data-math-type="inline"><math><mrow><mo form="prefix" stretchy="false">(</mo><msup><mrow></mrow><mo>∗</mo></msup><mi>ℝ</mi><msup><mo form="postfix" stretchy="false">)</mo><mi>d</mi></msup></mrow></math></span>, comprising <span class="math math-inline" data-math-type="inline"><math><mi>d</mi></math></span>-tuples <span class="math math-inline" data-math-type="inline"><math><mrow><mi>𝝉</mi><mo>=</mo></mrow><mrow><mo form="prefix" stretchy="false">(</mo><msub><mi>τ</mi><mn>1</mn></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>τ</mi><mi>d</mi></msub><mo form="postfix" stretchy="false">)</mo></mrow></math></span>, where <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>τ</mi><mi>i</mi></msub><mo>∈</mo></mrow><mrow><msup><mrow></mrow><mo>∗</mo></msup><mi>ℝ</mi></mrow></math></span>, equipped with the Euclidean metric <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>d</mi><mi>τ</mi></msub><mo>=</mo></mrow><mrow><msqrt><mrow><msubsup><mo movablelimits="false">∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>d</mi></msubsup><msubsup><mi>τ</mi><mi>i</mi><mn>2</mn></msubsup></mrow></msqrt></mrow></math></span>, and operations defined in <span class="math math-inline" data-math-type="inline"><math><mrow><msup><mrow></mrow><mo>∗</mo></msup><mi>ℝ</mi></mrow></math></span>.</p>
+<hr />
+<p class="font-bold text-blue-600" id="axiom-2"><strong>Axiom 2: Reciprocal Transformation to r-Space</strong></p>
+<p>For <span class="math math-inline" data-math-type="inline"><math><mrow><mi>𝝉</mi><mo>∈</mo></mrow><mrow><mo form="prefix" stretchy="false">(</mo><msup><mrow></mrow><mo>∗</mo></msup><mi>ℝ</mi><msup><mo form="postfix" stretchy="false">)</mo><mi>d</mi></msup></mrow></math></span> with all <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>τ</mi><mi>i</mi></msub><mo>≠</mo></mrow><mrow><mn>0</mn></mrow></math></span>, the r-space position is <span class="math math-inline" data-math-type="inline"><math><mrow><mi>𝐫</mi><mo>=</mo></mrow><mrow><mo form="prefix" stretchy="false">(</mo><msub><mi>r</mi><mn>1</mn></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>r</mi><mi>d</mi></msub><mo form="postfix" stretchy="false">)</mo><mo>∈</mo></mrow><mrow><mo form="prefix" stretchy="false">(</mo><msup><mrow></mrow><mo>∗</mo></msup><mi>ℝ</mi><mo>∖</mo><mn>0</mn><msup><mo form="postfix" stretchy="false">)</mo><mi>d</mi></msup></mrow></math></span>, where <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>r</mi><mi>i</mi></msub><mo>=</mo></mrow><mrow><mn>1</mn><mi>/</mi><msub><mi>τ</mi><mi>i</mi></msub></mrow></math></span>. The r-space metric is <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>d</mi><mi>r</mi></msub><mo>=</mo></mrow><mrow><msqrt><mrow><msubsup><mo movablelimits="false">∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>d</mi></msubsup><msubsup><mi>r</mi><mi>i</mi><mn class="tml-sml-pad">2</mn></msubsup></mrow></msqrt></mrow></math></span>.</p>
+<div class="taildown-component component-callout callout-component rounded-lg p-4 border-l-4 flex gap-3 items-start callout-warning bg-amber-50 border-amber-500 text-amber-900" data-component="callout"><p><svg class="icon icon-alert-triangle text-yellow-600" data-icon="alert-triangle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg> <strong>Singularity Note:</strong> The mapping is undefined at <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>τ</mi><mi>i</mi></msub><mo>=</mo></mrow><mrow><mn>0</mn></mrow></math></span>. Near-axis behavior (e.g., <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>τ</mi><mn>1</mn></msub><mo>→</mo></mrow><mrow><mn>0</mn></mrow></math></span>, <span class="math math-inline" data-math-type="inline"><math><msub><mi>τ</mi><mrow><mi>j</mi><mo>≠</mo><mn>1</mn></mrow></msub></math></span> finite) sends <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>r</mi><mn>1</mn></msub><mo>→</mo></mrow><mrow><mi>∞</mi></mrow></math></span>, often requiring directional derivatives or path-specific analysis in r-space, though the framework emphasizes isotropic limits (<span class="math math-inline" data-math-type="inline"><math><mrow><mi>|</mi><mi>𝝉</mi><mi>|</mi><mo>→</mo></mrow><mrow><mn>0</mn></mrow></math></span>).</p></div>
+<hr />
+<p class="font-bold text-blue-600" id="axiom-3"><strong>Axiom 3: Infinity at the Origin</strong></p>
+<p>As <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>d</mi><mi>τ</mi></msub><mo>=</mo></mrow><mrow><mi>|</mi><mi>𝝉</mi><mi>|</mi></mrow></math></span> becomes infinitesimal, <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>d</mi><mi>r</mi></msub><mo>=</mo></mrow><mrow><mi>|</mi><mi>𝐫</mi><mi>|</mi></mrow></math></span> grows infinite, with <span class="math math-inline" data-math-type="inline"><math><msub><mi>τ</mi><mi>i</mi></msub></math></span> signs determining the r-space quadrant of infinity.</p>
+<hr />
+<p class="font-bold text-blue-600" id="axiom-4"><strong>Axiom 4: Infinitesimals at Infinity</strong></p>
+<p>When <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>d</mi><mi>τ</mi></msub><mo>=</mo></mrow><mrow><mi>|</mi><mi>𝝉</mi><mi>|</mi></mrow></math></span> is infinite, <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>d</mi><mi>r</mi></msub><mo>=</mo></mrow><mrow><mi>|</mi><mi>𝐫</mi><mi>|</mi></mrow></math></span> becomes infinitesimal, positioning the r-space origin at the <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-space boundary.</p>
+<hr />
+<p class="font-bold text-blue-600" id="axiom-5"><strong>Axiom 5: Scale Correspondence</strong></p>
+<p>For a non-zero hyperreal <span class="math math-inline" data-math-type="inline"><math><mi>ρ</mi></math></span>, the sphere <span class="math math-inline" data-math-type="inline"><math><mrow><mi>|</mi><mi>𝝉</mi><mi>|</mi><mo>=</mo></mrow><mrow><mi>ρ</mi></mrow></math></span> in <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-space maps to r-space points where <span class="math math-inline" data-math-type="inline"><math><mrow><mi>|</mi><mi>𝐫</mi><mi>|</mi><mo>≈</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>ρ</mi></mrow></math></span>. Infinitesimal <span class="math math-inline" data-math-type="inline"><math><mi>ρ</mi></math></span> yields infinite <span class="math math-inline" data-math-type="inline"><math><mrow><mi>|</mi><mi>𝐫</mi><mi>|</mi></mrow></math></span>, and infinite <span class="math math-inline" data-math-type="inline"><math><mi>ρ</mi></math></span> yields infinitesimal <span class="math math-inline" data-math-type="inline"><math><mrow><mi>|</mi><mi>𝐫</mi><mi>|</mi></mrow></math></span>.</p>
+<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-medium shadow-lg hover-lift transition-smooth p-6" data-component="card"><p><img src="scale_correspondence.png" alt="Scale Correspondence Mapping" /></p><p class="text-center text-lg font-bold"><strong>Figure 1: Scale Correspondence</strong></p><p class="text-center text-gray-500">Illustration showing how points at large radii in the r-plane map to points near the origin in the <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-plane, and vice versa, highlighting the "infinity at the origin" concept.</p></div>
+<hr />
+<p class="font-bold text-blue-600" id="axiom-6"><strong>Axiom 6: Reciprocal Scaling Identity</strong></p>
+<p>For an infinitesimal <span class="math math-inline" data-math-type="inline"><math><mrow><mi>δ</mi><mo>&gt;</mo></mrow><mrow><mn>0</mn></mrow></math></span>, define <span class="math math-inline" data-math-type="inline"><math><mrow><mi>H</mi><mo>=</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>δ</mi></mrow></math></span>. Then <span class="math math-inline" data-math-type="inline"><math><mi>H</mi></math></span> is infinite, and <span class="math math-inline" data-math-type="inline"><math><mrow><mi>H</mi><mo>⋅</mo></mrow><mrow><mi>δ</mi><mo>=</mo></mrow><mrow><mn>1</mn></mrow></math></span>, reinforcing the inverse scale relationship.</p>
+<hr />
+<p class="font-bold text-blue-600" id="axiom-7"><strong>Axiom 7: Continuity Across Zero</strong></p>
+<p>As <span class="math math-inline" data-math-type="inline"><math><msub><mi>τ</mi><mi>i</mi></msub></math></span> transitions from positive infinitesimal to negative infinitesimal through 0, <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>r</mi><mi>i</mi></msub><mo>=</mo></mrow><mrow><mn>1</mn><mi>/</mi><msub><mi>τ</mi><mi>i</mi></msub></mrow></math></span> shifts from positive infinity to negative infinity, preserving r-space directional consistency.</p>
+<hr />
+<p class="font-bold text-blue-600" id="axiom-8"><strong>Axiom 8: Extension to Curved Spaces</strong></p>
+<p>For curved r-spaces <span class="math math-inline" data-math-type="inline"><math><mi>N</mi></math></span> (Riemannian manifolds), the framework envisions a manifold <span class="math math-inline" data-math-type="inline"><math><mi>M</mi></math></span> (e.g., <span class="math math-inline" data-math-type="inline"><math><mrow><msup><mrow></mrow><mo>∗</mo></msup><msup><mi>ℝ</mi><mi>d</mi></msup></mrow></math></span>) and a diffeomorphism <span class="math math-inline" data-math-type="inline"><math><mrow><mi>ϕ</mi><mo lspace="0.2222em" rspace="0.2222em">:</mo></mrow><mrow><mi>M</mi><mo>→</mo></mrow><mrow><mi>N</mi></mrow></math></span>, mapping a point <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>p</mi><mn>0</mn></msub><mo>∈</mo></mrow><mrow><mi>M</mi></mrow></math></span> to infinite scales in <span class="math math-inline" data-math-type="inline"><math><mi>N</mi></math></span> and infinite distances from <span class="math math-inline" data-math-type="inline"><math><msub><mi>p</mi><mn>0</mn></msub></math></span> to infinitesimals in <span class="math math-inline" data-math-type="inline"><math><mi>N</mi></math></span>. While constructing a global <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-manifold is intricate and requires alignment with asymptotic behaviors, the flat <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-space serves as a practical local chart near singularities or infinity.</p>
+<h3 id="configuration-space-axioms">Axioms for Configuration Spaces (Multiple Points)</h3>
+<p>For <span class="math math-inline" data-math-type="inline"><math><mi>n</mi></math></span> particles, the framework parameterizes collective geometry with clarity and flexibility.</p>
+<p class="font-bold text-blue-600" id="axiom-9"><strong>Axiom 9: Configuration Definition</strong></p>
+<p>For <span class="math math-inline" data-math-type="inline"><math><mi>n</mi></math></span> points, positions are <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>𝐫</mi><mi>i</mi></msub><mo>∈</mo></mrow><mrow><msup><mi>ℝ</mi><mi>d</mi></msup></mrow></math></span>, with weights <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>w</mi><mi>i</mi></msub><mo>&gt;</mo></mrow><mrow><mn>0</mn></mrow></math></span> and properties <span class="math math-inline" data-math-type="inline"><math><msub><mi>𝐩</mi><mi>i</mi></msub></math></span> (e.g., mass, charge). Constraints such as <span class="math math-inline" data-math-type="inline"><math><mrow><mo movablelimits="false">∑</mo><msub><mi>w</mi><mi>i</mi></msub><msub><mi>𝐫</mi><mi>i</mi></msub><mo>=</mo></mrow><mrow><mn>𝟎</mn></mrow></math></span> (center of mass at origin) may apply.</p>
+<div class="taildown-component component-callout callout-component rounded-lg p-4 border-l-4 flex gap-3 items-start callout-note bg-blue-50 border-blue-500 text-blue-900" data-component="callout"><p><svg class="icon icon-info text-primary-600 hover:text-primary-700" data-icon="info" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg> <strong>Extension Note:</strong> The primary definition uses <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>𝐫</mi><mi>i</mi></msub><mo>∈</mo></mrow><mrow><msup><mi>ℝ</mi><mi>d</mi></msup></mrow></math></span> for practical applications. For theoretical explorations (e.g., systems with infinitesimal perturbations or infinite scales), the framework extends to <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>𝐫</mi><mi>i</mi></msub><mo>∈</mo></mrow><mrow><msup><mrow></mrow><mo>∗</mo></msup><msup><mi>ℝ</mi><mi>d</mi></msup></mrow></math></span>, leveraging the hyperreal structure of <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-space.</p></div>
+<hr />
+<p class="font-bold text-blue-600" id="axiom-10"><strong>Axiom 10: Scale Factor</strong></p>
+<p>The configuration's size is:</p>
+<p><div class="math math-display" data-math-type="display"><math display="block" class="tml-display" style="display:block math;"><mrow><mi>s</mi><mo>=</mo><msqrt><mfrac><mrow><msubsup><mo movablelimits="false">∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup><msub><mi>w</mi><mi>i</mi></msub><mi>|</mi><msub><mi>𝐫</mi><mi>i</mi></msub><msup><mi>|</mi><mn>2</mn></msup></mrow><mi>W</mi></mfrac></msqrt></mrow></math></div></p>
+<p>where <span class="math math-inline" data-math-type="inline"><math><mrow><mi>W</mi><mo>=</mo></mrow><mrow><msubsup><mo movablelimits="false">∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup><msub><mi>w</mi><mi>i</mi></msub><mo>&gt;</mo></mrow><mrow><mn>0</mn></mrow></math></span>.</p>
+<hr />
+<p class="font-bold text-blue-600" id="axiom-11"><strong>Axiom 11: Logarithmic Scale</strong></p>
+<p>Define <span class="math math-inline" data-math-type="inline"><math><mrow><mi>σ</mi><mo>=</mo></mrow><mrow><mrow><mi>log</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>s</mi></mrow></math></span>, mapping <span class="math math-inline" data-math-type="inline"><math><mrow><mi>s</mi><mo>∈</mo></mrow><mrow><mo form="prefix" stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><mi>∞</mi><mo form="postfix" stretchy="false">)</mo></mrow></math></span> to <span class="math math-inline" data-math-type="inline"><math><mrow><mi>σ</mi><mo>∈</mo></mrow><mrow><mo form="prefix" stretchy="false">(</mo><mo form="prefix" stretchy="false">−</mo><mi>∞</mi><mo separator="true">,</mo><mi>∞</mi><mo form="postfix" stretchy="false">)</mo></mrow></math></span>, symmetrically capturing expansion (<span class="math math-inline" data-math-type="inline"><math><mrow><mi>σ</mi><mo>→</mo></mrow><mrow><mi>∞</mi></mrow></math></span>) and collapse (<span class="math math-inline" data-math-type="inline"><math><mrow><mi>σ</mi><mo>→</mo></mrow><mrow><mo form="prefix" stretchy="false">−</mo></mrow><mrow><mi>∞</mi></mrow></math></span>).</p>
+<hr />
+<p class="font-bold text-blue-600" id="axiom-12"><strong>Axiom 12: Shape and Orientation</strong></p>
+<p>Scale-invariant shape coordinates <span class="math math-inline" data-math-type="inline"><math><mi>θ</mi></math></span> define relative geometry, while orientation coordinates <span class="math math-inline" data-math-type="inline"><math><mi>ϕ</mi></math></span> (e.g., Euler angles) specify rotation.</p>
+<hr />
+<p class="font-bold text-blue-600" id="axiom-13"><strong>Axiom 13: Parameterization</strong></p>
+<p>The configuration space is locally parameterized as <span class="math math-inline" data-math-type="inline"><math><mrow><mo form="prefix" stretchy="false">(</mo><mi>σ</mi><mo separator="true">,</mo><mi>ϕ</mi><mo separator="true">,</mo><mi>θ</mi><mo form="postfix" stretchy="false">)</mo></mrow></math></span>, fully describing scale, orientation, and shape.</p>
+<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-medium shadow-lg hover-lift transition-smooth p-6" data-component="card"><p><img src="scale_shape_decomposition.png" alt="Scale-Shape Decomposition" /></p><p class="text-center text-lg font-bold"><strong>Figure 2: Scale-Shape Decomposition in 2D</strong></p><p class="text-center text-gray-500">Example showing two triangular configurations with the same shape <span class="math math-inline" data-math-type="inline"><math><mi>θ</mi></math></span> and orientation <span class="math math-inline" data-math-type="inline"><math><mi>ϕ</mi></math></span>, but different scales: <span class="math math-inline" data-math-type="inline"><math><mrow><mi>s</mi><mo>=</mo></mrow><mrow><mn>1.0</mn></mrow></math></span> (<span class="math math-inline" data-math-type="inline"><math><mrow><mi>σ</mi><mo>=</mo></mrow><mrow><mn>0</mn></mrow></math></span>) and <span class="math math-inline" data-math-type="inline"><math><mrow><mi>s</mi><mo>=</mo></mrow><mrow><mn>3.0</mn></mrow></math></span> (<span class="math math-inline" data-math-type="inline"><math><mrow><mi>σ</mi><mo>=</mo></mrow><mrow><mrow><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mn>3</mn></mrow></math></span>). This demonstrates how the framework separates geometric shape from overall scale.</p></div>
+<hr />
+<p class="font-bold text-blue-600" id="axiom-14"><strong>Axiom 14: Extremal Behavior</strong></p>
+<p>As <span class="math math-inline" data-math-type="inline"><math><mrow><mi>σ</mi><mo>→</mo></mrow><mrow><mi>∞</mi></mrow></math></span>, the system expands unboundedly; as <span class="math math-inline" data-math-type="inline"><math><mrow><mi>σ</mi><mo>→</mo></mrow><mrow><mo form="prefix" stretchy="false">−</mo></mrow><mrow><mi>∞</mi></mrow></math></span>, it collapses (absent constraints), with <span class="math math-inline" data-math-type="inline"><math><mi>θ</mi></math></span> often stabilizing at well-defined limits.</p>
+<hr />
+<p class="font-bold text-blue-600" id="axiom-15"><strong>Axiom 15: <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-Space Linkage</strong></p>
+<p>Each <span class="math math-inline" data-math-type="inline"><math><msub><mi>𝐫</mi><mi>i</mi></msub></math></span> maps to <span class="math math-inline" data-math-type="inline"><math><msub><mi>𝝉</mi><mi>i</mi></msub></math></span> via Axiom 2, connecting local <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-space representations to the global <span class="math math-inline" data-math-type="inline"><math><mrow><mo form="prefix" stretchy="false">(</mo><mi>σ</mi><mo separator="true">,</mo><mi>ϕ</mi><mo separator="true">,</mo><mi>θ</mi><mo form="postfix" stretchy="false">)</mo></mrow></math></span> structure.</p>
+<h3 id="dynamics-axioms">Axioms for Dynamics</h3>
+<p>The framework regularizes temporal evolution to maintain stability across scale extremes.</p>
+<p class="font-bold text-blue-600" id="axiom-16"><strong>Axiom 16: Time Transformation</strong></p>
+<p>A new time <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span> (distinct from <span class="math math-inline" data-math-type="inline"><math><mi>𝝉</mi></math></span>) relates to physical time <span class="math math-inline" data-math-type="inline"><math><mi>t</mi></math></span> via:</p>
+<p><div class="math math-display" data-math-type="display"><math display="block" class="tml-display" style="display:block math;"><mrow><mfrac><mrow><mi>d</mi><mi>t</mi></mrow><mrow><mi>d</mi><mi>τ</mi></mrow></mfrac><mo>=</mo><mi>g</mi><mo form="prefix" stretchy="false">(</mo><mi>σ</mi><mo separator="true">,</mo><mi>θ</mi><mo separator="true">,</mo><mi>ϕ</mi><mo form="postfix" stretchy="false">)</mo></mrow></math></div></p>
+<p>where <span class="math math-inline" data-math-type="inline"><math><mrow><mi>g</mi><mo>&gt;</mo></mrow><mrow><mn>0</mn></mrow></math></span>. For systems with exponential scale effects (e.g., <span class="math math-inline" data-math-type="inline"><math><mrow><mi>F</mi><mo>∼</mo></mrow><mrow><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>k</mi><mi>σ</mi></mrow></msup></mrow></math></span>), set <span class="math math-inline" data-math-type="inline"><math><mrow><mi>g</mi><mo>=</mo></mrow><mrow><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>f</mi><mo form="prefix" stretchy="false">(</mo><mi>σ</mi><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">)</mo></mrow></msup></mrow></math></span> (e.g., <span class="math math-inline" data-math-type="inline"><math><mrow><mi>f</mi><mo form="prefix" stretchy="false">(</mo><mi>σ</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo></mrow><mrow><mfrac><mi>k</mi><mi>m</mi></mfrac><mi>σ</mi></mrow></math></span>), where <span class="math math-inline" data-math-type="inline"><math><mrow><mi>f</mi><mo form="prefix" stretchy="false">(</mo><mi>σ</mi><mo form="postfix" stretchy="false">)</mo></mrow></math></span> is chosen based on <span class="math math-inline" data-math-type="inline"><math><mi>F</mi></math></span>'s asymptotic behavior to simplify dynamics.</p>
+<p><svg class="icon icon-target text-green-600" data-icon="target" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg> <strong>Purpose:</strong> Absorb scale dependencies into time, enhancing tractability at <span class="math math-inline" data-math-type="inline"><math><mrow><mi>σ</mi><mo>→</mo></mrow><mrow><mo form="prefix" stretchy="false">±</mo></mrow><mrow><mi>∞</mi></mrow></math></span>.</p>
+<hr />
+<p class="font-bold text-blue-600" id="axiom-17"><strong>Axiom 17: Dynamic Regularization</strong></p>
+<p>The <span class="math math-inline" data-math-type="inline"><math><mrow><mi>t</mi><mo>→</mo></mrow><mrow><mi>τ</mi></mrow></math></span> shift reduces sensitivity to extreme <span class="math math-inline" data-math-type="inline"><math><mi>σ</mi></math></span>, often yielding polynomial kinetic terms in <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-time derivatives, depending on the system and <span class="math math-inline" data-math-type="inline"><math><mi>g</mi></math></span>.</p>
+<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-medium shadow-lg hover-lift transition-smooth p-6" data-component="card"><p><img src="dynamic_regularization.png" alt="Dynamic Regularization" /></p><p class="text-center text-lg font-bold"><strong>Figure 3: Dynamic Regularization via Time Transformation</strong></p><p class="text-center text-gray-500">Left panel shows exponential growth of logarithmic scale <span class="math math-inline" data-math-type="inline"><math><mi>σ</mi></math></span> in physical time <span class="math math-inline" data-math-type="inline"><math><mi>t</mi></math></span>. Right panel shows the same evolution transformed into regularized time <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span> using <span class="math math-inline" data-math-type="inline"><math><mrow><mi>d</mi><mi>t</mi><mi>/</mi><mi>d</mi><mi>τ</mi><mo>=</mo></mrow><mrow><msup><mi>e</mi><mi class="tml-sml-pad">σ</mi></msup></mrow></math></span>. The transformed time axis remains finite even as physical time <span class="math math-inline" data-math-type="inline"><math><mi>t</mi></math></span> and scale <span class="math math-inline" data-math-type="inline"><math><mi>σ</mi></math></span>approach infinity, demonstrating the framework's power to stabilize unbounded dynamics.</p></div>
+<hr />
+<h2 id="derived-properties">Derived Properties</h2>
+<p>The axioms produce a suite of illustrative properties showcasing the framework's benefits:</p>
+<div class="taildown-component component-callout callout-component rounded-lg p-4 border-l-4 flex gap-3 items-start callout-success bg-emerald-50 border-emerald-500 text-emerald-900 glass-effect shadow-sm" data-component="callout"><p><svg class="icon icon-check-circle text-green-600" data-icon="check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg> <strong>Note on Proofs</strong></p><p>Formal proofs are deferred to future work. The properties listed below are illustrative examples of the framework's capabilities.</p></div>
+<ol>
+<li>
+<p><strong>Geometric Compactification:</strong> Infinite r-space extents localize near <span class="math math-inline" data-math-type="inline"><math><mrow><mi>𝝉</mi><mo>=</mo></mrow><mrow><mn>𝟎</mn></mrow></math></span>, and infinitesimal regions extend to infinite <span class="math math-inline" data-math-type="inline"><math><mrow><mi>|</mi><mi>𝝉</mi><mi>|</mi></mrow></math></span>, enabling local analysis of global behavior.</p>
+</li>
+<li>
+<p><strong>Metric Inversion:</strong> Small <span class="math math-inline" data-math-type="inline"><math><mrow><mi>|</mi><mi>𝝉</mi><mi>|</mi></mrow></math></span> corresponds to large <span class="math math-inline" data-math-type="inline"><math><mrow><mi>|</mi><mi>𝐫</mi><mi>|</mi></mrow></math></span>, and vice versa.</p>
+</li>
+<li>
+<p><strong>Asymptotic Duality:</strong> Study <span class="math math-inline" data-math-type="inline"><math><mrow><mi>|</mi><mi>𝐫</mi><mi>|</mi><mo>→</mo></mrow><mrow><mi>∞</mi></mrow></math></span> via <span class="math math-inline" data-math-type="inline"><math><mrow><mi>𝝉</mi><mo>→</mo></mrow><mrow><mn>𝟎</mn></mrow></math></span>, and <span class="math math-inline" data-math-type="inline"><math><mrow><mi>|</mi><mi>𝐫</mi><mi>|</mi><mo>→</mo></mrow><mrow><mn>0</mn></mrow></math></span> via <span class="math math-inline" data-math-type="inline"><math><mrow><mi>|</mi><mi>𝝉</mi><mi>|</mi><mo>→</mo></mrow><mrow><mi>∞</mi></mrow></math></span>.</p>
+</li>
+<li>
+<p><strong>Series Transformation:</strong> Laurent series at <span class="math math-inline" data-math-type="inline"><math><mrow><mi>|</mi><mi>𝐫</mi><mi>|</mi><mo>=</mo></mrow><mrow><mi>∞</mi></mrow></math></span> become Taylor-like series for <span class="math math-inline" data-math-type="inline"><math><mrow><mi>f</mi><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mi>/</mi><mi>𝝉</mi><mo form="postfix" stretchy="false">)</mo></mrow></math></span> near <span class="math math-inline" data-math-type="inline"><math><mrow><mi>𝝉</mi><mo>=</mo></mrow><mrow><mn>𝟎</mn></mrow></math></span>.</p>
+</li>
+<li>
+<p><strong>Scale Compactification:</strong> <span class="math math-inline" data-math-type="inline"><math><mi>σ</mi></math></span> maps <span class="math math-inline" data-math-type="inline"><math><mi>s</mi></math></span> to <span class="math math-inline" data-math-type="inline"><math><mi>ℝ</mi></math></span>, ensuring dynamic tractability across extremes with <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-time.</p>
+</li>
+<li>
+<p><strong>Shape Invariance:</strong> <span class="math math-inline" data-math-type="inline"><math><mi>θ</mi></math></span> isolates geometry from scale variations.</p>
+</li>
+<li>
+<p><strong>Potential Energy Structure:</strong> Often <span class="math math-inline" data-math-type="inline"><math><mrow><mi>V</mi><mo form="prefix" stretchy="false">(</mo><mi>σ</mi><mo separator="true">,</mo><mi>θ</mi><mo separator="true">,</mo><mi>ϕ</mi><mo form="postfix" stretchy="false">)</mo><mo>∼</mo></mrow><mrow><msup><mi>e</mi><mrow class="tml-sml-pad"><mo lspace="0em" rspace="0em">−</mo><mi>σ</mi></mrow></msup><mi>U</mi><mo form="prefix" stretchy="false">(</mo><mi>θ</mi><mo form="postfix" stretchy="false">)</mo></mrow></math></span>, as in gravitational systems, aligning with the framework's design.</p>
+</li>
+<li>
+<p><strong>Kinetic Energy Regularization:</strong> With <span class="math math-inline" data-math-type="inline"><math><mrow><mfrac><mrow><mi>d</mi><mi>t</mi></mrow><mrow><mi>d</mi><mi>τ</mi></mrow></mfrac><mo>=</mo></mrow><mrow><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>f</mi><mo form="prefix" stretchy="false">(</mo><mi>σ</mi><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">)</mo></mrow></msup></mrow></math></span>, kinetic energy becomes:</p>
+</li>
+</ol>
+<p><div class="math math-display" data-math-type="display"><math display="block" class="tml-display" style="display:block math;"><mrow><mi>T</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>W</mi><msup><mrow><mo fence="true" form="prefix">(</mo><mfrac><mrow><mi>d</mi><mi>σ</mi></mrow><mrow><mi>d</mi><mi>τ</mi></mrow></mfrac><mo fence="true" form="postfix">)</mo></mrow><mn>2</mn></msup><msup><mi>e</mi><mrow class="tml-sml-pad"><mo lspace="0em" rspace="0em">−</mo><mn>2</mn><mi>f</mi><mo form="prefix" stretchy="false">(</mo><mi>σ</mi><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">)</mo></mrow></msup><mo>+</mo><msub><mi>T</mi><mtext>shape</mtext></msub></mrow></math></div></p>
+<p>A suitable <span class="math math-inline" data-math-type="inline"><math><mrow><mi>f</mi><mo form="prefix" stretchy="false">(</mo><mi>σ</mi><mo form="postfix" stretchy="false">)</mo></mrow></math></span> simplifies <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-derivatives, with <span class="math math-inline" data-math-type="inline"><math><msub><mi>T</mi><mtext>shape</mtext></msub></math></span> involving <span class="math math-inline" data-math-type="inline"><math><mrow><mo form="prefix" stretchy="false">(</mo><mi>θ</mi><mo separator="true">,</mo><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo separator="true">,</mo><mi>ϕ</mi><mo separator="true">,</mo><mover><mi>ϕ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo form="postfix" stretchy="false">)</mo></mrow></math></span>.</p>
+<hr />
+<h2 id="relation-to-other-methods">Relation to Other Methods</h2>
+<p>This framework integrates elements from inversion geometry (reciprocal mappings), N-body dynamics (scale-shape coordinates akin to Jacobi or hyperspherical forms), and celestial mechanics (time regularization). Its hyperreal foundation and <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-mapping's origin-centric infinity set it apart. Unlike stereographic projection or standard compactifications, which primarily address static geometry, this approach excels in dynamic regularization, leveraging <span class="math math-inline" data-math-type="inline"><math><mrow><msup><mrow></mrow><mo>∗</mo></msup><mi>ℝ</mi></mrow></math></span> to unify spatial inversion with temporal stability across scales—a capability uniquely suited to its goals.</p>
+<hr />
+<h2 id="practical-applications">Practical Applications</h2>
+<p>The framework shines in diverse contexts:</p>
+<div class="taildown-component component-grid grid-cols-3 grid grid-cols-2" data-component="grid"><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-medium shadow-lg hover-lift transition-smooth p-6" data-component="card"><p><svg class="icon icon-search text-primary-600 hover:text-primary-700 text-4xl" data-icon="search" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-4.34-4.34" /><circle cx="11" cy="11" r="8" /></svg></p><p class="text-lg font-bold"><strong>Asymptotic Analysis</strong></p><p>Examines <span class="math math-inline" data-math-type="inline"><math><mrow><mi>|</mi><mi>𝐫</mi><mi>|</mi><mo>→</mo></mrow><mrow><mi>∞</mi></mrow></math></span> near <span class="math math-inline" data-math-type="inline"><math><mrow><mi>𝝉</mi><mo>=</mo></mrow><mrow><mn>𝟎</mn></mrow></math></span>.</p></div><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-medium shadow-lg hover-lift transition-smooth p-6" data-component="card"><p><svg class="icon icon-cpu text-green-600 text-4xl" data-icon="cpu" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v2" /><path d="M12 2v2" /><path d="M17 20v2" /><path d="M17 2v2" /><path d="M2 12h2" /><path d="M2 17h2" /><path d="M2 7h2" /><path d="M20 12h2" /><path d="M20 17h2" /><path d="M20 7h2" /><path d="M7 20v2" /><path d="M7 2v2" /><rect x="4" y="4" width="16" height="16" rx="2" /><rect x="8" y="8" width="8" height="8" rx="1" /></svg></p><p class="text-lg font-bold"><strong>Numerical Computation</strong></p><p>Transforms infinite r-space integrals into finite <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-space domains.</p></div><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-medium shadow-lg hover-lift transition-smooth p-6" data-component="card"><p><svg class="icon icon-activity text-yellow-600 text-4xl" data-icon="activity" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></p><p class="text-lg font-bold"><strong>Differential Equations</strong></p><p>Regularizes singularities at <span class="math math-inline" data-math-type="inline"><math><mrow><mi>|</mi><mi>𝐫</mi><mi>|</mi><mo>=</mo></mrow><mrow><mn>0</mn></mrow></math></span> or <span class="math math-inline" data-math-type="inline"><math><mi>∞</mi></math></span> in <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-space.</p></div><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-medium shadow-lg hover-lift transition-smooth p-6" data-component="card"><p><svg class="icon icon-globe text-blue-600 text-4xl" data-icon="globe" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg></p><p class="text-lg font-bold"><strong>Multi-Body Dynamics</strong></p><p>Models N-body systems (e.g., gravitational) using <span class="math math-inline" data-math-type="inline"><math><mrow><mo form="prefix" stretchy="false">(</mo><mi>σ</mi><mo separator="true">,</mo><mi>ϕ</mi><mo separator="true">,</mo><mi>θ</mi><mo form="postfix" stretchy="false">)</mo></mrow></math></span> and <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-time.</p></div><div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-medium shadow-lg hover-lift transition-smooth p-6" data-component="card"><p><svg class="icon icon-zap text-accent-600 hover:text-accent-700 text-4xl" data-icon="zap" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg></p><p class="text-lg font-bold"><strong>Simulation Stability</strong></p><p>Prevents numerical overflow/underflow at extreme scales.</p></div></div>
+<p>This blend of inversion and regularization forms a robust toolkit for analysis and computation.</p>
+<hr />
+<h2 id="conclusion">Conclusion</h2>
+<p>This hyperreal framework offers a sophisticated, unified methodology for dynamics across infinite and infinitesimal scales. The <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-transformation, scale-shape parameterization, and time regularization—grounded in <span class="math math-inline" data-math-type="inline"><math><mrow><msup><mrow></mrow><mo>∗</mo></msup><mi>ℝ</mi></mrow></math></span> and the Principle of Transformative Representation—provide compactification, duality, and regularization, seamlessly linking single-point geometry with multi-particle dynamics. It stands as a rigorous scaffold with practical power, inviting further investigation into curved <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-manifolds and the intricate interplay of geometry, scale, and motion at the edges of mathematical and physical insight.</p>
+<hr />
+<h2 id="appendix-grid-transform">Appendix: Grid Transformation Visualization</h2>
+<p>The reciprocal transformation <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>r</mi><mi>i</mi></msub><mo>=</mo></mrow><mrow><mn>1</mn><mi>/</mi><msub><mi>τ</mi><mi>i</mi></msub></mrow></math></span> (Axiom 2) fundamentally inverts spatial structure. The following visualization demonstrates how a uniform grid in <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-space transforms under this mapping:</p>
+<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-medium shadow-lg hover-lift transition-smooth p-6" data-component="card"><p><img src="grid_transformation.png" alt="Grid Transformation" /></p><p class="text-center text-lg font-bold"><strong>Figure 4: <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-Plane to r-Plane Grid Transformation</strong></p><p class="text-center text-gray-500">A standard uniform grid in the <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-plane (left) transforms under the reciprocal mapping <span class="math math-inline" data-math-type="inline"><math><mrow><msub><mi>r</mi><mi>i</mi></msub><mo>=</mo></mrow><mrow><mn>1</mn><mi>/</mi><msub><mi>τ</mi><mi>i</mi></msub></mrow></math></span> into the r-plane (right). Notice how grid lines concentrate dramatically near the origin in r-space, corresponding to distant grid lines in <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-space. This visualizes the core principle: infinite r-space extents collapse to a finite region near the <span class="math math-inline" data-math-type="inline"><math><mi>τ</mi></math></span>-origin.</p></div>
+<hr />
+<h2 id="references">References</h2>
+<div class="taildown-component component-card rounded-lg max-w-full overflow-x-hidden overflow-wrap-normal glass-effect glass-medium shadow-lg hover-lift transition-smooth p-6" data-component="card"><p><strong>Related Work</strong></p><p>This framework is grounded in the <a href="principle-of-transformative-representation.html">Principle of Transformative Representation</a>, which provides the methodological foundation for extending mathematical systems to handle objects beyond their original scope. The principle formalizes the practice of system extension and transformation, offering both justification for existing techniques and guidance for developing new mathematical tools.</p></div>
+<div class="taildown-component component-divider divider-component my-6 divider-gradient divider-primary" data-component="divider"></div>
+<h5 class="text-center text-gray-500">End of Document</h5>
+</body>
+</html>
