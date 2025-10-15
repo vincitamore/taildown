@@ -99,6 +99,23 @@ const PAGE_METADATA = {
   }
 };
 
+// Static HTML page metadata configuration (for files not generated from .td)
+const PAGE_METADATA_STATIC = {
+  'editor.html': {
+    title: 'Taildown Live Editor',
+    description: 'Live Taildown editor: write in plain English and instantly preview beautiful, interactive pages.',
+    openGraph: {
+      title: 'Taildown Live Editor',
+      description: 'Live Taildown editor: write in plain English and instantly preview beautiful, interactive pages.',
+      type: 'website',
+      url: `${BASE_URL}/editor.html`,
+      image: `${BASE_URL}/1759672632566.jpg`,
+      imageAlt: 'Taildown - Modern markup language with glassmorphism and dark mode',
+      siteName: 'Taildown'
+    }
+  }
+};
+
 async function findTdFiles(dir) {
   const files = [];
   const items = await fs.readdir(dir, { withFileTypes: true });
@@ -178,6 +195,67 @@ async function compileTdFile(filePath) {
   }
 }
 
+/**
+ * Inject or update metadata tags in a static HTML file
+ */
+async function updateStaticHtml(filePath, metadata) {
+  try {
+    let html = await fs.readFile(filePath, 'utf-8');
+
+    // Ensure <head> exists
+    if (!html.includes('<head')) {
+      return; // skip files without a standard head
+    }
+
+    // Replace <title>
+    const safeTitle = metadata.title ?? 'Taildown';
+    if (/<title>[\s\S]*?<\/title>/.test(html)) {
+      html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${safeTitle}</title>`);
+    } else {
+      html = html.replace(/<head(\b[^>]*)?>/, (m) => `${m}\n  <title>${safeTitle}<\/title>`);
+    }
+
+    // Remove existing description/OG/Twitter tags we manage
+    html = html
+      .replace(/\n?\s*<meta name="description"[^>]*>\s*/g, '')
+      .replace(/\n?\s*<meta property="og:[^"]+"[^>]*>\s*/g, '')
+      .replace(/\n?\s*<meta name="twitter:[^"]+"[^>]*>\s*/g, '');
+
+    const og = metadata.openGraph || {};
+    const description = metadata.description || og.description || '';
+
+    const tags = [];
+    if (description) tags.push(`  <meta name="description" content="${description}">`);
+    if (og.title) tags.push(`  <meta property="og:title" content="${og.title}">`);
+    if (og.description) tags.push(`  <meta property="og:description" content="${og.description}">`);
+    if (og.type) tags.push(`  <meta property="og:type" content="${og.type}">`);
+    if (og.url) tags.push(`  <meta property="og:url" content="${og.url}">`);
+    if (og.image) tags.push(`  <meta property="og:image" content="${og.image}">`);
+    if (og.imageAlt) tags.push(`  <meta property="og:image:alt" content="${og.imageAlt}">`);
+    if (og.siteName) tags.push(`  <meta property="og:site_name" content="${og.siteName}">`);
+
+    if (og.image) tags.push(`  <meta name="twitter:card" content="summary_large_image">`);
+    if (og.image) tags.push(`  <meta name="twitter:image" content="${og.image}">`);
+    if (og.title) tags.push(`  <meta name="twitter:title" content="${og.title}">`);
+    if (og.description) tags.push(`  <meta name="twitter:description" content="${og.description}">`);
+
+    if (tags.length > 0) {
+      // Insert after <title> if present, else right after <head>
+      if (/<title>[\s\S]*?<\/title>/.test(html)) {
+        html = html.replace(/<title>[\s\S]*?<\/title>/, (m) => `${m}\n${tags.join('\n')}`);
+      } else {
+        html = html.replace(/<head(\b[^>]*)?>/, (m) => `${m}\n${tags.join('\n')}`);
+      }
+    }
+
+    await fs.writeFile(filePath, html, 'utf-8');
+    console.log(`  ✓ Updated metadata: ${basename(filePath)}`);
+  } catch (err) {
+    // Non-fatal: just report and continue
+    console.warn(`  ⚠︎ Skipped metadata update for ${basename(filePath)}: ${err.message}`);
+  }
+}
+
 async function main() {
   console.log('🚀 Building Taildown Documentation Site\n');
   console.log('📁 Searching for .td files...\n');
@@ -203,6 +281,11 @@ async function main() {
   }
   console.log('='.repeat(50));
   
+  // Update metadata for static HTML files (e.g., editor.html)
+  for (const [staticName, meta] of Object.entries(PAGE_METADATA_STATIC)) {
+    await updateStaticHtml(join(DOCS_DIR, staticName), meta);
+  }
+
   console.log('\n📦 Documentation site built successfully!');
   console.log(`   Open docs-site/index.html in your browser\n`);
 }
