@@ -11,7 +11,6 @@
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
 import type { Root, Text } from 'mdast';
-import { resolveComponentClasses } from '../components/variant-system';
 
 // Matches ==text=={optional attributes}
 const INLINE_MARK_REGEX = /==([^=]+)==(?:\{([^}]+)\})?/g;

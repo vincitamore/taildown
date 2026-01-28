@@ -5,7 +5,7 @@
  */
 
 import type { Plugin } from 'unified';
-import type { Root, Content } from 'mdast';
+import type { Root } from 'mdast';
 import type { VFile } from 'vfile';
 import { scanForMarkers } from './directive-scanner';
 import { buildComponentTree } from './directive-builder';

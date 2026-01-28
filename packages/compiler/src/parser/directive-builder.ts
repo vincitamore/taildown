@@ -37,7 +37,6 @@ export function buildComponentTree(
 ): Content[] {
   const stack: ComponentFrame[] = [];
   const rootChildren: Content[] = [];
-  const warnings: ValidationError[] = [];
 
   const warn = (message: string, line?: number) => {
     if (options?.onWarning) {

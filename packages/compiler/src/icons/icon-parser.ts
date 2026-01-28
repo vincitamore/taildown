@@ -12,7 +12,7 @@
  */
 
 import { visit } from 'unist-util-visit';
-import type { Root, Text, Paragraph } from 'mdast';
+import type { Root, Text } from 'mdast';
 import type { Plugin } from 'unified';
 import type { TaildownNodeData } from '@taildown/shared';
 import { resolveAttributes, type ResolverContext } from '../resolver/style-resolver';

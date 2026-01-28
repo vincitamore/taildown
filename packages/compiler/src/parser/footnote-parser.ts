@@ -16,7 +16,7 @@
  * ```
  */
 
-import type { Root, Text, Paragraph } from 'mdast';
+import type { Root, Text } from 'mdast';
 import { visit } from 'unist-util-visit';
 import type { ContainerDirectiveNode } from './directive-types';
 

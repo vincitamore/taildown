@@ -201,7 +201,7 @@ function deduplicateClasses(classes: string[]): string[] {
   // Iterate in reverse to keep last occurrence
   for (let i = classes.length - 1; i >= 0; i--) {
     const cls = classes[i];
-    if (!seen.has(cls)) {
+    if (cls && !seen.has(cls)) {
       seen.add(cls);
       result.unshift(cls); // Add to front to maintain original order
     }

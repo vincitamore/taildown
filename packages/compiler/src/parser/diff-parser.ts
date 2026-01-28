@@ -130,7 +130,7 @@ function extractBeforeAfter(node: ContainerDirectiveNode): DiffBlock | null {
 export function parseDiff() {
   return (tree: Root): void => {
     // Parse unified diff format (```diff code blocks)
-    visit(tree, 'code', (node: Code, index, parent) => {
+    visit(tree, 'code', (node: Code) => {
       if (node.lang === 'diff') {
         // Parse unified diff
         const lines = parseUnifiedDiff(node.value);

@@ -1,7 +1,7 @@
 # Taildown
 
-**Version:** 0.1.0  
-**Status:** Active Development (Phase 2 In Progress)
+**Version:** 0.1.0
+**Status:** Active Development (Core Complete)
 
 A revolutionary markup language that extends Markdown with plain English styling, interactive components, and zero-config interactivity. Write beautiful, responsive web applications using natural language while maintaining perfect readability.
 
@@ -290,7 +290,7 @@ Grid automatically adapts: 1 column on mobile, 2 on tablet, 3 on desktop.
 
 ## Interactive Components
 
-Taildown includes five interactive components with zero configuration required. JavaScript is automatically generated only for components you use.
+Taildown includes 14 interactive behaviors with zero configuration required. JavaScript is automatically generated only for components you use.
 
 ### Tabs
 
@@ -815,6 +815,198 @@ Loading content...
 :::
 ```
 
+### Callout
+
+Admonition/callout blocks for notes, tips, and warnings.
+
+**Variants:** `note`, `info`, `tip`, `success`, `warning`, `danger`, `important`, `bug`, `quote`, `abstract`, `example`, `deprecated`
+
+```taildown
+:::callout {tip}
+Pro tip: Use callouts for important information!
+:::
+```
+
+### Details
+
+Expandable details/summary component.
+
+**Variants:** `glass`, `elevated`, `minimal`, `bordered`
+
+```taildown
+:::details
+**Summary title**
+Hidden content revealed on click.
+:::
+```
+
+### Columns
+
+Multi-column layout system.
+
+**Variants:** `gap-sm`, `gap`, `gap-lg`, `gap-xl`, `divider`, `balanced`
+**Sizes:** `2`, `3`, `4`, `auto`
+
+```taildown
+:::columns {3}
+Column 1 content
+
+Column 2 content
+
+Column 3 content
+:::
+```
+
+### Definitions
+
+Definition lists with term-description pairs.
+
+**Variants:** `vertical`, `horizontal`, `compact`, `glass`, `elevated`, `bordered`
+
+```taildown
+:::definitions
+**Term 1**
+Definition of term 1
+
+**Term 2**
+Definition of term 2
+:::
+```
+
+### Stats
+
+Statistics and metrics display.
+
+**Variants:** `glass`, `elevated`, `bordered`, `compact`
+
+```taildown
+:::stats
+**42K**
+Active users
+
+**99.9%**
+Uptime
+:::
+```
+
+### Divider
+
+Decorative section dividers.
+
+**Variants:** `solid`, `text`, `icon`, `gradient`, `dots`, `dashed`, `double`, `wavy`, `thick`, `primary`
+
+```taildown
+:::divider {gradient}
+:::
+```
+
+### Steps
+
+Step indicator with auto-numbering.
+
+**Variants:** `vertical`, `horizontal`, `compact`, `numbered`, `icons`, `connected`, `glass`, `elevated`
+
+```taildown
+:::steps
+**Step 1: Setup**
+Install dependencies
+
+**Step 2: Configure**
+Set up your config file
+
+**Step 3: Deploy**
+Push to production
+:::
+```
+
+### Video
+
+Video embeds for YouTube, Vimeo, or self-hosted files.
+
+**Variants:** `youtube`, `vimeo`, `glass`, `autoplay`, `muted`, `loop`, `controls`
+**Sizes:** `16:9`, `4:3`, `21:9`, `1:1`
+
+```taildown
+:::video {youtube}
+https://youtube.com/watch?v=VIDEO_ID
+:::
+```
+
+### Table Enhanced
+
+Sortable tables with sticky headers and responsive design.
+
+**Variants:** `sortable`, `zebra`, `bordered`, `hoverable`, `compact`, `glass`, `responsive`
+
+```taildown
+:::table {sortable zebra}
+| Name | Score |
+|------|-------|
+| Alice | 95 |
+| Bob | 87 |
+:::
+```
+
+### Image Compare
+
+Before/after image comparison with draggable slider.
+
+**Variants:** `horizontal`, `vertical`, `glass`, `labeled`, `overlay`
+
+```taildown
+:::image-compare {labeled}
+![Before](before.jpg)
+![After](after.jpg)
+:::
+```
+
+### Code Diff
+
+Code comparison display with syntax highlighting.
+
+**Variants:** `unified`, `side-by-side`, `split`, `glass`, `elevated`, `compact`
+
+```taildown
+:::code-diff {side-by-side}
+```diff
+- old line
++ new line
+```
+:::
+```
+
+### Mermaid
+
+Mermaid diagram rendering.
+
+**Variants:** `glass`, `elevated`, `bordered`, `centered`, `compact`
+
+```taildown
+:::mermaid
+graph TD
+    A[Start] --> B[End]
+:::
+```
+
+### Timeline
+
+Chronological timeline display.
+
+**Variants:** `vertical`, `centered`, `compact`, `glass`
+
+```taildown
+:::timeline
+**2024**
+Project started
+
+**2025**
+First release
+
+**2026**
+Major update
+:::
+```
+
 ---
 
 ## Plain English Style System
@@ -888,7 +1080,7 @@ pnpm taildown compile input.td --minify
 
 ## Examples
 
-The `examples/` directory contains 10 complete Taildown documents demonstrating Phase 2 features:
+The `examples/` directory contains 14 complete Taildown documents:
 
 1. **01-basic-markdown.td** - Markdown basics with icons
 2. **02-inline-attributes.td** - Plain English styling showcase
@@ -900,6 +1092,10 @@ The `examples/` directory contains 10 complete Taildown documents demonstrating 
 8. **08-blog-post.td** - Long-form blog with icons and glass
 9. **09-portfolio-page.td** - Portfolio with heavy glassmorphism
 10. **10-complete-page.td** - Ultimate feature showcase (1000+ nodes)
+11. **11-text-illustrations.td** - Typography showcase
+12. **12-scroll-animations.td** - Animation shorthand examples
+13. **13-syntax-highlighting-showcase.td** - Code block styling
+14. **14-complete-syntax-showcase.td** - All syntax features
 
 To compile any example:
 
@@ -936,7 +1132,7 @@ Taildown File (.td)
 - **Parser**: `unified` + `remark` + `rehype` ecosystem
 - **Custom Directive Parser**: In-house `:::` component syntax parser (handles blank lines correctly)
 - **Extensions**: `remark-gfm`
-- **Syntax Highlighting**: `rehype-prism-plus` with custom Taildown language
+- **Syntax Highlighting**: CodeMirror 6 + Shiki (VS Code quality, 180+ languages)
 - **Icons**: `lucide` (Lucide icon library)
 - **CSS Generation**: Custom resolver with Tailwind-inspired utilities
 - **Testing**: Vitest
@@ -945,9 +1141,10 @@ Taildown File (.td)
 
 ### Packages
 
-- **@taildown/compiler** - Core compilation engine
+- **@taildown/compiler** - Core compilation engine (427KB)
 - **@taildown/cli** - Command-line interface
-- **@taildown/shared** - Shared types and utilities
+- **@taildown/shared** - Shared types and constants
+- **@taildown/linter** - Syntax linter with auto-fix
 
 ---
 
@@ -980,69 +1177,72 @@ pnpm format
 ```
 taildown/
 ├── packages/
-│   ├── compiler/          # Core compiler
+│   ├── compiler/              # Core compiler (427KB bundle)
 │   │   ├── src/
-│   │   │   ├── parser/    # Markdown + directive parsing
-│   │   │   ├── renderer/  # HTML and CSS generation
-│   │   │   ├── resolver/  # Plain English → CSS resolution
-│   │   │   ├── components/# Component definitions
-│   │   │   ├── themes/    # Glassmorphism + animations
-│   │   │   ├── icons/     # Icon parser and renderer
-│   │   │   └── config/    # Configuration system
+│   │   │   ├── parser/        # 19-plugin parser pipeline
+│   │   │   ├── renderer/      # HTML and CSS generation
+│   │   │   ├── resolver/      # Plain English → CSS resolution
+│   │   │   ├── components/    # 32 component definitions
+│   │   │   ├── js-generator/  # Tree-shaken JS behaviors
+│   │   │   ├── themes/        # Glassmorphism + animations
+│   │   │   ├── icons/         # Lucide icon integration
+│   │   │   ├── config/        # Configuration system
+│   │   │   └── syntax-highlighting/  # CodeMirror 6 + Shiki
 │   │   └── package.json
-│   ├── cli/               # CLI tool
-│   └── shared/            # Shared types
-├── examples/              # Sample .td files
-├── syntax-tests/          # Syntax test fixtures
-└── .vscode/extensions/    # VSCode syntax highlighting
+│   ├── cli/                   # CLI tool
+│   ├── shared/                # Shared types
+│   └── linter/                # Syntax linter
+├── editor/                    # Browser-based live editor
+├── examples/                  # 14 sample .td files
+├── docs-site/                 # Documentation website
+├── syntax-tests/              # Syntax test fixtures
+└── .vscode/extensions/        # VSCode syntax highlighting
 ```
 
 ---
 
 ## Roadmap
 
-### Phase 1: Foundation (Complete)
+### Phase 1: Foundation ✅ Complete
 
 - Basic parser (Markdown + inline styles + component blocks)
 - HTML/CSS generator
 - CLI compiler tool
 - Test suite with syntax fixtures
-- 3 initial components (card, grid, container)
+- Initial components (card, grid, container)
 
-### Phase 2: Component System (In Progress)
+### Phase 2: Component System ✅ Complete
 
-**Completed:**
 - Plain English style resolver (120+ shorthand mappings)
-- 7 components (card, button, alert, badge, avatar, grid, container)
+- 32 components (card, button, alert, badge, avatar, tabs, accordion, modal, tooltip, carousel, navbar, sidebar, breadcrumb, pagination, progress, skeleton, tree, flow, button-group, callout, columns, definitions, stats, divider, steps, video, table-enhanced, image-compare, code-diff, mermaid, timeline, details)
 - Lucide icon integration (`:icon[name]` syntax)
-- Glassmorphism system (subtle/light/heavy glass)
-- Animation system (entrance + hover animations)
+- Glassmorphism system (subtle/light/medium/heavy glass)
+- Animation system (entrance + hover + scroll animations)
 - Configuration system (schema, loader, defaults)
-- 10 example documents updated
+- 14 example documents
 - VSCode extension for syntax highlighting
-- Modern code block styling with syntax highlighting
+- Dark mode with system preference detection
+- 14 interactive JS behaviors with tree-shaking
 
-**In Progress:**
-- Dark mode system
-- Additional components (tabs, accordion, modal, navbar, etc.)
-- Comprehensive test suite
-- Documentation site
+### Phase 3: Editor ✅ Complete
 
-### Phase 3: Editor (Planned)
+- Browser-based live editor with CodeMirror 6
+- Split-pane preview with debounced updates
+- Slash commands (20+ quick-insert options)
+- Mermaid diagram support
+- Save/load with File System API
+- Auto-save to localStorage
+- Dark mode support
+- Standalone ~1.5MB HTML file
 
-- VS Code extension enhancements
-- Live preview pane
-- IntelliSense and autocomplete
-- Command palette
-- Export functionality
+### Phase 4: Enhancement (Ongoing)
 
-### Phase 4: Enhancement (Future)
-
-- Performance optimization
-- Plugin system
-- Standalone editor (Tauri app)
-- Advanced theming
-- Animation presets
+- ✅ Performance optimization (sub-100ms compile)
+- ✅ Advanced theming (CSS variables)
+- ✅ Animation presets (7 entrance + 6 hover)
+- ⏳ Plugin system (infrastructure exists, loader not implemented)
+- ⏳ Standalone Tauri app
+- ⏳ IntelliSense/LSP for VS Code
 
 ---
 
@@ -1092,7 +1292,8 @@ Taildown is built on excellent open-source projects:
 - **shadcn/ui** - Component design patterns
 - **unified/remark/rehype** - Content transformation
 - **Lucide** - Beautiful icon library
-- **Prism.js** - Syntax highlighting
+- **CodeMirror 6** - Code editor framework
+- **Shiki** - VS Code-quality syntax highlighting
 
 ---
 
@@ -1104,16 +1305,16 @@ A: Taildown focuses on styling and layout with simpler, non-React syntax. It gen
 **Q: Do I need to know Tailwind CSS?**  
 A: No! Taildown uses plain English like `{huge-bold primary}` that translates automatically. Tailwind knowledge is optional.
 
-**Q: Can I use Taildown in production?**  
-A: Phase 2 is in active development. It's suitable for experimentation and internal tools but not yet recommended for production.
+**Q: Can I use Taildown in production?**
+A: The core system is complete and stable. It's suitable for static content, documentation, and internal tools. For critical production use, verify the output meets your requirements.
 
 **Q: How do I customize styles?**  
 A: The configuration system (`taildown.config.js`) is implemented but customization APIs are being finalized in Phase 2.
 
-**Q: Does Taildown support dark mode?**  
-A: Dark mode system is planned and will be implemented soon in Phase 2.
+**Q: Does Taildown support dark mode?**
+A: Yes! Dark mode is fully implemented with automatic system preference detection, a toggle button, localStorage persistence, and smooth transitions.
 
 ---
 
-**Built with care by the Taildown Team**  
-**Last Updated:** October 5, 2025
+**Built with care by Alex Moyer**
+**Last Updated:** January 28, 2026

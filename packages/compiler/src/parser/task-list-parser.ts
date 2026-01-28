@@ -35,40 +35,6 @@ type TaskState = 'todo' | 'done' | 'in-progress' | 'blocked';
 type TaskPriority = 'high' | 'medium' | 'low' | undefined;
 
 /**
- * Enhanced task data
- */
-interface TaskData {
-  state: TaskState;
-  priority?: TaskPriority;
-  assignee?: string;
-  checked: boolean;
-}
-
-/**
- * Parse task state from checkbox marker
- */
-function parseTaskState(text: string): { state: TaskState; checked: boolean } | null {
-  // Match checkbox at start of text: [ ], [x], [~], [-]
-  const match = text.match(/^\s*\[([ x~-])\]/i);
-  if (!match) return null;
-  
-  const marker = match[1].toLowerCase();
-  
-  switch (marker) {
-    case ' ':
-      return { state: 'todo', checked: false };
-    case 'x':
-      return { state: 'done', checked: true };
-    case '~':
-      return { state: 'in-progress', checked: false };
-    case '-':
-      return { state: 'blocked', checked: false };
-    default:
-      return null;
-  }
-}
-
-/**
  * Extract priority from text content
  * Looks for {high}, {medium}, {low} anywhere in text
  */
@@ -220,7 +186,7 @@ export const parseEnhancedTaskList: Plugin<[], Root> = () => {
         const listItem = item as ListItem;
         
         // Get item text and check for custom state markers
-        const { text: itemText, cleanText, customState } = getListItemText(listItem);
+        const { text: _itemText, cleanText, customState } = getListItemText(listItem);
         
         let state: TaskState;
         let checked: boolean;
@@ -240,7 +206,7 @@ export const parseEnhancedTaskList: Plugin<[], Root> = () => {
         
         // Extract priority and assignee from clean text
         const { priority, cleanText: textAfterPriority } = extractPriority(cleanText);
-        const { assignee, cleanText: finalText } = extractAssignee(textAfterPriority);
+        const { assignee, cleanText: _finalText } = extractAssignee(textAfterPriority);
         
         // Store enhanced data in list item
         if (!listItem.data) {

@@ -6,12 +6,12 @@
  */
 
 import { readFile } from 'fs/promises';
-import { resolve, dirname } from 'path';
+import { resolve } from 'path';
 import { pathToFileURL } from 'url';
 import type { TaildownConfig, PartialTaildownConfig } from './config-schema';
 import { validateConfig } from './config-schema';
 import { DEFAULT_CONFIG } from './default-config';
-import { deepMergeConfig } from './theme-merger';
+import { mergeConfig } from './theme-merger';
 
 /**
  * Configuration file names to search for (in order of priority)
@@ -88,7 +88,7 @@ export async function loadConfig(
         warnings.push(...validation.errors);
       }
       
-      const mergedConfig = deepMergeConfig(DEFAULT_CONFIG, userConfig);
+      const mergedConfig = mergeConfig(DEFAULT_CONFIG, userConfig);
       
       return {
         config: mergedConfig,
@@ -138,7 +138,7 @@ export async function loadConfig(
     }
     
     // Merge with defaults
-    const mergedConfig = deepMergeConfig(DEFAULT_CONFIG, userConfig);
+    const mergedConfig = mergeConfig(DEFAULT_CONFIG, userConfig);
     
     return {
       config: mergedConfig,
@@ -233,7 +233,7 @@ export async function loadConfigFile(
  * @param cwd - Directory to search for config
  * @returns Configuration or DEFAULT_CONFIG
  */
-export function loadConfigSync(cwd: string = process.cwd()): TaildownConfig {
+export function loadConfigSync(_cwd: string = process.cwd()): TaildownConfig {
   // For now, just return default config
   // Synchronous loading of ESM modules is complex in Node.js
   // We'll use the async version in most cases
@@ -251,6 +251,6 @@ export function loadConfigSync(cwd: string = process.cwd()): TaildownConfig {
 export function createConfig(
   userConfig: PartialTaildownConfig
 ): TaildownConfig {
-  return deepMergeConfig(DEFAULT_CONFIG, userConfig);
+  return mergeConfig(DEFAULT_CONFIG, userConfig);
 }
 

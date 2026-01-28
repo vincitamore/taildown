@@ -8,54 +8,9 @@
  * Converts LaTeX to MathML at compile time using temml
  */
 
-import type { Root, Text, Parent } from 'mdast';
+import type { Root, Text } from 'mdast';
 import { visit } from 'unist-util-visit';
-import type { Plugin } from 'unified';
 import temml from 'temml';
-
-/**
- * Math node type (extends MDAST)
- */
-interface MathNode {
-  type: 'math';
-  value: string; // LaTeX source
-  data: {
-    hName: 'span' | 'div';
-    hProperties: {
-      className: string[];
-      'data-math-type': 'inline' | 'display';
-    };
-    hChildren: Array<{ type: 'raw'; value: string }>;
-  };
-}
-
-/**
- * Inline math node
- */
-interface InlineMathNode extends MathNode {
-  data: {
-    hName: 'span';
-    hProperties: {
-      className: ['math', 'math-inline'];
-      'data-math-type': 'inline';
-    };
-    hChildren: Array<{ type: 'raw'; value: string }>;
-  };
-}
-
-/**
- * Display math node (block-level)
- */
-interface DisplayMathNode extends MathNode {
-  data: {
-    hName: 'div';
-    hProperties: {
-      className: ['math', 'math-display'];
-      'data-math-type': 'display';
-    };
-    hChildren: Array<{ type: 'raw'; value: string }>;
-  };
-}
 
 /**
  * Parse math equations from text nodes

@@ -1,4 +1,4 @@
-import type { ComponentDefinition } from '../../types/component-types.js';
+import type { ComponentDefinition } from '../component-registry';
 
 /**
  * Mermaid Diagram Component

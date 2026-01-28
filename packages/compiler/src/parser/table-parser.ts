@@ -15,8 +15,8 @@
  * The attribute block {sortable zebra glass} is detected and applied to the table.
  */
 
-import type { Root, Table, Paragraph } from 'mdast';
-import { visit, SKIP } from 'unist-util-visit';
+import type { Root, Table } from 'mdast';
+import { visit } from 'unist-util-visit';
 import { registry } from '../components/component-registry';
 
 /**
@@ -48,9 +48,6 @@ function parseTableAttributesImpl(tree: Root): void {
   for (const { node: table, index: tableIndex, parent } of tables) {
     // Strategy 1: Check if last row of table contains only an attribute block
     // This handles cases where GFM parses the attribute line as a table row
-    const tbody = table.children.find((child: any) => child.type === 'tableRow' || 
-                                                       (child.type === 'element' && child.tagName === 'tbody'));
-    
     if (table.children && table.children.length > 0) {
       const lastRow: any = table.children[table.children.length - 1];
       
@@ -82,8 +79,7 @@ function parseTableAttributesImpl(tree: Root): void {
               // Parse variants, sizes, and collect classes
               const classes: string[] = ['table-enhanced'];
               const variants: string[] = [];
-              let size: string | undefined;
-              
+
               for (const attr of attributes) {
                 // Check if it's a variant
                 if (tableComponent.variants[attr]) {
@@ -92,7 +88,6 @@ function parseTableAttributesImpl(tree: Root): void {
                 }
                 // Check if it's a size
                 else if (tableComponent.sizes[attr]) {
-                  size = attr;
                   classes.push(...tableComponent.sizes[attr]);
                 }
                 // Otherwise it's a generic class
@@ -174,8 +169,7 @@ function parseTableAttributesImpl(tree: Root): void {
             // Parse variants, sizes, and collect classes
             const classes: string[] = ['table-enhanced'];
             const variants: string[] = [];
-            let size: string | undefined;
-            
+
             for (const attr of attributes) {
               // Check if it's a variant
               if (tableComponent.variants[attr]) {
@@ -184,7 +178,6 @@ function parseTableAttributesImpl(tree: Root): void {
               }
               // Check if it's a size
               else if (tableComponent.sizes[attr]) {
-                size = attr;
                 classes.push(...tableComponent.sizes[attr]);
               }
               // Otherwise it's a generic class

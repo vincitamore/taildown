@@ -153,13 +153,16 @@ export interface ComponentVariant {
 export interface ComponentConfig {
   /** Default variant to use when none specified */
   defaultVariant?: string;
-  
+
+  /** Default size to use when none specified */
+  defaultSize?: string;
+
   /** Additional CSS classes to always apply */
   defaultClasses?: string[];
-  
+
   /** Variant definitions */
   variants?: Record<string, ComponentVariant>;
-  
+
   /** Size definitions */
   sizes?: Record<string, ComponentVariant>;
 }

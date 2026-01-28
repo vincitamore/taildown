@@ -17,54 +17,10 @@ import type {
   TaildownConfig,
   PartialTaildownConfig,
   ColorConfig,
-  ColorScale,
   ComponentsConfig,
-  ComponentConfig,
 } from './config-schema';
 import { isColorScale } from './config-schema';
 import { DEFAULT_CONFIG } from './default-config';
-
-/**
- * Deep merge two objects
- * User values take precedence over defaults
- * 
- * @param target - Default values
- * @param source - User overrides
- * @returns Merged object
- */
-function deepMerge<T extends Record<string, any>>(target: T, source: Partial<T>): T {
-  const result = { ...target };
-
-  for (const key in source) {
-    const sourceValue = source[key];
-    const targetValue = result[key];
-
-    if (sourceValue === undefined) {
-      // Undefined means use default - skip
-      continue;
-    }
-
-    if (sourceValue === null) {
-      // Null means explicitly clear - set to null
-      result[key] = null as any;
-      continue;
-    }
-
-    // Check if both are objects (not arrays, not null)
-    if (
-      isPlainObject(sourceValue) &&
-      isPlainObject(targetValue)
-    ) {
-      // Recursively merge objects
-      result[key] = deepMerge(targetValue, sourceValue);
-    } else {
-      // Primitive, array, or function - replace entirely
-      result[key] = sourceValue;
-    }
-  }
-
-  return result;
-}
 
 /**
  * Check if value is a plain object (not array, not null, not Date, etc.)

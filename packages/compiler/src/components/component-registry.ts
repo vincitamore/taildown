@@ -14,31 +14,37 @@ import type { ComponentConfig } from '../config/config-schema';
 export interface ComponentDefinition {
   /** Component name (lowercase, kebab-case) */
   name: string;
-  
+
+  /** Display name for documentation */
+  displayName?: string;
+
+  /** Component category for grouping */
+  category?: string;
+
   /** HTML element to render as */
-  htmlElement: string;
-  
+  htmlElement?: string;
+
   /** Default CSS classes applied to all instances */
   defaultClasses: string[];
-  
+
   /** Default variant (if none specified) */
   defaultVariant?: string;
-  
+
   /** Default size (if none specified) */
   defaultSize?: string;
-  
+
   /** Available variants and their classes */
   variants: Record<string, string[]>;
-  
+
   /** Available sizes and their classes */
   sizes: Record<string, string[]>;
-  
+
   /** Component description */
   description?: string;
-  
+
   /** Whether component supports children */
-  hasChildren: boolean;
-  
+  hasChildren?: boolean;
+
   /** Whether component requires specific attributes */
   requiredAttributes?: string[];
 }
@@ -134,9 +140,12 @@ class ComponentRegistry {
     // Add variant classes if specified
     if (variant && component.variants[variant]) {
       classes.push(...component.variants[variant]);
-    } else if (component.defaultVariant && component.variants[component.defaultVariant]) {
+    } else {
       // Use default variant if no variant specified
-      classes.push(...component.variants[component.defaultVariant]);
+      const defaultVar = component.defaultVariant;
+      if (defaultVar && component.variants[defaultVar]) {
+        classes.push(...component.variants[defaultVar]);
+      }
     }
     
     return classes;

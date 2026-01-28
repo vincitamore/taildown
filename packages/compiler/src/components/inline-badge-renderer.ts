@@ -17,7 +17,7 @@ import type { Plugin } from 'unified';
  */
 export const renderInlineBadges: Plugin = () => {
   return (tree: any) => {
-    visit(tree, 'element', (node: any, index, parent) => {
+    visit(tree, 'element', (node: any) => {
       // Only process span elements with data-component="badge"
       if (node.tagName !== 'span' || node.properties?.['data-component'] !== 'badge') {
         return;

@@ -4,7 +4,7 @@
  * See CUSTOM-DIRECTIVE-PARSER-PLAN.md for algorithm details
  */
 
-import type { Content, Paragraph, Text, Root, Code } from 'mdast';
+import type { Content, Paragraph, Text } from 'mdast';
 import type { ComponentMarker, ScanItem } from './directive-types';
 import { COMPONENT_NAME_REGEX, CLASS_NAME_REGEX } from '@taildown/shared';
 

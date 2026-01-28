@@ -253,3 +253,19 @@ export type {
   ParseResult,
 } from '@taildown/shared';
 
+// Re-export component registry for MCP and advanced usage
+export {
+  registry,
+  registerStandardComponents,
+  defineComponent,
+} from './components/component-registry';
+
+// Re-export style resolver for MCP and advanced usage
+export {
+  SHORTHAND_MAPPINGS,
+  getAllShorthands,
+  getShorthandsByCategory,
+  hasShorthand,
+  getShorthand,
+} from './resolver/shorthand-mappings';
+

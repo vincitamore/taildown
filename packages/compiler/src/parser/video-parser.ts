@@ -12,7 +12,7 @@
 
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
-import type { Root, Link, Image } from 'mdast';
+import type { Root } from 'mdast';
 
 interface VideoInfo {
   platform: 'youtube' | 'vimeo' | 'self-hosted' | 'unknown';
