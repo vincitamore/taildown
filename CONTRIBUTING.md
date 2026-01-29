@@ -220,9 +220,8 @@ pnpm test syntax-tests/reference.test.ts
 
 - **README.md** - User-facing overview and quick start
 - **SYNTAX.md** - Canonical syntax specification
-- **tech-spec.md** - Technical architecture
-- **phase-1-implementation-plan.md** - Implementation guide
-- **API documentation** - Coming in Phase 2
+- **tech-spec.md** - Technical architecture and implementation status
+- **CLAUDE.md** - Project-specific instructions for Claude Code integration
 
 ### Documentation Standards
 
@@ -357,16 +356,22 @@ export async function compile(source: string, options?: CompileOptions): Promise
 ### File Organization
 
 ```
-package/
-├── src/
-│   ├── index.ts           # Public API exports
-│   ├── parser/            # Parser implementation
-│   │   ├── index.ts       # Parser entry point
-│   │   ├── attributes.ts  # Attribute parsing
-│   │   └── components.ts  # Component parsing
-│   ├── renderer/          # Renderer implementation
-│   └── types.ts           # Type definitions
-└── package.json
+taildown/                  # Monorepo root
+├── packages/
+│   ├── compiler/          # Core compilation engine
+│   │   └── src/
+│   │       ├── index.ts   # Public API exports
+│   │       ├── parser/    # Parser implementation
+│   │       ├── renderer/  # HTML/CSS generation
+│   │       ├── resolver/  # Style resolution
+│   │       ├── components/# Component registry
+│   │       └── js-generator/ # Tree-shaken JS
+│   ├── cli/               # Command-line interface
+│   ├── mcp/               # Claude MCP server
+│   └── linter/            # Taildown linter
+├── editor/                # Browser-based editor
+├── docs-site/             # Documentation website
+└── syntax-tests/          # Conformance test suite
 ```
 
 ### Naming Conventions
