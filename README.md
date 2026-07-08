@@ -55,7 +55,7 @@ Taildown bridges the gap between simple Markdown and complex web development, en
 
 ```bash
 # Clone the repository
-git clone https://github.com/taildown/taildown.git
+git clone https://github.com/vincitamore/taildown.git
 cd taildown
 
 # Install dependencies
@@ -819,7 +819,7 @@ Loading content...
 
 Admonition/callout blocks for notes, tips, and warnings.
 
-**Variants:** `note`, `info`, `tip`, `success`, `warning`, `danger`, `important`, `bug`, `quote`, `abstract`, `example`, `deprecated`
+**Variants:** `note` (default), `info`, `tip`, `success`, `warning`, `danger`, `error` — plus visual modifiers `glass`, `elevated`, `bordered`
 
 ```taildown
 :::callout {tip}

@@ -69,8 +69,7 @@ Taildown is committed to providing a welcoming and inclusive environment for all
 
 ### Branch Strategy
 
-- **`main`** - Stable release branch
-- **`develop`** - Integration branch for next release
+- **`main`** - Stable release branch; PRs land here directly
 - **`feature/*`** - Feature branches
 - **`fix/*`** - Bug fix branches
 - **`docs/*`** - Documentation branches
@@ -78,8 +77,8 @@ Taildown is committed to providing a welcoming and inclusive environment for all
 ### Creating a Feature Branch
 
 ```bash
-git checkout develop
-git pull origin develop
+git checkout main
+git pull origin main
 git checkout -b feature/your-feature-name
 ```
 
@@ -125,7 +124,7 @@ test(syntax): add edge case tests for nested components
 
 ## Contributing Syntax Changes
 
-**⚠️ Important**: Syntax changes follow a special process defined in [`SYNTAX-CHANGES.md`](SYNTAX-CHANGES.md).
+**⚠️ Important**: Syntax is the project's public contract — changes to it are held to a higher bar than ordinary code changes.
 
 ### Quick Summary
 
@@ -148,8 +147,7 @@ test(syntax): add edge case tests for nested components
 
 Before proposing syntax changes, please read:
 - [`SYNTAX.md`](SYNTAX.md) - Current syntax specification
-- [`SYNTAX-CHANGES.md`](SYNTAX-CHANGES.md) - Change management process
-- Existing [syntax RFCs](https://github.com/taildown/taildown/labels/syntax)
+- Existing [syntax RFCs](https://github.com/vincitamore/taildown/labels/syntax)
 
 ---
 
@@ -295,12 +293,12 @@ Tests must:
 - [ ] Type checking passes (`pnpm typecheck`)
 - [ ] Documentation is updated
 - [ ] Commit messages follow convention
-- [ ] Branch is up to date with `develop`
+- [ ] Branch is up to date with `main`
 
 ### Submitting
 
 1. **Push your branch** to your fork
-2. **Open a Pull Request** against `develop` branch
+2. **Open a Pull Request** against `main`
 3. **Fill out PR template** completely
 4. **Link related issues** (e.g., "Closes #123")
 5. **Wait for review** from maintainers
@@ -316,7 +314,7 @@ Tests must:
 
 - **Minor changes** (docs, tests): 1 approval
 - **Code changes**: 2 approvals
-- **Syntax changes**: 2-3 approvals (see SYNTAX-CHANGES.md)
+- **Syntax changes**: 2-3 approvals
 - **All CI checks** must pass
 
 ---
@@ -367,6 +365,7 @@ taildown/                  # Monorepo root
 │   │       ├── components/# Component registry
 │   │       └── js-generator/ # Tree-shaken JS
 │   ├── cli/               # Command-line interface
+│   ├── shared/             # Shared types and constants
 │   ├── mcp/               # Claude MCP server
 │   └── linter/            # Taildown linter
 ├── editor/                # Browser-based editor
@@ -396,8 +395,8 @@ taildown/                  # Monorepo root
 
 ### Getting Help
 
-- Check existing [issues](https://github.com/taildown/taildown/issues)
-- Search [discussions](https://github.com/taildown/taildown/discussions)
+- Check existing [issues](https://github.com/vincitamore/taildown/issues)
+- Search [discussions](https://github.com/vincitamore/taildown/discussions)
 - Read the documentation
 - Ask in Discord (coming soon)
 
@@ -433,7 +432,7 @@ Contributors will be:
 ## Questions?
 
 If you have any questions about contributing, please:
-- Open a [Discussion](https://github.com/taildown/taildown/discussions)
+- Open a [Discussion](https://github.com/vincitamore/taildown/discussions)
 - Join our Discord (coming soon)
 - Email the maintainers (coming soon)
 

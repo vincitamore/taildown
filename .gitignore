@@ -39,3 +39,7 @@ yarn-error.log*
 .temp/
 test-files/
 
+
+# local working notes and router captures (never commit)
+_*.md
+NCU_*.txt

@@ -49,7 +49,7 @@ taildown/
 The parser uses unified's processing pipeline. **Plugin order matters** - some plugins must run before others:
 
 ```
-Source → autoFixSyntax → remarkParse → remarkGfm → remarkDirective
+Source → autoFixSyntax → remarkParse → remarkGfm
        → containerDirectiveParser → iconParser → inlineBadgeParser
        → kbdParser → mathParser → footnoteParser → diffParser
        → imageCompareParser → stepParser → timelineParser → videoParser
@@ -57,15 +57,16 @@ Source → autoFixSyntax → remarkParse → remarkGfm → remarkDirective
        → attributeParser → componentParser → MDAST Output
 ```
 
+`containerDirectiveParser` is the compiler's in-house directive parser — `remarkDirective` is not part of the pipeline (verified against `parser/index.ts`).
+
 **Critical ordering constraints:**
-1. `remarkDirective` BEFORE `containerDirectiveParser` - creates raw directive nodes
-2. `iconParser` BEFORE `inlineBadgeParser` - similar `:syntax[]{}` patterns
-3. `attributeParser` BEFORE `componentParser` - attributes need parsing first
-4. `diffParser` BEFORE syntax highlighting - marks diff blocks with flags
+1. `iconParser` BEFORE `inlineBadgeParser` - similar `:syntax[]{}` patterns
+2. `attributeParser` BEFORE `componentParser` - attributes need parsing first
+3. `diffParser` BEFORE syntax highlighting - marks diff blocks with flags
 
 ### Component Registry
 
-32 components registered in `component-registry.ts`:
+34 components registered in `component-registry.ts`: 32 imported from `standard/` plus `grid` and `container` defined inline in `registerStandardComponents()`.
 
 | Category | Components |
 |----------|------------|
@@ -216,13 +217,7 @@ The code **works** but isn't strict-mode compliant. Build succeeds because tsup 
 
 ## Documentation Drift Warning
 
-The README and tech-spec.md are **significantly outdated**:
-- README claims "7 of 15+" components - actually 32
-- Phase roadmap shows features as "planned" that are complete
-- FAQ says dark mode "planned" - it's fully implemented
-- 12 components completely undocumented in README
-
-**SYNTAX.md is more accurate** for syntax reference.
+tech-spec.md predates the current implementation in places — defer to SYNTAX.md for the canonical syntax reference and to the source under `packages/compiler/src/` for anything version-sensitive (component counts, variant lists, parser pipeline order). README's component roadmap and FAQ are current as of this file's last update; verify against source before trusting either document on a fast-moving detail.
 
 ## Syntax Quick Reference
 
@@ -268,17 +263,6 @@ Browser-based live editor at `editor/index.html`:
 - Save/load with File System API
 
 Build standalone: `pnpm build:editor` → `editor/dist/editor.html`
-
-## Cross-Project Integration
-
-This project is tracked in the claude-org organization system:
-- Task: `tasks/taildown-native-integration.md`
-- Knowledge base: `C:\Users\AlexMoyer\Documents\claude-org\`
-
-When working on Taildown, relevant patterns may exist in:
-- `knowledge/mcp-integration-patterns.md` - For the upcoming MCP server
-- `knowledge/javascript-regex-crlf-gotcha.md` - Parser gotchas
-- `context/project-map.md` - Project relationships
 
 ---
 *Last updated: 2026-01-28*
