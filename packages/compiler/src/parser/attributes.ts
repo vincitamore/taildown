@@ -35,7 +35,8 @@ function extractAttributesFromText(
   text: string,
   resolverContext?: ResolverContext,
   afterLink = false,
-  warnings: CompilationWarning[] = []
+  warnings: CompilationWarning[] = [],
+  position?: {line: number; column: number}
 ): {
   classes: string[];
   remainingText: string;
@@ -83,9 +84,9 @@ function extractAttributesFromText(
       const value = doubleQuoted ?? singleQuoted ?? bare ?? '';
       if (name === 'modal' || name === 'tooltip') {
         if (value) kvAttrs[name] = value;
-        else warnings.push({type: 'validation', message: `Inline attribute "${name}" requires a non-empty value.`});
+        else warnings.push({type: 'validation', message: `Inline attribute "${name}" requires a non-empty value.`, ...position});
       } else {
-        warnings.push({type: 'validation', message: `Unsupported inline attribute "${name}". Inline key-value attributes support modal and tooltip; use #name for an ID and plain-English styles or CSS classes for styling.`});
+        warnings.push({type: 'validation', message: `Unsupported inline attribute "${name}". Inline key-value attributes support modal and tooltip; use #name for an ID and plain-English styles or CSS classes for styling.`, ...position});
       }
       return space;
     });
@@ -195,7 +196,8 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
           textNode.value,
           resolverContext,
           true,
-          options?.warnings
+          options?.warnings,
+          node.position ? {line: node.position.start.line, column: node.position.start.column} : undefined
         );
 
         // Update text node
@@ -235,7 +237,8 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
           textNode.value,
           resolverContext,
           false,
-          options?.warnings
+          options?.warnings,
+          node.position ? {line: node.position.start.line, column: node.position.start.column} : undefined
         );
 
         // Update text content
@@ -276,7 +279,8 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
           textNode.value,
           resolverContext,
           false,
-          options?.warnings
+          options?.warnings,
+          node.position ? {line: node.position.start.line, column: node.position.start.column} : undefined
         );
 
         textNode.value = remainingText;

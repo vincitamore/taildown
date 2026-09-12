@@ -55,3 +55,17 @@ it('recognizes parser-owned footnotes as a supported component', async () => {
   const result = await compile(':::footnotes\nText\n:::');
   expect(result.metadata.warnings).not.toContainEqual(expect.objectContaining({message: 'Unknown component: footnotes'}));
 });
+
+it.each(['\n', '\r\n'])('locates the elements affected by inline attribute mistakes (%j)', async newline => {
+  const result = await compile([
+    '# Intro', '', '# Heading {title="unsupported"}', '',
+    '> Paragraph {tooltip=""}', '',
+    'Before [Link](#intro){modal=""} after',
+  ].join(newline));
+  expect(result.metadata.warnings).toEqual(expect.arrayContaining([
+    expect.objectContaining({line: 3, column: 1, message: expect.stringContaining('Unsupported inline attribute "title"')}),
+    expect.objectContaining({line: 5, column: 3, message: 'Inline attribute "tooltip" requires a non-empty value.'}),
+    expect.objectContaining({line: 7, column: 8, message: 'Inline attribute "modal" requires a non-empty value.'}),
+  ]));
+  expect(result.metadata.warnings).toHaveLength(3);
+});
