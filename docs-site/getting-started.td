@@ -1,5 +1,5 @@
 :::navbar
-# Taildown
+[Taildown](index.html){.navbar-brand}
 
 [Home](index.html) [Getting Started](getting-started.html) [Syntax Guide](syntax-guide.html) [Components](components.html) [Plain English](plain-english.html) [Live Editor](editor.html)
 :::

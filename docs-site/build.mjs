@@ -4,7 +4,7 @@
  * Compiles all .td files in docs-site to HTML
  */
 
-import { compile } from '../packages/compiler/dist/index.js';
+import { createRequire } from 'node:module';
 import { promises as fs } from 'fs';
 import { join, basename, dirname, relative } from 'path';
 import { execFileSync } from 'node:child_process';
@@ -16,6 +16,19 @@ const __dirname = dirname(__filename);
 const DOCS_DIR = __dirname;
 const OUTPUT_DIR = join(DOCS_DIR, 'dist');
 const PROJECT_DIR = dirname(DOCS_DIR);
+let compile;
+
+async function loadCompiler() {
+  const require = createRequire(import.meta.url);
+  const packagePath = require.resolve('tsup/package.json');
+  const packageInfo = JSON.parse(await fs.readFile(packagePath, 'utf8'));
+  const cliPath = join(dirname(packagePath), packageInfo.bin.tsup);
+  for (const name of ['shared', 'compiler']) {
+    execFileSync(process.execPath, [cliPath], {cwd: join(PROJECT_DIR, 'packages', name), stdio: 'inherit'});
+  }
+  // Import only after building: an eager import caches the previous compiler.
+  return (await import('../packages/compiler/dist/index.js')).compile;
+}
 const escapeHtml = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 
 // Base URL for the documentation site (update this when deployed)
@@ -272,6 +285,7 @@ async function main() {
   if (dirname(OUTPUT_DIR) !== DOCS_DIR || basename(OUTPUT_DIR) !== 'dist') throw new Error('Invalid output directory');
   await fs.rm(OUTPUT_DIR, {recursive: true, force: true});
   await fs.mkdir(OUTPUT_DIR, {recursive: true});
+  compile = await loadCompiler();
   execFileSync(process.execPath, ['build-browser.mjs'], {cwd: join(PROJECT_DIR, 'packages/compiler'), stdio: 'inherit'});
   execFileSync(process.execPath, ['editor/build.mjs'], {cwd: PROJECT_DIR, stdio: 'inherit'});
   await fs.copyFile(join(PROJECT_DIR, 'editor/dist/editor.html'), join(OUTPUT_DIR, 'editor.html'));

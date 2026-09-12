@@ -17,6 +17,21 @@ export const navbarBehavior: ComponentBehavior = {
 const navbars = [...document.querySelectorAll('.navbar')];
 
 if (navbars.length) {
+  // Respect authored current-state semantics. Otherwise identify document links
+  // across static .html paths and hosts that serve equivalent clean URLs.
+  const pagePath = pathname => pathname.replace(/\\/index(?:\\.html)?$/, '/').replace(/\\.html$/, '').replace(/\\/$/, '') || '/';
+  for (const navbar of navbars) {
+    if (navbar.querySelector('[aria-current]')) continue;
+    for (const link of navbar.querySelectorAll('a[href]:not(.navbar-brand)')) {
+      try {
+        const target = new URL(link.getAttribute('href'), document.baseURI);
+        if (!target.hash && target.origin === location.origin &&
+            target.search === location.search && pagePath(target.pathname) === pagePath(location.pathname)) {
+          link.setAttribute('aria-current', 'page');
+        }
+      } catch { /* An invalid authored URL must not stop navigation behavior. */ }
+    }
+  }
   let ticking = false;
   const scrollThreshold = 50; // pixels
 

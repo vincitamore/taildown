@@ -8,6 +8,7 @@ import {prepareCustomComponents} from './components/custom-components';
 // Small offline examples shared by authoring clients. Keep these ordinary
 // Taildown source so they exercise the same public syntax as authored pages.
 const COMPONENT_EXAMPLES: Record<string, string> = {
+  navbar: ':::navbar\n[Your project](#overview){.navbar-brand}\n\n[Overview](#overview) [More details](#details)\n:::\n\n## Overview {#overview}\n\nIntroduce your project here.\n\n## Details {#details}\n\nAdd the supporting information here.',
   card: ':::card\n## A clear starting point\n\nReplace this text with your own idea.\n:::',
   alert: ':::alert{info}\n**Good to know**\n\nAdd a useful notice for your reader.\n:::',
   callout: ':::callout\n**A closer look**\n\nUse this space for an insight or supporting detail.\n:::',

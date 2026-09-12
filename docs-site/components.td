@@ -1,5 +1,5 @@
 :::navbar
-# Taildown
+[Taildown](index.html){.navbar-brand}
 
 [Home](index.html) [Getting Started](getting-started.html) [Syntax Guide](syntax-guide.html) [Components](components.html) [Plain English](plain-english.html) [Live Editor](editor.html)
 :::
@@ -3583,15 +3583,17 @@ Timeline for documenting multi-stage processes:
 
 ### Basic Structure {medium-bold}
 
-The navbar uses a heading for branding and paragraph links for navigation:
+Use a home link with `.navbar-brand` for branding and paragraph links for navigation. This keeps the document's heading hierarchy focused on its content:
 
 ```taildown
 :::navbar
-# Brand Name
+[Brand Name](/){.navbar-brand}
 
 [Home](/) [About](/about) [Docs](/docs) [Contact](/contact)
 :::
 ```
+
+Navigation links have a minimum height of 44px. When no `aria-current` attribute is authored, the runtime marks matching same-origin document links with `aria-current="page"`; static `.html` and clean URLs are treated as equivalent. Section links and query-string differences are not marked as the current page. Existing authored current-state attributes are preserved.
 
 ### Features {medium-bold}
 
@@ -3635,14 +3637,14 @@ The navbar uses a heading for branding and paragraph links for navigation:
 
 ```taildown
 :::navbar
-# Site Name
+[Site Name](/){.navbar-brand}
 
 [Link 1](#) [Link 2](#) [Link 3](#)
 :::
 ```
 
 **Best Practices:**
-- Use H1-H3 for branding
+- Use a `.navbar-brand` home link for branding; headings remain supported when they belong in the document outline
 - Use paragraph links for navigation
 - Keep navigation concise (5-7 links max)
 - Include icons for visual interest

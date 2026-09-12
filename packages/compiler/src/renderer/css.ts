@@ -3265,6 +3265,15 @@ ${generateThemeCSS()}
   display: inline-flex;
   align-items: center;
   position: relative;
+  min-height: 44px;
+}
+
+/* A linked brand keeps the page heading hierarchy for the document itself. */
+.navbar a.navbar-brand {
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  opacity: 1;
 }
 
 .navbar a:hover {
@@ -3287,6 +3296,7 @@ ${generateThemeCSS()}
   opacity: 1;
   font-weight: 600;
   color: var(--link);
+  background: var(--card);
 }
 
 /* Mobile optimization for navbar */
@@ -6627,4 +6637,3 @@ export function renderCSS(ast: TaildownRoot, minify: boolean = false): string {
   const classes = collectClasses(ast);
   return generateCSS(classes, minify);
 }
-
