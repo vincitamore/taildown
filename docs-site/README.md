@@ -19,29 +19,31 @@ The documentation site is built entirely with Taildown itself, demonstrating:
 docs-site/
 ├── index.td                  # Main landing page
 ├── getting-started.td        # Installation and quick start guide
-├── build.mjs                 # Build script (compiles all .td files)
+├── build.mjs                 # Builds current editor and compiles .td sources
 ├── README.md                 # This file
-├── index.html                # Compiled output (generated)
-└── getting-started.html      # Compiled output (generated)
+└── dist/                     # Generated deployment output, ignored by Git
+    ├── index.html
+    ├── getting-started.html
+    └── editor.html
 ```
 
 ## Building
 
-To compile all documentation files to HTML:
+Install dependencies and build the packages from the repository root first:
 
 ```bash
-# From the docs-site directory
-node build.mjs
-
-# Or from the project root
-cd docs-site && node build.mjs
+pnpm install --frozen-lockfile
+pnpm build
+node docs-site/build.mjs
 ```
 
 This will:
-1. Find all `.td` files in the directory
-2. Compile each to HTML with embedded CSS and JavaScript
-3. Include dark mode support automatically
-4. Generate self-contained HTML files
+1. Clean only `docs-site/dist` and build the current browser compiler/editor.
+2. Compile the authored `.td` pages with embedded CSS and JavaScript, without automatic syntax corrections.
+3. Copy the freshly built editor, favicon directory, and declared image assets.
+4. Fail if a page emits diagnostics or any required build/copy step fails.
+
+Vercel serves `dist`, not the source directory. The checked-in legacy HTML and `lib/` files are not release inputs. The Vercel project is `taildown`, with repository root directory `docs-site`; `vercel.json` installs/builds workspace packages from the parent directory. Preview the generated directory before promoting a deployment.
 
 ## Development
 
@@ -49,7 +51,7 @@ When editing the documentation:
 
 1. Edit the `.td` source files
 2. Run `node build.mjs` to recompile
-3. Open the `.html` files in your browser to preview
+3. Serve `dist/` locally to preview the generated pages and editor
 4. Test dark mode by clicking the toggle button (bottom-right)
 
 ## Features Demonstrated

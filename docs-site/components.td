@@ -1278,7 +1278,7 @@ large badges for emphasized badges
 Use badges to highlight status and metadata:
 
 :::container
-    :::card
+:::card
 #### Project Status: :badge[active]{success} 
 #### Version :badge[v2.1.0]{info} 
 #### License :badge[MIT]{primary}
@@ -2198,9 +2198,13 @@ https://vimeo.com/123456789
 
 ### Self-Hosted Video {medium-bold}
 
+Place your video beside the exported HTML, then reference its filename:
+
+```taildown
 :::video {16:9 glass}
 ![Demo Video](demo.mp4)
 :::
+```
 
 ### Different Aspect Ratios {medium-bold}
 

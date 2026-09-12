@@ -6,16 +6,20 @@
 
 import { compile } from '../packages/compiler/dist/index.js';
 import { promises as fs } from 'fs';
-import { join, basename, dirname } from 'path';
+import { join, basename, dirname, relative } from 'path';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const DOCS_DIR = __dirname;
+const OUTPUT_DIR = join(DOCS_DIR, 'dist');
+const PROJECT_DIR = dirname(DOCS_DIR);
+const escapeHtml = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 
 // Base URL for the documentation site (update this when deployed)
-const BASE_URL = 'https://taildown.dev';
+const BASE_URL = 'https://www.taildown.dev';
 
 // Page metadata configuration
 const PAGE_METADATA = {
@@ -125,7 +129,7 @@ async function findTdFiles(dir) {
     
     if (item.isDirectory()) {
       // Skip node_modules and hidden directories
-      if (item.name.startsWith('.') || item.name === 'node_modules') {
+      if (item.name.startsWith('.') || ['node_modules', 'dist'].includes(item.name)) {
         continue;
       }
       files.push(...await findTdFiles(fullPath));
@@ -153,7 +157,7 @@ async function compileTdFile(filePath) {
         title: 'Taildown Document',
         description: 'A beautiful document created with Taildown',
         type: 'website',
-        url: BASE_URL,
+        url: `${BASE_URL}/${fileName.replace(/\.td$/, '')}`,
         image: `${BASE_URL}/1759672632566.jpg`,
         imageAlt: 'Taildown - Modern markup language with glassmorphism and dark mode',
         siteName: 'Taildown'
@@ -162,9 +166,10 @@ async function compileTdFile(filePath) {
     
     // Compile with dark mode enabled and Open Graph metadata
     const result = await compile(source, {
+      autoFix: false,          // Build the authored source without silent corrections
       inlineStyles: true,      // Embed CSS in HTML
       inlineScripts: true,     // Embed JS in HTML (for dark mode)
-      minify: false,           // Keep readable for debugging
+      minify: true,            // Compact markup while preserving code whitespace
       darkMode: true,          // Enable dark mode
       title: metadata.title,
       description: metadata.description,
@@ -183,7 +188,11 @@ async function compileTdFile(filePath) {
     });
     
     // Write HTML output
-    const htmlPath = filePath.replace('.td', '.html');
+    const htmlPath = join(OUTPUT_DIR, relative(DOCS_DIR, filePath).replace(/\.td$/, '.html'));
+    await fs.mkdir(dirname(htmlPath), {recursive: true});
+    if (result.metadata.warnings.length) {
+      throw new Error(result.metadata.warnings.map(warning => `Line ${warning.line ?? '?'}: ${warning.message}`).join('\n'));
+    }
     await fs.writeFile(htmlPath, result.html);
     
     console.log(`  ✓ Created: ${basename(htmlPath)}`);
@@ -200,15 +209,18 @@ async function compileTdFile(filePath) {
  */
 async function updateStaticHtml(filePath, metadata) {
   try {
-    let html = await fs.readFile(filePath, 'utf-8');
-
-    // Ensure <head> exists
-    if (!html.includes('<head')) {
-      return; // skip files without a standard head
+    const originalHtml = await fs.readFile(filePath, 'utf-8');
+    const headStart = originalHtml.indexOf('<head');
+    const headEnd = originalHtml.indexOf('</head>', headStart);
+    if (headStart < 0 || headEnd < 0) {
+      throw new Error('Missing HTML head');
     }
+    // The editor embeds the compiler, including HTML templates. Only mutate
+    // the real document head; never replace metadata strings inside its runtime.
+    let html = originalHtml.slice(headStart, headEnd + 7);
 
     // Replace <title>
-    const safeTitle = metadata.title ?? 'Taildown';
+    const safeTitle = escapeHtml(metadata.title ?? 'Taildown');
     if (/<title>[\s\S]*?<\/title>/.test(html)) {
       html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${safeTitle}</title>`);
     } else {
@@ -225,19 +237,19 @@ async function updateStaticHtml(filePath, metadata) {
     const description = metadata.description || og.description || '';
 
     const tags = [];
-    if (description) tags.push(`  <meta name="description" content="${description}">`);
-    if (og.title) tags.push(`  <meta property="og:title" content="${og.title}">`);
-    if (og.description) tags.push(`  <meta property="og:description" content="${og.description}">`);
-    if (og.type) tags.push(`  <meta property="og:type" content="${og.type}">`);
-    if (og.url) tags.push(`  <meta property="og:url" content="${og.url}">`);
-    if (og.image) tags.push(`  <meta property="og:image" content="${og.image}">`);
-    if (og.imageAlt) tags.push(`  <meta property="og:image:alt" content="${og.imageAlt}">`);
-    if (og.siteName) tags.push(`  <meta property="og:site_name" content="${og.siteName}">`);
+    if (description) tags.push(`  <meta name="description" content="${escapeHtml(description)}">`);
+    if (og.title) tags.push(`  <meta property="og:title" content="${escapeHtml(og.title)}">`);
+    if (og.description) tags.push(`  <meta property="og:description" content="${escapeHtml(og.description)}">`);
+    if (og.type) tags.push(`  <meta property="og:type" content="${escapeHtml(og.type)}">`);
+    if (og.url) tags.push(`  <meta property="og:url" content="${escapeHtml(og.url)}">`);
+    if (og.image) tags.push(`  <meta property="og:image" content="${escapeHtml(og.image)}">`);
+    if (og.imageAlt) tags.push(`  <meta property="og:image:alt" content="${escapeHtml(og.imageAlt)}">`);
+    if (og.siteName) tags.push(`  <meta property="og:site_name" content="${escapeHtml(og.siteName)}">`);
 
     if (og.image) tags.push(`  <meta name="twitter:card" content="summary_large_image">`);
-    if (og.image) tags.push(`  <meta name="twitter:image" content="${og.image}">`);
-    if (og.title) tags.push(`  <meta name="twitter:title" content="${og.title}">`);
-    if (og.description) tags.push(`  <meta name="twitter:description" content="${og.description}">`);
+    if (og.image) tags.push(`  <meta name="twitter:image" content="${escapeHtml(og.image)}">`);
+    if (og.title) tags.push(`  <meta name="twitter:title" content="${escapeHtml(og.title)}">`);
+    if (og.description) tags.push(`  <meta name="twitter:description" content="${escapeHtml(og.description)}">`);
 
     if (tags.length > 0) {
       // Insert after <title> if present, else right after <head>
@@ -248,28 +260,36 @@ async function updateStaticHtml(filePath, metadata) {
       }
     }
 
-    await fs.writeFile(filePath, html, 'utf-8');
+    await fs.writeFile(filePath, originalHtml.slice(0, headStart) + html + originalHtml.slice(headEnd + 7), 'utf-8');
     console.log(`  ✓ Updated metadata: ${basename(filePath)}`);
   } catch (err) {
-    // Non-fatal: just report and continue
-    console.warn(`  ⚠︎ Skipped metadata update for ${basename(filePath)}: ${err.message}`);
+    throw new Error(`Metadata update failed for ${basename(filePath)}`, {cause: err});
   }
 }
 
 async function main() {
   console.log('🚀 Building Taildown Documentation Site\n');
+  if (dirname(OUTPUT_DIR) !== DOCS_DIR || basename(OUTPUT_DIR) !== 'dist') throw new Error('Invalid output directory');
+  await fs.rm(OUTPUT_DIR, {recursive: true, force: true});
+  await fs.mkdir(OUTPUT_DIR, {recursive: true});
+  execFileSync(process.execPath, ['build-browser.mjs'], {cwd: join(PROJECT_DIR, 'packages/compiler'), stdio: 'inherit'});
+  execFileSync(process.execPath, ['editor/build.mjs'], {cwd: PROJECT_DIR, stdio: 'inherit'});
+  await fs.copyFile(join(PROJECT_DIR, 'editor/dist/editor.html'), join(OUTPUT_DIR, 'editor.html'));
+  for (const asset of ['1759672632566.jpg', 'dynamic_regularization.png', 'grid_transformation.png', 'scale_correspondence.png', 'scale_shape_decomposition.png', 'favicon']) {
+    await fs.cp(join(DOCS_DIR, asset), join(OUTPUT_DIR, asset), {recursive: true});
+  }
   console.log('📁 Searching for .td files...\n');
   
   const tdFiles = await findTdFiles(DOCS_DIR);
   
   if (tdFiles.length === 0) {
-    console.log('No .td files found!');
-    return;
+    throw new Error('No .td files found');
   }
   
   console.log(`Found ${tdFiles.length} file(s) to compile:\n`);
   
-  const results = await Promise.all(tdFiles.map(compileTdFile));
+  const results = [];
+  for (const file of tdFiles.sort()) results.push(await compileTdFile(file));
   
   const successful = results.filter(r => r.success).length;
   const failed = results.filter(r => !r.success).length;
@@ -281,13 +301,15 @@ async function main() {
   }
   console.log('='.repeat(50));
   
-  // Update metadata for static HTML files (e.g., editor.html)
+  if (failed > 0) throw new Error(`Failed to compile ${failed} documentation pages`);
+
+  // Update metadata for the freshly built editor.
   for (const [staticName, meta] of Object.entries(PAGE_METADATA_STATIC)) {
-    await updateStaticHtml(join(DOCS_DIR, staticName), meta);
+    await updateStaticHtml(join(OUTPUT_DIR, staticName), meta);
   }
 
   console.log('\n📦 Documentation site built successfully!');
-  console.log(`   Open docs-site/index.html in your browser\n`);
+  console.log(`   Open docs-site/dist/index.html in your browser\n`);
 }
 
 main().catch(error => {
