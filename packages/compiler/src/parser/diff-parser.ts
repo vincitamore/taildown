@@ -86,7 +86,7 @@ function extractBeforeAfter(node: ContainerDirectiveNode): DiffBlock | null {
   // Find code blocks labeled as "before" and "after"
   visit(node, 'code', (codeNode: Code) => {
     // Check if code node has meta field indicating before/after
-    const meta = (codeNode as any).meta || '';
+    const meta = codeNode.meta || '';
     const lang = codeNode.lang || '';
 
     // For code blocks, check if lang is "before" or "after" (label)
@@ -96,14 +96,14 @@ function extractBeforeAfter(node: ContainerDirectiveNode): DiffBlock | null {
       // Language might be in meta or a variant attribute
     } else if (lang === 'after' || meta.includes('after')) {
       afterCode = codeNode.value;
-    } else if (!beforeCode) {
+    } else if (beforeCode === null) {
       // First code block is "before" (implicit)
       beforeCode = codeNode.value;
       // Extract language from the actual language field
       if (lang && lang !== 'before' && lang !== 'after') {
         language = lang;
       }
-    } else if (beforeCode && !afterCode) {
+    } else if (beforeCode !== null && afterCode === null) {
       // Second code block is "after" (implicit)
       afterCode = codeNode.value;
       // Extract language from the actual language field
@@ -113,7 +113,7 @@ function extractBeforeAfter(node: ContainerDirectiveNode): DiffBlock | null {
     }
   });
 
-  if (beforeCode && afterCode) {
+  if (beforeCode !== null && afterCode !== null) {
     return {
       before: beforeCode,
       after: afterCode,
@@ -149,7 +149,7 @@ export function parseDiff() {
         node.data.hProperties['data-component'] = 'diff';
         
         // Mark this code block to be handled by our custom handler
-        (node as any).isDiff = true;
+        node.isDiff = true;
       }
     });
 
