@@ -7,6 +7,7 @@
 
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
+import type { Root } from 'hast';
 import { getLucideIconElements, hasLucideIcon } from './lucide-icons';
 
 /**
@@ -73,16 +74,17 @@ function getStrokeWidth(classes: string[]): number {
  * 
  * @returns unified transformer
  */
-export const renderIcons: Plugin = () => {
-  return (tree: any) => {
-    visit(tree, 'element', (node: any) => {
+export const renderIcons: Plugin<[], Root> = () => {
+  return (tree: Root) => {
+    visit(tree, 'element', (node) => {
       // Only process SVG elements with data-icon attribute
-      if (node.tagName !== 'svg' || !node.properties?.['data-icon']) {
+      if (node.tagName !== 'svg' || typeof node.properties['data-icon'] !== 'string' || !node.properties['data-icon']) {
         return;
       }
 
       const iconName = node.properties['data-icon'];
-      const classes = node.properties.className || [];
+      const className = node.properties.className;
+      const classes = typeof className === 'string' ? className.split(/\s+/).filter(Boolean) : Array.isArray(className) ? className.filter((value): value is string => typeof value === 'string') : [];
 
       // Check if icon exists
       if (!hasLucideIcon(iconName)) {
