@@ -671,6 +671,8 @@ Even more content
 
 ## Carousel {#carousel bold primary}
 
+Use `{autoplay}` for automatic advancement every five seconds. A visible Play/Pause control lets readers stop it. Hover temporarily pauses playback; keyboard focus pauses it until Play is chosen again. Reduced-motion preference starts the carousel paused, and hidden tabs do not advance.
+
 **Slideshow with navigation, indicators, and 3D card effects.**
 
 ### Feature Showcase {bold}

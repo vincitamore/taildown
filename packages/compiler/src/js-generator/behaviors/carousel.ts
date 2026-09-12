@@ -160,17 +160,30 @@ getComponents('carousel').forEach(carousel => {
   carousel.style.cursor = 'grab';
   
   // Auto-play
-  if (autoPlay) {
-    autoPlayInterval = setInterval(next, interval);
-    
-    // Pause on hover
-    carousel.addEventListener('mouseenter', () => {
+  if (autoPlay && slides.length > 1) {
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let paused = motion.matches;
+    let hovered = false;
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'carousel-play-toggle';
+    carousel.appendChild(toggle);
+    function syncPlayback() {
       clearInterval(autoPlayInterval);
+      autoPlayInterval = null;
+      toggle.textContent = paused ? 'Play' : 'Pause';
+      toggle.setAttribute('aria-label', paused ? 'Start automatic slides' : 'Pause automatic slides');
+      if (!paused && !hovered && !document.hidden) autoPlayInterval = setInterval(next, interval);
+    }
+    toggle.addEventListener('click', () => { paused = !paused; syncPlayback(); });
+    carousel.addEventListener('mouseenter', () => { hovered = true; syncPlayback(); });
+    carousel.addEventListener('mouseleave', () => { hovered = false; syncPlayback(); });
+    carousel.addEventListener('focusin', event => {
+      if (event.target !== toggle) { paused = true; syncPlayback(); }
     });
-    
-    carousel.addEventListener('mouseleave', () => {
-      autoPlayInterval = setInterval(next, interval);
-    });
+    document.addEventListener('visibilitychange', syncPlayback);
+    motion.addEventListener('change', () => { if (motion.matches) paused = true; syncPlayback(); });
+    syncPlayback();
   }
   
   // Initialize

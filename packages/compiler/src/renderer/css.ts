@@ -598,6 +598,21 @@ export function generateCSS(classes: Set<string>, minify: boolean = false, confi
   // Add base reset/normalization
   cssRules.push(`
 /* Taildown Generated Styles */
+.carousel-play-toggle {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 2;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--background);
+  color: var(--foreground);
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.carousel-play-toggle:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 *, ::before, ::after {
   box-sizing: border-box;
   border-width: 0;
@@ -5480,12 +5495,20 @@ mark,
 .carousel-prev,
 .carousel-next {
   position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 10;
   background: var(--background);
+  color: var(--foreground);
   border: 1px solid var(--border);
   cursor: pointer;
   outline: none;
 }
+.carousel-prev { left: 1rem; }
+.carousel-next { right: 1rem; }
+.carousel-prev:focus-visible,
+.carousel-next:focus-visible,
+.carousel-indicator:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 
 .carousel-prev:hover,
 .carousel-next:hover {

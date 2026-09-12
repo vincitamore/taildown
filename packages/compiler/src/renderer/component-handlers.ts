@@ -950,7 +950,8 @@ export function renderCarousel(state: State, node: ContainerDirectiveNode): Elem
     tagName: 'div',
     properties: {
       className: existingClasses,
-      'data-component': dataComponent
+      'data-component': dataComponent,
+      ...(node.data?.component?.attributes.includes('autoplay') ? {'data-autoplay': ''} : {}),
     },
     children: [
       {
