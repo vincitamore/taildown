@@ -485,14 +485,14 @@
     [data-theme="dark"] #command-palette { background: #1f2937; color: #f9fafb; border-color: #4b5563; }
 
     #slash-menu {
-      position: absolute;
+      position: fixed;
       z-index: 1000;
       background: white;
       border: 1px solid var(--border-color);
       border-radius: 8px;
       box-shadow: var(--shadow-xl);
-      max-width: 320px;
-      max-height: 400px;
+      width: min(320px, calc(100vw - 16px));
+      max-height: min(400px, calc(100vh - 16px));
       overflow-y: auto;
       display: none;
     }
@@ -1191,15 +1191,9 @@ Browser recovery keeps your latest draft when storage is available. Save or down
         slashMenu.append(empty);
       }
 
-      // Position menu
-      const coords = editor.coordsAtPos(editor.state.selection.main.head);
-      if (coords) {
-        slashMenu.style.left = `${coords.left}px`;
-        slashMenu.style.top = `${coords.bottom + 5}px`;
-      }
-
       slashMenu.classList.add('active');
       slashMenuActive = true;
+      positionSlashMenu();
 
       // Add click handlers
       slashMenu.querySelectorAll('[data-index]').forEach((item, index) => {
@@ -1208,6 +1202,24 @@ Browser recovery keeps your latest draft when storage is available. Save or down
         });
       });
     }
+
+    function positionSlashMenu() {
+      if (!slashMenuActive) return;
+      const coords = editor.coordsAtPos(editor.state.selection.main.head);
+      if (!coords) return;
+      const viewport = document.defaultView;
+      const rect = slashMenu.getBoundingClientRect();
+      const left = Math.max(8, Math.min(coords.left, viewport.innerWidth - rect.width - 8));
+      const below = coords.bottom + 5;
+      const preferredTop = below + rect.height <= viewport.innerHeight - 8
+        ? below : coords.top - rect.height - 5;
+      const top = Math.max(8, Math.min(preferredTop, viewport.innerHeight - rect.height - 8));
+      slashMenu.style.left = `${left}px`;
+      slashMenu.style.top = `${top}px`;
+    }
+
+    document.defaultView.addEventListener('resize', positionSlashMenu);
+    document.addEventListener('scroll', positionSlashMenu, true);
 
     function hideSlashMenu() {
       slashMenu.classList.remove('active');
