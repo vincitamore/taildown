@@ -143,6 +143,11 @@ export function generateGlassmorphismCSS(): string {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Surface foreground is a default; authored text utilities take precedence. */
+:where(.dark .glass-subtle, .dark .glass-light, .dark .glass-medium, .dark .glass-heavy) {
+  color: var(--foreground);
+}
+
 /* Glass intensity variants - each includes full effect with premium gradient borders */
 .glass-subtle {
   -webkit-backdrop-filter: blur(4px) saturate(100%);
@@ -172,7 +177,7 @@ export function generateGlassmorphismCSS(): string {
     0 4px 6px -1px rgba(0, 0, 0, 0.3), 
     0 2px 4px -1px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
-  color: #e7e9ea;
+
 }
 
 .glass-light {
@@ -203,7 +208,7 @@ export function generateGlassmorphismCSS(): string {
     0 10px 15px -3px rgba(0, 0, 0, 0.3), 
     0 4px 6px -2px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
-  color: #e7e9ea;
+
 }
 
 .glass-medium {
@@ -234,7 +239,7 @@ export function generateGlassmorphismCSS(): string {
     0 20px 25px -5px rgba(0, 0, 0, 0.3), 
     0 10px 10px -5px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
-  color: #e7e9ea;
+
 }
 
 .glass-heavy {
@@ -269,7 +274,7 @@ export function generateGlassmorphismCSS(): string {
     0 25px 50px -12px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
     inset 0 0 20px 0 rgba(255, 255, 255, 0.02);
-  color: #e7e9ea;
+
 }
 
 .glass-extreme {

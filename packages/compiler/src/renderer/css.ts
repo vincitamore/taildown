@@ -677,6 +677,11 @@ a {
   text-decoration: none;
 }
 
+/* Linked containers retain their surrounding theme; explicit color utilities win. */
+:where(a.taildown-component) {
+  color: inherit;
+}
+
 /* Regular plain text links (no classes) - for documentation links only */
 :where(p, li, td, th) > a:not([class]) {
   color: var(--link);
