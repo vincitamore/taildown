@@ -2,8 +2,8 @@
  * Compile command implementation
  */
 
-import { mkdir, readFile, writeFile } from 'fs/promises';
-import { resolve, basename, extname, dirname, join, relative, sep } from 'path';
+import { mkdir, readFile, realpath, stat, writeFile } from 'fs/promises';
+import { resolve, basename, extname, dirname, join, relative, sep, isAbsolute } from 'path';
 import { compile } from '@taildown/compiler';
 import type { CompileOptions } from '@taildown/shared';
 
@@ -13,6 +13,42 @@ interface CompileCommandOptions {
   js?: string;
   separate?: boolean;
   minify?: boolean;
+}
+
+// Resolve existing ancestors as well as files, so symlinked directories cannot
+// disguise two destinations that refer to the same file.
+async function canonicalPath(file: string): Promise<string> {
+  try {
+    return await realpath(file);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+    const parent = dirname(file);
+    if (parent === file) throw error;
+    return join(await canonicalPath(parent), basename(file));
+  }
+}
+
+async function validateDestinations(input: string, outputs: string[]): Promise<void> {
+  const files = await Promise.all([input, ...outputs].map(async file => {
+    const canonical = await canonicalPath(file);
+    const info = await stat(file).catch(error => {
+      if (error.code !== 'ENOENT') throw error;
+      return null;
+    });
+    if (info && !info.isFile()) throw new Error(`Output must be a file: ${file}`);
+    return { file, key: process.platform === 'win32' ? canonical.toLowerCase() : canonical, info };
+  }));
+  for (const [i, a] of files.entries()) {
+    for (const [j, b] of files.slice(0, i).entries()) {
+      const sameInode = a.info && b.info && a.info.ino !== 0 && a.info.dev === b.info.dev && a.info.ino === b.info.ino;
+      if (a.key === b.key || sameInode) {
+        throw new Error(`Output path conflicts with ${j === 0 ? 'source' : 'another output'}: ${a.file}`);
+      }
+      if (a.key.startsWith(b.key + sep) || b.key.startsWith(a.key + sep)) {
+        throw new Error(`File and directory paths conflict: ${a.file} and ${b.file}`);
+      }
+    }
+  }
 }
 
 export async function compileCommand(
@@ -36,7 +72,11 @@ export async function compileCommand(
     const outputBase = basename(outputHtml, extname(outputHtml));
     const outputCss = resolve(options.css || join(outputDir, `${outputBase}.css`));
     const outputJs = resolve(options.js || join(outputDir, `${outputBase}.js`));
-    const assetURL = (file: string) => relative(outputDir, file).split(sep).map(encodeURIComponent).join('/');
+    const assetURL = (file: string) => {
+      const assetPath = relative(outputDir, file);
+      if (isAbsolute(assetPath)) throw new Error('Separate assets must be on the same filesystem volume as the HTML output');
+      return assetPath.split(sep).map(encodeURIComponent).join('/');
+    };
 
     // Compile - inline by default, separate only if --separate flag is used
     const shouldInline = !options.separate;
@@ -44,11 +84,15 @@ export async function compileCommand(
       inlineStyles: shouldInline,
       inlineScripts: shouldInline,
       minify: options.minify,
-      cssFilename: assetURL(outputCss),
-      jsFilename: assetURL(outputJs),
+      cssFilename: shouldInline ? undefined : assetURL(outputCss),
+      jsFilename: shouldInline ? undefined : assetURL(outputJs),
     };
 
     const result = await compile(source, compileOptions);
+
+    // Validate the complete write set before touching any destination.
+    await validateDestinations(inputPath, [outputHtml, ...(options.separate
+      ? [outputCss, ...(result.js ? [outputJs] : [])] : [])]);
 
     // Write HTML
     const htmlPath = resolve(outputHtml);
