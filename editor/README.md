@@ -89,6 +89,7 @@ To distribute the offline editor, share `editor/dist/editor.html`. To host the s
 - `editor/index.html`: UI, CodeMirror setup, preview and file operations.
 - `editor/authoring.ts`: typed autocomplete shared by the editor and its tests.
 - `editor/icons.ts`: toolbar and completion SVG rendering from compiler-supplied icon data.
+- `editor/files.ts`: open/save/download/export operations, document identity checks, and per-handle write queues.
 - `editor/design-settings.js`: design JSON validation and persistence.
 - `editor/draft-store.js`: atomic browser recovery snapshots and storage-failure handling.
 - `editor/compiler-client.js`: background requests, settings snapshots, error handling, and worker-unavailable fallback.

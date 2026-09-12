@@ -896,6 +896,7 @@
     import {createCompilerClient} from './compiler-client.js';
     import {createTaildownAutocomplete} from './authoring.ts';
     import {createIconRenderer} from './icons.ts';
+    import {createFileOperations} from './files.ts';
     import {createDraftStore} from './draft-store.js';
     import {createDesignSettings, typographyChoices, prepareTypography, parseDesignSettings} from './design-settings.js';
     
@@ -990,10 +991,11 @@ Browser recovery keeps your latest draft when storage is available. Save or down
     // State
     let editor;
     let currentFilename = 'untitled.td';
-    let currentFileHandle = null;
-    let documentVersion = 0;
-    let openRequestVersion = 0;
-    const pendingFileWrites = new WeakMap();
+    const fileState = {
+      get filename() { return currentFilename; },
+      set filename(value) { currentFilename = value; },
+      handle: null, documentVersion: 0,
+    };
     let updateTimeout = null;
 
     let slashMenuActive = false;
@@ -1863,205 +1865,12 @@ Browser recovery keeps your latest draft when storage is available. Save or down
       }
     }
 
-    // New document
-    function newDocument() {
-      if (confirm('Create new document? Any unsaved changes will be lost.')) {
-        documentVersion++;
-        // Start with a truly blank document
-        const blankContent = '# New Document\n\n';
-        editor.dispatch({
-          changes: { from: 0, to: editor.state.doc.length, insert: blankContent }
-        });
-        currentFilename = 'untitled.td';
-        currentFileHandle = null;
-        filenameDisplay.textContent = filenameDisplay.title = currentFilename;
-        draftStore.save(blankContent, currentFilename);
-      }
-    }
-
-    // Show welcome template
-    function showTemplate() {
-      const currentContent = editor.state.doc.toString();
-      const hasContent = currentContent.trim().length > 0 && currentContent !== '# New Document\n\n';
-      
-      if (hasContent && !confirm('Load welcome template? Any unsaved changes will be lost.')) {
-        return;
-      }
-      documentVersion++;
-      
-      editor.dispatch({
-        changes: { from: 0, to: editor.state.doc.length, insert: DEFAULT_TEMPLATE }
-      });
-      currentFilename = 'welcome.td';
-      currentFileHandle = null;
-      filenameDisplay.textContent = filenameDisplay.title = currentFilename;
-      // Don't clear localStorage - this is just a preview
-    }
-
-    // Open file
-    async function openFile() {
-      const version = documentVersion;
-      const requestVersion = ++openRequestVersion;
-      const originalDocument = editor.state.doc;
-      const acceptFile = async (file, fileHandle = null) => {
-        try {
-          const content = await file.text();
-          if (version !== documentVersion || requestVersion !== openRequestVersion) return;
-          if (editor.state.doc !== originalDocument) {
-            statusBar.textContent = 'File not opened: the document changed while opening. Try again.';
-            statusBar.className = 'error';
-            return;
-          }
-          documentVersion++;
-          currentFileHandle = fileHandle;
-          currentFilename = file.name;
-          filenameDisplay.textContent = filenameDisplay.title = currentFilename;
-          editor.dispatch({changes: {from: 0, to: editor.state.doc.length, insert: content}});
-          statusBar.textContent = `✓ Opened ${currentFilename}`;
-          statusBar.className = 'success';
-        } catch (error) {
-          if (version !== documentVersion || requestVersion !== openRequestVersion) return;
-          statusBar.textContent = `✗ Error opening file: ${error.message}`;
-          statusBar.className = 'error';
-        }
-      };
-      try {
-        if ('showOpenFilePicker' in window) {
-          // Modern File System API
-          const [fileHandle] = await window.showOpenFilePicker({
-            types: [{
-              description: 'Taildown Files',
-              accept: { 'text/plain': ['.td', '.tdown', '.taildown'] }
-            }],
-            multiple: false
-          });
-          const file = await fileHandle.getFile();
-          await acceptFile(file, fileHandle);
-        } else {
-          // Fallback: traditional file input
-          const input = document.createElement('input');
-          input.type = 'file';
-          input.accept = '.td,.tdown,.taildown';
-          input.onchange = async (e) => {
-            const file = e.target.files[0];
-            if (file) {
-              await acceptFile(file);
-            }
-          };
-          input.click();
-        }
-      } catch (error) {
-        if (version !== documentVersion || requestVersion !== openRequestVersion) return;
-        if (error.name !== 'AbortError') {
-          statusBar.textContent = `✗ Error opening file: ${error.message}`;
-          statusBar.className = 'error';
-          console.error('Error opening file:', error);
-        }
-      }
-    }
-
-    // Save file
-    async function writeFileSnapshot(fileHandle, content) {
-      const previous = pendingFileWrites.get(fileHandle) || Promise.resolve();
-      const pending = previous.catch(() => {}).then(async () => {
-        const writable = await fileHandle.createWritable();
-        await writable.write(content);
-        await writable.close();
-      });
-      pendingFileWrites.set(fileHandle, pending);
-      try {
-        await pending;
-      } finally {
-        if (pendingFileWrites.get(fileHandle) === pending) pendingFileWrites.delete(fileHandle);
-      }
-    }
-
-    async function saveFile() {
-      const version = documentVersion;
-      const filename = currentFilename;
-      const existingHandle = currentFileHandle;
-      try {
-        const content = editor.state.doc.toString();
-        
-        if (existingHandle && 'createWritable' in existingHandle) {
-          // File System API save
-          await writeFileSnapshot(existingHandle, content);
-          if (version !== documentVersion) return;
-          statusBar.textContent = `✓ Saved ${currentFilename}`;
-          statusBar.className = 'success';
-        } else if ('showSaveFilePicker' in window) {
-          // Show save dialog
-          const fileHandle = await window.showSaveFilePicker({
-            types: [{
-              description: 'Taildown Files',
-              accept: { 'text/plain': ['.td'] }
-            }],
-            suggestedName: filename
-          });
-          if (version !== documentVersion) return;
-          await writeFileSnapshot(fileHandle, content);
-          if (version !== documentVersion) return;
-          currentFileHandle = fileHandle;
-          currentFilename = fileHandle.name;
-          filenameDisplay.textContent = filenameDisplay.title = currentFilename;
-          statusBar.textContent = `✓ Saved ${currentFilename}`;
-          statusBar.className = 'success';
-        } else {
-          // Fallback: download
-          downloadFile(content, filename);
-        }
-        
-        // Browser recovery failure must not turn a successful file write into an error.
-        draftStore.save(editor.state.doc.toString(), currentFilename);
-        if (content !== editor.state.doc.toString()) statusBar.textContent += ' (newer edits remain)';
-      } catch (error) {
-        if (version !== documentVersion) return;
-        if (error.name !== 'AbortError') {
-          statusBar.textContent = `✗ Error saving: ${error.message}`;
-          statusBar.className = 'error';
-          console.error('Error saving file:', error);
-        }
-      }
-    }
-
-    // Download file
-    function downloadFile(content, filename, mimeType = 'text/plain;charset=utf-8') {
-      const blob = new Blob([content], { type: mimeType });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      a.click();
-      URL.revokeObjectURL(url);
-      statusBar.textContent = `✓ Downloaded ${filename}`;
-      statusBar.className = 'success';
-    }
-
-    // Export HTML
-    async function exportHTML() {
-      const filename = currentFilename;
-      try {
-        const source = editor.state.doc.toString();
-        
-        
-        const result = await compile(source, {
-          ...designSettings.options,
-          inlineStyles: true,
-          inlineScripts: true,
-          darkMode: true,
-        });
-        
-        const htmlFilename = /\.(?:td|tdown|taildown)$/i.test(filename)
-          ? filename.replace(/\.(?:td|tdown|taildown)$/i, '.html') : filename + '.html';
-        downloadFile(result.html, htmlFilename, 'text/html;charset=utf-8');
-        statusBar.textContent = `✓ Exported ${htmlFilename}`;
-        statusBar.className = 'success';
-      } catch (error) {
-        statusBar.textContent = `✗ Export failed: ${error.message}`;
-        statusBar.className = 'error';
-        console.error('Export error:', error);
-      }
-    }
+    // New document and file operations
+    const {newDocument, showTemplate, openFile, saveFile, downloadFile, exportHTML} = createFileOperations({
+      state: fileState, getEditor: () => editor, window, document, statusBar, filenameDisplay,
+      draftStore, compile, getDesignOptions: () => designSettings.options, URL,
+      confirm: message => confirm(message), DEFAULT_TEMPLATE,
+    });
 
     // Draggable divider
     const paneContainer = document.getElementById('editor-container');
