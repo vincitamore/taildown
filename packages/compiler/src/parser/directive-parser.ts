@@ -77,7 +77,7 @@ export const parseDirectives: Plugin<[{ warnings?: CompilationWarning[] }?], Roo
     };
 
     // Phase 1: Scan for markers
-    const { items } = scanForMarkers(tree.children);
+    const { items } = scanForMarkers(tree.children, String(file));
 
     // Phase 2: Build component tree
     const transformedChildren = buildComponentTree(
@@ -88,7 +88,7 @@ export const parseDirectives: Plugin<[{ warnings?: CompilationWarning[] }?], Roo
           return { type: 'content', node: item.node };
         }
       }),
-      { onWarning, endPosition: tree.position?.end }
+      { onWarning, endPosition: tree.position?.end, source: String(file) }
     );
 
     // Replace tree children with transformed content

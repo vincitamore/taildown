@@ -248,55 +248,15 @@
       }
     },
     {
-      "type": "containerDirective",
-      "name": "card",
+      "type": "paragraph",
       "children": [
         {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "Not a component fence"
-            }
-          ],
-          "data": {
-            "hProperties": {}
-          }
+          "type": "text",
+          "value": ":::card\nNot a component fence\n:::"
         }
       ],
-      "position": {
-        "start": {
-          "line": 19,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 19,
-          "column": 8,
-          "offset": 0
-        }
-      },
       "data": {
-        "hName": "div",
-        "hProperties": {
-          "className": [
-            "taildown-component",
-            "component-card",
-            "rounded-lg",
-            "p-6",
-            "max-w-full",
-            "overflow-x-hidden",
-            "overflow-wrap-normal",
-            "glass-effect",
-            "glass-subtle",
-            "shadow-sm"
-          ],
-          "data-component": "card"
-        },
-        "component": {
-          "name": "card",
-          "attributes": []
-        }
+        "hProperties": {}
       }
     },
     {

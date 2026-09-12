@@ -1,3 +1,4 @@
+import { textSlicePosition } from './text-position';
 /**
  * Hybrid Footnote Parser for Taildown
  * 
@@ -39,7 +40,8 @@ declare module 'mdast' {
  * Converts them to custom nodes for later rendering
  */
 export function parseFootnoteReferences() {
-  return (tree: Root): void => {
+  return (tree: Root, file?: { toString(): string }): void => {
+    const source = file?.toString();
     const footnoteMap = new Map<string, FootnoteData>();
     let footnoteCounter = 1;
 
@@ -70,6 +72,7 @@ export function parseFootnoteReferences() {
           newNodes.push({
             type: 'text',
             value: text.slice(lastIndex, match.index),
+            position: textSlicePosition(node, lastIndex, match.index, source),
           });
         }
 
@@ -89,6 +92,7 @@ export function parseFootnoteReferences() {
         // Create footnote reference node
         newNodes.push({
           type: 'footnoteReference',
+          position: textSlicePosition(node, match.index, match.index + match[0].length, source),
           identifier: id,
           label: id,
           number: footnoteData.number,
@@ -117,6 +121,7 @@ export function parseFootnoteReferences() {
         newNodes.push({
           type: 'text',
           value: text.slice(lastIndex),
+          position: textSlicePosition(node, lastIndex, text.length, source),
         });
       }
 

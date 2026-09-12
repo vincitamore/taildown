@@ -1,3 +1,4 @@
+import { textSlicePosition } from './text-position';
 /**
  * Math Parser
  * 
@@ -25,7 +26,8 @@ import temml from 'temml';
  * - $ anywhere else for inline math
  */
 export function remarkMath() {
-  return (tree: Root): void => {
+  return (tree: Root, file?: { toString(): string }): void => {
+    const source = file?.toString();
     // Visit text nodes directly (like footnote parser does)
     visit(tree, 'text', (node: Text, index, parent) => {
       if (!parent || index === undefined) return;
@@ -87,6 +89,7 @@ export function remarkMath() {
           newNodes.push({
             type: 'text',
             value: text.slice(lastIndex, mathMatch.start),
+            position: textSlicePosition(node, lastIndex, mathMatch.start, source),
           });
         }
         
@@ -107,6 +110,7 @@ export function remarkMath() {
         if (mathMatch.isDisplay) {
           newNodes.push({
             type: 'math',
+            position: textSlicePosition(node, mathMatch.start, mathMatch.end, source),
             value: mathMatch.latex,
             mathML: mathML, // Store MathML for custom handler
             data: {
@@ -120,6 +124,7 @@ export function remarkMath() {
         } else {
           newNodes.push({
             type: 'math',
+            position: textSlicePosition(node, mathMatch.start, mathMatch.end, source),
             value: mathMatch.latex,
             mathML: mathML, // Store MathML for custom handler
             data: {
@@ -140,6 +145,7 @@ export function remarkMath() {
         newNodes.push({
           type: 'text',
           value: text.slice(lastIndex),
+          position: textSlicePosition(node, lastIndex, text.length, source),
         });
       }
       
@@ -162,4 +168,3 @@ function escapeHtml(text: string): string {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
 }
-

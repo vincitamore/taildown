@@ -34,6 +34,7 @@ export function buildComponentTree(
   options?: {
     onWarning?: (message: string, line?: number) => void;
     endPosition?: import('unist').Point;
+    source?: string;
   }
 ): Content[] {
   const stack: ComponentFrame[] = [];
@@ -119,7 +120,7 @@ export function buildComponentTree(
       
       if (needsRecursion && item.node.type === 'paragraph') {
         // Scan for nested component markers within the paragraph
-        const scanned = scanForMarkers([item.node]);
+        const scanned = scanForMarkers([item.node], options?.source);
         
         if (scanned.markers.length > 0) {
           // Found nested components, recursively build their tree
@@ -263,4 +264,3 @@ export function validateComponentTree(nodes: Content[]): ValidationError[] {
 
   return errors;
 }
-

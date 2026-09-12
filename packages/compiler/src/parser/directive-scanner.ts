@@ -1,10 +1,12 @@
+import { decodeString } from 'micromark-util-decode-string';
+import { textSlicePosition } from './text-position';
 /**
  * Directive Scanner - Phase 1 of Custom Directive Parser
  * Scans MDAST for ::: markers and builds flat list
  * See CUSTOM-DIRECTIVE-PARSER-PLAN.md for algorithm details
  */
 
-import type { Content, Paragraph, Text } from 'mdast';
+import type { Content, Paragraph } from 'mdast';
 import type { ComponentMarker, ScanItem } from './directive-types';
 import { COMPONENT_NAME_REGEX, CLASS_NAME_REGEX } from '@taildown/shared';
 
@@ -29,423 +31,96 @@ const FENCE_CLOSE_REGEX = /^:::$/;
  * 
  * Returns an interleaved array of markers and content in document order
  */
-function extractMarkersFromParagraph(node: Paragraph): Array<{
+function extractMarkersFromParagraph(node: Paragraph, source?: string): Array<{
   type: 'marker' | 'content';
   marker?: ComponentMarker;
   contentNode?: Paragraph;
 }> {
-  const items: Array<{
-    type: 'marker' | 'content';
-    marker?: ComponentMarker;
-    contentNode?: Paragraph;
-  }> = [];
+  if (!node.position) return [];
+  const items: ReturnType<typeof extractMarkersFromParagraph> = [];
+  let children: Paragraph['children'] = [];
+  let foundMarker = false;
+  const sourceLines = source?.split('\n');
+  const offsets: number[] = [];
+  let offset = 0;
+  for (const line of sourceLines ?? []) { offsets.push(offset); offset += line.length + 1; }
+  const flush = () => {
+    // Newlines bordering a block fence separate blocks, not inline content.
+    const first = children[0];
+    const last = children[children.length - 1];
+    if (first?.type === 'text') {
+      const trimmed = first.value.replace(/^\r?\n/, '');
+      first.position = textSlicePosition(first, first.value.length - trimmed.length, first.value.length, source);
+      first.value = trimmed;
+    }
+    if (last?.type === 'text') {
+      const trimmed = last.value.replace(/\r?\n$/, '');
+      last.position = textSlicePosition(last, 0, trimmed.length, source);
+      last.value = trimmed;
+    }
+    children = children.filter(child => child.type !== 'text' || child.value.length > 0);
+    for (const child of children) if (child.type === 'text') child.value = child.value.replace(/\r\n/g, '\n');
+    if (children.some(child => child.type !== 'text' || child.value.trim())) {
+      items.push({type: 'content', contentNode: {
+        type: 'paragraph', children,
+        position: {start: children[0]?.position?.start ?? node.position!.start, end: children[children.length - 1]?.position?.end ?? node.position!.end},
+      }});
+    }
+    children = [];
+  };
+  node.children.forEach((child, childIndex) => {
+    if (child.type !== 'text' || !child.position) {
+      children.push(child.type === 'text' ? {...child} : child);
+      return;
+    }
+    const lines = child.value.split('\n');
+    const starts: number[] = [];
+    let cursor = 0;
+    for (const line of lines) { starts.push(cursor); cursor += line.length + 1; }
+    let content = '';
+    let startIndex = 0;
 
-  if (!node.position) {
-    return items;
-  }
-
-  // Check if this paragraph contains fence markers
-  // For simple paragraphs with single text node, process line by line
-  if (node.children.length === 1 && node.children[0]?.type === 'text') {
-    const textNode = node.children[0] as Text;
-    const lines = textNode.value.split(/\r?\n/);
-    
-    // Check if the FIRST line is a fence (no blank line before it)
-    const firstLine = lines[0]?.trim();
-    if (firstLine && (firstLine === ':::' || FENCE_OPEN_REGEX.test(firstLine))) {
-      // The paragraph STARTS with a fence - just return the markers, no content
-      return processLinesForMarkers(lines, node.position.start.line);
-    }
-    
-    return processLinesForMarkers(lines, node.position.start.line);
-  }
-
-  // For paragraphs with multiple children (formatted text), check for fences
-  // This handles cases like:
-  // - ** Alex Turner**, *Tech Lead*\n:::
-  // - [LinkedIn](#)  [Dribbble](#)\n:::
-  // - [Add to Cart](#){...}\n:::\n:::  (multiple fences)
-  // - :::breadcrumb {boxed}\n[Home](#) > Components\n::: (opening and closing fences with links)
-  
-  // First, check if the FIRST text node contains fence markers
-  // If the first text node has multiple lines with fences, process them all!
-  let hasOpeningFence = false;
-  let firstTextIndex = -1;
-  
-  for (let i = 0; i < node.children.length; i++) {
-    const child = node.children[i];
-    if (child && child.type === 'text') {
-      firstTextIndex = i;
-      const textValue = (child as Text).value;
-      const lines = textValue.split(/\r?\n/);
-      
-      // Check if ANY line contains fence markers
-      for (const line of lines) {
-        const trimmed = line.trim();
-        if (trimmed && (trimmed === ':::' || FENCE_OPEN_REGEX.test(trimmed))) {
-          hasOpeningFence = true;
-        }
-      }
-      break; // Stop after first text node
-    }
-  }
-  
-  // Then check if ANY text node (starting from end) contains CLOSING fence markers
-  // Note: We specifically check for closing fences (:::) not opening fences (:::component)
-  // to distinguish between paragraphs that are complete directives vs those that only start one
-  let foundFence = false;
-  let fenceChildIndex = -1;
-  
-  for (let i = node.children.length - 1; i >= 0; i--) {
-    const child = node.children[i];
-    if (child && child.type === 'text') {
-      const textValue = (child as Text).value;
-      // Check if this text contains fence markers (opening OR closing)
-      if (textValue.includes(':::')) {
-        // Check if it contains a closing fence (standalone :::)
-        const lines = textValue.split(/\r?\n/);
-        const hasClosingFence = lines.some(line => FENCE_CLOSE_REGEX.test(line.trim()));
-        if (hasClosingFence) {
-          foundFence = true;
-          fenceChildIndex = i;
-          break;
-        }
-        // If it only has opening fences, keep looking for closing ones
-      }
-    }
-  }
-  
-  // Special case: Opening fence in first text node AND closing fence in last text node
-  // This handles: :::component {attrs}\n[links and content]\n:::
-  if (hasOpeningFence && foundFence && firstTextIndex === 0 && fenceChildIndex === node.children.length - 1) {
-    const firstText = node.children[0] as Text;
-    const firstLines = firstText.value.split(/\r?\n/);
-    const lastText = node.children[fenceChildIndex] as Text;
-    const lastLines = lastText.value.split(/\r?\n/);
-    
-    // CRITICAL FIX: Check if first text node has MULTIPLE fences
-    let fenceCountFirst = 0;
-    for (const line of firstLines) {
-      const trimmed = line.trim();
-      if (trimmed && (trimmed === ':::' || FENCE_OPEN_REGEX.test(trimmed))) {
-        fenceCountFirst++;
-      }
-    }
-    
-    // Check if last text node has MULTIPLE fences
-    let fenceCountLast = 0;
-    for (const line of lastLines) {
-      const trimmed = line.trim();
-      if (trimmed && (trimmed === ':::' || FENCE_OPEN_REGEX.test(trimmed))) {
-        fenceCountLast++;
-      }
-    }
-    
-    // If either text node has multiple fences, process all lines properly
-    if (fenceCountFirst > 1 || fenceCountLast > 1) {
-      
-      // Process all fences from first text node
-      const firstNodeItems = processLinesForMarkers(firstLines, node.position.start.line);
-      
-      // Find where content starts in firstNodeItems (after last marker)
-      let lastMarkerIndexInFirst = -1;
-      for (let i = firstNodeItems.length - 1; i >= 0; i--) {
-        if (firstNodeItems[i]!.type === 'marker') {
-          lastMarkerIndexInFirst = i;
-          break;
-        }
-      }
-      
-      // Extract markers from first node, keep any trailing content
-      const firstMarkers = lastMarkerIndexInFirst >= 0 
-        ? firstNodeItems.slice(0, lastMarkerIndexInFirst + 1)
-        : [];
-      const firstTrailingContent = lastMarkerIndexInFirst >= 0 && lastMarkerIndexInFirst < firstNodeItems.length - 1
-        ? firstNodeItems[lastMarkerIndexInFirst + 1]
-        : null;
-      
-      // Process all fences from last text node
-      const lastNodeStartLine = lastText.position?.start.line ?? node.position.end.line - lastLines.length + 1;
-      const lastNodeItems = processLinesForMarkers(lastLines, lastNodeStartLine);
-      
-      // Find where markers start in lastNodeItems
-      let firstMarkerIndexInLast = -1;
-      for (let i = 0; i < lastNodeItems.length; i++) {
-        if (lastNodeItems[i]!.type === 'marker') {
-          firstMarkerIndexInLast = i;
-          break;
-        }
-      }
-      
-      // Extract any leading content and markers from last node
-      const lastLeadingContent = firstMarkerIndexInLast > 0
-        ? lastNodeItems[0]
-        : null;
-      const lastMarkers = firstMarkerIndexInLast >= 0
-        ? lastNodeItems.slice(firstMarkerIndexInLast)
-        : lastNodeItems;
-      
-      // Build result: markers from first node + combined content + markers from last node
-      const result = [...firstMarkers];
-      
-      // Combine all content: trailing from first + all middle children + leading from last
-      const contentChildren: any[] = [];
-      
-      // Add trailing content from first text node
-      if (firstTrailingContent && firstTrailingContent.type === 'content') {
-        contentChildren.push(...firstTrailingContent.contentNode!.children);
-      }
-      
-      // Add all middle children (formatted content like icons, links, bold, etc.)
-      for (let i = 1; i < node.children.length - 1; i++) {
-        contentChildren.push(node.children[i]);
-      }
-      
-      // Add leading content from last text node
-      if (lastLeadingContent && lastLeadingContent.type === 'content') {
-        contentChildren.push(...lastLeadingContent.contentNode!.children);
-      }
-      
-      // Add combined content as single paragraph if there's any content
-      if (contentChildren.length > 0) {
-        result.push({
-          type: 'content',
-          contentNode: {
-            type: 'paragraph',
-            children: contentChildren,
-          } as Paragraph,
-        });
-      }
-      
-      // Add markers from last node
-      result.push(...lastMarkers);
-      
-      return result;
-    }
-    
-    // Original logic for single fence per text node
-    const openingLine = firstLines[0]?.trim();
-    
-    if (openingLine && FENCE_OPEN_REGEX.test(openingLine)) {
-      // Extract closing fence from last text node
-      const closingLine = lastLines[lastLines.length - 1]?.trim();
-      
-      if (closingLine && FENCE_CLOSE_REGEX.test(closingLine)) {
-        // Parse opening marker
-        const openMarker = parseFenceLine(openingLine, node.position.start.line);
-        
-        // Parse closing marker (need to calculate line number)
-        const closingLineNumber = (lastText.position?.start.line ?? node.position.end.line - lastLines.length + 1) + lastLines.length - 1;
-        const closeMarker = parseFenceLine(closingLine, closingLineNumber);
-        
-        if (openMarker && closeMarker) {
-          // Build content from all children except the fence lines
-          const contentChildren: (Text | any)[] = [];
-          
-          // Add remaining text from first node (after opening fence)
-          if (firstLines.length > 1) {
-            const remainingFirst = firstLines.slice(1).join('\n');
-            if (remainingFirst.trim()) {
-              contentChildren.push({ type: 'text', value: remainingFirst } as Text);
-            }
-          }
-          
-          // Add all middle children (links, etc.)
-          for (let i = 1; i < fenceChildIndex; i++) {
-            contentChildren.push(node.children[i]);
-          }
-          
-          // Add text from last node (before closing fence)
-          if (lastLines.length > 1) {
-            const remainingLast = lastLines.slice(0, -1).join('\n');
-            if (remainingLast.trim()) {
-              contentChildren.push({ type: 'text', value: remainingLast } as Text);
-            }
-          }
-          
-          // Return opening marker, content paragraph, closing marker
-          const result: ReturnType<typeof extractMarkersFromParagraph> = [];
-          result.push({ type: 'marker', marker: openMarker });
-          
-          if (contentChildren.length > 0) {
-            result.push({
-              type: 'content',
-              contentNode: {
-                type: 'paragraph',
-                children: contentChildren,
-              } as Paragraph,
-            });
-          }
-          
-          result.push({ type: 'marker', marker: closeMarker });
-          return result;
-        }
-      }
-    }
-  }
-  
-  // Case: Opening fence at the start, but no closing fence in this paragraph
-  // Example: :::card {padded}\n:icon[check]{success} **Style Resolver Tests**
-  // The formatted content should be treated as content INSIDE the directive
-  if (hasOpeningFence && !foundFence && firstTextIndex === 0) {
-    const firstText = node.children[0] as Text;
-    const firstLines = firstText.value.split(/\r?\n/);
-    
-    // Check if the first text node has MULTIPLE fence lines
-    // If so, we need to process ALL of them, not just the first one!
-    let fenceCount = 0;
-    for (const line of firstLines) {
-      const trimmed = line.trim();
-      if (trimmed && (trimmed === ':::' || FENCE_OPEN_REGEX.test(trimmed))) {
-        fenceCount++;
-      }
-    }
-    
-    // CRITICAL FIX: If there are multiple fences in the first text node,
-    // process them all using processLinesForMarkers instead of just extracting the first line
-    if (fenceCount > 1) {
-      
-      // Process all lines in the first text node to extract all fence markers
-      const textNodeItems = processLinesForMarkers(firstLines, node.position.start.line);
-      
-      // Then handle remaining children (formatted content like links, bold, etc.)
-      const result = textNodeItems;
-      
-      // Add remaining children as content if there are any
-      if (node.children.length > 1) {
-        const contentChildren: (Text | any)[] = [];
-        for (let i = 1; i < node.children.length; i++) {
-          contentChildren.push(node.children[i]);
-        }
-        
-        if (contentChildren.length > 0) {
-          result.push({
-            type: 'content',
-            contentNode: {
-              type: 'paragraph',
-              children: contentChildren,
-            } as Paragraph,
-          });
-        }
-      }
-      
-      return result;
-    }
-    
-    // Original logic for single fence in first line
-    const openingLine = firstLines[0]?.trim();
-    
-    if (openingLine && FENCE_OPEN_REGEX.test(openingLine)) {
-      // Parse opening marker
-      const openMarker = parseFenceLine(openingLine, node.position.start.line);
-      
-      if (openMarker) {
-        // Build content from all children except the opening fence line
-        const contentChildren: (Text | any)[] = [];
-        
-        // Add remaining text from first node (after opening fence)
-        if (firstLines.length > 1) {
-          const remainingFirst = firstLines.slice(1).join('\n');
-          if (remainingFirst) {
-            contentChildren.push({ type: 'text', value: remainingFirst } as Text);
+    const flushText = () => {
+      if (content) {
+        const position = textSlicePosition(child, starts[startIndex]!, starts[startIndex]! + content.length, source);
+        if (position && sourceLines) {
+          for (const point of [position.start, position.end]) {
+            const offset = offsets[point.line - 1];
+            if (offset !== undefined) point.offset = offset + point.column - 1;
           }
         }
-        
-        // Add all remaining children (formatted text, links, etc.)
-        for (let i = 1; i < node.children.length; i++) {
-          contentChildren.push(node.children[i]);
-        }
-        
-        // Return opening marker and content paragraph
-        const result: ReturnType<typeof extractMarkersFromParagraph> = [];
-        result.push({ type: 'marker', marker: openMarker });
-        
-        if (contentChildren.length > 0) {
-          result.push({
-            type: 'content',
-            contentNode: {
-              type: 'paragraph',
-              children: contentChildren,
-              position: node.position,
-            } as Paragraph,
-          });
-        }
-        
-        return result;
+        children.push({...child, value: content, position});
       }
-    }
-  }
-  
-  // Original logic: fences at the end only
-  if (foundFence && fenceChildIndex >= 0) {
-    const fenceChild = node.children[fenceChildIndex] as Text;
-    const lines = fenceChild.value.split(/\r?\n/);
-    
-    // Process all lines to extract content and markers
-    const result = processLinesForMarkers(lines, fenceChild.position?.start.line ?? node.position.end.line - lines.length + 1);
-    
-    if (result.length > 0) {
-      // We found markers - need to clean the paragraph
-      const modifiedChildren = [...node.children];
-      
-      // Check if there's any content before the first marker
-      const firstItem = result[0];
-      if (firstItem && firstItem.type === 'content' && firstItem.contentNode) {
-        // Replace the text node with the cleaned content
-        const contentText = (firstItem.contentNode.children[0] as Text)?.value;
-        if (contentText && contentText.trim()) {
-          modifiedChildren[fenceChildIndex] = {
-            ...fenceChild,
-            value: contentText,
-          } as Text;
-          // Add the modified paragraph to items
-          items.push({
-            type: 'content',
-            contentNode: {
-              type: 'paragraph',
-              children: modifiedChildren,
-            } as Paragraph,
-          });
-          // Add remaining markers
-          for (let i = 1; i < result.length; i++) {
-            items.push(result[i]!);
-          }
-        } else {
-          // No content, remove the text node
-          modifiedChildren.splice(fenceChildIndex, 1);
-          if (modifiedChildren.length > 0) {
-            items.push({
-              type: 'content',
-              contentNode: {
-                type: 'paragraph',
-                children: modifiedChildren,
-              } as Paragraph,
-            });
-          }
-          // Add all markers
-          items.push(...result.filter(r => r.type === 'marker'));
-        }
+      content = '';
+    };
+    lines.forEach((line, index) => {
+      const mappedStart = textSlicePosition(child, starts[index]!, starts[index]!, source)?.start;
+      const lineNumber = mappedStart?.line ?? child.position!.start.line + index;
+      const previous = node.children[childIndex - 1];
+      const next = node.children[childIndex + 1];
+      const sharedLine = (index === 0 && previous?.position?.end.line === lineNumber && previous.position.end.column > 1)
+        || (index === lines.length - 1 && next?.position?.start.line === lineNumber);
+      const rawLine = sourceLines?.[lineNumber - 1];
+      const literalFence = rawLine === undefined || (rawLine.trimStart().startsWith(':::') && decodeString(rawLine.trim()) === line.trim());
+      const marker = sharedLine || !literalFence ? null : parseFenceLine(line.trim(), lineNumber);
+      if (marker) {
+        flushText();
+        flush();
+        foundMarker = true;
+        items.push({type: 'marker', marker});
       } else {
-        // No content before markers - just remove the text node if it only has fences
-        modifiedChildren.splice(fenceChildIndex, 1);
-        if (modifiedChildren.length > 0) {
-          items.push({
-            type: 'content',
-            contentNode: {
-              type: 'paragraph',
-              children: modifiedChildren,
-            } as Paragraph,
-          });
-        }
-        // Add all markers
-        items.push(...result);
-      }
-      
-      return items;
-    }
-  }
+        if (!content) startIndex = index;
 
-  return items;
+        content += line + (index < lines.length - 1 ? '\n' : '');
+      }
+    });
+    flushText();
+  });
+  flush();
+  return foundMarker ? items : [{type: 'content', contentNode: {
+    ...node,
+    children: node.children.map(child => child.type === 'text' ? {...child, value: child.value.replace(/\r\n/g, '\n')} : child),
+  }}];
 }
 
 function parseFenceLine(line: string, lineNumber: number): ComponentMarker | null {
@@ -478,7 +153,7 @@ function parseFenceLine(line: string, lineNumber: number): ComponentMarker | nul
       const trimmed = attributesStr.trim();
       
       // First, extract all key="value" pairs
-      const kvRegex = /(\w+)=["']([^"']+)["']/g;
+      const kvRegex = /(\w+)=["']([^"']*)["']/g;
       let cleanedStr = trimmed;
       let match;
       
@@ -522,147 +197,6 @@ function parseFenceLine(line: string, lineNumber: number): ComponentMarker | nul
   return null;
 }
 
-function processLinesForMarkers(lines: string[], startLineNumber: number): Array<{
-  type: 'marker' | 'content';
-  marker?: ComponentMarker;
-  contentNode?: Paragraph;
-}> {
-  const items: Array<{
-    type: 'marker' | 'content';
-    marker?: ComponentMarker;
-    contentNode?: Paragraph;
-  }> = [];
-
-  // Process lines and create interleaved markers and content
-  let lineNumber = startLineNumber;
-  let accumulatedContent: string[] = [];
-
-  const flushContent = () => {
-    if (accumulatedContent.length > 0) {
-      const contentText = accumulatedContent.join('\n').trim();
-      if (contentText) {
-        items.push({
-          type: 'content',
-          contentNode: {
-            type: 'paragraph',
-            children: [{ type: 'text', value: contentText }],
-          },
-        });
-      }
-      accumulatedContent = [];
-    }
-  };
-
-  for (const line of lines) {
-    const trimmed = line.trim();
-
-    // Check for close fence :::
-    if (FENCE_CLOSE_REGEX.test(trimmed)) {
-      flushContent(); // Flush any accumulated content before the marker
-      items.push({
-        type: 'marker',
-        marker: {
-          type: 'close',
-          position: {
-            start: { line: lineNumber, column: 1, offset: 0 },
-            end: { line: lineNumber, column: trimmed.length + 1, offset: 0 },
-          },
-          lineNumber,
-          originalText: trimmed,
-        },
-      });
-      lineNumber++;
-      continue;
-    }
-
-    // Check for open fence :::component-name
-    const openMatch = trimmed.match(FENCE_OPEN_REGEX);
-    if (openMatch) {
-      const name = openMatch[1];
-      const attributesStr = openMatch[2];
-      
-      // Validate component name
-      if (!name || !COMPONENT_NAME_REGEX.test(name)) {
-        // Invalid fence, treat as content
-        accumulatedContent.push(line);
-        lineNumber++;
-        continue;
-      }
-
-      // Extract attributes from the fence line
-      // Supports: {.class1 variant1 id="value" key="value"}
-      const classes: string[] = [];
-      const attributes: Record<string, string | null | undefined> = {};
-      
-      if (attributesStr) {
-        // Strategy: Parse character by character to handle key="value" pairs
-        let i = 0;
-        while (i < attributesStr.length) {
-          // Skip whitespace
-          while (i < attributesStr.length && /\s/.test(attributesStr[i]!)) {
-            i++;
-          }
-          
-          if (i >= attributesStr.length) break;
-          
-          // Check if this is a key-value pair (key="value" or key='value')
-          const kvMatch = attributesStr.substring(i).match(/^(\w+)=["']([^"']*)["']/);
-          if (kvMatch) {
-            attributes[kvMatch[1]!] = kvMatch[2];
-            i += kvMatch[0].length;
-            continue;
-          }
-          
-          // Otherwise, extract as a class/variant token
-          const tokenMatch = attributesStr.substring(i).match(/^([^\s]+)/);
-          if (tokenMatch) {
-            const token = tokenMatch[1]!;
-            if (CLASS_NAME_REGEX.test(token)) {
-              // CSS class with dot - strip the dot
-              classes.push(token.substring(1));
-            } else {
-              // Plain English / variant
-              classes.push(token);
-            }
-            i += token.length;
-          } else {
-            i++;
-          }
-        }
-      }
-
-      flushContent(); // Flush any accumulated content before the marker
-      
-      items.push({
-        type: 'marker',
-        marker: {
-          type: 'open',
-          name,
-          classes: classes.length > 0 ? classes : undefined,
-          attributes: Object.keys(attributes).length > 0 ? attributes : undefined,
-          position: {
-            start: { line: lineNumber, column: 1, offset: 0 },
-            end: { line: lineNumber, column: trimmed.length + 1, offset: 0 },
-          },
-          lineNumber,
-          originalText: trimmed,
-        },
-      });
-      lineNumber++;
-      continue;
-    }
-
-    // Regular content line
-    accumulatedContent.push(line);
-    lineNumber++;
-  }
-
-  // Flush any remaining content
-  flushContent();
-
-  return items;
-}
-
 /**
  * Check if content should be scanned for markers
  * Skip code blocks and inline code per SYNTAX.md §3.5.4
@@ -688,7 +222,7 @@ function shouldScanNode(node: Content): boolean {
  * @param nodes - Array of MDAST content nodes
  * @returns Object containing markers and content in document order
  */
-export function scanForMarkers(nodes: Content[]): {
+export function scanForMarkers(nodes: Content[], source?: string): {
   markers: ComponentMarker[];
   content: Content[];
   items: ScanItem[];
@@ -709,7 +243,7 @@ export function scanForMarkers(nodes: Content[]): {
 
     // Check if this paragraph contains fence markers
     if (node.type === 'paragraph') {
-      const extractedItems = extractMarkersFromParagraph(node);
+      const extractedItems = extractMarkersFromParagraph(node, source);
       
       if (extractedItems.length > 0) {
         // Add markers and content in their original order (interleaved)
@@ -738,7 +272,7 @@ export function scanForMarkers(nodes: Content[]): {
       for (const listItem of listNode.children) {
         if (listItem.type === 'listItem' && 'children' in listItem) {
           // Scan the list item's children for markers
-          const itemResults = scanForMarkers(listItem.children as Content[]);
+          const itemResults = scanForMarkers(listItem.children as Content[], source);
           
           if (itemResults.markers.length > 0) {
             // Found markers in this list item
@@ -902,4 +436,3 @@ export function extractFenceAttributes(attributeBlock: string): string[] {
 
   return classes;
 }
-
