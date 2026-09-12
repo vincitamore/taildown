@@ -1,10 +1,21 @@
 import { describe, expect, it } from 'vitest';
 import { runInNewContext } from 'node:vm';
+import { JSDOM } from 'jsdom';
 import { compile } from '../../index';
 
 const options = { inlineStyles: true, inlineScripts: true, darkMode: false, autoFix: false };
 
 describe('document export', () => {
+  it.each(['python', 'html', 'taildown', 'unknown-language', ''])('copies original code rather than highlighted entities: %s', async language => {
+    const source = '<tag title="café Ω"> &amp; &#x3C; & "a  b"\n    second line';
+    for (const minify of [false, true]) {
+      const result = await compile('```' + language + '\n' + source + '\n```', {...options, minify});
+      const dom = new JSDOM(result.html);
+      try {
+        expect(dom.window.document.querySelector('.code-copy-btn')?.getAttribute('data-code-text')).toBe(source);
+      } finally { dom.window.close(); }
+    }
+  });
   it('preserves code layout and clipboard text when minifying', async () => {
     const source = '```python\ndef greet():\n    # Keep this comment on its own line\n    return "a  b"\n```';
     const ordinary = await compile(source, options);

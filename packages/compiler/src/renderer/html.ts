@@ -272,8 +272,8 @@ export async function renderHTML(ast: TaildownRoot, minify: boolean = false): Pr
 
   // Convert HAST to HTML string
   const processor = unified()
+    .use(rehypeCopyCode) // Capture original text before highlighting replaces it with HTML
     .use(rehypeCodeMirror6) // CodeMirror6-based syntax highlighting
-    .use(rehypeCopyCode) // Add copy buttons to code blocks
     .use(renderIcons) // Render icon nodes as SVG
     .use(renderInlineBadges) // Render inline badge nodes
     .use(rehypeWrapTables) // Wrap tables in scrollable container
