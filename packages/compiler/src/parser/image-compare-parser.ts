@@ -40,7 +40,7 @@ export interface ImageCompareData {
  */
 export function parseImageCompare() {
   return (tree: Root): void => {
-    visit(tree, 'containerDirective', (node: any) => {
+    visit(tree, 'containerDirective', (node, index, parent) => {
       if (node.name !== 'compare-images') {
         return;
       }
@@ -51,11 +51,13 @@ export function parseImageCompare() {
       if (!imageData.before || !imageData.after) {
         // Invalid: missing required images
         // Transform to error message paragraph
-        node.type = 'paragraph';
-        node.children = [{
-          type: 'text',
-          value: '[Error: Image comparison requires both "before" and "after" images]'
-        }];
+        if (parent && index !== undefined) {
+          parent.children[index] = {
+            type: 'paragraph',
+            position: node.position,
+            children: [{type: 'text', value: '[Error: Image comparison requires both "before" and "after" images]'}],
+          };
+        }
         return;
       }
       
@@ -98,13 +100,13 @@ function extractImageData(node: ContainerDirectiveNode): ImageCompareData {
   const textContent: string[] = [];
   const images: Array<{ url: string; alt?: string }> = [];
   
-  visit(node, (child: any) => {
+  visit(node, (child) => {
     if (child.type === 'text') {
       textContent.push(child.value);
     } else if (child.type === 'image') {
       images.push({
         url: child.url,
-        alt: child.alt,
+        alt: child.alt ?? undefined,
       });
     }
   });

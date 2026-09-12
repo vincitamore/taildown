@@ -895,6 +895,7 @@
     import compilerSource from '../packages/compiler/dist/taildown-worker-source.js';
     import {createCompilerClient} from './compiler-client.js';
     import {createTaildownAutocomplete} from './authoring.ts';
+    import {createIconRenderer} from './icons.ts';
     import {createDraftStore} from './draft-store.js';
     import {createDesignSettings, typographyChoices, prepareTypography, parseDesignSettings} from './design-settings.js';
     
@@ -1116,33 +1117,8 @@ Browser recovery keeps your latest draft when storage is available. Save or down
     // Autocomplete data sources
     const iconData = await compile.getIconData();
     const authoringReference = await compile.getAuthoringReference(designSettings.options);
-    const iconNames = Object.keys(iconData);
-    const iconElements = new Map(Object.entries(iconData).map(([name, elements]) => [name.replace(/-/g, ''), elements]));
+    const {iconNames, lucideIcon, renderIconCompletion} = createIconRenderer(iconData, document);
 
-    // Use the compiler's SVG data for both authoring previews and toolbar icons.
-    function lucideIcon(iconName) {
-      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      const attributes = {
-        width: '16', height: '16', viewBox: '0 0 24 24', fill: 'none',
-        stroke: 'currentColor', 'stroke-width': '2',
-        'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'aria-hidden': 'true'
-      };
-      for (const [name, value] of Object.entries(attributes)) svg.setAttribute(name, value);
-      for (const [tag, properties] of iconElements.get(iconName.toLowerCase().replace(/-/g, '')) || []) {
-        const child = document.createElementNS('http://www.w3.org/2000/svg', tag);
-        for (const [name, value] of Object.entries(properties)) child.setAttribute(name, String(value));
-        svg.appendChild(child);
-      }
-      return svg.outerHTML;
-    }
-
-    function renderIconCompletion(completion) {
-      if (completion.info !== 'icon') return null;
-      const preview = document.createElement('span');
-      preview.className = 'autocomplete-icon';
-      preview.innerHTML = lucideIcon(completion.label);
-      return preview;
-    }
     // Slash command registry
     const slashCommands = [
       { name: 'Heading 1', icon: 'heading-1', insert: '# ', description: 'Large heading' },
