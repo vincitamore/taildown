@@ -101,6 +101,28 @@ const PAGE_METADATA = {
       siteName: 'Taildown'
     }
   },
+  'infinity-at-origin-v2.td': {
+    title: 'Infinity at the Origin - Taildown',
+    description: 'An example mathematical article exploring a hyperreal framework for dynamics across scales.',
+    openGraph: {
+      title: 'Infinity at the Origin - Taildown',
+      description: 'An example mathematical article exploring a hyperreal framework for dynamics across scales.',
+      type: 'article',
+      url: `${BASE_URL}/infinity-at-origin-v2.html`,
+      siteName: 'Taildown'
+    }
+  },
+  'principle-of-transformative-representation.td': {
+    title: 'The Principle of Transformative Representation - Taildown',
+    description: 'An example article about extending mathematical systems through changes of representation.',
+    openGraph: {
+      title: 'The Principle of Transformative Representation - Taildown',
+      description: 'An example article about extending mathematical systems through changes of representation.',
+      type: 'article',
+      url: `${BASE_URL}/principle-of-transformative-representation.html`,
+      siteName: 'Taildown'
+    }
+  },
   'vercel-deployment.td': {
     title: 'Vercel Deployment - Taildown',
     description: 'Learn how to deploy your Taildown documentation site to Vercel with automatic SSL and CDN.',
