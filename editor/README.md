@@ -26,7 +26,7 @@ For UI development, edit `editor/index.html`, `editor/design-settings.js`, or `e
 
 Preview compilation and browser draft recovery run after a one-second pause in typing. Actual compilation cost depends on the document and device; the status bar reports the latest compilation time.
 
-Compilation normally runs in a background worker so it does not block editing. If workers cannot start, the editor uses the same compiler on the main thread. Both paths support the complete offline editor.
+Compilation normally runs in a background worker so it does not block editing. The editor also obtains its icon previews from that worker, keeping a single copy of the complete icon library in the download. If workers cannot start, the editor uses the same compiler on the main thread. Both paths support the complete offline editor.
 
 ### Shortcuts
 

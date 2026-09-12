@@ -5,9 +5,7 @@
  * It includes CodeMirror 6 editor and all necessary dependencies bundled together.
  */
 
-export { getAuthoringReference } from './authoring-reference';
 export {isCodePosition} from './authoring-context';
-export { getAllLucideIconNames, getLucideIconElements } from './icons/lucide-icons';
 
 // Re-export syntax highlighting for CodeMirror 6
 export {

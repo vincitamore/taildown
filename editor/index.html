@@ -1084,7 +1084,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
       designMessage.textContent = 'Checking settings…';
       try {
         const saved = await designSettings.apply(designJSON.value, editor.state.doc.toString());
-        const reference = await Taildown.getAuthoringReference(designSettings.options);
+        const reference = await compile.getAuthoringReference(designSettings.options);
         Object.assign(authoringReference, reference);
         componentNames.splice(0, componentNames.length, ...reference.components.map(component => component.name));
         styleAttributes.splice(0, styleAttributes.length, ...reference.styles);
@@ -1115,10 +1115,12 @@ Browser recovery keeps your latest draft when storage is available. Save or down
     const bubbleMenu = document.getElementById('bubble-menu');
 
     // Autocomplete data sources
-    const authoringReference = await Taildown.getAuthoringReference(designSettings.options);
+    const iconData = await compile.getIconData();
+    const authoringReference = await compile.getAuthoringReference(designSettings.options);
     const componentNames = authoringReference.components.map(component => component.name);
     const styleAttributes = authoringReference.styles;
-    const iconNames = Taildown.getAllLucideIconNames();
+    const iconNames = Object.keys(iconData);
+    const iconElements = new Map(Object.entries(iconData).map(([name, elements]) => [name.replace(/-/g, ''), elements]));
 
     // Use the compiler's SVG data for both authoring previews and toolbar icons.
     function lucideIcon(iconName) {
@@ -1129,7 +1131,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
         'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'aria-hidden': 'true'
       };
       for (const [name, value] of Object.entries(attributes)) svg.setAttribute(name, value);
-      for (const [tag, properties] of Taildown.getLucideIconElements(iconName) || []) {
+      for (const [tag, properties] of iconElements.get(iconName.toLowerCase().replace(/-/g, '')) || []) {
         const child = document.createElementNS('http://www.w3.org/2000/svg', tag);
         for (const [name, value] of Object.entries(properties)) child.setAttribute(name, String(value));
         svg.appendChild(child);

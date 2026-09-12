@@ -9,7 +9,8 @@ const registry = source.slice(source.indexOf('    const iconNames ='), source.in
 const autocomplete = source.slice(source.indexOf('    // Helper to render autocomplete items'), source.indexOf('    // Bubble Menu'));
 function setup() {
   const document = new JSDOM('<body></body>').window.document;
-  const editor = new Function('Taildown', 'document', 'isCodePosition', registry + autocomplete + '\nreturn {iconNames, taildownAutocomplete, renderIconCompletion};')(icons, document, isCodePosition);
+  const iconData = Object.fromEntries(icons.getAllLucideIconNames().map(name => [name, icons.getLucideIconElements(name)]));
+  const editor = new Function('iconData', 'document', 'isCodePosition', registry + autocomplete + '\nreturn {iconNames, taildownAutocomplete, renderIconCompletion};')(iconData, document, isCodePosition);
   return {document, ...editor};
 }
 

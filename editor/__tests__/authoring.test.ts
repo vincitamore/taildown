@@ -10,7 +10,7 @@ const data = source.slice(source.indexOf('    const authoringReference ='), sour
 const code = source.slice(source.indexOf('    // Helper to render autocomplete items'), source.indexOf('    // Bubble Menu'));
 async function suggestions(input: string) {
   const reference = await getAuthoringReference();
-  const complete = new Function('reference', 'isCodePosition', data.replace('await Taildown.getAuthoringReference(designSettings.options)', 'reference') + code + '\nreturn taildownAutocomplete;')(reference, isCodePosition);
+  const complete = new Function('reference', 'isCodePosition', data.replace('await compile.getAuthoringReference(designSettings.options)', 'reference') + code + '\nreturn taildownAutocomplete;')(reference, isCodePosition);
   const from = input.lastIndexOf('\n') + 1;
   return complete({pos: input.length, matchBefore: () => null, state: {doc: {toString:()=>input, lineAt: () => ({text: input.slice(from), from})}}});
 }

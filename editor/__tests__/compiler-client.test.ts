@@ -13,7 +13,7 @@ function setup() {
     postMessage(message: any) { this.sent.push(message); }
     reply(data: any) { this.onmessage({data}); }
   }
-  const fallback = {setAssetBase:vi.fn(),compile:vi.fn(async (source: string) => source)};
+  const fallback = {setAssetBase:vi.fn(),compile:vi.fn(async (source: string) => source),getIconData:vi.fn(() => ({wave:[]}))};
   const environment = {Worker:FakeWorker,Blob,URL:{createObjectURL:()=> 'blob:compiler'},importCompiler:vi.fn(async()=>fallback)};
   const compile = createCompilerClient('source','https://example.test/',environment);
   return {compile,environment,fallback,worker:instances[0]!};
@@ -37,6 +37,27 @@ it('preserves compiler errors without switching execution modes', async () => {
   worker.reply({id:worker.sent[0].id,error:'Invalid theme: colors'});
   await expect(pending).rejects.toThrow('Invalid theme: colors');
   expect(environment.importCompiler).not.toHaveBeenCalled();
+});
+
+it('requests icon data separately from overlapping compilation', async () => {
+  const {compile,worker}=setup();
+  const icons=compile.getIconData(), document=compile('document');
+  await Promise.resolve();await Promise.resolve();
+  const iconRequest=worker.sent.find(request=>request.operation==='getIconData');
+  const documentRequest=worker.sent.find(request=>request.operation==='compile');
+  worker.reply({id:documentRequest.id,result:'compiled'});
+  worker.reply({id:iconRequest.id,result:{wave:[['path',{d:'M0 0'}]]}});
+  expect(await document).toBe('compiled');
+  expect(await icons).toEqual({wave:[['path',{d:'M0 0'}]]});
+});
+
+it('loads icons from the same fallback module after worker failure', async () => {
+  const {compile,worker,environment,fallback}=setup();
+  worker.onerror();
+  expect(await compile.getIconData()).toEqual({wave:[]});
+  expect(await compile('document')).toBe('document');
+  expect(fallback.getIconData).toHaveBeenCalledTimes(1);
+  expect(environment.importCompiler).toHaveBeenCalledTimes(1);
 });
 
 it('rejects interrupted requests and uses the shared module for later requests', async () => {
