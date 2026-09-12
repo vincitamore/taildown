@@ -10,6 +10,7 @@ import { generateGlassmorphismCSS } from '../themes/glassmorphism';
 import { generateAnimationCSS } from '../themes/animations';
 import { createThemeResolver } from '../themes/theme-resolver';
 import { getDefaultConfig } from '../config/default-config';
+import { PRINT_CSS } from './print';
 
 const DEFAULT_COLORS = getDefaultConfig().theme.colors;
 
@@ -6635,6 +6636,7 @@ li[role="doc-footnote"]:target {
 
 `);
 
+  cssRules.push(PRINT_CSS);
   const css = cssRules.join('\n');
 
   if (minify) {

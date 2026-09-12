@@ -420,7 +420,7 @@ export function renderTabs(state: State, node: ContainerDirectiveNode): Element 
       hidden: index !== 0,
       className: ['tab-panel']
     },
-    children: tab.content
+    children: [{type: 'element', tagName: 'h3', properties: {className: ['tab-print-label']}, children: tab.label.children}, ...tab.content]
   }));
   
   // Merge with existing classes from component definition

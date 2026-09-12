@@ -26,6 +26,7 @@ import { imageCompareBehavior } from './behaviors/image-compare';
 import { diffBehavior } from './behaviors/diff';
 import { footnoteBehavior } from './behaviors/footnote';
 import { taskListBehavior } from './behaviors/task-list';
+import { detailsBehavior } from './behaviors/details';
 
 /**
  * Component behavior definition
@@ -43,6 +44,7 @@ export interface ComponentBehavior {
  * Registry of all available component behaviors
  */
 const BEHAVIORS: Map<string, ComponentBehavior> = new Map([
+  ['details', detailsBehavior],
   ['tabs', tabsBehavior],
   ['accordion', accordionBehavior],
   ['modal', modalBehavior],

@@ -19,6 +19,8 @@
 
 Open the editor, replace the sample with your own document, and use **Export HTML** to save the compiled page. No installation is required.
 
+To print or save a PDF, open the exported HTML in your browser and choose **Print**. The print layout shows every tab panel, accordion answer, details section, and carousel slide; paused scroll animations are made visible. Long code wraps, controls are hidden, and the page uses dark text on white paper. Details panels return to their previous open/closed state afterward. Print the exported document rather than the editor interface; modal overlays and tooltips are not included.
+
 [Open the Live Editor](editor.html){button primary}
 
 Use **Save** to keep the editable Taildown source as well as your exported HTML.
