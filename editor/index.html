@@ -36,11 +36,11 @@
       --accent-glow: rgba(59, 130, 246, 0.2);
       
       /* Status colors */
-      --success: #10b981;
+      --success: #047857;
       --success-light: #d1fae5;
-      --error: #ef4444;
+      --error: #b91c1c;
       --error-light: #fee2e2;
-      --warning: #f59e0b;
+      --warning: #92400e;
       --warning-light: #fef3c7;
       
       /* Shadows - Layered depth */
@@ -257,8 +257,10 @@
     }
 
     #filename-display {
-      max-width: 100%;
-      overflow-wrap: anywhere;
+      max-width: min(20rem, 100%);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       color: var(--text-secondary);
       font-size: 14px;
       margin-left: 4px;
@@ -1756,7 +1758,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
           });
           if (saved.filename) {
             currentFilename = saved.filename;
-            filenameDisplay.textContent = currentFilename;
+            filenameDisplay.textContent = filenameDisplay.title = currentFilename;
           }
           // The editor's update listener will trigger updatePreview, so don't call it here
         } else {
@@ -1862,7 +1864,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
         });
         currentFilename = 'untitled.td';
         currentFileHandle = null;
-        filenameDisplay.textContent = currentFilename;
+        filenameDisplay.textContent = filenameDisplay.title = currentFilename;
         draftStore.save(blankContent, currentFilename);
       }
     }
@@ -1882,7 +1884,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
       });
       currentFilename = 'welcome.td';
       currentFileHandle = null;
-      filenameDisplay.textContent = currentFilename;
+      filenameDisplay.textContent = filenameDisplay.title = currentFilename;
       // Don't clear localStorage - this is just a preview
     }
 
@@ -1903,7 +1905,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
           documentVersion++;
           currentFileHandle = fileHandle;
           currentFilename = file.name;
-          filenameDisplay.textContent = currentFilename;
+          filenameDisplay.textContent = filenameDisplay.title = currentFilename;
           editor.dispatch({changes: {from: 0, to: editor.state.doc.length, insert: content}});
           statusBar.textContent = `✓ Opened ${currentFilename}`;
           statusBar.className = 'success';
@@ -1991,7 +1993,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
           if (version !== documentVersion) return;
           currentFileHandle = fileHandle;
           currentFilename = fileHandle.name;
-          filenameDisplay.textContent = currentFilename;
+          filenameDisplay.textContent = filenameDisplay.title = currentFilename;
           statusBar.textContent = `✓ Saved ${currentFilename}`;
           statusBar.className = 'success';
         } else {
