@@ -308,7 +308,7 @@ export async function registerStandardComponents(): Promise<void> {
   registry.register(codeDiffComponent);
   registry.register(mermaidComponent);
   registry.register(timelineComponent);
-  // Footnote structure is built by its parser; registering it keeps validation,
+  // Native Markdown builds footnotes; this legacy wrapper keeps validation,
   // linting and component rendering aligned on the supported directive name.
   registry.register(defineComponent({
     name: 'footnotes',

@@ -21,7 +21,6 @@ import { parseVideoEmbeds } from './video-parser';
 import { parseTableAttributes } from './table-parser';
 import { parseImageCompare } from './image-compare-parser';
 import { parseDiff } from './diff-parser';
-import { parseFootnoteReferences, parseFootnoteDefinitions } from './footnote-parser';
 import { remarkMath } from './math-parser';
 import { parseTimeline } from './timeline-parser';
 import { registryInitialized } from '../components/component-registry';
@@ -70,10 +69,8 @@ export async function parseWithWarnings(source: string, options: ParseOptions = 
     .use(recognizeFenceBlocks)
     .use(parseEnhancedTaskList) // Enhance GFM task lists with priorities, assignees, states
     .use(remarkMath) // Parse LaTeX math equations ($...$ and $$...$$)
-    .use(parseFootnoteReferences) // Parse [^id] references
     .use(parseTableAttributes, {styleMappings}) // Parse table attributes
     .use(parseDirectives, { warnings }) // Custom component directive parser
-    .use(parseFootnoteDefinitions) // Parse :::footnotes container
     .use(parseImageCompare) // Parse image comparison components
     .use(parseDiff) // Parse code diff blocks (unified and side-by-side)
     .use(parseIcons, { warnings, resolverContext }) // Parse icon syntax
