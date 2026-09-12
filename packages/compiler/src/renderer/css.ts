@@ -5,6 +5,7 @@
 
 import { visit } from 'unist-util-visit';
 import type { TaildownRoot, TaildownNodeData } from '@taildown/shared';
+import type {Nodes as HastNode} from 'hast';
 import { generateIconCSS } from '../icons/icon-renderer';
 import { generateGlassmorphismCSS } from '../themes/glassmorphism';
 import { generateAnimationCSS } from '../themes/animations';
@@ -522,11 +523,11 @@ export function collectClasses(ast: TaildownRoot): Set<string> {
  * @param hast - HAST node
  * @returns Set of unique class names
  */
-export function collectClassesFromHast(hast: any): Set<string> {
+export function collectClassesFromHast(hast: HastNode): Set<string> {
   const classes = new Set<string>();
   
-  function traverse(node: any) {
-    if (node.properties?.className) {
+  function traverse(node: HastNode) {
+    if (node.type === 'element' && node.properties.className) {
       const classNames = Array.isArray(node.properties.className)
         ? node.properties.className
         : [node.properties.className];
@@ -541,7 +542,7 @@ export function collectClassesFromHast(hast: any): Set<string> {
       }
     }
     
-    if (node.children) {
+    if (node.type === 'element' || node.type === 'root') {
       for (const child of node.children) {
         traverse(child);
       }
@@ -2061,21 +2062,21 @@ td svg.icon {
 }
 
 /* Override for height-set containers */
-.image-compare.h-\[280px\]::before,
-.image-compare.h-\[450px\]::before,
-.image-compare.h-\[580px\]::before,
-.image-compare.h-\[700px\]::before,
+.image-compare.h-\\[280px\\]::before,
+.image-compare.h-\\[450px\\]::before,
+.image-compare.h-\\[580px\\]::before,
+.image-compare.h-\\[700px\\]::before,
 .image-compare.h-full::before {
   padding-bottom: 0;
 }
 
 /* Ensure viewport constraints work */
-.image-compare.max-h-\[35vh\],
-.image-compare.max-h-\[40vh\],
-.image-compare.max-h-\[55vh\],
-.image-compare.max-h-\[60vh\],
-.image-compare.max-h-\[70vh\],
-.image-compare.max-h-\[80vh\] {
+.image-compare.max-h-\\[35vh\\],
+.image-compare.max-h-\\[40vh\\],
+.image-compare.max-h-\\[55vh\\],
+.image-compare.max-h-\\[60vh\\],
+.image-compare.max-h-\\[70vh\\],
+.image-compare.max-h-\\[80vh\\] {
   /* Height is constrained by max-h utility */
 }
 
@@ -2231,14 +2232,14 @@ td svg.icon {
 }
 
 /* Size-specific adjustments */
-.image-compare.h-\[280px\] .image-compare-handle,
-.image-compare.max-h-\[35vh\] .image-compare-handle {
+.image-compare.h-\\[280px\\] .image-compare-handle,
+.image-compare.max-h-\\[35vh\\] .image-compare-handle {
   width: 36px;
   height: 36px;
 }
 
-.image-compare.h-\[700px\] .image-compare-handle,
-.image-compare.max-h-\[80vh\] .image-compare-handle {
+.image-compare.h-\\[700px\\] .image-compare-handle,
+.image-compare.max-h-\\[80vh\\] .image-compare-handle {
   width: 56px;
   height: 56px;
 }

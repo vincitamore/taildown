@@ -606,6 +606,7 @@ export function renderTimeline(state: State, node: ContainerDirectiveNode): Elem
 
 export function renderSteps(state: State, node: ContainerDirectiveNode): Element {
   const children = state.all(node);
+  const introduction: ElementContent[] = [];
   
   // Find step headings and group content
   const steps: { heading: Element; content: ElementContent[]; number: number; state: string }[] = [];
@@ -634,10 +635,14 @@ export function renderSteps(state: State, node: ContainerDirectiveNode): Element
       } else if (currentStep) {
         // Not a step heading, add to current step content
         currentStep.content.push(child);
+      } else {
+        introduction.push(child);
       }
     } else if (currentStep) {
       // Add to current step content
       currentStep.content.push(child);
+    } else {
+      introduction.push(child);
     }
   }
   
@@ -696,7 +701,8 @@ export function renderSteps(state: State, node: ContainerDirectiveNode): Element
               type: 'element',
               tagName: 'h3',
               properties: {
-                className: ['step-title']
+                ...step.heading.properties,
+                className: ['step-title', ...(Array.isArray(step.heading.properties.className) ? step.heading.properties.className : typeof step.heading.properties.className === 'string' ? step.heading.properties.className.split(/\s+/) : [])]
               },
               children: step.heading.children
             },
@@ -723,10 +729,12 @@ export function renderSteps(state: State, node: ContainerDirectiveNode): Element
     type: 'element',
     tagName: 'div',
     properties: {
+      ...node.data?.hProperties,
+      id: node.attributes?.id || node.attributes?.['#'] || node.data?.hProperties?.id,
       className: [...existingClasses],
       'data-component': dataComponent
     },
-    children: stepElements
+    children: [...introduction, ...stepElements]
   };
 }
 
