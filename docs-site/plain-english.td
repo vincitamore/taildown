@@ -14,10 +14,10 @@ Natural language styling is Taildown's superpower. Write `{large-bold primary}` 
 
 ---
 
-## Philosophy {large-bold primary}
+## Philosophy {bold primary}
 
 :::card {subtle-glass padded}
-### :icon[type]{primary} Natural Grammar First {medium-bold}
+### :icon[type]{primary} Natural Grammar First {bold}
 
 Taildown follows **natural English grammar and word order**, not CSS conventions. This makes styling intuitive and self-documenting.
 
@@ -30,12 +30,14 @@ Taildown follows **natural English grammar and word order**, not CSS conventions
 
 ---
 
-## Typography {large-bold primary}
+## Typography {bold primary}
 
 :::tabs
 ## Sizes
 
 Control text size with natural keywords:
+
+Unstyled reading text scales from 16px to 18px with the viewport. Headings retain their semantic size hierarchy and use compact line spacing. Explicit size and line-height attributes override these defaults.
 
 | Shorthand | Result | CSS Equivalent |
 |-----------|--------|----------------|
@@ -82,6 +84,8 @@ Light muted text {light muted}
 
 Combine size and weight naturally:
 
+Use the listed compound shorthands or separate tokens, such as `{xl bold}`. `medium` means font weight, so use `{bold}` for a bold heading at its natural size rather than the unsupported `medium-bold`.
+
 ```taildown
 # Large Bold Title {large-bold primary}
 Medium weight subheading {medium}
@@ -114,11 +118,11 @@ Paragraph with relaxed lines {relaxed-lines}
 
 ---
 
-## Colors {large-bold primary}
+## Colors {bold primary}
 
 :::grid {2}
 :::card {light-glass}
-### :icon[palette]{primary} Semantic Colors {medium-bold}
+### :icon[palette]{primary} Semantic Colors {bold}
 
 Use semantic color names for consistency:
 
@@ -143,7 +147,7 @@ Muted footer text {muted small}
 :::
 
 :::card {light-glass}
-### :icon[droplet]{accent} Background Colors {medium-bold}
+### :icon[droplet]{accent} Background Colors {bold}
 
 Add `-bg` suffix for background colors:
 
@@ -170,7 +174,7 @@ Success message with background
 
 ---
 
-## Layout {large-bold primary}
+## Layout {bold primary}
 
 :::tabs
 ## Flex
@@ -233,11 +237,11 @@ Fully centered card
 
 ---
 
-## Spacing {large-bold primary}
+## Spacing {bold primary}
 
 :::grid {2}
 :::card {subtle-glass}
-### :icon[box]{primary} Padding {medium-bold}
+### :icon[box]{primary} Padding {bold}
 
 Control internal spacing:
 
@@ -258,7 +262,7 @@ Large padded card
 :::
 
 :::card {subtle-glass}
-### :icon[maximize]{accent} Gap {medium-bold}
+### :icon[maximize]{accent} Gap {bold}
 
 Control spacing between items:
 
@@ -281,7 +285,7 @@ Grid with large gaps
 
 ---
 
-## Effects {large-bold primary}
+## Effects {bold primary}
 
 :::tabs
 ## Borders & Corners
@@ -354,11 +358,11 @@ Heavy frosted with padding
 
 ---
 
-## Animations {large-bold primary}
+## Animations {bold primary}
 
 :::grid {3}
 :::card {light-glass fade-in}
-### :icon[zap]{warning} Entrance {medium-bold}
+### :icon[zap]{warning} Entrance {bold}
 
 Scroll-triggered entrance animations:
 
@@ -374,7 +378,7 @@ Scroll-triggered entrance animations:
 :::
 
 :::card {light-glass slide-up}
-### :icon[mouse-pointer]{primary} Hover Effects {medium-bold}
+### :icon[mouse-pointer]{primary} Hover Effects {bold}
 
 Interactive hover animations:
 
@@ -388,7 +392,7 @@ Interactive hover animations:
 :::
 
 :::card {light-glass zoom-in}
-### :icon[clock]{accent} Speed {medium-bold}
+### :icon[clock]{accent} Speed {bold}
 
 Control animation speed:
 
@@ -402,7 +406,7 @@ Control animation speed:
 
 ---
 
-## Combining Shorthands {large-bold primary}
+## Combining Shorthands {bold primary}
 
 :::card {heavy-glass padded-lg}
 ### :icon[layers]{primary huge} The Power of Composition {large-bold center}
@@ -445,7 +449,7 @@ Combines:
 
 ---
 
-## Best Practices {large-bold primary}
+## Best Practices {bold primary}
 
 :::grid {2}
 :::card {subtle-glass}
@@ -488,7 +492,7 @@ Falls back to raw CSS classes
 
 ---
 
-## Quick Reference Card {large-bold primary center}
+## Quick Reference Card {bold primary center}
 
 :::card {heavy-glass padded-xl}
 ### :icon[bookmark]{primary} Cheat Sheet {large-bold center}

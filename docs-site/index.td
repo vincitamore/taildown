@@ -14,13 +14,13 @@ The markup language that transforms plain English into stunning, interactive web
 
 ---
 
-## What Is Taildown? {large-bold primary center}
+## What Is Taildown? {bold primary center}
 
 **Taildown is a superset of Markdown** that adds powerful features while maintaining full backwards compatibility. Write natural English styling instead of CSS classes, create interactive components with simple syntax, and compile to beautiful HTML + CSS + JavaScript. {center large}
 
 :::grid {3}
 :::card {subtle-glass hover-lift fade-in}
-### :icon[zap]{warning huge} Zero Config {medium-bold center}
+### :icon[zap]{warning huge} Zero Config {bold center}
 
 Beautiful, professional styling out of the box. No setup, no configuration files, no webpack. Just write and compile.
 
@@ -32,7 +32,7 @@ Beautiful, professional styling out of the box. No setup, no configuration files
 :::
 
 :::card {subtle-glass hover-lift fade-in}
-### :icon[type]{primary huge} Plain English {medium-bold center}
+### :icon[type]{primary huge} Plain English {bold center}
 
 Use natural language for styling - `{large-bold primary center}` instead of cryptic CSS classes.
 
@@ -43,7 +43,7 @@ Use natural language for styling - `{large-bold primary center}` instead of cryp
 :::
 
 :::card {subtle-glass hover-lift fade-in}
-### :icon[moon]{accent huge} Dark Mode Built-in {medium-bold center}
+### :icon[moon]{accent huge} Dark Mode Built-in {bold center}
 
 Every Taildown document includes automatic dark mode with system detection, localStorage persistence, and smooth transitions.
 
@@ -57,9 +57,9 @@ Every Taildown document includes automatic dark mode with system detection, loca
 
 ---
 
-## See It In Action {large-bold primary center}
+## See It In Action {bold primary center}
 
-### Example: Create a Beautiful Card {medium-bold}
+### Example: Create a Beautiful Card {bold}
 
 :::tabs
 ## Taildown Syntax
@@ -68,7 +68,7 @@ Write this:
 
 ```taildown
 :::card {light-glass padded-lg hover-lift}
-## Welcome! {large-bold primary}
+## Welcome! {bold primary}
 
 This card has glassmorphism, padding, and hover effects with **zero CSS**.
 
@@ -101,7 +101,7 @@ Plus custom CSS for dark mode, animations, etc.
 
 ---
 
-## Core Features {large-bold primary center}
+## Core Features {bold primary center}
 
 :::tabs
 ## Plain English Styling
@@ -216,13 +216,13 @@ Smooth, performant, GPU-accelerated.
 
 ---
 
-## Interactive Components {large-bold primary center}
+## Interactive Components {bold primary center}
 
 **Zero-config tabs, accordions, modals, tooltips, and carousels** {center muted}
 
 :::grid {2}
 :::card {light-glass}
-### :icon[layout]{primary} Tabs {medium-bold}
+### :icon[layout]{primary} Tabs {bold}
 
 Headings become tabs automatically:
 
@@ -243,7 +243,7 @@ Content for second tab
 :::
 
 :::card {light-glass}
-### :icon[list]{accent} Accordion {medium-bold}
+### :icon[list]{accent} Accordion {bold}
 
 Bold text becomes triggers:
 
@@ -264,7 +264,7 @@ Content for second section
 :::
 
 :::card {light-glass}
-### :icon[image]{success} Carousel {medium-bold}
+### :icon[image]{success} Carousel {bold}
 
 Horizontal rules divide slides:
 
@@ -290,7 +290,7 @@ Third slide
 :::
 
 :::card {light-glass}
-### :icon[message-square]{warning} Modals & Tooltips {medium-bold}
+### :icon[message-square]{warning} Modals & Tooltips {bold}
 
 Attach to ANY element:
 
@@ -310,7 +310,7 @@ Attach to ANY element:
 
 ---
 
-## Why Taildown? {large-bold primary center}
+## Why Taildown? {bold primary center}
 
 :::grid {2}
 :::card {elevated hover-lift}
@@ -338,13 +338,13 @@ Attach to ANY element:
 
 ---
 
-## Perfect For {large-bold primary center}
+## Perfect For {bold primary center}
 
 :::grid {4}
 :::card {subtle-glass center}
 :icon[book-open]{primary huge}
 
-**Documentation** {medium-bold}
+**Documentation** {bold}
 
 Technical docs, API references, user guides
 :::
@@ -352,7 +352,7 @@ Technical docs, API references, user guides
 :::card {subtle-glass center}
 :icon[layout]{accent huge}
 
-**Landing Pages** {medium-bold}
+**Landing Pages** {bold}
 
 Product pages, portfolios, SaaS sites
 :::
@@ -360,7 +360,7 @@ Product pages, portfolios, SaaS sites
 :::card {subtle-glass center}
 :icon[file-text]{success huge}
 
-**Blog Posts** {medium-bold}
+**Blog Posts** {bold}
 
 Articles, tutorials, long-form content
 :::
@@ -368,7 +368,7 @@ Articles, tutorials, long-form content
 :::card {subtle-glass center}
 :icon[zap]{warning huge}
 
-**Prototyping** {medium-bold}
+**Prototyping** {bold}
 
 Rapid mockups, design exploration
 :::
@@ -376,7 +376,7 @@ Rapid mockups, design exploration
 
 ---
 
-## Quick Start {large-bold primary center}
+## Quick Start {bold primary center}
 
 Start in your browser, or compile documents locally: {center muted}
 
@@ -385,7 +385,7 @@ Start in your browser, or compile documents locally: {center muted}
 Write your document and choose **Export HTML** to save a standalone page. For command-line use, follow the steps below.
 
 :::card {heavy-glass padded-lg}
-### :icon[download]{primary} Step 1: Install {medium-bold}
+### :icon[download]{primary} Step 1: Install {bold}
 
 ```bash
 # With Node.js and pnpm 8.11.0 installed
@@ -395,7 +395,7 @@ pnpm install --frozen-lockfile
 pnpm build
 ```
 
-### :icon[file-text]{accent} Step 2: Create Document {medium-bold}
+### :icon[file-text]{accent} Step 2: Create Document {bold}
 
 Create `hello.td`:
 
@@ -405,7 +405,7 @@ Create `hello.td`:
 Welcome to Taildown! {large center muted}
 
 :::card {light-glass hover-lift}
-## Your First Card {medium-bold}
+## Your First Card {bold}
 
 Beautiful by default with zero configuration.
 
@@ -413,7 +413,7 @@ Beautiful by default with zero configuration.
 :::
 ```
 
-### :icon[terminal]{success} Step 3: Compile {medium-bold}
+### :icon[terminal]{success} Step 3: Compile {bold}
 
 ```bash
 pnpm taildown compile hello.td
@@ -424,7 +424,7 @@ pnpm taildown compile hello.td
 
 ---
 
-## Real-World Examples {large-bold primary center}
+## Real-World Examples {bold primary center}
 
 **See what people are building with Taildown** {center muted}
 
@@ -462,7 +462,7 @@ Tutorial with interactive components and code examples.
 
 ---
 
-## Community & Support {large-bold primary center}
+## Community & Support {bold primary center}
 
 :::card {subtle-glass padded}
 ### Get Involved {large-bold center}
@@ -471,7 +471,7 @@ Tutorial with interactive components and code examples.
 :::card {elevated hover-lift center}
 :icon[github]{primary huge}
 
-**GitHub** {medium-bold}
+**GitHub** {bold}
 
 Star, fork, contribute
 
@@ -481,7 +481,7 @@ Star, fork, contribute
 :::card {elevated hover-lift center}
 :icon[message-circle]{accent huge}
 
-**Discussions** {medium-bold}
+**Discussions** {bold}
 
 Ask questions, share ideas
 
@@ -491,7 +491,7 @@ Ask questions, share ideas
 :::card {elevated hover-lift center}
 :icon[bug]{error huge}
 
-**Issues** {medium-bold}
+**Issues** {bold}
 
 Report bugs, request features
 
@@ -501,7 +501,7 @@ Report bugs, request features
 :::card {elevated hover-lift center}
 :icon[book]{success huge}
 
-**Documentation** {medium-bold}
+**Documentation** {bold}
 
 Complete reference
 

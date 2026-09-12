@@ -12,7 +12,7 @@
 
 ---
 
-## Start Writing {large-bold primary}
+## Start Writing {bold primary}
 
 :::tabs
 ## Browser Editor
@@ -48,7 +48,7 @@ Run the commands below from this repository directory. The browser editor is als
 
 ---
 
-## Your First Document {large-bold primary}
+## Your First Document {bold primary}
 
 Create a file named `my-first-document.td`:
 
@@ -58,7 +58,7 @@ Create a file named `my-first-document.td`:
 Welcome to Taildown! {large muted center}
 
 :::card {light-glass slide-up}
-## Your First Card {medium-bold}
+## Your First Card {bold}
 
 This is a card with glassmorphism and a slide-up animation!
 
@@ -72,7 +72,7 @@ This is a card with glassmorphism and a slide-up animation!
 
 ---
 
-## Compile Your Document {large-bold primary}
+## Compile Your Document {bold primary}
 
 :::card {elevated padded}
 ### Basic Compilation
@@ -104,11 +104,11 @@ pnpm taildown compile my-first-document.td --separate -o output/index.html --css
 
 ---
 
-## Understanding the Output {large-bold primary}
+## Understanding the Output {bold primary}
 
 :::grid {2}
 :::card {light-glass}
-### :icon[file]{primary} HTML Output {medium-bold}
+### :icon[file]{primary} HTML Output {bold}
 
 - Semantic HTML5 structure
 - Proper heading hierarchy
@@ -133,7 +133,7 @@ pnpm taildown compile my-first-document.td --separate -o output/index.html --css
 :::
 
 :::card {light-glass}
-### :icon[palette]{accent} CSS Output {medium-bold}
+### :icon[palette]{accent} CSS Output {bold}
 
 - Tailwind-inspired utilities
 - CSS custom properties for themes
@@ -157,7 +157,7 @@ pnpm taildown compile my-first-document.td --separate -o output/index.html --css
 
 ---
 
-## Basic Syntax Overview {large-bold primary}
+## Basic Syntax Overview {bold primary}
 
 :::tabs
 ## Plain English Styling
@@ -200,7 +200,7 @@ Use `:::component` syntax for component blocks:
 
 ```taildown
 :::card {elevated hover-lift}
-## Card Title {large-bold}
+## Card Title {bold}
 
 Card content with automatic styling.
 
@@ -240,7 +240,7 @@ All glass effects include:
 
 ---
 
-## Dark Mode Guide {large-bold primary}
+## Dark Mode Guide {bold primary}
 
 :::card {heavy-glass padded}
 ### :icon[moon]{accent huge} Dark Mode is Automatic {large-bold center}
@@ -283,7 +283,7 @@ All components automatically adapt to dark mode!
 
 ---
 
-## Compiler API customization {large-bold primary}
+## Compiler API customization {bold primary}
 
 ### Custom shorthands in the compiler API
 
@@ -333,7 +333,7 @@ The generated HTML includes the component's markup and styling. Keep the definit
 
 Authoring integrations can pass the same options to `getAuthoringReference` to receive custom component names, insertable examples, and custom style names. The hosted editor does not yet expose custom-definition settings. These definitions provide presentation and semantic containers; JavaScript behaviors remain those of the built-in components nested inside them.
 
-## Next Steps {large-bold primary center}
+## Next Steps {bold primary center}
 
 :::grid {3}
 :::card {elevated zoom-in hover-lift}

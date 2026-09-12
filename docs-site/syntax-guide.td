@@ -10,7 +10,7 @@
 
 ---
 
-## Quick Navigation {large-bold primary}
+## Quick Navigation {bold primary}
 
 :::grid {cols-3}
 :::card {subtle-glass padded}
@@ -37,7 +37,7 @@
 
 ---
 
-## Markdown Compatibility {#markdown large-bold primary}
+## Markdown Compatibility {#markdown bold primary}
 
 :icon[check]{success large} **Taildown is a superset of Markdown** - every valid Markdown document is also valid Taildown. {large}
 
@@ -125,7 +125,7 @@ ___
 
 ---
 
-## Inline Attributes {#attributes large-bold primary}
+## Inline Attributes {#attributes bold primary}
 
 :icon[brackets]{primary large} **Add styling to any element using curly brace notation.** {large}
 
@@ -200,7 +200,7 @@ Combine multiple attributes with spaces:
 
 ---
 
-## Plain English Styling {#plain-english large-bold primary}
+## Plain English Styling {#plain-english bold primary}
 
 :icon[type]{success large} **Style using natural English instead of CSS classes.** {large}
 
@@ -308,7 +308,7 @@ Unnatural and confusing.
 
 ---
 
-## Icon Syntax {#icons large-bold primary}
+## Icon Syntax {#icons bold primary}
 
 :icon[smile]{warning large} **Embed beautiful SVG icons anywhere with `:icon[name]` syntax.** {large}
 
@@ -389,7 +389,7 @@ Taildown includes the complete Lucide 0.544.0 library in its offline compiler. I
 
 ---
 
-## Component Blocks {#components large-bold primary}
+## Component Blocks {#components bold primary}
 
 :icon[package]{primary large} **Wrap content in components using `:::name` fences.** {large}
 
@@ -438,7 +438,7 @@ Column 2
 
 ---
 
-## Interactive Components {#interactive large-bold primary}
+## Interactive Components {#interactive bold primary}
 
 :icon[activity]{success large} **Zero-config JavaScript generation for interactive components.** {large}
 
@@ -669,7 +669,7 @@ Code review session
 
 ---
 
-## Quick Reference Card {#reference large-bold primary}
+## Quick Reference Card {#reference bold primary}
 
 :::grid {cols-2}
 :::card {subtle-glass padded}
@@ -733,7 +733,7 @@ Content with attributes
 
 ---
 
-## Enhanced Table Component {#table large-bold primary}
+## Enhanced Table Component {#table bold primary}
 
 :icon[table]{success large} **Professional tables with sorting, zebra striping, and glass effects - zero JavaScript unless you need sorting.** {large}
 
@@ -804,7 +804,7 @@ Tables use standard GitHub Flavored Markdown with an attribute block:
 
 ---
 
-## Image Comparison Slider {#image-comparison large-bold primary}
+## Image Comparison Slider {#image-comparison bold primary}
 
 :icon[image]{warning large} **Interactive before/after comparisons with draggable slider - perfect for showcasing transformations.** {large}
 
@@ -919,7 +919,7 @@ after: /img/after.jpg
 
 ---
 
-## Complete Component List {#component-list large-bold primary}
+## Complete Component List {#component-list bold primary}
 
 | Component | Purpose | Usage | Variants |
 |-----------|---------|-------|----------|
@@ -940,7 +940,7 @@ after: /img/after.jpg
 
 ---
 
-## Complete Shorthand Reference {#shorthands large-bold primary}
+## Complete Shorthand Reference {#shorthands bold primary}
 
 ### Typography Shorthands
 
@@ -1032,7 +1032,7 @@ Natural combinations work automatically:
 
 ---
 
-## Next Steps {large-bold center primary}
+## Next Steps {bold center primary}
 
 :::card {light-glass padded-xl center}
 **You're now a Taildown expert!** {huge-bold}

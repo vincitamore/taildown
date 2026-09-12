@@ -582,8 +582,8 @@ body {
   padding: var(--document-gutter);
   padding-top: calc(var(--document-gutter) + var(--navbar-offset));
   font-family: system-ui, -apple-system, sans-serif;
-  line-height: 1.5;
-  font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
+  line-height: 1.65;
+  font-size: clamp(1rem, 0.5vw + 0.75rem, 1.125rem);
   min-height: 100vh;
   /* Use CSS variables for theming */
   background-color: var(--background);
@@ -592,6 +592,13 @@ body {
   overflow-x: hidden;
   width: 100%;
   /* DO NOT use transform on body - it breaks position:fixed children! */
+}
+
+/* A compact heading rhythm; explicit typography utilities still take priority. */
+:where(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 /* Zero-config responsive images - beautiful by default */
