@@ -8,6 +8,7 @@
  */
 
 
+import type {LanguageSupport} from '@codemirror/language';
 import { highlightTree, classHighlighter } from '@lezer/highlight';
 
 // Import language packages
@@ -27,7 +28,7 @@ import { xml } from '@codemirror/lang-xml';
 /**
  * Language registry mapping language names to CodeMirror language support
  */
-const languageRegistry: Record<string, any> = {
+const languageRegistry: Record<string, LanguageSupport> = {
   // JavaScript family
   'javascript': javascript(),
   'js': javascript(),
@@ -77,12 +78,17 @@ const languageRegistry: Record<string, any> = {
  * @param theme - Theme parameter (ignored, always uses dark theme for consistency)
  * @returns Highlighted HTML string or null if language not supported
  */
-export async function highlightWithShiki(code: string, language: string, _theme?: string): Promise<string | null> {
+export function highlightWithShiki(code: string, language: string, _theme?: string): Promise<string | null> {
+  // Preserve the asynchronous API and immediate parsing, including rejected errors.
+  return new Promise(resolve => resolve(highlightCode(code, language)));
+}
+
+function highlightCode(code: string, language: string): string | null {
   // Normalize language
   const normalizedLang = language.toLowerCase().trim();
   
   // Get language support
-  const langSupport = languageRegistry[normalizedLang];
+  const langSupport = Object.hasOwn(languageRegistry, normalizedLang) ? languageRegistry[normalizedLang] : undefined;
   if (!langSupport) {
     return null;
   }
@@ -182,7 +188,7 @@ export async function highlightWithShiki(code: string, language: string, _theme?
  */
 export function isLanguageSupported(language: string): boolean {
   const normalizedLang = language.toLowerCase().trim();
-  return normalizedLang in languageRegistry;
+  return Object.hasOwn(languageRegistry, normalizedLang);
 }
 
 /**

@@ -66,14 +66,15 @@ export class ThemeResolver {
     if (colorName === 'info') return colors.info || '#82a0ff';
     
     // Handle color objects with shades
-    const colorObj = colors[colorName as keyof typeof colors];
+    const colorObj = colors[colorName];
     if (typeof colorObj === 'string') return colorObj;
     
-    if (typeof colorObj === 'object' && colorObj !== null && 'DEFAULT' in colorObj) {
+    if (typeof colorObj === 'object' && colorObj !== null) {
       if (shade) {
-        return (colorObj as any)[shade] || (colorObj as any).DEFAULT || this.getFallbackColor(colorName, shade);
+        const shadeColor: unknown = Reflect.get(colorObj, shade);
+        return (typeof shadeColor === 'string' && shadeColor) || colorObj.DEFAULT || this.getFallbackColor(colorName, shade);
       }
-      return (colorObj as any).DEFAULT || this.getFallbackColor(colorName, shade);
+      return colorObj.DEFAULT || this.getFallbackColor(colorName, shade);
     }
     
     return this.getFallbackColor(colorName, shade);
