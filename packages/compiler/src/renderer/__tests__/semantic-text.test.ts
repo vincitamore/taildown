@@ -40,3 +40,13 @@ it('provides readable normal and hover semantic text on both default document su
     }
   }
 });
+
+it('gives inline code a readable foreground/background pair in both themes', () => {
+  const css = generateColorPaletteCSS(getDefaultConfig());
+  const values = (name:string) => [...css.matchAll(new RegExp(`--inline-code-${name}:\\s*([^;]+);`,'g'))].map(match=>match[1]!);
+  const text = values('text');
+  const backgrounds = values('background');
+  expect(text).toHaveLength(2);
+  expect(backgrounds).toHaveLength(2);
+  text.forEach((color,index)=>expect(contrast(color,backgrounds[index]!)).toBeGreaterThanOrEqual(4.5));
+});

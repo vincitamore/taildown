@@ -39,6 +39,8 @@ Control text size with natural keywords:
 
 Unstyled reading text scales from 16px to 18px with the viewport. Headings retain their semantic size hierarchy and use compact line spacing. Explicit size and line-height attributes override these defaults.
 
+Inline code uses a readable text/background pair in both themes, including inside tables and tooltips. Customize `--inline-code-text` and `--inline-code-background` in your CSS when composing a different palette; fenced code retains its syntax-highlighting theme.
+
 | Shorthand | Result | CSS Equivalent |
 |-----------|--------|----------------|
 | `{xs}` | Extra small text | `text-xs` |

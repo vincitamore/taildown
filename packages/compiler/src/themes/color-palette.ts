@@ -138,6 +138,8 @@ export function generateColorPaletteCSS(config: TaildownConfig): string {
 /* Color Palette - Light Mode */
 :root {
 ${textColors(false)}
+  --inline-code-text: #be185d;
+  --inline-code-background: #f3f4f6;
   --background: ${light.background};
   --foreground: ${light.foreground};
   --muted: ${light.muted};
@@ -170,6 +172,8 @@ ${textColors(false)}
 /* Color Palette - Dark Mode */
 .dark {
 ${textColors(true)}
+  --inline-code-text: #f9a8d4;
+  --inline-code-background: #253747;
   --background: ${dark.background};
   --foreground: ${dark.foreground};
   --muted: ${dark.muted};

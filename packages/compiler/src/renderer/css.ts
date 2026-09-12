@@ -984,15 +984,15 @@ body > *:last-child {
 
 /* Inline code */
 code {
-  background-color: rgba(30, 41, 59, 0.05);
-  color: rgb(219, 39, 119);
+  background-color: var(--inline-code-background);
+  color: var(--inline-code-text);
   padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
   font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Fira Code', monospace;
   font-size: 0.875em;
   font-weight: 500;
   /* Mobile-friendly: break long paths/strings to prevent overflow */
-  word-break: break-all;
+  word-break: normal;
   overflow-wrap: anywhere;
 }
 
@@ -1709,10 +1709,6 @@ tbody tr:hover td:first-child {
 
 /* Code in tables */
 td code {
-  background: rgba(30, 41, 59, 0.05);
-  color: #db2777;
-  padding: 0.125rem 0.375rem;
-  border-radius: 0.25rem;
   font-size: 0.8125em;
   white-space: nowrap;
 }
@@ -5679,9 +5675,6 @@ mark,
 }
 
 .tooltip-content code {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 0.125rem 0.375rem;
-  border-radius: 0.25rem;
   font-size: 0.8125rem;
 }
 
