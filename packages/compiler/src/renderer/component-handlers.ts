@@ -1289,7 +1289,7 @@ export function renderDiff(_state: State, node: any): Element {
             type: 'element',
             tagName: 'span',
             properties: {
-              className: ['diff-line-number', 'select-none', 'text-slate-400', 'dark:text-slate-600'],
+              className: ['diff-line-number', 'select-none', 'text-muted-foreground'],
             },
             children: [{
               type: 'text',
@@ -1300,7 +1300,7 @@ export function renderDiff(_state: State, node: any): Element {
             type: 'element',
             tagName: 'span',
             properties: {
-              className: ['diff-line-number', 'select-none', 'text-slate-400', 'dark:text-slate-600'],
+              className: ['diff-line-number', 'select-none', 'text-muted-foreground'],
             },
             children: [{
               type: 'text',

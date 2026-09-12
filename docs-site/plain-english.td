@@ -518,6 +518,8 @@ Falls back to raw CSS classes
 
 ## Color transparency {bold primary}
 
+For neutral surfaces, `gray` provides a neutral scale and `slate` a cooler blue-gray scale. Both have shades `50`, `100` through `900` in steps of `100`, and `950`. Use `text-slate-900`, `bg-slate-50`, or `border-slate-200`, with dark variants for an alternate theme. Semantic `muted` text adapts automatically when you want a readable secondary text color.
+
 Add an integer opacity from `0` to `100` after a color utility: `bg-primary/20`, `text-gray-900/80`, or `border-primary/30`. This changes that color rather than fading the element's children. It also works with configured colors and prefixes such as `dark:bg-primary/10` or `md:bg-primary/20`.
 
 ```taildown

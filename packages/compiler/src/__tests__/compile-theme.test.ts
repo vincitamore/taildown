@@ -1,6 +1,16 @@
 import {expect,it} from 'vitest';
 import {compile} from '../index';
 
+it('generates the slate palette through the same configurable color pipeline', async () => {
+ const source = 'Slate {bg-slate-50 text-slate-900 dark:bg-slate-900/40 border-slate-200}';
+ const result = await compile(source);
+ expect(result.css).toContain('.text-slate-900 { color: #0f172a; }');
+ expect(result.css).toContain('.border-slate-200 { border-color: #e2e8f0; }');
+ expect(result.css).toContain('color-mix(in srgb, #0f172a 40%, transparent)');
+ const custom = await compile(source, {theme:{colors:{slate:{900:'#123456'}}}});
+ expect(custom.css).toContain('.text-slate-900 { color: #123456; }');
+});
+
 it('composes color opacity with configured colors, dark and responsive variants', async () => {
  const result = await compile('Opacity {bg-forest/25 dark:bg-forest/40 md:text-forest/80 border-forest/0}\n\nInvalid {bg-forest/101}', {theme:{colors:{forest:'#14532d'}}});
  expect(result.css).toContain('.bg-forest\\/25 { background-color: color-mix(in srgb, #14532d 25%, transparent); }');
