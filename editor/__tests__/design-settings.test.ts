@@ -26,6 +26,10 @@ it('keeps applied settings usable when browser storage fails', async () => {
   expect(settings.options.styleMappings.brand).toBe('font-bold');
 });
 
-it.each(['null','[]','{"inlineScripts":false}','{"theme":{"glass":{}}}','{"styleMappings":{"brand":[]}}'])('rejects unsupported settings: %s', text => {
+it.each(['null','[]','{"inlineScripts":false}','{"theme":{"glass":{}}}','{"styleMappings":{"brand":[]}}',
+  '{"theme":{"colors":[]}}', '{"theme":{"fonts":null}}', '{"theme":{"fonts":{"sans":42}}}',
+  '{"theme":{"colors":{"primary":{}}}}', '{"theme":{"colors":{"primary":{"DEFAULT":false}}}}',
+  '{"theme":{"colors":{"primary":{"bogus":"#123456"}}}}'
+])('rejects unsupported settings: %s', text => {
   expect(()=>parseDesignSettings(text)).toThrow();
 });
