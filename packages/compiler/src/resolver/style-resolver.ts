@@ -33,6 +33,15 @@ export interface ResolverContext {
   components?: ReadonlyMap<string, ComponentDefinition>;
 }
 
+export function snapshotStyleMappings(mappings?: Record<string, string>): Record<string, string> | undefined {
+  if (mappings === undefined) return undefined;
+  if (!mappings || typeof mappings !== 'object' || Array.isArray(mappings)) throw new Error('Style mappings must be an object of alias strings.');
+  for (const [name, value] of Object.entries(mappings)) {
+    if (typeof value !== 'string') throw new Error(`Style mapping "${name}" must be a string of style tokens.`);
+  }
+  return {...mappings};
+}
+
 export function expandStyleMappings(attributes: string[], mappings?: Record<string, string>): string[] {
   if (!mappings) return attributes;
   return attributes.flatMap(attribute => Object.hasOwn(mappings, attribute)

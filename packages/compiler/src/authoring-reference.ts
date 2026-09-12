@@ -1,5 +1,6 @@
 import {registry, registryInitialized} from './components/component-registry';
 import {getAllShorthands} from './resolver/shorthand-mappings';
+import {snapshotStyleMappings} from './resolver/style-resolver';
 import {ICON_SIZES} from './icons/icon-parser';
 import {KEYBOARD_PLATFORMS} from './parser/kbd-parser';
 import type {CompileOptions} from '@taildown/shared';
@@ -27,7 +28,7 @@ const COMPONENT_EXAMPLES: Record<string, string> = {
 export async function getAuthoringReference(options: Pick<CompileOptions, 'components' | 'componentConfig' | 'styleMappings'> = {}) {
   const componentConfig = snapshotComponentConfig(options.componentConfig);
   const definitions = snapshotCustomComponents(options.components);
-  const customStyles = Object.keys(options.styleMappings ?? {});
+  const customStyles = Object.keys(snapshotStyleMappings(options.styleMappings) ?? {});
   await registryInitialized;
   const customComponents = prepareCustomComponents(definitions);
   const configured = configureComponents(customComponents, componentConfig);

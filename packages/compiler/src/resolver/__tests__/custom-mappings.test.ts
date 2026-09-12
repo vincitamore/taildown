@@ -29,3 +29,15 @@ it('isolates concurrent mappings and permits explicit built-in overrides without
   expect(normal.html).toContain('<h1 class="text-lg">Title</h1>');
   expect(small.html).toContain('{large}</code>');
 });
+
+it.each([null, [], 'text-sm', {brand:42}, {brand:null}, {brand:['text-sm']}])('rejects malformed alias maps before use: %j',async styleMappings=>{
+  const options={styleMappings} as any;
+  await expect(compile('No aliases used here',options)).rejects.toThrow(/Style mapping/);
+  const {getAuthoringReference}=await import('../../authoring-reference');
+  await expect(getAuthoringReference(options)).rejects.toThrow(/Style mapping/);
+});
+it('allows an empty mapping to suppress a shorthand intentionally',async()=>{
+  const result=await compile('# Title {large}',{styleMappings:{large:''}});
+  expect(result.html).not.toContain('text-lg');
+  expect(result.html).toContain('Title</h1>');
+});

@@ -30,6 +30,7 @@ import {getDefaultConfig} from '../config/default-config';
 import type {ComponentDefinition} from '@taildown/shared';
 import {prepareCustomComponents, snapshotCustomComponents} from '../components/custom-components';
 import {snapshotComponentConfig, configureComponents} from '../components/component-config';
+import {snapshotStyleMappings} from '../resolver/style-resolver';
 
 export interface ParseOptions {
   styleMappings?: Record<string, string>;
@@ -55,7 +56,7 @@ export async function parse(source: string, options: ParseOptions = {}): Promise
  * @returns Parse result with AST and warnings
  */
 export async function parseWithWarnings(source: string, options: ParseOptions = {}): Promise<ParseResult> {
-  const styleMappings = options.styleMappings ? {...options.styleMappings} : undefined;
+  const styleMappings = snapshotStyleMappings(options.styleMappings);
   const componentConfig = snapshotComponentConfig(options.componentConfig);
   const componentDefinitions = snapshotCustomComponents(options.components);
   await registryInitialized;
