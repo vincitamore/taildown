@@ -74,6 +74,7 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'h-12': 'height: 3rem;',
   'h-16': 'height: 4rem;',
   'h-20': 'height: 5rem;',
+  'h-32': 'height: 8rem;',
   'min-h-[400px]': 'min-height: 400px;',
   'max-h-[35vh]': 'max-height: 35vh;',
   'max-h-[40vh]': 'max-height: 40vh;',
