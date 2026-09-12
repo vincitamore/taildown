@@ -7,6 +7,7 @@
 
 // Re-export main compile function
 export { compile } from './index';
+export { getAllLucideIconNames, getLucideIconElements } from './icons/lucide-icons';
 
 // Re-export syntax highlighting for CodeMirror 6
 export {

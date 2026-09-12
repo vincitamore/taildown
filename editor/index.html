@@ -898,7 +898,7 @@ Experience intelligent, context-aware suggestions:
 - **{light-glass}**, **{elevated}**, **{shadow-xl}**
 - **{fade-in}**, **{slide-up}**, **{hover-lift}**
 
-**Icons:** Type :kbd[:icon] to browse 157+ Lucide icons with previews!
+**Icons:** Type :kbd[:icon] to browse the complete included Lucide library with previews!
 
 ---
 
@@ -1153,61 +1153,32 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       'sm', 'md', 'lg', 'xl'
     ];
 
-    const iconNames = [
-      "accessibility", "activity", "alert-circle", "alert-octagon", "alert-triangle",
-      "align-center", "align-left", "arrow-down", "arrow-left", "arrow-right", "arrow-up",
-      "award", "bar-chart", "beaker", "bell", "bluetooth", "book", "book-open", "bookmark",
-      "box", "brackets", "briefcase", "bug", "calendar", "check", "check-circle", "check-square",
-      "chevron-right", "chevrons-right", "circle", "clock", "cloud", "code", "code-2", "compass",
-      "copy", "cpu", "credit-card", "crown", "database", "dollar-sign", "download", "droplet",
-      "edit", "external-link", "eye", "facebook", "feather", "figma", "file", "file-code",
-      "file-plus", "file-text", "file-tree", "flag", "flame", "folder", "gauge", "gift",
-      "git-branch", "git-commit", "git-fork", "git-pull-request", "github", "globe",
-      "graduation-cap", "grid", "grid-3x3", "hand", "hash", "headphones", "heart", "help-circle",
-      "highlighter", "home", "image", "info", "key", "keyboard", "layers", "layout", "life-buoy",
-      "lightbulb", "link", "linkedin", "list", "loader", "lock", "mail", "map", "maximize",
-      "maximize-2", "menu", "message-circle", "message-square", "minimize", "minus", "minus-square",
-      "monitor", "moon", "more-horizontal", "mouse-pointer", "move", "music", "package", "palette",
-      "panel-left", "party-popper", "play", "play-circle", "plus", "refresh-cw", "rocket", "search",
-      "server", "settings", "share", "share-2", "shield", "shopping-bag", "shopping-cart",
-      "smartphone", "smile", "sparkles", "speaker", "square", "square-stack", "star", "sun",
-      "table", "tag", "target", "terminal", "test-tube", "thumbs-down", "thumbs-up", "tool",
-      "trash", "trending-down", "trending-up", "trophy", "twitter", "type", "upload", "user",
-      "user-plus", "users", "video", "wand-2", "wave", "wind", "wrench", "x", "x-circle", "zap"
-    ];
+    const iconNames = Taildown.getAllLucideIconNames();
 
-    // Helper to create Lucide icon SVG
+    // Use the compiler's SVG data for both authoring previews and toolbar icons.
     function lucideIcon(iconName) {
-      // Map of Lucide icons we use (SVG paths from lucide.dev)
-      const icons = {
-        'type': '<path d="M4 7V4h16v3M9 20h6M12 4v16"/>',
-        'heading-1': '<path d="M4 12h8M4 18V6M12 18V6"/><path d="m17 12 3-3 3 3M20 9v12"/>',
-        'heading-2': '<path d="M4 12h8M4 18V6M12 18V6"/><path d="M21 18h-4c0-4 4-3 4-6 0-1.5-2-2.5-4-2.5"/>',
-        'heading-3': '<path d="M4 12h8M4 18V6M12 18V6"/><path d="M17.5 10.5c1.7-1 3.5 0 3.5 1.5a2 2 0 0 1-2 2"/><path d="M17 17.5c2 1.5 4 .3 4-1.5a2 2 0 0 0-2-2"/>',
-        'bold': '<path d="M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8"/>',
-        'italic': '<line x1="19" x2="10" y1="4" y2="4"/><line x1="14" x2="5" y1="20" y2="20"/><line x1="15" x2="9" y1="4" y2="20"/>',
-        'code': '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
-        'code-2': '<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>',
-        'quote': '<path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>',
-        'list': '<line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/>',
-        'list-ordered': '<line x1="10" x2="21" y1="6" y2="6"/><line x1="10" x2="21" y1="12" y2="12"/><line x1="10" x2="21" y1="18" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/>',
-        'link': '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
-        'image': '<rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>',
-        'minus': '<path d="M5 12h14"/>',
-        'table': '<path d="M12 3v18"/><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/>',
-        'box': '<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>',
-        'alert-circle': '<circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>',
-        'lightbulb': '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
-        'layout': '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>',
-        'wand-2': '<path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z"/><path d="m14 7 3 3"/><path d="M5 6v4"/><path d="M19 14v4"/><path d="M10 2v2"/><path d="M7 8H3"/><path d="M21 16h-4"/><path d="M11 3H9"/>',
-        'sun': '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
-        'moon': '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      const attributes = {
+        width: '16', height: '16', viewBox: '0 0 24 24', fill: 'none',
+        stroke: 'currentColor', 'stroke-width': '2',
+        'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'aria-hidden': 'true'
       };
-      
-      const path = icons[iconName] || icons['code'];
-      return `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${path}</svg>`;
+      for (const [name, value] of Object.entries(attributes)) svg.setAttribute(name, value);
+      for (const [tag, properties] of Taildown.getLucideIconElements(iconName) || []) {
+        const child = document.createElementNS('http://www.w3.org/2000/svg', tag);
+        for (const [name, value] of Object.entries(properties)) child.setAttribute(name, String(value));
+        svg.appendChild(child);
+      }
+      return svg.outerHTML;
     }
 
+    function renderIconCompletion(completion) {
+      if (completion.info !== 'icon') return null;
+      const preview = document.createElement('span');
+      preview.className = 'autocomplete-icon';
+      preview.innerHTML = lucideIcon(completion.label);
+      return preview;
+    }
     // Slash command registry
     const slashCommands = [
       { name: 'Heading 1', icon: 'heading-1', insert: '# ', description: 'Large heading' },
@@ -1486,7 +1457,6 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
               label: icon,
               type: 'variable',
               info: 'icon',
-              render: renderAutocompleteItem(icon, 'variable', 'icon', lucideIcon(getIconPath(icon))),
               apply: icon
             };
           })
@@ -1560,32 +1530,6 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       }
       
       return null;
-    }
-
-    // Helper to get basic icon path for preview (simplified icons)
-    function getIconPath(iconName) {
-      const basicIcons = {
-        'check': 'check-circle',
-        'arrow': 'arrow-right',
-        'heart': 'heart',
-        'star': 'star',
-        'home': 'home',
-        'user': 'user',
-        'settings': 'settings',
-        'search': 'search',
-        'bell': 'bell',
-        'calendar': 'calendar',
-        'file': 'file',
-        'folder': 'folder',
-        'mail': 'mail',
-        'link': 'link',
-        'image': 'image',
-        'code': 'code',
-        'zap': 'lightbulb',
-      };
-      
-      // Try to map to known icon, or use first letter as fallback
-      return basicIcons[iconName] || iconName.split('-')[0] || 'code';
     }
 
     // Bubble Menu - Floating toolbar for text selection
@@ -1847,6 +1791,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
               maxRenderedOptions: 10,
               closeOnBlur: true,
               icons: false,  // We're using custom rendering
+              addToOptions: [{position: 20, render: renderIconCompletion}],
               defaultKeymap: false  // Disable default keymap (includes Enter)
             }),
             highlightSelectionMatches(),
@@ -1856,6 +1801,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
             bubbleMenuExtension, // Bubble menu for text selection
             // Custom autocomplete keybindings (Tab only, no Enter)
             Prec.highest(keymap.of([
+              { key: 'Ctrl-Space', run: startCompletion },
               {
                 key: 'Tab',
                 run: acceptCompletion  // Accept completion
