@@ -12,7 +12,21 @@
 
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
-import type { Root } from 'mdast';
+import type { Root, Content } from 'mdast';
+import type { Properties } from 'hast';
+import type { Parent } from 'unist';
+import type { ContainerDirectiveNode } from './directive-types';
+
+/** Synthetic MDAST node converted through hName/hProperties by mdast-util-to-hast. */
+interface VideoElementNode extends Parent {
+  type: 'element';
+  data: { hName: string; hProperties: Properties };
+  children: Content[];
+}
+
+declare module 'mdast' {
+  interface RootContentMap { element: VideoElementNode; }
+}
 
 interface VideoInfo {
   platform: 'youtube' | 'vimeo' | 'self-hosted' | 'unknown';
@@ -79,8 +93,8 @@ function detectPlatform(url: string): 'youtube' | 'vimeo' | 'unknown' {
 /**
  * Extract video info from node attributes and content
  */
-function extractVideoInfo(node: any): VideoInfo | null {
-  const data = node.data as any;
+function extractVideoInfo(node: ContainerDirectiveNode): VideoInfo | null {
+  const data = node.data;
   const classes = data?.hProperties?.className || [];
   const classArray = Array.isArray(classes) ? classes : [classes];
   
@@ -108,7 +122,7 @@ function extractVideoInfo(node: any): VideoInfo | null {
   const autoplay = classArray.includes('autoplay');
   const muted = classArray.includes('muted');
   const loop = classArray.includes('loop');
-  const controls = classArray.includes('controls');
+  const controls = true; // Self-hosted videos must be operable without autoplay.
   
   // Look for URL in children
   let videoUrl: string | null = null;
@@ -191,7 +205,7 @@ function extractVideoInfo(node: any): VideoInfo | null {
 /**
  * Create iframe element for YouTube embed
  */
-function createYouTubeEmbed(info: VideoInfo): any {
+function createYouTubeEmbed(info: VideoInfo): VideoElementNode | null {
   if (!info.videoId) return null;
   
   // Build YouTube embed URL with privacy mode
@@ -226,7 +240,7 @@ function createYouTubeEmbed(info: VideoInfo): any {
 /**
  * Create iframe element for Vimeo embed
  */
-function createVimeoEmbed(info: VideoInfo): any {
+function createVimeoEmbed(info: VideoInfo): VideoElementNode | null {
   if (!info.videoId) return null;
   
   // Build Vimeo embed URL
@@ -261,8 +275,8 @@ function createVimeoEmbed(info: VideoInfo): any {
 /**
  * Create video element for self-hosted videos
  */
-function createVideoElement(info: VideoInfo): any {
-  const videoAttrs: any = {
+function createVideoElement(info: VideoInfo): VideoElementNode {
+  const videoAttrs: Properties = {
     src: info.url,
     className: ['video-element'],
   };
@@ -295,7 +309,7 @@ function createVideoElement(info: VideoInfo): any {
  */
 export const parseVideoEmbeds: Plugin<[], Root> = () => {
   return (tree: Root) => {
-    visit(tree, 'containerDirective', (node: any) => {
+    visit(tree, 'containerDirective', (node) => {
       if (node.name !== 'video') return;
       
       // Extract video info from content
@@ -307,7 +321,7 @@ export const parseVideoEmbeds: Plugin<[], Root> = () => {
       }
       
       // Create appropriate embed element
-      let embedElement: any = null;
+      let embedElement: VideoElementNode | null = null;
       
       if (videoInfo.platform === 'youtube') {
         embedElement = createYouTubeEmbed(videoInfo);
