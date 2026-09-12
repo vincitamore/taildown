@@ -3830,6 +3830,32 @@ Taildown focuses on zero-config simplicity with plain English syntax, while MDX 
 
 ---
 
+## Definitions {#definitions bold primary}
+
+Use term/description pairs for a glossary or project metadata. **Definitions** in the editor's **Command-K** menu inserts an editable example. Each bold term followed by `{term}` becomes a semantic `dt`; the next line beginning with `:` becomes its `dd`. Links and emphasis remain available inside descriptions.
+
+```taildown
+:::definitions {horizontal}
+**Purpose** {term}
+: A clear question for the work to answer.
+
+**Next step** {term}
+: Review the draft with your team.
+:::
+```
+
+For compact metadata, `**Name:** Fieldnotes` also creates a pair. Put each pair on its own line. Layouts include `vertical` (default), `horizontal`, and `compact`.
+
+:::definitions {horizontal}
+**Purpose** {term}
+: A clear question for the work to answer.
+
+**Next step** {term}
+: Review the draft with your team.
+:::
+
+---
+
 # Complete Component List {#checklist huge-bold center primary}
 
 **Every component at a glance:**

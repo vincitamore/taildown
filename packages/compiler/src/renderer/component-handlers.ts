@@ -1722,6 +1722,11 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
       return renderSteps(state, node);
     case 'timeline':
       return renderTimeline(state, node);
+    case 'definitions': {
+      const result = renderGenericComponent(state, node);
+      result.children = definitionPairs(result.children);
+      return result;
+    }
     case 'accordion':
       return renderAccordion(state, node);
     case 'carousel':
@@ -1744,6 +1749,47 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
  * Generic component renderer for non-interactive components
  * Handles card, alert, grid, container, and other standard components
  */
+function definitionPairs(children: ElementContent[]): ElementContent[] {
+  const output: ElementContent[] = [];
+  let description: Element | undefined;
+  for (const child of children) {
+    if (child.type !== 'element' || child.tagName !== 'p') {
+      if (child.type === 'text' && !child.value.trim()) continue;
+      if (description) description.children.push(child);
+      else output.push(child);
+      continue;
+    }
+    const lines: ElementContent[][] = [[]];
+    for (const inline of child.children) {
+      if (inline.type !== 'text') { lines[lines.length - 1]!.push(inline); continue; }
+      inline.value.split('\n').forEach((value, index) => {
+        if (index) lines.push([]);
+        if (value) lines[lines.length - 1]!.push({type: 'text', value});
+      });
+    }
+    for (const line of lines) {
+      const first = line[0];
+      const following = line[1];
+      const lastTerm = first?.type === 'element' ? first.children.at(-1) : undefined;
+      const marked = following?.type === 'text' && /^\s*\{term\}\s*$/.test(following.value);
+      const colon = lastTerm?.type === 'text' && /:\s*$/.test(lastTerm.value);
+      if (first?.type === 'element' && first.tagName === 'strong' && (marked || colon)) {
+        const term = first.children.map(part => part === lastTerm && colon && part.type === 'text'
+          ? {...part, value: part.value.replace(/:\s*$/, '')} : part);
+        output.push({type: 'element', tagName: 'dt', properties: {}, children: term});
+        description = {type: 'element', tagName: 'dd', properties: {}, children: marked ? line.slice(2) : line.slice(1)};
+        output.push(description);
+      } else if (description) {
+        const content = line.map((part, index) => index === 0 && part.type === 'text'
+          ? {...part, value: part.value.replace(/^\s*:\s?/, '')} : part);
+        if (description.children.length) description.children.push({type: 'text', value: '\n'});
+        description.children.push(...content);
+      } else output.push({type: 'element', tagName: 'p', properties: child.properties, children: line});
+    }
+  }
+  return output;
+}
+
 function renderGenericComponent(state: State, node: ContainerDirectiveNode): Element {
   const componentName = node.name;
   const attributes = node.attributes || {};
