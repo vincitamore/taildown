@@ -139,6 +139,8 @@ Settings belong to this browser workspace and apply across opened documents. A d
 
 With those settings, `Welcome {brand}` uses the custom primary color and bold text.
 
+A single color replaces every shade of that palette. Use a shade object such as `{"DEFAULT":"#4338ca","400":"#a5b4fc","600":"#4338ca"}` when light and dark themes need distinct tones. The compiler API and configuration files accept the same single-color or shade-map overrides.
+
 For an editorial card preset, configure a font stack and named component variants. Font stacks use fonts already available to the reader; they do not download or embed font files. Invalid values or CSS declarations are rejected.
 
 ```json

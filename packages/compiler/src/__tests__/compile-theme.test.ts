@@ -1,6 +1,14 @@
 import {expect,it} from 'vitest';
 import {compile} from '../index';
 
+it('accepts typed single-color scale overrides consistently across semantic and numbered colors', async () => {
+ const result = await compile('Brand {text-primary}\n\nNumbered {text-primary-600 dark:text-primary-400}', {theme:{colors:{primary:'#4338ca'}}});
+ expect(result.css).toContain('--primary: #4338ca;');
+ expect(result.css).toContain('--primary-text: #4338ca;');
+ expect(result.css).toContain('.text-primary-600 { color: #4338ca; }');
+ expect(result.css).toContain('.dark .dark\\:text-primary-400 { color: #4338ca; }');
+});
+
 it('generates the slate palette through the same configurable color pipeline', async () => {
  const source = 'Slate {bg-slate-50 text-slate-900 dark:bg-slate-900/40 border-slate-200}';
  const result = await compile(source);

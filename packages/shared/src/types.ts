@@ -4,7 +4,7 @@
  */
 
 import type { Root, Node, Data } from 'mdast';
-import type {ColorConfig, FontConfig} from './theme';
+import type {ColorOverrides, FontConfig} from './theme';
 import type {ComponentsConfig} from './components';
 
 /**
@@ -38,7 +38,7 @@ export interface OpenGraphMetadata {
  */
 export interface CompileOptions {
   /** Per-document palette and font overrides, merged with the default theme. */
-  theme?: {colors?: Partial<ColorConfig>; fonts?: FontConfig};
+  theme?: {colors?: ColorOverrides; fonts?: FontConfig};
   /** Inline CSS in HTML output (default: false) */
   inlineStyles?: boolean;
 

@@ -8,8 +8,8 @@
  * See PHASE-2-IMPLEMENTATION-PLAN.md §3 for configuration system design
  */
 
-import type {ColorScale, ColorConfig, FontConfig, ComponentsConfig} from '@taildown/shared';
-export type {ColorScale, ColorConfig, FontConfig, ComponentVariant, ComponentConfig, ComponentsConfig} from '@taildown/shared';
+import type {ColorScale, ColorConfig, ColorOverrides, FontConfig, ComponentsConfig} from '@taildown/shared';
+export type {ColorScale, ColorConfig, ColorOverrides, FontConfig, ComponentVariant, ComponentConfig, ComponentsConfig} from '@taildown/shared';
 
 /**
  * Glassmorphism configuration
@@ -125,7 +125,7 @@ export interface TaildownConfig {
  */
 export type PartialTaildownConfig = {
   theme?: {
-    colors?: Partial<ColorConfig>;
+    colors?: ColorOverrides;
     fonts?: Partial<FontConfig>;
     glass?: Partial<GlassConfig>;
     animations?: Partial<AnimationConfig>;

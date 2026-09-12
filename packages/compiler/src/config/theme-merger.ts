@@ -17,6 +17,7 @@ import type {
   TaildownConfig,
   PartialTaildownConfig,
   ColorConfig,
+  ColorOverrides,
   ComponentsConfig,
   ComponentConfig,
 } from './config-schema';
@@ -42,7 +43,7 @@ function isPlainObject(value: any): value is Record<string, any> {
  */
 function mergeColors(
   defaultColors: ColorConfig,
-  userColors?: Partial<ColorConfig>
+  userColors?: ColorOverrides
 ): ColorConfig {
   if (!userColors) {
     return defaultColors;

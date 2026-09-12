@@ -50,8 +50,13 @@ export interface ColorConfig {
 }
 
 /**
- * Font configuration
+ * Author-supplied colors. A single value can replace an entire built-in scale.
  */
+export type ColorOverrides = {
+  [Name in keyof ColorConfig]?: ColorConfig[Name] | (Name extends 'primary' | 'secondary' | 'accent' | 'gray' ? string : never);
+};
+
+/** Font-family stacks available to the reader's browser. */
 export interface FontConfig {
   /** Sans-serif font stack */
   sans?: string;
