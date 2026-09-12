@@ -5,6 +5,7 @@
 import { mkdir, readFile, realpath, stat, writeFile } from 'fs/promises';
 import { resolve, basename, extname, dirname, join, relative, sep, isAbsolute } from 'path';
 import { compile } from '@taildown/compiler';
+import {createConfig, findConfigFile, loadConfigFile} from '@taildown/compiler/config';
 import type { CompileOptions } from '@taildown/shared';
 
 interface CompileCommandOptions {
@@ -12,7 +13,9 @@ interface CompileCommandOptions {
   css?: string;
   js?: string;
   separate?: boolean;
+  inline?: boolean;
   minify?: boolean;
+  config?: string | boolean;
 }
 
 // Resolve existing ancestors as well as files, so symlinked directories cannot
@@ -56,6 +59,23 @@ export async function compileCommand(
   options: CompileCommandOptions
 ): Promise<void> {
   try {
+    if (options.inline && options.separate) throw new Error('Choose either --inline or --separate, not both');
+    const configPath = options.config === false ? null : typeof options.config === 'string'
+      ? resolve(options.config) : await findConfigFile(process.cwd());
+    const overrides = configPath ? await loadConfigFile(configPath) : {};
+    const config = createConfig(overrides);
+    const defaults = createConfig({});
+    // Do not silently accept settings that have no compiler integration yet.
+    const unsupported = [
+      ['components', config.components, defaults.components],
+      ['plugins', config.plugins, defaults.plugins],
+      ['theme.glass', config.theme.glass, defaults.theme.glass],
+      ['theme.animations', config.theme.animations, defaults.theme.animations],
+      ['theme.darkMode.toggle', config.theme.darkMode.toggle, defaults.theme.darkMode.toggle],
+      ['theme.darkMode.transitionSpeed', config.theme.darkMode.transitionSpeed, defaults.theme.darkMode.transitionSpeed],
+      ['output.sourceMaps', config.output?.sourceMaps, defaults.output?.sourceMaps],
+    ].filter(([, value, fallback]) => JSON.stringify(value) !== JSON.stringify(fallback)).map(([name]) => name);
+    if (unsupported.length) throw new Error(`Configuration settings not supported by the CLI yet: ${unsupported.join(', ')}`);
     // Read input file
     const inputPath = resolve(input);
     const source = await readFile(inputPath, 'utf-8');
@@ -78,12 +98,15 @@ export async function compileCommand(
       return assetPath.split(sep).map(encodeURIComponent).join('/');
     };
 
-    // Compile - inline by default, separate only if --separate flag is used
-    const shouldInline = !options.separate;
+    // CLI flags override file settings; an absent output setting keeps inline output.
+    const shouldInline = options.inline ? true : options.separate ? false : overrides.output?.inlineStyles ?? true;
+    if (shouldInline && (options.css || options.js)) throw new Error('--css and --js require separate output (--separate or output.inlineStyles: false)');
     const compileOptions: CompileOptions = {
       inlineStyles: shouldInline,
       inlineScripts: shouldInline,
-      minify: options.minify,
+      minify: options.minify ?? config.output?.minify,
+      darkMode: config.output?.darkMode !== false && config.theme.darkMode.enabled,
+      theme: {colors: config.theme.colors, fonts: config.theme.fonts},
       cssFilename: shouldInline ? undefined : assetURL(outputCss),
       jsFilename: shouldInline ? undefined : assetURL(outputJs),
     };
@@ -91,8 +114,10 @@ export async function compileCommand(
     const result = await compile(source, compileOptions);
 
     // Validate the complete write set before touching any destination.
-    await validateDestinations(inputPath, [outputHtml, ...(options.separate
-      ? [outputCss, ...(result.js ? [outputJs] : [])] : [])]);
+    const destinations = [outputHtml, ...(!shouldInline
+      ? [outputCss, ...(result.js ? [outputJs] : [])] : [])];
+    await validateDestinations(inputPath, destinations);
+    if (configPath) await validateDestinations(configPath, destinations);
 
     // Write HTML
     const htmlPath = resolve(outputHtml);
@@ -100,8 +125,8 @@ export async function compileCommand(
     await writeFile(htmlPath, result.html, 'utf-8');
     console.log(`✓ HTML written to ${outputHtml}`);
 
-    // Write CSS only if --separate flag is used
-    if (options.separate) {
+    // Write companion assets when flags or configuration select separate output.
+    if (!shouldInline) {
       const cssPath = resolve(outputCss);
       await mkdir(dirname(cssPath), { recursive: true });
       await writeFile(cssPath, result.css, 'utf-8');

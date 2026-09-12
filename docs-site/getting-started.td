@@ -287,6 +287,32 @@ All components automatically adapt to dark mode!
 
 ---
 
+## Project configuration in the CLI
+
+The CLI searches its current working directory for `taildown.config.js`, `.mjs`, or `.cjs` (also `.taildownrc.js` / `.mjs`). Use JavaScript configuration files you trust: loading them executes their module code.
+
+```javascript
+// taildown.config.mjs
+export default {
+  theme: {
+    colors: { primary: { DEFAULT: '#86bba1', 600: '#25644a', 400: '#86efac' } },
+    fonts: { serif: 'Georgia, serif' }
+  },
+  output: { minify: true, inlineStyles: false }
+};
+```
+
+```bash
+node packages/cli/dist/cli.js compile notes.td
+node packages/cli/dist/cli.js compile notes.td --inline --no-minify
+node packages/cli/dist/cli.js compile notes.td --config alternate.mjs
+node packages/cli/dist/cli.js compile notes.td --no-config
+```
+
+An explicit configuration path resolves against the working directory. Command-line flags override configuration: `--inline` embeds CSS/JS, `--separate` writes companion assets, and `--minify` / `--no-minify` control minification. Without an explicit `output.inlineStyles` setting, the CLI keeps its default single-file output. `output.darkMode: false` or `theme.darkMode.enabled: false` disables the generated theme switcher.
+
+Palette, font, minification, asset-layout, and dark-mode enablement settings are connected. Other component, glass, animation, dark-mode method/transition, plugin, and source-map settings are not yet connected to the CLI; non-default values produce an error. Invalid configuration and conflicting output paths stop the build before existing exports or the configuration file are overwritten.
+
 ## Compiler API customization {bold primary}
 
 ### Custom shorthands in the compiler API
@@ -354,7 +380,7 @@ const result = await compile('# Field notes {serif primary}', {
 
 Use `{sans}`, `{serif}`, or `{mono}` to choose a font family for a block. The editor offers these in style completion and the Insert / Ctrl/Cmd+K menu. Numbered palette utilities such as `text-primary-600`, their hover states, and responsive forms use the same document palette. Semantic text uses readable palette shades: light-mode primary text uses 600 and dark-mode primary text uses 400; override those shades when designing both themes.
 
-Node applications can load a configuration with `loadConfig` from `@taildown/compiler/config`, then pass `{theme: {colors: config.theme.colors, fonts: config.theme.fonts}}` to `compile()`. This option currently covers colors and fonts; file discovery, output defaults, component configuration, glass and animation configuration are not applied automatically by the CLI or hosted editor.
+Node applications can load a configuration with `loadConfig` from `@taildown/compiler/config`, then pass `{theme: {colors: config.theme.colors, fonts: config.theme.fonts}}` to `compile()`. The API's `theme` option covers colors and fonts. The CLI applies these through project configuration as described above; the hosted editor does not yet expose custom theme settings.
 
 ## Next Steps {bold primary center}
 

@@ -295,6 +295,11 @@ export function validateConfig(config: TaildownConfig): {
     errors.push(...validateThemeConfig(config.theme));
   }
 
+  for (const key of ['minify', 'inlineStyles', 'darkMode', 'sourceMaps'] as const) {
+    const value = config.output?.[key];
+    if (value !== undefined && typeof value !== 'boolean') errors.push(`output.${key} must be a boolean`);
+  }
+
   return {
     valid: errors.length === 0,
     errors,

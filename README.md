@@ -1320,7 +1320,9 @@ const { config } = await loadConfig({
 });
 ```
 
-It searches the selected directory for `taildown.config.js`, `.mjs`, or `.cjs` (and `.taildownrc.js` / `.mjs`). An explicit `configPath` resolves relative to `cwd`. Settings merge with fresh defaults before validation; errors throw when requested, otherwise the result includes warnings and fresh defaults. Apply the palette and fonts with `compile(source, {theme: {colors: config.theme.colors, fonts: config.theme.fonts}})`. Other configuration sections and CLI file discovery are not yet connected.
+It searches the selected directory for `taildown.config.js`, `.mjs`, or `.cjs` (and `.taildownrc.js` / `.mjs`). An explicit `configPath` resolves relative to `cwd`. Settings merge with fresh defaults before validation; errors throw when requested, otherwise the result includes warnings and fresh defaults. Apply the palette and fonts with `compile(source, {theme: {colors: config.theme.colors, fonts: config.theme.fonts}})`.
+
+The CLI discovers these files in its working directory and applies colors/fonts plus output minification, inline/separate assets, and dark-mode enablement. Use `--config <file>` to select a file or `--no-config` to skip discovery. `--inline` / `--separate` and `--minify` / `--no-minify` override file settings. Configuration modules execute as JavaScript. Unsupported non-default configuration sections fail explicitly; see the Getting Started reference for the current supported fields.
 
 **Q: Does Taildown support dark mode?**
 A: Yes! Dark mode is fully implemented with automatic system preference detection, a toggle button, localStorage persistence, and smooth transitions.
