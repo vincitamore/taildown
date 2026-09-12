@@ -385,6 +385,8 @@ Result:
 
 [Browse all 1000+ icons at lucide.dev →](https://lucide.dev/icons/){button secondary}
 
+Taildown includes the complete Lucide 0.544.0 library in its offline compiler. Icons added to Lucide after that version require a Taildown dependency update. Exported pages contain only the SVG icons used in the document.
+
 ---
 
 ## Component Blocks {#components large-bold primary}
