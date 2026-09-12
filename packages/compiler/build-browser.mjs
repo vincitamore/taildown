@@ -92,14 +92,11 @@ async function buildBrowserBundle() {
     const hostedSourcePlugin = {
       name: 'hosted-mermaid-source',
       setup(build) {
+        build.onResolve({filter: /^taildown-hosted-runtime-loader$/}, () => ({path:join(__dirname,'src/renderer/hosted-runtime-loader.ts'),namespace:'file'}));
         build.onResolve({filter: /mermaid-source$/}, () => ({path:'mermaid-source',namespace:'hosted-mermaid'}));
         build.onLoad({filter: /.*/,namespace:'hosted-mermaid'}, () => ({loader:'js',contents:`
-          let pending;
-          export function loadMermaidSource() {
-            return pending ??= fetch(new URL(${JSON.stringify(`assets/${diagramFile}`)}, document.baseURI))
-              .then(response => { if (!response.ok) throw new Error('Diagram runtime could not load. Check your connection and try again.'); return response.text(); })
-              .catch(error => { pending = undefined; throw error; });
-          }
+          import {createRuntimeLoader} from 'taildown-hosted-runtime-loader';
+          export const loadMermaidSource = createRuntimeLoader(new URL(${JSON.stringify(`assets/${diagramFile}`)}, document.baseURI), ${diagramSource.length});
         `}));
       },
     };
