@@ -1,6 +1,15 @@
 import {expect,it} from 'vitest';
 import {compile} from '../index';
 
+it('composes color opacity with configured colors, dark and responsive variants', async () => {
+ const result = await compile('Opacity {bg-forest/25 dark:bg-forest/40 md:text-forest/80 border-forest/0}\n\nInvalid {bg-forest/101}', {theme:{colors:{forest:'#14532d'}}});
+ expect(result.css).toContain('.bg-forest\\/25 { background-color: color-mix(in srgb, #14532d 25%, transparent); }');
+ expect(result.css).toContain('.dark .dark\\:bg-forest\\/40 { background-color: color-mix(in srgb, #14532d 40%, transparent); }');
+ expect(result.css).toContain('.md\\:text-forest\\/80 { color: color-mix(in srgb, #14532d 80%, transparent); }');
+ expect(result.css).toContain('.border-forest\\/0 { border-color: color-mix(in srgb, #14532d 0%, transparent); }');
+ expect(result.css).not.toContain('.bg-forest\\/101 {');
+});
+
 it('emits explicit dark utilities composed with states and breakpoints', async () => {
  const result = await compile('Theme {text-gray-900 dark:text-gray-100 dark:hover:text-primary-600 md:dark:text-primary-600 dark:md:grid-cols-3}', {theme:{colors:{primary:{600:'#234567'}}}});
  expect(result.css).toContain('.dark .dark\\:text-gray-100 { color: #f3f4f6; }');

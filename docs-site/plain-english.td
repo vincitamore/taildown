@@ -516,6 +516,16 @@ Falls back to raw CSS classes
 
 ---
 
+## Color transparency {bold primary}
+
+Add an integer opacity from `0` to `100` after a color utility: `bg-primary/20`, `text-gray-900/80`, or `border-primary/30`. This changes that color rather than fading the element's children. It also works with configured colors and prefixes such as `dark:bg-primary/10` or `md:bg-primary/20`.
+
+```taildown
+:::card {bg-primary/10 dark:bg-primary/20 border-primary/30 padded}
+A translucent surface with fully opaque text.
+:::
+```
+
 ## Styling dark mode {bold primary}
 
 Semantic colors adapt automatically. For a deliberate palette in each theme, prefix a utility with `dark:`. The rule applies while the document's dark-mode toggle is active, including in exported HTML.

@@ -582,6 +582,16 @@ export function generateCSS(classes: Set<string>, minify: boolean = false, confi
   for (const [name, font] of Object.entries(config.theme.fonts)) {
     if (font && /^[a-z][a-z0-9-]*$/.test(name)) utilities[`font-${name}`] = `font-family: ${font};`;
   }
+  // Resolve opacity on known colors before applying state/theme/breakpoint variants.
+  // color-mix also preserves semantic CSS variables and existing alpha channels.
+  for (const className of classes) {
+    const base = className.split(':').pop()!;
+    if (utilities[base]) continue;
+    const match = base.match(/^((?:text|bg|border)-[^/]+)\/(\d{1,3})$/);
+    if (!match || Number(match[2]) > 100) continue;
+    const declaration = utilities[match[1]!]?.match(/^(color|background-color|border-color):\s*(.+);$/);
+    if (declaration) utilities[base] = `${declaration[1]}: color-mix(in srgb, ${declaration[2]} ${Number(match[2])}%, transparent);`;
+  }
   const cssRules: string[] = [];
   cssRules.push(`:root { --font-sans: ${config.theme.fonts.sans}; --font-serif: ${config.theme.fonts.serif}; --font-mono: ${config.theme.fonts.mono}; }`);
 
