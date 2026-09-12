@@ -13,15 +13,15 @@ import { COMPONENT_NAME_REGEX, CLASS_NAME_REGEX } from '@taildown/shared';
 /**
  * Regular expression to match component fence markers
  * See SYNTAX.md §3.2.1 - Fence Markers
- * See SYNTAX.md §3.2.3 - Attributes on Components (one space required)
+ * See SYNTAX.md §3.2.3 - Attributes on Components
  * 
  * Pattern: :::component-name {.class1 .class2} or :::component-name{id="value"}
  * - Must start at beginning of line
  * - Three colons followed by optional name and attributes
- * - One space required between component name and attribute block (per §3.2.3)
+ * - Horizontal whitespace before the attribute block is optional
  * - Attributes can be classes (.class) or key-value pairs (key="value")
  */
-const FENCE_OPEN_REGEX = /^:::([a-z][a-z0-9-]*)(?: \{([^}]+)\})?$/;
+const FENCE_OPEN_REGEX = /^:::([a-z][a-z0-9-]*)(?:[\t ]*\{([^}]*)\})?$/;
 const FENCE_CLOSE_REGEX = /^:::$/;
 
 /**

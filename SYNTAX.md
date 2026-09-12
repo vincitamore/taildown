@@ -1242,7 +1242,7 @@ Content
 
 Rules from Section 2.2 apply, except:
 - Attributes appear on same line as fence open, after component name
-- One space required between component name and attribute block
+- Horizontal whitespace between the component name and attribute block is optional: both `:::card {padded}` and `:::card{padded}` are valid. An empty block (`:::card{}`) uses the component defaults.
 
 **Rule 3.2.4 - Component Nesting**: Components MAY be nested:
 ```taildown

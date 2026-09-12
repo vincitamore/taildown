@@ -520,15 +520,79 @@
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "card",
       "children": [
         {
-          "type": "text",
-          "value": ":::card {}\nCard with empty attribute block"
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Card with empty attribute block",
+              "position": {
+                "start": {
+                  "line": 38,
+                  "column": 1,
+                  "offset": 626
+                },
+                "end": {
+                  "line": 38,
+                  "column": 32,
+                  "offset": 657
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 38,
+              "column": 1,
+              "offset": 626
+            },
+            "end": {
+              "line": 38,
+              "column": 32,
+              "offset": 657
+            }
+          },
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 37,
+          "column": 1,
+          "offset": 614
+        },
+        "end": {
+          "line": 39,
+          "column": 4,
+          "offset": 662
+        }
+      },
       "data": {
-        "hProperties": {}
+        "hName": "div",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-card",
+            "rounded-lg",
+            "p-6",
+            "max-w-full",
+            "overflow-x-hidden",
+            "overflow-wrap-normal",
+            "glass-effect",
+            "glass-subtle",
+            "shadow-sm"
+          ],
+          "data-component": "card"
+        },
+        "component": {
+          "name": "card",
+          "attributes": []
+        }
       }
     },
     {
