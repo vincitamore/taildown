@@ -82,6 +82,32 @@ export function createPreviewController({
         try {
           const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow?.document;
           if (previewDoc && previewDoc.documentElement) {
+            // srcdoc inherits the editor's base URL. Keep fragment navigation in
+            // the preview instead of loading the editor again inside the iframe.
+            previewDoc.addEventListener('click', (event) => {
+              if (
+                event.defaultPrevented ||
+                event.button !== 0 ||
+                event.metaKey ||
+                event.ctrlKey ||
+                event.shiftKey ||
+                event.altKey
+              )
+                return;
+              const target = event.target;
+              if (!(target instanceof previewDoc.defaultView!.Element)) return;
+              const link = target.closest('a[href]');
+              const href = link?.getAttribute('href');
+              const destination = link?.getAttribute('target');
+              if (
+                !href?.startsWith('#') ||
+                (destination && destination !== '_self') ||
+                link?.hasAttribute('download')
+              )
+                return;
+              event.preventDefault();
+              previewDoc.defaultView!.location.hash = href;
+            });
             previewDoc.documentElement.scrollTop = savedScrollTop;
             previewDoc.body.scrollTop = savedScrollTop;
             previewDoc.documentElement.scrollLeft = savedScrollLeft;

@@ -28,6 +28,8 @@ Preview compilation and browser draft recovery run after a one-second pause in t
 
 Compilation normally runs in a background worker so it does not block editing. The editor also obtains its icon previews from that worker, keeping a single copy of the complete icon library in the download. If workers cannot start, the editor uses the same compiler on the main thread. Both paths support the complete offline editor.
 
+Section links such as `[Read more](#details)` navigate within the preview when the document contains that ID. They keep their ordinary fragment URLs in downloaded HTML.
+
 ### Shortcuts
 
 These shortcuts apply while the editor has focus. `Mod` means Ctrl on Windows/Linux and Cmd on macOS.
@@ -94,7 +96,7 @@ To distribute the offline editor, share `editor/dist/editor.html`. To host the s
 - `editor/authoring.ts`: typed autocomplete shared by the editor and its tests.
 - `editor/commands.ts`: command palette and slash menu, shared templates, search, and selection-aware insertion.
 - `editor/icons.ts`: toolbar and completion SVG rendering from compiler-supplied icon data.
-- `editor/preview.ts`: debounced compilation, stale-result guards, diagnostics navigation, and preview scroll restoration.
+- `editor/preview.ts`: debounced compilation, stale-result guards, diagnostics navigation, preview fragment navigation and scroll restoration.
 - `editor/divider.ts`: responsive split-pane resizing with pointer and keyboard controls.
 - `editor/recovery.ts`: restores saved drafts and checks for unsaved changes before closing.
 - `editor/files.ts`: open/save/download/export operations, document identity checks, and per-handle write queues.

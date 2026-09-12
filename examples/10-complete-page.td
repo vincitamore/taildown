@@ -1,8 +1,8 @@
 # :icon[zap]{warning lg} Taildown Complete Demo {massive center primary}
 
-## Every feature in one document {xl muted center relaxed-lines}
+## A complete page built with Taildown {xl muted center relaxed-lines}
 
-This example demonstrates **every major feature** of Taildown in a single comprehensive document. {large center relaxed-lines}
+This example combines Markdown, plain-English styling, icons, components, and layouts in one document. {large center relaxed-lines}
 
 ---
 
@@ -21,7 +21,7 @@ This example demonstrates **every major feature** of Taildown in a single compre
 
 ---
 
-# 1. Markdown Basics {huge-bold}
+# 1. Markdown Basics {#basics huge-bold}
 
 ## Text Formatting {large-bold}
 
@@ -72,7 +72,7 @@ function hello(name) {
 
 ---
 
-# 2. Plain English Styling {huge-bold}
+# 2. Plain English Styling {#styling huge-bold}
 
 ## Natural Language Syntax {large-bold}
 
@@ -101,7 +101,7 @@ This is primary colored and centered. {primary center}
 
 ---
 
-# 3. Icons System {huge-bold}
+# 3. Icons System {#icons huge-bold}
 
 ## Icon Sizes {large-bold}
 
@@ -144,7 +144,7 @@ Primary: :icon[check]{primary} Success: :icon[check]{success} Warning: :icon[ale
 
 ---
 
-# 4. Component Blocks {huge-bold}
+# 4. Component Blocks {#components huge-bold}
 
 ## Alerts {large-bold}
 
@@ -217,7 +217,7 @@ This card uses a border instead of shadow.
 
 ---
 
-# 5. Glassmorphism {huge-bold}
+# 5. Glassmorphism {#glass huge-bold}
 
 ## Glass Variants {large-bold}
 
@@ -255,7 +255,7 @@ This card uses heavy glassmorphism for a modern, premium feel.
 
 ---
 
-# 6. Animations {huge-bold}
+# 6. Animations {#animations huge-bold}
 
 ## Entrance Animations {large-bold}
 
@@ -297,7 +297,7 @@ Card scales on hover.
 
 ---
 
-# 7. Advanced Layouts {huge-bold}
+# 7. Advanced Layouts {#layouts huge-bold}
 
 ## Basic Grid {large-bold}
 
@@ -375,7 +375,7 @@ Highly customizable with plain English.
 
 ---
 
-# 8. Real Content Examples {huge-bold}
+# 8. Real Content Examples {#examples huge-bold}
 
 ## E-Commerce Product Cards {xl-bold}
 

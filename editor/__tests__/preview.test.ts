@@ -175,3 +175,45 @@ it('continues compiling when the iframe document cannot be accessed', async () =
   expect(h.frame.srcdoc).toBe('preview');
   expect(h.status.className).toBe('success');
 });
+
+it('keeps fragment clicks in the preview without rewriting authored links', async () => {
+  const h = harness();
+  const pending = h.controller.updatePreview('source');
+  h.pending[0]!.resolve(result('preview'));
+  await pending;
+  const doc = h.frame.contentDocument!;
+  doc.body.innerHTML = '<a href="#section"><span>Jump</span></a><h2 id="section">Section</h2>';
+  h.frame.dispatchEvent(new Event('load'));
+  const event = new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 });
+  doc.querySelector('span')!.dispatchEvent(event);
+  expect(event.defaultPrevented).toBe(true);
+  expect(doc.defaultView!.location.hash).toBe('#section');
+  expect(doc.querySelector('a')!.getAttribute('href')).toBe('#section');
+});
+
+it('leaves handled, modified, download and other-target links alone', async () => {
+  const h = harness();
+  const pending = h.controller.updatePreview('source');
+  h.pending[0]!.resolve(result('preview'));
+  await pending;
+  const doc = h.frame.contentDocument!;
+  h.frame.dispatchEvent(new Event('load'));
+  for (const attributes of [
+    'href="https://example.com"',
+    'href="#section" target="_blank"',
+    'href="#section" download',
+  ]) {
+    doc.body.innerHTML = '<a ' + attributes + '>Link</a>';
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true });
+    doc.querySelector('a')!.dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(false);
+  }
+  doc.body.innerHTML = '<a href="#section">Link</a>';
+  const modified = new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true });
+  doc.querySelector('a')!.dispatchEvent(modified);
+  expect(modified.defaultPrevented).toBe(false);
+  const handled = new MouseEvent('click', { bubbles: true, cancelable: true });
+  handled.preventDefault();
+  doc.querySelector('a')!.dispatchEvent(handled);
+  expect(doc.defaultView!.location.hash).toBe('');
+});
