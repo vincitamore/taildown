@@ -10,6 +10,8 @@
 
 **Your complete guide to every Taildown component with live examples.** {center large-muted}
 
+Component defaults can be customized per document with the compiler's `componentConfig` option, or the CLI configuration's `components` field. Add named variants and sizes, choose defaults, and share the same configuration with `getAuthoringReference` for authoring suggestions. See [component presets](getting-started.html#component-presets) for the complete example.
+
 ---
 
 ## Quick Navigation {#nav bold primary}

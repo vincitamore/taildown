@@ -67,7 +67,6 @@ export async function compileCommand(
     const defaults = createConfig({});
     // Do not silently accept settings that have no compiler integration yet.
     const unsupported = [
-      ['components', config.components, defaults.components],
       ['plugins', config.plugins, defaults.plugins],
       ['theme.glass', config.theme.glass, defaults.theme.glass],
       ['theme.animations', config.theme.animations, defaults.theme.animations],
@@ -107,6 +106,7 @@ export async function compileCommand(
       minify: options.minify ?? config.output?.minify,
       darkMode: config.output?.darkMode !== false && config.theme.darkMode.enabled,
       theme: {colors: config.theme.colors, fonts: config.theme.fonts},
+      componentConfig: overrides.components,
       cssFilename: shouldInline ? undefined : assetURL(outputCss),
       jsFilename: shouldInline ? undefined : assetURL(outputJs),
     };

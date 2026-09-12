@@ -1309,7 +1309,7 @@ A: No! Taildown uses plain English like `{huge-bold primary}` that translates au
 A: The core system is complete and stable. It's suitable for static content, documentation, and internal tools. For critical production use, verify the output meets your requirements.
 
 **Q: How do I customize styles?**  
-A: Use document attributes, or the compiler's `theme` (colors/fonts), `styleMappings`, and `components` options. The Node-only `@taildown/compiler/config` entry loads and validates partial configuration files:
+A: Use document attributes, or the compiler's `theme` (colors/fonts), `styleMappings`, `components` (new containers), and `componentConfig` (defaults, variants, and sizes) options. The Node-only `@taildown/compiler/config` entry loads and validates partial configuration files:
 
 ```js
 import { loadConfig } from '@taildown/compiler/config';
@@ -1320,7 +1320,7 @@ const { config } = await loadConfig({
 });
 ```
 
-It searches the selected directory for `taildown.config.js`, `.mjs`, or `.cjs` (and `.taildownrc.js` / `.mjs`). An explicit `configPath` resolves relative to `cwd`. Settings merge with fresh defaults before validation; errors throw when requested, otherwise the result includes warnings and fresh defaults. Apply the palette and fonts with `compile(source, {theme: {colors: config.theme.colors, fonts: config.theme.fonts}})`.
+It searches the selected directory for `taildown.config.js`, `.mjs`, or `.cjs` (and `.taildownrc.js` / `.mjs`). An explicit `configPath` resolves relative to `cwd`. Settings merge with fresh defaults before validation; errors throw when requested, otherwise the result includes warnings and fresh defaults. Apply the palette and fonts with `compile(source, {theme: {colors: config.theme.colors, fonts: config.theme.fonts}})`. Component presets use `compile(source, {componentConfig: presets})`; pass the same presets to `getAuthoringReference` to expose their variant and size names in authoring suggestions. The CLI reads presets from the configuration file's `components` field. See the [getting-started reference](https://www.taildown.dev/getting-started) for an example and the current hosted-editor limitations.
 
 The CLI discovers these files in its working directory and applies colors/fonts plus output minification, inline/separate assets, and dark-mode enablement. Use `--config <file>` to select a file or `--no-config` to skip discovery. `--inline` / `--separate` and `--minify` / `--no-minify` override file settings. Configuration modules execute as JavaScript. Unsupported non-default configuration sections fail explicitly; see the Getting Started reference for the current supported fields.
 

@@ -35,3 +35,12 @@ it('preserves the configuration when an output would overwrite it',async()=>{
 it('does not silently discard an explicit asset destination in inline mode',async()=>{
  const dir=await fixture();const result=run(dir,['--css','custom.css']);expect(result.status).toBe(1);expect(result.stderr).toContain('require separate output');expect(await readdir(dir)).not.toContain('input.html');
 });
+it('applies configured component variants and default sizes to the exported page', async () => {
+ const dir = await fixture(JSON.stringify({components: {card: {defaultVariant: 'editorial', defaultSize: 'roomy', variants: {editorial: {classes: ['font-serif']}}, sizes: {roomy: {classes: ['p-8']}}}}}));
+ await writeFile(join(dir, 'input.td'), ':::card\nA composed page\n:::');
+ const result = run(dir); expect(result.status, result.stderr).toBe(0);
+ const doc = new JSDOM(await readFile(join(dir, 'input.html'), 'utf8')).window.document;
+ expect(doc.querySelector('.component-card')?.classList.contains('font-serif')).toBe(true);
+ expect(doc.querySelector('.component-card')?.classList.contains('p-8')).toBe(true);
+ expect(doc.querySelector('style')?.textContent).toContain('.font-serif');
+});

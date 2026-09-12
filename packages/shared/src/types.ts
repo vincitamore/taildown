@@ -5,6 +5,7 @@
 
 import type { Root, Node, Data } from 'mdast';
 import type {ColorConfig, FontConfig} from './theme';
+import type {ComponentsConfig} from './components';
 
 /**
  * Open Graph meta tags for social media sharing
@@ -67,6 +68,8 @@ export interface CompileOptions {
 
   /** Per-document custom components. Keys must match names; registered names cannot be replaced. */
   components?: Record<string, ComponentDefinition>;
+  /** Per-document defaults, variants and sizes for registered or custom components. */
+  componentConfig?: ComponentsConfig;
 
   /** Custom style mappings (plain English to CSS classes) */
   styleMappings?: Record<string, string>;

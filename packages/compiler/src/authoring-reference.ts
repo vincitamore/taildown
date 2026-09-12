@@ -4,6 +4,7 @@ import {ICON_SIZES} from './icons/icon-parser';
 import {KEYBOARD_PLATFORMS} from './parser/kbd-parser';
 import type {CompileOptions} from '@taildown/shared';
 import {prepareCustomComponents} from './components/custom-components';
+import {snapshotComponentConfig, configureComponents} from './components/component-config';
 
 // Small offline examples shared by authoring clients. Keep these ordinary
 // Taildown source so they exercise the same public syntax as authored pages.
@@ -21,14 +22,18 @@ const COMPONENT_EXAMPLES: Record<string, string> = {
 };
 
 /** Authoring suggestions reflect the same initialized definitions as compilation. */
-export async function getAuthoringReference(options: Pick<CompileOptions, 'components' | 'styleMappings'> = {}) {
+export async function getAuthoringReference(options: Pick<CompileOptions, 'components' | 'componentConfig' | 'styleMappings'> = {}) {
+  const componentConfig = snapshotComponentConfig(options.componentConfig);
   const definitions = Object.fromEntries(Object.entries(options.components ?? {}).map(([name, definition]) =>
     [name, {...definition, defaultClasses: [...definition.defaultClasses]}]));
   const customStyles = Object.keys(options.styleMappings ?? {});
   await registryInitialized;
   const customComponents = prepareCustomComponents(definitions);
+  const configured = configureComponents(customComponents, componentConfig);
+  const components = new Map(registry.getAll().map(component => [component.name, component]));
+  for (const [name, component] of configured) components.set(name, component);
   return {
-    components: [...registry.getAll(), ...customComponents.values()].map(component => ({
+    components: [...components.values()].map(component => ({
       name: component.name,
       description: component.description ?? '',
       example: COMPONENT_EXAMPLES[component.name] ?? (customComponents.has(component.name) ? `:::${component.name}\nYour content here.\n:::` : undefined),

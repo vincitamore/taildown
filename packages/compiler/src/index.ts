@@ -31,7 +31,7 @@ export async function compile(
 
   // Parse the authored source directly. Compact component attributes are valid,
   // and rewriting source here would also alter literal code and source offsets.
-  const parseResult = await parseWithWarnings(source, {styleMappings: options.styleMappings, components: options.components});
+  const parseResult = await parseWithWarnings(source, {styleMappings: options.styleMappings, components: options.components, componentConfig: options.componentConfig});
   const { ast, warnings } = parseResult;
 
   // Count nodes for metadata

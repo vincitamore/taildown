@@ -29,10 +29,12 @@ import { recognizeFenceBlocks } from './fence-blocks';
 import {getDefaultConfig} from '../config/default-config';
 import type {ComponentDefinition} from '@taildown/shared';
 import {prepareCustomComponents} from '../components/custom-components';
+import {snapshotComponentConfig, configureComponents} from '../components/component-config';
 
 export interface ParseOptions {
   styleMappings?: Record<string, string>;
   components?: Record<string, ComponentDefinition>;
+  componentConfig?: import('@taildown/shared').ComponentsConfig;
 }
 
 /**
@@ -54,11 +56,12 @@ export async function parse(source: string, options: ParseOptions = {}): Promise
  */
 export async function parseWithWarnings(source: string, options: ParseOptions = {}): Promise<ParseResult> {
   const styleMappings = options.styleMappings ? {...options.styleMappings} : undefined;
+  const componentConfig = snapshotComponentConfig(options.componentConfig);
   const componentDefinitions = Object.fromEntries(Object.entries(options.components ?? {}).map(([name, definition]) =>
     [name, {...definition, defaultClasses: [...definition.defaultClasses]}]));
   await registryInitialized;
   const warnings: CompilationWarning[] = [];
-  const components = prepareCustomComponents(componentDefinitions);
+  const components = configureComponents(prepareCustomComponents(componentDefinitions), componentConfig);
   const resolverContext = {config: getDefaultConfig(), darkMode: false, styleMappings, components};
 
   const processor = unified()

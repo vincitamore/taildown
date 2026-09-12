@@ -311,7 +311,7 @@ node packages/cli/dist/cli.js compile notes.td --no-config
 
 An explicit configuration path resolves against the working directory. Command-line flags override configuration: `--inline` embeds CSS/JS, `--separate` writes companion assets, and `--minify` / `--no-minify` control minification. Without an explicit `output.inlineStyles` setting, the CLI keeps its default single-file output. `output.darkMode: false` or `theme.darkMode.enabled: false` disables the generated theme switcher.
 
-Palette, font, minification, asset-layout, and dark-mode enablement settings are connected. Other component, glass, animation, dark-mode method/transition, plugin, and source-map settings are not yet connected to the CLI; non-default values produce an error. Invalid configuration and conflicting output paths stop the build before existing exports or the configuration file are overwritten.
+Palette, font, component preset, minification, asset-layout, and dark-mode enablement settings are connected. Glass, animation, dark-mode method/transition, plugin, and source-map settings are not yet connected to the CLI; non-default values produce an error. Invalid configuration and conflicting output paths stop the build before existing exports or the configuration file are overwritten.
 
 ## Compiler API customization {bold primary}
 
@@ -362,6 +362,25 @@ const reference = await getAuthoringReference(options);
 The generated HTML includes the component's markup and styling. Keep the definitions alongside the `.td` source for recompilation. Custom names also work in inline style attributes, such as `# Title {editorial small}`, where they apply classes while preserving the original Markdown element.
 
 Authoring integrations can pass the same options to `getAuthoringReference` to receive custom component names, insertable examples, and custom style names. The hosted editor does not yet expose custom-definition settings. These definitions provide presentation and semantic containers; JavaScript behaviors remain those of the built-in components nested inside them.
+
+### Component presets
+
+Use `componentConfig` to give registered or custom components document-specific defaults, variants, and sizes. Additional default classes preserve the component's structure; a named variant or size replaces that name's class list. Explicit attributes still override defaults in source order.
+
+```javascript
+const componentConfig = {
+  card: {
+    defaultVariant: 'editorial',
+    defaultSize: 'roomy',
+    variants: { editorial: { classes: ['font-serif', 'border'] } },
+    sizes: { roomy: { classes: ['p-8'] } }
+  }
+};
+const result = await compile(':::card\nYour idea\n:::', { componentConfig });
+const reference = await getAuthoringReference({ componentConfig });
+```
+
+Both calls use the same definitions. The reference includes `editorial` and `roomy` for attribute completion; other documents retain their defaults. Unknown component names and missing default variants or sizes produce errors. In a CLI configuration file, put this object under `components`. The hosted editor's preset settings are not yet available.
 
 ## A document's palette and fonts
 
