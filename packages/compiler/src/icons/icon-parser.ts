@@ -31,7 +31,7 @@ const ICON_REGEX = /:icon\[([a-z0-9-]+)\](?:\{([^}]+)\})?/g;
 
 // Icon dimensions are independent of the text-size shorthands. Resolve them
 // into ordinary width/height utilities so later explicit dimensions can win.
-const ICON_SIZES: Record<string, number> = {
+export const ICON_SIZES: Readonly<Record<string, number>> = {
   tiny: 12, xs: 16, sm: 20, small: 20, md: 24, medium: 24,
   lg: 32, large: 32, xl: 40, '2xl': 48, huge: 64,
 };

@@ -97,12 +97,15 @@ function capitalizeKey(key: string): string {
 /**
  * Parse platform hint from attributes
  */
+export const KEYBOARD_PLATFORMS = {
+  mac: 'mac', macos: 'mac', apple: 'mac', windows: 'windows', win: 'windows',
+} as const;
+
 function parsePlatform(attrs?: string): 'mac' | 'windows' | undefined {
   if (!attrs) return undefined;
   const lower = attrs.toLowerCase().trim();
-  if (lower === 'mac' || lower === 'macos' || lower === 'apple') return 'mac';
-  if (lower === 'windows' || lower === 'win') return 'windows';
-  return undefined;
+  return Object.hasOwn(KEYBOARD_PLATFORMS, lower)
+    ? KEYBOARD_PLATFORMS[lower as keyof typeof KEYBOARD_PLATFORMS] : undefined;
 }
 
 /**

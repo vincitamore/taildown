@@ -42,3 +42,23 @@ it('offers compiler shorthands after whitespace within an attribute block', asyn
   expect(input.slice(0, result.from)).toBe('# Heading {primary ');
   expect(result.options.map((item: any) => item.label)).toContain('extra-light');
 });
+
+it('offers icon-specific sizes while preserving earlier icon attributes', async () => {
+  const input = ':icon[star]{primary ti';
+  const result = await suggestions(input);
+  expect(input.slice(0, result.from)).toBe(':icon[star]{primary ');
+  expect(result.options.find((item: any) => item.label === 'tiny')?.info).toBe('icon-style');
+});
+
+it('offers inline badge variants from the badge definition', async () => {
+  const input = ':badge[Ready]{success de';
+  const result = await suggestions(input);
+  expect(input.slice(0, result.from)).toBe(':badge[Ready]{success ');
+  expect(result.options.find((item: any) => item.label === 'default')?.info).toBe('badge-style');
+});
+
+it('offers only supported platform hints for keyboard markup', async () => {
+  const result = await suggestions(':kbd[Ctrl]{');
+  expect(result.options.map((item: any) => item.label).sort()).toEqual(['apple', 'mac', 'macos', 'win', 'windows']);
+  expect(result.options.every((item: any) => item.info === 'platform')).toBe(true);
+});

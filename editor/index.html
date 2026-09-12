@@ -1387,10 +1387,13 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       // Attribute autocomplete - triggered after { or inside {}
       const braceMatch = textBefore.match(/\{([^}]*)$/);
       if (braceMatch) {
-        const typed = braceMatch[1].match(/[^\s]*$/)[0];
-        const component = textBefore.match(/:::([\w-]+)\s*\{[^}]*$/)?.[1];
+        const inline = textBefore.match(/:(icon|badge|kbd)\[[^\]]*\]\{[^}]*$/)?.[1];
+        const typed = inline === 'kbd' ? braceMatch[1] : braceMatch[1].match(/[^\s]*$/)[0];
+        const component = inline === 'badge' ? 'badge' : textBefore.match(/:::([\w-]+)\s*\{[^}]*$/)?.[1];
         const variants = authoringReference.components.find(item => item.name === component)?.attributes || [];
-        const filtered = [...new Set([...styleAttributes, ...variants])].filter(attr =>
+        const candidates = inline === 'kbd' ? authoringReference.keyboardPlatforms
+          : [...styleAttributes, ...variants, ...(inline === 'icon' ? authoringReference.iconSizes : [])];
+        const filtered = [...new Set(candidates)].filter(attr =>
           attr.toLowerCase().includes(typed.toLowerCase())
         );
         
@@ -1400,7 +1403,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
           options: filtered.map(attr => ({
             label: attr,
             type: 'property',
-            info: 'style',
+            info: inline === 'kbd' ? 'platform' : inline ? `${inline}-style` : 'style',
             render: renderAutocompleteItem(attr, 'property', 'style'),
             apply: attr
           }))
@@ -1426,72 +1429,6 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
               apply: icon
             };
           })
-        };
-      }
-      
-      // Attribute autocomplete after icon name - :icon[name]{
-      const iconAttrMatch = textBefore.match(/:icon\[[^\]]+\]\{([^}]*)$/);
-      if (iconAttrMatch) {
-        const typed = iconAttrMatch[1];
-        const iconStyles = ['xs', 'small', 'large', 'xl', 'primary', 'secondary', 'success', 'warning', 'error', 'info', 'muted'];
-        const filtered = iconStyles.filter(attr => 
-          attr.toLowerCase().includes(typed.toLowerCase())
-        );
-        
-        return {
-          from: context.pos - typed.length,
-          validFor: /^[\w-]*$/,  // Stay open while typing icon styles
-          options: filtered.map(attr => ({
-            label: attr,
-            type: 'property',
-            info: 'icon-style',
-            render: renderAutocompleteItem(attr, 'property', 'icon-style'),
-            apply: attr
-          }))
-        };
-      }
-      
-      // Attribute autocomplete after badge text - :badge[text]{
-      const badgeAttrMatch = textBefore.match(/:badge\[[^\]]+\]\{([^}]*)$/);
-      if (badgeAttrMatch) {
-        const typed = badgeAttrMatch[1];
-        const badgeStyles = ['default', 'primary', 'secondary', 'success', 'warning', 'error', 'info', 'muted', 'sm', 'md', 'lg'];
-        const filtered = badgeStyles.filter(attr => 
-          attr.toLowerCase().includes(typed.toLowerCase())
-        );
-        
-        return {
-          from: context.pos - typed.length,
-          validFor: /^[\w-]*$/,  // Stay open while typing badge styles
-          options: filtered.map(attr => ({
-            label: attr,
-            type: 'property',
-            info: 'badge-style',
-            render: renderAutocompleteItem(attr, 'property', 'badge-style'),
-            apply: attr
-          }))
-        };
-      }
-      
-      // Platform hint autocomplete after kbd text - :kbd[keys]{
-      const kbdAttrMatch = textBefore.match(/:kbd\[[^\]]+\]\{([^}]*)$/);
-      if (kbdAttrMatch) {
-        const typed = kbdAttrMatch[1];
-        const platforms = ['mac', 'macos', 'windows', 'win'];
-        const filtered = platforms.filter(p => 
-          p.toLowerCase().includes(typed.toLowerCase())
-        );
-        
-        return {
-          from: context.pos - typed.length,
-          validFor: /^[\w-]*$/,  // Stay open while typing platforms
-          options: filtered.map(platform => ({
-            label: platform,
-            type: 'property',
-            info: 'platform',
-            render: renderAutocompleteItem(platform, 'property', 'platform'),
-            apply: platform
-          }))
         };
       }
       
