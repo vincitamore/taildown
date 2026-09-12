@@ -89,13 +89,17 @@ The offline build embeds compiler and diagram runtime in one editor HTML file. T
 | `packages/shared` | Public types and shared definitions |
 | `packages/cli` | Source-file compilation and output/configuration handling |
 | `packages/linter` | Asynchronous lint/fix API; see its [guide](packages/linter/README.md) |
-| `packages/mcp` | Local stdio compilation/reference server; see its [guide](packages/mcp/README.md) |
 | `editor` | Browser editing application |
 | `docs-site` | Authored public website and deployment build |
 | `examples` | Complete Taildown documents |
 | `syntax-tests` | Executable syntax fixtures |
+| `skills/taildown` | Portable authoring instructions using the CLI and maintained references |
 
 `pnpm build` builds workspace packages. Browser/editor builds are explicit; site generation builds its required artifacts and emits `docs-site/dist/`. Generated directories are not source authorities.
+
+## Agent authoring
+
+[AGENTS.md](AGENTS.md) routes document work to the [repository skill](skills/taildown/SKILL.md). The skill uses the local CLI to compile authored files and directs agents to the current syntax, component, styling, and example references. It adds no server process or alternate compilation API. Compiler diagnostics and browser/export checks remain the verification boundary for generated documents.
 
 ## Correctness and extension
 

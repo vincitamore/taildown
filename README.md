@@ -60,6 +60,10 @@ pnpm build:editor
 
 Open `editor/dist/editor.html` in your browser. To build the documentation website and both editor distributions, run `node docs-site/build.mjs`; its deployable output is `docs-site/dist/`. See [site build instructions](docs-site/README.md).
 
+## Authoring with an agent
+
+The repository includes a portable [Taildown authoring skill](skills/taildown/SKILL.md). Ask your agent to read it when creating or refining a document; it uses the local CLI and the same maintained references as human authors. [AGENTS.md](AGENTS.md) is the entry point for agents working in this checkout.
+
 ## Documentation
 
 | Read | Purpose |
@@ -70,6 +74,7 @@ Open `editor/dist/editor.html` in your browser. To build the documentation websi
 | [Plain-English reference](docs-site/plain-english.td) | Styling vocabulary |
 | [SYNTAX.md](SYNTAX.md) | Detailed language contract |
 | [Examples](examples/README.md) | Complete documents to study and adapt |
+| [Authoring skill](skills/taildown/SKILL.md) | Agent workflow using the local CLI and rendered checks |
 | [Editor guide](editor/README.md) | Files, shortcuts, recovery, offline use |
 | [Architecture](tech-spec.md) | Compiler, runtime, packages, build boundaries |
 | [Contributing](CONTRIBUTING.md) | Development and validation workflow |

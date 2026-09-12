@@ -1373,14 +1373,14 @@ Combine badges with icons for visual context:
 
 #### What is Details/Summary? {bold}
 
-The `<details>` element is a native HTML5 component for progressive disclosure - perfect for FAQs, collapsible content, and expandable sections. Taildown adds beautiful glassmorphism styling while maintaining full accessibility.
+Use details for FAQs, optional explanations, and expandable sections. The leading paragraph or heading becomes the clickable summary, preserving its inline formatting. If the first block is something else, the label is "Details" and that block stays in the body.
 
 :::card {light-glass padded}
 **Key Benefits:**
 - :icon[check]{success} **Zero JavaScript** - Uses native HTML5
-- :icon[check]{success} **Perfect Accessibility** - Built-in ARIA support
+- :icon[check]{success} **Native Semantics** - Browser-provided disclosure behavior
 - :icon[check]{success} **Keyboard Navigation** - Enter/Space to toggle
-- :icon[check]{success} **Smooth Animations** - CSS transitions
+- :icon[check]{success} **Source Preserved** - Title formatting and body content stay intact
 :::
 
 #### Live Examples {bold}
@@ -1402,16 +1402,17 @@ Taildown is a markup language for creating beautiful UIs with plain English styl
 :::details {subtle-glass}
 **How do I install it?**
 
-Installation is simple with pnpm, npm, or yarn:
+Follow the [source setup guide](getting-started.html) for the required tools and repository checkout. From that directory, use the pinned pnpm version:
 
 ```bash
-pnpm install @taildown/cli
+pnpm install --frozen-lockfile
+pnpm build
 ```
 
 Then create a `.td` file and compile it:
 
 ```bash
-taildown compile myfile.td
+pnpm taildown compile myfile.td
 ```
 :::
 
@@ -3744,9 +3745,9 @@ Combine cards, tabs, and alerts for rich documentation:
 :::
 
 **Quick Steps:**
-1. Install: `npm install @taildown/cli`
-2. Create a `.td` file
-3. Compile: `taildown compile file.td`
+1. Set up a [source checkout](getting-started.html), then run `pnpm install --frozen-lockfile` and `pnpm build`
+2. Create a `.td` file in that checkout
+3. Compile: `pnpm taildown compile file.td`
 4. Open the generated HTML
 
 [Full Tutorial](#){button primary}

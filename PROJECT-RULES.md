@@ -11,7 +11,7 @@ These rules describe how to maintain Taildown's source and public documentation.
 
 ## Documentation roles
 
-[README.md](README.md) is the short project entry point. [SYNTAX.md](SYNTAX.md) describes the language contract. [tech-spec.md](tech-spec.md) describes current architecture. [CONTRIBUTING.md](CONTRIBUTING.md) describes contribution and validation. This file owns repository-maintenance rules; [CLAUDE.md](CLAUDE.md) is a short agent entry point that links them.
+[README.md](README.md) is the short project entry point. [SYNTAX.md](SYNTAX.md) describes the language contract. [tech-spec.md](tech-spec.md) describes current architecture. [CONTRIBUTING.md](CONTRIBUTING.md) describes contribution and validation. This file owns repository-maintenance rules; [AGENTS.md](AGENTS.md) is the agent entry point, [CLAUDE.md](CLAUDE.md) points to it for compatibility, and [skills/taildown/SKILL.md](skills/taildown/SKILL.md) guides document authoring through the local CLI.
 
 Use Markdown for repository navigation and contributor guidance. Use Taildown for authored website pages and examples that demonstrate the language. Each subject needs one maintained authority; link to it instead of maintaining parallel `.md`, `.td`, and generated HTML versions. Historical plans and session reports must not appear to be current feature documentation. Preserve useful design rationale in maintained architecture notes; Git history retains superseded work.
 

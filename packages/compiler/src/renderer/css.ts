@@ -3814,32 +3814,33 @@ ${generateThemeCSS(config)}
 }
 
 /* Summary element - the clickable header */
-.details-component summary {
+.details-component > summary {
+  position: relative;
   cursor: pointer;
   font-weight: 600;
   list-style: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.125rem 0;
-  color: var(--foreground);
+  display: block;
+  padding: 0.125rem 1.75rem 0.125rem 0;
   user-select: none;
   outline: none;
   transition: color 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Remove default disclosure triangle across browsers */
-.details-component summary::-webkit-details-marker {
+.details-component > summary::-webkit-details-marker {
   display: none;
 }
 
-.details-component summary::marker {
+.details-component > summary::marker {
   display: none;
 }
 
 /* Add custom chevron icon with smooth rotation */
-.details-component summary::after {
+.details-component > summary::after {
   content: '▶';
+  position: absolute;
+  right: 0;
+  top: 0.4em;
   display: inline-block;
   width: 1rem;
   height: 1rem;
@@ -3847,21 +3848,19 @@ ${generateThemeCSS(config)}
   color: var(--muted-foreground);
   font-size: 0.75rem;
   transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1), color 200ms cubic-bezier(0.4, 0, 0.2, 1);
-  margin-left: auto;
-  padding-left: 0.5rem;
 }
 
 /* Hover effect on summary */
-.details-component summary:hover {
+.details-component > summary:hover {
   color: var(--primary);
 }
 
-.details-component summary:hover::after {
+.details-component > summary:hover::after {
   color: var(--primary);
 }
 
 /* Rotate chevron when open */
-.details-component[open] summary::after {
+.details-component[open] > summary::after {
   transform: rotate(90deg);
 }
 
@@ -3896,7 +3895,7 @@ ${generateThemeCSS(config)}
 }
 
 /* Focus states for accessibility */
-.details-component summary:focus-visible {
+.details-component > summary:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
   border-radius: 0.25rem;
@@ -3909,14 +3908,24 @@ ${generateThemeCSS(config)}
     font-size: 0.875rem;
   }
   
-  .details-component summary {
+  .details-component > summary {
     font-size: 0.9375rem;
   }
 }
 
 /* Dark mode adjustments */
-.dark .details-component summary::after {
+.dark .details-component > summary::after {
   color: var(--muted-foreground);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .details-component,
+  .details-component > summary,
+  .details-component > summary::after,
+  .details-component > *:not(summary) {
+    animation: none;
+    transition: none;
+  }
 }
 
 /* ========================================

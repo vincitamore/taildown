@@ -1374,9 +1374,9 @@ Taildown is a markup language for creating beautiful UIs.
 :::
 
 :::details {elevated open}
-**Installation**
+**Build from source**
 
-Run: `pnpm install @taildown/cli`
+From the repository checkout, run `pnpm install --frozen-lockfile`, then `pnpm build`.
 :::
 ```
 
@@ -1386,10 +1386,9 @@ Run: `pnpm install @taildown/cli`
 
 **Features**:
 - Zero JavaScript (native HTML5)
-- Full ARIA accessibility
+- Native disclosure semantics
 - Keyboard navigation (Enter/Space)
-- Smooth CSS animations
-- First bold text becomes summary
+- The leading paragraph or heading becomes the summary, preserving inline formatting. Without either, the summary is "Details" and all content remains in the body.
 
 #### 3.4A.2 Callout Component
 

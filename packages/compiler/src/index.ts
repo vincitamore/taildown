@@ -155,14 +155,14 @@ export type {
   ParseResult,
 } from '@taildown/shared';
 
-// Re-export component registry for MCP and advanced usage
+// Re-export component registry for programmatic authoring tools
 export {
   registry,
   registerStandardComponents,
   defineComponent,
 } from './components/component-registry';
 
-// Re-export style resolver for MCP and advanced usage
+// Re-export style resolver for programmatic authoring tools
 export {
   SHORTHAND_MAPPINGS,
   getAllShorthands,

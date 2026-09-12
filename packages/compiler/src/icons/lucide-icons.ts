@@ -12,14 +12,14 @@ export const DEFAULT_ICON_CONFIG = {
   stroke: 'currentColor',
 };
 
-export type LucideIconElement = [string, Record<string, any>];
+export type LucideIconElement = (typeof icons.Waves)[number];
 
 const normalizeName = (name: string) => name.toLowerCase().replace(/-/g, '');
 const iconRegistry = new Map<string, LucideIconElement[]>(
-  Object.entries(icons).map(([name, data]) => [normalizeName(name), data as LucideIconElement[]]),
+  Object.entries(icons).map(([name, data]) => [normalizeName(name), data]),
 );
 // Preserve Taildown's original singular alias.
-iconRegistry.set('wave', icons.Waves as LucideIconElement[]);
+iconRegistry.set('wave', icons.Waves);
 
 export function getLucideIconElements(iconName: string): LucideIconElement[] | null {
   return iconRegistry.get(normalizeName(iconName)) ?? null;

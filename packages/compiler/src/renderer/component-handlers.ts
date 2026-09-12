@@ -1753,6 +1753,8 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
       return renderSteps(state, node);
     case 'timeline':
       return renderTimeline(state, node);
+    case 'details':
+      return renderDetails(state, node);
     case 'definitions': {
       const result = renderGenericComponent(state, node);
       result.children = definitionPairs(result.children);
@@ -1777,9 +1779,28 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
 }
 
 /**
- * Generic component renderer for non-interactive components
- * Handles card, alert, grid, container, and other standard components
+ * Native disclosure: promote a leading title without losing body content.
  */
+function renderDetails(state: State, node: ContainerDirectiveNode): Element {
+  const result = renderGenericComponent(state, node);
+  const titleIndex = result.children.findIndex(child => child.type !== 'text' || child.value.trim() !== '');
+  const title = result.children[titleIndex];
+  let summary: Element = {type: 'element', tagName: 'summary', properties: {}, children: [{type: 'text', value: 'Details'}]};
+  if (title?.type === 'element' && title.children.length > 0 && (title.tagName === 'p' || /^h[1-6]$/.test(title.tagName))) {
+    // Paragraph attributes move to summary; a heading remains a heading inside
+    // summary so its level, ID, styling, and inline formatting survive intact.
+    summary = title.tagName === 'p'
+      ? {...title, tagName: 'summary'}
+      : {...summary, children: [title]};
+    result.children.splice(titleIndex, 1);
+  }
+  result.children.unshift(summary);
+  if (node.data?.component?.attributes.includes('open') || Object.hasOwn(node.attributes ?? {}, 'open')) {
+    result.properties.open = true;
+  }
+  return result;
+}
+
 function definitionPairs(children: ElementContent[]): ElementContent[] {
   const output: ElementContent[] = [];
   let description: Element | undefined;

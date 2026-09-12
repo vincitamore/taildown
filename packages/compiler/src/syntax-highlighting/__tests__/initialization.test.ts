@@ -5,7 +5,7 @@ vi.mock('shiki', () => ({createHighlighter: create}));
 beforeEach(() => {vi.resetModules(); create.mockReset();});
 
 it('shares one in-flight highlighter across concurrent code blocks and later compilations', async () => {
-  let ready!: (value: any) => void;
+  let ready!: (value: unknown) => void;
   create.mockImplementation(() => new Promise(resolve => {ready = resolve;}));
   const {getHighlighter, highlightWithShiki} = await import('../shiki-highlighter');
   const pending = Array.from({length: 12}, (_, i) => highlightWithShiki(String(i), 'js'));
