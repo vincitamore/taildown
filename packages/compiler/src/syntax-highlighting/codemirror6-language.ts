@@ -40,6 +40,9 @@ const taildownParser = {
       stream.skipToEnd();
       return 'monospace';
     }
+
+    // Markdown punctuation escapes stay literal and cannot open Taildown syntax.
+    if (stream.match(/^\\[!"#$%&'()*+,\-./:;<=>?@[\]\\^_`{|}~]/)) return 'escape';
     
     // Check for code block start
     const openingFence = stream.sol() && stream.match(/^ {0,3}(`{3,}|~{3,})/, false);

@@ -25,3 +25,15 @@ it('does not treat a shorter delimiter as the end of an unmatched inline run', (
   const source = 'Text ``one ` :icon[star]';
   expect(taildownLanguage.parser.parse(source).resolveInner(source.indexOf(':icon') + 2).name).not.toBe('monospace');
 });
+
+it('keeps escaped attribute openers from changing subsequent text highlighting', () => {
+  const source = 'Literal \\{ primary and normal text';
+  const tree = taildownLanguage.parser.parse(source);
+  expect(tree.resolveInner(source.indexOf('primary') + 2).name).not.toBe('className');
+  expect(tree.resolveInner(source.indexOf('\\{') + 1).name).toBe('escape');
+});
+
+it('does not mistake escaped backticks for an inline code opener', () => {
+  const source = 'Literal \\`before :icon[star]`';
+  expect(taildownLanguage.parser.parse(source).resolveInner(source.indexOf(':icon') + 2).name).toBe('keyword');
+});
