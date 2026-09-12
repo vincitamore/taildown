@@ -32,8 +32,9 @@ const SIZE_MAPPINGS: Record<string, number> = {
 function getIconSize(classes: string[]): number {
   // Check for size keywords
   for (const cls of classes) {
-    if (cls in SIZE_MAPPINGS) {
-      return SIZE_MAPPINGS[cls];
+    const mappedSize = SIZE_MAPPINGS[cls];
+    if (typeof mappedSize === 'number') {
+      return mappedSize;
     }
     
     // Check for width classes (w-4, w-6, etc.)

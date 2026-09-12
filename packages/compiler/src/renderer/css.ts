@@ -11,6 +11,8 @@ import { generateAnimationCSS } from '../themes/animations';
 import { createThemeResolver } from '../themes/theme-resolver';
 import { getDefaultConfig } from '../config/default-config';
 
+const DEFAULT_COLORS = getDefaultConfig().theme.colors;
+
 /**
  * Tailwind CSS utility class definitions
  * Phase 1: Basic utilities needed for standard components
@@ -373,9 +375,9 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'text-gray-900': 'color: rgb(17 24 39);',
 
   // Text color - Primary (Blue)
-  'text-primary-500': 'color: rgb(130 160 255);',
-  'text-primary-600': 'color: rgb(106 142 239);',
-  'text-primary-700': 'color: rgb(82 123 222);',
+  'text-primary-500': `color: ${DEFAULT_COLORS.primary[500]};`,
+  'text-primary-600': `color: ${DEFAULT_COLORS.primary[600]};`,
+  'text-primary-700': `color: ${DEFAULT_COLORS.primary[700]};`,
   'text-blue-500': 'color: rgb(59 130 246);',
   'text-blue-600': 'color: rgb(37 99 235);',
   'text-blue-700': 'color: rgb(29 78 216);',

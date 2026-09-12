@@ -7,8 +7,8 @@
  * Supports: JavaScript, TypeScript, Python, CSS, HTML, JSON, Markdown, SQL, Rust, C++, Java, PHP, XML
  */
 
-import { HighlightStyle } from '@codemirror/language';
-import { highlightTree, tags as t, classHighlighter } from '@lezer/highlight';
+
+import { highlightTree, classHighlighter } from '@lezer/highlight';
 
 // Import language packages
 import { javascript } from '@codemirror/lang-javascript';
@@ -70,28 +70,6 @@ const languageRegistry: Record<string, any> = {
 };
 
 /**
- * Dark theme highlight style (consistent with Taildown's default theme)
- */
-const darkHighlightStyle = HighlightStyle.define([
-  { tag: t.keyword, color: '#C586C0' },
-  { tag: [t.name, t.deleted, t.character, t.propertyName, t.macroName], color: '#9CDCFE' },
-  { tag: [t.function(t.variableName), t.labelName], color: '#DCDCAA' },
-  { tag: [t.color, t.constant(t.name), t.standard(t.name)], color: '#4FC1FF' },
-  { tag: [t.definition(t.name), t.separator], color: '#D4D4D4' },
-  { tag: [t.typeName, t.className, t.number, t.changed, t.annotation, t.modifier, t.self, t.namespace], color: '#4EC9B0' },
-  { tag: [t.operator, t.operatorKeyword, t.url, t.escape, t.regexp, t.link, t.special(t.string)], color: '#D4D4D4' },
-  { tag: [t.meta, t.comment], color: '#6A9955' },
-  { tag: t.strong, fontWeight: 'bold' },
-  { tag: t.emphasis, fontStyle: 'italic' },
-  { tag: t.strikethrough, textDecoration: 'line-through' },
-  { tag: t.link, color: '#3794FF', textDecoration: 'underline' },
-  { tag: t.heading, fontWeight: 'bold', color: '#569CD6' },
-  { tag: [t.atom, t.bool, t.special(t.variableName)], color: '#569CD6' },
-  { tag: [t.processingInstruction, t.string, t.inserted], color: '#CE9178' },
-  { tag: t.invalid, color: '#F44747' },
-]);
-
-/**
  * Highlight code using CodeMirror 6's static highlighting
  * 
  * @param code - Source code to highlight
@@ -99,7 +77,7 @@ const darkHighlightStyle = HighlightStyle.define([
  * @param theme - Theme parameter (ignored, always uses dark theme for consistency)
  * @returns Highlighted HTML string or null if language not supported
  */
-export async function highlightWithShiki(code: string, language: string, theme?: string): Promise<string | null> {
+export async function highlightWithShiki(code: string, language: string, _theme?: string): Promise<string | null> {
   // Normalize language
   const normalizedLang = language.toLowerCase().trim();
   

@@ -67,7 +67,7 @@ export function getLightModeColors(config: TaildownConfig): LightModeColors {
     ring: config.theme?.colors?.primary?.DEFAULT || '#3b82f6',
     
     primary: config.theme?.colors?.primary?.DEFAULT || '#3b82f6',
-    primaryForeground: '#ffffff',
+    primaryForeground: '#15202b',
     secondary: config.theme?.colors?.secondary?.DEFAULT || '#8b5cf6',
     secondaryForeground: '#ffffff',
     accent: config.theme?.colors?.accent?.DEFAULT || '#ec4899',
@@ -102,7 +102,7 @@ export function getDarkModeColors(config: TaildownConfig): DarkModeColors {
     ring: '#60a5fa',        // Focus ring (keep bright for visibility)
     
     primary: config.theme?.colors?.primary?.[500] || '#3b82f6',
-    primaryForeground: '#f5f5f5',
+    primaryForeground: '#15202b',
     secondary: config.theme?.colors?.secondary?.[600] || '#9333ea',
     secondaryForeground: '#f5f5f5',
     accent: config.theme?.colors?.accent?.[500] || '#ec4899',

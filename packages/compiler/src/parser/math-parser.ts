@@ -48,7 +48,7 @@ export function remarkMath() {
         mathMatches.push({
           start: match.index,
           end: match.index + match[0].length,
-          latex: match[1],
+          latex: match[1] ?? '',
           isDisplay: true,
         });
       }
@@ -68,7 +68,7 @@ export function remarkMath() {
           mathMatches.push({
             start,
             end,
-            latex: match[1],
+            latex: match[1] ?? '',
             isDisplay: false,
           });
         }

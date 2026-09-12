@@ -220,36 +220,10 @@ export function extractDifferences(
   defaultConfig: TaildownConfig,
   userConfig: TaildownConfig
 ): Partial<TaildownConfig> {
-  const differences: any = {};
-
-  function compareObjects(path: string, defaultObj: any, userObj: any) {
-    for (const key in userObj) {
-      const defaultValue = defaultObj?.[key];
-      const userValue = userObj[key];
-
-      if (JSON.stringify(defaultValue) !== JSON.stringify(userValue)) {
-        // Values differ
-        const fullPath = path ? `${path}.${key}` : key;
-        
-        // Store the difference
-        const keys = fullPath.split('.');
-        let current = differences;
-        
-        for (let i = 0; i < keys.length - 1; i++) {
-          if (!current[keys[i]]) {
-            current[keys[i]] = {};
-          }
-          current = current[keys[i]];
-        }
-        
-        current[keys[keys.length - 1]] = userValue;
-      }
-    }
-  }
-
-  compareObjects('', defaultConfig, userConfig);
-  
-  return differences;
+  return Object.fromEntries(
+    Object.entries(userConfig).filter(([key, value]) =>
+      JSON.stringify(defaultConfig[key as keyof TaildownConfig]) !== JSON.stringify(value))
+  );
 }
 
 /**

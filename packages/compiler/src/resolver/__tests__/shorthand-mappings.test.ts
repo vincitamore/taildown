@@ -10,7 +10,6 @@ import {
   getShorthandsByCategory,
   hasShorthand,
   getShorthand,
-  type ShorthandMapping,
 } from '../shorthand-mappings';
 
 describe('Shorthand Mappings', () => {

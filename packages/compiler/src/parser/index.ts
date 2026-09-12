@@ -62,7 +62,7 @@ export async function parse(source: string): Promise<TaildownRoot> {
 
   // Parse to AST
   const ast = processor.parse(source);
-  const processedAst = await processor.run(ast as Root);
+  const processedAst = await processor.run(ast as Root, { value: source });
 
   return processedAst as TaildownRoot;
 }
@@ -99,7 +99,7 @@ export async function parseWithWarnings(source: string): Promise<ParseResult> {
     .use(processComponents, { warnings });
 
   const ast = processor.parse(source);
-  const processedAst = await processor.run(ast as Root);
+  const processedAst = await processor.run(ast as Root, { value: source });
 
   return {
     ast: processedAst as TaildownRoot,

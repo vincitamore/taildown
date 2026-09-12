@@ -165,7 +165,7 @@ function extractMarkersFromParagraph(node: Paragraph): Array<{
         : null;
       
       // Process all fences from last text node
-      const lastNodeStartLine = node.position.start.line + firstLines.length + (node.children.length - 2);
+      const lastNodeStartLine = lastText.position?.start.line ?? node.position.end.line - lastLines.length + 1;
       const lastNodeItems = processLinesForMarkers(lastLines, lastNodeStartLine);
       
       // Find where markers start in lastNodeItems
@@ -235,7 +235,7 @@ function extractMarkersFromParagraph(node: Paragraph): Array<{
         const openMarker = parseFenceLine(openingLine, node.position.start.line);
         
         // Parse closing marker (need to calculate line number)
-        const closingLineNumber = node.position.start.line + firstLines.length - 1 + (node.children.length > 2 ? 1 : 0) + lastLines.length - 1;
+        const closingLineNumber = (lastText.position?.start.line ?? node.position.end.line - lastLines.length + 1) + lastLines.length - 1;
         const closeMarker = parseFenceLine(closingLine, closingLineNumber);
         
         if (openMarker && closeMarker) {
@@ -264,7 +264,7 @@ function extractMarkersFromParagraph(node: Paragraph): Array<{
           }
           
           // Return opening marker, content paragraph, closing marker
-          const result = [];
+          const result: ReturnType<typeof extractMarkersFromParagraph> = [];
           result.push({ type: 'marker', marker: openMarker });
           
           if (contentChildren.length > 0) {
@@ -357,7 +357,7 @@ function extractMarkersFromParagraph(node: Paragraph): Array<{
         }
         
         // Return opening marker and content paragraph
-        const result = [];
+        const result: ReturnType<typeof extractMarkersFromParagraph> = [];
         result.push({ type: 'marker', marker: openMarker });
         
         if (contentChildren.length > 0) {
@@ -382,7 +382,7 @@ function extractMarkersFromParagraph(node: Paragraph): Array<{
     const lines = fenceChild.value.split(/\r?\n/);
     
     // Process all lines to extract content and markers
-    const result = processLinesForMarkers(lines, node.position.start.line);
+    const result = processLinesForMarkers(lines, fenceChild.position?.start.line ?? node.position.end.line - lines.length + 1);
     
     if (result.length > 0) {
       // We found markers - need to clean the paragraph
@@ -485,7 +485,7 @@ function parseFenceLine(line: string, lineNumber: number): ComponentMarker | nul
       while ((match = kvRegex.exec(trimmed)) !== null) {
         const key = match[1];
         const value = match[2];
-        attributes[key] = value;
+        if (key !== undefined) attributes[key] = value;
         // Remove this kv pair from the string
         cleanedStr = cleanedStr.replace(match[0], ' ');
       }

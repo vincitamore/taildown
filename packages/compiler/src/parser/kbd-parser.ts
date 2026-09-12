@@ -126,6 +126,7 @@ export const parseKeyboard: Plugin<[], Root> = () => {
       KBD_REGEX.lastIndex = 0;
       while ((match = KBD_REGEX.exec(value)) !== null) {
         const [full, keys, attrsRaw] = match;
+        if (keys === undefined) continue;
         const start = match.index;
         const end = start + full.length;
 
@@ -144,7 +145,7 @@ export const parseKeyboard: Plugin<[], Root> = () => {
         const kbdNodes: any[] = [];
         
         for (let i = 0; i < keyParts.length; i++) {
-          const key = keyParts[i];
+          const key = keyParts[i] ?? '';
           const normalizedKey = normalizeKey(key, platform);
           
           // Add the kbd element

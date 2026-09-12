@@ -30,6 +30,10 @@ interface FootnoteData {
   hasReference: boolean;
 }
 
+declare module 'mdast' {
+  interface RootData { footnoteMap?: Map<string, FootnoteData>; }
+}
+
 /**
  * Parse inline footnote references [^id]
  * Converts them to custom nodes for later rendering
@@ -59,6 +63,7 @@ export function parseFootnoteReferences() {
 
       while ((match = footnoteRegex.exec(text)) !== null) {
         const id = match[1];
+        if (id === undefined) continue;
         
         // Add text before the reference
         if (match.index > lastIndex) {
@@ -150,6 +155,7 @@ export function parseFootnoteDefinitions() {
 
       while ((match = definitionRegex.exec(fullText)) !== null) {
         const id = match[1];
+        if (id === undefined || match[2] === undefined) continue;
         let definition = match[2].trim();
 
         // Handle multi-line definitions (indented continuation)
@@ -228,7 +234,7 @@ export function parseFootnoteDefinitions() {
 
       // Replace :::footnotes directive with formatted section
       if (parent && index !== undefined && footnoteListItems.length > 0) {
-        const footnoteSection = {
+        const footnoteSection: ContainerDirectiveNode = {
           type: 'containerDirective',
           name: 'footnotes',
           data: {

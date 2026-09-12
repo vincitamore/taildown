@@ -22,8 +22,8 @@ export interface DarkModeOptions {
   /** Enable dark mode system */
   enabled: boolean;
   
-  /** Toggle method: 'class' or 'media' */
-  toggle: 'class' | 'media';
+  /** Toggle method, matching the public configuration schema. */
+  toggle: 'class' | 'media' | 'manual';
   
   /** Transition speed in milliseconds */
   transitionSpeed: number;

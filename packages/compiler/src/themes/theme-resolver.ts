@@ -77,7 +77,7 @@ export class ThemeResolver {
   /**
    * Get fallback color when config doesn't have the color
    */
-  private getFallbackColor(colorName: string, shade?: number): string {
+  private getFallbackColor(colorName: string, _shade?: number): string {
     const fallbacks: Record<string, string> = {
       primary: '#82a0ff',
       secondary: '#8b5cf6',

@@ -134,7 +134,7 @@ function extractImageData(node: ContainerDirectiveNode): ImageCompareData {
   }
   
   // Strategy 2: Use markdown images if present
-  if (images.length >= 2 && !data.before && !data.after) {
+  if (images[0] && images[1] && !data.before && !data.after) {
     data.before = images[0].url;
     data.after = images[1].url;
     data.beforeAlt = images[0].alt;
@@ -156,7 +156,7 @@ function extractImageData(node: ContainerDirectiveNode): ImageCompareData {
     const urlPattern = /https?:\/\/[^\s]+|\/[^\s]+\.(jpg|jpeg|png|gif|webp|svg)/gi;
     const urls = fullText.match(urlPattern) || [];
     
-    if (urls.length >= 2) {
+    if (urls[0] !== undefined && urls[1] !== undefined) {
       if (!data.before) data.before = urls[0];
       if (!data.after) data.after = urls[1];
     }

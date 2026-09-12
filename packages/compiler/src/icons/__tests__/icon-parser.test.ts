@@ -191,9 +191,9 @@ describe('Icon Parser', () => {
       const tree = result as Root;
       const paragraph = tree.children[0];
       
-      if (paragraph.type === 'paragraph') {
-        expect(paragraph.children.length).toBeGreaterThan(1);
-      }
+      expect(paragraph?.type).toBe('paragraph');
+      if (paragraph?.type !== 'paragraph') throw new Error('Expected paragraph');
+      expect(paragraph.children.length).toBeGreaterThan(1);
     });
   });
 

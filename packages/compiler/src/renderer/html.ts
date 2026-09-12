@@ -189,7 +189,6 @@ export async function astToHast(ast: TaildownRoot): Promise<any> {
   const hast = toHast(ast as Root, { 
     allowDangerousHtml: false,
     handlers: {
-      // @ts-expect-error - containerDirective is our custom node type
       containerDirective: containerDirectiveHandler,
       // Math handler for LaTeX equations
       // @ts-expect-error - math is our custom node type

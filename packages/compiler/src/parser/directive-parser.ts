@@ -6,9 +6,31 @@
 
 import type { Plugin } from 'unified';
 import type { Root } from 'mdast';
-import type { VFile } from 'vfile';
 import { scanForMarkers } from './directive-scanner';
 import { buildComponentTree } from './directive-builder';
+import { visit } from 'unist-util-visit';
+
+/** Restore absolute source offsets after scanning component fences. */
+function locateDirectives(tree: Root, source: string): void {
+  const lines = source.split('\n');
+  const offsets: number[] = [];
+  let offset = 0;
+  for (const line of lines) { offsets.push(offset); offset += line.length + 1; }
+  visit(tree, 'containerDirective', node => {
+    if (!node.position) return;
+    for (const edge of ['start', 'end'] as const) {
+      const point = node.position[edge];
+      const line = lines[point.line - 1];
+      const lineOffset = offsets[point.line - 1];
+      if (line === undefined || lineOffset === undefined) continue;
+      const fence = edge === 'start' ? line.indexOf(':::' + node.name) : line.lastIndexOf(':::');
+      if (fence >= 0) {
+        point.column = edge === 'start' ? fence + 1 : line.replace(/\r$/, '').length + 1;
+      }
+      point.offset = lineOffset + point.column - 1;
+    }
+  });
+}
 
 /**
  * unified plugin to parse component directives (:::component syntax)
@@ -29,7 +51,7 @@ import { buildComponentTree } from './directive-builder';
  * @returns unified transformer
  */
 export const parseDirectives: Plugin<[], Root> = () => {
-  return (tree: Root, file: VFile) => {
+  return (tree, file) => {
     const warnings: Array<{ message: string; line?: number }> = [];
 
     // Callback for collecting warnings
@@ -56,11 +78,12 @@ export const parseDirectives: Plugin<[], Root> = () => {
           return { type: 'content', node: item.node };
         }
       }),
-      { onWarning }
+      { onWarning, endPosition: tree.position?.end }
     );
 
     // Replace tree children with transformed content
     tree.children = transformedChildren;
+    if (file.value !== undefined) locateDirectives(tree, String(file));
 
     // Log warnings for debugging (in development)
     if (process.env.NODE_ENV === 'development' && warnings.length > 0) {
@@ -98,11 +121,10 @@ export function parseDirectivesWithWarnings(tree: Root): {
         return { type: 'content', node: item.node };
       }
     }),
-    { onWarning }
+    { onWarning, endPosition: tree.position?.end }
   );
 
   tree.children = transformedChildren;
 
   return { tree, warnings };
 }
-

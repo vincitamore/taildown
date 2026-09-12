@@ -90,7 +90,7 @@ function normalizeLanguage(lang: string): BundledLanguage | null {
   
   // Check if it's an alias first
   if (normalized in LANGUAGE_ALIASES) {
-    return LANGUAGE_ALIASES[normalized];
+    return LANGUAGE_ALIASES[normalized] ?? null;
   }
   
   // Return as-is if it looks like a valid language
@@ -182,7 +182,7 @@ export function extractTokenClasses(html: string): string[] {
   
   let match;
   while ((match = classRegex.exec(html)) !== null) {
-    const classList = match[1].split(' ');
+    const classList = (match[1] ?? '').split(' ').filter(Boolean);
     classList.forEach(cls => classes.add(cls));
   }
   

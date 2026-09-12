@@ -133,7 +133,7 @@ function extractAttributesFromText(
   // Scan for component names, preferring the last one (noun position)
   for (let i = rawAttributes.length - 1; i >= 0; i--) {
     const token = rawAttributes[i];
-    if (registry.get(token)) {
+    if (token !== undefined && registry.get(token)) {
       componentToken = token;
       componentIndex = i;
       break; // Found the component (scanning backwards, so first match is last in array)

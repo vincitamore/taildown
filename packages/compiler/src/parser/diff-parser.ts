@@ -43,7 +43,7 @@ function parseUnifiedDiff(code: string): DiffLine[] {
       
       // Parse line numbers from @@ markers
       const match = line.match(/@@ -(\d+),?\d* \+(\d+),?\d* @@/);
-      if (match) {
+      if (match?.[1] !== undefined && match[2] !== undefined) {
         oldLineNum = parseInt(match[1], 10);
         newLineNum = parseInt(match[2], 10);
       }

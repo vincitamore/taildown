@@ -1,5 +1,6 @@
 import { visit } from 'unist-util-visit';
-import type { ContainerDirective, Heading } from 'mdast';
+import type { Heading } from 'mdast';
+import type { ContainerDirectiveNode as ContainerDirective } from '@taildown/compiler';
 import { BaseRule } from './BaseRule';
 import type { RuleContext, FixTransform } from '../types';
 
@@ -17,7 +18,7 @@ export class TabsHeadingLevelRule extends BaseRule {
   readonly fixable = true;
 
   check(context: RuleContext): void {
-    const { ast, source } = context;
+    const { ast } = context;
 
     visit(ast, 'containerDirective', (node: ContainerDirective) => {
       if (node.name !== 'tabs') return;
@@ -70,13 +71,14 @@ export class TabsHeadingLevelRule extends BaseRule {
             // Get the line (0-indexed in array, 1-indexed in position)
             const lineIndex = heading.position.start.line - 1;
             const line = lines[lineIndex];
+            if (line === undefined) continue;
             
             // Replace #### or higher with ###
             const hashes = '#'.repeat(heading.depth);
-            const regex = new RegExp(`^${hashes}\\s+`);
+            const regex = new RegExp(`^(\\s*)${hashes}(?=\\s)`);
             
             if (regex.test(line)) {
-              lines[lineIndex] = line.replace(regex, '### ');
+              lines[lineIndex] = line.replace(regex, '$1###');
               modified = true;
             }
           }

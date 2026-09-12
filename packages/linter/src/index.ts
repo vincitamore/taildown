@@ -37,8 +37,9 @@ export function createLinter(config?: Partial<import('./types').LinterConfig>): 
   
   // Register all built-in rules
   linter.registerRules([
-    new TabsHeadingLevelRule(),
+    // Repair names before rules that depend on the component identity.
     new InvalidComponentNameRule(),
+    new TabsHeadingLevelRule(),
     // More rules will be added here
   ]);
   

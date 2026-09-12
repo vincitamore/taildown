@@ -33,6 +33,7 @@ export function buildComponentTree(
   items: Array<{ type: 'content'; node: Content } | { type: 'marker'; marker: ComponentMarker }>,
   options?: {
     onWarning?: (message: string, line?: number) => void;
+    endPosition?: import('unist').Point;
   }
 ): Content[] {
   const stack: ComponentFrame[] = [];
@@ -97,6 +98,7 @@ export function buildComponentTree(
         
         // Attach children to the component node
         frame.node.children = frame.children;
+        frame.node.position = { start: frame.openPosition.start, end: marker.position.end };
 
         // Add completed component to parent's children or root
         if (stack.length > 0) {
@@ -123,9 +125,9 @@ export function buildComponentTree(
           // Found nested components, recursively build their tree
           const nestedItems = scanned.items.map((scanItem) => {
             if (scanItem.type === 'marker') {
-              return { type: 'marker', marker: scanItem.marker };
+              return { type: 'marker' as const, marker: scanItem.marker };
             } else {
-              return { type: 'content', node: scanItem.node };
+              return { type: 'content' as const, node: scanItem.node };
             }
           });
           
@@ -166,6 +168,10 @@ export function buildComponentTree(
 
     // Attach children
     frame.node.children = frame.children;
+
+    if (options?.endPosition) {
+      frame.node.position = { start: frame.openPosition.start, end: { ...options.endPosition } };
+    }
 
     // Add to parent or root
     if (stack.length > 0) {

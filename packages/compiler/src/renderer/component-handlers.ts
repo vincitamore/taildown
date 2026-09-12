@@ -15,7 +15,7 @@
  */
 
 import type { State } from 'mdast-util-to-hast';
-import type { Element } from 'hast';
+import type { Element, ElementContent } from 'hast';
 import type { ContainerDirectiveNode } from '../parser/directive-types';
 import type { TaildownNodeData } from '@taildown/shared';
 import { visit } from 'unist-util-visit';
@@ -125,7 +125,7 @@ export function wrapWithAttachments(element: Element, nodeData?: TaildownNodeDat
  * Wrap element with tooltip functionality
  * Supports inline content: tooltip="text" or ID reference: tooltip="#id"
  */
-function wrapWithTooltip(triggerElement: Element, content: string, state?: State): Element {
+function wrapWithTooltip(triggerElement: Element, content: string, _state?: State): Element {
   // Safety check
   if (!triggerElement || triggerElement.type !== 'element') {
     console.warn('[Taildown] Invalid trigger element for tooltip, skipping attachment');
@@ -346,8 +346,8 @@ export function renderTabs(state: State, node: ContainerDirectiveNode): Element 
   const children = state.all(node);
   
   // Parse structure: find headings and content
-  const tabs: { label: Element; content: Element[] }[] = [];
-  let currentTab: { label: Element; content: Element[] } | null = null;
+  const tabs: { label: Element; content: ElementContent[] }[] = [];
+  let currentTab: { label: Element; content: ElementContent[] } | null = null;
   
   for (const child of children) {
     if (child.type === 'element' && (child.tagName === 'h2' || child.tagName === 'h3')) {
@@ -460,8 +460,8 @@ export function renderTimeline(state: State, node: ContainerDirectiveNode): Elem
     : [];
   
   // Find milestone headings (marked by parser) and group content
-  const milestones: { heading: Element; content: Element[]; state: string }[] = [];
-  let currentMilestone: { heading: Element; content: Element[]; state: string } | null = null;
+  const milestones: { heading: Element; content: ElementContent[]; state: string }[] = [];
+  let currentMilestone: { heading: Element; content: ElementContent[]; state: string } | null = null;
   
   for (const child of children) {
     // Check if this is an H2 milestone heading (marked by parser)
@@ -500,7 +500,7 @@ export function renderTimeline(state: State, node: ContainerDirectiveNode): Elem
   }
   
   // Build timeline structure
-  const milestoneElements: Element[] = milestones.map((milestone, index) => {
+  const milestoneElements: Element[] = milestones.map<Element>((milestone, index) => {
     // Determine icon based on state
     const iconMap: Record<string, string> = {
       completed: '✓',
@@ -568,7 +568,7 @@ export function renderTimeline(state: State, node: ContainerDirectiveNode): Elem
                 className: ['timeline-body']
               },
               children: milestone.content
-            }] : [])
+            } satisfies Element] : [])
           ]
         }
       ]
@@ -591,8 +591,8 @@ export function renderSteps(state: State, node: ContainerDirectiveNode): Element
   const children = state.all(node);
   
   // Find step headings and group content
-  const steps: { heading: Element; content: Element[]; number: number; state: string }[] = [];
-  let currentStep: { heading: Element; content: Element[]; number: number; state: string } | null = null;
+  const steps: { heading: Element; content: ElementContent[]; number: number; state: string }[] = [];
+  let currentStep: { heading: Element; content: ElementContent[]; number: number; state: string } | null = null;
   
   for (const child of children) {
     // Check if this is a step heading (marked by parser)
@@ -630,7 +630,7 @@ export function renderSteps(state: State, node: ContainerDirectiveNode): Element
   }
   
   // Build step structure
-  const stepElements: Element[] = steps.map((step, index) => {
+  const stepElements: Element[] = steps.map<Element>((step, index) => {
     return {
       type: 'element',
       tagName: 'div',
@@ -691,7 +691,7 @@ export function renderSteps(state: State, node: ContainerDirectiveNode): Element
                 className: ['step-body']
               },
               children: step.content
-            }] : [])
+            } satisfies Element] : [])
           ]
         }
       ]
@@ -721,8 +721,8 @@ export function renderAccordion(state: State, node: ContainerDirectiveNode): Ele
   const children = state.all(node);
   
   // Split by hr elements
-  const sections: Element[][] = [];
-  let currentSection: Element[] = [];
+  const sections: ElementContent[][] = [];
+  let currentSection: ElementContent[] = [];
   
   for (const child of children) {
     if (child.type === 'element' && child.tagName === 'hr') {
@@ -834,8 +834,8 @@ export function renderCarousel(state: State, node: ContainerDirectiveNode): Elem
   const children = state.all(node);
   
   // Split by hr elements to create slides
-  const slides: Element[][] = [];
-  let currentSlide: Element[] = [];
+  const slides: ElementContent[][] = [];
+  let currentSlide: ElementContent[] = [];
   
   for (const child of children) {
     if (child.type === 'element' && child.tagName === 'hr') {
@@ -948,7 +948,7 @@ export function renderCarousel(state: State, node: ContainerDirectiveNode): Elem
  * Render image comparison slider component
  * Creates before/after image comparison with draggable slider
  */
-export function renderImageCompare(state: State, node: ContainerDirectiveNode): Element {
+export function renderImageCompare(_state: State, node: ContainerDirectiveNode): Element {
   const hProps = node.data?.hProperties || {};
   const existingClasses = hProps.className || [];
   const dataComponent = hProps['data-component'] || 'compare-images';
@@ -1023,7 +1023,7 @@ export function renderImageCompare(state: State, node: ContainerDirectiveNode): 
                     ],
                   },
                   children: [{ type: 'text', value: 'Before' }],
-                },
+                } satisfies Element,
               ]
             : []),
         ],
@@ -1077,7 +1077,7 @@ export function renderImageCompare(state: State, node: ContainerDirectiveNode): 
                     ],
                   },
                   children: [{ type: 'text', value: 'After' }],
-                },
+                } satisfies Element,
               ]
             : []),
         ],
@@ -1197,20 +1197,10 @@ export function renderImageCompare(state: State, node: ContainerDirectiveNode): 
  * Render code diff component
  * Supports both unified diff format and side-by-side before/after comparison
  */
-export function renderDiff(state: State, node: any): Element {
+export function renderDiff(_state: State, node: any): Element {
   const hProps = node.data?.hProperties || {};
   const existingClasses = hProps.className || [];
   const diffFormat = hProps.diffFormat || 'unified';
-  
-  // Escape HTML in code to prevent XSS
-  const escapeHtml = (text: string): string => {
-    return text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-  };
   
   if (diffFormat === 'unified') {
     // Unified diff format with +/- line markers
@@ -1317,7 +1307,7 @@ export function renderDiff(state: State, node: any): Element {
     const language = hProps.language || '';
     
     // Render before pane (text nodes will be highlighted by rehype plugin)
-    const beforePane = {
+    const beforePane: Element = {
       type: 'element',
       tagName: 'div',
       properties: {
@@ -1359,7 +1349,7 @@ export function renderDiff(state: State, node: any): Element {
     };
     
     // Render after pane (text nodes will be highlighted by rehype plugin)
-    const afterPane = {
+    const afterPane: Element = {
       type: 'element',
       tagName: 'div',
       properties: {
@@ -1428,7 +1418,6 @@ export function renderDiff(state: State, node: any): Element {
 export function renderModal(state: State, node: ContainerDirectiveNode): Element {
   const children = state.all(node);
   
-  const existingClasses = node.data?.hProperties?.className || [];
   const dataComponent = node.data?.hProperties?.['data-component'] || node.name;
   const modalId = `modal-${Math.random().toString(36).substr(2, 9)}`;
   
@@ -1726,21 +1715,21 @@ function renderGenericComponent(state: State, node: ContainerDirectiveNode): Ele
       // Handle variant attribute
       const variant = attributes.variant || attributes.type;
       if (variant && component.variants[variant]) {
-        classes.push(...component.variants[variant]);
+        classes.push(...(component.variants[variant] ?? []));
       } else if (component.defaultVariant && component.variants[component.defaultVariant]) {
-        classes.push(...component.variants[component.defaultVariant]);
+        classes.push(...(component.variants[component.defaultVariant] ?? []));
       }
       
       // Handle size attribute  
       const size = attributes.size || attributes.cols;
       if (size && component.sizes[size]) {
-        classes.push(...component.sizes[size]);
+        classes.push(...(component.sizes[size] ?? []));
       }
     }
     
     // Add any additional classes from attributes
     if (attributes.class || attributes.className) {
-      const additionalClasses = (attributes.class || attributes.className).split(/\s+/);
+      const additionalClasses = (attributes.class || attributes.className || '').split(/\s+/);
       classes.push(...additionalClasses);
     }
   }
@@ -1753,8 +1742,9 @@ function renderGenericComponent(state: State, node: ContainerDirectiveNode): Ele
   const inlineComponents = ['badge'];
   if (inlineComponents.includes(componentName)) {
     // If there's exactly one child and it's a paragraph, unwrap it
-    if (children.length === 1 && children[0].type === 'element' && children[0].tagName === 'p') {
-      children = children[0].children || [];
+    const onlyChild = children.length === 1 ? children[0] : undefined;
+    if (onlyChild?.type === 'element' && onlyChild.tagName === 'p') {
+      children = onlyChild.children;
     }
   }
   

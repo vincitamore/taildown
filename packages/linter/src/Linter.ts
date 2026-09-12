@@ -1,5 +1,4 @@
 import type { Root as MdastRoot } from 'mdast';
-import { unified } from 'unified';
 import { parse as parseTaildown } from '@taildown/compiler';
 import type {
   LintRule,
@@ -45,9 +44,9 @@ export class Linter {
   /**
    * Lint a Taildown source file
    */
-  lint(source: string, filePath: string = 'unknown.td'): LintResult {
+  async lint(source: string, filePath: string = 'unknown.td'): Promise<LintResult> {
     // Parse source to MDAST
-    const ast = this.parse(source);
+    const ast = await this.parse(source);
     const lines = source.split('\n');
     const messages: LintMessage[] = [];
 
@@ -59,7 +58,7 @@ export class Linter {
 
       // Override severity if configured
       const severity: Severity =
-        typeof ruleConfig === 'string' && ruleConfig !== 'off'
+        typeof ruleConfig === 'string'
           ? ruleConfig
           : rule.severity;
 
@@ -121,9 +120,9 @@ export class Linter {
   /**
    * Auto-fix issues in source
    */
-  fix(source: string, filePath: string = 'unknown.td'): FixResult {
+  async fix(source: string, filePath: string = 'unknown.td'): Promise<FixResult> {
     let currentSource = source;
-    let currentAst = this.parse(currentSource);
+    let currentAst = await this.parse(currentSource);
     let fixCount = 0;
     const appliedRules = new Set<string>();
 
@@ -151,7 +150,7 @@ export class Linter {
           // Apply the transformation
           if (transform.source) {
             currentSource = transform.source;
-            currentAst = this.parse(currentSource);
+            currentAst = await this.parse(currentSource);
           } else if (transform.ast) {
             currentAst = transform.ast;
             // Serialize AST back to source if needed
@@ -166,7 +165,7 @@ export class Linter {
     }
 
     // Lint the fixed source to get remaining issues
-    const lintResult = this.lint(currentSource, filePath);
+    const lintResult = await this.lint(currentSource, filePath);
 
     return {
       original: source,
@@ -180,7 +179,7 @@ export class Linter {
   /**
    * Parse Taildown source to MDAST
    */
-  private parse(source: string): MdastRoot {
+  private parse(source: string): Promise<MdastRoot> {
     return parseTaildown(source);
   }
 

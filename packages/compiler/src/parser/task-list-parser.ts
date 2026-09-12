@@ -41,7 +41,7 @@ type TaskPriority = 'high' | 'medium' | 'low' | undefined;
 function extractPriority(text: string): { priority?: TaskPriority; cleanText: string } {
   const priorityMatch = text.match(/\{(high|medium|low)\}/i);
   
-  if (priorityMatch) {
+  if (priorityMatch?.[1]) {
     const priority = priorityMatch[1].toLowerCase() as TaskPriority;
     const cleanText = text.replace(/\{(high|medium|low)\}/gi, '').trim();
     return { priority, cleanText };
@@ -163,7 +163,7 @@ export const parseEnhancedTaskList: Plugin<[], Root> = () => {
       
       // Add task list classes
       const existingClasses = listNode.data.hProperties.className || [];
-      const classes = Array.isArray(existingClasses) ? existingClasses : [existingClasses];
+      const classes = Array.isArray(existingClasses) ? existingClasses.map(String) : typeof existingClasses === 'string' ? existingClasses.split(/\s+/).filter(Boolean) : [];
       
       if (!classes.includes('task-list')) {
         classes.push('task-list');

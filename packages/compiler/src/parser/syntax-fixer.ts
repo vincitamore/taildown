@@ -221,6 +221,7 @@ export function checkSyntax(source: string): Array<{
     
     if (match) {
       const [fullMatch, componentName] = match;
+      if (componentName === undefined) return;
       const column = line.indexOf(fullMatch);
       
       errors.push({

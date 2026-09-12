@@ -19,6 +19,10 @@ import type { Root, Table } from 'mdast';
 import { visit } from 'unist-util-visit';
 import { registry } from '../components/component-registry';
 
+declare module 'mdast' {
+  interface TableData { taildown?: { variants?: string[] }; }
+}
+
 /**
  * Parse table attributes from following paragraph
  * Looks for attribute blocks immediately after tables
@@ -107,7 +111,7 @@ function parseTableAttributesImpl(tree: Root): void {
               
               // Store parsed attributes
               table.data.hProperties.className = [
-                ...(table.data.hProperties.className || []),
+                ...(Array.isArray(table.data.hProperties.className) ? table.data.hProperties.className : typeof table.data.hProperties.className === 'string' ? table.data.hProperties.className.split(/\s+/).filter(Boolean) : []),
                 ...classes,
               ];
               
@@ -197,7 +201,7 @@ function parseTableAttributesImpl(tree: Root): void {
             
             // Store parsed attributes
             table.data.hProperties.className = [
-              ...(table.data.hProperties.className || []),
+              ...(Array.isArray(table.data.hProperties.className) ? table.data.hProperties.className : typeof table.data.hProperties.className === 'string' ? table.data.hProperties.className.split(/\s+/).filter(Boolean) : []),
               ...classes,
             ];
             

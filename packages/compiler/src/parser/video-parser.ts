@@ -31,19 +31,19 @@ interface VideoInfo {
 function extractYouTubeId(url: string): string | null {
   // Handle youtu.be/ID format
   const shortMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
-  if (shortMatch) return shortMatch[1];
+  if (shortMatch) return shortMatch[1] ?? null;
   
   // Handle youtube.com/watch?v=ID format
   const watchMatch = url.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
-  if (watchMatch) return watchMatch[1];
+  if (watchMatch) return watchMatch[1] ?? null;
   
   // Handle youtube.com/embed/ID format
   const embedMatch = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/);
-  if (embedMatch) return embedMatch[1];
+  if (embedMatch) return embedMatch[1] ?? null;
   
   // Handle youtube-nocookie.com/embed/ID format
   const nocookieMatch = url.match(/youtube-nocookie\.com\/embed\/([a-zA-Z0-9_-]{11})/);
-  if (nocookieMatch) return nocookieMatch[1];
+  if (nocookieMatch) return nocookieMatch[1] ?? null;
   
   return null;
 }
@@ -54,11 +54,11 @@ function extractYouTubeId(url: string): string | null {
 function extractVimeoId(url: string): string | null {
   // Handle vimeo.com/ID format
   const directMatch = url.match(/vimeo\.com\/(\d+)/);
-  if (directMatch) return directMatch[1];
+  if (directMatch) return directMatch[1] ?? null;
   
   // Handle player.vimeo.com/video/ID format
   const playerMatch = url.match(/player\.vimeo\.com\/video\/(\d+)/);
-  if (playerMatch) return playerMatch[1];
+  if (playerMatch) return playerMatch[1] ?? null;
   
   return null;
 }
@@ -295,7 +295,7 @@ function createVideoElement(info: VideoInfo): any {
  */
 export const parseVideoEmbeds: Plugin<[], Root> = () => {
   return (tree: Root) => {
-    visit(tree, 'containerDirective', (node: any, index, parent) => {
+    visit(tree, 'containerDirective', (node: any) => {
       if (node.name !== 'video') return;
       
       // Extract video info from content

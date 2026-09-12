@@ -226,6 +226,7 @@ export async function compile(
 
 // Re-export parser and renderer for advanced usage
 export { parse, parseWithWarnings } from './parser';
+export type { ContainerDirectiveNode } from './parser/directive-types';
 export { renderHTML, renderHTMLDocument, renderCSS } from './renderer';
 
 // Re-export JavaScript generator

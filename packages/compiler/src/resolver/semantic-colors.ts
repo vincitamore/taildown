@@ -95,7 +95,7 @@ export function resolveSemanticColor(
  * Get the base shade for a color prefix
  * Default to 600 for most cases
  */
-function getBaseShade(prefix: ColorPrefix, colorConfig: any): number {
+function getBaseShade(_prefix: ColorPrefix, colorConfig: any): number {
   // Check if config has DEFAULT
   if (colorConfig.DEFAULT) {
     return 600; // Standard shade
@@ -175,7 +175,7 @@ export function isSemanticColor(attr: string): boolean {
  * // => ['primary', 'bg-primary', 'text-primary', 'border-primary', ...]
  */
 export function getSemanticColorVariations(color: SemanticColor): string[] {
-  const variations = [color]; // Base (defaults to text)
+  const variations: string[] = [color]; // Base (defaults to text)
   
   for (const prefix of COLOR_PREFIXES) {
     variations.push(`${prefix}-${color}`);
