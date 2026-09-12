@@ -89,7 +89,7 @@ The offline build embeds compiler and diagram runtime in one editor HTML file. T
 | `packages/shared` | Public types and shared definitions |
 | `packages/cli` | Source-file compilation and output/configuration handling |
 | `packages/linter` | Asynchronous lint/fix API; see its [guide](packages/linter/README.md) |
-| `packages/mcp` | MCP server exposing compilation and reference tools |
+| `packages/mcp` | Local stdio compilation/reference server; see its [guide](packages/mcp/README.md) |
 | `editor` | Browser editing application |
 | `docs-site` | Authored public website and deployment build |
 | `examples` | Complete Taildown documents |

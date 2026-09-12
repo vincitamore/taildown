@@ -17,6 +17,7 @@ import {
 import { readFileSync, existsSync, writeFileSync } from 'fs';
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
+import {resolveCompileOutput} from './file-output.js';
 
 // Import compiler functionality
 import {
@@ -131,7 +132,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       {
         name: 'taildown_components',
         description:
-          'List or describe Taildown components. Without a name, lists all 32 components. With a name, shows detailed info.',
+          'List or describe Taildown components. Without a name, lists the registered components. With a name, shows detailed info.',
         inputSchema: {
           type: 'object',
           properties: {
@@ -263,6 +264,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           throw new Error(`File not found: ${inputPath}`);
         }
 
+        const outPath = resolveCompileOutput(inputPath, outputPath);
         const source = readFileSync(inputPath, 'utf-8');
         const result = await compile(source, {
           minify,
@@ -270,7 +272,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           inlineScripts: true,
         });
 
-        const outPath = outputPath || inputPath.replace(/\.(td|tdown|taildown)$/, '.html');
         writeFileSync(outPath, result.html, 'utf-8');
 
         return {
@@ -935,7 +936,8 @@ Component block
 Use \`taildown_syntax\` with a topic name for detailed reference.`,
   };
 
-  return references[topic] || references.default;
+  const aliases: Record<string, string> = {cards:'card', icons:'icon', animations:'animation', modals:'modal', tooltips:'tooltip', accordions:'accordion', badges:'badge', grids:'grid'};
+  return references[aliases[topic] ?? topic] || references.default;
 }
 
 // Define available resources (SYNTAX.md sections)
