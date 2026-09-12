@@ -2366,7 +2366,7 @@ Click any header to sort the data:
 :::grid {2}
 :::card {subtle-glass padded}
 **Styling Variants:**
-- `sortable` - Interactive column sorting
+- `sortable` - Interactive column sorting (click a header, or focus it and press Enter or Space). Numbers, grouped currency values and percentages sort numerically; ISO dates such as `2026-09-12` sort chronologically. Other labels sort as text. Mixed columns group numbers, then ISO dates, then text in ascending order; descending reverses that order.
 - `zebra` / `striped` - Alternating row colors
 - `bordered` - Full cell borders
 - `glass` - Glassmorphism effect
