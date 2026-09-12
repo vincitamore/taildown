@@ -605,28 +605,20 @@ a {
 }
 
 /* Regular plain text links (no classes) - for documentation links only */
-p > a:not([class]),
-li > a:not([class]),
-td > a:not([class]),
-th > a:not([class]) {
-  color: var(--primary);
-  text-decoration: none;
+:where(p, li, td, th) > a:not([class]) {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 500;
 }
 
-p > a:not([class]):hover,
-li > a:not([class]):hover,
-td > a:not([class]):hover,
-th > a:not([class]):hover {
-  opacity: 0.85;
+:where(p, li, td, th) > a:not([class]):hover {
+  text-decoration-thickness: 2px;
 }
 
-p > a:not([class]):active,
-li > a:not([class]):active,
-td > a:not([class]):active,
-th > a:not([class]):active {
-  opacity: 0.7;
+:where(p, li, td, th) > a:not([class]):active {
+  text-decoration-thickness: 2px;
 }
 
 /* Button spacing - zero-config beauty for inline buttons */
@@ -3229,7 +3221,7 @@ ${generateThemeCSS()}
 .navbar a.active {
   opacity: 1;
   font-weight: 600;
-  color: var(--primary);
+  color: var(--link);
 }
 
 /* Mobile optimization for navbar */

@@ -141,6 +141,7 @@ export function generateColorPaletteCSS(config: TaildownConfig): string {
   --ring: ${light.ring};
   
   --primary: ${light.primary};
+  --link: ${config.theme?.colors?.primary?.[600] || '#2563eb'};
   --primary-foreground: ${light.primaryForeground};
   --secondary: ${light.secondary};
   --secondary-foreground: ${light.secondaryForeground};
@@ -171,6 +172,7 @@ export function generateColorPaletteCSS(config: TaildownConfig): string {
   --ring: ${dark.ring};
   
   --primary: ${dark.primary};
+  --link: ${dark.primary};
   --primary-foreground: ${dark.primaryForeground};
   --secondary: ${dark.secondary};
   --secondary-foreground: ${dark.secondaryForeground};
