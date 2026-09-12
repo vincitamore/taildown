@@ -10,6 +10,7 @@
 
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
+import type { Root, Element } from 'hast';
 import { highlightWithShiki } from './shiki-highlighter.js';
 
 /**
@@ -18,26 +19,6 @@ import { highlightWithShiki } from './shiki-highlighter.js';
 interface HighlightResult {
   html: string;
   classes: string[];
-}
-
-/**
- * HAST Element interface
- */
-interface Element {
-  type: 'element';
-  tagName: string;
-  properties?: Record<string, any>;
-  children: Array<Element | TextNode | RawNode>;
-}
-
-interface TextNode {
-  type: 'text';
-  value: string;
-}
-
-interface RawNode {
-  type: 'raw';
-  value: string;
 }
 
 /**
@@ -96,7 +77,7 @@ function highlightLine(line: string): string {
     return escapeHtml(line);
   }
 
-  let result = line;
+  const result = line;
   const tokens: Array<{ start: number; end: number; type: string }> = [];
 
   // Component blocks - :::component {attributes}
@@ -557,7 +538,7 @@ function escapeHtml(text: string): string {
  * Rehype plugin for syntax highlighting
  * Supports both synchronous (Taildown) and asynchronous (Shiki) highlighting
  */
-export const rehypeCodeMirror6: Plugin = () => {
+export const rehypeCodeMirror6: Plugin<[], Root> = () => {
   return async (tree) => {
     // Collect all code nodes that need highlighting
     const codeNodesToHighlight: Array<{
@@ -570,8 +551,8 @@ export const rehypeCodeMirror6: Plugin = () => {
     visit(tree, 'element', (node: Element) => {
       if (node.tagName === 'code' && node.properties?.className) {
         const classes = Array.isArray(node.properties.className) 
-          ? node.properties.className 
-          : [node.properties.className];
+          ? node.properties.className.filter((value): value is string => typeof value === 'string') 
+          : typeof node.properties.className === 'string' ? node.properties.className.split(/\s+/) : [];
         
         // Find language class
         const languageClass = classes.find((cls: string) => cls.startsWith('language-'));
@@ -579,9 +560,9 @@ export const rehypeCodeMirror6: Plugin = () => {
           const language = languageClass.replace('language-', '');
           
           // Get text content
-          const textNode = node.children.find((child: any) => child.type === 'text');
+          const textNode = node.children.find((child) => child.type === 'text');
           if (textNode && 'value' in textNode) {
-            const code = textNode.value as string;
+            const code = textNode.value;
             codeNodesToHighlight.push({ node, language, code, classes });
           }
         }
