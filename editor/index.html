@@ -798,6 +798,16 @@
         transition-duration: 0.01ms !important;
       }
     }
+    #design-settings { background: var(--bg-primary); color: var(--text-primary); }
+    #design-settings::backdrop { background: rgb(15 23 42 / 55%); }
+    #design-settings h2 { margin: 0 0 0.75rem; font-size: 1.375rem; }
+    #design-settings p { line-height: 1.6; font-size: 0.875rem; overflow-wrap: anywhere; }
+    #design-settings textarea { background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--text-secondary); border-radius: 0.5rem; resize: vertical; }
+    #design-settings button { padding: 0.625rem 0.875rem; border: 1px solid var(--text-secondary); border-radius: 0.5rem; background: var(--bg-secondary); color: var(--text-primary); cursor: pointer; }
+    #design-settings :focus-visible { outline: 2px solid var(--text-primary); outline-offset: 3px; }
+    #design-settings button:disabled { opacity: 0.6; cursor: wait; }
+    #design-message { max-height: 7rem; overflow: auto; }
+    #design-settings > div { position: sticky; bottom: -1.5rem; background: var(--bg-primary); padding: 0.75rem 0; }
   </style>
 </head>
 <body>
@@ -815,6 +825,22 @@
     </header>
     <div id="command-results" role="listbox" aria-label="Commands"></div>
     <div id="command-empty" role="status" hidden>No matching commands.</div>
+  </dialog>
+
+  <dialog id="design-settings" aria-labelledby="design-title" style="width: min(42rem, calc(100vw - 2rem)); max-height: 85vh; overflow: auto; padding: 1.5rem; border: 1px solid #94a3b8; border-radius: 1rem;">
+    <h2 id="design-title">Design settings</h2>
+    <p>Advanced settings for this browser workspace. Apply a custom palette, fonts, style aliases, or components to previews and HTML exports. These settings also apply when you open another document.</p>
+    <label for="design-json">Configuration JSON</label>
+    <textarea id="design-json" spellcheck="false" style="display: block; box-sizing: border-box; width: 100%; min-height: 16rem; margin: 0.75rem 0; padding: 0.75rem; font: 0.875rem/1.5 monospace;"></textarea>
+    <p>Example: <code>{"theme":{"colors":{"primary":"#4338ca"}},"styleMappings":{"brand":"text-primary font-bold"}}</code></p>
+    <p>Saving a .td file saves its text. Download these settings separately to reuse them in another browser; paste the downloaded JSON here.</p>
+    <p id="design-message" role="status" aria-live="polite"></p>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+      <button id="design-apply" type="button">Apply settings</button>
+      <button id="design-download" type="button">Download applied settings</button>
+      <button id="design-reset" type="button">Use defaults</button>
+      <button id="design-close" type="button">Close</button>
+    </div>
   </dialog>
 
   <!-- Bubble Menu -->
@@ -841,6 +867,7 @@
   </div>
 
   <details id="diagnostics" hidden style="padding: 0.5rem 1rem; max-height: 25vh; overflow: auto;"><summary></summary><ul></ul></details>
+  <div id="design-recovery-warning" role="status" hidden style="padding: 0.5rem 1rem; font-size: 0.875rem;">Design settings could not be restored. Defaults are active. Open Design settings from Command-K to recover a saved copy.</div>
   <div id="storage-warning" role="status" hidden style="padding: 0.5rem 1rem; font-size: 0.875rem;">Browser draft recovery is unavailable. Save or download a copy before leaving.</div>
 
   <div id="editor-container">
@@ -856,6 +883,7 @@
     // Production bundles this module and its imports directly into the page.
     import * as Taildown from '../packages/compiler/dist/taildown-browser.js';
     import {createDraftStore} from './draft-store.js';
+    import {createDesignSettings} from './design-settings.js';
     
     const {
       compile,
@@ -968,6 +996,45 @@ Browser recovery keeps your latest draft when storage is available. Save or down
     const draftStore = createDraftStore(undefined, available => {
       document.getElementById('storage-warning').hidden = available;
     });
+    const designSettings = createDesignSettings(compile);
+    const designDialog = document.getElementById('design-settings');
+    const designJSON = document.getElementById('design-json');
+    const designMessage = document.getElementById('design-message');
+    try { await designSettings.restore(); }
+    catch {
+      designMessage.textContent = 'Saved design settings could not be restored. Defaults are active; paste a saved copy here to recover them.';
+      document.getElementById('design-recovery-warning').hidden = false;
+    }
+    function openDesignSettings() {
+      designJSON.value = JSON.stringify(designSettings.options, null, 2);
+      designDialog.showModal();
+      designJSON.focus();
+    }
+    document.getElementById('design-close').addEventListener('click', () => designDialog.close());
+    designDialog.addEventListener('close', () => editor?.focus());
+    document.getElementById('design-reset').addEventListener('click', () => {
+      designJSON.value = '{}';
+      designMessage.textContent = 'Defaults are ready. Apply settings to use them.';
+    });
+    document.getElementById('design-download').addEventListener('click', () => {
+      downloadFile(JSON.stringify(designSettings.options, null, 2), 'taildown-editor-design.json', 'application/json');
+    });
+    document.getElementById('design-apply').addEventListener('click', async event => {
+      const button = event.currentTarget;
+      button.disabled = true;
+      designMessage.textContent = 'Checking settings…';
+      try {
+        const saved = await designSettings.apply(designJSON.value, editor.state.doc.toString());
+        const reference = await Taildown.getAuthoringReference(designSettings.options);
+        Object.assign(authoringReference, reference);
+        componentNames.splice(0, componentNames.length, ...reference.components.map(component => component.name));
+        styleAttributes.splice(0, styleAttributes.length, ...reference.styles);
+        document.getElementById('design-recovery-warning').hidden = true;
+        designMessage.textContent = saved ? 'Settings applied and saved in this browser.' : 'Settings applied for this session. Browser storage is unavailable; download a copy.';
+        await updatePreview(editor.state.doc.toString());
+      } catch (error) { designMessage.textContent = `Settings were not applied: ${error.message}`; }
+      finally { button.disabled = false; }
+    });
 
     // Buttons
     const newBtn = document.getElementById('new-btn');
@@ -981,7 +1048,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
     const bubbleMenu = document.getElementById('bubble-menu');
 
     // Autocomplete data sources
-    const authoringReference = await Taildown.getAuthoringReference();
+    const authoringReference = await Taildown.getAuthoringReference(designSettings.options);
     const componentNames = authoringReference.components.map(component => component.name);
     const styleAttributes = authoringReference.styles;
     const iconNames = Taildown.getAllLucideIconNames();
@@ -1050,6 +1117,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
 
     // Every registered component is discoverable; keep richer curated templates.
     for (const component of authoringReference.components) {
+      if (typeof designSettings !== 'undefined' && designSettings.options.components?.[component.name]) continue;
       const name = component.name.replace(/-/g, ' ');
       const existing = slashCommands.find(command => command.name.toLowerCase() === name);
       if (existing && component.example) {
@@ -1070,7 +1138,15 @@ Browser recovery keeps your latest draft when storage is available. Save or down
 
     function searchCommands(searchText) {
       const query = searchText.trim().toLowerCase();
-      if (!query) return [...slashCommands];
+      const custom = typeof designSettings === 'undefined' ? {} : designSettings.options.components || {};
+      const commands = slashCommands.filter(command => !command.customComponent || custom[command.customComponent]);
+      for (const [name, component] of Object.entries(custom)) {
+        if (!commands.some(command => command.customComponent === name)) commands.push({
+          name: name.replace(/-/g, ' '), icon: 'box', description: component.description || `Custom ${name} component`,
+          insert: `:::${name}\nYour content\n:::`, cursorOffset: -4, customComponent: name,
+        });
+      }
+      if (!query) return commands;
       const rank = command => {
         const name = command.name.toLowerCase();
         if (name === query) return 0;
@@ -1078,12 +1154,14 @@ Browser recovery keeps your latest draft when storage is available. Save or down
         if (name.includes(query)) return 2;
         return command.description.toLowerCase().includes(query) ? 3 : 4;
       };
-      return slashCommands.filter(command => rank(command) < 4)
+      return commands.filter(command => rank(command) < 4)
         .sort((a, b) => rank(a) - rank(b));
     }
 
     function renderCommandPalette() {
+      const settingsCommand = {name: 'Design settings', icon: 'settings', description: 'Configure custom palette, fonts, style aliases and components', action: openDesignSettings};
       paletteCommands = searchCommands(commandSearch.value);
+      if (`${settingsCommand.name} ${settingsCommand.description}`.toLowerCase().includes(commandSearch.value.trim().toLowerCase())) paletteCommands.unshift(settingsCommand);
       paletteIndex = 0;
       commandResults.replaceChildren();
       paletteCommands.forEach((command, index) => {
@@ -1157,6 +1235,11 @@ Browser recovery keeps your latest draft when storage is available. Save or down
     function insertPaletteCommand(index) {
       const command = paletteCommands[index];
       if (!command || !paletteSelection) return;
+      if (command.action) {
+        commandPalette.addEventListener('close', command.action, {once: true});
+        commandPalette.close();
+        return;
+      }
       const {from, to} = paletteSelection;
       editor.dispatch(commandEdit(command, from, to, editor.state.doc, true));
       commandPalette.close();
@@ -1844,6 +1927,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
         }
         
         const result = await compile(source, {
+          ...designSettings.options,
           inlineStyles: true,
           inlineScripts: true,
           darkMode: true,
@@ -2072,6 +2156,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
         
         
         const result = await compile(source, {
+          ...designSettings.options,
           inlineStyles: true,
           inlineScripts: true,
           darkMode: true,

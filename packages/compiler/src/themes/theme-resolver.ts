@@ -67,6 +67,7 @@ export class ThemeResolver {
     
     // Handle color objects with shades
     const colorObj = colors[colorName as keyof typeof colors];
+    if (typeof colorObj === 'string') return colorObj;
     
     if (typeof colorObj === 'object' && colorObj !== null && 'DEFAULT' in colorObj) {
       if (shade) {

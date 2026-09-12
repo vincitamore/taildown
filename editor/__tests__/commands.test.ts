@@ -83,7 +83,7 @@ it('searches registry commands, preserves the selection, and inserts only on acc
     dialog.close = () => {dialog.removeAttribute('open'); dialog.dispatchEvent(new dom.window.Event('close'));};
     const editor = {state:{doc:{sliceString:(from:number,to?:number)=>'Before text after'.slice(from,to)},selection:{main:{get from(){return 4;},get to(){return 9;}}}},dispatch:vi.fn(),focus:vi.fn()};
     const reference = await getAuthoringReference();
-    const open = new Function('document','authoringReference','editor','hideSlashMenu','lucideIcon', code+';return openCommandPalette;')(document,reference,editor,()=>{},()=>'<svg></svg>');
+    const open = new Function('document','authoringReference','editor','hideSlashMenu','lucideIcon', 'function openDesignSettings() {}\n'+code+';return openCommandPalette;')(document,reference,editor,()=>{},()=>'<svg></svg>');
     open();
     expect(editor.dispatch).not.toHaveBeenCalled();
     const titles = [...document.querySelectorAll('#command-results .slash-menu-title')].map(n=>n.textContent!.toLowerCase());

@@ -12,7 +12,7 @@ function harness(filename='draft.td', window:any={}) {
  const storage={save:vi.fn()};
  let finish!:(value:any)=>void;
  const compile=vi.fn(()=>new Promise(resolve=>{finish=resolve;}));
- const create=new Function('editor','window','document','statusBar','filenameDisplay','draftStore','compile','Blob','URL','confirm','initialFilename',`let currentFilename=initialFilename,currentFileHandle=null,documentVersion=0,openRequestVersion=0; const pendingFileWrites=new WeakMap(); const DEFAULT_TEMPLATE='Welcome';\n${source}\nreturn {openFile,saveFile,exportHTML,newDocument,setHandle:handle=>{currentFileHandle=handle;}};`);
+ const create=new Function('editor','window','document','statusBar','filenameDisplay','draftStore','compile','Blob','URL','confirm','initialFilename',`const designSettings={options:{}}; let currentFilename=initialFilename,currentFileHandle=null,documentVersion=0,openRequestVersion=0; const pendingFileWrites=new WeakMap(); const DEFAULT_TEMPLATE='Welcome';\n${source}\nreturn {openFile,saveFile,exportHTML,newDocument,setHandle:handle=>{currentFileHandle=handle;}};`);
  const api=create(editor,window,document,status,display,storage,compile,Blob,{createObjectURL:(blob:Blob)=>{blobs.push(blob);return 'blob:fixture';},revokeObjectURL:vi.fn()},()=>true,filename);
  return {api,editor,status,display,storage,elements,blobs,complete:()=>finish({html:'<!DOCTYPE html><p>Export</p>'}),edit:(text:string)=>editor.dispatch({changes:{insert:text}})};
 }

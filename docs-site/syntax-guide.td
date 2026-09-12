@@ -127,6 +127,18 @@ ___
 
 ## Inline Attributes {#attributes bold primary}
 
+### Editor design settings
+
+Open **Design settings** from the editor's **Command-K** menu to configure a custom design. The advanced JSON form accepts `theme` (colors and fonts), `styleMappings` (plain-English aliases), `components` (custom definitions), and `componentConfig` (component defaults, variants, and sizes). Applied settings affect both the preview and exported HTML. Invalid settings leave the previous design active.
+
+Settings belong to this browser workspace and apply across opened documents. A downloaded `.td` file contains only document text: use **Download applied settings** to keep a separate JSON copy, and paste that JSON into Design settings on another browser. **Use defaults** prepares an empty configuration; choose **Apply settings** to activate it.
+
+```json
+{"theme":{"colors":{"primary":"#4338ca"}},"styleMappings":{"brand":"text-primary font-bold"}}
+```
+
+With those settings, `Welcome {brand}` uses the custom primary color and bold text.
+
 Inline attributes accept styling words, CSS classes, `#anchor` IDs, and `modal="..."` or `tooltip="..."` attachments. Arbitrary HTML key-value attributes such as `tabindex="1"` or `aria-label="..."` are currently unsupported: the compiler reports a warning and omits them. Quoted attachment values can contain spaces and apostrophes.
 
 :icon[brackets]{primary large} **Add styling to any element using curly brace notation.** {large}

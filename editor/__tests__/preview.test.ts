@@ -11,7 +11,7 @@ function harness() {
   const compile = () => new Promise((resolve, reject) => pending.push({resolve, reject}));
   const frame = {srcdoc: 'initial', addEventListener: vi.fn()};
   const status = {textContent: '', className: ''};
-  const create = new Function('compile', 'previewFrame', 'statusBar', 'document', 'setTimeout', 'clearTimeout', 'let updateTimeout = null;\n' + source + '\nreturn {updatePreview, scheduleUpdate};');
+  const create = new Function('compile', 'previewFrame', 'statusBar', 'document', 'setTimeout', 'clearTimeout', 'const designSettings = {options:{}}; let updateTimeout = null;\n' + source + '\nreturn {updatePreview, scheduleUpdate};');
   const controller = create(compile, frame, status, dom.window.document, vi.fn(), vi.fn());
   return {dom, pending, frame, status, controller};
 }

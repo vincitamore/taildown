@@ -57,7 +57,10 @@ function mergeColors(
 
     const defaultValue = defaultColors[name];
 
-    if (isColorScale(userValue) && isColorScale(defaultValue)) {
+    if (typeof userValue === 'string' && isColorScale(defaultValue)) {
+      // A single-color override intentionally supplies every semantic shade.
+      merged[name] = Object.fromEntries(Object.keys(defaultValue).map(shade => [shade, userValue]));
+    } else if (isColorScale(userValue) && isColorScale(defaultValue)) {
       // Both are color scales - merge them
       merged[name] = { ...defaultValue, ...userValue };
     } else {
