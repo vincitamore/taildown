@@ -192,7 +192,7 @@ export function createContainerDirective(
 export function validateComponentTree(nodes: Content[]): ValidationError[] {
   const errors: ValidationError[] = [];
 
-  function walk(node: any, depth: number = 0) {
+  function walk(node: Content) {
     if (node.type === 'containerDirective') {
       // Validate name
       if (!node.name || !isValidComponentName(node.name)) {
@@ -215,13 +215,13 @@ export function validateComponentTree(nodes: Content[]): ValidationError[] {
       // Recursively validate children
       if (Array.isArray(node.children)) {
         for (const child of node.children) {
-          walk(child, depth + 1);
+          walk(child);
         }
       }
-    } else if (Array.isArray(node.children)) {
+    } else if ('children' in node && Array.isArray(node.children)) {
       // Regular nodes with children
       for (const child of node.children) {
-        walk(child, depth);
+        walk(child);
       }
     }
   }

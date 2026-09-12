@@ -117,7 +117,7 @@ export interface ParseDirectivesOptions {
 export interface ValidationError {
   type: 'invalid-name' | 'unclosed-component' | 'extra-close' | 'malformed-attributes';
   message: string;
-  position: Position;
+  position?: Position;
   suggestion?: string;
 }
 
