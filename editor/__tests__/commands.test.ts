@@ -38,9 +38,12 @@ it('shared content examples compile to meaningful component content', async () =
     expect(result.metadata.warnings,component.name).toEqual([]);
     const dom = new JSDOM(result.html);
     try {
-      const content = dom.window.document.querySelector(`[data-component="${component.name}"]`);
+      const content = dom.window.document.querySelector(component.name === 'footnotes' ? 'section[data-footnotes]' : `[data-component="${component.name}"]`);
       expect(content,component.name).not.toBeNull();
-      expect(content!.textContent!.trim().length,component.name).toBeGreaterThan(25);
+      if (component.name === 'avatar') expect(content!.textContent!.trim()).toBe('AM');
+      else if (component.name === 'skeleton') expect(content!.classList.contains('h-32')).toBe(true);
+      else if (['breadcrumb', 'pagination', 'sidebar'].includes(component.name)) expect(content!.querySelector('a[href]')).not.toBeNull();
+      else expect(content!.textContent!.trim().length,component.name).toBeGreaterThan(25);
     } finally {dom.window.close();}
   }
 });

@@ -10,6 +10,12 @@ import {snapshotComponentConfig, configureComponents} from './components/compone
 // Small offline examples shared by authoring clients. Keep these ordinary
 // Taildown source so they exercise the same public syntax as authored pages.
 const COMPONENT_EXAMPLES: Record<string, string> = {
+  avatar: ':::avatar\nAM\n:::',
+  skeleton: ':::skeleton {rectangle aria-hidden="true"}\n:::',
+  footnotes: 'A supporting observation belongs in a note.[^note]\n\n[^note]: Add the useful detail or source here.',
+  breadcrumb: ':::breadcrumb {aria-label="Breadcrumb"}\n[Overview](#overview) / Details\n:::\n\n## Overview {#overview}\n\nIntroduce your document here.',
+  pagination: ':::pagination {aria-label="Sections"}\n[First section](#first-section) [Second section](#second-section)\n:::\n\n## First section {#first-section}\n\nStart here.\n\n## Second section {#second-section}\n\nContinue here.',
+  sidebar: ':::sidebar {sm}\n### On this page\n\n- [Overview](#overview)\n- [Details](#details)\n:::\n\n## Overview {#overview}\n\nIntroduce the main idea.\n\n## Details {#details}\n\nAdd supporting information.',
   carousel: ':::carousel\n## The idea\n\nIntroduce the main idea for your reader.\n\n---\n\n## A closer look\n\nShow a supporting detail or a different perspective.\n\n---\n\n## The next step\n\nLeave your reader with a useful action.\n:::',
   timeline: ':::timeline\n## Discovery {completed}\n\nGather the ideas and understand the problem.\n\n## In progress {current}\n\nBuild the first version and learn from feedback.\n\n## Next milestone\n\nRefine the details and share the result.\n:::',
   navbar: ':::navbar\n[Your project](#overview){.navbar-brand}\n\n[Overview](#overview) [More details](#details)\n:::\n\n## Overview {#overview}\n\nIntroduce your project here.\n\n## Details {#details}\n\nAdd the supporting information here.',
