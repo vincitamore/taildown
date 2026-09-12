@@ -33,6 +33,27 @@ function setup(content = '', closeButton = true) {
 }
 
 describe('modal lifecycle', () => {
+  it('uses positive tab order and ignores CSS-hidden controls', () => {
+    const {document, open, key} = setup('<button tabindex="2">Second</button><button tabindex="1" style="visibility:hidden">Invisible</button><button tabindex="1">First</button>');
+    open();
+    expect(document.activeElement?.textContent).toBe('First');
+    key('Tab', true);
+    expect(document.activeElement?.textContent).toBe('Close');
+    key('Tab');
+    expect(document.activeElement?.textContent).toBe('First');
+  });
+
+  it.each(['removed','disabled'])('restores document focus when its opener is %s', state => {
+    const {document, triggers, open, key} = setup();
+    open();
+    if (state === 'removed') triggers[0]!.remove();
+    else triggers[0]!.disabled = true;
+    key('Escape');
+    expect(document.activeElement).toBe(document.body);
+    expect(document.body.hasAttribute('tabindex')).toBe(false);
+    expect(document.body.style.overflow).toBe('auto');
+  });
+
   it('focuses a text-only dialog, wraps Tab, restores focus and existing scroll state', () => {
     const { document, dialog, triggers, open, key } = setup('<h2>Information</h2><p>Read this.</p>');
     open();

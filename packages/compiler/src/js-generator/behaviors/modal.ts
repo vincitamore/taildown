@@ -13,7 +13,9 @@ const modalFocusable = 'button, [href], input, select, textarea, [tabindex], [co
 function modalFocusables(modal) {
   return Array.from(modal.querySelectorAll(modalFocusable)).filter(element =>
     element.tabIndex >= 0 && !element.matches(':disabled') &&
-    !element.closest('[hidden], [inert]') && element.getClientRects().length > 0);
+    !element.closest('[hidden], [inert]') && element.getClientRects().length > 0 &&
+    getComputedStyle(element).visibility === 'visible')
+    .sort((a, b) => (a.tabIndex || Infinity) - (b.tabIndex || Infinity));
 }
 function topModal() { return modalStack[modalStack.length - 1]; }
 function updateModalInert() {
@@ -83,8 +85,17 @@ document.querySelectorAll('[data-modal-trigger]').forEach(trigger => {
       modal.style.display = 'none';
       modal.style.opacity = '0';
       if (modalStack.length === 0) document.body.style.overflow = modalOverflow;
-      if (previousFocus && previousFocus.isConnected) previousFocus.focus({ preventScroll: true });
+      if (previousFocus && previousFocus.isConnected && !previousFocus.matches(':disabled') &&
+          !previousFocus.closest('[hidden], [inert]') && previousFocus.getClientRects().length > 0 &&
+          getComputedStyle(previousFocus).visibility === 'visible') previousFocus.focus({ preventScroll: true });
       else if (topModal()) focusModal(topModal());
+      else {
+        const previousTabIndex = document.body.getAttribute('tabindex');
+        document.body.setAttribute('tabindex', '-1');
+        document.body.focus({preventScroll: true});
+        if (previousTabIndex === null) document.body.removeAttribute('tabindex');
+        else document.body.setAttribute('tabindex', previousTabIndex);
+      }
     }
     modal.addEventListener('click', event => {
       if (event.target === modal || event.target.closest('[data-modal-close]')) {
