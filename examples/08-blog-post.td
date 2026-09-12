@@ -1,14 +1,16 @@
-# Building Scalable Web Applications in 2025 {huge-bold}
+:::container {narrow}
+# Choosing an architecture that fits {serif text-4xl md:text-5xl bold #overview}
 
-## A comprehensive guide to modern architecture patterns {xl muted relaxed-lines}
+A reading sample about monoliths, services, and the tradeoffs between them. {large muted relaxed-lines}
 
-**By Sarah Johnson** • October 4, 2025 • 12 min read {small muted}
+FIELDNOTES · AN EXAMPLE ESSAY {small bold primary}
+
+[Monoliths](#monoliths) · [Microservices](#microservices) · [Serverless](#serverless) · [Choosing](#choosing)
 
 ---
 
-:::container
 :::alert {info}
-:icon[book-open]{info} **TL;DR** - This article covers modern web architecture patterns including microservices, serverless, and edge computing. We'll explore when to use each approach and provide real-world examples.
+:icon[book-open]{info} **TL;DR** - This article covers modern web architecture patterns including microservices, serverless, and edge computing. We'll explore when to use each approach and use an illustrative example.
 :::
 
 ## Introduction {xl-bold}
@@ -25,7 +27,7 @@ Let's dive in! {large relaxed-lines}
 
 ---
 
-## :icon[box]{primary} Monolithic Architecture {xl-bold fade-in}
+## Monolithic architecture {serif text-3xl bold #monoliths}
 
 ### What It Is {large-bold}
 
@@ -70,7 +72,7 @@ When requirements are straightforward and unlikely to change.
 
 ---
 
-## :icon[grid-3x3]{secondary} Microservices Architecture {xl-bold fade-in}
+## Microservices architecture {serif text-3xl bold #microservices}
 
 ### What It Is {large-bold}
 
@@ -126,7 +128,7 @@ Teams own services end-to-end. Less coordination, faster decisions.
 
 ---
 
-## :icon[zap]{warning} Serverless Architecture {xl-bold fade-in}
+## Serverless architecture {serif text-3xl bold #serverless}
 
 ### What It Is {large-bold}
 
@@ -169,7 +171,7 @@ Run code close to users for minimal latency.
 
 ---
 
-## :icon[compass]{primary} Making the Right Choice {xl-bold fade-in}
+## Choosing for your context {serif text-3xl bold #choosing}
 
 Here's a decision framework to help you choose: {large relaxed-lines}
 
@@ -203,12 +205,12 @@ Here's a decision framework to help you choose: {large relaxed-lines}
 
 ---
 
-## :icon[briefcase]{secondary} Real-World Example {xl-bold fade-in}
+## An illustrative evolution {serif text-3xl bold}
 
-Let's look at how a real company evolved their architecture. {large relaxed-lines}
+PhotoShare below is a fictional example of incremental architectural change, not a reported company history. {large relaxed-lines}
 
 :::card {elevated}
-### Case Study: PhotoShare
+### Example: PhotoShare
 
 **2020 - Monolith** :icon[box]{primary}  
 Started with Rails monolith, 3 developers, 1K users. Deployed to Heroku. Simple and fast.
@@ -237,13 +239,9 @@ Start simple, measure everything, and evolve as needed. {large relaxed-lines bol
 
 ---
 
-:::container
-### :icon[user]{primary} About the Author {large-bold}
+### About this composition {serif large bold}
 
-:::card {subtle-glass}
-**Sarah Johnson** is a Principal Engineer at TechCorp with 15 years of experience building scalable systems. She's helped dozens of companies transition from monoliths to microservices.
+This essay demonstrates long-form reading, comparison cards, code, and callouts in Taildown. Adapt the content to your subject, verify factual claims, and replace the illustrative material before publishing it as your own guide. {muted}
 
-[Follow on Twitter](#) :icon[twitter]{xs} | [Read more articles](#) :icon[book-open]{xs} | [Subscribe to newsletter](#) :icon[mail]{xs}
-:::
-:::
+[Back to the beginning](#overview){button ghost} [Try the editor](https://taildown.dev/editor){button primary}
 :::
