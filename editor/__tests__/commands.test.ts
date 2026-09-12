@@ -68,6 +68,12 @@ it('searches registry commands, preserves the selection, and inserts only on acc
     const titles = [...document.querySelectorAll('#command-results .slash-menu-title')].map(n=>n.textContent!.toLowerCase());
     for(const component of reference.components) expect(titles).toContain(component.name.replace(/-/g,' '));
     const search = document.querySelector<HTMLInputElement>('#command-search')!;
+    search.value='  SERIF TEXT  '; search.dispatchEvent(new dom.window.Event('input'));
+    expect(document.querySelector('#command-results [aria-selected="true"] .slash-menu-title')?.textContent).toBe('Serif text');
+    search.dispatchEvent(new dom.window.KeyboardEvent('keydown',{key:'Enter'}));
+    expect(editor.dispatch).toHaveBeenCalledWith(expect.objectContaining({changes:expect.objectContaining({insert:expect.stringContaining('{serif}')})}));
+    editor.dispatch.mockClear();
+    open();
     search.value='no-such-command-xyz'; search.dispatchEvent(new dom.window.Event('input'));
     expect(document.querySelector('#command-empty')!.hasAttribute('hidden')).toBe(false);
     search.dispatchEvent(new dom.window.KeyboardEvent('keydown',{key:'Enter'}));

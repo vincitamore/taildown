@@ -1061,9 +1061,22 @@ Browser recovery keeps your latest draft when storage is available. Save or down
     let paletteIndex = 0;
     let paletteSelection = null;
 
+    function searchCommands(searchText) {
+      const query = searchText.trim().toLowerCase();
+      if (!query) return [...slashCommands];
+      const rank = command => {
+        const name = command.name.toLowerCase();
+        if (name === query) return 0;
+        if (name.startsWith(query)) return 1;
+        if (name.includes(query)) return 2;
+        return command.description.toLowerCase().includes(query) ? 3 : 4;
+      };
+      return slashCommands.filter(command => rank(command) < 4)
+        .sort((a, b) => rank(a) - rank(b));
+    }
+
     function renderCommandPalette() {
-      const query = commandSearch.value.trim().toLowerCase();
-      paletteCommands = slashCommands.filter(command => `${command.name} ${command.description}`.toLowerCase().includes(query));
+      paletteCommands = searchCommands(commandSearch.value);
       paletteIndex = 0;
       commandResults.replaceChildren();
       paletteCommands.forEach((command, index) => {
@@ -1158,9 +1171,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
     // Slash command functions
     function showSlashMenu(searchText = '') {
       // Update filtered commands in outer scope
-      filteredCommands = slashCommands.filter(cmd => 
-        cmd.name.toLowerCase().includes(searchText.toLowerCase())
-      );
+      filteredCommands = searchCommands(searchText);
 
       if (filteredCommands.length === 0) {
         hideSlashMenu();
@@ -1609,7 +1620,19 @@ Browser recovery keeps your latest draft when storage is available. Save or down
           }
         }
       ])),
-      // DOM event handlers for slash detection and filtering
+      // Read committed editor state, rather than the DOM input event's old state.
+      EditorView.updateListener.of((update) => {
+        if (!slashMenuActive || slashMenuStart === null || (!update.docChanged && !update.selectionSet)) return;
+        const pos = update.state.selection.main.head;
+        if (pos <= slashMenuStart || update.state.doc.sliceString(slashMenuStart, slashMenuStart + 1) !== '/') {
+          hideSlashMenu();
+        } else {
+          const query = update.state.doc.sliceString(slashMenuStart + 1, pos);
+          if (query.includes('\n')) hideSlashMenu();
+          else showSlashMenu(query);
+        }
+      }),
+      // DOM event handler only detects the initial slash key.
       EditorView.domEventHandlers({
         keydown(event, view) {
           // Detect slash key at start of line or after space
@@ -1622,23 +1645,12 @@ Browser recovery keeps your latest draft when storage is available. Save or down
             if (textBefore.trim() === '' || /\s$/.test(textBefore)) {
               slashMenuStart = pos;
               // Wait for next frame to show menu after "/" is inserted
-              setTimeout(() => showSlashMenu(''), 0);
-            }
-          }
-          return false;
-        },
-        
-        input(event, view) {
-          // Update slash menu with search text
-          if (slashMenuActive && slashMenuStart !== null) {
-            const pos = view.state.selection.main.head;
-            const searchText = view.state.doc.sliceString(slashMenuStart + 1, pos);
-            
-            // Hide menu if user deletes the "/"
-            if (pos <= slashMenuStart) {
-              hideSlashMenu();
-            } else {
-              showSlashMenu(searchText);
+              setTimeout(() => {
+                if (slashMenuStart === null) return;
+                const end = view.state.selection.main.head;
+                if (end <= slashMenuStart || view.state.doc.sliceString(slashMenuStart, slashMenuStart + 1) !== '/') return;
+                showSlashMenu(view.state.doc.sliceString(slashMenuStart + 1, end));
+              }, 0);
             }
           }
           return false;
