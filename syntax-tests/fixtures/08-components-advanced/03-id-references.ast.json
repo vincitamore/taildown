@@ -1423,14 +1423,14 @@
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-primary",
-                "hover:bg-primary",
+                "bg-error",
+                "text-error-foreground",
+                "hover:bg-error",
                 "hover:brightness-110",
                 "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
-                "transition-all",
-                "text-error"
+                "transition-all"
               ],
               "data-modal-attach": "#shared"
             }

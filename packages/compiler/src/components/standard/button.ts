@@ -13,7 +13,7 @@
  * - outline: Outlined button with transparent background
  * - ghost: Minimal button with hover effect
  * - link: Button styled as a link
- * - destructive: Dangerous/delete actions (theme error color)
+ * - destructive / error: Dangerous/delete actions (theme error color)
  * - success: Success/confirm actions (theme success color)
  * - warning: Warning actions (theme warning color)
  * 
@@ -35,6 +35,18 @@
 
 import { defineComponent } from '../component-registry';
 import type { ComponentDefinition } from '../component-registry';
+
+// Both the action-oriented name and the status vocabulary share one variant.
+const destructiveClasses = [
+  'bg-error',
+  'text-error-foreground',
+  'hover:bg-error',
+  'hover:brightness-110',
+  'active:brightness-95',
+  'shadow-md',
+  'hover:shadow-lg',
+  'transition-all',
+];
 
 /**
  * Button component definition
@@ -120,16 +132,8 @@ export const buttonComponent: ComponentDefinition = defineComponent({
     ],
     
     // Destructive: Dangerous actions using theme error color
-    destructive: [
-      'bg-error',
-      'text-error-foreground',
-      'hover:bg-error',
-      'hover:brightness-110',
-      'active:brightness-95',
-      'shadow-md',
-      'hover:shadow-lg',
-      'transition-all',
-    ],
+    destructive: destructiveClasses,
+    error: destructiveClasses,
     
     // Success: Success/confirm actions using theme success color
     success: [
@@ -284,6 +288,13 @@ export const buttonVariants = {
     name: 'Destructive',
     description: 'Dangerous action button using theme error color',
     example: '[Delete](#){button destructive}',
+    color: 'Theme Error',
+    use: 'Delete, remove, destructive actions',
+  },
+  error: {
+    name: 'Error',
+    description: 'Alias for the destructive action variant',
+    example: '[Delete](#){button error}',
     color: 'Theme Error',
     use: 'Delete, remove, destructive actions',
   },

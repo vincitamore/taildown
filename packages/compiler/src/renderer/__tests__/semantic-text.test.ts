@@ -3,6 +3,23 @@ import {JSDOM} from 'jsdom';
 import {compile} from '../../index';
 import {generateColorPaletteCSS,getLightModeColors,getDarkModeColors} from '../../themes/color-palette';
 import {getDefaultConfig} from '../../config/default-config';
+import {getAuthoringReference} from '../../authoring-reference';
+
+it('treats error and destructive as the same button variant in compilation and authoring references', async () => {
+  const result = await compile('[Error](#){button error}\n\n[Destructive](#){button destructive}\n\n[Override](#){button error text-white}');
+  const dom = new JSDOM(result.html);
+  try {
+    const links = [...dom.window.document.querySelectorAll('a')];
+    expect(links[0]!.className).toBe(links[1]!.className);
+    expect(links[0]!.classList.contains('bg-error')).toBe(true);
+    expect(links[0]!.classList.contains('text-error-foreground')).toBe(true);
+    expect(links[2]!.classList.contains('text-white')).toBe(true);
+    expect(links[2]!.classList.contains('text-error-foreground')).toBe(false);
+    const reference = await getAuthoringReference();
+    expect(reference.components.find(component=>component.name==='button')?.attributes).toEqual(expect.arrayContaining(['error','destructive']));
+    expect(result.metadata.warnings).toEqual([]);
+  } finally {dom.window.close();}
+});
 
 const luminance = (hex:string) => {
   const rgb = hex.replace('#','').match(/../g)!.map(part=>parseInt(part,16)/255).map(value=>value<=0.04045 ? value/12.92 : ((value+0.055)/1.055)**2.4);

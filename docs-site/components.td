@@ -366,6 +366,10 @@ Three columns with large gap
 
 **Intelligent button layout with centering and mobile stacking.**
 
+Use `{button error}` or `{button destructive}` for the same error-colored action. Both names appear in the editor's button attribute suggestions. Other status variants include `success`, `warning`, and `info`.
+
+[Remove item](#button-group){button error} [Review warning](#button-group){button warning}
+
 ### Alignment Variants {bold}
 
 :::card {subtle-glass padded}
