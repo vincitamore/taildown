@@ -1285,7 +1285,7 @@ export function renderDiff(_state: State, node: any): Element {
         },
         children: [
           // Line numbers
-          line.oldLineNumber !== undefined ? {
+          {
             type: 'element',
             tagName: 'span',
             properties: {
@@ -1293,10 +1293,10 @@ export function renderDiff(_state: State, node: any): Element {
             },
             children: [{
               type: 'text',
-              value: String(line.oldLineNumber),
+              value: line.oldLineNumber === undefined ? '' : String(line.oldLineNumber),
             }],
-          } : null,
-          line.newLineNumber !== undefined ? {
+          },
+          {
             type: 'element',
             tagName: 'span',
             properties: {
@@ -1304,9 +1304,9 @@ export function renderDiff(_state: State, node: any): Element {
             },
             children: [{
               type: 'text',
-              value: String(line.newLineNumber),
+              value: line.newLineNumber === undefined ? '' : String(line.newLineNumber),
             }],
-          } : null,
+          },
           // Line content
           {
             type: 'element',

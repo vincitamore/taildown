@@ -2287,6 +2287,7 @@ td svg.icon {
 .diff-line-number {
   display: inline-block;
   width: 3rem;
+  flex-shrink: 0;
   text-align: right;
   padding-right: 1rem;
   padding-left: 0.5rem;
