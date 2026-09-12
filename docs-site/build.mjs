@@ -1,33 +1,43 @@
-#!/usr/bin/env node
 /**
  * Documentation Site Build Script
  * Compiles all .td files in docs-site to HTML
  */
 
 import { createRequire } from 'node:module';
-import { promises as fs } from 'fs';
-import { join, basename, dirname, relative } from 'path';
+import { promises as defaultFs, realpathSync } from 'fs';
+import { join, basename, dirname, relative, resolve } from 'path';
 import { execFileSync } from 'node:child_process';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const DOCS_DIR = __dirname;
-const OUTPUT_DIR = join(DOCS_DIR, 'dist');
 const PROJECT_DIR = dirname(DOCS_DIR);
-let compile;
 
-async function loadCompiler() {
-  const require = createRequire(import.meta.url);
-  const packagePath = require.resolve('tsup/package.json');
+/**
+ * @typedef {{html: string, metadata: {warnings: {line?: number, message: string}[]}}} PageResult
+ * @typedef {(source: string, options: import('../packages/shared/src/types').CompileOptions) => Promise<PageResult>} Compiler
+ * @typedef {{name: string, isDirectory(): boolean, isFile(): boolean}} BuildEntry
+ * @typedef {{readFile(path: string, encoding: 'utf8' | 'utf-8'): Promise<string>, readdir(path: string, options: {withFileTypes: true}): Promise<BuildEntry[]>, rm(path: string, options: {recursive: boolean, force: boolean}): Promise<unknown>, mkdir(path: string, options: {recursive: boolean}): Promise<unknown>, cp(source: string, target: string, options: {recursive: boolean}): Promise<unknown>, copyFile(source: string, target: string): Promise<unknown>, writeFile(path: string, content: string, encoding?: 'utf-8'): Promise<unknown>}} BuildFileSystem
+ * @typedef {(command: string, args: string[], options: {cwd: string, stdio: 'inherit'}) => unknown} RunCommand
+ * @typedef {Pick<import('../packages/shared/src/types').CompileOptions, 'title' | 'description' | 'openGraph'>} PageMetadata
+ */
+
+/**
+ * Build dependencies before importing their compiler module.
+ * @param {{fs?: Pick<BuildFileSystem, 'readFile'>, run?: RunCommand, projectDir?: string, resolvePackage?: (specifier: string) => string, importCompiler?: (url: string) => Promise<{compile: Compiler}>}} dependencies
+ */
+export async function loadCompiler({fs = defaultFs, run = execFileSync, projectDir = PROJECT_DIR, resolvePackage = createRequire(import.meta.url).resolve, importCompiler = url => import(url)} = {}) {
+  const packagePath = resolvePackage('tsup/package.json');
   const packageInfo = JSON.parse(await fs.readFile(packagePath, 'utf8'));
+  if (typeof packageInfo?.bin?.tsup !== 'string') throw new Error('tsup CLI entry is missing');
   const cliPath = join(dirname(packagePath), packageInfo.bin.tsup);
   for (const name of ['shared', 'compiler']) {
-    execFileSync(process.execPath, [cliPath], {cwd: join(PROJECT_DIR, 'packages', name), stdio: 'inherit'});
+    run(process.execPath, [cliPath], {cwd: join(projectDir, 'packages', name), stdio: 'inherit'});
   }
   // Import only after building: an eager import caches the previous compiler.
-  return (await import('../packages/compiler/dist/index.js')).compile;
+  return (await importCompiler(pathToFileURL(join(projectDir, 'packages/compiler/dist/index.js')).href)).compile;
 }
 const escapeHtml = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 
@@ -155,6 +165,14 @@ const PAGE_METADATA_STATIC = {
   }
 };
 
+/**
+ * Importing this module never starts a build. Each builder owns its compiler state.
+ * @param {{fs?: BuildFileSystem, run?: RunCommand, compilerLoader?: () => Promise<Compiler>, docsDir?: string, outputDir?: string, projectDir?: string, pageMetadata?: Record<string, PageMetadata>, staticMetadata?: Record<string, PageMetadata>, logger?: Pick<Console, 'log' | 'error'>}} dependencies
+ */
+export function createDocsBuilder({fs = defaultFs, run = execFileSync, docsDir = DOCS_DIR, outputDir = join(docsDir, 'dist'), projectDir = dirname(docsDir), pageMetadata = PAGE_METADATA, staticMetadata = PAGE_METADATA_STATIC, logger = console, compilerLoader = () => loadCompiler({fs, run, projectDir})} = {}) {
+ const DOCS_DIR = resolve(docsDir), OUTPUT_DIR = resolve(outputDir), PROJECT_DIR = resolve(projectDir);
+ /** @type {Compiler} */
+ let compile;
 async function findTdFiles(dir) {
   const files = [];
   const items = await fs.readdir(dir, { withFileTypes: true });
@@ -178,14 +196,14 @@ async function findTdFiles(dir) {
 
 async function compileTdFile(filePath) {
   const fileName = basename(filePath);
-  console.log(`Compiling: ${fileName}`);
+  logger.log(`Compiling: ${fileName}`);
   
   try {
     // Read source file
     const source = await fs.readFile(filePath, 'utf-8');
     
     // Get metadata for this page
-    const metadata = PAGE_METADATA[fileName] || {
+    const metadata = pageMetadata[fileName] || {
       title: 'Taildown Document',
       description: 'A beautiful document created with Taildown',
       openGraph: {
@@ -230,11 +248,11 @@ async function compileTdFile(filePath) {
     }
     await fs.writeFile(htmlPath, result.html);
     
-    console.log(`  ✓ Created: ${basename(htmlPath)}`);
+    logger.log(`  ✓ Created: ${basename(htmlPath)}`);
     
     return { success: true, file: fileName };
   } catch (error) {
-    console.error(`  ✗ Error compiling ${fileName}:`, error.message);
+    logger.error(`  ✗ Error compiling ${fileName}:`, error.message);
     return { success: false, file: fileName, error: error.message };
   }
 }
@@ -296,27 +314,27 @@ async function updateStaticHtml(filePath, metadata) {
     }
 
     await fs.writeFile(filePath, originalHtml.slice(0, headStart) + html + originalHtml.slice(headEnd + 7), 'utf-8');
-    console.log(`  ✓ Updated metadata: ${basename(filePath)}`);
+    logger.log(`  ✓ Updated metadata: ${basename(filePath)}`);
   } catch (err) {
     throw new Error(`Metadata update failed for ${basename(filePath)}`, {cause: err});
   }
 }
 
 async function main() {
-  console.log('🚀 Building Taildown Documentation Site\n');
+  logger.log('🚀 Building Taildown Documentation Site\n');
   if (dirname(OUTPUT_DIR) !== DOCS_DIR || basename(OUTPUT_DIR) !== 'dist') throw new Error('Invalid output directory');
   await fs.rm(OUTPUT_DIR, {recursive: true, force: true});
   await fs.mkdir(OUTPUT_DIR, {recursive: true});
-  compile = await loadCompiler();
-  execFileSync(process.execPath, ['build-browser.mjs'], {cwd: join(PROJECT_DIR, 'packages/compiler'), stdio: 'inherit'});
-  execFileSync(process.execPath, ['editor/build.mjs'], {cwd: PROJECT_DIR, stdio: 'inherit'});
+  compile = await compilerLoader();
+  run(process.execPath, ['build-browser.mjs'], {cwd: join(PROJECT_DIR, 'packages/compiler'), stdio: 'inherit'});
+  run(process.execPath, ['editor/build.mjs'], {cwd: PROJECT_DIR, stdio: 'inherit'});
   await fs.copyFile(join(PROJECT_DIR, 'editor/dist/editor-hosted.html'), join(OUTPUT_DIR, 'editor.html'));
   await fs.copyFile(join(PROJECT_DIR, 'editor/dist/editor.html'), join(OUTPUT_DIR, 'offline-editor.html'));
   await fs.cp(join(PROJECT_DIR, 'editor/dist/assets'), join(OUTPUT_DIR, 'assets'), {recursive:true});
   for (const asset of ['1759672632566.jpg', 'dynamic_regularization.png', 'grid_transformation.png', 'scale_correspondence.png', 'scale_shape_decomposition.png', 'favicon']) {
     await fs.cp(join(DOCS_DIR, asset), join(OUTPUT_DIR, asset), {recursive: true});
   }
-  console.log('📁 Searching for .td files...\n');
+  logger.log('📁 Searching for .td files...\n');
   
   const tdFiles = await findTdFiles(DOCS_DIR);
   
@@ -324,7 +342,7 @@ async function main() {
     throw new Error('No .td files found');
   }
   
-  console.log(`Found ${tdFiles.length} file(s) to compile:\n`);
+  logger.log(`Found ${tdFiles.length} file(s) to compile:\n`);
   
   const results = [];
   for (const file of tdFiles.sort()) results.push(await compileTdFile(file));
@@ -332,26 +350,36 @@ async function main() {
   const successful = results.filter(r => r.success).length;
   const failed = results.filter(r => !r.success).length;
   
-  console.log('\n' + '='.repeat(50));
-  console.log(`✅ Successfully compiled: ${successful} file(s)`);
+  logger.log('\n' + '='.repeat(50));
+  logger.log(`✅ Successfully compiled: ${successful} file(s)`);
   if (failed > 0) {
-    console.log(`❌ Failed to compile: ${failed} file(s)`);
+    logger.log(`❌ Failed to compile: ${failed} file(s)`);
   }
-  console.log('='.repeat(50));
+  logger.log('='.repeat(50));
   
   if (failed > 0) throw new Error(`Failed to compile ${failed} documentation pages`);
 
   // Update metadata for the freshly built editor.
-  for (const [staticName, meta] of Object.entries(PAGE_METADATA_STATIC)) {
+  for (const [staticName, meta] of Object.entries(staticMetadata)) {
     await updateStaticHtml(join(OUTPUT_DIR, staticName), meta);
   }
 
-  console.log('\n📦 Documentation site built successfully!');
-  console.log(`   Open docs-site/dist/index.html in your browser\n`);
+  logger.log('\n📦 Documentation site built successfully!');
+  logger.log(`   Open docs-site/dist/index.html in your browser\n`);
 }
 
-main().catch(error => {
-  console.error('Build failed:', error);
-  process.exit(1);
-});
+return {main};
+}
 
+function isDirectInvocation() {
+  if (!process.argv[1]) return false;
+  try { return realpathSync(resolve(process.argv[1])) === realpathSync(__filename); }
+  catch { return false; }
+}
+
+if (isDirectInvocation()) {
+ createDocsBuilder().main().catch(error => {
+  console.error('Build failed:', error);
+  process.exitCode = 1;
+ });
+}
