@@ -34,7 +34,8 @@ interface AttributePluginOptions {
 function extractAttributesFromText(
   text: string,
   resolverContext?: ResolverContext,
-  afterLink = false
+  afterLink = false,
+  warnings: CompilationWarning[] = []
 ): {
   classes: string[];
   remainingText: string;
@@ -77,21 +78,17 @@ function extractAttributesFromText(
   
   // Extract key-value attributes (modal="..." tooltip="...") and ID (#anchor-id)
   const kvAttrs: { id?: string; modal?: string; tooltip?: string } = {};
-  let cleanedBlock = attributeBlock;
-  
-  // Match modal="..." or modal='...' FIRST (before extracting IDs)
-  const modalMatch = attributeBlock.match(/modal=["']([^"']+)["']/);
-  if (modalMatch) {
-    kvAttrs.modal = modalMatch[1];
-    cleanedBlock = cleanedBlock.replace(modalMatch[0], '').trim();
-  }
-  
-  // Match tooltip="..." or tooltip='...' FIRST (before extracting IDs)
-  const tooltipMatch = attributeBlock.match(/tooltip=["']([^"']+)["']/);
-  if (tooltipMatch) {
-    kvAttrs.tooltip = tooltipMatch[1];
-    cleanedBlock = cleanedBlock.replace(tooltipMatch[0], '').trim();
-  }
+  let cleanedBlock = attributeBlock.replace(/(^|\s)([\w-]+)=(?:"([^"]*)"|'([^']*)'|([^\s]+))/g,
+    (_match, space: string, name: string, doubleQuoted: string | undefined, singleQuoted: string | undefined, bare: string | undefined) => {
+      const value = doubleQuoted ?? singleQuoted ?? bare ?? '';
+      if (name === 'modal' || name === 'tooltip') {
+        if (value) kvAttrs[name] = value;
+        else warnings.push({message: `Inline attribute "${name}" requires a non-empty value.`});
+      } else {
+        warnings.push({message: `Unsupported inline attribute "${name}". Inline key-value attributes support modal and tooltip; use #name for an ID and plain-English styles or CSS classes for styling.`});
+      }
+      return space;
+    });
   
   // Match #anchor-id (ID syntax) - AFTER removing quoted values
   // This prevents #id inside tooltip="#id" from being extracted as anchor
@@ -197,7 +194,8 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
         const { classes, remainingText, id, modal, tooltip } = extractAttributesFromText(
           textNode.value,
           resolverContext,
-          true
+          true,
+          options?.warnings
         );
 
         // Update text node
@@ -235,7 +233,9 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
         const textNode = lastChild as Text;
         const { classes, remainingText, id, modal, tooltip } = extractAttributesFromText(
           textNode.value,
-          resolverContext
+          resolverContext,
+          false,
+          options?.warnings
         );
 
         // Update text content
@@ -274,7 +274,9 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
         const textNode = lastChild as Text;
         const { classes, remainingText, id, modal, tooltip } = extractAttributesFromText(
           textNode.value,
-          resolverContext
+          resolverContext,
+          false,
+          options?.warnings
         );
 
         textNode.value = remainingText;

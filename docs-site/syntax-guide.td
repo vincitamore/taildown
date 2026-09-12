@@ -127,6 +127,8 @@ ___
 
 ## Inline Attributes {#attributes bold primary}
 
+Inline attributes accept styling words, CSS classes, `#anchor` IDs, and `modal="..."` or `tooltip="..."` attachments. Arbitrary HTML key-value attributes such as `tabindex="1"` or `aria-label="..."` are currently unsupported: the compiler reports a warning and omits them. Quoted attachment values can contain spaces and apostrophes.
+
 :icon[brackets]{primary large} **Add styling to any element using curly brace notation.** {large}
 
 ### Basic Syntax
