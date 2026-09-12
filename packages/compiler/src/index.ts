@@ -4,6 +4,7 @@
  */
 
 import type { CompileOptions, CompileResult } from '@taildown/shared';
+import {visit} from 'unist-util-visit';
 import { parseWithWarnings } from './parser';
 import { renderHTMLDocument, astToHast, generateCSS, collectClassesFromHast } from './renderer';
 import { generateJavaScript, hasInteractiveBehavior } from './js-generator';
@@ -35,77 +36,37 @@ export async function compile(
   const parseResult = await parseWithWarnings(source, {styleMappings: options.styleMappings, components: options.components, componentConfig: options.componentConfig});
   const { ast, warnings } = parseResult;
 
-  // Count nodes for metadata
+  // Collect source metadata and components in one typed MDAST traversal.
   let nodeCount = 0;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function countNodes(node: any): void {
-    nodeCount++;
-    if (node.children) {
-      for (const child of node.children) {
-        countNodes(child);
-      }
-    }
-  }
-  countNodes(ast);
-
-  // Track which components are used for JS generation
-  const usedComponents = new Set<string>();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function findComponents(node: any): void {
-    // Component blocks have type 'containerDirective' from our directive parser
-    if (node.type === 'containerDirective' && node.name) {
-      usedComponents.add(node.name);
-    }
-    if (node.children) {
-      for (const child of node.children) {
-        findComponents(child);
-      }
-    }
-  }
-  findComponents(ast);
-
-  // Detect if document contains Mermaid diagrams for tree-shaken inline bundling
   let hasMermaid = false;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function detectMermaid(node: any): void {
-    if (hasMermaid) return; // Early exit if already found
-    
-    // Check for code blocks with language-mermaid
-    if ((node.type === 'code' && node.lang === 'mermaid') || (node.type === 'containerDirective' && node.name === 'mermaid')) {
+  const usedComponents = new Set<string>();
+  visit(ast, node => {
+    nodeCount++;
+    if (node.type === 'containerDirective') {
+      usedComponents.add(node.name);
+      if (node.name === 'mermaid') hasMermaid = true;
+    } else if (node.type === 'code' && node.lang === 'mermaid') {
       hasMermaid = true;
-      return;
     }
-    
-    if (node.children) {
-      for (const child of node.children) {
-        detectMermaid(child);
-        if (hasMermaid) break; // Early exit
-      }
-    }
-  }
-  detectMermaid(ast);
+  });
 
-  // Convert MDAST to HAST first (this applies component handlers and adds Tailwind classes)
+  // Rendering can introduce attachments, code blocks and sortable tables.
   const hast = await astToHast(ast);
-  
-  // Scan HAST for additional interactive components (attachable modals/tooltips)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function findHastComponents(node: any): void {
-    if (node && typeof node === 'object') {
-      // Check for data-component attribute
-      if (node.type === 'element' && node.properties?.['data-component']) {
-        usedComponents.add(node.properties['data-component']);
-      }
-      // Recurse into children
-      if (node.children && Array.isArray(node.children)) {
-        for (const child of node.children) {
-          findHastComponents(child);
-        }
+  visit(hast, 'element', node => {
+    const component = node.properties['data-component'];
+    if (typeof component === 'string' && component) usedComponents.add(component);
+    if (node.tagName === 'pre' && node.children.some(child =>
+      child.type === 'element' && child.tagName === 'code')) {
+      usedComponents.add('copy-code');
+    }
+    if (node.tagName === 'table') {
+      const className = node.properties.className;
+      const tableClasses = typeof className === 'string' ? className.split(/\s+/) : Array.isArray(className) ? className : [];
+      if (node.properties.dataSortable === 'true' || tableClasses?.includes('table-sortable')) {
+        usedComponents.add('table');
       }
     }
-  }
-  findHastComponents(hast);
-  
+  });
   // Collect classes from HAST (includes classes added by component handlers)
   const classes = collectClassesFromHast(hast);
   
@@ -123,63 +84,6 @@ export async function compile(
   if (hasAnimations) {
     usedComponents.add('scroll-animations');
   }
-  
-  // Check if there are any code blocks (pre > code elements)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function hasCodeBlocks(node: any): boolean {
-    if (node && typeof node === 'object') {
-      // Check for pre elements containing code
-      if (node.type === 'element' && node.tagName === 'pre') {
-        const hasCodeChild = node.children && node.children.some((child: any) => 
-          child.type === 'element' && child.tagName === 'code'
-        );
-        if (hasCodeChild) {
-          return true;
-        }
-      }
-      // Recurse into children
-      if (node.children && Array.isArray(node.children)) {
-        for (const child of node.children) {
-          if (hasCodeBlocks(child)) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  }
-  
-  if (hasCodeBlocks(hast)) {
-    usedComponents.add('copy-code');
-  }
-  
-  // Check for sortable tables
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function hasSortableTables(node: any): boolean {
-    if (node && typeof node === 'object') {
-      if (node.type === 'element' && node.tagName === 'table') {
-        if (node.properties?.dataSortable === 'true' || 
-            node.properties?.className?.includes('table-sortable')) {
-          return true;
-        }
-      }
-      if (node.children && Array.isArray(node.children)) {
-        for (const child of node.children) {
-          if (hasSortableTables(child)) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  }
-  
-  if (hasSortableTables(hast)) {
-    usedComponents.add('table');
-  }
-  
-  // Navbar components are already tracked via containerDirective detection
-  // Just verify it's in the set for JavaScript generation
   
   // Generate CSS from collected classes
   const css = generateCSS(classes, options.minify, config);
