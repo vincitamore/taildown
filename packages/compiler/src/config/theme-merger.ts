@@ -27,13 +27,13 @@ import { DEFAULT_CONFIG } from './default-config';
 /**
  * Check if value is a plain object (not array, not null, not Date, etc.)
  */
-function isPlainObject(value: any): value is Record<string, any> {
+function isPlainObject(value: unknown): value is Record<string, unknown> {
   if (typeof value !== 'object' || value === null) {
     return false;
   }
 
   // Check if it's a plain object (not Array, Date, etc.)
-  const proto = Object.getPrototypeOf(value);
+  const proto: unknown = Object.getPrototypeOf(value);
   return proto === null || proto === Object.prototype;
 }
 
@@ -84,7 +84,7 @@ function snapshotComponent(config: ComponentConfig): ComponentConfig {
   if (config.defaultClasses) snapshot.defaultClasses = [...config.defaultClasses];
   for (const key of ['variants', 'sizes'] as const) {
     if (config[key]) {
-      snapshot[key] = Object.fromEntries(Object.entries(config[key]!).map(([name, variant]) => [
+      snapshot[key] = Object.fromEntries(Object.entries(config[key]).map(([name, variant]) => [
         name, { ...variant, classes: [...variant.classes] },
       ]));
     }
@@ -156,7 +156,7 @@ export function mergeConfig(
   userConfig: PartialTaildownConfig
 ): TaildownConfig {
   // Start with defaults
-  const merged: TaildownConfig = JSON.parse(JSON.stringify(defaultConfig));
+  const merged = structuredClone(defaultConfig);
 
   // Merge theme if provided
   if (userConfig.theme) {
@@ -270,10 +270,10 @@ export function getCustomizationSummary(config: TaildownConfig): string[] {
   const summary: string[] = [];
   const diff = extractDifferences(DEFAULT_CONFIG, config);
 
-  function traverse(obj: any, path: string = '') {
-    for (const key in obj) {
+  function traverse(obj: object, path: string = '') {
+    for (const [key, value] of Object.entries(obj)) {
       const fullPath = path ? `${path}.${key}` : key;
-      const value = obj[key];
+
 
       if (isPlainObject(value)) {
         traverse(value, fullPath);
