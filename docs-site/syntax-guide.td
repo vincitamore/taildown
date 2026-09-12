@@ -133,7 +133,7 @@ Open **Design settings** from the editor's **Command-K** menu to configure a cus
 
 The **Modern**, **Editorial**, and **Technical** typography buttons prepare a sans-serif, serif, or monospace document font. Choose **Apply settings** to see the result. These starting points preserve your other font stacks, colors, and component settings, and remain editable in the JSON below.
 
-Settings belong to this browser workspace and apply across opened documents. A downloaded `.td` file contains only document text: use **Download applied settings** to keep a separate JSON copy, and paste that JSON into Design settings on another browser. **Use defaults** prepares an empty configuration; choose **Apply settings** to activate it.
+Settings belong to this browser workspace and apply across opened documents. A downloaded `.td` file contains only document text: use **Download applied settings** to keep a separate JSON copy, then **Import settings** in another browser. Import prepares the JSON for review; **Apply settings** activates it. Invalid imports preserve the current draft. You can also paste JSON directly. **Use defaults** prepares an empty configuration; choose **Apply settings** to activate it.
 
 ```json
 {"theme":{"colors":{"primary":"#4338ca"}},"styleMappings":{"brand":"text-primary font-bold"}}

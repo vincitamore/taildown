@@ -840,11 +840,13 @@
     <label for="design-json">Configuration JSON</label>
     <textarea id="design-json" spellcheck="false" style="display: block; box-sizing: border-box; width: 100%; min-height: 16rem; margin: 0.75rem 0; padding: 0.75rem; font: 0.875rem/1.5 monospace;"></textarea>
     <p>Example: <code>{"theme":{"colors":{"primary":"#4338ca"}},"styleMappings":{"brand":"text-primary font-bold"}}</code></p>
-    <p>Saving a .td file saves its text. Download these settings separately to reuse them in another browser; paste the downloaded JSON here.</p>
+    <p>Saving a .td file saves its text. Download these settings separately to reuse them in another browser; import the JSON file here.</p>
+    <input id="design-file" type="file" accept=".json,application/json" hidden>
     <p id="design-message" role="status" aria-live="polite"></p>
     <div class="design-actions" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
       <button id="design-apply" type="button">Apply settings</button>
       <button id="design-download" type="button">Download applied settings</button>
+      <button id="design-import" type="button">Import settings</button>
       <button id="design-reset" type="button">Use defaults</button>
       <button id="design-close" type="button">Close</button>
     </div>
@@ -890,7 +892,7 @@
     // Production bundles this module and its imports directly into the page.
     import * as Taildown from '../packages/compiler/dist/taildown-browser.js';
     import {createDraftStore} from './draft-store.js';
-    import {createDesignSettings, typographyChoices, prepareTypography} from './design-settings.js';
+    import {createDesignSettings, typographyChoices, prepareTypography, parseDesignSettings} from './design-settings.js';
     
     const {
       compile,
@@ -1007,6 +1009,31 @@ Browser recovery keeps your latest draft when storage is available. Save or down
     const designDialog = document.getElementById('design-settings');
     const designJSON = document.getElementById('design-json');
     const designMessage = document.getElementById('design-message');
+    let designImportRevision = 0;
+    const designFile = document.getElementById('design-file');
+    document.getElementById('design-import').addEventListener('click', () => designFile.click());
+    designFile.addEventListener('change', async () => {
+      const file = designFile.files[0];
+      designFile.value = '';
+      if (!file) return;
+      const revision = ++designImportRevision;
+      const previousText = designJSON.value;
+      designMessage.textContent = 'Reading settings…';
+      try {
+        const options = parseDesignSettings(await file.text());
+        if (revision !== designImportRevision || !designDialog.open) return;
+        if (designJSON.value !== previousText) {
+          designMessage.textContent = 'Import skipped because you edited the settings while the file was loading.';
+          return;
+        }
+        designJSON.value = JSON.stringify(options, null, 2);
+        designMessage.textContent = `${file.name} is ready. Review it and Apply settings to use it.`;
+        designJSON.focus();
+      } catch (error) {
+        if (revision === designImportRevision && designDialog.open) designMessage.textContent = `Settings were not imported: ${error.message}`;
+      }
+    });
+    designDialog.addEventListener('close', () => { designImportRevision++; });
     for (const choice of typographyChoices) {
       const button = document.createElement('button');
       button.type = 'button';
