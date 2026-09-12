@@ -19,9 +19,13 @@ export function textSlicePosition(node: Text, start: number, end: number, source
     if (decoded === node.value) {
       const point = (index: number) => {
         const offset = offsets[index]!;
-        const before = source.slice(0, offset);
-        const lineStart = before.lastIndexOf('\n') + 1;
-        return {line: before.split('\n').length, column: offset - lineStart + 1, offset};
+        const before = raw.slice(0, offset - origin.offset!);
+        const lineStart = before.lastIndexOf('\n');
+        return {
+          line: origin.line + before.split('\n').length - 1,
+          column: lineStart < 0 ? origin.column + before.length : before.length - lineStart,
+          offset,
+        };
       };
       return {start: point(start), end: point(end)};
     }

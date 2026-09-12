@@ -31,7 +31,7 @@ const FENCE_CLOSE_REGEX = /^:::$/;
  * 
  * Returns an interleaved array of markers and content in document order
  */
-function extractMarkersFromParagraph(node: Paragraph, source?: string): Array<{
+function extractMarkersFromParagraph(node: Paragraph, source?: string, sourceIndex?: {lines: string[]; offsets: number[]}): Array<{
   type: 'marker' | 'content';
   marker?: ComponentMarker;
   contentNode?: Paragraph;
@@ -40,10 +40,8 @@ function extractMarkersFromParagraph(node: Paragraph, source?: string): Array<{
   const items: ReturnType<typeof extractMarkersFromParagraph> = [];
   let children: Paragraph['children'] = [];
   let foundMarker = false;
-  const sourceLines = source?.split('\n');
-  const offsets: number[] = [];
-  let offset = 0;
-  for (const line of sourceLines ?? []) { offsets.push(offset); offset += line.length + 1; }
+  const sourceLines = sourceIndex?.lines;
+  const offsets = sourceIndex?.offsets ?? [];
   const flush = () => {
     // Newlines bordering a block fence separate blocks, not inline content.
     const first = children[0];
@@ -230,6 +228,12 @@ export function scanForMarkers(nodes: Content[], source?: string): {
   const markers: ComponentMarker[] = [];
   const content: Content[] = [];
   const items: ScanItem[] = [];
+  // Index the source once per scan, rather than once per paragraph.
+  const lines = source?.split('\n');
+  const offsets: number[] = [];
+  let offset = 0;
+  for (const line of lines ?? []) { offsets.push(offset); offset += line.length + 1; }
+  const sourceIndex = lines ? {lines, offsets} : undefined;
 
   for (const node of nodes) {
     // Skip nodes that shouldn't be scanned
@@ -243,7 +247,7 @@ export function scanForMarkers(nodes: Content[], source?: string): {
 
     // Check if this paragraph contains fence markers
     if (node.type === 'paragraph') {
-      const extractedItems = extractMarkersFromParagraph(node, source);
+      const extractedItems = extractMarkersFromParagraph(node, source, sourceIndex);
       
       if (extractedItems.length > 0) {
         // Add markers and content in their original order (interleaved)
