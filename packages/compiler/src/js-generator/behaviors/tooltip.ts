@@ -10,14 +10,6 @@ export const tooltipBehavior: ComponentBehavior = {
   name: 'tooltip',
   size: 1800, // ~1.8KB (increased due to positioning logic and event handling)
   code: `// Tooltip Component with intelligent positioning and hover persistence
-// Prevent all tooltip triggers with href="#" from jumping to top
-document.querySelectorAll('[data-tooltip-trigger][href="#"]').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  });
-});
-
 document.querySelectorAll('[data-tooltip-trigger]').forEach((trigger, index) => {
   const tooltipId = trigger.getAttribute('aria-describedby');
   let tooltip = tooltipId ? document.getElementById(tooltipId) : null;
@@ -128,7 +120,13 @@ document.querySelectorAll('[data-tooltip-trigger]').forEach((trigger, index) => 
   
   // Click to toggle (mobile and desktop)
   trigger.addEventListener('click', (e) => {
-    e.preventDefault(); // Always prevent default to avoid # jumps
+    // A tooltip enhances real links without taking ownership of navigation.
+    const link = trigger.closest('a[href]');
+    if (link && link.getAttribute('href') !== '#') {
+      hide(true);
+      return;
+    }
+    e.preventDefault(); // Placeholder help links must not jump to the page top.
     e.stopPropagation(); // Stop event bubbling
     if (isVisible) {
       hide(true);

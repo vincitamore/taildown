@@ -2,6 +2,26 @@ import {expect, it} from 'vitest';
 import {JSDOM} from 'jsdom';
 import {tooltipBehavior} from '../tooltip';
 
+it('preserves real link activation and only cancels placeholder help links', () => {
+  const dom = new JSDOM('<a href="/guide" data-tooltip-trigger>Guide</a><div role="tooltip">Guide description</div><a href="#" data-tooltip-trigger>Help</a><div role="tooltip">Help description</div>', {runScripts:'outside-only'});
+  try {
+    dom.window.eval(tooltipBehavior.code);
+    const [link, help] = dom.window.document.querySelectorAll('a');
+    // Observe before stopping native navigation in this isolated DOM test.
+    for (const ctrlKey of [false, true]) {
+      link!.dispatchEvent(new dom.window.MouseEvent('mouseenter'));
+      let prevented = true;
+      link!.addEventListener('click', event => { prevented = event.defaultPrevented; event.preventDefault(); }, {once:true});
+      link!.dispatchEvent(new dom.window.MouseEvent('click', {cancelable:true, ctrlKey}));
+      expect(prevented).toBe(false);
+      expect(dom.window.document.querySelector<HTMLElement>('[role="tooltip"]')!.hidden).toBe(true);
+    }
+    const event = new dom.window.MouseEvent('click', {cancelable:true});
+    help!.dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(true);
+  } finally {dom.window.close();}
+});
+
 it('links descriptions, preserves hover reentry, and lets Escape override hover', async () => {
   const dom = new JSDOM('<button data-tooltip-trigger>Info</button><div role="tooltip">Description</div>', {runScripts:'outside-only', pretendToBeVisual:true});
   try {
