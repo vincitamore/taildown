@@ -32,7 +32,7 @@ const taildownParser = {
   token(stream: any, state: any) {
     // Handle code blocks first (highest precedence)
     if (state.inCodeBlock) {
-      if (stream.match(new RegExp(`^${state.codeBlockFence}\\s*$`))) {
+      if (stream.sol() && stream.match(new RegExp(`^ {0,3}${state.codeBlockFence[0]}{${state.codeBlockFence.length},}[\\t ]*$`))) {
         state.inCodeBlock = false;
         state.codeBlockFence = '';
         return 'processingInstruction';
@@ -42,8 +42,10 @@ const taildownParser = {
     }
     
     // Check for code block start
-    if (stream.sol() && stream.match(/^```|^~~~/)) {
-      const fence = stream.current();
+    const openingFence = stream.sol() && stream.match(/^ {0,3}(`{3,}|~{3,})/, false);
+    if (openingFence && !(openingFence[1][0] === '`' && stream.string.slice(openingFence[0].length).includes('`'))) {
+      stream.match(/^ {0,3}(`{3,}|~{3,})/);
+      const fence = openingFence[1];
       state.inCodeBlock = true;
       state.codeBlockFence = fence;
       // Check for special language identifiers
