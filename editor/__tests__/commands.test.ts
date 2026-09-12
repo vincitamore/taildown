@@ -10,6 +10,27 @@ const editCode = source.slice(source.indexOf('    function commandEdit('),source
 const commandEdit = new Function(editCode+';return commandEdit;')();
 const curated = new Function(source.slice(source.indexOf('    const slashCommands ='),source.indexOf('    // Every registered component'))+';return slashCommands;')();
 
+it('retains a slash search through no results so a typo can be corrected', () => {
+  const dom = new JSDOM(source);
+  try {
+    const menu = dom.window.document.querySelector('#slash-menu')!;
+    const functions = source.slice(source.indexOf('    // Slash command functions'), source.indexOf('    // Helper to render autocomplete'));
+    const run = new Function('document', 'slashMenu', 'editor', 'lucideIcon', `
+      let filteredCommands = [], slashMenuIndex = 0, slashMenuActive = false, slashMenuStart = 12;
+      const searchCommands = query => query === 'serif' ? [{name:'Serif text',description:'Serif font',icon:'type'}] : [];
+      ${functions}
+      return {showSlashMenu, state:()=>({slashMenuStart,slashMenuActive})};
+    `)(dom.window.document,menu,{state:{selection:{main:{head:20}}},coordsAtPos:()=>({left:10,bottom:20})},()=>'<svg></svg>');
+    run.showSlashMenu('serifzz');
+    expect(menu.querySelector('[role="status"]')?.textContent).toContain('No matching commands');
+    expect(menu.querySelectorAll('[data-index]')).toHaveLength(0);
+    expect(run.state()).toEqual({slashMenuStart:12,slashMenuActive:true});
+    run.showSlashMenu('serif');
+    expect(menu.querySelector('[role="status"]')).toBeNull();
+    expect(menu.querySelector('.slash-menu-title')?.textContent).toBe('Serif text');
+  } finally {dom.window.close();}
+});
+
 it('shared content examples compile to meaningful component content', async () => {
   const reference = await getAuthoringReference();
   for (const component of reference.components.filter(item=>item.example)) {

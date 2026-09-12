@@ -1173,11 +1173,6 @@ Browser recovery keeps your latest draft when storage is available. Save or down
       // Update filtered commands in outer scope
       filteredCommands = searchCommands(searchText);
 
-      if (filteredCommands.length === 0) {
-        hideSlashMenu();
-        return;
-      }
-
       slashMenuIndex = 0;
       slashMenu.innerHTML = filteredCommands.map((cmd, index) => `
         <div class="slash-menu-item ${index === 0 ? 'selected' : ''}" data-index="${index}">
@@ -1188,6 +1183,13 @@ Browser recovery keeps your latest draft when storage is available. Save or down
           </div>
         </div>
       `).join('');
+      if (filteredCommands.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'slash-menu-item';
+        empty.setAttribute('role', 'status');
+        empty.textContent = 'No matching commands. Keep typing or press Escape.';
+        slashMenu.append(empty);
+      }
 
       // Position menu
       const coords = editor.coordsAtPos(editor.state.selection.main.head);
@@ -1200,7 +1202,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
       slashMenuActive = true;
 
       // Add click handlers
-      slashMenu.querySelectorAll('.slash-menu-item').forEach((item, index) => {
+      slashMenu.querySelectorAll('[data-index]').forEach((item, index) => {
         item.addEventListener('click', () => {
           insertSlashCommand(filteredCommands[index]);
         });
@@ -1216,7 +1218,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
     }
 
     function navigateSlashMenu(direction) {
-      const items = slashMenu.querySelectorAll('.slash-menu-item');
+      const items = slashMenu.querySelectorAll('[data-index]');
       if (items.length === 0) return;
 
       items[slashMenuIndex].classList.remove('selected');
@@ -1582,7 +1584,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
         {
           key: 'ArrowDown',
           run: (view) => {
-            if (slashMenuActive) {
+            if (slashMenuActive && filteredCommands.length) {
               navigateSlashMenu('down');
               return true;
             }
@@ -1592,7 +1594,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
         {
           key: 'ArrowUp',
           run: (view) => {
-            if (slashMenuActive) {
+            if (slashMenuActive && filteredCommands.length) {
               navigateSlashMenu('up');
               return true;
             }
@@ -1602,7 +1604,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
         {
           key: 'Tab',
           run: (view) => {
-            if (slashMenuActive) {
+            if (slashMenuActive && filteredCommands.length) {
               executeSelectedCommand();
               return true;
             }
