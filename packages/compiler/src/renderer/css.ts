@@ -90,6 +90,7 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'max-w-6xl': 'max-width: 72rem;',
   'max-w-4xl': 'max-width: 56rem;',
   'max-w-2xl': 'max-width: 42rem;',
+  'max-w-md': 'max-width: 28rem;',
   'max-w-screen-2xl': 'max-width: 1536px;',
   'max-w-full': 'max-width: 100%;',
   'min-w-[200px]': 'min-width: 200px;',
@@ -5530,11 +5531,9 @@ mark,
 .modal-content {
   position: relative;
   z-index: 9999;
-  max-width: 42rem;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  border-radius: 1rem;
   animation: modalSlideIn 300ms cubic-bezier(0.16, 1, 0.3, 1);
   /* Subtle inner border for glassmorphism depth */
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -5563,6 +5562,10 @@ mark,
 
 /* Modal close button - positioned outside content */
 .modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: var(--foreground);
   z-index: 10000 !important;
   cursor: pointer;
   transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);

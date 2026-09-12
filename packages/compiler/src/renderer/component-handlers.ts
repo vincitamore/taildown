@@ -22,6 +22,16 @@ import { visit } from 'unist-util-visit';
 import type { Root } from 'mdast';
 import { toHast } from 'mdast-util-to-hast';
 import { registry, registryInitialized } from '../components/component-registry';
+import {mergeClasses} from '../resolver/merge-classes';
+
+/** Presentation belongs to the dialog surface, never the full-screen backdrop. */
+function modalSurfaceClasses(node: ContainerDirectiveNode): string[] {
+  const resolved = node.data?.hProperties?.className;
+  return mergeClasses([
+    'modal-content', 'w-full', 'max-h-[90vh]', 'overflow-y-auto', 'relative',
+    ...(Array.isArray(resolved) ? resolved : resolved ? [resolved] : registry.get('modal')?.defaultClasses ?? []),
+  ]);
+}
 
 // Global registry of defined modal/tooltip blocks (ID -> content)
 const modalRegistry = new Map<string, Element>();
@@ -1499,7 +1509,7 @@ export function renderModal(state: State, node: ContainerDirectiveNode): Element
             type: 'element',
             tagName: 'div',
             properties: {
-              className: ['modal-content', 'glass-subtle', 'rounded-2xl', 'shadow-3xl', 'max-w-2xl', 'w-full', 'max-h-[90vh]', 'overflow-y-auto', 'relative', 'p-12', 'border', 'border-white/20']
+              className: modalSurfaceClasses(node)
             },
             children: [
               {
@@ -1624,7 +1634,7 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
           type: 'element',
           tagName: 'div',
           properties: {
-            className: ['modal-content', 'glass-subtle', 'rounded-2xl', 'shadow-3xl', 'max-w-2xl', 'w-full', 'max-h-[90vh]', 'overflow-y-auto', 'relative']
+            className: modalSurfaceClasses(node)
           },
           children: [
             // Close button
@@ -1668,7 +1678,7 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
               type: 'element',
               tagName: 'div',
               properties: {
-                className: ['modal-body', 'p-8', 'pt-10']
+                className: ['modal-body']
               },
               children: content
             }

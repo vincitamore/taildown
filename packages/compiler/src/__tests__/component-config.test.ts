@@ -1,5 +1,6 @@
 import {expect, it} from 'vitest';
 import {compile, getAuthoringReference} from '../index';
+import {JSDOM} from 'jsdom';
 
 it('compiles configured defaults, explicit variants and sizes without changing other documents', async () => {
   const componentConfig = {card: {
@@ -52,4 +53,15 @@ it('applies presets to attached components and keeps interactive component behav
   expect(result.html).toMatch(/class="[^"]*component-tabs[^"\n]*border/);
   expect(result.html).toContain('role="tab"');
   expect(result.js).toContain('tab');
+});
+it.each([':::modal{sm}\nDialog content\n:::', '[Open](#){modal="#example"}\n\n:::modal{id="example" sm}\nDialog content\n:::'])('applies modal presentation to its dialog surface: %s', async source => {
+  const result = await compile(source, {componentConfig: {modal: {defaultClasses: ['font-serif', 'p-8']}}});
+  const document = new JSDOM(result.html).window.document;
+  const surface = document.querySelector('.modal-content')!;
+  expect(surface.classList.contains('font-serif')).toBe(true);
+  expect(surface.classList.contains('p-8')).toBe(true);
+  expect(surface.classList.contains('max-w-md')).toBe(true);
+  expect(surface.classList.contains('max-w-2xl')).toBe(false);
+  expect(result.css).toContain('.max-w-md { max-width: 28rem; }');
+  expect(document.querySelector('[role="dialog"]')?.classList.contains('p-8')).toBe(false);
 });
