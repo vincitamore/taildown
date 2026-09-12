@@ -6,6 +6,12 @@ import { mergeClasses } from '../merge-classes';
 import { generateCSS } from '../../renderer/css';
 
 describe('style precedence', () => {
+  it.each([1, 2, 3, 4, 5])('resolves documented cols-%s to the numeric grid size', async count => {
+    const alias = await compile(`:::grid{cols-${count}}\nContent\n:::`, {inlineStyles:true});
+    const numeric = await compile(`:::grid{${count}}\nContent\n:::`, {inlineStyles:true});
+    expect(alias.html).toBe(numeric.html);
+    expect(alias.metadata.warnings).toEqual([]);
+  });
   it('keeps element-local intent when unrelated heading order changes', async () => {
     const first = '# First {large small}';
     const second = '# Second {small large}';

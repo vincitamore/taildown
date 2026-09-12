@@ -43,6 +43,13 @@ it('offers compiler shorthands after whitespace within an attribute block', asyn
   expect(result.options.map((item: any) => item.label)).toContain('extra-light');
 });
 
+it('offers documented grid column aliases while preserving gap selection', async () => {
+  const input = ':::grid{loose cols-';
+  const result = await suggestions(input);
+  expect(input.slice(0, result.from)).toBe(':::grid{loose ');
+  expect(result.options.map((item: any) => item.label)).toEqual(expect.arrayContaining(['cols-1', 'cols-2', 'cols-3', 'cols-4', 'cols-5']));
+});
+
 it('offers icon-specific sizes while preserving earlier icon attributes', async () => {
   const input = ':icon[star]{primary ti';
   const result = await suggestions(input);

@@ -332,6 +332,12 @@ export async function registerStandardComponents(): Promise<void> {
         'extra-loose': ['gap-8'],
       },
       sizes: {
+        // Public authoring forms share the numeric sizes' responsive behavior.
+        'cols-1': ['grid-cols-1'],
+        'cols-2': ['grid-cols-2'],
+        'cols-3': ['grid-cols-3'],
+        'cols-4': ['grid-cols-4'],
+        'cols-5': ['grid-cols-5'],
         '1': ['grid-cols-1'],
         '2': ['grid-cols-2'], // 1 column on mobile, 2 on tablet+ (CSS handles responsive behavior)
         '3': ['grid-cols-3'], // 1 column on mobile, 3 on tablet+ (CSS handles responsive behavior)

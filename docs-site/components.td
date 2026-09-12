@@ -219,6 +219,19 @@ Clickable card - entire card is a link
 
 **Responsive column layouts with automatic equal-height columns.**
 
+Choose `cols-1` through `cols-5` (or the equivalent bare numbers `1` through `5`). Grids start with one column on small screens. Two-column grids expand at 640px, three-column grids at 768px, and four/five-column grids add columns progressively. With no column attribute, the default is three. Combine a column choice with `tight`, `normal`, `loose`, or `extra-loose` spacing.
+
+```taildown
+:::grid {cols-2 loose}
+:::card
+First column
+:::
+:::card
+Second column
+:::
+:::
+```
+
 ### Column Examples {medium-bold}
 
 **2 Columns:**
