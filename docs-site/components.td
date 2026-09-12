@@ -16,7 +16,7 @@ Component defaults can be customized per document with the compiler's `component
 
 ## Quick Navigation {#nav bold primary}
 
-Jump directly to any component category:
+Jump directly to any component category, or visit [Avatar](#avatar), [Breadcrumb](#breadcrumb), [Pagination](#pagination), [Sidebar](#sidebar), [Skeleton](#skeleton), and [Footnotes](#footnotes).
 
 :::grid {2}
 :::card {subtle-glass padded center hover-lift href="#layout"}
@@ -3816,7 +3816,7 @@ Yes! Taildown is a superset of Markdown. Every valid Markdown document is also v
 
 **What about bundle size?**
 
-Taildown uses tree-shaking to include only JavaScript for components you actually use. Documents with no interactive components generate zero JS. Full component usage is typically 2-5KB minified.
+Taildown uses tree-shaking to include only JavaScript for components you actually use. Output size depends on the components and features used. Theme controls and other enabled features can add JavaScript even to a mostly static document; diagrams include their own runtime. Measure the exported file for your document rather than assuming a fixed bundle size.
 
 **Can I customize the styling?**
 
@@ -3829,6 +3829,99 @@ Taildown focuses on zero-config simplicity with plain English syntax, while MDX 
 :::
 
 [Back to top](#top){badge primary}
+
+---
+
+
+## Avatar {#avatar bold primary}
+
+Display initials or a profile image in a compact frame. Shapes are `circular` (default), `square`, and `rounded`; sizes run from `xs` through `2xl`.
+
+```taildown
+:::avatar {circular lg bg-primary text-primary-foreground}
+AM
+:::
+```
+
+:::avatar {circular lg bg-primary text-primary-foreground}
+AM
+:::
+
+## Breadcrumb {#breadcrumb bold primary}
+
+A navigation trail made from your own links and separators. Use `boxed` for a bordered surface or `separated` for more spacing; sizes are `sm`, `md`, and `lg`. Mark the current page as text rather than a redundant link.
+
+```taildown
+:::breadcrumb {boxed aria-label="Breadcrumb"}
+[Home](index.html) / [Guides](getting-started.html) / Components
+:::
+```
+
+:::breadcrumb {boxed aria-label="Breadcrumb"}
+[Home](index.html) / [Guides](getting-started.html) / Components
+:::
+
+## Pagination {#pagination bold primary}
+
+Arrange links to pages or sections. Pagination does not split content or fetch pages automatically. Variants `compact` and `spaced` adjust the gap; sizes are `sm`, `md`, and `lg`.
+
+```taildown
+:::pagination {spaced aria-label="Guide pages"}
+[Getting Started](getting-started.html) [Syntax Guide](syntax-guide.html) [Components](components.html)
+:::
+```
+
+:::pagination {spaced aria-label="Guide pages"}
+[Getting Started](getting-started.html) [Syntax Guide](syntax-guide.html) [Components](components.html)
+:::
+
+## Sidebar {#sidebar bold primary}
+
+An `aside` for supporting navigation or information. The default sits in normal document flow. Widths are `sm`, `md`, `lg`, and `xl`; `floating` adds margin, rounding, and shadow. The `fixed` variant pins the panel to the viewport, so reserve space for it in your layout. The `collapsible` variant supplies a transition style only; it does not create a toggle or collapse behavior.
+
+```taildown
+:::sidebar {sm}
+### On this page
+
+- [Avatar](#avatar)
+- [Breadcrumb](#breadcrumb)
+- [Pagination](#pagination)
+:::
+```
+
+:::sidebar {sm}
+### On this page
+
+- [Avatar](#avatar)
+- [Breadcrumb](#breadcrumb)
+- [Pagination](#pagination)
+:::
+
+## Skeleton {#skeleton bold primary}
+
+A visual loading placeholder. Choose `text`, `circle`, or `rectangle` for its shape; size keywords change the height. The pulse respects reduced-motion preferences. It does not load data or replace itself when content arrives.
+
+```taildown
+:::skeleton {rectangle aria-hidden="true"}
+:::
+```
+
+:::skeleton {rectangle aria-hidden="true"}
+:::
+
+## Footnotes {#footnotes bold primary}
+
+Use Markdown footnote references and definitions. Taildown generates the numbered links, return links, and footnotes section; you do not need to create a `footnotes` component block yourself.
+
+```taildown
+A supporting observation belongs in a note.[^example]
+
+[^example]: Keep the main paragraph focused while preserving useful detail.
+```
+
+A supporting observation belongs in a note.[^reference-example]
+
+[^reference-example]: Keep the main paragraph focused while preserving useful detail.
 
 ---
 

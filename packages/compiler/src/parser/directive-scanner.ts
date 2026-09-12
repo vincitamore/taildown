@@ -153,13 +153,13 @@ function parseFenceLine(line: string, lineNumber: number): ComponentMarker | nul
       const trimmed = attributesStr.trim();
       
       // First, extract all key="value" pairs
-      const kvRegex = /(\w+)=["']([^"']*)["']/g;
+      const kvRegex = /(?:^|\s)([\w-]+)=(?:"([^"]*)"|'([^']*)')/g;
       let cleanedStr = trimmed;
       let match;
       
       while ((match = kvRegex.exec(trimmed)) !== null) {
         const key = match[1];
-        const value = match[2];
+        const value = match[2] ?? match[3];
         if (key !== undefined) attributes[key] = value;
         // Remove this kv pair from the string
         cleanedStr = cleanedStr.replace(match[0], ' ');
