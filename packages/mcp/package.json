@@ -5,6 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
+    "clean": "node ../../scripts/clean.mjs --package",
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "start": "node dist/index.js",

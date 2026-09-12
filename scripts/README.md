@@ -39,3 +39,9 @@ node scripts/measure-bundles.mjs examples/dist/01-basic-markdown.html
 With no arguments, reports raw and gzip byte counts for the two built editor distributions. With filenames, measures those files. Build the relevant artifacts first. These are artifact-size measurements, not network-transfer or startup-performance claims; actual server compression, cache state, device and document affect the user experience.
 
 The former platform-specific fixture generators, source-adjacent documentation compiler, absent-extension installer and historical regex/size debugging reports have been retired. Use the current scripts and executable regression tests rather than old commands retained in Git history.
+
+## Clean build output
+
+`pnpm clean` removes package, editor, documentation-site and example `dist/` directories, coverage output, and root/package `node_modules/`. It preserves authored source and `.temp/`. Run `pnpm install --frozen-lockfile` before rebuilding afterward. Cleanup uses Node and works on Windows and POSIX shells.
+
+To remove only one package's build output while keeping dependencies, run `pnpm --filter @taildown/compiler clean` (substitute another workspace package as needed). The cleaner validates all target ancestors before deletion and refuses paths redirected outside the checkout. Close running development/build processes before cleaning.

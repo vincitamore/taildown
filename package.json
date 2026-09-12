@@ -26,7 +26,7 @@
     "lint": "eslint . --ext .ts,.tsx",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,md,json}\"",
-    "clean": "pnpm -r clean && rm -rf node_modules",
+    "clean": "node scripts/clean.mjs",
     "taildown": "node packages/cli/dist/cli.js",
     "td": "node packages/cli/dist/cli.js"
   },

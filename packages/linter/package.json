@@ -15,6 +15,7 @@
     "dist"
   ],
   "scripts": {
+    "clean": "node ../../scripts/clean.mjs --package",
     "build": "tsup",
     "typecheck": "tsc --noEmit",
     "dev": "tsup --watch",
