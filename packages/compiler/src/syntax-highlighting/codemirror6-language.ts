@@ -50,10 +50,10 @@ const taildownParser = {
       state.codeBlockFence = fence;
       // Check for special language identifiers
       if (stream.match(/mermaid/)) {
-        return 'special(keyword)';
+        return 'keyword.special';
       } else if (stream.match(/before|after/)) {
         // Code diff markers
-        return 'special(keyword)';
+        return 'keyword.special';
       } else if (stream.match(/\w+/)) {
         // Generic language identifier
         return 'processingInstruction';
@@ -102,7 +102,7 @@ const taildownParser = {
     }
     
     if (stream.match(/\[([a-z][a-z0-9-]*)\]/)) {
-      return 'function';
+      return 'name.function';
     }
     
     // Footnote references: [^1] or [^id]
@@ -158,7 +158,7 @@ const taildownParser = {
       
       // Animation keywords
       if (stream.match(/\b(fade-in|slide-up|slide-down|slide-left|slide-right|zoom-in|scale-in|hover-lift|hover-glow|hover-scale|fast|smooth|slow)\b/)) {
-        return 'function';
+        return 'keyword.function';
       }
       
       // Typography keywords
@@ -266,12 +266,12 @@ const taildownParser = {
     
     // Math equations - display: $$ ... $$
     if (stream.match(/\$\$([^$]+)\$\$/)) {
-      return 'special(monospace)';
+      return 'monospace.special';
     }
     
     // Math equations - inline: $ ... $
     if (stream.match(/\$([^$]+)\$/)) {
-      return 'special(monospace)';
+      return 'monospace.special';
     }
     
     // Highlight/mark text: ==text== or ==text=={variant}
