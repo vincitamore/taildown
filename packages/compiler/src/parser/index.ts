@@ -52,7 +52,7 @@ export async function parse(source: string): Promise<TaildownRoot> {
     .use(parseFootnoteDefinitions) // Parse :::footnotes container with definitions (MUST run after directives)
     .use(parseImageCompare) // Parse image comparison components (MUST run after parseDirectives)
     .use(parseDiff) // Parse code diff blocks (unified and side-by-side)
-    .use(parseIcons) // Parse icon syntax (:icon[name]{classes})
+    .use(parseIcons, { warnings }) // Parse icon syntax (:icon[name]{classes})
     .use(parseInlineBadges) // Parse inline badge syntax :badge[text]{attrs}
     .use(parseInlineMarks) // Parse inline mark/highlight syntax ==text=={variant}
     .use(parseKeyboard) // Parse keyboard key syntax :kbd[key] and :kbd[Ctrl+C]
@@ -91,7 +91,7 @@ export async function parseWithWarnings(source: string): Promise<ParseResult> {
     .use(parseFootnoteDefinitions) // Parse :::footnotes container
     .use(parseImageCompare) // Parse image comparison components
     .use(parseDiff) // Parse code diff blocks (unified and side-by-side)
-    .use(parseIcons) // Parse icon syntax
+    .use(parseIcons, { warnings }) // Parse icon syntax
     .use(parseInlineBadges) // Parse inline badge syntax
     .use(parseInlineMarks) // Parse inline mark/highlight syntax
     .use(parseKeyboard) // Parse keyboard key syntax

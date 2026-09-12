@@ -2,6 +2,26 @@ import { expect, it } from 'vitest';
 import { compile } from '../../index';
 import {JSDOM} from 'jsdom';
 
+it.each(['\n', '\r\n'])('locates unknown icons after entity-decoded text (%j)', async newline => {
+  const result = await compile(['# Heading', '', '&copy; :icon[missing-widget]'].join(newline));
+  expect(result.metadata.warnings).toContainEqual({type: 'parse', message: 'Unknown icon: missing-widget', line: 3, column: 8});
+  expect(new JSDOM(result.html).window.document.querySelector('.icon-missing')?.textContent).toBe('[missing-widget]');
+});
+
+it('keeps escaped icons and code examples literal without unknown-icon notices', async () => {
+  const result = await compile('\\:icon[missing-a] and &#58;icon[missing-b] and `:icon[missing-c]`\n\n```taildown\n:icon[missing-d]\n```');
+  expect(result.metadata.warnings).toEqual([]);
+  expect(new JSDOM(result.html).window.document.querySelector('.icon-missing')).toBeNull();
+});
+
+it('locates multiple unknown icons within a quoted line independently', async () => {
+  const result = await compile('> :icon[missing-a] :icon[missing-b]');
+  expect(result.metadata.warnings).toEqual([
+    {type: 'parse', message: 'Unknown icon: missing-a', line: 1, column: 3},
+    {type: 'parse', message: 'Unknown icon: missing-b', line: 1, column: 20},
+  ]);
+});
+
 it('returns an unclosed directive diagnostic with its source line', async () => {
   const result = await compile('# Intro\n\n:::card\nContent', {autoFix: false});
   expect(result.metadata.warnings).toContainEqual(expect.objectContaining({type: 'parse', line: 3, message: expect.stringContaining('Unclosed')}));
