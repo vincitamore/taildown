@@ -1,4 +1,4 @@
-import type { LintRule, Severity, RuleContext } from '../types';
+import type { LintRule, Severity, RuleContext, FixTransform } from '../types';
 
 /**
  * Base class for lint rules providing common functionality
@@ -12,7 +12,7 @@ export abstract class BaseRule implements LintRule {
 
   abstract check(context: RuleContext): void;
 
-  fix?(_context: RuleContext): any {
+  fix?(_context: RuleContext): FixTransform | null {
     return null;
   }
 

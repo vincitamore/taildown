@@ -72,13 +72,13 @@ export interface FixResult {
   /** Fixed source */
   fixed: string;
   
-  /** Whether any fixes were applied */
+  /** Whether final source differs from original source */
   modified: boolean;
   
-  /** Number of fixes applied */
+  /** Number of rule transformations that changed source during this run */
   fixCount: number;
   
-  /** Remaining messages after fixes */
+  /** Remaining lint messages and failed-fix diagnostics */
   messages: LintMessage[];
 }
 
@@ -106,10 +106,10 @@ export interface RuleContext {
  * Fix transformation result
  */
 export interface FixTransform {
-  /** Modified AST (if changed) */
+  /** Legacy metadata; AST-only transformations are rejected because no serializer exists */
   ast?: MdastRoot;
   
-  /** Modified source (if changed) */
+  /** Replacement source, including empty text; required for an applied transformation */
   source?: string;
   
   /** Description of what was fixed */

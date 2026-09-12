@@ -22,6 +22,8 @@ console.log(result.messages);
 console.log(repair.fixed, repair.modified, repair.messages);
 ```
 
+Empty replacement text is valid. A transformation returning unchanged text is a no-op. `modified` compares the final source with the original; `fixCount` counts rule transformations that changed source during the run, even if a later rule restores the original. Failed fixes produce error diagnostics and leave their prior source intact; subsequent rules still run. Each fix receives its own AST copy, so a failed custom rule cannot corrupt later rules.
+
 Callers decide when to apply or save `repair.fixed`. The library does not write files, attach to an editor, or watch save events. Use source edits for custom fixes: the core has no AST-to-Taildown serializer. Preserve unaffected bytes and source locations; test repeated fixing so a fix does not keep changing its own output.
 
 The optional `autoFix` and `ignore` fields retained in the configuration types do not implement a save hook or file-pattern filter in the core. Integrations must manage file selection and invocation explicitly. Do not infer a feature from a placeholder type field.
