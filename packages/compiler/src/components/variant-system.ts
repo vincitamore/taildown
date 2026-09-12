@@ -79,7 +79,7 @@ export function applyVariant(
   let appliedVariant: string | undefined;
   if (variant) {
     if (component.variants[variant]) {
-      classes.push(...component.variants[variant]);
+      classes.push(...(component.variants[variant] ?? []));
       appliedVariant = variant;
     } else if (options.warnOnUnknown !== false) {
       warnings.push(
@@ -143,7 +143,7 @@ export function applySize(
   let appliedSize: string | undefined;
   if (size) {
     if (component.sizes[size]) {
-      classes.push(...component.sizes[size]);
+      classes.push(...(component.sizes[size] ?? []));
       appliedSize = size;
     } else if (options.warnOnUnknown !== false) {
       warnings.push(
@@ -202,7 +202,7 @@ export function applyVariantAndSize(
   let appliedVariant: string | undefined;
   if (variant) {
     if (component.variants[variant]) {
-      classes.push(...component.variants[variant]);
+      classes.push(...(component.variants[variant] ?? []));
       appliedVariant = variant;
     } else if (options.warnOnUnknown !== false) {
       warnings.push(
@@ -218,13 +218,13 @@ export function applyVariantAndSize(
   let appliedSize: string | undefined;
   if (size) {
     if (component.sizes[size]) {
-      classes.push(...component.sizes[size]);
+      classes.push(...(component.sizes[size] ?? []));
       appliedSize = size;
     } else if (options.warnOnUnknown !== false) {
       warnings.push(`Unknown size "${size}" for component "${componentName}"`);
     }
   } else if (component.defaultSize && component.sizes[component.defaultSize]) {
-    classes.push(...component.sizes[component.defaultSize]);
+    classes.push(...(component.sizes[component.defaultSize] ?? []));
     appliedSize = component.defaultSize;
   }
   
@@ -338,7 +338,7 @@ export function resolveComponentClasses(
   
   // Defaults precede every author token, so explicit utilities can override them.
   if (variants.length === 0 && component.defaultVariant && component.variants[component.defaultVariant]) {
-    classes.push(...component.variants[component.defaultVariant]);
+    classes.push(...(component.variants[component.defaultVariant] ?? []));
   }
   
   // Apply size
@@ -346,7 +346,7 @@ export function resolveComponentClasses(
   if (size) {
     appliedSize = size;
   } else if (component.defaultSize && component.sizes[component.defaultSize]) {
-    classes.push(...component.sizes[component.defaultSize]);
+    classes.push(...(component.sizes[component.defaultSize] ?? []));
     appliedSize = component.defaultSize;
   }
   
@@ -354,9 +354,9 @@ export function resolveComponentClasses(
   // meaningful when they affect the same CSS property.
   for (const attribute of rawAttributes) {
     if (component.variants[attribute]) {
-      classes.push(...component.variants[attribute]);
+      classes.push(...(component.variants[attribute] ?? []));
     } else if (component.sizes[attribute]) {
-      classes.push(...component.sizes[attribute]);
+      classes.push(...(component.sizes[attribute] ?? []));
     } else {
       classes.push(...resolveAttributes([attribute], { config: DEFAULT_CONFIG, darkMode: false }));
     }
