@@ -18,6 +18,7 @@
 import type { Root, Table } from 'mdast';
 import { visit } from 'unist-util-visit';
 import { registry } from '../components/component-registry';
+import {expandStyleMappings} from '../resolver/style-resolver';
 
 declare module 'mdast' {
   interface TableData { taildown?: { variants?: string[] }; }
@@ -29,16 +30,16 @@ declare module 'mdast' {
  * 
  * This is a remark plugin
  */
-export function parseTableAttributes() {
+export function parseTableAttributes(options: {styleMappings?: Record<string, string>} = {}) {
   return (tree: Root): void => {
-    parseTableAttributesImpl(tree);
+    parseTableAttributesImpl(tree, options.styleMappings);
   };
 }
 
 /**
  * Implementation of table attribute parsing
  */
-function parseTableAttributesImpl(tree: Root): void {
+function parseTableAttributesImpl(tree: Root, styleMappings?: Record<string, string>): void {
   const tables: Array<{ node: Table; index: number; parent: any }> = [];
   
   // First pass: collect all tables
@@ -70,7 +71,7 @@ function parseTableAttributesImpl(tree: Root): void {
               const attributeString = attributeMatch[1];
               
               // Split attributes into array
-              const attributes = attributeString.split(/\s+/).filter(Boolean);
+              const attributes = expandStyleMappings(attributeString.split(/\s+/).filter(Boolean), styleMappings);
               
               // Get table component from registry
               const tableComponent = registry.get('table');
@@ -160,7 +161,7 @@ function parseTableAttributesImpl(tree: Root): void {
             const attributeString = attributeMatch[1];
             
             // Split attributes into array
-            const attributes = attributeString.split(/\s+/).filter(Boolean);
+            const attributes = expandStyleMappings(attributeString.split(/\s+/).filter(Boolean), styleMappings);
             
             // Get table component from registry
             const tableComponent = registry.get('table');

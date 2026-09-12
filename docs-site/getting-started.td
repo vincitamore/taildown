@@ -285,6 +285,24 @@ All components automatically adapt to dark mode!
 
 ## Next Steps {large-bold primary center}
 
+### Custom shorthands in the compiler API
+
+When using `@taildown/compiler` programmatically, pass `styleMappings` to give a document its own vocabulary. Values are whitespace-separated style tokens; mappings expand once before normal style resolution. They can replace a built-in shorthand for that compilation, and do not change other documents or literal code examples.
+
+```javascript
+import { compile } from '@taildown/compiler';
+
+const result = await compile('# A quieter heading {editorial}', {
+  inlineStyles: true,
+  inlineScripts: true,
+  styleMappings: {
+    editorial: 'text-4xl font-semibold text-primary-600'
+  }
+});
+```
+
+This is a compiler API option; the browser editor currently uses the built-in vocabulary. The [plain-English reference](plain-english.html) lists that vocabulary.
+
 :::grid {3}
 :::card {elevated zoom-in hover-lift}
 ### :icon[book-open]{primary huge} {center}

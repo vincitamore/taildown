@@ -28,6 +28,13 @@ export interface ResolverContext {
   
   /** Component context (for component-specific variants) */
   component?: string;
+  styleMappings?: Record<string, string>;
+}
+
+export function expandStyleMappings(attributes: string[], mappings?: Record<string, string>): string[] {
+  if (!mappings) return attributes;
+  return attributes.flatMap(attribute => Object.hasOwn(mappings, attribute)
+    ? mappings[attribute]!.split(/\s+/).filter(Boolean) : [attribute]);
 }
 
 /**
@@ -61,7 +68,7 @@ export function resolveAttributes(
 ): string[] {
   const resolved: string[] = [];
 
-  for (const attr of attributes) {
+  for (const attr of expandStyleMappings(attributes, context.styleMappings)) {
     // Skip empty attributes
     if (!attr || attr.trim() === '') {
       continue;

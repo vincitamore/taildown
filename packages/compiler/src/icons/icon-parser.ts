@@ -83,7 +83,8 @@ function parseIconAttributes(
       const separator = token.lastIndexOf(':');
       const keyword = token.slice(separator + 1);
       const prefix = token.slice(0, separator + 1);
-      const size = Object.hasOwn(ICON_SIZES, keyword) ? ICON_SIZES[keyword] : undefined;
+      const custom = resolverContext?.styleMappings && Object.hasOwn(resolverContext.styleMappings, token);
+      const size = !custom && Object.hasOwn(ICON_SIZES, keyword) ? ICON_SIZES[keyword] : undefined;
       if (size !== undefined) rawAttributes.push(`${prefix}w-${size / 4}`, `${prefix}h-${size / 4}`);
     }
   }

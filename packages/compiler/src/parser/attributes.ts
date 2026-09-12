@@ -148,6 +148,7 @@ function extractAttributesFromText(
       ...rawAttributes.slice(componentIndex + 1)
     ];
     const result = resolveComponentClasses(componentToken, modifiers, {
+      styleMappings: resolverContext?.styleMappings,
       includeDefaults: true,
       warnOnUnknown: false,
     });

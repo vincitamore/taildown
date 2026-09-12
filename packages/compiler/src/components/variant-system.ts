@@ -7,7 +7,7 @@
 
 import type { ComponentDefinition } from './component-registry';
 import { registry } from './component-registry';
-import { resolveAttributes } from '../resolver/style-resolver';
+import { resolveAttributes, expandStyleMappings } from '../resolver/style-resolver';
 import { DEFAULT_CONFIG } from '../config/default-config';
 import { mergeClasses } from '../resolver/merge-classes';
 
@@ -33,6 +33,7 @@ export interface VariantResult {
  * Options for applying variants
  */
 export interface VariantOptions {
+  styleMappings?: Record<string, string>;
   /** Custom classes from user attributes */
   customClasses?: string[];
   
@@ -312,6 +313,7 @@ export function resolveComponentClasses(
   rawAttributes: string[] = [],
   options: VariantOptions = {}
 ): VariantResult {
+  rawAttributes = expandStyleMappings(rawAttributes, options.styleMappings);
   const component = registry.get(componentName);
   
   if (!component) {

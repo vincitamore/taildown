@@ -15,7 +15,7 @@ function parseAttributes(input?: string): string[] {
     .filter(Boolean);
 }
 
-export const parseInlineBadges: Plugin<[], Root> = () => {
+export const parseInlineBadges: Plugin<[{styleMappings?: Record<string, string>}?], Root> = (options) => {
   return (tree: Root) => {
     visit(tree, 'text', (node: Text, index, parent) => {
       if (!parent || typeof node.value !== 'string' || !node.value.includes(':badge[')) return;
@@ -39,6 +39,7 @@ export const parseInlineBadges: Plugin<[], Root> = () => {
         // Resolve classes via component registry/variant system
         const modifiers = parseAttributes(attrsRaw);
         const result = resolveComponentClasses('badge', modifiers, {
+          styleMappings: options?.styleMappings,
           includeDefaults: true,
           warnOnUnknown: false,
         });

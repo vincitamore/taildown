@@ -32,7 +32,7 @@ function parseAttributes(input?: string): string[] {
  * - ==important=={warning} → <mark class="highlight highlight-warning">important</mark>
  * - ==success=={success} → <mark class="highlight highlight-success">success</mark>
  */
-export const parseInlineMarks: Plugin<[], Root> = () => {
+export const parseInlineMarks: Plugin<[{styleMappings?: Record<string, string>}?], Root> = (options) => {
   return (tree: Root) => {
     visit(tree, 'text', (node: Text, index, parent) => {
       if (!parent || typeof node.value !== 'string' || !node.value.includes('==')) return;
@@ -63,7 +63,9 @@ export const parseInlineMarks: Plugin<[], Root> = () => {
         if (modifiers.length > 0) {
           // Support semantic variants
           for (const mod of modifiers) {
-            if (['warning', 'success', 'error', 'info', 'primary', 'muted'].includes(mod)) {
+            if (options?.styleMappings && Object.hasOwn(options.styleMappings, mod)) {
+              classes.push(...options.styleMappings[mod]!.split(/\s+/).filter(Boolean));
+            } else if (['warning', 'success', 'error', 'info', 'primary', 'muted'].includes(mod)) {
               classes.push(`highlight-${mod}`);
             }
           }

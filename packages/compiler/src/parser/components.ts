@@ -32,6 +32,7 @@ interface TextDirective {
 
 interface ComponentPluginOptions {
   warnings: CompilationWarning[];
+  styleMappings?: Record<string, string>;
 }
 
 /**
@@ -39,7 +40,8 @@ interface ComponentPluginOptions {
  */
 function processDirectiveNode(
   node: ContainerDirective | TextDirective,
-  warnings: CompilationWarning[]
+  warnings: CompilationWarning[],
+  styleMappings?: Record<string, string>
 ): void {
       const componentName = node.name;
 
@@ -97,7 +99,7 @@ function processDirectiveNode(
         const result = resolveComponentClasses(
           componentName,
           rawAttributes,
-          { includeDefaults: true, warnOnUnknown: false }
+          { includeDefaults: true, warnOnUnknown: false, styleMappings }
         );
         classNames.push(...result.classes);
       } else {
@@ -126,12 +128,12 @@ export const processComponents: Plugin<[ComponentPluginOptions?], Root> = (optio
   return (tree) => {
     // Process block-level components (:::card)
     visit(tree, 'containerDirective', (node: ContainerDirective) => {
-      processDirectiveNode(node, warnings);
+      processDirectiveNode(node, warnings, options?.styleMappings);
     });
 
     // Process inline components (:badge:, :alert:)
     visit(tree, 'textDirective', (node: TextDirective) => {
-      processDirectiveNode(node, warnings);
+      processDirectiveNode(node, warnings, options?.styleMappings);
     });
   };
 };

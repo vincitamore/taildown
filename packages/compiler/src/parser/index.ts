@@ -26,6 +26,7 @@ import { remarkMath } from './math-parser';
 import { parseTimeline } from './timeline-parser';
 import { registryInitialized } from '../components/component-registry';
 import { recognizeFenceBlocks } from './fence-blocks';
+import {getDefaultConfig} from '../config/default-config';
 
 /**
  * Parse Taildown source to AST
@@ -34,39 +35,8 @@ import { recognizeFenceBlocks } from './fence-blocks';
  * @param source - Taildown source code
  * @returns Parsed AST with Taildown extensions
  */
-export async function parse(source: string): Promise<TaildownRoot> {
-  await registryInitialized;
-  const warnings: CompilationWarning[] = [];
-
-  // Create unified processor with Taildown plugins
-  // See SYNTAX.md §7.1 for parsing precedence
-  const processor = unified()
-    .use(remarkParse) // Base CommonMark parsing
-    .use(remarkGfm) // GitHub Flavored Markdown (tables, task lists, etc.)
-    .use(recognizeFenceBlocks)
-    .use(parseEnhancedTaskList) // Enhance GFM task lists with priorities, assignees, states (MUST run after remarkGfm)
-    .use(remarkMath) // Parse LaTeX math equations ($...$ and $$...$$) - MUST run before directives
-    .use(parseFootnoteReferences) // Parse [^id] references in text (MUST run before directives)
-    .use(parseTableAttributes) // Parse table attributes (MUST run after remarkGfm, before extractInlineAttributes)
-    .use(parseDirectives, { warnings }) // Custom component directive parser (:::component)
-    .use(parseFootnoteDefinitions) // Parse :::footnotes container with definitions (MUST run after directives)
-    .use(parseImageCompare) // Parse image comparison components (MUST run after parseDirectives)
-    .use(parseDiff) // Parse code diff blocks (unified and side-by-side)
-    .use(parseIcons, { warnings }) // Parse icon syntax (:icon[name]{classes})
-    .use(parseInlineBadges) // Parse inline badge syntax :badge[text]{attrs}
-    .use(parseInlineMarks) // Parse inline mark/highlight syntax ==text=={variant}
-    .use(parseKeyboard) // Parse keyboard key syntax :kbd[key] and :kbd[Ctrl+C]
-    .use(extractInlineAttributes, { warnings }) // Taildown inline attributes (MUST run before step/video/timeline parsers)
-    .use(parseStepIndicators) // Parse step indicator components with {step} markers
-    .use(parseTimeline) // Parse timeline components with milestones (MUST run after extractInlineAttributes)
-    .use(parseVideoEmbeds) // Parse video embed components with URL detection
-    .use(processComponents, { warnings }); // Taildown component processing
-
-  // Parse to AST
-  const ast = processor.parse(source);
-  const processedAst = await processor.run(ast as Root, { value: source });
-
-  return processedAst as TaildownRoot;
+export async function parse(source: string, options: {styleMappings?: Record<string, string>} = {}): Promise<TaildownRoot> {
+  return (await parseWithWarnings(source, options)).ast;
 }
 
 /**
@@ -75,9 +45,11 @@ export async function parse(source: string): Promise<TaildownRoot> {
  * @param source - Taildown source code
  * @returns Parse result with AST and warnings
  */
-export async function parseWithWarnings(source: string): Promise<ParseResult> {
+export async function parseWithWarnings(source: string, options: {styleMappings?: Record<string, string>} = {}): Promise<ParseResult> {
   await registryInitialized;
   const warnings: CompilationWarning[] = [];
+  const styleMappings = options.styleMappings ? {...options.styleMappings} : undefined;
+  const resolverContext = {config: getDefaultConfig(), darkMode: false, styleMappings};
 
   const processor = unified()
     .use(remarkParse)
@@ -86,20 +58,20 @@ export async function parseWithWarnings(source: string): Promise<ParseResult> {
     .use(parseEnhancedTaskList) // Enhance GFM task lists with priorities, assignees, states
     .use(remarkMath) // Parse LaTeX math equations ($...$ and $$...$$)
     .use(parseFootnoteReferences) // Parse [^id] references
-    .use(parseTableAttributes) // Parse table attributes
+    .use(parseTableAttributes, {styleMappings}) // Parse table attributes
     .use(parseDirectives, { warnings }) // Custom component directive parser
     .use(parseFootnoteDefinitions) // Parse :::footnotes container
     .use(parseImageCompare) // Parse image comparison components
     .use(parseDiff) // Parse code diff blocks (unified and side-by-side)
-    .use(parseIcons, { warnings }) // Parse icon syntax
-    .use(parseInlineBadges) // Parse inline badge syntax
-    .use(parseInlineMarks) // Parse inline mark/highlight syntax
+    .use(parseIcons, { warnings, resolverContext }) // Parse icon syntax
+    .use(parseInlineBadges, {styleMappings}) // Parse inline badge syntax
+    .use(parseInlineMarks, {styleMappings}) // Parse inline mark/highlight syntax
     .use(parseKeyboard) // Parse keyboard key syntax
-    .use(extractInlineAttributes, { warnings }) // Must run before step/video/timeline parsers
+    .use(extractInlineAttributes, { warnings, resolverContext }) // Must run before step/video/timeline parsers
     .use(parseStepIndicators) // Parse step indicator components
     .use(parseTimeline) // Parse timeline components with milestones
     .use(parseVideoEmbeds) // Parse video embed components
-    .use(processComponents, { warnings });
+    .use(processComponents, { warnings, styleMappings });
 
   const ast = processor.parse(source);
   const processedAst = await processor.run(ast as Root, { value: source });
