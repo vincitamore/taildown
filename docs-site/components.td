@@ -78,17 +78,17 @@ Video Embeds
 
 ---
 
-# Layout Components {#layout huge-bold center primary}
+## Layout Components {#layout huge-bold center primary}
 
 **Organize and structure your content beautifully.**
 
 ---
 
-## Card {#card bold primary}
+### Card {#card bold primary}
 
 **Versatile content containers with glassmorphism effects.**
 
-### Glassmorphism Variants {bold}
+#### Glassmorphism Variants {bold}
 
 :::grid {cols-3}
 :::card {subtle-glass padded}
@@ -134,7 +134,7 @@ Classic elevated card with shadow instead of glass.
 :::
 :::
 
-### Rich Content Example {bold}
+#### Rich Content Example {bold}
 
 :::card {light-glass padded-xl}
 #### :icon[sparkles]{warning} Feature Showcase Card
@@ -156,7 +156,7 @@ Cards support any content: headings, paragraphs, lists, images, icons, and neste
 :::
 :::
 
-### Clickable Cards {bold}
+#### Clickable Cards {bold}
 
 Make entire cards clickable by adding an `href` attribute - modern UX best practice!
 
@@ -189,7 +189,7 @@ Content here
 - :icon[check]{success} Entire card provides visual feedback
 - :icon[check]{success} Modern, clean aesthetic
 
-### Syntax & Variants {bold}
+#### Syntax & Variants {bold}
 
 ```taildown
 :::card {glass padded}
@@ -217,7 +217,7 @@ Clickable card - entire card is a link
 
 ---
 
-## Grid {#grid bold primary}
+### Grid {#grid bold primary}
 
 **Responsive column layouts with automatic equal-height columns.**
 
@@ -236,7 +236,7 @@ Second column
 :::
 ```
 
-### Column Examples {bold}
+#### Column Examples {bold}
 
 **2 Columns:**
 
@@ -310,7 +310,7 @@ Sub-100ms compilation targets.
 :::
 :::
 
-### Nested Grids {bold}
+#### Nested Grids {bold}
 
 :::grid {2}
 :::card {light-glass padded}
@@ -338,7 +338,7 @@ Grids can be nested infinitely for complex layouts that maintain equal heights t
 :::
 :::
 
-### Syntax & Variants {bold}
+#### Syntax & Variants {bold}
 
 ```taildown
 :::grid {2}
@@ -364,7 +364,7 @@ Three columns with large gap
 
 ---
 
-## Button Group {#button-group bold primary}
+### Button Group {#button-group bold primary}
 
 **Intelligent button layout with centering and mobile stacking.**
 
@@ -372,7 +372,7 @@ Use `{button error}` or `{button destructive}` for the same error-colored action
 
 [Remove item](#button-group){button error} [Review warning](#button-group){button warning}
 
-### Alignment Variants {bold}
+#### Alignment Variants {bold}
 
 :::card {subtle-glass padded}
 **Left Aligned:**
@@ -398,7 +398,7 @@ Use `{button error}` or `{button destructive}` for the same error-colored action
 :::
 :::
 
-### Size Variants {bold}
+#### Size Variants {bold}
 
 :::card {subtle-glass padded}
 **Small Gap:**
@@ -424,7 +424,7 @@ Use `{button error}` or `{button destructive}` for the same error-colored action
 :::
 :::
 
-### Responsive Behavior {bold}
+#### Responsive Behavior {bold}
 
 :::card {light-glass padded}
 **Desktop:** Horizontal layout with auto-sizing and proper gaps
@@ -438,7 +438,7 @@ Use `{button error}` or `{button destructive}` for the same error-colored action
 :::
 :::
 
-### Syntax & Variants {bold}
+#### Syntax & Variants {bold}
 
 ```taildown
 :::button-group
@@ -459,17 +459,17 @@ Right-aligned with large gaps
 
 ---
 
-# Interactive Components {#interactive huge-bold center primary}
+## Interactive Components {#interactive huge-bold center primary}
 
 **Components with built-in JavaScript behaviors - zero configuration required.**
 
 ---
 
-## Tabs {#tabs bold primary}
+### Tabs {#tabs bold primary}
 
 **Tabbed interface using headings as labels.**
 
-### Live Example {bold}
+#### Live Example {bold}
 
 :::container
 :::tabs
@@ -534,7 +534,7 @@ Grids too!
 :::
 :::
 
-### Usage Summary {bold}
+#### Usage Summary {bold}
 
 ```taildown
 :::tabs
@@ -556,11 +556,11 @@ More content
 
 ---
 
-## Accordion {#accordion bold primary}
+### Accordion {#accordion bold primary}
 
 **Expandable sections using bold text as triggers.**
 
-### Live Example {bold}
+#### Live Example {bold}
 
 :::accordion
 **What is an accordion?**
@@ -589,7 +589,7 @@ This card lives inside an accordion panel with full styling support.
 Accordions include proper ARIA attributes (`aria-expanded`, `aria-controls`) and full keyboard navigation for screen readers.
 :::
 
-### Complex Content Example {bold}
+#### Complex Content Example {bold}
 
 :::accordion
 **:icon[zap]{warning} Performance**
@@ -644,7 +644,7 @@ Section content here
 Clean, intuitive, and powerful!
 :::
 
-### Usage Summary {bold}
+#### Usage Summary {bold}
 
 ```taildown
 :::accordion
@@ -669,13 +669,13 @@ Even more content
 
 ---
 
-## Carousel {#carousel bold primary}
+### Carousel {#carousel bold primary}
 
 Use `{autoplay}` for automatic advancement every five seconds. A visible Play/Pause control lets readers stop it. Hover temporarily pauses playback; keyboard focus pauses it until Play is chosen again. Reduced-motion preference starts the carousel paused, and hidden tabs do not advance.
 
 **Slideshow with navigation, indicators, and 3D card effects.**
 
-### Feature Showcase {bold}
+#### Feature Showcase {bold}
 
 :::carousel
 :::card {heavy-glass padded-xl center}
@@ -733,7 +733,7 @@ Tabs, accordions, modals with auto-generated JavaScript. {large-muted}
 :::
 :::
 
-### Simple Content Example {bold}
+#### Simple Content Example {bold}
 
 :::container
 :::carousel
@@ -767,7 +767,7 @@ Build multimedia experiences effortlessly. {large-muted}
 :::
 :::
 
-### Usage Summary {bold}
+#### Usage Summary {bold}
 
 ```taildown
 :::carousel
@@ -795,7 +795,7 @@ Third slide content
 
 ---
 
-# Overlay Components {#overlays huge-bold center primary}
+## Overlay Components {#overlays huge-bold center primary}
 
 **Create stunning modals and tooltips with zero configuration - just add an attribute.**
 
@@ -827,7 +827,7 @@ No JavaScript setup required. Just add `modal="..."` or `tooltip="..."` to any e
 
 ---
 
-## Modal {#modal bold primary}
+### Modal {#modal bold primary}
 
 **Powerful overlay dialogs that work beautifully across all devices.**
 
@@ -845,7 +845,7 @@ The simplest modal is just one attribute:
 **Perfect for:** Alerts, confirmations, simple messages
 :::
 
-### Rich Content Modals {bold}
+#### Rich Content Modals {bold}
 
 For complex layouts with markdown, components, and interactivity, use ID-referenced modals:
 
@@ -946,7 +946,7 @@ Forever. No hidden costs, no premium tiers. {large-muted center}
 [View on GitHub](#){button primary large} [Read Docs](#){button secondary large}
 :::
 
-### Shared Modals {bold}
+#### Shared Modals {bold}
 
 Define once, trigger from anywhere. Perfect for reusable content:
 
@@ -978,7 +978,7 @@ Content defined once
 ```
 :::
 
-### Modal Syntax Reference {bold}
+#### Modal Syntax Reference {bold}
 
 :::grid {2}
 :::card {padded}
@@ -1025,7 +1025,7 @@ Modals include enterprise-grade accessibility out of the box:
 
 ---
 
-## Tooltip {#tooltip bold primary}
+### Tooltip {#tooltip bold primary}
 
 **Contextual help that appears on hover or click. Perfect for hints, definitions, and extra context.**
 
@@ -1043,7 +1043,7 @@ Hover over [this text](#){tooltip="Simple tooltip content!"} or [this link](#){p
 **Perfect for:** Help text, definitions, extra context, hints
 :::
 
-### Tooltip Showcase {bold}
+#### Tooltip Showcase {bold}
 
 :::grid {2}
 :::card {light-glass padded}
@@ -1073,7 +1073,7 @@ The API uses REST[?](#){badge primary tooltip="REpresentational State Transfer -
 :::
 :::
 
-### Rich Content Tooltips {bold}
+#### Rich Content Tooltips {bold}
 
 For complex tooltip content, use ID references:
 
@@ -1095,7 +1095,7 @@ Tooltips support full markdown:
 Perfect for detailed explanations.
 :::
 
-### Multiple Triggers {bold}
+#### Multiple Triggers {bold}
 
 Share one tooltip across multiple triggers for consistency:
 
@@ -1111,7 +1111,7 @@ All four terms share the same tooltip definition.
 These terms relate to Application Programming Interface design and implementation using RESTful architecture patterns.
 :::
 
-### Tooltip Syntax Reference {bold}
+#### Tooltip Syntax Reference {bold}
 
 :::grid {2}
 :::card {padded}
@@ -1175,19 +1175,19 @@ Professional tooltips with excellent UX:
 
 ---
 
-# Feedback Components {#feedback huge-bold center primary}
+## Feedback Components {#feedback huge-bold center primary}
 
 **Display messages, status, and notifications.**
 
 ---
 
-## Alert {#alert center bold primary}
+### Alert {#alert center bold primary}
 
 Alerts support multiple paragraphs, lists, and headings in normal reading order. Their status text adapts to the active theme and stays readable over the tinted background, including inside cards.
 
 **Semantic message boxes with theming and icons.**
 
-### All Variants {bold}
+#### All Variants {bold}
 
 :::alert {info}
 :icon[info]{info} **Information:** This is an informational alert with proper theming and icon integration.
@@ -1205,7 +1205,7 @@ Alerts support multiple paragraphs, lists, and headings in normal reading order.
 :icon[x-circle]{error} **Error:** An error occurred. Please check your input and try again.
 :::
 
-### Rich Content Example {bold}
+#### Rich Content Example {bold}
 
 :::alert {info}
 #### :icon[lightbulb]{warning} Pro Tip
@@ -1220,13 +1220,13 @@ Alerts support full markdown content:
 [Learn More](#){button primary small}
 :::
 
-### Minimal Style {bold}
+#### Minimal Style {bold}
 
 :::alert {success}
 **Clean alert** without an icon for minimal, focused messaging.
 :::
 
-### Usage Summary {bold}
+#### Usage Summary {bold}
 
 ```taildown
 :::alert {info}
@@ -1270,7 +1270,7 @@ error
 
 ---
 
-## Badges {#badge center bold primary}
+### Badges {#badge center bold primary}
 
 :::grid {2}
 :::card
@@ -1328,7 +1328,7 @@ Combine badges with icons and markdown content for visual context and alternativ
 :::
 :::
 
-### Usage Summary {bold}
+#### Usage Summary {bold}
 
 ```taildown
 # Inline badges
@@ -1361,17 +1361,17 @@ Combine badges with icons for visual context:
 
 ---
 
-# Content Components {#content huge-bold center primary}
+## Content Components {#content huge-bold center primary}
 
 **Progressive disclosure and semantic alert boxes for better content organization.**
 
 ---
 
-## Details/Summary {#details bold primary}
+### Details/Summary {#details bold primary}
 
 **Native HTML5 disclosure widget with beautiful Taildown styling - zero JavaScript required!**
 
-### What is Details/Summary? {bold}
+#### What is Details/Summary? {bold}
 
 The `<details>` element is a native HTML5 component for progressive disclosure - perfect for FAQs, collapsible content, and expandable sections. Taildown adds beautiful glassmorphism styling while maintaining full accessibility.
 
@@ -1383,7 +1383,7 @@ The `<details>` element is a native HTML5 component for progressive disclosure -
 - :icon[check]{success} **Smooth Animations** - CSS transitions
 :::
 
-### Live Examples {bold}
+#### Live Examples {bold}
 
 :::details {glass}
 **What is Taildown?** {bold}
@@ -1428,7 +1428,7 @@ Taildown includes a comprehensive component library:
 - **Navigation**: Navbar, Breadcrumb, Pagination
 :::
 
-### Glass Variants {bold}
+#### Glass Variants {bold}
 
 :::grid {3}
 :::details {subtle-glass}
@@ -1450,7 +1450,7 @@ Pronounced frosted blur that makes a bold statement.
 :::
 :::
 
-### Open by Default {bold}
+#### Open by Default {bold}
 
 Add `{open}` to start expanded:
 
@@ -1462,7 +1462,7 @@ Perfect for showing important content that should be visible initially while sti
 Users can still click to collapse it if they want to focus on other content.
 :::
 
-### Syntax & Variants {bold}
+#### Syntax & Variants {bold}
 
 ```taildown
 :::details {glass}
@@ -1488,11 +1488,11 @@ Content visible initially
 
 ---
 
-## Callout/Admonition {#callout bold primary}
+### Callout/Admonition {#callout bold primary}
 
 **Semantic alert boxes with color-coded types for notes, tips, warnings, and critical alerts.**
 
-### What are Callouts? {bold}
+#### What are Callouts? {bold}
 
 Callouts (also known as admonitions) are highlighted content boxes that draw attention to important information. They're essential for documentation, technical writing, and any content that needs clear visual hierarchy.
 
@@ -1504,7 +1504,7 @@ Callouts (also known as admonitions) are highlighted content boxes that draw att
 - :icon[check]{success} **Professional Look** - Polished documentation style
 :::
 
-### All Callout Types {bold}
+#### All Callout Types {bold}
 
 :::callout {note}
 :icon[info]{primary} **Note:** This is a note callout for general information and context. Use for neutral, informational content that provides additional detail.
@@ -1534,7 +1534,7 @@ Callouts (also known as admonitions) are highlighted content boxes that draw att
 :icon[x-circle]{error} **Error:** For error messages and problems that need attention. Use when something went wrong or failed.
 :::
 
-### Rich Content Callouts {bold}
+#### Rich Content Callouts {bold}
 
 Callouts support full markdown and nested components:
 
@@ -1566,7 +1566,7 @@ You can nest any Taildown content inside callouts:
 [View Full Tutorial](getting-started.html){button primary small}
 :::
 
-### Callout without Icons {bold}
+#### Callout without Icons {bold}
 
 Icons are optional - callouts work great with just text:
 
@@ -1578,7 +1578,7 @@ Icons are optional - callouts work great with just text:
 **Operation Successful:** Your changes have been saved and deployed to production.
 :::
 
-### Glass Effect Callouts {bold}
+#### Glass Effect Callouts {bold}
 
 Add `{glass}` for glassmorphism styling:
 
@@ -1586,7 +1586,7 @@ Add `{glass}` for glassmorphism styling:
 :icon[alert-triangle]{warning} **Important Notice:** Combining callout types with glass effects creates a modern, professional appearance while maintaining readability.
 :::
 
-### Syntax & Variants {bold}
+#### Syntax & Variants {bold}
 
 ```taildown
 :::callout {note}
@@ -1612,11 +1612,11 @@ Add `{glass}` for glassmorphism styling:
 
 ---
 
-## Multi-Column Layout {#columns bold primary}
+### Multi-Column Layout {#columns bold primary}
 
 **CSS multi-column layout for magazine-style text flow - content reflows naturally.**
 
-### What are Columns? {bold}
+#### What are Columns? {bold}
 
 The `:::columns` component uses CSS multi-column layout to create magazine-style text flow. Content automatically reflows between columns, creating professional, space-efficient layouts perfect for long-form content.
 
@@ -1628,7 +1628,7 @@ The `:::columns` component uses CSS multi-column layout to create magazine-style
 - :icon[check]{success} **Smart Breaks** - Prevents awkward heading/image splits
 :::
 
-### Live Example - 2 Columns {bold}
+#### Live Example - 2 Columns {bold}
 
 :::columns {2}
 **Magazine-style text flow** {bold}
@@ -1644,7 +1644,7 @@ The text naturally flows from one column to the next, creating a professional ma
 This is perfect for long-form content, documentation, articles, and any content that benefits from shorter line lengths for improved readability.
 :::
 
-### 3 Column Example {bold}
+#### 3 Column Example {bold}
 
 :::columns {3 gap-lg}
 **First Column** - Content automatically distributes across three columns with large gaps between them for optimal readability and visual separation.
@@ -1654,7 +1654,7 @@ This is perfect for long-form content, documentation, articles, and any content 
 **Third Column** - Perfect for feature lists, specifications, or any content that benefits from compact, organized presentation.
 :::
 
-### Syntax & Variants {bold}
+#### Syntax & Variants {bold}
 
 ```taildown
 :::columns {2}
@@ -1680,13 +1680,13 @@ Four columns with divider lines
 
 ---
 
-## Definition List {#definitions bold primary}
+### Definition List {#definitions bold primary}
 
 **Semantic `<dl>` element for term-definition pairs - perfect for glossaries and API docs.**
 
 **Definitions** in the editor's **Command-K** menu inserts an editable example. Each bold term followed by `{term}` becomes a semantic `dt`; the next line beginning with `:` becomes its `dd`. Links and emphasis remain available inside descriptions. For compact metadata, `**Name:** Fieldnotes` creates a pair; put each pair on its own line.
 
-### What are Definition Lists? {bold}
+#### What are Definition Lists? {bold}
 
 Definition lists use semantic HTML (`<dl>`, `<dt>`, `<dd>`) to pair terms with their definitions. They're perfect for glossaries, API parameters, metadata, and any key-value documentation.
 
@@ -1698,7 +1698,7 @@ Definition lists use semantic HTML (`<dl>`, `<dt>`, `<dd>`) to pair terms with t
 - :icon[check]{success} **Excellent Accessibility** - Screen reader friendly
 :::
 
-### Vertical Layout (Default) {bold}
+#### Vertical Layout (Default) {bold}
 
 :::definitions {glass}
 **API Key** {term}
@@ -1714,7 +1714,7 @@ Definition lists use semantic HTML (`<dl>`, `<dt>`, `<dd>`) to pair terms with t
 : Bearer token authentication via the Authorization header. Include your API key in all requests.
 :::
 
-### Horizontal Layout {bold}
+#### Horizontal Layout {bold}
 
 :::definitions {horizontal elevated}
 **Name:** John Doe
@@ -1724,7 +1724,7 @@ Definition lists use semantic HTML (`<dl>`, `<dt>`, `<dd>`) to pair terms with t
 **Status:** :badge[Active]{success}
 :::
 
-### Compact Layout {bold}
+#### Compact Layout {bold}
 
 :::definitions {compact subtle-glass}
 **Version:** v2.1.0
@@ -1733,7 +1733,7 @@ Definition lists use semantic HTML (`<dl>`, `<dt>`, `<dd>`) to pair terms with t
 **Updated:** 2025-10-11
 :::
 
-### Syntax & Variants {bold}
+#### Syntax & Variants {bold}
 
 ```taildown
 :::definitions {glass}
@@ -1760,11 +1760,11 @@ Definition lists use semantic HTML (`<dl>`, `<dt>`, `<dd>`) to pair terms with t
 
 ---
 
-## Stats/Metrics Display {#stats bold primary}
+### Stats/Metrics Display {#stats bold primary}
 
 **Large, prominent statistics for landing pages, dashboards, and social proof.**
 
-### What are Stats? {bold}
+#### What are Stats? {bold}
 
 The stats component displays large, eye-catching numbers with labels and icons - perfect for showcasing key metrics, social proof, and important statistics on landing pages.
 
@@ -1776,7 +1776,7 @@ The stats component displays large, eye-catching numbers with labels and icons -
 - :icon[check]{success} **Glass Effects** - Beautiful by default
 :::
 
-### Live Example - 3 Stats {bold}
+#### Live Example - 3 Stats {bold}
 
 :::stats {3 glass}
 ### 10,000+ {stat}
@@ -1792,7 +1792,7 @@ Uptime SLA
 Response Time
 :::
 
-### 4 Stats Grid {bold}
+#### 4 Stats Grid {bold}
 
 :::stats {4 elevated}
 ### 1M+ {stat}
@@ -1812,7 +1812,7 @@ Rating
 Support
 :::
 
-### Syntax & Variants {bold}
+#### Syntax & Variants {bold}
 
 ```taildown
 :::stats {3}
@@ -1840,11 +1840,11 @@ Response Time
 
 ---
 
-## Divider/Separator {#divider bold primary}
+### Divider/Separator {#divider bold primary}
 
 **Enhanced horizontal rules with text, icons, and decorative styles.**
 
-### What are Dividers? {bold}
+#### What are Dividers? {bold}
 
 Dividers create visual section breaks with more expressiveness than plain markdown `---`. Add text, icons, gradients, and decorative styles to match your brand.
 
@@ -1856,30 +1856,30 @@ Dividers create visual section breaks with more expressiveness than plain markdo
 - :icon[check]{success} **Better than HR** - More expressive than `---`
 :::
 
-### Basic Divider {bold}
+#### Basic Divider {bold}
 
 :::divider
 Simple divider
 :::
 
-### Text Divider {bold}
+#### Text Divider {bold}
 
 :::divider {text}
 Section Break
 :::
 
-### Icon Divider {bold}
+#### Icon Divider {bold}
 
 :::divider {icon}
 :icon[star]{warning}
 :::
 
-### Gradient Divider {bold}
+#### Gradient Divider {bold}
 
 :::divider {gradient primary}
 :::
 
-### Decorative Styles {bold}
+#### Decorative Styles {bold}
 
 **Dotted:**
 
@@ -1901,7 +1901,7 @@ Section Break
 :::divider {double}
 :::
 
-### Colored Dividers {bold}
+#### Colored Dividers {bold}
 
 :::divider {gradient success}
 :::
@@ -1913,7 +1913,7 @@ Important Section
 :::divider {thick error}
 :::
 
-### Syntax & Variants {bold}
+#### Syntax & Variants {bold}
 
 ```taildown
 :::divider
@@ -1945,11 +1945,11 @@ Decorative style
 
 ---
 
-## Enhanced Blockquote {#blockquote bold primary}
+### Enhanced Blockquote {#blockquote bold primary}
 
 **Beautiful blockquotes with attribution, citations, and pull-quote styling.**
 
-### What are Enhanced Blockquotes? {bold}
+#### What are Enhanced Blockquotes? {bold}
 
 Enhanced blockquotes go beyond basic markdown `>` syntax with professional styling, attribution support, and special variants for pull quotes and testimonials.
 
@@ -1961,7 +1961,7 @@ Enhanced blockquotes go beyond basic markdown `>` syntax with professional styli
 - :icon[check]{success} **Testimonials** - Glass cards for reviews
 :::
 
-### Standard Blockquote {bold}
+#### Standard Blockquote {bold}
 
 > This is a standard blockquote with regular styling. It has a colored left border, subtle background tint, and decorative quote marks.
 
@@ -1969,12 +1969,12 @@ Enhanced blockquotes go beyond basic markdown `>` syntax with professional styli
 >
 > Each paragraph flows naturally with proper spacing and formatting.
 
-### Pull Quote Variant {bold}
+#### Pull Quote Variant {bold}
 
 > The best design tool I've used. Taildown makes beautiful UIs effortless.
 {pull-quote primary}
 
-### Testimonial Variant {bold}
+#### Testimonial Variant {bold}
 
 > Taildown transformed our documentation. The glassmorphism is stunning and the plain English syntax is so intuitive. Our entire team adopted it in days.
 >
@@ -1982,17 +1982,17 @@ Enhanced blockquotes go beyond basic markdown `>` syntax with professional styli
 > Company Name
 {testimonial glass}
 
-### Glass Effect Blockquote {bold}
+#### Glass Effect Blockquote {bold}
 
 > This blockquote has a beautiful glassmorphism effect with backdrop blur, creating a modern, professional appearance that stands out.
 {glass}
 
-### Bordered Variant {bold}
+#### Bordered Variant {bold}
 
 > This blockquote features a heavier left border (6px) for extra emphasis without background styling.
 {bordered primary}
 
-### Color Variants {bold}
+#### Color Variants {bold}
 
 > Information blockquote with blue accent
 {primary}
@@ -2006,7 +2006,7 @@ Enhanced blockquotes go beyond basic markdown `>` syntax with professional styli
 > Error or critical quote
 {error}
 
-### Syntax & Variants {bold}
+#### Syntax & Variants {bold}
 
 ```taildown
 > Standard blockquote
@@ -2036,11 +2036,11 @@ Enhanced blockquotes go beyond basic markdown `>` syntax with professional styli
 
 ---
 
-## Step Indicator {#steps bold primary}
+### Step Indicator {#steps bold primary}
 
 **Visual progress indicator for multi-step processes, tutorials, and onboarding flows.**
 
-### What are Step Indicators? {bold}
+#### What are Step Indicators? {bold}
 
 Step indicators show progress through multi-step processes with visual markers, numbers, and connecting lines. Perfect for installation guides, tutorials, and documenting workflows.
 
@@ -2052,7 +2052,7 @@ Step indicators show progress through multi-step processes with visual markers, 
 - :icon[check]{success} **Responsive** - Horizontal becomes vertical on mobile
 :::
 
-### Vertical Steps (Default) {bold}
+#### Vertical Steps (Default) {bold}
 
 :::steps {numbered connected glass}
 ### Install Dependencies {step completed}
@@ -2073,7 +2073,7 @@ Run `pnpm build` to compile the project.
 Push to production using your deployment pipeline.
 :::
 
-### Horizontal Layout {bold}
+#### Horizontal Layout {bold}
 
 :::steps {horizontal numbered}
 ### Setup {step completed}
@@ -2086,7 +2086,7 @@ Compile and package
 Push to production
 :::
 
-### Syntax & Variants {bold}
+#### Syntax & Variants {bold}
 
 ```taildown
 :::steps {numbered connected}
@@ -2117,11 +2117,11 @@ Simple horizontal steps
 
 ---
 
-## Mark/Highlight Text {#mark bold primary}
+### Mark/Highlight Text {#mark bold primary}
 
 **Inline text highlighting with semantic colors - like a highlighter pen for your content.**
 
-### What is Mark/Highlight? {bold}
+#### What is Mark/Highlight? {bold}
 
 The `==highlighted text==` syntax creates inline text highlighting with semantic color variants. Better than just bold or italic, it provides visual emphasis with meaning.
 
@@ -2133,7 +2133,7 @@ The `==highlighted text==` syntax creates inline text highlighting with semantic
 - :icon[check]{success} **Search Emphasis** - Perfect for highlighting matches
 :::
 
-### All Color Variants {bold}
+#### All Color Variants {bold}
 
 This is ==highlighted text== with default yellow background.
 
@@ -2149,7 +2149,7 @@ This is ==highlighted text== with default yellow background.
 
 ==Muted=={muted} uses gray for subtle emphasis.
 
-### In Context {bold}
+#### In Context {bold}
 
 :::card {subtle-glass padded}
 **Example Documentation:**
@@ -2163,7 +2163,7 @@ The API uses ==REST=={primary} architecture with ==JSON=={info} payloads.
 :icon[x-circle]{error} ==Deprecated=={error}: Legacy endpoint removed
 :::
 
-### Syntax & Variants {bold}
+#### Syntax & Variants {bold}
 
 ```taildown
 ==highlighted text== with default yellow
@@ -2189,17 +2189,17 @@ The API uses ==REST=={primary} architecture with ==JSON=={info} payloads.
 
 ---
 
-# Media Components {#media huge-bold center primary}
+## Media Components {#media huge-bold center primary}
 
 **Embed videos and rich media with responsive aspect ratios.**
 
 ---
 
-## Video Embed {#video bold primary}
+### Video Embed {#video bold primary}
 
 **Responsive video embeds for YouTube, Vimeo, and self-hosted videos with aspect ratio preservation.**
 
-### What are Video Embeds? {bold}
+#### What are Video Embeds? {bold}
 
 The video component creates responsive video embeds with automatic aspect ratio preservation, lazy loading, and platform detection. Works with YouTube, Vimeo, or self-hosted videos.
 
@@ -2211,13 +2211,13 @@ The video component creates responsive video embeds with automatic aspect ratio 
 - :icon[check]{success} **Aspect Ratios** - 16:9, 4:3, 21:9, 1:1
 :::
 
-### YouTube Embed {bold}
+#### YouTube Embed {bold}
 
 :::video {youtube glass}
 https://youtube.com/watch?v=dQw4w9WgXcQ
 :::
 
-### Vimeo Embed {bold}
+#### Vimeo Embed {bold}
 
 Replace `VIDEO_ID` with the ID of a Vimeo video that allows embedding:
 
@@ -2227,7 +2227,7 @@ https://vimeo.com/VIDEO_ID
 :::
 ```
 
-### Self-Hosted Video {bold}
+#### Self-Hosted Video {bold}
 
 Place your video beside the exported HTML, then reference its filename:
 
@@ -2237,7 +2237,7 @@ Place your video beside the exported HTML, then reference its filename:
 :::
 ```
 
-### Different Aspect Ratios {bold}
+#### Different Aspect Ratios {bold}
 
 Use your video's ID in these examples:
 
@@ -2273,7 +2273,7 @@ https://youtube.com/watch?v=EXAMPLE_ID
 :::
 ```
 
-### Syntax & Variants {bold}
+#### Syntax & Variants {bold}
 
 ```taildown
 :::video {youtube}
@@ -2305,17 +2305,17 @@ https://vimeo.com/VIDEO_ID
 
 ---
 
-# Data & Comparison Components {#data huge-bold center primary}
+## Data & Comparison Components {#data huge-bold center primary}
 
 **Professional data presentation and visual comparison tools.**
 
 ---
 
-## Enhanced Table {#table bold primary}
+### Enhanced Table {#table bold primary}
 
 **GFM tables supercharged with sorting, zebra striping, glass effects, and sticky headers.**
 
-### What are Enhanced Tables? {bold}
+#### What are Enhanced Tables? {bold}
 
 Enhanced tables extend GitHub Flavored Markdown tables with professional features like client-side sorting, alternating row colors, glassmorphism effects, and sticky headers. Perfect for data presentation, documentation, and dashboards.
 
@@ -2327,7 +2327,7 @@ Enhanced tables extend GitHub Flavored Markdown tables with professional feature
 - :icon[check]{success} **Mobile Responsive** - Horizontal scrolling with sticky first column
 :::
 
-### Live Example - Sortable Table {bold}
+#### Live Example - Sortable Table {bold}
 
 Click any header to sort the data:
 
@@ -2343,7 +2343,7 @@ Click any header to sort the data:
 
 **Try it:** Click on "Salary" to sort by amount, or "Department" to alphabetize!
 
-### Glass Effect Table {bold}
+#### Glass Effect Table {bold}
 
 :::card {padded}
 | Metric | Q1 2024 | Q2 2024 | Q3 2024 | Growth |
@@ -2355,7 +2355,7 @@ Click any header to sort the data:
 {glass sticky-header}
 :::
 
-### Compact Data Table {bold}
+#### Compact Data Table {bold}
 
 | Setting | Value | Description |
 |---------|-------|-------------|
@@ -2365,7 +2365,7 @@ Click any header to sort the data:
 | Status | :icon[check-circle]{success} Passing | All tests green |
 {compact bordered sm}
 
-### All Variants {bold}
+#### All Variants {bold}
 
 :::grid {2}
 :::card {subtle-glass padded}
@@ -2394,7 +2394,7 @@ Click any header to sort the data:
 :::
 :::
 
-### Syntax & Usage {bold}
+#### Syntax & Usage {bold}
 
 ```taildown
 # Basic sortable table
@@ -2431,11 +2431,11 @@ Click any header to sort the data:
 
 ---
 
-## Image Comparison Slider {#compare-images bold primary}
+### Image Comparison Slider {#compare-images bold primary}
 
 **Interactive before/after image comparisons with draggable slider - perfect for showcasing transformations.**
 
-### What is Image Comparison? {bold}
+#### What is Image Comparison? {bold}
 
 The image comparison slider creates interactive before/after comparisons with a draggable slider. Perfect for design showcases, photo editing demos, renovation projects, or any visual transformation.
 
@@ -2447,7 +2447,7 @@ The image comparison slider creates interactive before/after comparisons with a 
 - :icon[check]{success} **Fully Accessible** - ARIA roles, keyboard navigation, alt text
 :::
 
-### Basic Horizontal Example {bold}
+#### Basic Horizontal Example {bold}
 
 :::compare-images {horizontal}
 before: https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=450&fit=crop
@@ -2457,7 +2457,7 @@ alt: Office workspace transformation
 
 **Try it:** Click and drag the slider, or use arrow keys!
 
-### With Labels {bold}
+#### With Labels {bold}
 
 :::compare-images {horizontal labels glass}
 before: https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&h=450&fit=crop
@@ -2465,7 +2465,7 @@ after: https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=450&fit
 alt: Modern office redesign
 :::
 
-### Vertical Comparison {bold}
+#### Vertical Comparison {bold}
 
 :::compare-images {vertical labels}
 before: https://images.unsplash.com/photo-1497215842964-222b430dc094?w=800&h=600&fit=crop
@@ -2473,7 +2473,7 @@ after: https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=600&
 alt: Design evolution
 :::
 
-### Size Variants {bold}
+#### Size Variants {bold}
 
 :::grid {2}
 :::card {subtle-glass padded}
@@ -2501,7 +2501,7 @@ alt: Large comparison
 :::
 :::
 
-### Extra Large Showcase {bold}
+#### Extra Large Showcase {bold}
 
 :::compare-images {xl labels shadow}
 before: https://images.unsplash.com/photo-1541746972996-4e0b0f43e02a?w=1200&h=675&fit=crop
@@ -2509,7 +2509,7 @@ after: https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=1200&h=675
 alt: Portfolio showcase
 :::
 
-### All Variants {bold}
+#### All Variants {bold}
 
 :::grid {2}
 :::card {subtle-glass padded}
@@ -2535,7 +2535,7 @@ All sizes respect viewport (no awkward scrolling!)
 :::
 :::
 
-### Syntax & Usage {bold}
+#### Syntax & Usage {bold}
 
 ```taildown
 # Basic horizontal
@@ -2577,7 +2577,7 @@ alt: Website redesign
 - `beforeAlt` - Specific alt for before image
 - `afterAlt` - Specific alt for after image
 
-### Interaction Features {bold}
+#### Interaction Features {bold}
 
 :::card {elevated padded}
 **Mouse/Track Interaction:**
@@ -2597,7 +2597,7 @@ alt: Website redesign
 - Full keyboard accessibility
 :::
 
-### Accessibility Features {bold}
+#### Accessibility Features {bold}
 
 :::card {light-glass padded}
 **Enterprise-Grade Accessibility:**
@@ -2613,7 +2613,7 @@ alt: Website redesign
 
 ---
 
-## Mermaid Diagrams {#mermaid bold primary}
+### Mermaid Diagrams {#mermaid bold primary}
 
 **Client-side rendered diagrams with zero-overhead tree-shaking.**
 
@@ -2621,7 +2621,7 @@ alt: Website redesign
 :icon[zap]{warning} **Tree-Shaken:** 0KB overhead when no diagrams present. ~2.7MB inline UMD bundle only when diagrams detected.
 :::
 
-### What are Mermaid Diagrams? {bold}
+#### What are Mermaid Diagrams? {bold}
 
 Mermaid enables you to create diagrams and visualizations using text-based syntax:
 
@@ -2634,7 +2634,7 @@ graph LR
   D --> E
 ```
 
-### Supported Diagram Types {bold}
+#### Supported Diagram Types {bold}
 
 :::grid {cols-3}
 :::card {subtle-glass padded}
@@ -2660,7 +2660,7 @@ graph LR
 :::
 :::
 
-### Basic Flowchart {bold}
+#### Basic Flowchart {bold}
 
 Simple decision tree:
 
@@ -2673,7 +2673,7 @@ graph TD
   C -->|Three| F[Car]
 ```
 
-### Sequence Diagram {bold}
+#### Sequence Diagram {bold}
 
 UML sequence diagram for interactions:
 
@@ -2691,7 +2691,7 @@ sequenceDiagram
   Bob-->>John: Jolly good!
 ```
 
-### Class Diagram {bold}
+#### Class Diagram {bold}
 
 Object-oriented structure:
 
@@ -2719,7 +2719,7 @@ classDiagram
   }
 ```
 
-### State Diagram {bold compact}
+#### State Diagram {bold compact}
 
 State machine visualization:
 
@@ -2733,7 +2733,7 @@ stateDiagram-v2
   Crash --> [*]
 ```
 
-### Gantt Chart {bold}
+#### Gantt Chart {bold}
 
 Project timeline:
 
@@ -2755,7 +2755,7 @@ gantt
   Launch                :milestone, after c2, 0d
 ```
 
-### Pie Chart {bold}
+#### Pie Chart {bold}
 
 Data visualization:
 
@@ -2768,7 +2768,7 @@ pie title Browser Usage
   "Other" : 3
 ```
 
-### Git Graph {bold}
+#### Git Graph {bold}
 
 Branch visualization:
 
@@ -2786,7 +2786,7 @@ gitGraph
   commit
 ```
 
-### ER Diagram {bold}
+#### ER Diagram {bold}
 
 Entity relationships:
 
@@ -2810,7 +2810,7 @@ erDiagram
   }
 ```
 
-### User Journey {bold}
+#### User Journey {bold}
 
 Journey map:
 
@@ -2826,7 +2826,7 @@ journey
     Sit down: 5: Me
 ```
 
-### Styling Variants {bold}
+#### Styling Variants {bold}
 
 :::grid {cols-2}
 :::card {subtle-glass padded}
@@ -2850,7 +2850,7 @@ graph TD
 :::
 :::
 
-### Size Modifiers {bold}
+#### Size Modifiers {bold}
 
 Control diagram container size:
 
@@ -2861,7 +2861,7 @@ Control diagram container size:
 ```mermaid {xl}        # Extra Large (1280px)
 ```
 
-### Performance & Features {bold}
+#### Performance & Features {bold}
 
 :::grid {cols-2}
 :::card {light-glass padded}
@@ -2881,7 +2881,7 @@ Control diagram container size:
 :::
 :::
 
-### Accessibility {bold}
+#### Accessibility {bold}
 
 :::card {light-glass padded}
 **Enterprise-Grade Accessibility:**
@@ -2895,7 +2895,7 @@ Control diagram container size:
 
 ---
 
-## Math Equations {#math bold primary}
+### Math Equations {#math bold primary}
 
 **Compile-time LaTeX to MathML conversion with zero runtime JavaScript.**
 
@@ -2903,7 +2903,7 @@ Control diagram container size:
 :icon[zap]{warning} **Zero Overhead:** MathML is generated at compile time. No JavaScript libraries loaded in browser!
 :::
 
-### What are Math Equations? {bold}
+#### What are Math Equations? {bold}
 
 Write beautiful mathematical equations using standard LaTeX syntax. Rendered as native MathML for perfect rendering in modern browsers:
 
@@ -2915,7 +2915,7 @@ $$
 E = mc^2
 $$
 
-### Basic Syntax {bold}
+#### Basic Syntax {bold}
 
 :::grid {cols-2}
 :::card {subtle-glass padded}
@@ -2947,27 +2947,27 @@ $$
 :::
 :::
 
-### Common Examples {bold}
+#### Common Examples {bold}
 
-#### Greek Letters & Symbols {bold}
+##### Greek Letters & Symbols {bold}
 
 Greek letters: $\alpha$, $\beta$, $\gamma$, $\Delta$, $\Sigma$, $\Omega$
 
 Special symbols: $\infty$, $\partial$, $\nabla$, $\approx$, $\neq$, $\leq$, $\geq$
 
-#### Subscripts & Superscripts {bold}
+##### Subscripts & Superscripts {bold}
 
 Simple: $x_1$, $x^2$, $x_1^2$
 
 Complex: $x_{i,j}^{n+1}$, $e^{i\pi}$
 
-#### Fractions & Roots {bold}
+##### Fractions & Roots {bold}
 
 Fraction: $\frac{numerator}{denominator}$
 
 Roots: $\sqrt{x}$, $\sqrt[3]{x}$, $\sqrt[n]{x}$
 
-#### Summations & Products {bold}
+##### Summations & Products {bold}
 
 Sum of natural numbers:
 
@@ -2981,7 +2981,7 @@ $$
 \prod_{i=1}^{n} i = n!
 $$
 
-### Advanced Examples {bold}
+#### Advanced Examples {bold}
 
 :::grid {cols-2}
 :::card {subtle-glass padded}
@@ -3015,9 +3015,9 @@ $$
 :::
 :::
 
-### Complex Equations {bold}
+#### Complex Equations {bold}
 
-#### Euler's Identity {bold}
+##### Euler's Identity {bold}
 
 Often called the most beautiful equation in mathematics:
 
@@ -3025,7 +3025,7 @@ $$
 e^{i\pi} + 1 = 0
 $$
 
-#### Normal Distribution {bold}
+##### Normal Distribution {bold}
 
 The probability density function:
 
@@ -3033,7 +3033,7 @@ $$
 f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
 $$
 
-#### Maxwell's Equations {bold}
+##### Maxwell's Equations {bold}
 
 The foundations of electromagnetism:
 
@@ -3046,7 +3046,7 @@ $$
 \end{aligned}
 $$
 
-### Supported LaTeX Features {bold}
+#### Supported LaTeX Features {bold}
 
 :::grid {cols-3}
 :::card {subtle-glass padded}
@@ -3074,7 +3074,7 @@ $$
 :::
 :::
 
-### Features & Performance {bold}
+#### Features & Performance {bold}
 
 :::grid {cols-2}
 :::card {light-glass padded}
@@ -3094,7 +3094,7 @@ $$
 :::
 :::
 
-### Browser Support {bold}
+#### Browser Support {bold}
 
 :::card {light-glass padded}
 **Modern Browser Support:**
@@ -3106,7 +3106,7 @@ $$
 **Accessibility:** MathML provides semantic meaning for screen readers, making equations accessible to all users.
 :::
 
-### Best Practices {bold}
+#### Best Practices {bold}
 
 :::alert {success}
 **Tips for Beautiful Math:**
@@ -3122,7 +3122,7 @@ $$
 
 ---
 
-## Timeline {#timeline bold primary}
+### Timeline {#timeline bold primary}
 
 **Chronological visualization of events and milestones with state management.**
 
@@ -3130,7 +3130,7 @@ $$
 :icon[clock]{info} **Perfect For:** Project roadmaps, company history, process workflows, and event chronologies!
 :::
 
-### What is a Timeline? {bold}
+#### What is a Timeline? {bold}
 
 Display events in chronological order with visual state indicators and connecting lines. H2 headings automatically become milestones:
 
@@ -3145,7 +3145,7 @@ This milestone is marked as current with a pulsing dot.
 This milestone has no state (pending by default).
 :::
 
-### Basic Syntax {bold}
+#### Basic Syntax {bold}
 
 :::grid {cols-2}
 :::card {subtle-glass padded}
@@ -3184,7 +3184,7 @@ Add state markers to milestones:
 :::
 :::
 
-### Timeline Variants {bold}
+#### Timeline Variants {bold}
 
 :::grid {cols-3}
 :::card {subtle-glass padded center}
@@ -3230,7 +3230,7 @@ Smaller markers, tighter spacing
 :::
 :::
 
-### Styling Variants {bold}
+#### Styling Variants {bold}
 
 :::grid {cols-3}
 :::card {subtle-glass padded center}
@@ -3276,7 +3276,7 @@ Primary color border
 :::
 :::
 
-### Project Roadmap Example {bold}
+#### Project Roadmap Example {bold}
 
 A typical project timeline with phases and current status:
 
@@ -3360,7 +3360,7 @@ Final deployment and go-live.
 - Marketing campaign
 :::
 
-### Company History Timeline {bold}
+#### Company History Timeline {bold}
 
 Centered layout for alternating presentation:
 
@@ -3416,7 +3416,7 @@ Planning initial public offering.
 - SOC 2 Type II certified
 :::
 
-### Daily Schedule Example {bold}
+#### Daily Schedule Example {bold}
 
 Compact timeline for dense information:
 
@@ -3458,7 +3458,7 @@ Quarterly goal check-in
 Plan next week's sprint
 :::
 
-### Process Workflow Timeline {bold}
+#### Process Workflow Timeline {bold}
 
 Timeline for documenting multi-stage processes:
 
@@ -3539,7 +3539,7 @@ Timeline for documenting multi-stage processes:
 - Referrals: 20%
 :::
 
-### Features & Best Practices {bold}
+#### Features & Best Practices {bold}
 
 :::grid {cols-2}
 :::card {light-glass padded}
@@ -3579,13 +3579,13 @@ Timeline for documenting multi-stage processes:
 
 ---
 
-# Navigation Components {#navigation huge-bold center primary}
+## Navigation Components {#navigation huge-bold center primary}
 
 **Components for site navigation and wayfinding.**
 
 ---
 
-## Navbar {#navbar bold primary}
+### Navbar {#navbar bold primary}
 
 **Modern navigation bar with glassmorphism and responsive behavior.**
 
@@ -3593,7 +3593,7 @@ Timeline for documenting multi-stage processes:
 :icon[check]{success} **Live Example:** The navbar at the top of this page is a working Taildown navbar!
 :::
 
-### Basic Structure {bold}
+#### Basic Structure {bold}
 
 Use a home link with `.navbar-brand` for branding and paragraph links for navigation. This keeps the document's heading hierarchy focused on its content:
 
@@ -3607,7 +3607,7 @@ Use a home link with `.navbar-brand` for branding and paragraph links for naviga
 
 Navigation links have a minimum height of 44px. When no `aria-current` attribute is authored, the runtime marks matching same-origin document links with `aria-current="page"`; static `.html` and clean URLs are treated as equivalent. Section links and query-string differences are not marked as the current page. Existing authored current-state attributes are preserved.
 
-### Features {bold}
+#### Features {bold}
 
 :::grid {cols-2}
 :::card {subtle-glass padded}
@@ -3630,7 +3630,7 @@ Navigation links have a minimum height of 44px. When no `aria-current` attribute
 :::
 :::
 
-### Theming & Behavior {bold}
+#### Theming & Behavior {bold}
 
 :::card {light-glass padded}
 **Automatic Theming:**
@@ -3645,7 +3645,7 @@ Navigation links have a minimum height of 44px. When no `aria-current` attribute
 - Professional modern appearance
 :::
 
-### Usage Summary {bold}
+#### Usage Summary {bold}
 
 ```taildown
 :::navbar
@@ -3667,13 +3667,13 @@ Navigation links have a minimum height of 44px. When no `aria-current` attribute
 
 ---
 
-# Component Combinations {#combinations huge-bold center primary}
+## Component Combinations {#combinations huge-bold center primary}
 
 **Powerful layouts using multiple components together.**
 
 ---
 
-## Feature Grid Showcase {bold primary}
+### Feature Grid Showcase {bold primary}
 
 Combine grids, cards, and icons for stunning feature sections:
 
@@ -3729,7 +3729,7 @@ ARIA and keyboard nav
 
 ---
 
-## Documentation Section {bold primary}
+### Documentation Section {bold primary}
 
 Combine cards, tabs, and alerts for rich documentation:
 
@@ -3780,7 +3780,7 @@ All available components:
 
 ---
 
-## Call to Action Section {bold primary}
+### Call to Action Section {bold primary}
 
 Cards, buttons, and icons create compelling CTAs:
 
@@ -3798,7 +3798,7 @@ Get started with Taildown in 5 minutes. No configuration, no complexity - just b
 
 ---
 
-## FAQ Accordion {bold primary}
+### FAQ Accordion {bold primary}
 
 Accordion inside a card for elegant FAQs:
 
@@ -3833,7 +3833,9 @@ Taildown focuses on zero-config simplicity with plain English syntax, while MDX 
 ---
 
 
-## Avatar {#avatar bold primary}
+## Supporting Components {#supporting huge-bold center primary}
+
+### Avatar {#avatar bold primary}
 
 Display initials or a profile image in a compact frame. Shapes are `circular` (default), `square`, and `rounded`; sizes run from `xs` through `2xl`.
 
@@ -3847,7 +3849,7 @@ AM
 AM
 :::
 
-## Breadcrumb {#breadcrumb bold primary}
+### Breadcrumb {#breadcrumb bold primary}
 
 A navigation trail made from your own links and separators. Use `boxed` for a bordered surface or `separated` for more spacing; sizes are `sm`, `md`, and `lg`. Mark the current page as text rather than a redundant link.
 
@@ -3861,7 +3863,7 @@ A navigation trail made from your own links and separators. Use `boxed` for a bo
 [Home](index.html) / [Guides](getting-started.html) / Components
 :::
 
-## Pagination {#pagination bold primary}
+### Pagination {#pagination bold primary}
 
 Arrange links to pages or sections. Pagination does not split content or fetch pages automatically. Variants `compact` and `spaced` adjust the gap; sizes are `sm`, `md`, and `lg`.
 
@@ -3875,7 +3877,7 @@ Arrange links to pages or sections. Pagination does not split content or fetch p
 [Getting Started](getting-started.html) [Syntax Guide](syntax-guide.html) [Components](components.html)
 :::
 
-## Sidebar {#sidebar bold primary}
+### Sidebar {#sidebar bold primary}
 
 An `aside` for supporting navigation or information. The default sits in normal document flow. Widths are `sm`, `md`, `lg`, and `xl`; `floating` adds margin, rounding, and shadow. The `fixed` variant pins the panel to the viewport, so reserve space for it in your layout. The `collapsible` variant supplies a transition style only; it does not create a toggle or collapse behavior.
 
@@ -3897,7 +3899,7 @@ An `aside` for supporting navigation or information. The default sits in normal 
 - [Pagination](#pagination)
 :::
 
-## Skeleton {#skeleton bold primary}
+### Skeleton {#skeleton bold primary}
 
 A visual loading placeholder. Choose `text`, `circle`, or `rectangle` for its shape; size keywords change the height. The pulse respects reduced-motion preferences. It does not load data or replace itself when content arrives.
 
@@ -3909,7 +3911,7 @@ A visual loading placeholder. Choose `text`, `circle`, or `rectangle` for its sh
 :::skeleton {rectangle aria-hidden="true"}
 :::
 
-## Footnotes {#footnotes bold primary}
+### Footnotes {#footnotes bold primary}
 
 Use Markdown footnote references and definitions. Taildown generates the numbered links, return links, and footnotes section; you do not need to create a `footnotes` component block yourself.
 
@@ -3925,7 +3927,7 @@ A supporting observation belongs in a note.[^reference-example]
 
 ---
 
-# Complete Component List {#checklist huge-bold center primary}
+## Complete Component List {#checklist huge-bold center primary}
 
 **Every component at a glance:**
 
@@ -3992,7 +3994,7 @@ A supporting observation belongs in a note.[^reference-example]
 
 ---
 
-# Next Steps {#next huge-bold center primary}
+## Next Steps {#next huge-bold center primary}
 
 :::card {light-glass padded-xl center}
 **You've mastered every component!** {huge-bold}
