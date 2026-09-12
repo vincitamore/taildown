@@ -65,3 +65,13 @@ it.each([':::modal{sm}\nDialog content\n:::', '[Open](#){modal="#example"}\n\n::
   expect(result.css).toContain('.max-w-md { max-width: 28rem; }');
   expect(document.querySelector('[role="dialog"]')?.classList.contains('p-8')).toBe(false);
 });
+
+it.each([
+  [{card:{defaultVarient:'editorial'}},'card.defaultVarient'],
+  [{card:{variants:{editorial:{classes:[],colour:'blue'}}}},'card.variants.editorial.colour'],
+  [{card:{sizes:{roomy:{classes:[],padding:'8'}}}},'card.sizes.roomy.padding'],
+  [{card:{variants:{editorial:{classes:[],description:42}}}},'card.variants.editorial.description'],
+])('reports the path of unsupported preset fields: %j',async(componentConfig,path)=>{
+  await expect(compile('',{componentConfig} as any)).rejects.toThrow(path as string);
+  await expect(getAuthoringReference({componentConfig} as any)).rejects.toThrow(path as string);
+});

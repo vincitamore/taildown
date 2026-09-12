@@ -14,6 +14,11 @@ export function snapshotComponentConfig(input: ComponentsConfig = {}): Component
   for (const [name, config] of Object.entries(input)) {
     if (config === undefined) continue;
     if (!config || typeof config !== 'object' || Array.isArray(config)) throw new Error(`Invalid component configuration: ${name}`);
+    for (const key of Object.keys(config)) {
+      if (!['defaultVariant', 'defaultSize', 'defaultClasses', 'variants', 'sizes'].includes(key)) {
+        throw new Error(`Unsupported component setting: ${name}.${key}`);
+      }
+    }
     const copy: ComponentConfig = {};
     for (const key of ['defaultVariant', 'defaultSize'] as const) {
       if (config[key] !== undefined) {
@@ -27,7 +32,11 @@ export function snapshotComponentConfig(input: ComponentsConfig = {}): Component
       if (collection === undefined) continue;
       if (!collection || typeof collection !== 'object' || Array.isArray(collection)) throw new Error(`${name}.${key} must be an object`);
       copy[key] = Object.fromEntries(Object.entries(collection).map(([label, value]) => {
-        if (!value || typeof value !== 'object') throw new Error(`Invalid ${name}.${key}.${label}`);
+        if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`Invalid ${name}.${key}.${label}`);
+        for (const field of Object.keys(value)) {
+          if (field !== 'classes' && field !== 'description') throw new Error(`Unsupported component setting: ${name}.${key}.${label}.${field}`);
+        }
+        if (value.description !== undefined && typeof value.description !== 'string') throw new Error(`${name}.${key}.${label}.description must be a string`);
         return [label, {classes: classes(value.classes, `${name}.${key}.${label}.classes`), description: value.description}];
       }));
     }
