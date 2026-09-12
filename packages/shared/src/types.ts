@@ -53,10 +53,10 @@ export interface CompileOptions {
   /** Include source maps (default: false) */
   sourceMaps?: boolean;
 
-  /** Auto-fix common syntax errors (default: true) */
+  /** @deprecated Retained for compatibility. Source is parsed without rewriting. */
   autoFix?: boolean;
 
-  /** Log syntax fixes to console (default: false) */
+  /** @deprecated Retained for compatibility. No automatic syntax rewrites occur. */
   logSyntaxFixes?: boolean;
 
   /** Enable dark mode in generated output (default: true) */

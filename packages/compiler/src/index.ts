@@ -7,7 +7,6 @@ import type { CompileOptions, CompileResult } from '@taildown/shared';
 import { parseWithWarnings } from './parser';
 import { renderHTMLDocument, astToHast, generateCSS, collectClassesFromHast } from './renderer';
 import { generateJavaScript, hasInteractiveBehavior } from './js-generator';
-import { autoFixSyntax } from './parser/syntax-fixer';
 import { ensureRegistryInitialized } from './renderer/component-handlers';
 
 /**
@@ -27,25 +26,10 @@ export async function compile(
   
   const startTime = performance.now();
 
-  // Auto-fix common syntax errors before parsing
-  // This improves developer experience by correcting common mistakes
-  const { fixed: fixedSource, stats } = autoFixSyntax(source, {
-    enabled: options.autoFix !== false, // Enabled by default, can be disabled
-    logWarnings: options.logSyntaxFixes ?? false,
-  });
-  
-  // Use fixed source for parsing
-  const sourceToCompile = fixedSource;
-
-  // Parse source to AST
-  const parseResult = await parseWithWarnings(sourceToCompile);
+  // Parse the authored source directly. Compact component attributes are valid,
+  // and rewriting source here would also alter literal code and source offsets.
+  const parseResult = await parseWithWarnings(source);
   const { ast, warnings } = parseResult;
-  warnings.unshift(...stats.fixedLocations.map(fix => ({
-    type: 'parse' as const,
-    message: `Automatically corrected syntax: ${fix.original} → ${fix.fixed}`,
-    line: fix.line,
-    column: 1,
-  })));
 
   // Count nodes for metadata
   let nodeCount = 0;
