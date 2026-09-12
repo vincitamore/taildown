@@ -956,7 +956,7 @@ body > *:last-child {
 
 /* Add breathing room to components */
 /* EXCEPT fixed/sticky positioned components like navbar */
-.taildown-component:not(.navbar) {
+:where(.taildown-component:not(.navbar)) {
   margin-bottom: 1.5rem;
 }
 
@@ -2745,20 +2745,22 @@ ${generateThemeCSS()}
 }
 
 /* Card Component */
-.component-card {
-  /* Additional card-specific styles */
+:where(.component-card) > :where(:first-child) {
+  margin-top: 0;
 }
 
-.component-card .component-card {
-  padding: 1rem;
+:where(.component-card) > :where(:last-child) {
+  margin-bottom: 0;
 }
 
-.component-card .component-card .component-card {
-  padding: 0.75rem;
+:where(.component-card) :where(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
-.component-card .component-card .component-card .component-card {
-  padding: 0.5rem;
+:where(.component-card) :where(p, li) {
+  line-height: 1.65;
 }
 
 .component-grid {
@@ -2766,18 +2768,9 @@ ${generateThemeCSS()}
   align-items: stretch;
 }
 
-/* Make all direct children of grid stretch to full height */
-.component-grid > * {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Ensure cards in grids stretch to equal heights */
-.component-grid .component-card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+/* CSS grid already stretches its items; preserve each child's own layout. */
+:where(.component-grid > *) {
+  margin-bottom: 0;
 }
 
 .component-container {
