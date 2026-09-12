@@ -15,11 +15,12 @@
  */
 
 import type { State } from 'mdast-util-to-hast';
-import type { Element, ElementContent } from 'hast';
+import type { Element, ElementContent, Properties } from 'hast';
 import type { ContainerDirectiveNode } from '../parser/directive-types';
 import type { TaildownNodeData } from '@taildown/shared';
 import { visit } from 'unist-util-visit';
-import type { Root } from 'mdast';
+import type { Root, Code } from 'mdast';
+import type {DiffLine} from '../parser/diff-parser';
 import { toHast } from 'mdast-util-to-hast';
 import { registry, registryInitialized } from '../components/component-registry';
 import {mergeClasses} from '../resolver/merge-classes';
@@ -64,7 +65,7 @@ export function prepopulateRegistries(ast: Root): void {
   renderedTooltipIds.clear();
   
   // Visit all containerDirective nodes
-  visit(ast, 'containerDirective', (node: any) => {
+  visit(ast, 'containerDirective', (node) => {
     const componentName = node.name;
     const idAttr = node.attributes?.id || node.attributes?.['#'];
     
@@ -73,9 +74,9 @@ export function prepopulateRegistries(ast: Root): void {
     // For modals and tooltips with IDs, convert their content to HAST and store
     if (componentName === 'modal') {
       // Convert children to HAST
-      const hastChildren = node.children?.map((child: any) => {
+      const hastChildren = node.children.map((child) => {
         return toHast(child, { allowDangerousHtml: false });
-      }).filter(Boolean) || [];
+      }).filter((child): child is ElementContent => child.type !== 'root' && child.type !== 'doctype');
       
       const modalElement: Element = {
         type: 'element',
@@ -86,9 +87,9 @@ export function prepopulateRegistries(ast: Root): void {
       modalRegistry.set(idAttr, modalElement);
     } else if (componentName === 'tooltip') {
       // Convert children to HAST
-      const hastChildren = node.children?.map((child: any) => {
+      const hastChildren = node.children.map((child) => {
         return toHast(child, { allowDangerousHtml: false });
-      }).filter(Boolean) || [];
+      }).filter((child): child is ElementContent => child.type !== 'root' && child.type !== 'doctype');
       
       const tooltipElement: Element = {
         type: 'element',
@@ -190,7 +191,7 @@ function wrapWithTooltip(triggerElement: Element, content: string, _state?: Stat
   // Check if content has block-level elements
   const contentChildren = tooltipContent.type === 'element' ? tooltipContent.children : [tooltipContent];
   const hasBlockContent = contentChildren.some(child => 
-    child.type === 'element' && ['p', 'ul', 'ol', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre'].includes((child as Element).tagName || '')
+    child.type === 'element' && ['p', 'ul', 'ol', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre'].includes(child.tagName || '')
   );
   
   const tooltipEl: Element = {
@@ -468,7 +469,7 @@ export function renderTabs(state: State, node: ContainerDirectiveNode): Element 
  * H2 headings act as timeline milestones
  */
 export function renderTimeline(state: State, node: ContainerDirectiveNode): Element {
-  const children = state.all(node as any);
+  const children = state.all(node);
   
   // Get component classes from the node (already resolved by component processor)
   const containerClasses = Array.isArray(node.data?.hProperties?.className) 
@@ -483,9 +484,9 @@ export function renderTimeline(state: State, node: ContainerDirectiveNode): Elem
     // Check if this is an H2 milestone heading (marked by parser)
     if (child.type === 'element' && child.tagName === 'h2') {
       // Check for timelineMilestone data (set by parser)
-      const element = child as Element;
-      const milestoneData = (element.properties as any)?.['data-timeline-state'];
-      const isMilestone = (element.properties as any)?.['data-is-milestone'];
+      const element = child;
+      const milestoneData = element.properties['data-timeline-state'];
+      const isMilestone = element.properties['data-is-milestone'];
       
       if (milestoneData || isMilestone) {
         // Save previous milestone
@@ -494,11 +495,11 @@ export function renderTimeline(state: State, node: ContainerDirectiveNode): Elem
         }
         
         // Start new milestone
-        const state = milestoneData || 'pending';
+        const state = typeof milestoneData === 'string' && milestoneData ? milestoneData : 'pending';
         currentMilestone = {
           heading: element,
           content: [],
-          state: state as string
+          state
         };
       } else if (currentMilestone) {
         // Not a milestone heading, add to current milestone content
@@ -614,10 +615,10 @@ export function renderSteps(state: State, node: ContainerDirectiveNode): Element
     // Check if this is a step heading (marked by parser)
     if (child.type === 'element' && (child.tagName === 'h2' || child.tagName === 'h3')) {
       // Check for step marker attributes
-      const stepNumber = (child.properties as any)?.['data-step-number'];
-      const stepState = (child.properties as any)?.['data-step-state'] || 'pending';
+      const stepNumber = child.properties['data-step-number'];
+      const stepState = child.properties['data-step-state'];
       
-      if (stepNumber) {
+      if (stepNumber && (typeof stepNumber === 'number' || typeof stepNumber === 'string')) {
         // Save previous step
         if (currentStep) {
           steps.push(currentStep);
@@ -627,8 +628,8 @@ export function renderSteps(state: State, node: ContainerDirectiveNode): Element
         currentStep = {
           heading: child,
           content: [],
-          number: typeof stepNumber === 'number' ? stepNumber : parseInt(stepNumber as string, 10),
-          state: stepState as string
+          number: typeof stepNumber === 'number' ? stepNumber : parseInt(stepNumber, 10),
+          state: typeof stepState === 'string' && stepState ? stepState : 'pending'
         };
       } else if (currentStep) {
         // Not a step heading, add to current step content
@@ -1245,27 +1246,49 @@ export function renderImageCompare(_state: State, node: ContainerDirectiveNode):
 }
 
 /**
- * Render code diff component
- * Supports both unified diff format and side-by-side before/after comparison
+ * Decode the parser's serialized diff lines without leaking JSON's untyped result.
  */
-export function renderDiff(_state: State, node: any): Element {
+function decodeDiffLines(value: unknown): DiffLine[] {
+  let decoded: unknown = value || [];
+  if (typeof decoded === 'string') {
+    try {
+      decoded = JSON.parse(decoded);
+    } catch {
+      return [];
+    }
+  }
+  if (!Array.isArray(decoded)) throw new TypeError('Diff lines must be an array');
+  return decoded.map((line: unknown): DiffLine => {
+    if (typeof line !== 'object' || line === null || !('type' in line) ||
+        !('content' in line) || typeof line.content !== 'string') {
+      throw new TypeError('Invalid diff line');
+    }
+    const type = line.type;
+    if (type !== 'added' && type !== 'removed' && type !== 'unchanged' && type !== 'info') {
+      throw new TypeError('Invalid diff line type');
+    }
+    const oldLineNumber = 'oldLineNumber' in line ? line.oldLineNumber : undefined;
+    const newLineNumber = 'newLineNumber' in line ? line.newLineNumber : undefined;
+    if ((oldLineNumber !== undefined && typeof oldLineNumber !== 'number') ||
+        (newLineNumber !== undefined && typeof newLineNumber !== 'number')) {
+      throw new TypeError('Invalid diff line number');
+    }
+    return {type, content: line.content, oldLineNumber, newLineNumber};
+  });
+}
+
+/** Render unified or side-by-side code diffs. */
+export function renderDiff(_state: State, node: Code | ContainerDirectiveNode): Element {
   const hProps = node.data?.hProperties || {};
-  const existingClasses = hProps.className || [];
+  const existingClasses = Array.isArray(hProps.className) ? hProps.className : typeof hProps.className === 'string' ? hProps.className.split(/\s+/).filter(Boolean) : [];
   const diffFormat = hProps.diffFormat || 'unified';
   
   if (diffFormat === 'unified') {
     // Unified diff format with +/- line markers
     // Parse JSON if it's a string
-    let lines = hProps.diffLines || [];
-    if (typeof lines === 'string') {
-      try {
-        lines = JSON.parse(lines);
-      } catch (e) {
-        lines = [];
-      }
-    }
+    const lines = decodeDiffLines(hProps.diffLines);
     
-    const lineElements = lines.map((line: any) => {
+    const lineElements = lines.map<Element>((line) => {
       const lineClasses = ['diff-line'];
       
       if (line.type === 'added') {
@@ -1320,7 +1343,7 @@ export function renderDiff(_state: State, node: any): Element {
               value: line.content,
             }],
           },
-        ].filter(Boolean),
+        ],
       };
     });
     
@@ -1344,7 +1367,7 @@ export function renderDiff(_state: State, node: any): Element {
               tagName: 'code',
               properties: {
                 className: ['diff-code', 'block'],
-                'data-code-source': typeof node.value === 'string' ? node.value : undefined,
+                'data-code-source': node.type === 'code' ? node.value : undefined,
               },
               children: lineElements,
             },
@@ -1354,9 +1377,9 @@ export function renderDiff(_state: State, node: any): Element {
     };
   } else {
     // Side-by-side format with before/after panes
-    const beforeCode = hProps.beforeCode || '';
-    const afterCode = hProps.afterCode || '';
-    const language = hProps.language || '';
+    const beforeCode = typeof hProps.beforeCode === 'string' ? hProps.beforeCode : '';
+    const afterCode = typeof hProps.afterCode === 'string' ? hProps.afterCode : '';
+    const language = typeof hProps.language === 'string' ? hProps.language : '';
     
     // Render before pane (text nodes will be highlighted by rehype plugin)
     const beforePane: Element = {
@@ -1855,7 +1878,7 @@ function renderGenericComponent(state: State, node: ContainerDirectiveNode): Ele
   }
   
   // Filter out semantic attributes that shouldn't become HTML attributes
-  const htmlAttributes: Record<string, any> = {};
+  const htmlAttributes: Properties = {};
   const semanticAttributes = new Set(['variant', 'type', 'size', 'cols', 'class', 'className']);
   
   for (const [key, value] of Object.entries(attributes)) {
@@ -1865,7 +1888,7 @@ function renderGenericComponent(state: State, node: ContainerDirectiveNode): Ele
   }
   
   // Build the element properties
-  const properties: Record<string, any> = {
+  const properties: Properties = {
     className: classes.length > 0 ? classes : undefined,
     ...htmlAttributes
   };
@@ -1879,8 +1902,8 @@ function renderGenericComponent(state: State, node: ContainerDirectiveNode): Ele
   // For clickable components (rendered as <a> tags), ensure proper link styling
   if (tagName === 'a') {
     // Remove default link underline and add cursor-pointer for component links
-    if (properties.className) {
-      const classArray = Array.isArray(properties.className) ? properties.className : [properties.className];
+    if (classes.length > 0) {
+      const classArray = [...classes];
       if (!classArray.includes('no-underline')) {
         classArray.push('no-underline');
       }
