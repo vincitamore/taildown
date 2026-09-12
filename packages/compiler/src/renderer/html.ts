@@ -13,7 +13,6 @@ import type { Code, Literal, Data } from 'mdast';
 import type {Node} from 'unist';
 import type { TaildownRoot, OpenGraphMetadata } from '@taildown/shared';
 import { renderIcons } from '../icons/icon-renderer';
-import { renderInlineBadges } from '../components/inline-badge-renderer';
 import { rehypeCodeMirror6 } from '../syntax-highlighting/rehype-codemirror6';
 import { rehypeCopyCode } from './rehype-copy-code';
 import { containerDirectiveHandler, wrapWithAttachments, prepopulateRegistries, renderDiff } from './component-handlers';
@@ -291,7 +290,6 @@ export async function renderHTML(ast: TaildownRoot, minify: boolean = false): Pr
     .use(rehypeCopyCode) // Capture original text before highlighting replaces it with HTML
     .use(rehypeCodeMirror6) // CodeMirror6-based syntax highlighting
     .use(renderIcons) // Render icon nodes as SVG
-    .use(renderInlineBadges) // Render inline badge nodes
     .use(rehypeWrapTables) // Wrap tables in scrollable container
     .use(rehypeEnhanceTables) // Add enhanced table features (sortable, zebra, glass, etc.)
     .use(rehypeMarkTreeFolders) // Mark folder items in tree components
