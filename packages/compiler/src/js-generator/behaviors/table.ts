@@ -51,14 +51,12 @@ sortableTables.forEach(table => {
 // Sort table by column index
 function sortTable(table, columnIndex, header) {
   console.log('[Taildown Table] Sorting table by column', columnIndex);
-  const tbody = table.querySelector('tbody');
-  if (!tbody) {
+  const bodies = Array.from(table.tBodies);
+  if (!bodies.length) {
     console.warn('[Taildown Table] No tbody found, skipping sort');
     return;
   }
   
-  const rows = Array.from(tbody.rows);
-  console.log('[Taildown Table] Found', rows.length, 'rows to sort');
   const currentSort = header.getAttribute('aria-sort');
   const newSort = currentSort === 'ascending' ? 'descending' : 'ascending';
   console.log('[Taildown Table] Sort direction:', currentSort, '->', newSort);
@@ -73,8 +71,10 @@ function sortTable(table, columnIndex, header) {
   header.setAttribute('aria-sort', newSort);
   header.classList.add(newSort === 'ascending' ? 'sort-asc' : 'sort-desc');
   
-  // Sort rows
-  rows.sort((a, b) => {
+  // Sort each body independently: row groups must keep their membership.
+  bodies.forEach(tbody => {
+    const rows = Array.from(tbody.rows);
+    rows.sort((a, b) => {
     const aCell = a.cells[columnIndex];
     const bCell = b.cells[columnIndex];
     
@@ -92,6 +92,7 @@ function sortTable(table, columnIndex, header) {
   console.log('[Taildown Table] Reordering rows in DOM');
   // Reorder rows in DOM
   rows.forEach(row => tbody.appendChild(row));
+  });
   console.log('[Taildown Table] Sort complete');
 }
 
