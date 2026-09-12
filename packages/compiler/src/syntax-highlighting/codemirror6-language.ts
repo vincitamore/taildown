@@ -10,6 +10,7 @@
 
 import { StreamLanguage, LanguageSupport } from '@codemirror/language';
 import { tags as t } from '@lezer/highlight';
+import {inlineCodeHighlighting} from './inline-code-decoration';
 
 /**
  * Taildown streaming parser for CodeMirror6
@@ -314,8 +315,7 @@ export const taildownLanguage = StreamLanguage.define(taildownParser);
  */
 export function taildown(): LanguageSupport {
   return new LanguageSupport(taildownLanguage, [
-    // Additional extensions can be added here
-    // e.g., autocomplete, linting, etc.
+    inlineCodeHighlighting,
   ]);
 }
 
