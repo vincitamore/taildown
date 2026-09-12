@@ -2,10 +2,9 @@
 
 ## The complete solution for modern teams {xl muted center relaxed-lines}
 
-{button primary} [Get Started Free](#) :icon[arrow-right]{xs}
+[Get Started Free :icon[arrow-right]{xs}](#){button primary}
 
-{button ghost} [View Demo](#) :icon[play-circle]{xs}
-
+[View Demo :icon[play-circle]{xs}](#){button ghost}
 {center}
 
 ---
@@ -67,7 +66,7 @@ Perfect for individuals and small teams.
 - :icon[check]{success xs} Basic analytics
 - :icon[check]{success xs} Email support
 
-{button ghost} [Choose Starter](#)
+[Choose Starter](#){button ghost}
 :::
 
 :::card {heavy-glass zoom-in}
@@ -86,7 +85,7 @@ For growing businesses.
 - :icon[check]{success xs} Priority support
 - :icon[check]{success xs} Custom integrations
 
-{button primary} [Choose Professional](#)
+[Choose Professional](#){button primary}
 :::
 
 :::card {elevated zoom-in}
@@ -102,7 +101,7 @@ For large organizations.
 - :icon[check]{success xs} SLA guarantee
 - :icon[check]{success xs} On-premise option
 
-{button ghost} [Contact Sales](#)
+[Contact Sales](#){button ghost}
 :::
 :::
 :::
@@ -116,7 +115,7 @@ For large organizations.
 :::card {subtle-glass slide-up}
 > "TechStart transformed how we work. The platform is intuitive and powerful."
 
-**Sarah Chen** {bold} - CTO, DataFlow Inc. {small muted}
+**Sarah Chen** - CTO, DataFlow Inc. {small muted}
 
 :icon[star]{warning} :icon[star]{warning} :icon[star]{warning} :icon[star]{warning} :icon[star]{warning}
 :::
@@ -124,7 +123,7 @@ For large organizations.
 :::card {subtle-glass slide-up}
 > "Best investment we made this year. ROI in just 3 months!"
 
-**Michael Rodriguez** {bold} - CEO, GrowthLabs {small muted}
+**Michael Rodriguez** - CEO, GrowthLabs {small muted}
 
 :icon[star]{warning} :icon[star]{warning} :icon[star]{warning} :icon[star]{warning} :icon[star]{warning}
 :::
@@ -132,7 +131,7 @@ For large organizations.
 :::card {subtle-glass slide-up}
 > "Outstanding support team. They helped us migrate seamlessly."
 
-**Emily Watson** {bold} - VP Engineering, CloudScale {small muted}
+**Emily Watson** - VP Engineering, CloudScale {small muted}
 
 :icon[star]{warning} :icon[star]{warning} :icon[star]{warning} :icon[star]{warning} :icon[star]{warning}
 :::
@@ -146,8 +145,7 @@ For large organizations.
 
 Join thousands of teams already using TechStart. {large muted center}
 
-{button primary large} [Start Free Trial](#) :icon[arrow-right]
-
+[Start Free Trial :icon[arrow-right]](#){button primary large}
 {center}
 
 No credit card required :icon[check]{success xs} 14-day free trial :icon[check]{success xs} Cancel anytime {small muted center}

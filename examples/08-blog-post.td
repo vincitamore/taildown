@@ -70,7 +70,7 @@ When requirements are straightforward and unlikely to change.
 
 ---
 
-## :icon[grid]{secondary} Microservices Architecture {xl-bold fade-in}
+## :icon[grid-3x3]{secondary} Microservices Architecture {xl-bold fade-in}
 
 ### What It Is {large-bold}
 
@@ -184,7 +184,7 @@ Here's a decision framework to help you choose: {large relaxed-lines}
 :::
 
 :::card {light-glass slide-up}
-### :icon[grid]{info} Choose Microservices If...
+### :icon[grid-3x3]{info} Choose Microservices If...
 - :icon[check]{success xs} Team > 20 developers
 - :icon[check]{success xs} Different parts scale differently
 - :icon[check]{success xs} Need independent deployments
@@ -216,7 +216,7 @@ Started with Rails monolith, 3 developers, 1K users. Deployed to Heroku. Simple 
 **2022 - Hybrid** :icon[git-branch]{info}  
 Split image processing into separate service (Node.js). Still monolith for core features. 50K users, 12 developers.
 
-**2024 - Microservices** :icon[grid]{success}  
+**2024 - Microservices** :icon[grid-3x3]{success}  
 Full microservices for auth, users, photos, social, notifications. 500K users, 45 developers across 6 teams.
 
 **2025 - Serverless Functions** :icon[zap]{warning}  
