@@ -35,7 +35,7 @@
  * clickable as a link (<a> tag), following modern UX best practices.
  */
 
-import { defineComponent } from '../component-registry';
+import { defineComponent, registry } from '../component-registry';
 import type { ComponentDefinition } from '../component-registry';
 
 /**
@@ -167,7 +167,6 @@ export const cardComponent: ComponentDefinition = defineComponent({
  * Call this during initialization
  */
 export function registerCardComponent() {
-  const { registry } = require('../component-registry');
   registry.register(cardComponent);
 }
 

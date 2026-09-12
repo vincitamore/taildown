@@ -33,7 +33,7 @@
  * Note: Buttons are created from links with {button} attribute
  */
 
-import { defineComponent } from '../component-registry';
+import { defineComponent, registry } from '../component-registry';
 import type { ComponentDefinition } from '../component-registry';
 
 // Both the action-oriented name and the status vocabulary share one variant.
@@ -200,7 +200,6 @@ export const buttonComponent: ComponentDefinition = defineComponent({
  * Register button component with the registry
  */
 export function registerButtonComponent() {
-  const { registry } = require('../component-registry');
   registry.register(buttonComponent);
 }
 
