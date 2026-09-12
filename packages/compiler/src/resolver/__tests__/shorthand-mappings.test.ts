@@ -204,7 +204,7 @@ describe('Shorthand Mappings', () => {
     });
 
     it('should have semantic background pairs', () => {
-      expect(SHORTHAND_MAPPINGS['primary-bg']).toEqual(['bg-blue-600', 'text-white']);
+      expect(typeof SHORTHAND_MAPPINGS['primary-bg']).toBe('function');
       expect(SHORTHAND_MAPPINGS['success-bg']).toEqual(['bg-green-600', 'text-white']);
       expect(SHORTHAND_MAPPINGS['warning-bg']).toEqual(['bg-yellow-600', 'text-white']);
       expect(SHORTHAND_MAPPINGS['error-bg']).toEqual(['bg-red-600', 'text-white']);

@@ -180,6 +180,7 @@ const TAILWIND_UTILITIES: Record<string, string> = {
     'box-shadow: 0 35px 60px -15px rgb(0 0 0 / 0.3);',
 
   // Transitions
+  'transition-none': 'transition-property: none;',
   transition:
     'transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;',
   'transition-all':
@@ -349,6 +350,8 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'text-sm': 'font-size: 0.875rem; line-height: 1.25rem;',
   'text-base': 'font-size: 1rem; line-height: 1.5rem;',
   'text-lg': 'font-size: 1.125rem; line-height: 1.75rem;',
+  'leading-tight': 'line-height: 1.25;',
+  'leading-normal': 'line-height: 1.5;',
   'text-xl': 'font-size: 1.25rem; line-height: 1.75rem;',
   'text-2xl': 'font-size: 1.5rem; line-height: 2rem;',
   'text-3xl': 'font-size: 1.875rem; line-height: 2.25rem;',
@@ -2616,7 +2619,26 @@ ${generateThemeCSS()}
   const utilityRules: string[] = [];
   const mediaQueries: Map<string, string[]> = new Map();
 
-  for (const className of classes) {
+  // Broad utilities must precede their longhands (p-* before px-* before pl-*,
+  // text size before line-height, transition before duration). Class merging
+  // removes overridden declarations; this order preserves partial overrides.
+  // Never let a different element's first use decide the document's cascade.
+  const shorthandWidth: Record<string, number> = {
+    padding: 4, margin: 4, inset: 4, 'border-radius': 4,
+    'border-width': 4, 'border-style': 4, 'border-color': 4,
+    border: 12, 'border-top': 3, 'border-right': 3, 'border-bottom': 3, 'border-left': 3,
+    gap: 2, overflow: 2, flex: 3, 'flex-flow': 2,
+    transition: 4, animation: 8, background: 8, 'text-decoration': 4,
+  };
+  const declarationWidth = (className: string): number => {
+    const base = className.split(':').pop() ?? className;
+    const declarations = TAILWIND_UTILITIES[className] ?? TAILWIND_UTILITIES[base] ?? '';
+    return [...declarations.matchAll(/(?:^|[;{])\s*([\w-]+)\s*:/g)]
+      .reduce((width, match) => width + (shorthandWidth[match[1] ?? ''] ?? 1), 0);
+  };
+  const orderedClasses = [...classes].sort((a, b) =>
+    declarationWidth(b) - declarationWidth(a) || a.localeCompare(b, 'en'));
+  for (const className of orderedClasses) {
     let cssDeclarations = TAILWIND_UTILITIES[className];
 
     // Helper function to escape CSS special characters
@@ -2710,7 +2732,8 @@ ${generateThemeCSS()}
   cssRules.push(utilityRules.join('\n'));
 
   // Add media queries
-  for (const [mediaQuery, rules] of mediaQueries) {
+  const breakpointWidth = (query: string) => Number(query.match(/min-width:\s*(\d+(?:\.\d+)?)px/)?.[1] ?? 0);
+  for (const [mediaQuery, rules] of [...mediaQueries].sort(([a], [b]) => breakpointWidth(a) - breakpointWidth(b))) {
     cssRules.push(`@media ${mediaQuery} {\n  ${rules.join('\n  ')}\n}`);
   }
 

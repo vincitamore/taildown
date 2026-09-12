@@ -14,6 +14,7 @@ import type { TaildownConfig } from '../config/config-schema';
 import { SHORTHAND_MAPPINGS, type ShorthandMapping } from './shorthand-mappings';
 import { resolveSemanticColor } from './semantic-colors';
 import { resolveVariant } from './variant-resolver';
+import { mergeClasses } from './merge-classes';
 
 /**
  * Context passed to resolver for theme-aware resolution
@@ -106,7 +107,7 @@ export function resolveAttributes(
   }
 
   // Deduplicate classes while preserving order
-  return deduplicateClasses(resolved);
+  return mergeClasses(resolved);
 }
 
 /**
@@ -185,29 +186,6 @@ function resolveShorthand(
   }
   
   return [];
-}
-
-/**
- * Deduplicate CSS classes while preserving order
- * Later classes take precedence (last-wins for conflicting properties)
- * 
- * @param classes - Array of CSS classes (may contain duplicates)
- * @returns Deduplicated array
- */
-function deduplicateClasses(classes: string[]): string[] {
-  const seen = new Set<string>();
-  const result: string[] = [];
-
-  // Iterate in reverse to keep last occurrence
-  for (let i = classes.length - 1; i >= 0; i--) {
-    const cls = classes[i];
-    if (cls && !seen.has(cls)) {
-      seen.add(cls);
-      result.unshift(cls); // Add to front to maintain original order
-    }
-  }
-
-  return result;
 }
 
 /**

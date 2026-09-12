@@ -9,6 +9,7 @@ import type { ComponentDefinition } from './component-registry';
 import { registry } from './component-registry';
 import { resolveAttributes } from '../resolver/style-resolver';
 import { DEFAULT_CONFIG } from '../config/default-config';
+import { mergeClasses } from '../resolver/merge-classes';
 
 /**
  * Variant application result
@@ -89,7 +90,7 @@ export function applyVariant(
   } else if (component.defaultVariant) {
     // Apply default variant if no variant specified
     if (component.variants[component.defaultVariant]) {
-      classes.push(...component.variants[component.defaultVariant]);
+      classes.push(...(component.variants[component.defaultVariant] ?? []));
       appliedVariant = component.defaultVariant;
     }
   }
@@ -100,7 +101,7 @@ export function applyVariant(
   }
   
   return {
-    classes,
+    classes: mergeClasses(classes),
     variant: appliedVariant,
     warnings,
   };
@@ -158,7 +159,7 @@ export function applySize(
   }
   
   return {
-    classes,
+    classes: mergeClasses(classes),
     size: appliedSize,
     warnings,
   };
@@ -209,7 +210,7 @@ export function applyVariantAndSize(
       );
     }
   } else if (component.defaultVariant && component.variants[component.defaultVariant]) {
-    classes.push(...component.variants[component.defaultVariant]);
+    classes.push(...(component.variants[component.defaultVariant] ?? []));
     appliedVariant = component.defaultVariant;
   }
   
@@ -233,7 +234,7 @@ export function applyVariantAndSize(
   }
   
   return {
-    classes,
+    classes: mergeClasses(classes),
     variant: appliedVariant,
     size: appliedSize,
     warnings,
@@ -293,26 +294,7 @@ export function parseVariantAttributes(
  * @returns Deduplicated array
  */
 export function deduplicateClasses(classes: string[]): string[] {
-  // Use a map to track the last occurrence of each class
-  const classMap = new Map<string, number>();
-  
-  classes.forEach((cls, index) => {
-    classMap.set(cls, index);
-  });
-  
-  // Build array in original order, but only including the last occurrence
-  const result: string[] = [];
-  const seen = new Set<string>();
-  
-  for (let i = classes.length - 1; i >= 0; i--) {
-    const cls = classes[i];
-    if (!seen.has(cls)) {
-      result.unshift(cls);
-      seen.add(cls);
-    }
-  }
-  
-  return result;
+  return mergeClasses(classes);
 }
 
 /**
@@ -340,17 +322,10 @@ export function resolveComponentClasses(
   }
   
   // Parse ALL variants and size from attributes
-  const { variant, variants, size, remainingAttributes } = parseVariantAttributes(
+  const { variant, variants, size } = parseVariantAttributes(
     rawAttributes,
     component
   );
-  
-  // Resolve remaining attributes through shorthand mapper
-  // This allows plain English shorthands like 'fade-in', 'bold', etc.
-  const resolvedCustomClasses = resolveAttributes(remainingAttributes, {
-    config: DEFAULT_CONFIG,
-    darkMode: false,
-  });
   
   // Build classes manually to support multiple variants
   const classes: string[] = [];
@@ -361,34 +336,32 @@ export function resolveComponentClasses(
     classes.push(...component.defaultClasses);
   }
   
-  // Apply ALL variants (not just one!)
-  if (variants.length > 0) {
-    for (const variantName of variants) {
-      if (component.variants[variantName]) {
-        classes.push(...component.variants[variantName]);
-      }
-    }
-  } else if (component.defaultVariant && component.variants[component.defaultVariant]) {
-    // Apply default variant if no variants specified
+  // Defaults precede every author token, so explicit utilities can override them.
+  if (variants.length === 0 && component.defaultVariant && component.variants[component.defaultVariant]) {
     classes.push(...component.variants[component.defaultVariant]);
   }
   
   // Apply size
   let appliedSize: string | undefined;
   if (size) {
-    if (component.sizes[size]) {
-      classes.push(...component.sizes[size]);
-      appliedSize = size;
-    } else if (options.warnOnUnknown !== false) {
-      warnings.push(`Unknown size "${size}" for component "${componentName}"`);
-    }
+    appliedSize = size;
   } else if (component.defaultSize && component.sizes[component.defaultSize]) {
     classes.push(...component.sizes[component.defaultSize]);
     appliedSize = component.defaultSize;
   }
   
-  // Add custom classes last
-  classes.push(...resolvedCustomClasses);
+  // Do not regroup variants, sizes, and utilities: their original order is
+  // meaningful when they affect the same CSS property.
+  for (const attribute of rawAttributes) {
+    if (component.variants[attribute]) {
+      classes.push(...component.variants[attribute]);
+    } else if (component.sizes[attribute]) {
+      classes.push(...component.sizes[attribute]);
+    } else {
+      classes.push(...resolveAttributes([attribute], { config: DEFAULT_CONFIG, darkMode: false }));
+    }
+  }
+  classes.push(...(options.customClasses ?? []));
   
   // Build result
   const result: VariantResult = {

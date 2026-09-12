@@ -10,7 +10,7 @@
  * - Edge cases and error handling
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import {
   resolveAttributes,
   normalizeAttribute,
@@ -81,21 +81,21 @@ describe('Style Resolver', () => {
   describe('resolveAttributes', () => {
     describe('Typography Shorthands', () => {
       it('should resolve size shorthands', () => {
-        const result = resolveAttributes(['small', 'large', 'huge'], mockContext);
+        const result = ['small', 'large', 'huge'].flatMap(attr => resolveAttributes([attr], mockContext));
         expect(result).toContain('text-sm');
         expect(result).toContain('text-lg');
         expect(result).toContain('text-4xl');
       });
 
       it('should resolve weight shorthands', () => {
-        const result = resolveAttributes(['bold', 'light', 'medium'], mockContext);
+        const result = ['bold', 'light', 'medium'].flatMap(attr => resolveAttributes([attr], mockContext));
         expect(result).toContain('font-bold');
         expect(result).toContain('font-light');
         expect(result).toContain('font-medium');
       });
 
       it('should resolve alignment shorthands', () => {
-        const result = resolveAttributes(['left', 'center', 'right'], mockContext);
+        const result = ['left', 'center', 'right'].flatMap(attr => resolveAttributes([attr], mockContext));
         expect(result).toContain('text-left');
         expect(result).toContain('text-center');
         expect(result).toContain('text-right');
@@ -108,7 +108,7 @@ describe('Style Resolver', () => {
       });
 
       it('should resolve line height shorthands', () => {
-        const result = resolveAttributes(['tight-lines', 'relaxed-lines'], mockContext);
+        const result = ['tight-lines', 'relaxed-lines'].flatMap(attr => resolveAttributes([attr], mockContext));
         expect(result).toContain('leading-tight');
         expect(result).toContain('leading-relaxed');
       });
@@ -129,7 +129,7 @@ describe('Style Resolver', () => {
       });
 
       it('should resolve grid shorthands', () => {
-        const result = resolveAttributes(['grid-2', 'grid-3', 'grid-4'], mockContext);
+        const result = ['grid-2', 'grid-3', 'grid-4'].flatMap(attr => resolveAttributes([attr], mockContext));
         expect(result).toContain('grid');
         expect(result).toContain('grid-cols-2');
         expect(result).toContain('grid-cols-3');
@@ -145,7 +145,7 @@ describe('Style Resolver', () => {
 
     describe('Spacing Shorthands', () => {
       it('should resolve padding shorthands', () => {
-        const result = resolveAttributes(['padded', 'padded-sm', 'padded-lg'], mockContext);
+        const result = ['padded', 'padded-sm', 'padded-lg'].flatMap(attr => resolveAttributes([attr], mockContext));
         expect(result).toContain('p-6');
         expect(result).toContain('p-4');
         expect(result).toContain('p-8');
@@ -158,7 +158,7 @@ describe('Style Resolver', () => {
       });
 
       it('should resolve gap shorthands', () => {
-        const result = resolveAttributes(['gap', 'gap-sm', 'gap-lg'], mockContext);
+        const result = ['gap', 'gap-sm', 'gap-lg'].flatMap(attr => resolveAttributes([attr], mockContext));
         expect(result).toContain('gap-4');
         expect(result).toContain('gap-2');
         expect(result).toContain('gap-8');
@@ -174,13 +174,13 @@ describe('Style Resolver', () => {
 
     describe('Effects Shorthands', () => {
       it('should resolve border radius', () => {
-        const result = resolveAttributes(['rounded', 'rounded-full'], mockContext);
+        const result = ['rounded', 'rounded-full'].flatMap(attr => resolveAttributes([attr], mockContext));
         expect(result).toContain('rounded-lg');
         expect(result).toContain('rounded-full');
       });
 
       it('should resolve shadow shorthands', () => {
-        const result = resolveAttributes(['shadow', 'elevated', 'floating'], mockContext);
+        const result = ['shadow', 'elevated', 'floating'].flatMap(attr => resolveAttributes([attr], mockContext));
         expect(result).toContain('shadow-md');
         expect(result).toContain('shadow-xl');
         expect(result).toContain('shadow-2xl');
@@ -193,7 +193,7 @@ describe('Style Resolver', () => {
       });
 
       it('should resolve transition speed', () => {
-        const result = resolveAttributes(['fast', 'smooth', 'slow'], mockContext);
+        const result = ['fast', 'smooth', 'slow'].flatMap(attr => resolveAttributes([attr], mockContext));
         expect(result).toContain('transition-all');
         expect(result).toContain('duration-150');
         expect(result).toContain('duration-300');
@@ -203,7 +203,7 @@ describe('Style Resolver', () => {
 
     describe('Animation Shorthands', () => {
       it('should resolve entrance animations', () => {
-        const result = resolveAttributes(['fade-in', 'slide-up', 'zoom-in'], mockContext);
+        const result = ['fade-in', 'slide-up', 'zoom-in'].flatMap(attr => resolveAttributes([attr], mockContext));
         expect(result).toContain('animate-fade-in');
         expect(result).toContain('animate-slide-up');
         expect(result).toContain('animate-zoom-in');
@@ -225,7 +225,7 @@ describe('Style Resolver', () => {
 
     describe('Natural Combinations', () => {
       it('should resolve size + weight combinations', () => {
-        const result = resolveAttributes(['large-bold', 'small-light'], mockContext);
+        const result = ['large-bold', 'small-light'].flatMap(attr => resolveAttributes([attr], mockContext));
         expect(result).toContain('text-lg');
         expect(result).toContain('font-bold');
         expect(result).toContain('text-sm');
@@ -239,7 +239,7 @@ describe('Style Resolver', () => {
       });
 
       it('should resolve size + color combinations', () => {
-        const result = resolveAttributes(['large-muted', 'small-muted'], mockContext);
+        const result = ['large-muted', 'small-muted'].flatMap(attr => resolveAttributes([attr], mockContext));
         expect(result).toContain('text-lg');
         expect(result).toContain('text-gray-500');
         expect(result).toContain('text-sm');
@@ -272,7 +272,7 @@ describe('Style Resolver', () => {
 
       it('should resolve secondary and accent', () => {
         const result = resolveAttributes(['secondary', 'accent'], mockContext);
-        expect(result).toContain('text-secondary-600');
+        expect(result).not.toContain('text-secondary-600');
         expect(result).toContain('text-accent-600');
       });
     });
@@ -346,9 +346,7 @@ describe('Style Resolver', () => {
 
       it('should preserve order for last-wins CSS properties', () => {
         const result = resolveAttributes(['text-sm', 'text-lg'], mockContext);
-        const lastIndex = result.lastIndexOf('text-lg');
-        const firstIndex = result.indexOf('text-sm');
-        expect(lastIndex).toBeGreaterThan(firstIndex);
+        expect(result).toEqual(['text-lg']);
       });
     });
 

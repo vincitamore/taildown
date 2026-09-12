@@ -12,6 +12,7 @@
  */
 
 import type { ResolverContext } from './style-resolver';
+import { resolveSemanticColor } from './semantic-colors';
 
 /**
  * Shorthand mapping can be:
@@ -343,14 +344,14 @@ export const SHORTHAND_MAPPINGS: Record<string, ShorthandMapping> = {
   // Size + Color combinations
   'large-muted': ['text-lg', 'text-gray-500'],
   'small-muted': ['text-sm', 'text-gray-500'],
-  'large-primary': ['text-lg', 'text-blue-600'],
+  'large-primary': (context) => ['text-lg', ...(resolveSemanticColor('primary', context) ?? [])],
   'large-success': ['text-lg', 'text-green-600'],
   'large-warning': ['text-lg', 'text-yellow-600'],
   'large-error': ['text-lg', 'text-red-600'],
   
   // Background + Text semantic pairs
-  'primary-bg': ['bg-blue-600', 'text-white'],
-  'secondary-bg': ['bg-gray-600', 'text-white'],
+  'primary-bg': (context) => [...(resolveSemanticColor('bg-primary', context) ?? []), 'text-white'],
+  'secondary-bg': (context) => [...(resolveSemanticColor('bg-secondary', context) ?? []), 'text-white'],
   'success-bg': ['bg-green-600', 'text-white'],
   'warning-bg': ['bg-yellow-600', 'text-white'],
   'error-bg': ['bg-red-600', 'text-white'],
@@ -358,7 +359,7 @@ export const SHORTHAND_MAPPINGS: Record<string, ShorthandMapping> = {
   'muted-bg': ['bg-gray-100', 'text-gray-700'],
   
   // Common natural phrases
-  'bold-primary': ['font-bold', 'text-blue-600'],
+  'bold-primary': (context) => ['font-bold', ...(resolveSemanticColor('primary', context) ?? [])],
   'bold-muted': ['font-bold', 'text-gray-500'],
   'italic-muted': ['italic', 'text-gray-500'],
 };

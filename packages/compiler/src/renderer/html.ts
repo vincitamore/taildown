@@ -7,6 +7,8 @@ import { unified } from 'unified';
 import { toHast } from 'mdast-util-to-hast';
 import type { State } from 'mdast-util-to-hast';
 import rehypeStringify from 'rehype-stringify';
+import { minifyWhitespace } from 'hast-util-minify-whitespace';
+import type { Root as HastRoot, Element, ElementContent } from 'hast';
 import type { Root } from 'mdast';
 import type { TaildownRoot, OpenGraphMetadata } from '@taildown/shared';
 import { renderIcons } from '../icons/icon-renderer';
@@ -287,18 +289,30 @@ export async function renderHTML(ast: TaildownRoot, minify: boolean = false): Pr
   // Run transformers (renderIcons), then stringify
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   const transformedHast = await processor.run(hast as any);
+  if (minify) {
+    // Operate on HTML nodes, never serialized HTML: preformatted text, raw
+    // syntax highlighting, and attribute values must survive byte-for-byte.
+    const codeContents: Array<{ node: Element; children: ElementContent[] }> = [];
+    visit(transformedHast as HastRoot, 'element', (node) => {
+      if (node.tagName === 'code') {
+        codeContents.push({ node, children: structuredClone(node.children) });
+      }
+    });
+    minifyWhitespace(transformedHast as HastRoot);
+    // Inline code has normal whitespace in the HTML UA stylesheet, but its
+    // source text is still meaningful when selected and copied.
+    for (const { node, children } of codeContents) node.children = children;
+  }
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   const result = processor.stringify(transformedHast as any);
 
-  if (minify) {
-    // Basic minification: remove extra whitespace
-    return result
-      .replace(/>\s+</g, '><')
-      .replace(/\s+/g, ' ')
-      .trim();
-  }
-
   return result as string;
+}
+
+/** Escape document metadata in both HTML text and quoted attributes. */
+function escapeHTML(value: string): string {
+  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 /**
@@ -330,13 +344,13 @@ export async function renderHTMLDocument(
   const styleTag = options.inlineStyles && options.css
     ? `<style>${options.css}</style>`
     : options.css
-    ? `<link rel="stylesheet" href="${options.cssFilename || 'styles.css'}">`
+    ? `<link rel="stylesheet" href="${escapeHTML(options.cssFilename || 'styles.css')}">`
     : '';
 
   const scriptTag = options.hasInteractiveComponents
     ? options.inlineScripts && options.js
       ? `<script>${options.js}</script>`
-      : `<script src="${options.jsFilename || 'script.js'}" defer></script>`
+      : `<script src="${escapeHTML(options.jsFilename || 'script.js')}" defer></script>`
     : '';
 
   // Generate Mermaid.js inline bundle if diagrams detected (tree-shaken)
@@ -430,7 +444,7 @@ export async function renderHTMLDocument(
 
   // Generate meta description tag
   const descriptionTag = options.description
-    ? `<meta name="description" content="${options.description}">`
+    ? `<meta name="description" content="${escapeHTML(options.description)}">`
     : '';
 
   // Generate Open Graph meta tags
@@ -438,36 +452,36 @@ export async function renderHTMLDocument(
   if (options.openGraph) {
     const og = options.openGraph;
     if (og.title) {
-      ogTags += `\n  <meta property="og:title" content="${og.title}">`;
+      ogTags += `\n  <meta property="og:title" content="${escapeHTML(og.title)}">`;
     }
     if (og.description) {
-      ogTags += `\n  <meta property="og:description" content="${og.description}">`;
+      ogTags += `\n  <meta property="og:description" content="${escapeHTML(og.description)}">`;
     }
     if (og.type) {
-      ogTags += `\n  <meta property="og:type" content="${og.type}">`;
+      ogTags += `\n  <meta property="og:type" content="${escapeHTML(og.type)}">`;
     }
     if (og.url) {
-      ogTags += `\n  <meta property="og:url" content="${og.url}">`;
+      ogTags += `\n  <meta property="og:url" content="${escapeHTML(og.url)}">`;
     }
     if (og.image) {
-      ogTags += `\n  <meta property="og:image" content="${og.image}">`;
+      ogTags += `\n  <meta property="og:image" content="${escapeHTML(og.image)}">`;
     }
     if (og.imageAlt) {
-      ogTags += `\n  <meta property="og:image:alt" content="${og.imageAlt}">`;
+      ogTags += `\n  <meta property="og:image:alt" content="${escapeHTML(og.imageAlt)}">`;
     }
     if (og.siteName) {
-      ogTags += `\n  <meta property="og:site_name" content="${og.siteName}">`;
+      ogTags += `\n  <meta property="og:site_name" content="${escapeHTML(og.siteName)}">`;
     }
     // Add Twitter Card tags for better Twitter sharing
     if (og.image) {
       ogTags += `\n  <meta name="twitter:card" content="summary_large_image">`;
-      ogTags += `\n  <meta name="twitter:image" content="${og.image}">`;
+      ogTags += `\n  <meta name="twitter:image" content="${escapeHTML(og.image)}">`;
     }
     if (og.title) {
-      ogTags += `\n  <meta name="twitter:title" content="${og.title}">`;
+      ogTags += `\n  <meta name="twitter:title" content="${escapeHTML(og.title)}">`;
     }
     if (og.description) {
-      ogTags += `\n  <meta name="twitter:description" content="${og.description}">`;
+      ogTags += `\n  <meta name="twitter:description" content="${escapeHTML(og.description)}">`;
     }
   }
 
@@ -476,7 +490,7 @@ export async function renderHTMLDocument(
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${options.title || 'Taildown Document'}</title>${descriptionTag ? '\n  ' + descriptionTag : ''}${ogTags}
+  <title>${escapeHTML(options.title || 'Taildown Document')}</title>${descriptionTag ? '\n  ' + descriptionTag : ''}${ogTags}
   ${styleTag}
   ${scriptTag}${mermaidScript}
 </head>
@@ -486,7 +500,13 @@ export async function renderHTMLDocument(
 </html>`;
 
   if (options.minify) {
-    return html.replace(/>\s+</g, '><').replace(/\s+/g, ' ').trim();
+    // Only omit whitespace owned by this document wrapper. Embedded scripts
+    // retain their line breaks (including those terminating // comments).
+    return '<!DOCTYPE html><html lang="en"><head>' +
+      '<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+      `<title>${escapeHTML(options.title || 'Taildown Document')}</title>` +
+      descriptionTag + ogTags + styleTag + scriptTag + mermaidScript +
+      `</head><body>${bodyHTML}</body></html>`;
   }
 
   return html;
