@@ -31,7 +31,7 @@ Use **Save** to keep the editable Taildown source as well as your exported HTML.
 
 Use **Insert** or **Ctrl+K** (**Cmd+K** on Mac) to search component and formatting commands. Search by name or description, use the arrow keys to choose, then press **Enter** to insert at your selection. **Escape** cancels without changing your source. Components without a prepared example insert an empty block for you to fill using the [component reference](components.html). Link formatting uses **Ctrl/Cmd+Shift+K**.
 
-Cards, alerts, callouts, tabs, accordions, details, statistics, steps, and definitions include editable content examples. Try **Tabs** to get two populated panels, or **Steps** for a three-stage process. These examples work offline and can be restyled with the same attributes as any other Taildown source.
+Cards, alerts, callouts, tabs, accordions, details, statistics, steps, definitions, carousels, and timelines include editable content examples. Try **Tabs** to get two populated panels, **Steps** for a three-stage process, **Carousel** for three navigable slides, or **Timeline** for completed, current, and upcoming milestones. These examples work offline and can be restyled with the same attributes as any other Taildown source.
 
 ## Command Line
 

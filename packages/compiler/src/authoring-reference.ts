@@ -9,6 +9,8 @@ import {snapshotComponentConfig, configureComponents} from './components/compone
 // Small offline examples shared by authoring clients. Keep these ordinary
 // Taildown source so they exercise the same public syntax as authored pages.
 const COMPONENT_EXAMPLES: Record<string, string> = {
+  carousel: ':::carousel\n## The idea\n\nIntroduce the main idea for your reader.\n\n---\n\n## A closer look\n\nShow a supporting detail or a different perspective.\n\n---\n\n## The next step\n\nLeave your reader with a useful action.\n:::',
+  timeline: ':::timeline\n## Discovery {completed}\n\nGather the ideas and understand the problem.\n\n## In progress {current}\n\nBuild the first version and learn from feedback.\n\n## Next milestone\n\nRefine the details and share the result.\n:::',
   navbar: ':::navbar\n[Your project](#overview){.navbar-brand}\n\n[Overview](#overview) [More details](#details)\n:::\n\n## Overview {#overview}\n\nIntroduce your project here.\n\n## Details {#details}\n\nAdd the supporting information here.',
   card: ':::card\n## A clear starting point\n\nReplace this text with your own idea.\n:::',
   alert: ':::alert{info}\n**Good to know**\n\nAdd a useful notice for your reader.\n:::',
