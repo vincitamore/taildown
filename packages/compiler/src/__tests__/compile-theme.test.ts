@@ -28,3 +28,10 @@ it('applies body, code and explicit font families without filesystem configurati
 it('rejects malformed color values before generating CSS',async()=>{
  await expect(compile('Invalid',{theme:{colors:{primary:{DEFAULT:'not-a-color'}}}})).rejects.toThrow('Invalid theme');
 });
+it('snapshots a new named color scale before compilation yields', async () => {
+ const forest = {DEFAULT: '#14532d', 600: '#166534'};
+ const pending = compile('Forest {text-forest-600}', {theme: {colors: {forest}}});
+ forest[600] = '#ffffff';
+ const result = await pending;
+ expect(result.css).toContain('.text-forest-600 { color: #166534; }');
+});

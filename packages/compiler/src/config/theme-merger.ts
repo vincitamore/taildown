@@ -18,6 +18,7 @@ import type {
   PartialTaildownConfig,
   ColorConfig,
   ComponentsConfig,
+  ComponentConfig,
 } from './config-schema';
 import { isColorScale } from './config-schema';
 import { DEFAULT_CONFIG } from './default-config';
@@ -61,7 +62,9 @@ function mergeColors(
       merged[name] = { ...defaultValue, ...userValue };
     } else {
       // One or both are strings, or new color - replace entirely
-      merged[name] = userValue;
+      merged[name] = typeof userValue === 'object' && userValue !== null
+        ? { ...userValue }
+        : userValue;
     }
   }
 
@@ -72,6 +75,19 @@ function mergeColors(
  * Merge component configurations
  * Handles variants, sizes, and default classes specially
  */
+function snapshotComponent(config: ComponentConfig): ComponentConfig {
+  const snapshot = { ...config };
+  if (config.defaultClasses) snapshot.defaultClasses = [...config.defaultClasses];
+  for (const key of ['variants', 'sizes'] as const) {
+    if (config[key]) {
+      snapshot[key] = Object.fromEntries(Object.entries(config[key]!).map(([name, variant]) => [
+        name, { ...variant, classes: [...variant.classes] },
+      ]));
+    }
+  }
+  return snapshot;
+}
+
 function mergeComponents(
   defaultComponents: ComponentsConfig,
   userComponents?: ComponentsConfig
@@ -82,15 +98,16 @@ function mergeComponents(
 
   const merged: ComponentsConfig = { ...defaultComponents };
 
-  for (const [componentName, userConfig] of Object.entries(userComponents)) {
-    if (!userConfig) {
+  for (const [componentName, inputConfig] of Object.entries(userComponents)) {
+    if (!inputConfig) {
       continue;
     }
+    const userConfig = snapshotComponent(inputConfig);
 
     const defaultConfig = defaultComponents[componentName];
 
     if (!defaultConfig) {
-      // New component - add as-is
+      // New component - retain an independent snapshot
       merged[componentName] = userConfig;
       continue;
     }
@@ -98,6 +115,7 @@ function mergeComponents(
     // Merge component configuration
     merged[componentName] = {
       defaultVariant: userConfig.defaultVariant ?? defaultConfig.defaultVariant,
+      defaultSize: userConfig.defaultSize ?? defaultConfig.defaultSize,
       defaultClasses: userConfig.defaultClasses ?? defaultConfig.defaultClasses,
       variants: {
         ...defaultConfig.variants,
@@ -178,7 +196,7 @@ export function mergeConfig(
 
   // Merge components if provided
   if (userConfig.components) {
-    merged.components = mergeComponents(merged.components!, userConfig.components);
+    merged.components = mergeComponents(merged.components ?? {}, userConfig.components);
   }
 
   // Merge output config
