@@ -325,6 +325,7 @@
 
     /* Draggable divider - Enhanced */
     #divider {
+      touch-action: none;
       width: 5px;
       background: var(--border-color);
       cursor: col-resize;
@@ -803,7 +804,7 @@
 
   <div id="editor-container">
     <div id="editor-pane"></div>
-    <div id="divider"></div>
+    <div id="divider" role="separator" tabindex="0" aria-label="Editor pane size" aria-controls="editor-pane" aria-valuemin="15" aria-valuemax="85" aria-valuenow="50" aria-orientation="vertical"></div>
     <div id="preview-pane">
       <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin"></iframe>
     </div>
@@ -1086,7 +1087,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     let openRequestVersion = 0;
     const pendingFileWrites = new WeakMap();
     let updateTimeout = null;
-    let isDragging = false;
+
     let slashMenuActive = false;
     let slashMenuIndex = 0;
     let slashMenuStart = null;
@@ -2234,158 +2235,74 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     }
 
     // Draggable divider
-    let startX = 0;
-    let startY = 0;
-    let startEditorPercent = 0;
-
-    divider.addEventListener('mousedown', (e) => {
-      isDragging = true;
+    const paneContainer = document.getElementById('editor-container');
+    let activeDrag = null;
+    const stackedPanes = () => window.innerWidth <= 768;
+    const editorPercent = () => {
+      const axis = stackedPanes() ? 'height' : 'width';
+      const size = paneContainer.getBoundingClientRect()[axis];
+      return size ? editorPane.getBoundingClientRect()[axis] / size * 100 : 50;
+    };
+    const resizeEditor = value => {
+      const percent = Math.min(85, Math.max(15, value));
+      editorPane.style.flex = `0 0 ${percent}%`;
+      divider.setAttribute('aria-valuenow', String(Math.round(percent)));
+      divider.setAttribute('aria-valuetext', `${Math.round(percent)}% editor`);
+    };
+    const finishResize = () => {
+      if (!activeDrag) return;
+      const previous = activeDrag;
+      activeDrag = null;
+      divider.classList.remove('dragging');
+      previewFrame.style.pointerEvents = previous.pointerEvents;
+      document.body.style.userSelect = previous.userSelect;
+      document.body.style.cursor = previous.cursor;
+      if (divider.hasPointerCapture(previous.id)) divider.releasePointerCapture(previous.id);
+    };
+    const updateDivider = () => {
+      finishResize();
+      divider.setAttribute('aria-orientation', stackedPanes() ? 'horizontal' : 'vertical');
+      divider.setAttribute('aria-valuenow', String(Math.round(editorPercent())));
+      divider.setAttribute('aria-valuetext', `${Math.round(editorPercent())}% editor`);
+    };
+    divider.addEventListener('pointerdown', e => {
+      if (activeDrag || !e.isPrimary || e.button !== 0) return;
+      const stacked = stackedPanes();
+      const size = paneContainer.getBoundingClientRect()[stacked ? 'height' : 'width'];
+      if (!size) return;
+      activeDrag = {id: e.pointerId, stacked, size, start: stacked ? e.clientY : e.clientX,
+        percent: editorPercent(), pointerEvents: previewFrame.style.pointerEvents,
+        userSelect: document.body.style.userSelect, cursor: document.body.style.cursor};
+      divider.setPointerCapture(e.pointerId);
       divider.classList.add('dragging');
-      
-      const container = document.getElementById('editor-container');
-      const isVertical = window.innerWidth <= 768;
-      
-      // Disable pointer events on iframe to prevent it from capturing mouse events
+      divider.focus();
       previewFrame.style.pointerEvents = 'none';
-      // Prevent text selection during drag
       document.body.style.userSelect = 'none';
-      document.body.style.cursor = isVertical ? 'row-resize' : 'col-resize';
-      
-      // Store the starting position and current editor percentage
-      if (isVertical) {
-        startY = e.clientY;
-        const containerHeight = container.getBoundingClientRect().height;
-        const editorHeight = editorPane.getBoundingClientRect().height;
-        startEditorPercent = (editorHeight / containerHeight) * 100;
-      } else {
-        startX = e.clientX;
-        const containerWidth = container.getBoundingClientRect().width;
-        const editorWidth = editorPane.getBoundingClientRect().width;
-        startEditorPercent = (editorWidth / containerWidth) * 100;
-      }
-      
+      document.body.style.cursor = stacked ? 'row-resize' : 'col-resize';
       e.preventDefault();
     });
-
-    document.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      
-      const container = document.getElementById('editor-container');
-      const isVertical = window.innerWidth <= 768;
-      
-      if (isVertical) {
-        // Calculate the new percentage based on mouse movement
-        const containerHeight = container.getBoundingClientRect().height;
-        const deltaY = e.clientY - startY;
-        const deltaPercent = (deltaY / containerHeight) * 100;
-        const newPercent = startEditorPercent + deltaPercent;
-        
-        // Allow resizing between 15% and 85%
-        if (newPercent >= 15 && newPercent <= 85) {
-          editorPane.style.flex = `0 0 ${newPercent}%`;
-        }
-      } else {
-        // Calculate the new percentage based on mouse movement
-        const containerWidth = container.getBoundingClientRect().width;
-        const deltaX = e.clientX - startX;
-        const deltaPercent = (deltaX / containerWidth) * 100;
-        const newPercent = startEditorPercent + deltaPercent;
-        
-        // Allow resizing between 15% and 85%
-        if (newPercent >= 15 && newPercent <= 85) {
-          editorPane.style.flex = `0 0 ${newPercent}%`;
-        }
-      }
-    });
-
-    document.addEventListener('mouseup', () => {
-      if (isDragging) {
-        isDragging = false;
-        divider.classList.remove('dragging');
-        
-        // Re-enable pointer events and restore cursor
-        previewFrame.style.pointerEvents = '';
-        document.body.style.userSelect = '';
-        document.body.style.cursor = '';
-      }
-    });
-
-    // Touch events for mobile support
-    divider.addEventListener('touchstart', (e) => {
-      isDragging = true;
-      divider.classList.add('dragging');
-      
-      const container = document.getElementById('editor-container');
-      const isVertical = window.innerWidth <= 768;
-      
-      // Disable pointer events on iframe to prevent it from capturing touch events
-      previewFrame.style.pointerEvents = 'none';
-      // Prevent text selection during drag
-      document.body.style.userSelect = 'none';
-      
-      const touch = e.touches[0];
-      
-      // Store the starting position and current editor percentage
-      if (isVertical) {
-        startY = touch.clientY;
-        const containerHeight = container.getBoundingClientRect().height;
-        const editorHeight = editorPane.getBoundingClientRect().height;
-        startEditorPercent = (editorHeight / containerHeight) * 100;
-      } else {
-        startX = touch.clientX;
-        const containerWidth = container.getBoundingClientRect().width;
-        const editorWidth = editorPane.getBoundingClientRect().width;
-        startEditorPercent = (editorWidth / containerWidth) * 100;
-      }
-      
+    document.addEventListener('pointermove', e => {
+      if (!activeDrag || e.pointerId !== activeDrag.id) return;
+      const position = activeDrag.stacked ? e.clientY : e.clientX;
+      resizeEditor(activeDrag.percent + (position - activeDrag.start) / activeDrag.size * 100);
       e.preventDefault();
-    }, { passive: false });
-
-    document.addEventListener('touchmove', (e) => {
-      if (!isDragging) return;
-      
-      const container = document.getElementById('editor-container');
-      const isVertical = window.innerWidth <= 768;
-      const touch = e.touches[0];
-      
-      if (isVertical) {
-        // Calculate the new percentage based on touch movement
-        const containerHeight = container.getBoundingClientRect().height;
-        const deltaY = touch.clientY - startY;
-        const deltaPercent = (deltaY / containerHeight) * 100;
-        const newPercent = startEditorPercent + deltaPercent;
-        
-        // Allow resizing between 15% and 85%
-        if (newPercent >= 15 && newPercent <= 85) {
-          editorPane.style.flex = `0 0 ${newPercent}%`;
-        }
-      } else {
-        // Calculate the new percentage based on touch movement
-        const containerWidth = container.getBoundingClientRect().width;
-        const deltaX = touch.clientX - startX;
-        const deltaPercent = (deltaX / containerWidth) * 100;
-        const newPercent = startEditorPercent + deltaPercent;
-        
-        // Allow resizing between 15% and 85%
-        if (newPercent >= 15 && newPercent <= 85) {
-          editorPane.style.flex = `0 0 ${newPercent}%`;
-        }
-      }
-      
-      e.preventDefault();
-    }, { passive: false });
-
-    document.addEventListener('touchend', () => {
-      if (isDragging) {
-        isDragging = false;
-        divider.classList.remove('dragging');
-        
-        // Re-enable pointer events
-        previewFrame.style.pointerEvents = '';
-        document.body.style.userSelect = '';
-      }
     });
-
+    for (const event of ['pointerup', 'pointercancel']) document.addEventListener(event, e => {
+      if (activeDrag?.id === e.pointerId) finishResize();
+    });
+    divider.addEventListener('lostpointercapture', finishResize);
+    window.addEventListener('blur', finishResize);
+    window.addEventListener('resize', updateDivider);
+    divider.addEventListener('keydown', e => {
+      const backward = stackedPanes() ? 'ArrowUp' : 'ArrowLeft';
+      const forward = stackedPanes() ? 'ArrowDown' : 'ArrowRight';
+      if (![backward, forward, 'Home', 'End'].includes(e.key)) return;
+      finishResize();
+      const step = e.shiftKey ? 10 : 2;
+      resizeEditor(e.key === 'Home' ? 15 : e.key === 'End' ? 85 : editorPercent() + (e.key === forward ? step : -step));
+      e.preventDefault();
+    });
+    updateDivider();
     // Button event listeners
     newBtn.addEventListener('click', newDocument);
     openBtn.addEventListener('click', openFile);
