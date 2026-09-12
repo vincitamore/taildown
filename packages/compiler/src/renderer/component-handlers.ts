@@ -725,8 +725,9 @@ export function renderSteps(state: State, node: ContainerDirectiveNode): Element
  */
 export function renderAccordion(state: State, node: ContainerDirectiveNode): Element {
   const children = state.all(node);
+  const explicitSections = children.some(child => child.type === 'element' && child.tagName === 'hr');
   
-  // Split by hr elements
+  // A leading bold heading begins a section; hr keeps legacy section syntax.
   const sections: ElementContent[][] = [];
   let currentSection: ElementContent[] = [];
   
@@ -735,6 +736,14 @@ export function renderAccordion(state: State, node: ContainerDirectiveNode): Ele
       if (currentSection.length > 0) {
         sections.push(currentSection);
         currentSection = [];
+      }
+    } else if (!explicitSections && child.type === 'element' && child.tagName === 'p' && child.children[0]?.type === 'element' && child.children[0].tagName === 'strong') {
+      if (currentSection.length > 0) sections.push(currentSection);
+      currentSection = [child.children[0]];
+      const body = child.children.slice(1);
+      if (body[0]?.type === 'text') body[0] = {...body[0], value: body[0].value.replace(/^\r?\n/, '')};
+      if (body.some(part => part.type !== 'text' || part.value.trim())) {
+        currentSection.push({...child, children: body});
       }
     } else {
       currentSection.push(child);
@@ -751,6 +760,18 @@ export function renderAccordion(state: State, node: ContainerDirectiveNode): Ele
   }
   
   // Build accordion items
+  const accordionId = `accordion-${node.position?.start.offset ?? Math.random().toString(36).slice(2)}`;
+  // Buttons may contain phrasing content, but never another interactive control.
+  const labelContent = (part: ElementContent): ElementContent => {
+    if (part.type !== 'element') return part;
+    if (part.tagName === 'img') return {type: 'text', value: String(part.properties.alt ?? '')};
+    return {
+      type: 'element',
+      tagName: /^(strong|em|code|span|small|sub|sup|del|s|b|i|u|br|mark)$/.test(part.tagName) ? part.tagName : 'span',
+      properties: part.properties.className ? {className: part.properties.className} : {},
+      children: part.children.map(labelContent)
+    };
+  };
   const items: Element[] = sections.map((sectionContent, index) => {
     // First element is trigger, rest is content
     const trigger = sectionContent[0] || {
@@ -760,6 +781,7 @@ export function renderAccordion(state: State, node: ContainerDirectiveNode): Ele
       children: [{ type: 'text', value: `Item ${index + 1}` }]
     };
     const content = sectionContent.slice(1);
+    const label = labelContent(trigger);
     
     return {
       type: 'element',
@@ -774,11 +796,14 @@ export function renderAccordion(state: State, node: ContainerDirectiveNode): Ele
           tagName: 'button',
           properties: {
             'data-accordion-trigger': '',
+            type: 'button',
+            id: `${accordionId}-trigger-${index}`,
+            ariaControls: `${accordionId}-panel-${index}`,
             ariaExpanded: index === 0 ? 'true' : 'false',
             className: ['accordion-trigger', 'flex', 'flex-1', 'items-center', 'justify-between', 'py-4', 'font-medium', 'transition-all', 'text-left', 'w-full', 'text-sm']
           },
           children: [
-            trigger,
+            label,
             {
               type: 'element',
               tagName: 'svg',
@@ -809,6 +834,9 @@ export function renderAccordion(state: State, node: ContainerDirectiveNode): Ele
           tagName: 'div',
           properties: {
             'data-accordion-content': '',
+            id: `${accordionId}-panel-${index}`,
+            role: 'region',
+            ariaLabelledBy: `${accordionId}-trigger-${index}`,
             hidden: index !== 0,
             className: ['accordion-content', 'overflow-hidden', 'text-sm', 'transition-all', 'data-[state=closed]:animate-accordion-up', 'data-[state=open]:animate-accordion-down', 'pb-4', 'pt-0']
           },
