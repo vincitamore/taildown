@@ -6,8 +6,8 @@
 import { describe, it, expect } from 'vitest';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
-import { parseIcons } from '../icon-parser';
-import type { Root } from 'mdast';
+import { parseIcons, type IconNode } from '../icon-parser';
+import type { Root, Nodes } from 'mdast';
 import { DEFAULT_CONFIG } from '../../config/default-config';
 
 // Helper to parse markdown with icon syntax
@@ -33,7 +33,7 @@ describe('Icon Parser', () => {
       const iconNodes = findIconNodes(result);
       
       expect(iconNodes.length).toBe(1);
-      expect(iconNodes[0].name).toBe('home');
+      expect(iconNodes[0]?.name).toBe('home');
     });
 
     it('should parse multiple icons in same text', async () => {
@@ -41,8 +41,8 @@ describe('Icon Parser', () => {
       const iconNodes = findIconNodes(result);
       
       expect(iconNodes.length).toBe(2);
-      expect(iconNodes[0].name).toBe('home');
-      expect(iconNodes[1].name).toBe('search');
+      expect(iconNodes[0]?.name).toBe('home');
+      expect(iconNodes[1]?.name).toBe('search');
     });
 
     it('should parse icons with hyphens in name', async () => {
@@ -50,7 +50,7 @@ describe('Icon Parser', () => {
       const iconNodes = findIconNodes(result);
       
       expect(iconNodes.length).toBe(1);
-      expect(iconNodes[0].name).toBe('arrow-right');
+      expect(iconNodes[0]?.name).toBe('arrow-right');
     });
 
     it('should parse icons with numbers in name', async () => {
@@ -58,7 +58,7 @@ describe('Icon Parser', () => {
       const iconNodes = findIconNodes(result);
       
       expect(iconNodes.length).toBe(1);
-      expect(iconNodes[0].name).toBe('star1');
+      expect(iconNodes[0]?.name).toBe('star1');
     });
   });
 
@@ -68,7 +68,7 @@ describe('Icon Parser', () => {
       const iconNodes = findIconNodes(result);
       
       expect(iconNodes.length).toBe(1);
-      expect(iconNodes[0].data.hProperties.className).toContain('text-lg');
+      expect(iconNodes[0]?.data?.hProperties?.className).toContain('text-lg');
     });
 
     it('should parse icon with multiple classes', async () => {
@@ -76,7 +76,7 @@ describe('Icon Parser', () => {
       const iconNodes = findIconNodes(result);
       
       expect(iconNodes.length).toBe(1);
-      const classes = iconNodes[0].data.hProperties.className;
+      const classes = iconNodes[0]?.data?.hProperties?.className;
       expect(classes).toContain('text-lg');
       expect(classes).toContain('font-bold');
     });
@@ -86,7 +86,7 @@ describe('Icon Parser', () => {
       const iconNodes = findIconNodes(result);
       
       expect(iconNodes.length).toBe(1);
-      const classes = iconNodes[0].data.hProperties.className;
+      const classes = iconNodes[0]?.data?.hProperties?.className;
       expect(classes).toContain('w-8');
       expect(classes).toContain('h-8');
     });
@@ -96,8 +96,8 @@ describe('Icon Parser', () => {
       const iconNodes = findIconNodes(result);
       
       expect(iconNodes.length).toBe(1);
-      const classes = iconNodes[0].data.hProperties.className;
-      expect(classes.some((c: string) => c.includes('primary'))).toBe(true);
+      const classes = iconNodes[0]?.data?.hProperties?.className;
+      expect(classes?.some((c: string) => c.includes('primary'))).toBe(true);
     });
 
     it('should parse icon with mixed shorthand and CSS classes', async () => {
@@ -105,7 +105,7 @@ describe('Icon Parser', () => {
       const iconNodes = findIconNodes(result);
       
       expect(iconNodes.length).toBe(1);
-      const classes = iconNodes[0].data.hProperties.className;
+      const classes = iconNodes[0]?.data?.hProperties?.className;
       expect(classes).toContain('text-lg');
       expect(classes).toContain('text-blue-500');
     });
@@ -141,7 +141,7 @@ describe('Icon Parser', () => {
         const iconNodes = findIconNodes(result);
         
         expect(iconNodes.length).toBe(1);
-        expect(iconNodes[0].name).toBe(iconName);
+        expect(iconNodes[0]?.name).toBe(iconName);
       });
     });
 
@@ -160,7 +160,7 @@ describe('Icon Parser', () => {
       const iconNodes = findIconNodes(result);
       
       expect(iconNodes.length).toBe(1);
-      expect(iconNodes[0].name).toBe('home');
+      expect(iconNodes[0]?.name).toBe('home');
     });
 
     it('should parse icon in heading', async () => {
@@ -168,7 +168,7 @@ describe('Icon Parser', () => {
       const iconNodes = findIconNodes(result);
       
       expect(iconNodes.length).toBe(1);
-      expect(iconNodes[0].name).toBe('star');
+      expect(iconNodes[0]?.name).toBe('star');
     });
 
     it('should parse icons in lists', async () => {
@@ -188,7 +188,7 @@ describe('Icon Parser', () => {
     it('should preserve text around icons', async () => {
       const result = await parseWithIcons('Before :icon[home] after');
       // Check that text nodes are preserved
-      const tree = result as Root;
+      const tree = result;
       const paragraph = tree.children[0];
       
       expect(paragraph?.type).toBe('paragraph');
@@ -202,28 +202,28 @@ describe('Icon Parser', () => {
       const result = await parseWithIcons(':icon[home]');
       const iconNodes = findIconNodes(result);
       
-      expect(iconNodes[0].data.hProperties.className).toContain('icon');
+      expect(iconNodes[0]?.data?.hProperties?.className).toContain('icon');
     });
 
     it('should add icon-specific class', async () => {
       const result = await parseWithIcons(':icon[search]');
       const iconNodes = findIconNodes(result);
       
-      expect(iconNodes[0].data.hProperties.className).toContain('icon-search');
+      expect(iconNodes[0]?.data?.hProperties?.className).toContain('icon-search');
     });
 
     it('should add data-icon attribute', async () => {
       const result = await parseWithIcons(':icon[heart]');
       const iconNodes = findIconNodes(result);
       
-      expect(iconNodes[0].data.hProperties['data-icon']).toBe('heart');
+      expect(iconNodes[0]?.data?.hProperties?.['data-icon']).toBe('heart');
     });
 
     it('should set hName to svg', async () => {
       const result = await parseWithIcons(':icon[home]');
       const iconNodes = findIconNodes(result);
       
-      expect(iconNodes[0].data.hName).toBe('svg');
+      expect(iconNodes[0]?.data?.hName).toBe('svg');
     });
   });
 
@@ -232,28 +232,28 @@ describe('Icon Parser', () => {
       const result = await parseWithIcons(':icon[home]{xs}');
       const iconNodes = findIconNodes(result);
       
-      expect(iconNodes[0].data.hProperties.className).toContain('text-xs');
+      expect(iconNodes[0]?.data?.hProperties?.className).toContain('text-xs');
     });
 
     it('should resolve small size', async () => {
       const result = await parseWithIcons(':icon[home]{small}');
       const iconNodes = findIconNodes(result);
       
-      expect(iconNodes[0].data.hProperties.className).toContain('text-sm');
+      expect(iconNodes[0]?.data?.hProperties?.className).toContain('text-sm');
     });
 
     it('should resolve large size', async () => {
       const result = await parseWithIcons(':icon[home]{large}');
       const iconNodes = findIconNodes(result);
       
-      expect(iconNodes[0].data.hProperties.className).toContain('text-lg');
+      expect(iconNodes[0]?.data?.hProperties?.className).toContain('text-lg');
     });
 
     it('should resolve huge size', async () => {
       const result = await parseWithIcons(':icon[home]{huge}');
       const iconNodes = findIconNodes(result);
       
-      expect(iconNodes[0].data.hProperties.className).toContain('text-4xl');
+      expect(iconNodes[0]?.data?.hProperties?.className).toContain('text-4xl');
     });
   });
 
@@ -278,7 +278,7 @@ describe('Icon Parser', () => {
       
       expect(iconNodes.length).toBe(1);
       // Should have default classes but no additional attributes
-      expect(iconNodes[0].data.hProperties.className).toContain('icon');
+      expect(iconNodes[0]?.data?.hProperties?.className).toContain('icon');
     });
 
     it('should handle whitespace in attributes', async () => {
@@ -286,7 +286,7 @@ describe('Icon Parser', () => {
       const iconNodes = findIconNodes(result);
       
       expect(iconNodes.length).toBe(1);
-      const classes = iconNodes[0].data.hProperties.className;
+      const classes = iconNodes[0]?.data?.hProperties?.className;
       expect(classes).toContain('text-lg');
       expect(classes).toContain('font-bold');
     });
@@ -338,14 +338,14 @@ describe('Icon Parser', () => {
 });
 
 // Helper function to find all icon nodes in the tree
-function findIconNodes(tree: Root): any[] {
-  const iconNodes: any[] = [];
+function findIconNodes(tree: Root): IconNode[] {
+  const iconNodes: IconNode[] = [];
   
-  function visit(node: any) {
+  function visit(node: Nodes | IconNode) {
     if (node.type === 'icon') {
       iconNodes.push(node);
     }
-    if (node.children) {
+    if ('children' in node) {
       node.children.forEach(visit);
     }
   }
