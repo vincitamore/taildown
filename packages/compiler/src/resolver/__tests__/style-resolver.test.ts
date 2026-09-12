@@ -255,8 +255,8 @@ describe('Style Resolver', () => {
     describe('Semantic Colors', () => {
       it('should resolve primary color', () => {
         const result = resolveAttributes(['primary'], mockContext);
-        expect(result).toContain('text-primary-600');
-        expect(result).toContain('hover:text-primary-700');
+        expect(result).toContain('text-primary');
+        expect(result).toContain('hover:text-primary-hover');
       });
 
       it('should resolve bg-primary', () => {
@@ -272,8 +272,8 @@ describe('Style Resolver', () => {
 
       it('should resolve secondary and accent', () => {
         const result = resolveAttributes(['secondary', 'accent'], mockContext);
-        expect(result).not.toContain('text-secondary-600');
-        expect(result).toContain('text-accent-600');
+        expect(result).not.toContain('text-secondary');
+        expect(result).toContain('text-accent');
       });
     });
 
@@ -301,7 +301,7 @@ describe('Style Resolver', () => {
       it('should handle mixed shorthands and CSS classes', () => {
         const result = resolveAttributes(['bold', 'primary', 'px-4'], mockContext);
         expect(result).toContain('font-bold');
-        expect(result).toContain('text-primary-600');
+        expect(result).toContain('text-primary');
         expect(result).toContain('px-4');
       });
 
@@ -313,7 +313,7 @@ describe('Style Resolver', () => {
         expect(result).toContain('text-lg');
         expect(result).toContain('font-bold');
         expect(result).toContain('text-center');
-        expect(result).toContain('text-primary-600');
+        expect(result).toContain('text-primary');
         expect(result).toContain('p-6');
         expect(result).toContain('rounded-lg');
       });
@@ -373,10 +373,10 @@ describe('Style Resolver', () => {
     });
 
     describe('Dark Mode', () => {
-      it('should add dark mode classes for semantic colors', () => {
+      it('should resolve semantic text independently of the initial theme', () => {
         const result = resolveAttributes(['primary'], mockDarkModeContext);
-        expect(result).toContain('text-primary-600');
-        expect(result).toContain('dark:text-primary-400');
+        expect(result).toContain('text-primary');
+        expect(result).toEqual(resolveAttributes(['primary'], mockContext));
       });
 
       it('should add dark mode classes for backgrounds', () => {

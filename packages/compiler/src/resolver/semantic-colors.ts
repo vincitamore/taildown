@@ -3,7 +3,7 @@
  * Phase 2: Resolves primary/secondary/accent with prefixes
  * 
  * Handles patterns like:
- * - primary => text-primary-600 + hover:text-primary-700
+ * - primary => text-primary + hover:text-primary-hover
  * - bg-primary => bg-primary-600 + hover:bg-primary-700
  * - border-accent => border-accent-600
  * 
@@ -28,7 +28,7 @@ export type ColorPrefix = (typeof COLOR_PREFIXES)[number];
  * Resolve semantic color attributes to CSS classes
  * 
  * Supports patterns:
- * - 'primary' => ['text-primary-600', 'hover:text-primary-700']
+ * - 'primary' => ['text-primary', 'hover:text-primary-hover']
  * - 'bg-primary' => ['bg-primary-600', 'hover:bg-primary-700']
  * - 'border-accent' => ['border-accent-600']
  * 
@@ -38,7 +38,7 @@ export type ColorPrefix = (typeof COLOR_PREFIXES)[number];
  * 
  * @example
  * resolveSemanticColor('primary', context)
- * // => ['text-primary-600', 'hover:text-primary-700']
+ * // => ['text-primary', 'hover:text-primary-hover']
  * 
  * @example
  * resolveSemanticColor('bg-secondary', context)
@@ -67,6 +67,12 @@ export function resolveSemanticColor(
     return null;
   }
 
+  // Semantic text follows the displayed theme, independently of the parser's
+  // initial theme state. Numbered palette utilities remain literal colors.
+  if (prefix === 'text') {
+    return [`text-${color}`, `hover:text-${color}-hover`];
+  }
+
   // Determine which shades to use
   const baseShade = getBaseShade(prefix, colorConfig);
   const hoverShade = getHoverShade(prefix, colorConfig);
@@ -77,8 +83,8 @@ export function resolveSemanticColor(
   // Base class
   classes.push(`${prefix}-${color}-${baseShade}`);
 
-  // Add hover for text and bg (but not border/ring/divide)
-  if (prefix === 'text' || prefix === 'bg') {
+  // Background hover uses its paired palette shade.
+  if (prefix === 'bg') {
     classes.push(`hover:${prefix}-${color}-${hoverShade}`);
   }
 

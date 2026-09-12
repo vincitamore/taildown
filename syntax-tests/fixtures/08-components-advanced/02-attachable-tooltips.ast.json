@@ -2177,8 +2177,8 @@
                   "className": [
                     "icon",
                     "icon-info",
-                    "text-primary-600",
-                    "hover:text-primary-700"
+                    "text-primary",
+                    "hover:text-primary-hover"
                   ],
                   "data-icon": "info"
                 }

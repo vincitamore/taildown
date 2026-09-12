@@ -70,22 +70,22 @@ describe('Semantic Colors', () => {
       it('should resolve primary to text classes', () => {
         const result = resolveSemanticColor('primary', mockContext);
         expect(result).toBeDefined();
-        expect(result).toContain('text-primary-600');
-        expect(result).toContain('hover:text-primary-700');
+        expect(result).toContain('text-primary');
+        expect(result).toContain('hover:text-primary-hover');
       });
 
       it('should resolve secondary to text classes', () => {
         const result = resolveSemanticColor('secondary', mockContext);
         expect(result).toBeDefined();
-        expect(result).toContain('text-secondary-600');
-        expect(result).toContain('hover:text-secondary-700');
+        expect(result).toContain('text-secondary');
+        expect(result).toContain('hover:text-secondary-hover');
       });
 
       it('should resolve accent to text classes', () => {
         const result = resolveSemanticColor('accent', mockContext);
         expect(result).toBeDefined();
-        expect(result).toContain('text-accent-600');
-        expect(result).toContain('hover:text-accent-700');
+        expect(result).toContain('text-accent');
+        expect(result).toContain('hover:text-accent-hover');
       });
     });
 
@@ -93,20 +93,20 @@ describe('Semantic Colors', () => {
       it('should resolve text-primary', () => {
         const result = resolveSemanticColor('text-primary', mockContext);
         expect(result).toBeDefined();
-        expect(result).toContain('text-primary-600');
-        expect(result).toContain('hover:text-primary-700');
+        expect(result).toContain('text-primary');
+        expect(result).toContain('hover:text-primary-hover');
       });
 
       it('should resolve text-secondary', () => {
         const result = resolveSemanticColor('text-secondary', mockContext);
         expect(result).toBeDefined();
-        expect(result).toContain('text-secondary-600');
+        expect(result).toContain('text-secondary');
       });
 
       it('should resolve text-accent', () => {
         const result = resolveSemanticColor('text-accent', mockContext);
         expect(result).toBeDefined();
-        expect(result).toContain('text-accent-600');
+        expect(result).toContain('text-accent');
       });
     });
 
@@ -174,12 +174,12 @@ describe('Semantic Colors', () => {
     });
 
     describe('Dark mode', () => {
-      it('should add dark mode classes for text colors', () => {
+      it('should use the same theme-aware text utilities in either initial theme', () => {
         const result = resolveSemanticColor('primary', mockDarkModeContext);
         expect(result).toBeDefined();
-        expect(result).toContain('text-primary-600');
-        expect(result).toContain('hover:text-primary-700');
-        expect(result).toContain('dark:text-primary-400');
+        expect(result).toContain('text-primary');
+        expect(result).toContain('hover:text-primary-hover');
+        expect(result).toEqual(resolveSemanticColor('primary', mockContext));
       });
 
       it('should add dark mode classes for backgrounds', () => {
@@ -380,19 +380,19 @@ describe('Semantic Colors', () => {
   });
 
   describe('Shade Selection', () => {
-    it('should prefer 600 shade for base colors', () => {
+    it('should delegate semantic text shades to the theme palette', () => {
       const result = resolveSemanticColor('primary', mockContext);
-      expect(result).toContain('text-primary-600');
+      expect(result).toContain('text-primary');
     });
 
-    it('should use 700 shade for hover', () => {
+    it('should delegate hover shades to the theme palette', () => {
       const result = resolveSemanticColor('primary', mockContext);
-      expect(result).toContain('hover:text-primary-700');
+      expect(result).toContain('hover:text-primary-hover');
     });
 
-    it('should use 400 shade for dark mode text', () => {
+    it('should keep text classes stable when the displayed theme changes', () => {
       const result = resolveSemanticColor('text-primary', mockDarkModeContext);
-      expect(result).toContain('dark:text-primary-400');
+      expect(result).toEqual(resolveSemanticColor('primary', mockContext));
     });
 
     it('should use 700 shade for dark mode backgrounds', () => {

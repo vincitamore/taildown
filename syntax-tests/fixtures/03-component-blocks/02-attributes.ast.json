@@ -460,8 +460,8 @@
             "glass-effect",
             "glass-subtle",
             "shadow-sm",
-            "text-primary-600",
-            "hover:text-primary-700",
+            "text-primary",
+            "hover:text-primary-hover",
             "custom-class",
             "p-6"
           ],

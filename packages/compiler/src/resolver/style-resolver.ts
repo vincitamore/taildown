@@ -7,7 +7,7 @@
  * 
  * @example
  * Input:  ['primary', 'large', 'bold', 'center']
- * Output: ['text-primary-600', 'hover:text-primary-700', 'text-4xl', 'font-bold', 'text-center']
+ * Output: ['text-primary', 'hover:text-primary-hover', 'text-4xl', 'font-bold', 'text-center']
  */
 
 import type { TaildownConfig } from '../config/config-schema';
@@ -58,7 +58,7 @@ export function expandStyleMappings(attributes: string[], mappings?: Record<stri
  * 
  * @example
  * resolveAttributes(['primary', 'large', 'bold'], context)
- * // => ['text-primary-600', 'hover:text-primary-700', 'text-4xl', 'font-bold']
+ * // => ['text-primary', 'hover:text-primary-hover', 'text-4xl', 'font-bold']
  * 
  * @example
  * resolveAttributes(['glass', 'elevated'], context)

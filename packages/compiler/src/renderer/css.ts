@@ -375,6 +375,12 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'text-gray-900': 'color: rgb(17 24 39);',
 
   // Text color - Primary (Blue)
+  'text-primary': 'color: var(--primary-text);',
+  'text-primary-hover': 'color: var(--primary-text-hover);',
+  'text-secondary': 'color: var(--secondary-text);',
+  'text-secondary-hover': 'color: var(--secondary-text-hover);',
+  'text-accent': 'color: var(--accent-text);',
+  'text-accent-hover': 'color: var(--accent-text-hover);',
   'text-primary-500': `color: ${DEFAULT_COLORS.primary[500]};`,
   'text-primary-600': `color: ${DEFAULT_COLORS.primary[600]};`,
   'text-primary-700': `color: ${DEFAULT_COLORS.primary[700]};`,

@@ -124,6 +124,8 @@ Paragraph with relaxed lines {relaxed-lines}
 :::card {light-glass}
 ### :icon[palette]{primary} Semantic Colors {bold}
 
+`primary`, `secondary`, and `accent` text colors follow the active light or dark theme, including their hover shades. Use these semantic names for readable accents on the default page and card surfaces. Explicit numbered utilities such as `text-primary-600` keep their fixed shade. Custom CSS can tune `--primary-text` and `--primary-text-hover` (and the corresponding secondary/accent variables) independently of button and background colors.
+
 Use semantic color names for consistency:
 
 | Color | Usage | Example |

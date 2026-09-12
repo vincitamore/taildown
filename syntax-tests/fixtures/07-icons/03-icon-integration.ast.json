@@ -108,8 +108,8 @@
                   "className": [
                     "icon",
                     "icon-bookmark",
-                    "text-primary-600",
-                    "hover:text-primary-700"
+                    "text-primary",
+                    "hover:text-primary-hover"
                   ],
                   "data-icon": "bookmark"
                 }
@@ -466,8 +466,8 @@
                       "className": [
                         "icon",
                         "icon-star",
-                        "text-primary-600",
-                        "hover:text-primary-700"
+                        "text-primary",
+                        "hover:text-primary-hover"
                       ],
                       "data-icon": "star"
                     }
@@ -1565,8 +1565,8 @@
               "className": [
                 "icon",
                 "icon-heart",
-                "text-primary-600",
-                "hover:text-primary-700"
+                "text-primary",
+                "hover:text-primary-hover"
               ],
               "data-icon": "heart"
             }

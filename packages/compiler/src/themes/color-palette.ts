@@ -128,10 +128,16 @@ export function getDarkModeColors(config: TaildownConfig): DarkModeColors {
 export function generateColorPaletteCSS(config: TaildownConfig): string {
   const light = getLightModeColors(config);
   const dark = getDarkModeColors(config);
+  const textColors = (isDark: boolean) => (['primary', 'secondary', 'accent'] as const).map(name => {
+    const fallback = {primary: ['#4b6bcc','#3957b5','#a3b9ff','#c1ceff'], secondary: ['#9333ea','#7e22ce','#c084fc','#d8b4fe'], accent: ['#db2777','#be185d','#f472b6','#f9a8d4']}[name];
+    const palette = config.theme?.colors?.[name];
+    return `  --${name}-text: ${palette?.[isDark ? 400 : 600] ?? fallback[isDark ? 2 : 0]};\n  --${name}-text-hover: ${palette?.[isDark ? 300 : 700] ?? fallback[isDark ? 3 : 1]};`;
+  }).join('\n');
   
   return `
 /* Color Palette - Light Mode */
 :root {
+${textColors(false)}
   --background: ${light.background};
   --foreground: ${light.foreground};
   --muted: ${light.muted};
@@ -163,6 +169,7 @@ export function generateColorPaletteCSS(config: TaildownConfig): string {
 
 /* Color Palette - Dark Mode */
 .dark {
+${textColors(true)}
   --background: ${dark.background};
   --foreground: ${dark.foreground};
   --muted: ${dark.muted};
@@ -209,11 +216,11 @@ export function generateColorPaletteCSS(config: TaildownConfig): string {
 .text-foreground { color: var(--foreground); }
 .text-muted-foreground { color: var(--muted-foreground); }
 .text-card-foreground { color: var(--card-foreground); }
-.text-primary { color: var(--primary); }
+.text-primary { color: var(--primary-text); }
 .text-primary-foreground { color: var(--primary-foreground); }
-.text-secondary { color: var(--secondary); }
+.text-secondary { color: var(--secondary-text); }
 .text-secondary-foreground { color: var(--secondary-foreground); }
-.text-accent { color: var(--accent); }
+.text-accent { color: var(--accent-text); }
 .text-accent-foreground { color: var(--accent-foreground); }
 .text-success { color: var(--success); }
 .text-success-foreground { color: var(--success-foreground); }

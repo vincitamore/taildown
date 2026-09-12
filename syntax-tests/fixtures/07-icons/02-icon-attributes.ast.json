@@ -348,8 +348,8 @@
               "className": [
                 "icon",
                 "icon-heart",
-                "text-primary-600",
-                "hover:text-primary-700"
+                "text-primary",
+                "hover:text-primary-hover"
               ],
               "data-icon": "heart"
             }
@@ -373,8 +373,8 @@
               "className": [
                 "icon",
                 "icon-heart",
-                "text-secondary-600",
-                "hover:text-secondary-700"
+                "text-secondary",
+                "hover:text-secondary-hover"
               ],
               "data-icon": "heart"
             }
@@ -690,8 +690,8 @@
               "className": [
                 "icon",
                 "icon-star",
-                "text-primary-600",
-                "hover:text-primary-700",
+                "text-primary",
+                "hover:text-primary-hover",
                 "text-4xl",
                 "w-16",
                 "h-16"
@@ -892,8 +892,8 @@
               "className": [
                 "icon",
                 "icon-star",
-                "text-primary-600",
-                "hover:text-primary-700",
+                "text-primary",
+                "hover:text-primary-hover",
                 "w-6",
                 "h-6"
               ],

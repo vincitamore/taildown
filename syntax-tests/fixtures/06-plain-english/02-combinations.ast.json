@@ -338,8 +338,8 @@
         "hProperties": {
           "className": [
             "text-lg",
-            "text-primary-600",
-            "hover:text-primary-700"
+            "text-primary",
+            "hover:text-primary-hover"
           ]
         }
       }
@@ -549,8 +549,8 @@
         "hProperties": {
           "className": [
             "font-bold",
-            "text-primary-600",
-            "hover:text-primary-700"
+            "text-primary",
+            "hover:text-primary-hover"
           ]
         }
       }
