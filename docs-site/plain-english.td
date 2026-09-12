@@ -126,6 +126,8 @@ Paragraph with relaxed lines {relaxed-lines}
 :::card {light-glass}
 ### :icon[palette]{primary} Semantic Colors {bold}
 
+`success`, `warning`, `error`, and `info` use separate text colors for light and dark pages. Customize `--success-text` (and the corresponding status variables) independently of the background `--success` and its `--success-foreground`. Explicit numbered utilities keep their fixed shades.
+
 `muted` and combinations such as `small-muted` use the theme's `--muted-foreground`, keeping supporting text readable in both themes. Use a numbered gray utility when you specifically want a fixed shade.
 
 `primary`, `secondary`, and `accent` text colors follow the active light or dark theme, including their hover shades. Use these semantic names for readable accents on the default page and card surfaces. Explicit numbered utilities such as `text-primary-600` keep their fixed shade. Custom CSS can tune `--primary-text` and `--primary-text-hover` (and the corresponding secondary/accent variables) independently of button and background colors.
@@ -155,14 +157,14 @@ Muted footer text {muted small}
 :::card {light-glass}
 ### :icon[droplet]{accent} Background Colors {bold}
 
-Add `-bg` suffix for background colors:
+Add `-bg` suffix for background colors. Status pairs use the same theme colors and contrasting foregrounds as status buttons:
 
 | Shorthand | Result |
 |-----------|--------|
 | `{primary-bg}` | Primary background + white text |
-| `{success-bg}` | Success background + white text |
+| `{success-bg}` | Success background + contrasting text |
 | `{warning-bg}` | Warning background + dark text |
-| `{error-bg}` | Error background + white text |
+| `{error-bg}` | Error background + contrasting text |
 | `{muted-bg}` | Muted background + dark text |
 
 **Examples:**

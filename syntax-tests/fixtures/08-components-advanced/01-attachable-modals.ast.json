@@ -657,7 +657,7 @@
                 "shadow-md",
                 "hover:shadow-lg",
                 "transition-all",
-                "text-red-600"
+                "text-error"
               ],
               "data-modal-attach": "#alert-modal"
             }
@@ -1410,7 +1410,7 @@
                   "className": [
                     "icon",
                     "icon-alert-triangle",
-                    "text-yellow-600"
+                    "text-warning"
                   ],
                   "data-icon": "alert-triangle"
                 }

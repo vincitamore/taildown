@@ -324,10 +324,10 @@ export const SHORTHAND_MAPPINGS: Record<string, ShorthandMapping> = {
   // ========================================
   muted: 'text-muted-foreground',
   'dark:muted': 'dark:text-gray-400',
-  success: 'text-green-600',
-  warning: 'text-yellow-600',
-  error: 'text-red-600',
-  info: 'text-blue-600',
+  success: 'text-success',
+  warning: 'text-warning',
+  error: 'text-error',
+  info: 'text-info',
 
   // ========================================
   // NATURAL COMBINATIONS (Phase 2+)
@@ -345,17 +345,17 @@ export const SHORTHAND_MAPPINGS: Record<string, ShorthandMapping> = {
   'large-muted': ['text-lg', 'text-muted-foreground'],
   'small-muted': ['text-sm', 'text-muted-foreground'],
   'large-primary': (context) => ['text-lg', ...(resolveSemanticColor('primary', context) ?? [])],
-  'large-success': ['text-lg', 'text-green-600'],
-  'large-warning': ['text-lg', 'text-yellow-600'],
-  'large-error': ['text-lg', 'text-red-600'],
+  'large-success': ['text-lg', 'text-success'],
+  'large-warning': ['text-lg', 'text-warning'],
+  'large-error': ['text-lg', 'text-error'],
   
   // Background + Text semantic pairs
   'primary-bg': (context) => [...(resolveSemanticColor('bg-primary', context) ?? []), 'text-white'],
   'secondary-bg': (context) => [...(resolveSemanticColor('bg-secondary', context) ?? []), 'text-white'],
-  'success-bg': ['bg-green-600', 'text-white'],
-  'warning-bg': ['bg-yellow-600', 'text-white'],
-  'error-bg': ['bg-red-600', 'text-white'],
-  'info-bg': ['bg-blue-600', 'text-white'],
+  'success-bg': ['bg-success', 'text-success-foreground'],
+  'warning-bg': ['bg-warning', 'text-warning-foreground'],
+  'error-bg': ['bg-error', 'text-error-foreground'],
+  'info-bg': ['bg-info', 'text-info-foreground'],
   'muted-bg': ['bg-gray-100', 'text-gray-700'],
   
   // Common natural phrases

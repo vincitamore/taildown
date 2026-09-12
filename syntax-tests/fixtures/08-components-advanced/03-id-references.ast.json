@@ -1430,7 +1430,7 @@
                 "shadow-md",
                 "hover:shadow-lg",
                 "transition-all",
-                "text-red-600"
+                "text-error"
               ],
               "data-modal-attach": "#shared"
             }

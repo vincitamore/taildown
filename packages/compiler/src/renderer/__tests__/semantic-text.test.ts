@@ -10,6 +10,36 @@ const luminance = (hex:string) => {
 };
 const contrast = (a:string,b:string) => (Math.max(luminance(a),luminance(b))+0.05)/(Math.min(luminance(a),luminance(b))+0.05);
 
+it('provides readable status text and status background pairs in both themes', async () => {
+  const names = ['success','warning','error','info'] as const;
+  const config = getDefaultConfig();
+  const css = generateColorPaletteCSS(config);
+  for (const name of names) {
+    const shades = [...css.matchAll(new RegExp(`--${name}-text:\\s*([^;]+);`,'g'))].map(match=>match[1]!);
+    expect(shades).toHaveLength(2);
+    [getLightModeColors(config),getDarkModeColors(config)].forEach((theme,index)=>{
+      expect(contrast(shades[index]!,theme.background), `${name} page ${index}`).toBeGreaterThanOrEqual(4.5);
+      expect(contrast(shades[index]!,theme.card), `${name} card ${index}`).toBeGreaterThanOrEqual(4.5);
+      expect(contrast(theme[name],theme[`${name}Foreground`]), `${name} pair ${index}`).toBeGreaterThanOrEqual(4.5);
+    });
+  }
+  const result = await compile(names.map(name=>`Text ${name} {${name}}\n\n:icon[check]{${name}}\n\nPair ${name} {${name}-bg}\n\n[Action ${name}](#){button ${name === 'error' ? 'destructive' : name}}`).join('\n\n')+'\n\nLarge {large-warning}\n\nFixed {text-yellow-600}\n\nOverride {warning-bg text-white}', {inlineStyles:true});
+  const dom = new JSDOM(result.html);
+  try {
+    const document = dom.window.document;
+    for(const name of names) {
+      expect(document.querySelector(`p.text-${name}`)?.textContent).toBe(`Text ${name}`);
+      expect(document.querySelector(`svg.text-${name}`)).not.toBeNull();
+      expect(document.querySelector(`p.bg-${name}.text-${name}-foreground`)?.textContent).toBe(`Pair ${name}`);
+      expect(document.querySelector(`a.bg-${name}.text-${name}-foreground`)).not.toBeNull();
+    }
+    expect(document.querySelector('p.text-lg.text-warning')?.textContent).toBe('Large');
+    expect(document.querySelector('p.text-yellow-600')?.textContent).toBe('Fixed');
+    expect(document.querySelector('p.bg-warning.text-white')?.classList.contains('text-warning-foreground')).toBe(false);
+    expect(result.metadata.warnings).toEqual([]);
+  } finally {dom.window.close();}
+});
+
 it('uses semantic text tokens across headings, prose, icons and components while keeping numbered overrides literal', async () => {
   const result = await compile('# Heading {primary}\n\nProse {secondary}\n\n:icon[star]{accent}\n\n:::card{primary}\nCard\n:::\n\nFixed {text-primary-600}\n\nOverride {primary text-white}', {inlineStyles:true});
   const dom = new JSDOM(result.html);

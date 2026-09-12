@@ -213,7 +213,7 @@
                   "className": [
                     "icon",
                     "icon-check",
-                    "text-green-600"
+                    "text-success"
                   ],
                   "data-icon": "check"
                 }
@@ -288,7 +288,7 @@
                   "className": [
                     "icon",
                     "icon-x-circle",
-                    "text-red-600"
+                    "text-error"
                   ],
                   "data-icon": "x-circle"
                 }
@@ -411,7 +411,7 @@
                       "className": [
                         "icon",
                         "icon-check",
-                        "text-green-600"
+                        "text-success"
                       ],
                       "data-icon": "check"
                     }
@@ -522,7 +522,7 @@
                       "className": [
                         "icon",
                         "icon-heart",
-                        "text-red-600"
+                        "text-error"
                       ],
                       "data-icon": "heart"
                     }

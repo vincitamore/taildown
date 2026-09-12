@@ -381,7 +381,7 @@
         "hProperties": {
           "className": [
             "text-lg",
-            "text-green-600"
+            "text-success"
           ]
         }
       }
@@ -452,8 +452,8 @@
       "data": {
         "hProperties": {
           "className": [
-            "bg-green-600",
-            "text-white"
+            "bg-success",
+            "text-success-foreground"
           ]
         }
       }

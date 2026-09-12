@@ -74,13 +74,13 @@ export function getLightModeColors(config: TaildownConfig): LightModeColors {
     accentForeground: '#ffffff',
     
     success: config.theme?.colors?.success || '#10b981',
-    successForeground: '#ffffff',
+    successForeground: '#111827',
     warning: config.theme?.colors?.warning || '#f59e0b',
-    warningForeground: '#ffffff',
+    warningForeground: '#111827',
     error: config.theme?.colors?.error || '#ef4444',
-    errorForeground: '#ffffff',
+    errorForeground: '#111827',
     info: config.theme?.colors?.info || '#82a0ff',
-    infoForeground: '#ffffff',
+    infoForeground: '#111827',
     
     card: '#ffffff',
     cardForeground: config.theme?.colors?.gray?.[900] || '#111827',
@@ -109,13 +109,13 @@ export function getDarkModeColors(config: TaildownConfig): DarkModeColors {
     accentForeground: '#f5f5f5',
     
     success: config.theme?.colors?.success || '#10b981',
-    successForeground: '#15202b',  // Dark text on bright success
+    successForeground: '#111827',  // Dark text on bright success
     warning: config.theme?.colors?.warning || '#f59e0b',
-    warningForeground: '#15202b',  // Dark text on bright warning
+    warningForeground: '#111827',  // Dark text on bright warning
     error: config.theme?.colors?.error || '#ef4444',
-    errorForeground: '#ffffff',
+    errorForeground: '#111827',
     info: config.theme?.colors?.info || '#82a0ff',
-    infoForeground: '#ffffff',
+    infoForeground: '#111827',
     
     card: '#192734',        // Slightly lighter than background for depth
     cardForeground: '#f5f5f5',
@@ -138,6 +138,10 @@ export function generateColorPaletteCSS(config: TaildownConfig): string {
 /* Color Palette - Light Mode */
 :root {
 ${textColors(false)}
+  --success-text: #047857;
+  --warning-text: #92400e;
+  --error-text: #b91c1c;
+  --info-text: #1d4ed8;
   --inline-code-text: #be185d;
   --inline-code-background: #f3f4f6;
   --background: ${light.background};
@@ -172,6 +176,10 @@ ${textColors(false)}
 /* Color Palette - Dark Mode */
 .dark {
 ${textColors(true)}
+  --success-text: #34d399;
+  --warning-text: #fbbf24;
+  --error-text: #f87171;
+  --info-text: #60a5fa;
   --inline-code-text: #f9a8d4;
   --inline-code-background: #253747;
   --background: ${dark.background};
@@ -226,13 +234,13 @@ ${textColors(true)}
 .text-secondary-foreground { color: var(--secondary-foreground); }
 .text-accent { color: var(--accent-text); }
 .text-accent-foreground { color: var(--accent-foreground); }
-.text-success { color: var(--success); }
+.text-success { color: var(--success-text); }
 .text-success-foreground { color: var(--success-foreground); }
-.text-warning { color: var(--warning); }
+.text-warning { color: var(--warning-text); }
 .text-warning-foreground { color: var(--warning-foreground); }
-.text-error { color: var(--error); }
+.text-error { color: var(--error-text); }
 .text-error-foreground { color: var(--error-foreground); }
-.text-info { color: var(--info); }
+.text-info { color: var(--info-text); }
 .text-info-foreground { color: var(--info-foreground); }
 
 /* CSS Variable utilities - border colors */

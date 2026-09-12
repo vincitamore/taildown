@@ -407,6 +407,19 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'text-pink-600': 'color: rgb(219 39 119);',
   'text-pink-700': 'color: rgb(190 24 93);',
 
+  'text-success': 'color: var(--success-text);',
+  'text-success-foreground': 'color: var(--success-foreground);',
+  'bg-success': 'background-color: var(--success);',
+  'text-warning': 'color: var(--warning-text);',
+  'text-warning-foreground': 'color: var(--warning-foreground);',
+  'bg-warning': 'background-color: var(--warning);',
+  'text-error': 'color: var(--error-text);',
+  'text-error-foreground': 'color: var(--error-foreground);',
+  'bg-error': 'background-color: var(--error);',
+  'text-info': 'color: var(--info-text);',
+  'text-info-foreground': 'color: var(--info-foreground);',
+  'bg-info': 'background-color: var(--info);',
+
   // Text color - Success (Green)
   'text-success-500': 'color: rgb(34 197 94);',
   'text-success-600': 'color: rgb(22 163 74);',

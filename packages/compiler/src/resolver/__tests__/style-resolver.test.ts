@@ -247,8 +247,8 @@ describe('Style Resolver', () => {
 
       it('should resolve semantic background pairs', () => {
         const result = resolveAttributes(['success-bg'], mockContext);
-        expect(result).toContain('bg-green-600');
-        expect(result).toContain('text-white');
+        expect(result).toContain('bg-success');
+        expect(result).toContain('text-success-foreground');
       });
     });
 

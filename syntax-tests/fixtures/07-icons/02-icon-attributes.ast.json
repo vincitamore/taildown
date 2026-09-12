@@ -398,7 +398,7 @@
               "className": [
                 "icon",
                 "icon-check",
-                "text-green-600"
+                "text-success"
               ],
               "data-icon": "check"
             }
@@ -422,7 +422,7 @@
               "className": [
                 "icon",
                 "icon-alert-triangle",
-                "text-yellow-600"
+                "text-warning"
               ],
               "data-icon": "alert-triangle"
             }
@@ -446,7 +446,7 @@
               "className": [
                 "icon",
                 "icon-x-circle",
-                "text-red-600"
+                "text-error"
               ],
               "data-icon": "x-circle"
             }
@@ -470,7 +470,7 @@
               "className": [
                 "icon",
                 "icon-info",
-                "text-blue-600"
+                "text-info"
               ],
               "data-icon": "info"
             }
@@ -663,7 +663,7 @@
               "className": [
                 "icon",
                 "icon-check",
-                "text-green-600",
+                "text-success",
                 "text-lg",
                 "w-8",
                 "h-8"
@@ -718,7 +718,7 @@
               "className": [
                 "icon",
                 "icon-alert-triangle",
-                "text-yellow-600",
+                "text-warning",
                 "text-sm",
                 "w-5",
                 "h-5"
@@ -919,7 +919,7 @@
               "className": [
                 "icon",
                 "icon-check",
-                "text-green-600",
+                "text-success",
                 "text-lg",
                 "w-8",
                 "h-8",
