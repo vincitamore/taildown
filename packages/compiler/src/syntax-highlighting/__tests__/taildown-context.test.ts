@@ -1,4 +1,7 @@
 import {expect, it} from 'vitest';
+import {EditorState} from '@codemirror/state';
+import {ensureSyntaxTree} from '@codemirror/language';
+import type {Tree} from '@lezer/common';
 import {taildownLanguage} from '../codemirror6-language';
 
 function tokenAt(source: string, text: string) {
@@ -60,4 +63,44 @@ it('does not let list or quote punctuation close an ordinary fenced code block',
   const source = '```js\n- ```\n> ```\n:icon[heart]\n```\n:icon[star]';
   expect(tokenAt(source, 'heart')).toBe('monospace');
   expect(tokenAt(source, 'star')).toBe('name.function');
+});
+
+it.each(['foo_bar_baz', 'foo__bar__baz', 'α_β_γ', '你好__世界__你好', '_ leading_', '_trailing _'])(
+  'keeps non-flanking underscore runs literal: %s', source => {
+    expect(taildownLanguage.parser.parse(source).cursor().firstChild()).toBe(false);
+  }
+);
+it.each(['(_word_)', '«__word__»', '😀_word_😀'])(
+  'recognizes emphasis beside Unicode punctuation and symbols: %s', source => {
+    expect(tokenAt(source, 'word')).toBe(source.includes('__') ? 'strong' : 'emphasis');
+  }
+);
+it('does not let an unfinished inline comment swallow subsequent Markdown', () => {
+  const source = 'Some text <!-- incomplete\n# Heading\n:icon[heart]';
+  expect(tokenAt(source, 'incomplete')).toBe('Document');
+  expect(tokenAt(source, 'Heading')).toBe('heading');
+  expect(tokenAt(source, 'heart')).toBe('name.function');
+});
+it.each(['', '  ', '> ', '- '])('preserves unfinished block comments after a Markdown prefix %j', prefix => {
+  expect(tokenAt(`${prefix}<!-- incomplete\n# Heading`, 'Heading')).toBe('comment');
+});
+
+it.each([
+  {source: '```js\n:icon[heart]\n```\n# Heading', search: '```', insert: ''},
+  {source: '<!-- comment\n-->\n# Heading', search: '-->', insert: ''},
+  {source: ':::card {padded}\n# Heading', search: '}', insert: ''},
+])('keeps incremental $search edits consistent with a fresh parse', ({source, search, insert}) => {
+  const initial = EditorState.create({doc: source, extensions: [taildownLanguage]});
+  ensureSyntaxTree(initial, source.length, 1000);
+  const from = source.lastIndexOf(search);
+  const edited = initial.update({changes: {from, to: from + search.length, insert}}).state;
+  const text = edited.doc.toString();
+  const incremental = ensureSyntaxTree(edited, text.length, 1000);
+  if (!incremental) throw new Error('Incremental parser did not finish');
+  const tokens = (tree: Tree) => {
+    const result: Array<{name: string; from: number; to: number}> = [];
+    tree.iterate({enter: node => {result.push({name: node.name, from: node.from, to: node.to});}});
+    return result;
+  };
+  expect(tokens(incremental)).toEqual(tokens(taildownLanguage.parser.parse(text)));
 });

@@ -25,6 +25,20 @@ const attributeGroups: ReadonlyArray<readonly [string, ReadonlySet<string>]> = [
   ['keyword', new Set('button badge alert modal tooltip details callout columns definitions stats divider steps video interactive table compare-images diff footnotes mermaid timeline task tasks task-list sortable zebra sticky-header compact side-by-side unified vertical horizontal centered milestone in-progress blocked high low'.split(' '))],
 ];
 
+// Match Markdown's Unicode-aware delimiter flanking. Symbols count as
+// punctuation here, as in the compiler's micromark character classifier.
+function underscoreDelimiter(source: string, start: number, end: number) {
+  const before = source.slice(Math.max(0, start - 2), start).match(/.$/u)?.[0] ?? '';
+  const after = source.slice(end, end + 2).match(/^./u)?.[0] ?? '';
+  const beforeSpace = !before || /\s/u.test(before);
+  const afterSpace = !after || /\s/u.test(after);
+  const beforePunctuation = /[\p{P}\p{S}]/u.test(before);
+  const afterPunctuation = /[\p{P}\p{S}]/u.test(after);
+  const left = !afterSpace && (!afterPunctuation || beforeSpace || beforePunctuation);
+  const right = !beforeSpace && (!beforePunctuation || afterSpace || afterPunctuation);
+  return {open: left && (!right || beforePunctuation), close: right && (!left || afterPunctuation)};
+}
+
 const taildownParser: StreamParser<TaildownStreamState> = {
   name: 'taildown',
   startState: () => ({codeBlockFence: '', codeQuoteDepth: 0, inAttributes: false, attributeValue: false, inlineDirective: '', heading: false, contentStart: 0, comment: false}),
@@ -57,7 +71,7 @@ const taildownParser: StreamParser<TaildownStreamState> = {
       return 'comment';
     }
     if (stream.match(/^<!--[\s\S]*?-->/)) return 'comment';
-    if (stream.match('<!--')) {state.comment = true; stream.skipToEnd(); return 'comment';}
+    if (stream.pos === state.contentStart && stream.match('<!--')) {state.comment = true; stream.skipToEnd(); return 'comment';}
     if (stream.match(/^\\[!"#$%&'()*+,\-./:;<=>?@[\]\\^_`{|}~]/)) {
       state.inlineDirective = '';
       return 'escape';
@@ -125,8 +139,23 @@ const taildownParser: StreamParser<TaildownStreamState> = {
     if (stream.match(/^\[\^[^\]\s]+\]/)) return 'link';
     if (stream.match(/^!?\[(?:\\.|[^\]\\])+\]\((?:\\.|[^)\\]|\([^)]*\))*\)/)) return 'link';
     if (stream.match(/^!?\[(?:\\.|[^\]\\])+\]\[[^\]]*\]/)) return 'link';
-    if (stream.match(/^\*\*[^*]+\*\*|^__[^_]+__/)) return 'strong';
-    if (stream.match(/^\*[^*]+\*|^_[^_]+_/)) return 'emphasis';
+    if (stream.peek() === '_') {
+      const candidate = stream.match(/^(__?)([^_]+)\1/, false);
+      if (candidate && typeof candidate !== 'boolean' && candidate[1]) {
+        const length = candidate[1].length;
+        const end = stream.pos + candidate[0].length;
+        if (underscoreDelimiter(stream.string, stream.pos, stream.pos + length).open &&
+            underscoreDelimiter(stream.string, end - length, end).close) {
+          stream.pos = end;
+          return length === 2 ? 'strong' : 'emphasis';
+        }
+      }
+      // Keep an invalid run intact; its second underscore is not a new opener.
+      stream.match(/^_+/);
+      return state.heading ? 'heading' : null;
+    }
+    if (stream.match(/^\*\*[^*]+\*\*/)) return 'strong';
+    if (stream.match(/^\*[^*]+\*/)) return 'emphasis';
     if (stream.match(/^~~[^~]+~~/)) return 'strikethrough';
     if (stream.match(/^\$\$[^$]+\$\$|^\$[^$\n]+\$/)) return 'monospace.special';
     if (stream.match(/^==[^=]+==(?:\{[^}]+\})?/)) return 'inserted';
