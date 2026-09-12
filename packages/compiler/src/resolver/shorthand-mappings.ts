@@ -30,6 +30,9 @@ export type ShorthandMapping =
  * Organized by category for maintainability
  */
 export const SHORTHAND_MAPPINGS: Record<string, ShorthandMapping> = {
+  sans: 'font-sans',
+  serif: 'font-serif',
+  mono: 'font-mono',
   // ========================================
   // TYPOGRAPHY - Sizes
   // ========================================
@@ -379,6 +382,7 @@ export function getAllShorthands(): string[] {
 export function getShorthandsByCategory(): Record<string, string[]> {
   return {
     typography: [
+      'sans', 'serif', 'mono',
       'xs',
       'small',
       'base',

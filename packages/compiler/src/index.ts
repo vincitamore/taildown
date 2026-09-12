@@ -7,6 +7,9 @@ import type { CompileOptions, CompileResult } from '@taildown/shared';
 import { parseWithWarnings } from './parser';
 import { renderHTMLDocument, astToHast, generateCSS, collectClassesFromHast } from './renderer';
 import { generateJavaScript, hasInteractiveBehavior } from './js-generator';
+import {getDefaultConfig} from './config/default-config';
+import {mergeConfig} from './config/theme-merger';
+import {validateConfig} from './config/config-schema';
 
 /**
  * Compile Taildown source to HTML and CSS
@@ -22,6 +25,9 @@ export async function compile(
 ): Promise<CompileResult> {
   // Parsing awaits registry initialization after snapshotting caller options.
   const startTime = performance.now();
+  const config = mergeConfig(getDefaultConfig(), {theme: options.theme});
+  const validation = validateConfig(config);
+  if (!validation.valid) throw new Error(`Invalid theme: ${validation.errors.join('; ')}`);
 
   // Parse the authored source directly. Compact component attributes are valid,
   // and rewriting source here would also alter literal code and source offsets.
@@ -175,7 +181,7 @@ export async function compile(
   // Just verify it's in the set for JavaScript generation
   
   // Generate CSS from collected classes
-  const css = generateCSS(classes, options.minify);
+  const css = generateCSS(classes, options.minify, config);
 
   // Generate JavaScript for interactive components
   const interactiveComponents = Array.from(usedComponents).filter(hasInteractiveBehavior);

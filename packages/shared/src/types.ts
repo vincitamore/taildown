@@ -4,6 +4,7 @@
  */
 
 import type { Root, Node, Data } from 'mdast';
+import type {ColorConfig, FontConfig} from './theme';
 
 /**
  * Open Graph meta tags for social media sharing
@@ -35,6 +36,8 @@ export interface OpenGraphMetadata {
  * Compilation options for Taildown compiler
  */
 export interface CompileOptions {
+  /** Per-document palette and font overrides, merged with the default theme. */
+  theme?: {colors?: Partial<ColorConfig>; fonts?: FontConfig};
   /** Inline CSS in HTML output (default: false) */
   inlineStyles?: boolean;
 

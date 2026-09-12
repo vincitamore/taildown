@@ -11,6 +11,7 @@ import { generateAnimationCSS } from '../themes/animations';
 import { createThemeResolver } from '../themes/theme-resolver';
 import { getDefaultConfig } from '../config/default-config';
 import { PRINT_CSS } from './print';
+import type {TaildownConfig} from '../config/config-schema';
 
 const DEFAULT_COLORS = getDefaultConfig().theme.colors;
 
@@ -559,14 +560,29 @@ export function collectClassesFromHast(hast: any): Set<string> {
 /**
  * Generate theme CSS (dark mode, color palette)
  */
-function generateThemeCSS(): string {
-  const config = getDefaultConfig();
+function generateThemeCSS(config: TaildownConfig): string {
   const themeResolver = createThemeResolver(config);
   return themeResolver.generateThemeCSS();
 }
 
-export function generateCSS(classes: Set<string>, minify: boolean = false): string {
+export function generateCSS(classes: Set<string>, minify: boolean = false, config: TaildownConfig = getDefaultConfig()): string {
+  const utilities = {...TAILWIND_UTILITIES};
+  for (const [name, color] of Object.entries(config.theme.colors)) {
+    if (!/^[a-z][a-z0-9-]*$/.test(name)) continue;
+    for (const [shade, value] of Object.entries(typeof color === 'string' ? {DEFAULT: color} : color ?? {})) {
+      if (!value) continue;
+      const suffix = shade === 'DEFAULT' ? name : `${name}-${shade}`;
+      if (shade === 'DEFAULT' && ['primary','secondary','accent','success','warning','error','info'].includes(name)) continue;
+      utilities[`text-${suffix}`] = `color: ${value};`;
+      utilities[`bg-${suffix}`] = `background-color: ${value};`;
+      utilities[`border-${suffix}`] = `border-color: ${value};`;
+    }
+  }
+  for (const [name, font] of Object.entries(config.theme.fonts)) {
+    if (font && /^[a-z][a-z0-9-]*$/.test(name)) utilities[`font-${name}`] = `font-family: ${font};`;
+  }
   const cssRules: string[] = [];
+  cssRules.push(`:root { --font-sans: ${config.theme.fonts.sans}; --font-serif: ${config.theme.fonts.serif}; --font-mono: ${config.theme.fonts.mono}; }`);
 
   // Add base reset/normalization
   cssRules.push(`
@@ -602,7 +618,7 @@ body {
   margin: 0;
   padding: var(--document-gutter);
   padding-top: calc(var(--document-gutter) + var(--navbar-offset));
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
   line-height: 1.65;
   font-size: clamp(1rem, 0.5vw + 0.75rem, 1.125rem);
   min-height: 100vh;
@@ -1003,7 +1019,7 @@ code {
   color: var(--inline-code-text);
   padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Fira Code', monospace;
+  font-family: var(--font-mono, monospace);
   font-size: 0.875em;
   font-weight: 500;
   /* Mobile-friendly: break long paths/strings to prevent overflow */
@@ -1263,7 +1279,7 @@ pre > code {
   padding: 1.5rem 1.5rem 1.5rem 1.5rem;
   background: transparent;
   color: #e2e8f0;
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Fira Code', monospace;
+  font-family: var(--font-mono, monospace);
   font-size: inherit;
   font-weight: 400;
   line-height: inherit;
@@ -2413,7 +2429,7 @@ td svg.icon {
   padding: 0;
   border: none;
   border-radius: 0;
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Fira Code', monospace;
+  font-family: var(--font-mono, monospace);
   position: relative;
 }
 
@@ -2623,7 +2639,7 @@ ${generateGlassmorphismCSS()}
 
 ${generateAnimationCSS()}
 
-${generateThemeCSS()}
+${generateThemeCSS(config)}
 `);
 
   // Generate utility classes
@@ -2643,14 +2659,14 @@ ${generateThemeCSS()}
   };
   const declarationWidth = (className: string): number => {
     const base = className.split(':').pop() ?? className;
-    const declarations = TAILWIND_UTILITIES[className] ?? TAILWIND_UTILITIES[base] ?? '';
+    const declarations = utilities[className] ?? utilities[base] ?? '';
     return [...declarations.matchAll(/(?:^|[;{])\s*([\w-]+)\s*:/g)]
       .reduce((width, match) => width + (shorthandWidth[match[1] ?? ''] ?? 1), 0);
   };
   const orderedClasses = [...classes].sort((a, b) =>
     declarationWidth(b) - declarationWidth(a) || a.localeCompare(b, 'en'));
   for (const className of orderedClasses) {
-    let cssDeclarations = TAILWIND_UTILITIES[className];
+    let cssDeclarations = utilities[className];
 
     if (!cssDeclarations) {
       const responsive = className.match(/^(sm|md|lg|xl|2xl):(.+)$/);
@@ -2659,7 +2675,7 @@ ${generateThemeCSS()}
       const columns = responsive?.[2]?.match(/^grid-cols-([1-5])$/);
       const base = columns
         ? `grid-template-columns: repeat(${columns[1]}, minmax(0, 1fr));`
-        : responsive?.[2] ? TAILWIND_UTILITIES[responsive[2]] : undefined;
+        : responsive?.[2] ? utilities[responsive[2]] : undefined;
       if (responsive?.[1] && base && !base.startsWith('@media')) {
         cssDeclarations = `@media (min-width: ${breakpoints[responsive[1]]}px) { ${base} }`;
       }
@@ -2678,7 +2694,7 @@ ${generateThemeCSS()}
     // Handle hover: prefix dynamically
     if (!cssDeclarations && className.startsWith('hover:')) {
       const baseClass = className.substring(6); // Remove 'hover:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
+      const baseDeclarations = utilities[baseClass];
       if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
         // Generate hover variant
         const escapedClassName = escapeCSS(className);
@@ -2690,7 +2706,7 @@ ${generateThemeCSS()}
     // Handle active: prefix dynamically
     if (!cssDeclarations && className.startsWith('active:')) {
       const baseClass = className.substring(7); // Remove 'active:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
+      const baseDeclarations = utilities[baseClass];
       if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
         // Generate active variant
         const escapedClassName = escapeCSS(className);
@@ -2702,7 +2718,7 @@ ${generateThemeCSS()}
     // Handle focus-visible: prefix dynamically
     if (!cssDeclarations && className.startsWith('focus-visible:')) {
       const baseClass = className.substring(14); // Remove 'focus-visible:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
+      const baseDeclarations = utilities[baseClass];
       if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
         const escapedClassName = escapeCSS(className);
         utilityRules.push(`.${escapedClassName}:focus-visible { ${baseDeclarations} }`);
@@ -2713,7 +2729,7 @@ ${generateThemeCSS()}
     // Handle disabled: prefix dynamically
     if (!cssDeclarations && className.startsWith('disabled:')) {
       const baseClass = className.substring(9); // Remove 'disabled:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
+      const baseDeclarations = utilities[baseClass];
       if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
         const escapedClassName = escapeCSS(className);
         utilityRules.push(`.${escapedClassName}:disabled { ${baseDeclarations} }`);
@@ -2724,7 +2740,7 @@ ${generateThemeCSS()}
     // Handle last: prefix dynamically
     if (!cssDeclarations && className.startsWith('last:')) {
       const baseClass = className.substring(5); // Remove 'last:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
+      const baseDeclarations = utilities[baseClass];
       if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
         const escapedClassName = escapeCSS(className);
         utilityRules.push(`.${escapedClassName}:last-child { ${baseDeclarations} }`);
@@ -4554,7 +4570,7 @@ blockquote::before {
   font-size: 3rem;
   color: var(--primary);
   opacity: 0.2;
-  font-family: Georgia, serif;
+  font-family: var(--font-serif, Georgia, serif);
   line-height: 1;
 }
 

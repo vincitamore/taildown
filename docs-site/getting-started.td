@@ -337,6 +337,25 @@ The generated HTML includes the component's markup and styling. Keep the definit
 
 Authoring integrations can pass the same options to `getAuthoringReference` to receive custom component names, insertable examples, and custom style names. The hosted editor does not yet expose custom-definition settings. These definitions provide presentation and semantic containers; JavaScript behaviors remain those of the built-in components nested inside them.
 
+## A document's palette and fonts
+
+Pass `theme.colors` and `theme.fonts` to `compile()` to give a document its own palette and font stacks. These values merge with defaults and stay local to that compilation. Fonts must already be available to the browser; a font stack does not download or embed a font file.
+
+```javascript
+const result = await compile('# Field notes {serif primary}', {
+  inlineStyles: true,
+  inlineScripts: true,
+  theme: {
+    colors: { primary: { DEFAULT: '#86bba1', 600: '#25644a', 700: '#184832' } },
+    fonts: { sans: 'Verdana, sans-serif', serif: 'Georgia, serif', mono: 'Consolas, monospace' }
+  }
+});
+```
+
+Use `{sans}`, `{serif}`, or `{mono}` to choose a font family for a block. The editor offers these in style completion and the Insert / Ctrl/Cmd+K menu. Numbered palette utilities such as `text-primary-600`, their hover states, and responsive forms use the same document palette. Semantic text uses readable palette shades: light-mode primary text uses 600 and dark-mode primary text uses 400; override those shades when designing both themes.
+
+Node applications can load a configuration with `loadConfig` from `@taildown/compiler/config`, then pass `{theme: {colors: config.theme.colors, fonts: config.theme.fonts}}` to `compile()`. This option currently covers colors and fonts; file discovery, output defaults, component configuration, glass and animation configuration are not applied automatically by the CLI or hosted editor.
+
 ## Next Steps {bold primary center}
 
 :::grid {3}

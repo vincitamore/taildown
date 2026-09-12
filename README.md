@@ -1309,7 +1309,7 @@ A: No! Taildown uses plain English like `{huge-bold primary}` that translates au
 A: The core system is complete and stable. It's suitable for static content, documentation, and internal tools. For critical production use, verify the output meets your requirements.
 
 **Q: How do I customize styles?**  
-A: Use document attributes, or the compiler's `styleMappings` and `components` options. The Node-only `@taildown/compiler/config` entry loads and validates partial configuration files:
+A: Use document attributes, or the compiler's `theme` (colors/fonts), `styleMappings`, and `components` options. The Node-only `@taildown/compiler/config` entry loads and validates partial configuration files:
 
 ```js
 import { loadConfig } from '@taildown/compiler/config';
@@ -1320,7 +1320,7 @@ const { config } = await loadConfig({
 });
 ```
 
-It searches the selected directory for `taildown.config.js`, `.mjs`, or `.cjs` (and `.taildownrc.js` / `.mjs`). An explicit `configPath` resolves relative to `cwd`. Settings merge with fresh defaults before validation; errors throw when requested, otherwise the result includes warnings and fresh defaults. Loading a configuration currently does **not** apply it automatically to `compile()` or the CLI.
+It searches the selected directory for `taildown.config.js`, `.mjs`, or `.cjs` (and `.taildownrc.js` / `.mjs`). An explicit `configPath` resolves relative to `cwd`. Settings merge with fresh defaults before validation; errors throw when requested, otherwise the result includes warnings and fresh defaults. Apply the palette and fonts with `compile(source, {theme: {colors: config.theme.colors, fonts: config.theme.fonts}})`. Other configuration sections and CLI file discovery are not yet connected.
 
 **Q: Does Taildown support dark mode?**
 A: Yes! Dark mode is fully implemented with automatic system preference detection, a toggle button, localStorage persistence, and smooth transitions.

@@ -60,6 +60,22 @@ Normal paragraph text {base}
 Small footnote {small muted}
 ```
 
+## Font families
+
+| Shorthand | Family | CSS Equivalent |
+|-----------|--------|----------------|
+| `{sans}` | Sans-serif | `font-sans` |
+| `{serif}` | Serif | `font-serif` |
+| `{mono}` | Monospace | `font-mono` |
+
+These use the document's font stacks. Set `theme.fonts` in the compiler API to override the stacks; font files are not downloaded automatically. The editor exposes all three in style completion and the Insert / Ctrl/Cmd+K menu.
+
+A considered idea {serif large}
+
+A clear instruction {sans}
+
+const idea = 'make it readable'; {mono}
+
 ## Weights
 
 Control font weight naturally:
