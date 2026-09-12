@@ -1,6 +1,6 @@
 /**
  * Editor and authoring exports, separate from compilation for worker clients.
- * 
+ *
  * This file exports only browser-compatible functions for use in web applications.
  * It includes CodeMirror 6 editor and all necessary dependencies bundled together.
  */
@@ -29,11 +29,11 @@ export const taildownDarkHighlightStyle = syntaxHighlighting(HighlightStyle.defi
 // Re-export CodeMirror 6 core modules
 export { EditorView, keymap, lineNumbers, highlightActiveLineGutter } from '@codemirror/view';
 export { EditorState, Compartment, Prec } from '@codemirror/state';
-export { 
-  defaultKeymap, 
-  history, 
+export {
+  defaultKeymap,
+  history,
   historyKeymap,
-  indentWithTab 
+  indentWithTab
 } from '@codemirror/commands';
 export { searchKeymap, highlightSelectionMatches } from '@codemirror/search';
 export { autocompletion, completionKeymap, startCompletion, acceptCompletion, closeCompletion, moveCompletionSelection, closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete';
