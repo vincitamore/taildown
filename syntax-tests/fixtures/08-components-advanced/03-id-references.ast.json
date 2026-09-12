@@ -462,16 +462,13 @@
             "shadow-xl",
             "p-6",
             "max-w-2xl",
-            "mx-auto",
-            "id"
+            "mx-auto"
           ],
           "data-component": "modal"
         },
         "component": {
           "name": "modal",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },
@@ -581,16 +578,13 @@
             "shadow-xl",
             "p-6",
             "max-w-2xl",
-            "mx-auto",
-            "id"
+            "mx-auto"
           ],
           "data-component": "modal"
         },
         "component": {
           "name": "modal",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },
@@ -700,16 +694,13 @@
             "shadow-xl",
             "p-6",
             "max-w-2xl",
-            "mx-auto",
-            "id"
+            "mx-auto"
           ],
           "data-component": "modal"
         },
         "component": {
           "name": "modal",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },
@@ -1008,16 +999,13 @@
             "bg-popover",
             "text-popover-foreground",
             "rounded",
-            "shadow-lg",
-            "id"
+            "shadow-lg"
           ],
           "data-component": "tooltip"
         },
         "component": {
           "name": "tooltip",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },
@@ -1091,16 +1079,13 @@
             "bg-popover",
             "text-popover-foreground",
             "rounded",
-            "shadow-lg",
-            "id"
+            "shadow-lg"
           ],
           "data-component": "tooltip"
         },
         "component": {
           "name": "tooltip",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },
@@ -1174,16 +1159,13 @@
             "bg-popover",
             "text-popover-foreground",
             "rounded",
-            "shadow-lg",
-            "id"
+            "shadow-lg"
           ],
           "data-component": "tooltip"
         },
         "component": {
           "name": "tooltip",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },
@@ -1575,16 +1557,13 @@
             "shadow-xl",
             "p-6",
             "max-w-2xl",
-            "mx-auto",
-            "id"
+            "mx-auto"
           ],
           "data-component": "modal"
         },
         "component": {
           "name": "modal",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },
@@ -1903,16 +1882,13 @@
             "shadow-xl",
             "p-6",
             "max-w-2xl",
-            "mx-auto",
-            "id"
+            "mx-auto"
           ],
           "data-component": "modal"
         },
         "component": {
           "name": "modal",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },
@@ -1986,16 +1962,13 @@
             "bg-popover",
             "text-popover-foreground",
             "rounded",
-            "shadow-lg",
-            "id"
+            "shadow-lg"
           ],
           "data-component": "tooltip"
         },
         "component": {
           "name": "tooltip",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },
@@ -2581,16 +2554,13 @@
             "shadow-xl",
             "p-6",
             "max-w-2xl",
-            "mx-auto",
-            "id"
+            "mx-auto"
           ],
           "data-component": "modal"
         },
         "component": {
           "name": "modal",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },

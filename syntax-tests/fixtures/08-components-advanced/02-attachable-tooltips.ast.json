@@ -843,16 +843,13 @@
             "bg-popover",
             "text-popover-foreground",
             "rounded",
-            "shadow-lg",
-            "id"
+            "shadow-lg"
           ],
           "data-component": "tooltip"
         },
         "component": {
           "name": "tooltip",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },
@@ -959,16 +956,13 @@
             "bg-popover",
             "text-popover-foreground",
             "rounded",
-            "shadow-lg",
-            "id"
+            "shadow-lg"
           ],
           "data-component": "tooltip"
         },
         "component": {
           "name": "tooltip",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },
@@ -1227,16 +1221,13 @@
             "bg-popover",
             "text-popover-foreground",
             "rounded",
-            "shadow-lg",
-            "id"
+            "shadow-lg"
           ],
           "data-component": "tooltip"
         },
         "component": {
           "name": "tooltip",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },
@@ -1656,16 +1647,13 @@
             "bg-popover",
             "text-popover-foreground",
             "rounded",
-            "shadow-lg",
-            "id"
+            "shadow-lg"
           ],
           "data-component": "tooltip"
         },
         "component": {
           "name": "tooltip",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },
@@ -2029,16 +2017,13 @@
             "bg-popover",
             "text-popover-foreground",
             "rounded",
-            "shadow-lg",
-            "id"
+            "shadow-lg"
           ],
           "data-component": "tooltip"
         },
         "component": {
           "name": "tooltip",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },

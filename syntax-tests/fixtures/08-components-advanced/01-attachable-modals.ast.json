@@ -1049,16 +1049,13 @@
             "shadow-xl",
             "p-6",
             "max-w-2xl",
-            "mx-auto",
-            "id"
+            "mx-auto"
           ],
           "data-component": "modal"
         },
         "component": {
           "name": "modal",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },
@@ -1381,16 +1378,13 @@
             "shadow-xl",
             "p-6",
             "max-w-2xl",
-            "mx-auto",
-            "id"
+            "mx-auto"
           ],
           "data-component": "modal"
         },
         "component": {
           "name": "modal",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },
@@ -1532,16 +1526,13 @@
             "shadow-xl",
             "p-6",
             "max-w-2xl",
-            "mx-auto",
-            "id"
+            "mx-auto"
           ],
           "data-component": "modal"
         },
         "component": {
           "name": "modal",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },
@@ -1973,16 +1964,13 @@
             "shadow-xl",
             "p-6",
             "max-w-2xl",
-            "mx-auto",
-            "id"
+            "mx-auto"
           ],
           "data-component": "modal"
         },
         "component": {
           "name": "modal",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     },
@@ -2401,16 +2389,13 @@
             "shadow-xl",
             "p-6",
             "max-w-2xl",
-            "mx-auto",
-            "id"
+            "mx-auto"
           ],
           "data-component": "modal"
         },
         "component": {
           "name": "modal",
-          "attributes": [
-            "id"
-          ]
+          "attributes": []
         }
       }
     }

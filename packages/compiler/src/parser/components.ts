@@ -81,9 +81,13 @@ function processDirectiveNode(
       // Collect raw attributes from directive parser (variant names, size names, plain English)
       // Attributes come from the directive parser as node.attributes (e.g., {horizontal sm} becomes {horizontal: '', sm: ''})
       const rawAttributes: string[] = [];
-      if (node.attributes) {
-        // Convert attribute keys to array (directive parser stores them as object keys)
-        rawAttributes.push(...Object.keys(node.attributes));
+      if (node.attributes && node.type === 'textDirective') {
+        // Inline directive flags can be represented as empty attributes. Block
+        // scanning already separates style tokens into hProperties.className;
+        // its explicit key-value attributes must never become style tokens.
+        rawAttributes.push(...Object.entries(node.attributes)
+          .filter(([, value]) => value == null || value === '')
+          .map(([key]) => key));
       }
       // Also include any existing classes from data.hProperties
       const existingClasses = data.hProperties.className || [];
