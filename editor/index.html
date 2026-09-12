@@ -807,7 +807,12 @@
     #design-settings :focus-visible { outline: 2px solid var(--text-primary); outline-offset: 3px; }
     #design-settings button:disabled { opacity: 0.6; cursor: wait; }
     #design-message { max-height: 7rem; overflow: auto; }
-    #design-settings > div { position: sticky; bottom: -1.5rem; background: var(--bg-primary); padding: 0.75rem 0; }
+    #design-settings > .design-actions { position: sticky; bottom: -1.5rem; background: var(--bg-primary); padding: 0.75rem 0; }
+    #typography-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; margin: 0.75rem 0 1rem; }
+    #typography-choices button { padding: 0.75rem 0.25rem; text-align: center; }
+    #typography-choices button:hover { background: var(--bg-tertiary); }
+    #typography-choices .type-sample { display: block; font-size: 1.75rem; line-height: 1.4; margin-bottom: 0.25rem; }
+    #typography-choices .type-name { font-size: 0.75rem; }
   </style>
 </head>
 <body>
@@ -830,12 +835,14 @@
   <dialog id="design-settings" aria-labelledby="design-title" style="width: min(42rem, calc(100vw - 2rem)); max-height: 85vh; overflow: auto; padding: 1.5rem; border: 1px solid #94a3b8; border-radius: 1rem;">
     <h2 id="design-title">Design settings</h2>
     <p>Advanced settings for this browser workspace. Apply a custom palette, fonts, style aliases, or components to previews and HTML exports. These settings also apply when you open another document.</p>
+    <p id="typography-label">Choose a typography starting point</p>
+    <div id="typography-choices" role="group" aria-labelledby="typography-label"></div>
     <label for="design-json">Configuration JSON</label>
     <textarea id="design-json" spellcheck="false" style="display: block; box-sizing: border-box; width: 100%; min-height: 16rem; margin: 0.75rem 0; padding: 0.75rem; font: 0.875rem/1.5 monospace;"></textarea>
     <p>Example: <code>{"theme":{"colors":{"primary":"#4338ca"}},"styleMappings":{"brand":"text-primary font-bold"}}</code></p>
     <p>Saving a .td file saves its text. Download these settings separately to reuse them in another browser; paste the downloaded JSON here.</p>
     <p id="design-message" role="status" aria-live="polite"></p>
-    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+    <div class="design-actions" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
       <button id="design-apply" type="button">Apply settings</button>
       <button id="design-download" type="button">Download applied settings</button>
       <button id="design-reset" type="button">Use defaults</button>
@@ -883,7 +890,7 @@
     // Production bundles this module and its imports directly into the page.
     import * as Taildown from '../packages/compiler/dist/taildown-browser.js';
     import {createDraftStore} from './draft-store.js';
-    import {createDesignSettings} from './design-settings.js';
+    import {createDesignSettings, typographyChoices, prepareTypography} from './design-settings.js';
     
     const {
       compile,
@@ -1000,6 +1007,27 @@ Browser recovery keeps your latest draft when storage is available. Save or down
     const designDialog = document.getElementById('design-settings');
     const designJSON = document.getElementById('design-json');
     const designMessage = document.getElementById('design-message');
+    for (const choice of typographyChoices) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.setAttribute('aria-label', `${choice.name} typography`);
+      const sample = document.createElement('span');
+      sample.className = 'type-sample';
+      sample.textContent = 'Aa';
+      sample.style.fontFamily = choice.font;
+      sample.setAttribute('aria-hidden', 'true');
+      const label = document.createElement('span');
+      label.className = 'type-name';
+      label.textContent = choice.name;
+      button.append(sample, label);
+      button.addEventListener('click', () => {
+        try {
+          designJSON.value = prepareTypography(designJSON.value, choice.name);
+          designMessage.textContent = `${choice.name} typography is ready. Apply settings to preview it.`;
+        } catch (error) { designMessage.textContent = `Typography was not changed: ${error.message}`; }
+      });
+      document.getElementById('typography-choices').appendChild(button);
+    }
     try { await designSettings.restore(); }
     catch {
       designMessage.textContent = 'Saved design settings could not be restored. Defaults are active; paste a saved copy here to recover them.';

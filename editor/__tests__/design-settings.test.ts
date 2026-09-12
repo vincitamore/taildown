@@ -1,6 +1,16 @@
 import {expect, it} from 'vitest';
 import {compile} from '../../packages/compiler/src/index';
-import {createDesignSettings, parseDesignSettings} from '../design-settings.js';
+import {createDesignSettings, parseDesignSettings, prepareTypography} from '../design-settings.js';
+
+it('prepares typography without replacing custom colors, components or other font stacks', () => {
+  const original = {theme:{colors:{primary:'#4338ca'},fonts:{mono:'Consolas'}},components:{panel:{name:'panel',htmlElement:'section'}}};
+  const result = JSON.parse(prepareTypography(JSON.stringify(original),'Editorial'));
+  expect(result.theme.fonts.sans).toContain('Georgia');
+  expect(result.theme.fonts.mono).toBe('Consolas');
+  expect(result.theme.colors).toEqual(original.theme.colors);
+  expect(result.components).toEqual(original.components);
+  expect(()=>prepareTypography('broken','Modern')).toThrow();
+});
 
 it('validates before applying and restores a portable configuration', async () => {
   const values = new Map<string,string>();

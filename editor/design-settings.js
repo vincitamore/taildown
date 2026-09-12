@@ -1,4 +1,17 @@
 const allowed = new Set(['theme', 'styleMappings', 'components', 'componentConfig']);
+export const typographyChoices = [
+  {name: 'Modern', font: 'system-ui, -apple-system, "Segoe UI", sans-serif'},
+  {name: 'Editorial', font: 'Georgia, "Times New Roman", serif'},
+  {name: 'Technical', font: 'ui-monospace, Consolas, "Courier New", monospace'},
+];
+
+export function prepareTypography(text, name) {
+  const choice = typographyChoices.find(choice => choice.name === name);
+  if (!choice) throw new Error('Unknown typography choice.');
+  const options = parseDesignSettings(text);
+  options.theme = {...options.theme, fonts: {...options.theme?.fonts, sans: choice.font}};
+  return JSON.stringify(options, null, 2);
+}
 const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 export function parseDesignSettings(text) {
   const value = JSON.parse(text);
