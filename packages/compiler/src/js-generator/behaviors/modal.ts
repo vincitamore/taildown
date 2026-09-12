@@ -10,12 +10,24 @@ const modalControllers = new Map();
 const modalInertState = new Map();
 let modalOverflow = '';
 const modalFocusable = 'button, [href], input, select, textarea, [tabindex], [contenteditable="true"]';
-function modalFocusables(modal) {
-  return Array.from(modal.querySelectorAll(modalFocusable)).filter(element =>
+function modalFocusables(modal, backwards = false) {
+  const elements = Array.from(modal.querySelectorAll(modalFocusable)).filter(element =>
     element.tabIndex >= 0 && !element.matches(':disabled') &&
     !element.closest('[hidden], [inert]') && element.getClientRects().length > 0 &&
     getComputedStyle(element).visibility === 'visible')
     .sort((a, b) => (a.tabIndex || Infinity) - (b.tabIndex || Infinity));
+  // Native Tab navigation visits the selected radio, not every group member.
+  // Without a selection, entry follows the direction of keyboard traversal.
+  return elements.filter(element => {
+    if (!element.matches('input[type="radio"]') || !element.name) return true;
+    const group = elements.filter(other => other.matches('input[type="radio"]') &&
+      other.name === element.name && other.form === element.form &&
+      other.getRootNode() === element.getRootNode());
+    const target = group.find(radio => radio.checked) ||
+      group.find(radio => radio === document.activeElement) ||
+      group[backwards ? group.length - 1 : 0];
+    return element === target;
+  });
 }
 function topModal() { return modalStack[modalStack.length - 1]; }
 function updateModalInert() {
@@ -118,7 +130,7 @@ document.addEventListener('keydown', event => {
     event.preventDefault();
     modalControllers.get(modal).close();
   } else if (event.key === 'Tab') {
-    const elements = modalFocusables(modal);
+    const elements = modalFocusables(modal, event.shiftKey);
     const first = elements[0];
     const last = elements[elements.length - 1];
     if (!first) { event.preventDefault(); modal.focus(); }

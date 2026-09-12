@@ -33,6 +33,45 @@ function setup(content = '', closeButton = true) {
 }
 
 describe('modal lifecycle', () => {
+  it('wraps at the selected radio and updates when the selection changes', () => {
+    const {document, open, key} = setup('<input id="a" type="radio" name="choice" checked><input id="b" type="radio" name="choice">');
+    open();
+    const a = document.getElementById('a') as HTMLInputElement;
+    const b = document.getElementById('b') as HTMLInputElement;
+    a.focus();
+    expect(key('Tab')).toBe(true);
+    expect(document.activeElement?.textContent).toBe('Close');
+    key('Tab', true);
+    expect(document.activeElement).toBe(a);
+    b.checked = true;
+    b.focus();
+    expect(key('Tab')).toBe(true);
+    key('Tab', true);
+    expect(document.activeElement).toBe(b);
+  });
+
+  it('keeps radio groups with the same name in different forms independent', () => {
+    const {document, open, key} = setup('<form><input id="a" type="radio" name="choice" checked></form><form><input id="b" type="radio" name="choice" checked></form>');
+    open();
+    document.getElementById('a')!.focus();
+    expect(key('Tab')).toBe(false);
+    document.getElementById('b')!.focus();
+    expect(key('Tab')).toBe(true);
+    expect(document.activeElement?.textContent).toBe('Close');
+  });
+
+  it('handles unselected group entry and reversing direction without moving within the group', () => {
+    const {document, open, key} = setup('<input id="a" type="radio" name="choice"><input id="b" type="radio" name="choice">');
+    open();
+    key('Tab', true);
+    expect(document.activeElement?.id).toBe('b');
+    expect(key('Tab')).toBe(true);
+    expect(document.activeElement?.textContent).toBe('Close');
+    document.getElementById('a')!.focus();
+    expect(key('Tab', true)).toBe(false);
+    expect(document.activeElement?.id).toBe('a'); // Native Tab performs the move.
+  });
+
   it('uses positive tab order and ignores CSS-hidden controls', () => {
     const {document, open, key} = setup('<button tabindex="2">Second</button><button tabindex="1" style="visibility:hidden">Invisible</button><button tabindex="1">First</button>');
     open();
