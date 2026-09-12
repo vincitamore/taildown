@@ -6407,13 +6407,15 @@ a[data-footnote-ref]:after {
 }
 
 /* Footnote definition */
-li[role="doc-footnote"] {
+li[role="doc-footnote"],
+[data-footnotes] > ol > li {
   scroll-margin-top: 2rem;
   transition: background-color 0.3s ease;
 }
 
 /* Highlight target footnote when navigating via anchor */
-li[role="doc-footnote"]:target {
+li[role="doc-footnote"]:target,
+[data-footnotes] > ol > li:target {
   background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.1);
   padding: 0.5rem;
   margin-left: -0.5rem;
@@ -6431,7 +6433,8 @@ li[role="doc-footnote"]:target {
 }
 
 /* Backlink (return to content) */
-.footnote-backlink {
+.footnote-backlink,
+[data-footnote-backref] {
   font-size: 1.25em;
   text-decoration: none;
   color: var(--muted);
@@ -6440,7 +6443,8 @@ li[role="doc-footnote"]:target {
   display: inline-block;
 }
 
-.footnote-backlink:hover {
+.footnote-backlink:hover,
+[data-footnote-backref]:hover {
   color: var(--primary);
   transform: translateX(-2px);
 }
@@ -6453,7 +6457,10 @@ li[role="doc-footnote"]:target {
   border: 1px solid var(--border);
   border-radius: 0.5rem;
   padding: 0.75rem 1rem;
-  max-width: 24rem;
+  max-width: min(24rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  overflow: hidden;
+  overflow-wrap: anywhere;
   box-shadow: 
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);

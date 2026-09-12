@@ -1861,8 +1861,6 @@ Here is a sentence with a footnote.[^1]
 
 Another sentence with a different note.[^note-id]
 
-You can also use inline footnotes.^[This is an inline note]
-
 [^1]: This is the first footnote.
 [^note-id]: This is another footnote with a custom ID.
 ```
@@ -1874,7 +1872,7 @@ You can also use inline footnotes.^[This is an inline note]
 - Backlinks (↩ symbol) from definition to reference
 - Multiple references to same footnote supported (↩², ↩³, etc.)
 - Hover preview popup showing footnote content
-- Smooth scroll to footnote definition on click
+- Scroll to the footnote definition on click, using immediate scrolling when reduced motion is preferred.
 
 **Examples:**
 
@@ -1916,8 +1914,8 @@ Modern physics builds on both theories.[^modern]
 
 **Accessibility:**
 
-- Semantic ARIA attributes (`role="doc-footnote"`, `role="doc-backlink"`)
-- Screen readers announce "footnote 1", "return to reference"
+- References describe their destination through `aria-describedby="footnote-label"`; backlinks have an `aria-label` naming the reference.
+- Repeated references receive distinct IDs and return links.
 - Keyboard accessible (Tab to focus, Enter to follow)
 - Focus visible indicators
 

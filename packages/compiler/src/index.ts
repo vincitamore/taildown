@@ -55,6 +55,7 @@ export async function compile(
   visit(hast, 'element', node => {
     const component = node.properties['data-component'];
     if (typeof component === 'string' && component) usedComponents.add(component);
+    if (node.tagName === 'section' && ('dataFootnotes' in node.properties || 'data-footnotes' in node.properties)) usedComponents.add('footnotes');
     if (node.tagName === 'pre' && node.children.some(child =>
       child.type === 'element' && child.tagName === 'code')) {
       usedComponents.add('copy-code');
