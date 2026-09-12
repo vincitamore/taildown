@@ -799,8 +799,10 @@
     <button id="help-btn" title="Show welcome template">?</button>
     <button id="theme-toggle-btn" title="Toggle dark mode" style="margin-left: auto;"></button>
     <span id="filename-display">untitled.td</span>
-    <span id="status"></span>
+    <span id="status" role="status" aria-live="polite"></span>
   </div>
+
+  <details id="diagnostics" hidden style="padding: 0.5rem 1rem; max-height: 25vh; overflow: auto;"><summary></summary><ul></ul></details>
 
   <div id="editor-container">
     <div id="editor-pane"></div>
@@ -1952,9 +1954,11 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       }
     }
 
-    // Mermaid dynamic loading
+    let previewRevision = 0;
     // Schedule preview updates and autosave after typing pauses.
     function scheduleUpdate() {
+      previewRevision++; // Invalidate pending results before the debounce expires.
+      document.getElementById('diagnostics').hidden = true;
       clearTimeout(updateTimeout);
       updateTimeout = setTimeout(() => {
         const content = editor.state.doc.toString();
@@ -1964,6 +1968,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       }, 1000);
     }
     async function updatePreview(source) {
+      const revision = ++previewRevision;
       try {
         const startTime = performance.now();
         
@@ -1985,10 +1990,12 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
           inlineScripts: true,
           darkMode: true,
         });
+        if (revision !== previewRevision) return;
         const compileTime = performance.now() - startTime;
 
         // Function to restore scroll position
         const restoreScroll = () => {
+          if (revision !== previewRevision) return;
           try {
             const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
             if (previewDoc && previewDoc.documentElement) {
@@ -2004,10 +2011,21 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
 
         previewFrame.srcdoc = result.html;
         statusBar.textContent = `✓ Compiled in ${compileTime.toFixed(0)}ms`;
+        const warnings = result.metadata.warnings;
+        const diagnostics = document.getElementById('diagnostics');
+        diagnostics.hidden = warnings.length === 0;
+        diagnostics.querySelector('summary').textContent = `${warnings.length} compilation notice${warnings.length === 1 ? '' : 's'}`;
+        diagnostics.querySelector('ul').replaceChildren(...warnings.map(warning => {
+          const item = document.createElement('li');
+          item.textContent = `${warning.line ? `Line ${warning.line}: ` : ''}${warning.message}`;
+          return item;
+        }));
         statusBar.className = 'success';
         
         previewFrame.addEventListener('load', restoreScroll, { once: true });
       } catch (error) {
+        if (revision !== previewRevision) return;
+        document.getElementById('diagnostics').hidden = true;
         statusBar.textContent = `✗ Error: ${error.message}`;
         statusBar.className = 'error';
         console.error('Compilation error:', error);

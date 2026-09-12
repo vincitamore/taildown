@@ -18,6 +18,7 @@ interface ContainerDirective {
   attributes?: Record<string, string | null | undefined> | null;
   children: any[];
   data?: TaildownNodeData;
+  position?: import('unist').Position;
 }
 
 interface TextDirective {
@@ -26,6 +27,7 @@ interface TextDirective {
   attributes?: Record<string, string | null | undefined> | null;
   children: any[];
   data?: TaildownNodeData;
+  position?: import('unist').Position;
 }
 
 interface ComponentPluginOptions {
@@ -52,6 +54,14 @@ function processDirectiveNode(
 
       // Get component definition from registry
       const component = registry.get(componentName);
+      if (!component) {
+        warnings.push({
+          type: 'validation',
+          message: `Unknown component: ${componentName}`,
+          line: node.position?.start.line,
+          column: node.position?.start.column,
+        });
+      }
 
       // Initialize data
       node.data = node.data || {};

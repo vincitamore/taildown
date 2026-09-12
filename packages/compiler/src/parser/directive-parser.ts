@@ -9,6 +9,7 @@ import type { Root } from 'mdast';
 import { scanForMarkers } from './directive-scanner';
 import { buildComponentTree } from './directive-builder';
 import { visit } from 'unist-util-visit';
+import type { CompilationWarning } from '@taildown/shared';
 
 /** Restore absolute source offsets after scanning component fences. */
 function locateDirectives(tree: Root, source: string): void {
@@ -58,13 +59,14 @@ function locateDirectives(tree: Root, source: string): void {
  * 
  * @returns unified transformer
  */
-export const parseDirectives: Plugin<[], Root> = () => {
+export const parseDirectives: Plugin<[{ warnings?: CompilationWarning[] }?], Root> = (options) => {
   return (tree, file) => {
     const warnings: Array<{ message: string; line?: number }> = [];
 
     // Callback for collecting warnings
     const onWarning = (message: string, line?: number) => {
       warnings.push({ message, line });
+      options?.warnings?.push({ type: 'parse', message, line, column: 1 });
       // Optionally add to file messages
       if (file && line) {
         file.message(message, {

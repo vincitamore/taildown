@@ -46,7 +46,7 @@ export async function parse(source: string): Promise<TaildownRoot> {
     .use(remarkMath) // Parse LaTeX math equations ($...$ and $$...$$) - MUST run before directives
     .use(parseFootnoteReferences) // Parse [^id] references in text (MUST run before directives)
     .use(parseTableAttributes) // Parse table attributes (MUST run after remarkGfm, before extractInlineAttributes)
-    .use(parseDirectives) // Custom component directive parser (:::component)
+    .use(parseDirectives, { warnings }) // Custom component directive parser (:::component)
     .use(parseFootnoteDefinitions) // Parse :::footnotes container with definitions (MUST run after directives)
     .use(parseImageCompare) // Parse image comparison components (MUST run after parseDirectives)
     .use(parseDiff) // Parse code diff blocks (unified and side-by-side)
@@ -84,7 +84,7 @@ export async function parseWithWarnings(source: string): Promise<ParseResult> {
     .use(remarkMath) // Parse LaTeX math equations ($...$ and $$...$$)
     .use(parseFootnoteReferences) // Parse [^id] references
     .use(parseTableAttributes) // Parse table attributes
-    .use(parseDirectives) // Custom component directive parser
+    .use(parseDirectives, { warnings }) // Custom component directive parser
     .use(parseFootnoteDefinitions) // Parse :::footnotes container
     .use(parseImageCompare) // Parse image comparison components
     .use(parseDiff) // Parse code diff blocks (unified and side-by-side)
@@ -106,4 +106,3 @@ export async function parseWithWarnings(source: string): Promise<ParseResult> {
     warnings,
   };
 }
-

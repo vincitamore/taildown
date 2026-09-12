@@ -29,7 +29,7 @@ export async function compile(
 
   // Auto-fix common syntax errors before parsing
   // This improves developer experience by correcting common mistakes
-  const { fixed: fixedSource } = autoFixSyntax(source, {
+  const { fixed: fixedSource, stats } = autoFixSyntax(source, {
     enabled: options.autoFix !== false, // Enabled by default, can be disabled
     logWarnings: options.logSyntaxFixes ?? false,
   });
@@ -40,6 +40,12 @@ export async function compile(
   // Parse source to AST
   const parseResult = await parseWithWarnings(sourceToCompile);
   const { ast, warnings } = parseResult;
+  warnings.unshift(...stats.fixedLocations.map(fix => ({
+    type: 'parse' as const,
+    message: `Automatically corrected syntax: ${fix.original} → ${fix.fixed}`,
+    line: fix.line,
+    column: 1,
+  })));
 
   // Count nodes for metadata
   let nodeCount = 0;
