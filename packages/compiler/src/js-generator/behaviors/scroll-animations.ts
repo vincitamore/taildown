@@ -1,98 +1,48 @@
-/**
- * Scroll-Triggered Animations Behavior
- * 
- * Zero-config scroll animations using Intersection Observer API
- * 
- * Philosophy:
- * - Automatically detects elements with animation classes
- * - Triggers animations when elements scroll into view
- * - Respects prefers-reduced-motion
- * - Professional, subtle, and performant
- * 
- * Supported animation classes:
- * - animate-fade-in
- * - animate-slide-up
- * - animate-slide-down
- * - animate-slide-left
- * - animate-slide-right
- * - animate-scale-in
- * - animate-zoom-in
- */
+import type {ComponentBehavior} from '../index';
 
-import type { ComponentBehavior } from '../index';
-
+/** One-time entrances that always leave content reachable. */
 export const scrollAnimationsBehavior: ComponentBehavior = {
   name: 'scroll-animations',
-  size: 1200, // ~1.2KB
-  code: `// Scroll-Triggered Animations
-// Zero-config: Automatically animates elements when they scroll into view
-
-// Check if user prefers reduced motion
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-// Animation class selectors
-const animationClasses = [
-  '.animate-fade-in',
-  '.animate-slide-up',
-  '.animate-slide-down',
-  '.animate-slide-left',
-  '.animate-slide-right',
-  '.animate-scale-in',
-  '.animate-zoom-in'
-];
-
-// Find all elements with animation classes
-const animatedElements = document.querySelectorAll(animationClasses.join(', '));
-
-if (animatedElements.length > 0 && !prefersReducedMotion) {
-  console.log(\`[Taildown] Found \${animatedElements.length} animated elements\`);
-
-  // Add initial class to prevent animation on page load
-  animatedElements.forEach(el => {
-    el.classList.add('animation-paused');
-  });
-
-  // Create Intersection Observer
-  const observerOptions = {
-    root: null, // viewport
-    rootMargin: '0px 0px -10% 0px', // Trigger slightly before entering viewport
-    threshold: 0.15 // Trigger when 15% visible
-  };
-
-  const animationObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
-      if (entry.isIntersecting) {
-        // Element is in view - trigger animation
-        const element = entry.target;
-        
-        // Add a small stagger delay for multiple elements
-        const delay = index * 75; // 75ms between elements
-        
-        setTimeout(() => {
-          element.classList.remove('animation-paused');
-          element.classList.add('animation-playing');
-        }, delay);
-        
-        // Stop observing this element (animate only once)
-        animationObserver.unobserve(element);
-      }
+  size: 1400,
+  code: `// Scroll-triggered entrances
+const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const animatedElements = document.querySelectorAll([
+  '.animate-fade-in', '.animate-slide-up', '.animate-slide-down',
+  '.animate-slide-left', '.animate-slide-right', '.animate-scale-in', '.animate-zoom-in'
+].join(', '));
+const pending = new Map();
+let observer;
+function reveal(element, animate) {
+  clearTimeout(pending.get(element));
+  pending.delete(element);
+  observer?.unobserve(element);
+  element.classList.remove('animation-paused');
+  element.classList.toggle('animation-playing', animate && !motion.matches);
+}
+function revealAll() {
+  observer?.disconnect();
+  animatedElements.forEach(element => reveal(element, false));
+}
+if (animatedElements.length && !motion.matches && typeof IntersectionObserver !== 'undefined') {
+  observer = new IntersectionObserver(entries => {
+    let stagger = 0;
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const element = entry.target;
+      if (!element.classList.contains('animation-paused')) return;
+      observer.unobserve(element);
+      // Bound the wait even when a large batch enters at once.
+      pending.set(element, setTimeout(() => reveal(element, true), Math.min(stagger++ * 75, 225)));
     });
-  }, observerOptions);
-
-  // Observe all animated elements
-  animatedElements.forEach(el => {
-    animationObserver.observe(el);
+  }, {rootMargin: '0px 0px -10% 0px', threshold: 0});
+  animatedElements.forEach(element => {
+    element.classList.add('animation-paused');
+    // Keyboard navigation must never land in invisible content.
+    element.addEventListener('focusin', () => reveal(element, false));
+    observer.observe(element);
   });
-  
-  console.log('[Taildown] Scroll animations initialized');
-} else if (prefersReducedMotion) {
-  console.log('[Taildown] Reduced motion preferred - animations disabled');
-  // Remove animation classes if reduced motion preferred
-  animatedElements.forEach(el => {
-    animationClasses.forEach(className => {
-      el.classList.remove(className.slice(1)); // Remove leading dot
-    });
+  motion.addEventListener('change', () => {
+    if (motion.matches) revealAll();
   });
-}`
+}`,
 };
-

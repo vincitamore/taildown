@@ -42,7 +42,7 @@ export const DURATION = {
   instant: 75,
   fast: 150,
   normal: 200,
-  slow: 4500,  // DEBUG: Even slower - 50% more (3000 * 1.5)
+  slow: 300,
   slower: 1000,
 } as const;
 
