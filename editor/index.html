@@ -456,6 +456,23 @@
     }
 
     /* Slash Command Menu */
+    #command-palette {
+      width: min(36rem, calc(100vw - 2rem));
+      padding: 0;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      color: #111827;
+      background: #fff;
+      box-shadow: 0 24px 80px #0003;
+    }
+    #command-palette::backdrop { background: #11182766; }
+    #command-palette header { display: flex; align-items: center; gap: 1rem; padding: 1rem; }
+    #command-search { flex: 1; min-width: 0; padding: .75rem; font: inherit; color: inherit; background: transparent; border: 1px solid #9ca3af; border-radius: 8px; }
+    #command-results { max-height: min(55vh, 28rem); overflow: auto; padding: 0 .5rem .5rem; }
+    #command-results .slash-menu-item { border-radius: 8px; }
+    #command-palette [role="status"] { padding: 1rem; }
+    [data-theme="dark"] #command-palette { background: #1f2937; color: #f9fafb; border-color: #4b5563; }
+
     #slash-menu {
       position: absolute;
       z-index: 1000;
@@ -777,6 +794,14 @@
 
   <!-- Slash Command Menu -->
   <div id="slash-menu"></div>
+  <dialog id="command-palette" aria-label="Insert a component or format">
+    <header>
+      <input id="command-search" type="search" placeholder="Search components and formatting…" aria-label="Search commands" role="combobox" aria-autocomplete="list" aria-controls="command-results" aria-expanded="true">
+      <button id="command-close" type="button" aria-label="Close commands">Esc</button>
+    </header>
+    <div id="command-results" role="listbox" aria-label="Commands"></div>
+    <div id="command-empty" role="status" hidden>No matching commands.</div>
+  </dialog>
 
   <!-- Bubble Menu -->
   <div id="bubble-menu">
@@ -785,11 +810,12 @@
     <button class="bubble-menu-button" data-action="code" title="Code"></button>
     <div class="bubble-menu-divider"></div>
     <button class="bubble-menu-button" data-action="heading" title="Heading"></button>
-    <button class="bubble-menu-button" data-action="link" title="Link (Ctrl+K)"></button>
+    <button class="bubble-menu-button" data-action="link" title="Link (Ctrl/Cmd+Shift+K)"></button>
   </div>
 
   <div id="toolbar">
     <button id="new-btn" title="Create new document (Ctrl+N)">New</button>
+    <button id="commands-btn" title="Insert a component or format (Ctrl/Cmd+K)">Insert</button>
     <button id="open-btn" title="Open file (Ctrl+O)">Open</button>
     <button id="save-btn" title="Save file (Ctrl+S)">Save</button>
     <button id="download-btn" title="Download .td file">Download</button>
@@ -909,7 +935,8 @@ Experience intelligent, context-aware suggestions:
 - Italic (Ctrl+I)
 - Code
 - Heading
-- Link (Ctrl+K)
+- Link (Ctrl/Cmd+Shift+K)
+- Search insert commands (Ctrl/Cmd+K)
 
 ---
 
@@ -1173,6 +1200,97 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       { name: 'Mermaid: ER Diagram', icon: 'database', insert: ':::mermaid\nerDiagram\n  CUSTOMER ||--o{ ORDER : places\n  ORDER ||--|{ LINE-ITEM : contains\n  CUSTOMER {\n    string name\n    string email\n  }\n  ORDER {\n    int orderNumber\n    date orderDate\n  }\n:::', description: 'Database schema', cursorOffset: -4 },
       { name: 'Mermaid: Pie Chart', icon: 'pie-chart', insert: ':::mermaid\npie title Distribution\n  "Category A" : 45\n  "Category B" : 30\n  "Category C" : 15\n  "Category D" : 10\n:::', description: 'Pie chart', cursorOffset: -4 },
     ];
+
+    // Every registered component is discoverable; keep richer curated templates.
+    for (const component of authoringReference.components) {
+      const name = component.name.replace(/-/g, ' ');
+      if (!slashCommands.some(command => command.name.toLowerCase() === name)) {
+        slashCommands.push({name: name.replace(/\b\w/g, letter => letter.toUpperCase()), icon: 'box',
+          insert: `:::${component.name}\n\n:::`, cursorOffset: -4, description: component.description || `${name} component`});
+      }
+    }
+
+    const commandPalette = document.getElementById('command-palette');
+    const commandSearch = document.getElementById('command-search');
+    const commandResults = document.getElementById('command-results');
+    let paletteCommands = [];
+    let paletteIndex = 0;
+    let paletteSelection = null;
+
+    function renderCommandPalette() {
+      const query = commandSearch.value.trim().toLowerCase();
+      paletteCommands = slashCommands.filter(command => `${command.name} ${command.description}`.toLowerCase().includes(query));
+      paletteIndex = 0;
+      commandResults.replaceChildren();
+      paletteCommands.forEach((command, index) => {
+        const option = document.createElement('div');
+        option.className = 'slash-menu-item';
+        option.id = `palette-option-${index}`;
+        option.setAttribute('role', 'option');
+        const icon = document.createElement('span');
+        icon.className = 'slash-menu-icon';
+        icon.innerHTML = lucideIcon(command.icon);
+        const text = document.createElement('div');
+        const title = document.createElement('div');
+        title.className = 'slash-menu-title';
+        title.textContent = command.name;
+        const description = document.createElement('div');
+        description.className = 'slash-menu-desc';
+        description.textContent = command.description;
+        text.append(title, description);
+        option.append(icon, text);
+        option.addEventListener('click', () => insertPaletteCommand(index));
+        commandResults.append(option);
+      });
+      document.getElementById('command-empty').hidden = paletteCommands.length !== 0;
+      selectPaletteOption();
+    }
+
+    function selectPaletteOption() {
+      [...commandResults.children].forEach((option, index) => {
+        option.classList.toggle('selected', index === paletteIndex);
+        option.setAttribute('aria-selected', String(index === paletteIndex));
+      });
+      const option = commandResults.children[paletteIndex];
+      if (option) {
+        commandSearch.setAttribute('aria-activedescendant', option.id);
+        option.scrollIntoView({block: 'nearest'});
+      } else commandSearch.removeAttribute('aria-activedescendant');
+    }
+
+    function openCommandPalette() {
+      if (!editor || commandPalette.open) return true;
+      hideSlashMenu();
+      const {from, to} = editor.state.selection.main;
+      paletteSelection = {from, to};
+      commandSearch.value = '';
+      commandPalette.showModal();
+      renderCommandPalette();
+      commandSearch.focus();
+      return true;
+    }
+
+    function insertPaletteCommand(index) {
+      const command = paletteCommands[index];
+      if (!command || !paletteSelection) return;
+      const {from, to} = paletteSelection;
+      editor.dispatch({changes: {from, to, insert: command.insert},
+        selection: {anchor: from + command.insert.length + (command.cursorOffset || 0)}});
+      commandPalette.close();
+    }
+
+    commandPalette.addEventListener('close', () => {paletteSelection = null; editor?.focus();});
+    commandSearch.addEventListener('input', renderCommandPalette);
+    commandSearch.addEventListener('keydown', event => {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        if (paletteCommands.length) paletteIndex = (paletteIndex + (event.key === 'ArrowDown' ? 1 : -1) + paletteCommands.length) % paletteCommands.length;
+        selectPaletteOption();
+      } else if (event.key === 'Enter') {event.preventDefault(); insertPaletteCommand(paletteIndex);}
+      else if (event.key === 'Escape') {event.preventDefault(); commandPalette.close();}
+    });
+    document.getElementById('command-close').addEventListener('click', () => commandPalette.close());
+    document.getElementById('commands-btn').addEventListener('click', openCommandPalette);
 
     // Slash command functions
     function showSlashMenu(searchText = '') {
@@ -1748,8 +1866,8 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
               { key: 'Cmd-b', run: () => { handleBubbleAction('bold'); return true; } },
               { key: 'Ctrl-i', run: () => { handleBubbleAction('italic'); return true; } },
               { key: 'Cmd-i', run: () => { handleBubbleAction('italic'); return true; } },
-              { key: 'Ctrl-k', run: () => { handleBubbleAction('link'); return true; } },
-              { key: 'Cmd-k', run: () => { handleBubbleAction('link'); return true; } },
+              { key: 'Mod-k', run: openCommandPalette },
+              { key: 'Mod-Shift-k', run: () => { handleBubbleAction('link'); return true; } },
             ]),
             EditorView.updateListener.of((update) => {
               if (update.docChanged) {
