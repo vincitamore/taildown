@@ -10,6 +10,7 @@ export const tooltipBehavior: ComponentBehavior = {
   name: 'tooltip',
   size: 1800, // ~1.8KB (increased due to positioning logic and event handling)
   code: `// Tooltip Component with intelligent positioning and hover persistence
+const tooltipOwners = new WeakMap();
 document.querySelectorAll('[data-tooltip-trigger]').forEach((trigger, index) => {
   const tooltipId = trigger.getAttribute('aria-describedby');
   let tooltip = tooltipId ? document.getElementById(tooltipId) : null;
@@ -36,6 +37,7 @@ document.querySelectorAll('[data-tooltip-trigger]').forEach((trigger, index) => 
   
   // Position tooltip near trigger with viewport edge detection
   function positionTooltip() {
+    if (tooltipOwners.get(tooltip) !== trigger) return;
     const triggerRect = trigger.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
     const gap = 8;
@@ -72,7 +74,8 @@ document.querySelectorAll('[data-tooltip-trigger]').forEach((trigger, index) => 
   // Show tooltip
   function show() {
     clearTimeout(hideTimeout);
-    if (isVisible) return;
+    if (isVisible && tooltipOwners.get(tooltip) === trigger) return;
+    tooltipOwners.set(tooltip, trigger);
     isVisible = true;
     tooltip.hidden = false;
     tooltip.style.display = 'block';
@@ -86,8 +89,10 @@ document.querySelectorAll('[data-tooltip-trigger]').forEach((trigger, index) => 
   function hide(immediate = false) {
     clearTimeout(hideTimeout);
     const close = () => {
+      if (tooltipOwners.get(tooltip) !== trigger) { isVisible = false; return; }
       if (!immediate && (isHoveringTooltip || isHoveringTrigger || document.activeElement === trigger)) return;
       isVisible = false;
+      tooltipOwners.delete(tooltip);
       tooltip.style.opacity = '0';
       tooltip.hidden = true;
       tooltip.style.display = 'none';
@@ -128,7 +133,7 @@ document.querySelectorAll('[data-tooltip-trigger]').forEach((trigger, index) => 
     }
     e.preventDefault(); // Placeholder help links must not jump to the page top.
     e.stopPropagation(); // Stop event bubbling
-    if (isVisible) {
+    if (isVisible && tooltipOwners.get(tooltip) === trigger) {
       hide(true);
     } else {
       show();

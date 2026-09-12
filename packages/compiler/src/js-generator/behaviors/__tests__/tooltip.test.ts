@@ -2,6 +2,27 @@ import {expect, it} from 'vitest';
 import {JSDOM} from 'jsdom';
 import {tooltipBehavior} from '../tooltip';
 
+it('hands shared tooltip visibility and positioning to the latest trigger', async () => {
+  const dom = new JSDOM('<button aria-describedby="shared" data-tooltip-trigger>First</button><button aria-describedby="shared" data-tooltip-trigger>Second</button><div id="shared" role="tooltip">Shared description</div>', {runScripts:'outside-only'});
+  try {
+    const [first, second] = dom.window.document.querySelectorAll('button');
+    first!.getBoundingClientRect = () => ({left:100, top:100, bottom:120, width:20} as DOMRect);
+    second!.getBoundingClientRect = () => ({left:400, top:100, bottom:120, width:20} as DOMRect);
+    dom.window.eval(tooltipBehavior.code);
+    const tip = dom.window.document.querySelector<HTMLElement>('[role="tooltip"]')!;
+    const mouse = (node:Element, name:string) => node.dispatchEvent(new dom.window.MouseEvent(name));
+    mouse(first!, 'mouseenter'); mouse(first!, 'mouseleave'); mouse(second!, 'mouseenter');
+    await new Promise(resolve => setTimeout(resolve, 180));
+    expect(tip.hidden).toBe(false);
+    expect(tip.style.left).toBe('410px');
+    mouse(second!, 'mouseleave'); mouse(first!, 'mouseenter');
+    dom.window.dispatchEvent(new dom.window.Event('resize'));
+    await new Promise(resolve => setTimeout(resolve, 180));
+    expect(tip.hidden).toBe(false);
+    expect(tip.style.left).toBe('110px');
+  } finally {dom.window.close();}
+});
+
 it('preserves real link activation and only cancels placeholder help links', () => {
   const dom = new JSDOM('<a href="/guide" data-tooltip-trigger>Guide</a><div role="tooltip">Guide description</div><a href="#" data-tooltip-trigger>Help</a><div role="tooltip">Help description</div>', {runScripts:'outside-only'});
   try {
