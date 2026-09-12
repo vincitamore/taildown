@@ -46,7 +46,7 @@ export const PRINT_CSS = `
   details::details-content { display: block !important; content-visibility: visible !important; }
   .component-card, .carousel-card, .alert { margin-bottom: 1rem; }
   .carousel-card { min-height: 0 !important; padding: 1rem !important; }
-  h1, h2, h3, h4, h5, h6, summary, .accordion-trigger { break-after: avoid; }
+  h1, h2, h3, h4, h5, h6, dt, summary, .accordion-trigger { break-after: avoid; }
   p { orphans: 3; widows: 3; }
   pre, pre code {
     white-space: pre-wrap !important;
