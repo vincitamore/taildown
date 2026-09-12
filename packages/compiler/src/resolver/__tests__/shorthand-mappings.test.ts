@@ -182,7 +182,7 @@ describe('Shorthand Mappings', () => {
     });
 
     it('should have semantic state colors', () => {
-      expect(SHORTHAND_MAPPINGS.muted).toBe('text-gray-500');
+      expect(SHORTHAND_MAPPINGS.muted).toBe('text-muted-foreground');
       expect(SHORTHAND_MAPPINGS.success).toBe('text-green-600');
       expect(SHORTHAND_MAPPINGS.warning).toBe('text-yellow-600');
       expect(SHORTHAND_MAPPINGS.error).toBe('text-red-600');
@@ -198,8 +198,8 @@ describe('Shorthand Mappings', () => {
     });
 
     it('should have size + color combinations', () => {
-      expect(SHORTHAND_MAPPINGS['large-muted']).toEqual(['text-lg', 'text-gray-500']);
-      expect(SHORTHAND_MAPPINGS['small-muted']).toEqual(['text-sm', 'text-gray-500']);
+      expect(SHORTHAND_MAPPINGS['large-muted']).toEqual(['text-lg', 'text-muted-foreground']);
+      expect(SHORTHAND_MAPPINGS['small-muted']).toEqual(['text-sm', 'text-muted-foreground']);
     });
 
     it('should have semantic background pairs', () => {

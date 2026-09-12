@@ -322,7 +322,7 @@ export const SHORTHAND_MAPPINGS: Record<string, ShorthandMapping> = {
   // ========================================
   // STATE COLORS (Semantic)
   // ========================================
-  muted: 'text-gray-500',
+  muted: 'text-muted-foreground',
   'dark:muted': 'dark:text-gray-400',
   success: 'text-green-600',
   warning: 'text-yellow-600',
@@ -342,8 +342,8 @@ export const SHORTHAND_MAPPINGS: Record<string, ShorthandMapping> = {
   'large-light': ['text-lg', 'font-light'],
   
   // Size + Color combinations
-  'large-muted': ['text-lg', 'text-gray-500'],
-  'small-muted': ['text-sm', 'text-gray-500'],
+  'large-muted': ['text-lg', 'text-muted-foreground'],
+  'small-muted': ['text-sm', 'text-muted-foreground'],
   'large-primary': (context) => ['text-lg', ...(resolveSemanticColor('primary', context) ?? [])],
   'large-success': ['text-lg', 'text-green-600'],
   'large-warning': ['text-lg', 'text-yellow-600'],
@@ -360,8 +360,8 @@ export const SHORTHAND_MAPPINGS: Record<string, ShorthandMapping> = {
   
   // Common natural phrases
   'bold-primary': (context) => ['font-bold', ...(resolveSemanticColor('primary', context) ?? [])],
-  'bold-muted': ['font-bold', 'text-gray-500'],
-  'italic-muted': ['italic', 'text-gray-500'],
+  'bold-muted': ['font-bold', 'text-muted-foreground'],
+  'italic-muted': ['italic', 'text-muted-foreground'],
 };
 
 /**

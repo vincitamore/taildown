@@ -279,7 +279,7 @@
         "hProperties": {
           "className": [
             "text-lg",
-            "text-gray-500"
+            "text-muted-foreground"
           ]
         }
       }
@@ -296,7 +296,7 @@
         "hProperties": {
           "className": [
             "text-sm",
-            "text-gray-500"
+            "text-muted-foreground"
           ]
         }
       }
@@ -567,7 +567,7 @@
         "hProperties": {
           "className": [
             "font-bold",
-            "text-gray-500"
+            "text-muted-foreground"
           ]
         }
       }
@@ -584,7 +584,7 @@
         "hProperties": {
           "className": [
             "italic",
-            "text-gray-500"
+            "text-muted-foreground"
           ]
         }
       }

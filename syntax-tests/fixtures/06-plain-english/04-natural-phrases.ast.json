@@ -420,7 +420,7 @@
       "data": {
         "hProperties": {
           "className": [
-            "text-gray-500"
+            "text-muted-foreground"
           ]
         }
       }

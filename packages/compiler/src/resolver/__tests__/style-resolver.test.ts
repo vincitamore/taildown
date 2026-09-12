@@ -241,7 +241,7 @@ describe('Style Resolver', () => {
       it('should resolve size + color combinations', () => {
         const result = ['large-muted', 'small-muted'].flatMap(attr => resolveAttributes([attr], mockContext));
         expect(result).toContain('text-lg');
-        expect(result).toContain('text-gray-500');
+        expect(result).toContain('text-muted-foreground');
         expect(result).toContain('text-sm');
       });
 

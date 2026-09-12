@@ -367,6 +367,7 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'font-extrabold': 'font-weight: 800;',
 
   // Text color - Gray scale
+  'text-muted-foreground': 'color: var(--muted-foreground);',
   'text-gray-400': 'color: rgb(156 163 175);',
   'text-gray-500': 'color: rgb(107 114 128);',
   'text-gray-600': 'color: rgb(75 85 99);',

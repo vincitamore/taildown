@@ -50,3 +50,18 @@ it('gives inline code a readable foreground/background pair in both themes', () 
   expect(backgrounds).toHaveLength(2);
   text.forEach((color,index)=>expect(contrast(color,backgrounds[index]!)).toBeGreaterThanOrEqual(4.5));
 });
+
+it('keeps muted text readable on both page and card surfaces', async () => {
+  const config = getDefaultConfig();
+  for(const theme of [getLightModeColors(config),getDarkModeColors(config)]) {
+    expect(contrast(theme.mutedForeground,theme.background)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(theme.mutedForeground,theme.card)).toBeGreaterThanOrEqual(4.5);
+  }
+  const result = await compile('Plain {muted}\n\nLarge {large-muted}\n\nSmall {small-muted}\n\nBold {bold-muted}\n\nItalic {italic-muted}\n\nFixed {text-gray-500}', {inlineStyles:true});
+  const dom = new JSDOM(result.html);
+  try {
+    expect([...dom.window.document.querySelectorAll('p.text-muted-foreground')].map(n=>n.textContent)).toEqual(['Plain','Large','Small','Bold','Italic']);
+    expect(dom.window.document.querySelector('p.text-gray-500')?.textContent).toBe('Fixed');
+    expect(result.metadata.warnings).toEqual([]);
+  } finally {dom.window.close();}
+});
