@@ -1113,46 +1113,9 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     const bubbleMenu = document.getElementById('bubble-menu');
 
     // Autocomplete data sources
-    const componentNames = [
-      'card', 'button', 'alert', 'badge', 'avatar', 'grid', 'container',
-      'tabs', 'accordion', 'modal', 'tooltip', 'carousel', 'navbar',
-      'tree', 'flow', 'button-group', 'sidebar', 'breadcrumb', 'pagination',
-      'progress', 'skeleton', 'callout', 'mermaid'
-    ];
-
-    const styleAttributes = [
-      // Colors
-      'primary', 'secondary', 'accent', 'success', 'warning', 'error', 'info', 'muted',
-      // Sizes
-      'xs', 'small', 'large', 'xl', '2xl', '3xl', 'huge', 'massive',
-      // Weight
-      'thin', 'light', 'normal', 'medium', 'semibold', 'bold', 'extra-bold', 'black',
-      // Combinations
-      'huge-bold', 'large-bold', 'xl-bold', 'small-light',
-      // Padding
-      'padded', 'padded-sm', 'padded-lg', 'padded-xl',
-      // Gaps
-      'gap', 'gap-sm', 'gap-lg', 'gap-xl',
-      // Line height
-      'tight-lines', 'normal-lines', 'relaxed-lines', 'loose-lines',
-      // Alignment
-      'center', 'left', 'right', 'justify',
-      // Display
-      'flex', 'grid', 'inline', 'block',
-      // Shadows
-      'shadow', 'shadow-sm', 'shadow-lg', 'shadow-xl', 'elevated', 'floating',
-      // Borders
-      'rounded', 'rounded-sm', 'rounded-lg', 'rounded-full',
-      // Glass
-      'subtle-glass', 'light-glass', 'heavy-glass',
-      // Animations
-      'fade-in', 'slide-up', 'slide-down', 'slide-left', 'slide-right', 'zoom-in', 'scale-in',
-      'hover-lift', 'hover-glow', 'hover-scale', 'interactive',
-      // Component variants
-      'flat', 'elevated', 'outlined', 'bordered', 'interactive',
-      'sm', 'md', 'lg', 'xl'
-    ];
-
+    const authoringReference = await Taildown.getAuthoringReference();
+    const componentNames = authoringReference.components.map(component => component.name);
+    const styleAttributes = authoringReference.styles;
     const iconNames = Taildown.getAllLucideIconNames();
 
     // Use the compiler's SVG data for both authoring previews and toolbar icons.
@@ -1397,9 +1360,10 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       }
       
       // Component autocomplete - triggered after :::
-      if (textBefore.endsWith(':::')) {
+      const componentMatch = textBefore.match(/:::([\w-]*)$/);
+      if (componentMatch) {
         return {
-          from: context.pos,
+          from: context.pos - componentMatch[1].length,
           validFor: /^[\w-]*$/,  // Stay open while typing component names (letters, numbers, dashes)
           options: componentNames.map(name => ({
             label: name,
@@ -1423,8 +1387,10 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       // Attribute autocomplete - triggered after { or inside {}
       const braceMatch = textBefore.match(/\{([^}]*)$/);
       if (braceMatch) {
-        const typed = braceMatch[1];
-        const filtered = styleAttributes.filter(attr => 
+        const typed = braceMatch[1].match(/[^\s]*$/)[0];
+        const component = textBefore.match(/:::([\w-]+)\s*\{[^}]*$/)?.[1];
+        const variants = authoringReference.components.find(item => item.name === component)?.attributes || [];
+        const filtered = [...new Set([...styleAttributes, ...variants])].filter(attr => 
           attr.toLowerCase().includes(typed.toLowerCase())
         );
         
