@@ -394,11 +394,15 @@ export function renderTabs(state: State, node: ContainerDirectiveNode): Element 
   }
   
   // Build tab structure with modern glass styling
+  const tabsId = `tabs-${node.position?.start.offset ?? Math.random().toString(36).slice(2)}`;
   const tabButtons: Element[] = tabs.map((tab, index) => ({
     type: 'element',
     tagName: 'button',
     properties: {
       role: 'tab',
+      id: `${tabsId}-tab-${index}`,
+      ariaControls: `${tabsId}-panel-${index}`,
+      type: 'button',
       ariaSelected: index === 0 ? 'true' : 'false',
       tabIndex: index === 0 ? 0 : -1,
       className: ['tab-button']
@@ -411,6 +415,8 @@ export function renderTabs(state: State, node: ContainerDirectiveNode): Element 
     tagName: 'div',
     properties: {
       role: 'tabpanel',
+      id: `${tabsId}-panel-${index}`,
+      ariaLabelledBy: `${tabsId}-tab-${index}`,
       hidden: index !== 0,
       className: ['tab-panel']
     },

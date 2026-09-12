@@ -11,11 +11,17 @@ export const carouselBehavior: ComponentBehavior = {
   size: 2400, // ~2.4KB (includes touch + desktop drag support)
   code: `// Carousel Component
 getComponents('carousel').forEach(carousel => {
-  const track = carousel.querySelector('[data-carousel-track]');
-  const slides = Array.from(carousel.querySelectorAll('[data-carousel-slide]'));
-  const prevBtn = carousel.querySelector('[data-carousel-prev]');
-  const nextBtn = carousel.querySelector('[data-carousel-next]');
-  const indicators = Array.from(carousel.querySelectorAll('[data-carousel-indicator]'));
+  const owns = element => element.closest('[data-component="carousel"]') === carousel;
+  const owned = selector => Array.from(carousel.querySelectorAll(selector)).filter(owns);
+  const track = owned('[data-carousel-track]')[0];
+  const slides = owned('[data-carousel-slide]');
+  const prevBtn = owned('[data-carousel-prev]')[0];
+  const nextBtn = owned('[data-carousel-next]')[0];
+  const indicators = owned('[data-carousel-indicator]');
+  const editing = target => {
+    const editable = target.closest('[contenteditable]');
+    return target.isContentEditable || (editable && editable.getAttribute('contenteditable') !== 'false');
+  };
   
   if (!track || slides.length === 0) return;
   
@@ -72,6 +78,7 @@ getComponents('carousel').forEach(carousel => {
   
   // Keyboard navigation
   carousel.addEventListener('keydown', (e) => {
+    if (!owns(e.target) || e.defaultPrevented || editing(e.target) || e.target.closest('input, textarea, select, [role="slider"], [role="tablist"]')) return;
     if (e.key === 'ArrowLeft') {
       prev();
       e.preventDefault();
@@ -86,10 +93,12 @@ getComponents('carousel').forEach(carousel => {
   let touchEndX = 0;
   
   carousel.addEventListener('touchstart', (e) => {
+    if (!owns(e.target) || editing(e.target) || e.target.closest('input, textarea, select, [role="slider"]')) return;
     touchStartX = e.changedTouches[0].screenX;
   }, { passive: true });
   
   carousel.addEventListener('touchend', (e) => {
+    if (!owns(e.target) || editing(e.target) || e.target.closest('input, textarea, select, [role="slider"]')) return;
     touchEndX = e.changedTouches[0].screenX;
     const diff = touchStartX - touchEndX;
     
@@ -106,6 +115,7 @@ getComponents('carousel').forEach(carousel => {
   let hasMoved = false;
   
   carousel.addEventListener('mousedown', (e) => {
+    if (!owns(e.target) || e.defaultPrevented || editing(e.target) || e.target.closest('button, a, input, textarea, select, [role="slider"]')) return;
     // Only respond to left mouse button
     if (e.button !== 0) return;
     isDragging = true;
