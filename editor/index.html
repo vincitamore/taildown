@@ -1390,7 +1390,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
         const typed = braceMatch[1].match(/[^\s]*$/)[0];
         const component = textBefore.match(/:::([\w-]+)\s*\{[^}]*$/)?.[1];
         const variants = authoringReference.components.find(item => item.name === component)?.attributes || [];
-        const filtered = [...new Set([...styleAttributes, ...variants])].filter(attr => 
+        const filtered = [...new Set([...styleAttributes, ...variants])].filter(attr =>
           attr.toLowerCase().includes(typed.toLowerCase())
         );
         
