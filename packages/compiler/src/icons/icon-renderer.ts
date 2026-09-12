@@ -39,8 +39,8 @@ function getIconSize(classes: string[]): number {
     
     // Check for width classes (w-4, w-6, etc.)
     if (cls.startsWith('w-')) {
-      const size = parseInt(cls.substring(2), 10);
-      if (!isNaN(size)) {
+      const size = Number(cls.substring(2));
+      if (Number.isFinite(size) && size >= 0) {
         return size * 4; // Tailwind sizes are in 0.25rem increments
       }
     }

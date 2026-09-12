@@ -2100,7 +2100,9 @@
                   "className": [
                     "icon",
                     "icon-help-circle",
-                    "sm"
+                    "sm",
+                    "w-5",
+                    "h-5"
                   ],
                   "data-icon": "help-circle"
                 }

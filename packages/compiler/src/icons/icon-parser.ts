@@ -29,6 +29,13 @@ import { DEFAULT_CONFIG } from '../config/default-config';
  */
 const ICON_REGEX = /:icon\[([a-z0-9-]+)\](?:\{([^}]+)\})?/g;
 
+// Icon dimensions are independent of the text-size shorthands. Resolve them
+// into ordinary width/height utilities so later explicit dimensions can win.
+const ICON_SIZES: Record<string, number> = {
+  tiny: 12, xs: 16, sm: 20, small: 20, md: 24, medium: 24,
+  lg: 32, large: 32, xl: 40, '2xl': 48, huge: 64,
+};
+
 /**
  * Icon node type
  * Represents an icon in the AST
@@ -70,6 +77,11 @@ function parseIconAttributes(
     } else {
       // Plain English shorthand
       rawAttributes.push(token);
+      const separator = token.lastIndexOf(':');
+      const keyword = token.slice(separator + 1);
+      const prefix = token.slice(0, separator + 1);
+      const size = Object.hasOwn(ICON_SIZES, keyword) ? ICON_SIZES[keyword] : undefined;
+      if (size !== undefined) rawAttributes.push(`${prefix}w-${size / 4}`, `${prefix}h-${size / 4}`);
     }
   }
 

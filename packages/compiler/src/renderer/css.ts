@@ -2635,6 +2635,15 @@ ${generateThemeCSS()}
   for (const className of orderedClasses) {
     let cssDeclarations = TAILWIND_UTILITIES[className];
 
+    if (!cssDeclarations) {
+      const responsive = className.match(/^(sm|md|lg|xl|2xl):(.+)$/);
+      const breakpoints: Record<string, number> = { sm: 640, md: 768, lg: 1024, xl: 1280, '2xl': 1536 };
+      const base = responsive?.[2] ? TAILWIND_UTILITIES[responsive[2]] : undefined;
+      if (responsive?.[1] && base && !base.startsWith('@media')) {
+        cssDeclarations = `@media (min-width: ${breakpoints[responsive[1]]}px) { ${base} }`;
+      }
+    }
+
     // Helper function to escape CSS special characters
     const escapeCSS = (str: string) => str
       .replace(/:/g, '\\:')
