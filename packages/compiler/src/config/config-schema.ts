@@ -98,7 +98,7 @@ export interface PluginConfig {
   name: string;
   
   /** Plugin options */
-  options?: Record<string, any>;
+  options?: Record<string, unknown>;
 }
 
 /**
@@ -139,22 +139,17 @@ export type PartialTaildownConfig = {
 /**
  * Type guard to check if value is a ColorScale
  */
-export function isColorScale(value: any): value is ColorScale {
-  return (
-    typeof value === 'object' &&
-    value !== null &&
-    (value.DEFAULT !== undefined ||
-      value[50] !== undefined ||
-      value[100] !== undefined ||
-      value[500] !== undefined ||
-      value[600] !== undefined)
-  );
+export function isColorScale(value: unknown): value is ColorScale {
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) return false;
+  const shades = new Set(['DEFAULT', '50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950']);
+  const entries = Object.entries(value);
+  return entries.some(([shade, color]) => shades.has(shade) && typeof color === 'string') &&
+    entries.every(([shade, color]) => !shades.has(shade) || color === undefined || typeof color === 'string');
 }
-
 /**
  * Type guard to check if value is a color string
  */
-export function isColorString(value: any): value is string {
+export function isColorString(value: unknown): boolean {
   return typeof value === 'string' && /^#[0-9a-fA-F]{6}$/.test(value);
 }
 
@@ -181,12 +176,12 @@ export function validateColorConfig(colors: ColorConfig): string[] {
     if (isColorScale(value)) {
       // Validate hex colors in scale
       for (const [shade, hex] of Object.entries(value)) {
-        if (hex && !isColorString(hex)) {
+        if (hex !== undefined && !isColorString(hex)) {
           errors.push(`Invalid color value for ${name}.${shade}: ${hex}`);
         }
       }
-    } else if (typeof value === 'string' && !isColorString(value)) {
-      errors.push(`Invalid color value for ${name}: ${value}`);
+    } else if (value !== undefined && !isColorString(value)) {
+      errors.push(`Invalid color value for ${name}: ${String(value)}`);
     }
   }
 
@@ -204,7 +199,7 @@ export function validateThemeConfig(theme: ThemeConfig): string[] {
 
   // Font stacks are CSS values, not declarations or markup.
   for (const [name, value] of Object.entries(theme.fonts)) {
-    if (typeof value !== 'string' || !value.trim() || /[;{}<>\r\n\u0000]/.test(value)) {
+    if (typeof value !== 'string' || !value.trim() || (/[;{}<>\r\n]/.test(value) || value.includes('\u0000'))) {
       errors.push(`Invalid font stack for ${name}: use a non-empty font-family value without declarations or markup`);
     }
   }
