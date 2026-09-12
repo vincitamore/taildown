@@ -48,6 +48,9 @@ export const PRINT_CSS = `
   .carousel-card { min-height: 0 !important; padding: 1rem !important; }
   h1, h2, h3, h4, h5, h6, dt, summary, .accordion-trigger { break-after: avoid; }
   p { orphans: 3; widows: 3; }
+  pre::before, pre::after, .table-wrapper::after { display: none !important; content: none !important; }
+  pre { break-inside: avoid; break-before: avoid; }
+  pre > code { padding: 0.75rem 0 !important; }
   pre, pre code {
     white-space: pre-wrap !important;
     overflow-wrap: anywhere !important;

@@ -114,8 +114,7 @@ Teams own services end-to-end. Less coordination, faster decisions.
 
 ### Challenges {large-bold}
 
-> "With microservices, you're trading one set of problems for another. Make sure the tradeoff is worth it."
-> — Martin Fowler
+Splitting a system introduces coordination work. Compare the benefits of independent services with the cost of operating their connections.
 
 :::alert {warning}
 :icon[alert-triangle]{warning} **Key Challenges:**
