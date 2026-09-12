@@ -24,6 +24,7 @@ import { parseDiff } from './diff-parser';
 import { parseFootnoteReferences, parseFootnoteDefinitions } from './footnote-parser';
 import { remarkMath } from './math-parser';
 import { parseTimeline } from './timeline-parser';
+import { registryInitialized } from '../components/component-registry';
 
 /**
  * Parse Taildown source to AST
@@ -33,6 +34,7 @@ import { parseTimeline } from './timeline-parser';
  * @returns Parsed AST with Taildown extensions
  */
 export async function parse(source: string): Promise<TaildownRoot> {
+  await registryInitialized;
   const warnings: CompilationWarning[] = [];
 
   // Create unified processor with Taildown plugins
@@ -72,6 +74,7 @@ export async function parse(source: string): Promise<TaildownRoot> {
  * @returns Parse result with AST and warnings
  */
 export async function parseWithWarnings(source: string): Promise<ParseResult> {
+  await registryInitialized;
   const warnings: CompilationWarning[] = [];
 
   const processor = unified()

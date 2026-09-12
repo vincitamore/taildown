@@ -78,15 +78,11 @@ function normalizeAST(ast: any): any {
   if (!ast || typeof ast !== 'object') {
     return ast;
   }
+  if (Array.isArray(ast)) return ast.map(normalizeAST);
 
   // Remove position information and empty attributes field (not part of structural comparison)
   // remark-directive adds an empty attributes object that we don't need for comparison
   const { position, attributes, ...rest } = ast;
-
-  // Recursively normalize children
-  if (Array.isArray(rest.children)) {
-    rest.children = rest.children.map(normalizeAST);
-  }
 
   // Recursively normalize other nested objects
   for (const key in rest) {

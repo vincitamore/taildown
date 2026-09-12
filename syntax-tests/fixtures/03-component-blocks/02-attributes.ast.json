@@ -127,7 +127,6 @@
             "overflow-wrap-normal",
             "glass-effect",
             "glass-subtle",
-            "shadow-sm",
             "shadow-xl",
             "rounded-lg"
           ],
@@ -269,8 +268,6 @@
           "className": [
             "taildown-component",
             "component-card",
-            "rounded-lg",
-            "p-6",
             "max-w-full",
             "overflow-x-hidden",
             "overflow-wrap-normal",

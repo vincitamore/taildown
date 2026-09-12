@@ -122,10 +122,10 @@ export function parseFootnoteReferences() {
     });
 
     // Store footnote map in tree data for use by definition parser
-    if (!tree.data) {
-      tree.data = {};
+    if (footnoteMap.size > 0) {
+      tree.data ??= {};
+      tree.data.footnoteMap = footnoteMap;
     }
-    tree.data.footnoteMap = footnoteMap;
   };
 }
 
