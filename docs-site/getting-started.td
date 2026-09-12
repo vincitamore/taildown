@@ -315,7 +315,9 @@ An explicit configuration path resolves against the working directory. Command-l
 
 Palette, font, component preset, minification, asset-layout, and dark-mode enablement settings are connected. Glass, animation, dark-mode method/transition, plugin, and source-map settings are not yet connected to the CLI; non-default values produce an error. Invalid configuration and conflicting output paths stop the build before existing exports or the configuration file are overwritten.
 
-## Compiler API customization {bold primary}
+## Customizing your design {bold primary}
+
+The examples below use the compiler API. You can also copy their `theme`, `styleMappings`, `components`, and `componentConfig` objects into the browser editor's **Design settings** JSON. Include only those design objects, without JavaScript declarations or compiler output flags. See the [editor design settings guide](syntax-guide.html) for import, export, and recovery details. Settings apply across documents in this browser workspace; save a separate settings JSON alongside your `.td` source to reproduce the design elsewhere.
 
 ### Custom shorthands in the compiler API
 
@@ -333,7 +335,7 @@ const result = await compile('# A quieter heading {editorial}', {
 });
 ```
 
-This is a compiler API option; the browser editor currently uses the built-in vocabulary. The [plain-English reference](plain-english.html) lists that vocabulary.
+In the browser editor, open **Design settings** from **Command-K**, add the same `styleMappings` object to the JSON, then choose **Apply settings**. Custom aliases become available in attribute completion and apply to previews and exports. The [plain-English reference](plain-english.html) lists the built-in vocabulary.
 
 ### Custom components
 
@@ -363,7 +365,7 @@ const reference = await getAuthoringReference(options);
 
 The generated HTML includes the component's markup and styling. Keep the definitions alongside the `.td` source for recompilation. Custom names also work in inline style attributes, such as `# Title {editorial small}`, where they apply classes while preserving the original Markdown element.
 
-Authoring integrations can pass the same options to `getAuthoringReference` to receive custom component names, insertable examples, and custom style names. The hosted editor does not yet expose custom-definition settings. These definitions provide presentation and semantic containers; JavaScript behaviors remain those of the built-in components nested inside them.
+Authoring integrations can pass the same options to `getAuthoringReference` to receive custom component names, insertable examples, and custom style names. In the browser editor, add the `components` object to **Design settings** and apply it. Custom components then appear in the **Command-K** insertion menu and attribute completion. These definitions provide presentation and semantic containers; JavaScript behaviors remain those of the built-in components nested inside them.
 
 ### Component presets
 
@@ -382,7 +384,7 @@ const result = await compile(':::card\nYour idea\n:::', { componentConfig });
 const reference = await getAuthoringReference({ componentConfig });
 ```
 
-Both calls use the same definitions. The reference includes `editorial` and `roomy` for attribute completion; other documents retain their defaults. Unknown component names and missing default variants or sizes produce errors. In a CLI configuration file, put this object under `components`. The hosted editor's preset settings are not yet available.
+Both calls use the same definitions. The reference includes `editorial` and `roomy` for attribute completion; other documents retain their defaults. Unknown component names and missing default variants or sizes produce errors. In a CLI configuration file, put this object under `components`. In the browser editor, use `componentConfig` in **Design settings**, then choose **Apply settings**; configured variants and sizes become available in attribute completion.
 
 ## A document's palette and fonts
 
@@ -401,7 +403,7 @@ const result = await compile('# Field notes {serif primary}', {
 
 Use `{sans}`, `{serif}`, or `{mono}` to choose a font family for a block. The editor offers these in style completion and the Insert / Ctrl/Cmd+K menu. Numbered palette utilities such as `text-primary-600`, their hover states, and responsive forms use the same document palette. Semantic text uses readable palette shades: light-mode primary text uses 600 and dark-mode primary text uses 400; override those shades when designing both themes.
 
-Node applications can load a configuration with `loadConfig` from `@taildown/compiler/config`, then pass `{theme: {colors: config.theme.colors, fonts: config.theme.fonts}}` to `compile()`. The API's `theme` option covers colors and fonts. The CLI applies these through project configuration as described above; the hosted editor does not yet expose custom theme settings.
+Node applications can load a configuration with `loadConfig` from `@taildown/compiler/config`, then pass `{theme: {colors: config.theme.colors, fonts: config.theme.fonts}}` to `compile()`. The API's `theme` option covers colors and fonts. The CLI applies these through project configuration as described above; the browser editor accepts the same `theme` object in **Design settings**. Its typography buttons prepare Modern, Editorial, or Technical font choices; **Apply settings** activates the prepared design.
 
 ## Next Steps {bold primary center}
 
