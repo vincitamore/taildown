@@ -39,3 +39,5 @@ Add input and expected AST files with a matching base name (`NN-description.td` 
 Review mismatches against the source and [SYNTAX.md](../SYNTAX.md). Do not regenerate snapshots just to pass. A snapshot can preserve an old defect: the revival audit found compact modal definitions stored as literal paragraphs and attributes consuming the space between links.
 
 The revival corrections update obsolete theme-token/default-class expectations, preserve source content and references, and replace incorrect literal-fence expectations after compact syntax was repaired. Nonempty attributes are never discarded to make comparisons pass.
+
+Use the portable [fixture generator](../scripts/README.md#reviewed-ast-expectations) after rebuilding the compiler when an expectation change is intentional. It supports a single input or explicit whole-suite regeneration; review the generated diff before accepting it.

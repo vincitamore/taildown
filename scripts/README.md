@@ -1,68 +1,41 @@
-# Development Scripts
+# Development scripts
 
-This directory contains utility scripts for Taildown development.
+Run these commands from the repository root with dependencies installed and `pnpm build` complete. Use the pinned pnpm version from `package.json`.
 
-## Available Scripts
+## Reviewed AST expectations
 
-### Fixture Generation
-
-#### `generate-fixture.ps1`
-Generate an AST fixture for a single `.td` test file.
-
-**Usage:**
-```powershell
-.\scripts\generate-fixture.ps1 syntax-tests/fixtures/02-inline-attributes/01-headings.td
+```sh
+node scripts/generate-fixtures.mjs syntax-tests/fixtures/02-inline-attributes/01-headings.td
+node scripts/generate-fixtures.mjs --all
 ```
 
-**What it does:**
-1. Builds all packages
-2. Parses the specified `.td` file
-3. Generates a `.ast.json` fixture with the same base name
-4. Formats the JSON with 2-space indentation
+The first command writes the adjacent `.ast.json` for one source. The second explicitly regenerates supported inputs under `syntax-tests/fixtures/`. Supported suffixes are `.td`, `.tdown`, and `.taildown`; invalid inputs and nonregular destinations are rejected before writing. Paths are passed as arguments, so quote a filename containing spaces in your shell.
 
-#### `regenerate-all-fixtures.ps1`
-Regenerate all AST fixtures from `.td` test files in the `syntax-tests/fixtures/` directory.
+Generation is a maintenance operation, not a test fix. Review every expectation against the source and [SYNTAX.md](../SYNTAX.md); a current parser can still be wrong. Preserve intentional rendered-only contracts in the [syntax suite](../syntax-tests/README.md). Run `pnpm exec vitest run syntax-tests/reference.test.ts` after reviewing a change. The generator does not silently rebuild the compiler or approve its output.
 
-**Usage:**
-```powershell
-.\scripts\regenerate-all-fixtures.ps1
+## Compile authored examples
+
+```sh
+node scripts/compile-examples.mjs
 ```
 
-**What it does:**
-1. Builds all packages
-2. Finds all `.td` files in `syntax-tests/fixtures/`
-3. Parses each file and generates/updates the corresponding `.ast.json` fixture
-4. Reports success/failure for each file
-5. Displays a summary at the end
+Compiles each top-level `examples/*.td` to a self-contained HTML document in ignored `examples/dist/`. Compiler failures or diagnostics produce a nonzero exit status. Open those files to review appearance and interactions; successful compilation alone is not a visual or accessibility check. See the [example guide](../examples/README.md).
 
-**When to use:**
-- After making changes to the parser that affect AST structure
-- After adding new syntax test cases
-- After fixing parser bugs
-- Following the Build-Validate-Test workflow
+For the public documentation site, use its dedicated build:
 
-## Adding New Scripts
+```sh
+node docs-site/build.mjs
+```
 
-When adding new utility scripts:
+It writes `docs-site/dist/`; see the [site guide](../docs-site/README.md). Neither build writes compiled mirrors alongside authored sources.
 
-1. **Name clearly:** Use descriptive kebab-case names (e.g., `analyze-performance.ps1`)
-2. **Add usage docs:** Include a comment block at the top with usage instructions
-3. **Update this README:** Document the new script here
-4. **Use proper exit codes:** Exit with 0 for success, non-zero for failures
-5. **Provide feedback:** Use colored output to indicate progress and results
+## Measure output
 
-## Script Categories
+```sh
+node scripts/measure-bundles.mjs
+node scripts/measure-bundles.mjs examples/dist/01-basic-markdown.html
+```
 
-- **Fixture Management:** `generate-fixture.ps1`, `regenerate-all-fixtures.ps1`
-- **Build & Test:** (TBD)
-- **Analysis:** (TBD)
-- **Deployment:** (TBD)
+With no arguments, reports raw and gzip byte counts for the two built editor distributions. With filenames, measures those files. Build the relevant artifacts first. These are artifact-size measurements, not network-transfer or startup-performance claims; actual server compression, cache state, device and document affect the user experience.
 
-## Best Practices
-
-- Always build packages before running scripts that depend on compiled code
-- Use relative paths from project root
-- Provide clear error messages
-- Clean up temporary files when done
-- Test scripts before committing
-
+The former platform-specific fixture generators, source-adjacent documentation compiler, absent-extension installer and historical regex/size debugging reports have been retired. Use the current scripts and executable regression tests rather than old commands retained in Git history.

@@ -8,7 +8,7 @@
  * :icon[home]{.text-blue-500 .w-8} - Icon with CSS classes
  * :icon[search]{primary large} - Icon with semantic styling
  * 
- * See PHASE-2-IMPLEMENTATION-PLAN.md §3 for icon system design
+ * See tech-spec.md for current architecture and docs-site/ for authoring references.
  */
 
 import { visit } from 'unist-util-visit';

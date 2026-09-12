@@ -2,7 +2,7 @@
  * Variant System for Taildown Components
  * Handles component variants, sizes, and state-based styling
  * 
- * See PHASE-2-IMPLEMENTATION-PLAN.md §4 for component variant design
+ * See tech-spec.md for current architecture and docs-site/ for authoring references.
  */
 
 import type { ComponentDefinition } from './component-registry';

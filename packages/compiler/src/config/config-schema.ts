@@ -5,7 +5,7 @@
  * This file defines the complete configuration structure for Taildown,
  * including theme, components, output settings, and validation rules.
  * 
- * See PHASE-2-IMPLEMENTATION-PLAN.md §3 for configuration system design
+ * See tech-spec.md for current architecture and docs-site/ for authoring references.
  */
 
 import type {ColorScale, ColorConfig, ColorOverrides, FontConfig, ComponentsConfig} from '@taildown/shared';

@@ -2,7 +2,7 @@
  * Configuration Loader for Taildown
  * Loads and validates taildown.config.js from the file system
  * 
- * See PHASE-2-IMPLEMENTATION-PLAN.md §3 for configuration system design
+ * See tech-spec.md for current architecture and docs-site/ for authoring references.
  */
 
 import { stat } from 'fs/promises';

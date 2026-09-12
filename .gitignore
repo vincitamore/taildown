@@ -43,3 +43,12 @@ test-files/
 # local working notes and router captures (never commit)
 _*.md
 NCU_*.txt
+
+# Compiled document mirrors belong in dist/, not alongside sources
+/docs-site/*.html
+/docs-site/*.ast.json
+/docs-site/lib/
+/examples/*.html
+/examples/*.css
+/README.html
+/PROJECT-RULES.html

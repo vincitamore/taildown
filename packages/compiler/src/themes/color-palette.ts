@@ -8,7 +8,7 @@
  * - WCAG AA compliant contrast ratios
  * - Smooth transitions between themes
  * 
- * See PHASE-2-IMPLEMENTATION-PLAN.md for dark mode spec
+ * See tech-spec.md for current architecture and docs-site/ for authoring references.
  */
 
 import type { TaildownConfig } from '../config/config-schema';

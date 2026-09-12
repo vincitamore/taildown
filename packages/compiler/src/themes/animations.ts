@@ -14,7 +14,7 @@
  * 3. Interactive: Click, focus, active states
  * 4. Loading: Pulse, spin, shimmer
  * 
- * See PHASE-2-IMPLEMENTATION-PLAN.md §4 for animation spec
+ * See tech-spec.md for current architecture and docs-site/ for authoring references.
  */
 
 /**

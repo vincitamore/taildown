@@ -2,7 +2,7 @@
  * Component Registry for Taildown
  * Central registry for all standard and custom components
  * 
- * See PHASE-2-IMPLEMENTATION-PLAN.md §4 for component system design
+ * See tech-spec.md for current architecture and docs-site/ for authoring references.
  */
 
 import type { ComponentConfig } from '../config/config-schema';

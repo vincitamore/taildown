@@ -9,7 +9,7 @@
  * 
  * Variants are resolved based on component context passed in ResolverContext
  * 
- * See PHASE-2-IMPLEMENTATION-PLAN.md §4 for component variant specifications
+ * See tech-spec.md for current architecture and docs-site/ for authoring references.
  */
 
 import type { ResolverContext } from './style-resolver';
