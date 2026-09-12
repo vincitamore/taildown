@@ -44,3 +44,10 @@ it('keeps link labels readable without nesting interactive content inside button
   expect(trigger.textContent).toBe('First badge');
   expect(trigger.querySelector('a, button, input, select, textarea, [tabindex], p')).toBeNull();
 });
+
+it('preserves rendered Taildown icons inside labels', async () => {
+  const {html} = await compile(':::accordion\n**:icon[check] Done**\nBody\n:::');
+  const trigger = new JSDOM(html).window.document.querySelector('[data-accordion-trigger]')!;
+  expect(trigger.querySelector('svg[data-icon="check"] path')).not.toBeNull();
+  expect(trigger.textContent?.trim()).toBe('Done');
+});

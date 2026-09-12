@@ -765,6 +765,12 @@ export function renderAccordion(state: State, node: ContainerDirectiveNode): Ele
   const labelContent = (part: ElementContent): ElementContent => {
     if (part.type !== 'element') return part;
     if (part.tagName === 'img') return {type: 'text', value: String(part.properties.alt ?? '')};
+    if (part.tagName === 'svg' && part.properties['data-icon']) {
+      return {type: 'element', tagName: 'svg', properties: {
+        className: part.properties.className,
+        'data-icon': part.properties['data-icon']
+      }, children: []};
+    }
     return {
       type: 'element',
       tagName: /^(strong|em|code|span|small|sub|sup|del|s|b|i|u|br|mark)$/.test(part.tagName) ? part.tagName : 'span',
