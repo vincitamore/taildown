@@ -9,6 +9,7 @@
  */
 
 import { StreamLanguage, LanguageSupport } from '@codemirror/language';
+import type {StreamParser} from '@codemirror/language';
 import { tags as t } from '@lezer/highlight';
 import {inlineCodeHighlighting} from './inline-code-decoration';
 
@@ -16,7 +17,16 @@ import {inlineCodeHighlighting} from './inline-code-decoration';
  * Taildown streaming parser for CodeMirror6
  * Handles complex nested structures with proper tokenization
  */
-const taildownParser = {
+interface TaildownStreamState {
+  inComponent: boolean;
+  componentStack: string[];
+  inCodeBlock: boolean;
+  codeBlockFence: string;
+  inAttributes: boolean;
+  attributeDepth: number;
+}
+
+const taildownParser: StreamParser<TaildownStreamState> = {
   name: 'taildown',
   
   startState() {
@@ -30,7 +40,7 @@ const taildownParser = {
     };
   },
   
-  token(stream: any, state: any) {
+  token(stream, state) {
     // Handle code blocks first (highest precedence)
     if (state.inCodeBlock) {
       if (stream.sol() && stream.match(new RegExp(`^ {0,3}${state.codeBlockFence[0]}{${state.codeBlockFence.length},}[\\t ]*$`))) {
@@ -47,9 +57,10 @@ const taildownParser = {
     
     // Check for code block start
     const openingFence = stream.sol() && stream.match(/^ {0,3}(`{3,}|~{3,})/, false);
-    if (openingFence && !(openingFence[1][0] === '`' && stream.string.slice(openingFence[0].length).includes('`'))) {
+    const openingMatch = typeof openingFence === 'boolean' ? null : openingFence;
+    const fence = openingMatch?.[1];
+    if (openingMatch && fence && !(fence[0] === '`' && stream.string.slice(openingMatch[0].length).includes('`'))) {
       stream.match(/^ {0,3}(`{3,}|~{3,})/);
-      const fence = openingFence[1];
       state.inCodeBlock = true;
       state.codeBlockFence = fence;
       // Check for special language identifiers
@@ -254,7 +265,7 @@ const taildownParser = {
     
     // Inline code
     const inlineFence = stream.match(/^`+/, false);
-    if (inlineFence) {
+    if (inlineFence && typeof inlineFence !== 'boolean') {
       const length = inlineFence[0].length;
       const remainder = stream.string.slice(stream.pos + length);
       for (const closing of remainder.matchAll(/`+/g)) {
