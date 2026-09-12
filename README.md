@@ -118,66 +118,26 @@ pnpm taildown compile hello.td --separate
 
 ## Live Editor
 
-**Try Taildown in your browser without installing anything!**
+Use the [live editor](https://taildown.dev/editor) to write Taildown, preview it, and export a portable HTML document.
 
-The Taildown Live Editor is a fully self-contained, browser-based editor with modern UX features inspired by Notion and Tiptap:
+- **Insert / Ctrl+K / Cmd+K:** Search formatting actions and component starters; Enter inserts the selected item.
+- **Slash commands:** Type `/` at the start of a line or after whitespace outside code, filter by name, then press Tab or click to insert.
+- **Completions:** Discover compiler-supported components, icons, and styles, including applied custom design definitions.
+- **Design settings:** Configure themes, aliases, custom components, and presets; save settings JSON alongside editable source.
+- **Preview and notices:** Preview updates after a one-second typing pause. Located compilation notices navigate to the source.
+- **Files:** Open/save source, download a copy, and export rendered HTML. Browser recovery is best-effort and does not replace file backups.
 
-### Core Features
+Build the complete offline editor from the repository root:
 
-- **Full syntax highlighting** powered by CodeMirror 6 with custom Taildown language support
-- **Live split-pane preview** that updates as you type with 300ms debouncing
-- **Slash commands** - Type `/` to insert headings, components, formatting, diagrams, and more
-- **Mermaid diagrams** - Live rendering of flowcharts, sequence diagrams, and graphs
-- **Smart cursor positioning** - Insertions place cursor intelligently for immediate editing
-- **Modern monospace font** - JetBrains Mono for beautiful code editing
-- **Save/load files** with File System API or traditional download/upload
-- **Export HTML** for production deployment
-- **Auto-save** to localStorage every 5 seconds
-- **Keyboard shortcuts** for professional workflow
-- **Draggable divider** to resize editor and preview panes
-- **Completely offline** - works with no internet connection
-
-### Slash Commands
-
-Type `/` anywhere to trigger a beautiful menu with 20 quick-insert commands:
-
-- **Headings** (H1, H2, H3)
-- **Formatting** (Bold, Italic, Code, Quote)
-- **Lists** (Bullet, Numbered)
-- **Links & Images**
-- **Tables** with smart cursor placement
-- **Components** (Card, Alert, Callout, Button, Tabs)
-- **Mermaid Diagrams** with syntax templates
-- **Keyboard navigation** (↑↓ arrows, Enter, Escape)
-- **Fuzzy search** filtering
-
-### Quick Start
-
-```bash
-# Build the standalone editor
+```sh
+pnpm install --frozen-lockfile
+pnpm build
 pnpm build:editor
-
-# Open in browser
-open editor/dist/editor.html
 ```
 
-The output is a single ~1.5MB HTML file that includes everything: CodeMirror 6, the Taildown compiler, and all UI. Mermaid is loaded dynamically (2.6MB) only when diagrams are detected. You can:
+Open `editor/dist/editor.html` in a modern browser. It includes the editor, compiler, and diagram runtime. External media referenced by documents still requires its original host. The smaller hosted build loads its diagram asset on first use; use the site's **Offline editor** button to download the complete application.
 
-- Open it directly in any modern browser
-- Host it on any static web server
-- Email it or share via USB drive
-- Use it completely offline (Mermaid loads locally)
-
-### Additional Features
-
-- **Development mode**: Open `editor/index.html` for quick testing
-- **Production build**: Run `pnpm build:editor` for standalone file
-- **File System API**: Direct file saving on Chrome/Edge (fallback for others)
-- **Responsive**: Works on desktop and mobile devices
-- **Persistent**: Auto-saves your work to localStorage
-- **Smart path resolution**: Automatically handles `file://`, `localhost`, and `https://` URLs
-
-See [`editor/README.md`](editor/README.md) for complete documentation, keyboard shortcuts, and troubleshooting.
+See the [editor guide](editor/README.md) for shortcuts, file recovery, build outputs, static hosting paths, and troubleshooting.
 
 ---
 
