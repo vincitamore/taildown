@@ -83,9 +83,9 @@ function extractAttributesFromText(
       const value = doubleQuoted ?? singleQuoted ?? bare ?? '';
       if (name === 'modal' || name === 'tooltip') {
         if (value) kvAttrs[name] = value;
-        else warnings.push({message: `Inline attribute "${name}" requires a non-empty value.`});
+        else warnings.push({type: 'validation', message: `Inline attribute "${name}" requires a non-empty value.`});
       } else {
-        warnings.push({message: `Unsupported inline attribute "${name}". Inline key-value attributes support modal and tooltip; use #name for an ID and plain-English styles or CSS classes for styling.`});
+        warnings.push({type: 'validation', message: `Unsupported inline attribute "${name}". Inline key-value attributes support modal and tooltip; use #name for an ID and plain-English styles or CSS classes for styling.`});
       }
       return space;
     });
