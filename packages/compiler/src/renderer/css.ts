@@ -558,6 +558,10 @@ export function generateCSS(classes: Set<string>, minify: boolean = false): stri
 }
 
 html {
+  --document-gutter: 1rem;
+  --navbar-offset: 0px;
+  --navbar-anchor-offset: 0px;
+  scroll-padding-top: calc(var(--navbar-anchor-offset) + var(--document-gutter));
   /* Prevent horizontal scroll at root level */
   overflow-x: hidden;
   width: 100%;
@@ -575,8 +579,8 @@ html:focus-within {
 
 body {
   margin: 0;
-  padding: 1rem;
-  padding-top: 120px; /* Increased space for fixed navbar on mobile when it wraps */
+  padding: var(--document-gutter);
+  padding-top: calc(var(--document-gutter) + var(--navbar-offset));
   font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
@@ -587,8 +591,6 @@ body {
   /* Prevent horizontal scroll on body */
   overflow-x: hidden;
   width: 100%;
-  /* Smooth anchor scrolling offset for fixed navbar */
-  scroll-padding-top: 120px;
   /* DO NOT use transform on body - it breaks position:fixed children! */
 }
 
@@ -626,29 +628,20 @@ a {
   margin: 0.5rem;
 }
 
-/* Offset anchor targets for fixed navbar */
-/* Account for fixed navbar when jumping to anchor links */
-:target {
-  scroll-margin-top: 120px; /* Matches mobile body padding-top */
+/* Reserve a baseline before the runtime measures wrapped navigation. */
+html:has(.navbar:not(.navbar-sticky)) {
+  --navbar-offset: 56px;
+  --navbar-anchor-offset: 56px;
 }
 
-/* Reduce scroll margin on larger screens where navbar doesn't wrap */
-@media (min-width: 640px) {
-  :target {
-    scroll-margin-top: 80px;
-  }
-  
-  body {
-    scroll-padding-top: 80px;
-  }
+html:has(.navbar-sticky) {
+  --navbar-anchor-offset: 56px;
 }
 
 /* Increase body padding on larger screens */
-/* Medium screens and up - reduce body top padding as navbar is single line */
 @media (min-width: 640px) {
-  body {
-    padding: 2rem;
-    padding-top: 80px; /* Reduced padding as navbar doesn't wrap on larger screens */
+  html {
+    --document-gutter: 2rem;
   }
   
   /* Increase navbar padding and gap on larger screens */
