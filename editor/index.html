@@ -1204,9 +1204,13 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     // Every registered component is discoverable; keep richer curated templates.
     for (const component of authoringReference.components) {
       const name = component.name.replace(/-/g, ' ');
-      if (!slashCommands.some(command => command.name.toLowerCase() === name)) {
+      const existing = slashCommands.find(command => command.name.toLowerCase() === name);
+      if (existing && component.example) {
+        existing.insert = component.example;
+        existing.cursorOffset = -4;
+      } else if (!existing) {
         slashCommands.push({name: name.replace(/\b\w/g, letter => letter.toUpperCase()), icon: 'box',
-          insert: `:::${component.name}\n\n:::`, cursorOffset: -4, description: component.description || `${name} component`});
+          insert: component.example || `:::${component.name}\n\n:::`, cursorOffset: -4, description: component.description || `${name} component`});
       }
     }
 

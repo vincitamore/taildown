@@ -10,6 +10,20 @@ const editCode = source.slice(source.indexOf('    function commandEdit('),source
 const commandEdit = new Function(editCode+';return commandEdit;')();
 const curated = new Function(source.slice(source.indexOf('    const slashCommands ='),source.indexOf('    // Every registered component'))+';return slashCommands;')();
 
+it('shared content examples compile to meaningful component content', async () => {
+  const reference = await getAuthoringReference();
+  for (const component of reference.components.filter(item=>item.example)) {
+    const result = await compile(component.example!,{inlineStyles:true});
+    expect(result.metadata.warnings,component.name).toEqual([]);
+    const dom = new JSDOM(result.html);
+    try {
+      const content = dom.window.document.querySelector(`[data-component="${component.name}"]`);
+      expect(content,component.name).not.toBeNull();
+      expect(content!.textContent!.trim().length,component.name).toBeGreaterThan(25);
+    } finally {dom.window.close();}
+  }
+});
+
 it.each(['BeforeAfter', 'Before\nAfter', 'Before\n\nAfter'])('separates inserted blocks from surrounding prose: %j', async text => {
   const from = text.indexOf('After');
   const command = {insert:':::card\nContent\n:::',cursorOffset:-4};
