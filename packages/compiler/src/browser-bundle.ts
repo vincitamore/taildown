@@ -8,6 +8,7 @@
 // Re-export main compile function
 export { compile } from './index';
 export { getAuthoringReference } from './authoring-reference';
+export {isCodePosition} from './authoring-context';
 export { getAllLucideIconNames, getLucideIconElements } from './icons/lucide-icons';
 
 // Re-export syntax highlighting for CodeMirror 6

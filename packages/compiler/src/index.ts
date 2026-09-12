@@ -10,6 +10,7 @@ import { generateJavaScript, hasInteractiveBehavior } from './js-generator';
 import {getDefaultConfig} from './config/default-config';
 import {mergeConfig} from './config/theme-merger';
 import {validateConfig} from './config/config-schema';
+export {isCodePosition} from './authoring-context';
 
 /**
  * Compile Taildown source to HTML and CSS

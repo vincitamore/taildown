@@ -856,6 +856,7 @@
     
     const {
       compile,
+      isCodePosition,
       EditorView,
       EditorState,
       Compartment,
@@ -1656,7 +1657,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
             const textBefore = line.text.slice(0, pos - line.from);
             
             // Only trigger if at start of line or after whitespace
-            if (textBefore.trim() === '' || /\s$/.test(textBefore)) {
+            if ((textBefore.trim() === '' || /\s$/.test(textBefore)) && !isCodePosition(view.state.doc.toString(), pos)) {
               slashMenuStart = pos;
               // Wait for next frame to show menu after "/" is inserted
               setTimeout(() => {
