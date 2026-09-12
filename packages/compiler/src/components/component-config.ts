@@ -6,10 +6,11 @@ export function snapshotComponentConfig(input: ComponentsConfig = {}): Component
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('Component configuration must be an object');
   const output: ComponentsConfig = {};
   const classes = (value: unknown, path: string): string[] => {
-    if (!Array.isArray(value) || value.some(item => typeof item !== 'string')) {
+    const copy: unknown[] | null = Array.isArray(value) ? Array.from(value) : null;
+    if (!copy || !copy.every((item): item is string => typeof item === 'string')) {
       throw new Error(`${path} must be an array of CSS class strings`);
     }
-    return [...value];
+    return copy;
   };
   for (const [name, config] of Object.entries(input)) {
     if (config === undefined) continue;

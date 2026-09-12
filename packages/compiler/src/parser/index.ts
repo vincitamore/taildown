@@ -6,7 +6,6 @@
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
-import type { Root } from 'mdast';
 import type { ParseResult, TaildownRoot, CompilationWarning } from '@taildown/shared';
 import { extractInlineAttributes } from './attributes';
 import { processComponents } from './components';
@@ -84,7 +83,7 @@ export async function parseWithWarnings(source: string, options: ParseOptions = 
     .use(processComponents, { warnings, styleMappings, components });
 
   const ast = processor.parse(source);
-  const processedAst = await processor.run(ast as Root, { value: source });
+  const processedAst = await processor.run(ast, { value: source });
 
   return {
     ast: processedAst as TaildownRoot,

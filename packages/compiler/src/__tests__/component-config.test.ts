@@ -58,6 +58,8 @@ it('rejects unknown components, unknown defaults and malformed class arrays cons
     { card: { defaultVariant: 'missing' } },
     { card: { defaultSize: 'missing' } },
     { card: { defaultClasses: 'p-4' as unknown as string[] } },
+    { card: { defaultClasses: new Array<string>(1) } },
+    { card: { variants: { sparse: { classes: new Array<string>(1) } } } },
   ]) {
     await expect(compile('Hello', { componentConfig })).rejects.toThrow();
     await expect(getAuthoringReference({ componentConfig })).rejects.toThrow();

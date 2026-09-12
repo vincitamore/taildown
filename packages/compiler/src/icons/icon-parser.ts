@@ -1,3 +1,4 @@
+import type {Node} from 'unist';
 /**
  * Icon Parser for Taildown
  * Parses :icon[name]{classes} syntax and creates icon nodes
@@ -42,11 +43,16 @@ export const ICON_SIZES: Readonly<Record<string, number>> = {
  * Icon node type
  * Represents an icon in the AST
  */
-export interface IconNode {
+export interface IconNode extends Node {
   type: 'icon';
   name: string;
-  classes: string[];
+  classes?: string[];
   data?: TaildownNodeData;
+}
+
+declare module 'mdast' {
+ interface PhrasingContentMap {icon: IconNode}
+ interface RootContentMap {icon: IconNode}
 }
 
 interface IconPluginOptions {
@@ -207,7 +213,7 @@ export const parseIcons: Plugin<[IconPluginOptions?], Root> = (options) => {
       }
 
       // Replace the text node with fragments
-      const newNodes: any[] = [];
+      const newNodes: (Text | IconNode)[] = [];
       
       for (const fragment of fragments) {
         const position = textSlicePosition(node, fragment.start, fragment.end, source);
@@ -219,7 +225,7 @@ export const parseIcons: Plugin<[IconPluginOptions?], Root> = (options) => {
           });
         } else if (fragment.type === 'icon' && fragment.icon) {
           // Create icon node
-          const iconNode: any = {
+          const iconNode: IconNode = {
             type: 'icon',
             name: fragment.icon.name,
             position,

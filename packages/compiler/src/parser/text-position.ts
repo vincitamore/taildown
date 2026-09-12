@@ -10,11 +10,11 @@ export function textSlicePosition(node: Text, start: number, end: number, source
     const raw = source.slice(origin.offset, node.position.end.offset);
     const offsets = [origin.offset];
     let decoded = '';
-    const tokens = /\\[!-/:-@\[-`{-~]|&(?:#[xX][\da-fA-F]+|#\d+|[a-zA-Z][a-zA-Z\d]*);|\r\n|[\s\S]/g;
+    const tokens = /\\[!-/:-@[-`{-~]|&(?:#[xX][\da-fA-F]+|#\d+|[a-zA-Z][a-zA-Z\d]*);|\r\n|[\s\S]/g;
     for (const match of raw.matchAll(tokens)) {
       const value = match[0] === '\r\n' && !node.value.includes('\r') ? '\n' : decodeString(match[0]);
       decoded += value;
-      for (let i = 0; i < value.length; i++) offsets.push(origin.offset + match.index! + match[0].length);
+      for (let i = 0; i < value.length; i++) offsets.push(origin.offset + match.index + match[0].length);
     }
     if (decoded === node.value) {
       const point = (index: number) => {

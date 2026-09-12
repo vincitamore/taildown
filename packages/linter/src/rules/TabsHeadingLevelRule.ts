@@ -1,5 +1,4 @@
 import { visit } from 'unist-util-visit';
-import type { Heading } from 'mdast';
 import type { ContainerDirectiveNode as ContainerDirective } from '@taildown/compiler';
 import { BaseRule } from './BaseRule';
 import type { RuleContext, FixTransform } from '../types';
@@ -27,7 +26,7 @@ export class TabsHeadingLevelRule extends BaseRule {
       const children = node.children || [];
       for (const child of children) {
         if (child.type === 'heading') {
-          const heading = child as Heading;
+          const heading = child;
           
           // Only h2 (depth 2) and h3 (depth 3) are valid
           if (heading.depth > 3) {
@@ -54,7 +53,7 @@ export class TabsHeadingLevelRule extends BaseRule {
   }
 
   fix(context: RuleContext): FixTransform | null {
-    let { source } = context;
+    const { source } = context;
     let modified = false;
     const lines = source.split('\n');
 
@@ -65,7 +64,7 @@ export class TabsHeadingLevelRule extends BaseRule {
       const children = node.children || [];
       for (const child of children) {
         if (child.type === 'heading') {
-          const heading = child as Heading;
+          const heading = child;
           
           if (heading.depth > 3 && heading.position) {
             // Get the line (0-indexed in array, 1-indexed in position)

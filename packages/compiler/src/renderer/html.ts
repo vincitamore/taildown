@@ -9,7 +9,8 @@ import { toHast } from 'mdast-util-to-hast';
 import rehypeStringify from 'rehype-stringify';
 import { minifyWhitespace } from 'hast-util-minify-whitespace';
 import type { Root as HastRoot, Element, ElementContent } from 'hast';
-import type { Code, Literal, Data } from 'mdast';
+import type { Code } from 'mdast';
+import type { MathNode } from '../parser/math-parser';
 import type {Node} from 'unist';
 import type { TaildownRoot, OpenGraphMetadata } from '@taildown/shared';
 import { renderIcons } from '../icons/icon-renderer';
@@ -20,15 +21,7 @@ import type { TaildownNodeData } from '@taildown/shared';
 import { visit } from 'unist-util-visit';
 import { rehypeEnhanceTables } from '../parser/table-parser';
 
-interface MathNode extends Literal {
-  type: 'math';
-  mathML: string;
-  data?: Data;
-}
-
 declare module 'mdast' {
-  interface PhrasingContentMap { math: MathNode; }
-  interface RootContentMap { math: MathNode; }
   interface Code { isDiff?: boolean; }
 }
 

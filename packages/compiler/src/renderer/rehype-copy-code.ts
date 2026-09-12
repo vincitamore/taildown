@@ -8,25 +8,7 @@
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
 
-/**
- * HAST Element interface
- */
-interface Element {
-  type: 'element';
-  tagName: string;
-  properties?: Record<string, any>;
-  children: Array<Element | TextNode | RawNode>;
-}
-
-interface TextNode {
-  type: 'text';
-  value: string;
-}
-
-interface RawNode {
-  type: 'raw';
-  value: string;
-}
+import type { Root, Element, ElementContent } from 'hast';
 
 /**
  * Extract text content from code element
@@ -34,12 +16,12 @@ interface RawNode {
 function extractCodeText(codeElement: Element): string {
   const source = codeElement.properties?.['data-code-source'];
   if (typeof source === 'string') {
-    delete codeElement.properties!['data-code-source'];
+    delete codeElement.properties['data-code-source'];
     return source;
   }
   let text = '';
   
-  function traverse(node: Element | TextNode | RawNode) {
+  function traverse(node: ElementContent) {
     if (node.type === 'text') {
       text += node.value;
     } else if (node.type === 'raw') {
@@ -92,7 +74,7 @@ function createCopyButton(codeText: string): Element {
 /**
  * Rehype plugin to add copy buttons to code blocks
  */
-export const rehypeCopyCode: Plugin = () => {
+export const rehypeCopyCode: Plugin<[], Root> = () => {
   return (tree) => {
     visit(tree, 'element', (node: Element, index, parent) => {
       // Look for pre elements containing code

@@ -34,7 +34,7 @@ async function canonicalPath(file: string): Promise<string> {
 async function validateDestinations(input: string, outputs: string[]): Promise<void> {
   const files = await Promise.all([input, ...outputs].map(async file => {
     const canonical = await canonicalPath(file);
-    const info = await stat(file).catch(error => {
+    const info = await stat(file).catch((error: NodeJS.ErrnoException) => {
       if (error.code !== 'ENOENT') throw error;
       return null;
     });

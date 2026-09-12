@@ -116,8 +116,8 @@ export async function findConfigFile(cwd: string): Promise<string | null> {
 export async function loadConfigFile(configPath: string): Promise<PartialTaildownConfig> {
   try {
     // file: URLs work for ESM and CommonJS, including Windows drive letters.
-    const module = await import(pathToFileURL(resolve(configPath)).href);
-    const config = Object.prototype.hasOwnProperty.call(module, 'default') ? module.default : module;
+    const module: unknown = await import(pathToFileURL(resolve(configPath)).href);
+    const config: unknown = module !== null && typeof module === 'object' && Object.hasOwn(module, 'default') ? Reflect.get(module, 'default') : module;
     assertConfigurationObject(config);
     return config;
   } catch (error) {

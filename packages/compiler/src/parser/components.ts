@@ -4,7 +4,7 @@
  */
 
 import { visit } from 'unist-util-visit';
-import type { Root } from 'mdast';
+import type { Root, Content } from 'mdast';
 import type { Plugin } from 'unified';
 import type { CompilationWarning, TaildownNodeData } from '@taildown/shared';
 import { COMPONENT_NAME_REGEX } from '@taildown/shared';
@@ -17,7 +17,7 @@ interface ContainerDirective {
   type: 'containerDirective';
   name: string;
   attributes?: Record<string, string | null | undefined> | null;
-  children: any[];
+  children: Content[];
   data?: TaildownNodeData;
   position?: import('unist').Position;
 }
@@ -26,7 +26,7 @@ interface TextDirective {
   type: 'textDirective';
   name: string;
   attributes?: Record<string, string | null | undefined> | null;
-  children: any[];
+  children: Content[];
   data?: TaildownNodeData;
   position?: import('unist').Position;
 }
@@ -70,7 +70,7 @@ function processDirectiveNode(
 
       // Initialize data
       node.data = node.data || {};
-      const data = node.data as TaildownNodeData;
+      const data = node.data;
 
       // Set HTML element name (default to div)
       data.hName = component?.htmlElement || 'div';

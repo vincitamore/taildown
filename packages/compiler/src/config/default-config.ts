@@ -373,7 +373,7 @@ export const DEFAULT_CONFIG: TaildownConfig = {
  * Get default config (exported for testing and inspection)
  */
 export function getDefaultConfig(): TaildownConfig {
-  return JSON.parse(JSON.stringify(DEFAULT_CONFIG)); // Deep clone
+  return structuredClone(DEFAULT_CONFIG);
 }
 
 /**

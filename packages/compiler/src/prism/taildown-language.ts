@@ -76,7 +76,7 @@ export const taildownLanguage = {
       'icon-name': {
         pattern: /\[([a-z][a-z0-9-]*)\]/,
         inside: {
-          'punctuation': /[\[\]]/,
+          'punctuation': /[[\]]/,
           'function': /[a-z][a-z0-9-]+/,
         },
       },
@@ -148,7 +148,7 @@ export const taildownLanguage = {
       'link-text': {
         pattern: /\[[^\]]+\]/,
         inside: {
-          'punctuation': /[\[\]]/,
+          'punctuation': /[[\]]/,
         },
       },
       'url': {
@@ -180,7 +180,7 @@ export const taildownLanguage = {
 /**
  * Register Taildown language with Prism
  */
-export function registerTaildownLanguage(Prism: any): void {
+export function registerTaildownLanguage(Prism: { languages?: Record<string, unknown> } | null | undefined): void {
   if (!Prism || !Prism.languages) {
     return;
   }

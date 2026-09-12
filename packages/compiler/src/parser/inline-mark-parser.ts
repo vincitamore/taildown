@@ -1,3 +1,4 @@
+import type {Node} from 'unist';
 /**
  * Inline Mark/Highlight Parser for Taildown
  * Parses ==highlighted text== syntax for semantic text highlighting
@@ -10,7 +11,13 @@
 
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
-import type { Root, Text } from 'mdast';
+import type { Root, Text, Data } from 'mdast';
+
+interface MarkNode extends Node {type: 'mark'; children: Text[]; data?: Data}
+declare module 'mdast' {
+ interface PhrasingContentMap {mark: MarkNode}
+ interface RootContentMap {mark: MarkNode}
+}
 
 // Matches ==text=={optional attributes}
 const INLINE_MARK_REGEX = /==([^=]+)==(?:\{([^}]+)\})?/g;
@@ -35,9 +42,9 @@ function parseAttributes(input?: string): string[] {
 export const parseInlineMarks: Plugin<[{styleMappings?: Record<string, string>}?], Root> = (options) => {
   return (tree: Root) => {
     visit(tree, 'text', (node: Text, index, parent) => {
-      if (!parent || typeof node.value !== 'string' || !node.value.includes('==')) return;
+      if (!parent || index === undefined || typeof node.value !== 'string' || !node.value.includes('==')) return;
 
-      const parts: any[] = [];
+      const parts: (Text | MarkNode)[] = [];
       let lastIndex = 0;
       const value = node.value;
       let match: RegExpExecArray | null;
@@ -45,6 +52,7 @@ export const parseInlineMarks: Plugin<[{styleMappings?: Record<string, string>}?
       INLINE_MARK_REGEX.lastIndex = 0;
       while ((match = INLINE_MARK_REGEX.exec(value)) !== null) {
         const [full, text, attrsRaw] = match;
+        if (text === undefined) continue;
         const start = match.index;
         const end = start + full.length;
 
@@ -71,7 +79,7 @@ export const parseInlineMarks: Plugin<[{styleMappings?: Record<string, string>}?
           }
         }
 
-        const markNode: any = {
+        const markNode: MarkNode = {
           type: 'mark',
           data: {
             hName: 'mark',
@@ -93,8 +101,8 @@ export const parseInlineMarks: Plugin<[{styleMappings?: Record<string, string>}?
 
       if (parts.length > 0) {
         // Replace the single text node with multiple nodes
-        parent.children.splice(index as number, 1, ...parts);
-        return index! + parts.length;
+        parent.children.splice(index, 1, ...parts);
+        return index + parts.length;
       }
     });
   };

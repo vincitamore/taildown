@@ -9,9 +9,20 @@ import { textSlicePosition } from './text-position';
  * Converts LaTeX to MathML at compile time using temml
  */
 
-import type { Root, Text } from 'mdast';
+import type { Root, Text, Literal, Data } from 'mdast';
 import { visit } from 'unist-util-visit';
 import temml from 'temml';
+
+export interface MathNode extends Literal {
+  type: 'math';
+  mathML: string;
+  data?: Data;
+}
+
+declare module 'mdast' {
+  interface PhrasingContentMap { math: MathNode; }
+  interface RootContentMap { math: MathNode; }
+}
 
 /**
  * Parse math equations from text nodes
@@ -28,7 +39,7 @@ import temml from 'temml';
 export function remarkMath() {
   return (tree: Root, file?: { toString(): string }): void => {
     const source = file?.toString();
-    // Visit text nodes directly (like footnote parser does)
+    // Visit decoded Markdown text nodes.
     visit(tree, 'text', (node: Text, index, parent) => {
       if (!parent || index === undefined) return;
       
@@ -37,7 +48,7 @@ export function remarkMath() {
       // Check if text contains math delimiters
       if (!text.includes('$')) return;
       
-      const newNodes: any[] = [];
+      const newNodes: (Text | MathNode)[] = [];
       let lastIndex = 0;
       
       // Create a list of all math matches with their positions
@@ -56,7 +67,7 @@ export function remarkMath() {
       }
       
       // Find all inline math ($...$) - skip positions overlapping with display math
-      const inlineMathRegex = /\$([^\$\n]+?)\$/g;
+      const inlineMathRegex = /\$([^$\n]+?)\$/g;
       while ((match = inlineMathRegex.exec(text)) !== null) {
         const start = match.index;
         const end = start + match[0].length;
@@ -149,7 +160,7 @@ export function remarkMath() {
         });
       }
       
-      // Replace the text node with new nodes (same as footnote parser)
+      // Replace the text node with positioned text and math nodes.
       if (newNodes.length > 0) {
         parent.children.splice(index, 1, ...newNodes);
       }

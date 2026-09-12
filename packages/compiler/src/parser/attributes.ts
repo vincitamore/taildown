@@ -5,7 +5,7 @@
  */
 
 import { visit } from 'unist-util-visit';
-import type { Root, Heading, Paragraph, Link, Text } from 'mdast';
+import type { Root, Heading, Paragraph, Link } from 'mdast';
 import type { Plugin } from 'unified';
 import type { CompilationWarning, TaildownNodeData } from '@taildown/shared';
 import { ATTRIBUTE_BLOCK_REGEX, CLASS_NAME_REGEX } from '@taildown/shared';
@@ -45,7 +45,7 @@ function extractAttributesFromText(
   tooltip?: string;
 } {
   // Try to match attribute block at the END first (standard case)
-  let match = afterLink ? null : text.match(ATTRIBUTE_BLOCK_REGEX);
+  const match = afterLink ? null : text.match(ATTRIBUTE_BLOCK_REGEX);
   let attributeBlockRaw: string | null = null;
   let remainingAfterRemoval: string = text;
 
@@ -189,7 +189,7 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
       const nextSibling = parent.children[index + 1];
 
       if (nextSibling && nextSibling.type === 'text') {
-        const textNode = nextSibling as Text;
+        const textNode = nextSibling;
         
         // Extract attributes including modal/tooltip attachments and ID
         const { classes, remainingText, id, modal, tooltip } = extractAttributesFromText(
@@ -232,7 +232,7 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
       const lastChild = node.children[node.children.length - 1];
 
       if (lastChild && lastChild.type === 'text') {
-        const textNode = lastChild as Text;
+        const textNode = lastChild;
         const { classes, remainingText, id, modal, tooltip } = extractAttributesFromText(
           textNode.value,
           resolverContext,
@@ -274,7 +274,7 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
       const lastChild = node.children[node.children.length - 1];
 
       if (lastChild && lastChild.type === 'text') {
-        const textNode = lastChild as Text;
+        const textNode = lastChild;
         const { classes, remainingText, id, modal, tooltip } = extractAttributesFromText(
           textNode.value,
           resolverContext,

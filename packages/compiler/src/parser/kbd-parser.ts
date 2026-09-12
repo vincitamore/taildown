@@ -1,3 +1,4 @@
+import type {Node} from 'unist';
 /**
  * Keyboard Key Parser for Taildown
  * Parses :kbd[key] and :kbd[key+combo] syntax
@@ -19,7 +20,7 @@
  */
 
 import { visit } from 'unist-util-visit';
-import type { Root, Text } from 'mdast';
+import type { Root, Text, Data } from 'mdast';
 import type { Plugin } from 'unified';
 
 /**
@@ -116,12 +117,19 @@ function parsePlatform(attrs?: string): 'mac' | 'windows' | undefined {
  * - :kbd[Ctrl+C] → <kbd>Ctrl</kbd> + <kbd>C</kbd>
  * - :kbd[Cmd+Shift+P]{mac} → <kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>P</kbd>
  */
+interface KeyboardNode extends Node {type: 'kbd'; children: Text[]; data?: Data}
+interface KeyboardGroup extends Node {type: 'kbdGroup'; children: (Text | KeyboardNode)[]; data?: Data}
+declare module 'mdast' {
+ interface PhrasingContentMap {kbd: KeyboardNode; kbdGroup: KeyboardGroup}
+ interface RootContentMap {kbd: KeyboardNode; kbdGroup: KeyboardGroup}
+}
+
 export const parseKeyboard: Plugin<[], Root> = () => {
   return (tree: Root) => {
     visit(tree, 'text', (node: Text, index, parent) => {
-      if (!parent || typeof node.value !== 'string' || !node.value.includes(':kbd[')) return;
+      if (!parent || index === undefined || typeof node.value !== 'string' || !node.value.includes(':kbd[')) return;
 
-      const parts: any[] = [];
+      const parts: (Text | KeyboardNode | KeyboardGroup)[] = [];
       let lastIndex = 0;
       const value = node.value;
       let match: RegExpExecArray | null;
@@ -142,10 +150,10 @@ export const parseKeyboard: Plugin<[], Root> = () => {
         const platform = parsePlatform(attrsRaw);
         
         // Split key combination on + or - (common separators)
-        const keyParts = keys.split(/\s*[+\-]\s*/);
+        const keyParts = keys.split(/\s*[+-]\s*/);
         
         // Create kbd elements for each key
-        const kbdNodes: any[] = [];
+        const kbdNodes: (Text | KeyboardNode)[] = [];
         
         for (let i = 0; i < keyParts.length; i++) {
           const key = keyParts[i] ?? '';
@@ -200,8 +208,8 @@ export const parseKeyboard: Plugin<[], Root> = () => {
 
       if (parts.length > 0) {
         // Replace the single text node with multiple nodes
-        parent.children.splice(index as number, 1, ...parts);
-        return index! + parts.length;
+        parent.children.splice(index, 1, ...parts);
+        return index + parts.length;
       }
     });
   };
