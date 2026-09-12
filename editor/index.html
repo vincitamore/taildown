@@ -898,6 +898,7 @@
     import {createIconRenderer} from './icons.ts';
     import {createFileOperations} from './files.ts';
     import {createCommands} from './commands.ts';
+    import {createPreviewController} from './preview.ts';
     import {createDraftStore} from './draft-store.js';
     import {createDesignSettings, typographyChoices, prepareTypography, parseDesignSettings} from './design-settings.js';
     
@@ -997,7 +998,6 @@ Browser recovery keeps your latest draft when storage is available. Save or down
       set filename(value) { currentFilename = value; },
       handle: null, documentVersion: 0,
     };
-    let updateTimeout = null;
 
     let slashMenuActive = false;
     let slashMenuStart = null;
@@ -1512,97 +1512,11 @@ Browser recovery keeps your latest draft when storage is available. Save or down
       }
     }
 
-    let previewRevision = 0;
-    // Schedule preview updates and autosave after typing pauses.
-    function scheduleUpdate() {
-      previewRevision++; // Invalidate pending results before the debounce expires.
-      document.getElementById('diagnostics').hidden = true;
-      clearTimeout(updateTimeout);
-      updateTimeout = setTimeout(() => {
-        const content = editor.state.doc.toString();
-        updatePreview(content);
-        draftStore.save(content, currentFilename);
-      }, 1000);
-    }
-    async function updatePreview(source) {
-      const revision = ++previewRevision;
-      try {
-        const startTime = performance.now();
-        
-        // Save scroll position before updating
-        let savedScrollTop = 0;
-        let savedScrollLeft = 0;
-        try {
-          const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
-          if (previewDoc && previewDoc.documentElement) {
-            savedScrollTop = previewDoc.documentElement.scrollTop || previewDoc.body.scrollTop || 0;
-            savedScrollLeft = previewDoc.documentElement.scrollLeft || previewDoc.body.scrollLeft || 0;
-          }
-        } catch (e) {
-          // Ignore if iframe not accessible yet
-        }
-        
-        const result = await compile(source, {
-          ...designSettings.options,
-          inlineStyles: true,
-          inlineScripts: true,
-          darkMode: true,
-        });
-        if (revision !== previewRevision) return;
-        const compileTime = performance.now() - startTime;
-
-        // Function to restore scroll position
-        const restoreScroll = () => {
-          if (revision !== previewRevision) return;
-          try {
-            const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
-            if (previewDoc && previewDoc.documentElement) {
-              previewDoc.documentElement.scrollTop = savedScrollTop;
-              previewDoc.body.scrollTop = savedScrollTop;
-              previewDoc.documentElement.scrollLeft = savedScrollLeft;
-              previewDoc.body.scrollLeft = savedScrollLeft;
-            }
-          } catch (e) {
-            // Ignore if iframe not accessible
-          }
-        };
-
-        previewFrame.srcdoc = result.html;
-        statusBar.textContent = `✓ Compiled in ${compileTime.toFixed(0)}ms`;
-        const warnings = result.metadata.warnings;
-        const diagnostics = document.getElementById('diagnostics');
-        diagnostics.hidden = warnings.length === 0;
-        diagnostics.querySelector('summary').textContent = `${warnings.length} compilation notice${warnings.length === 1 ? '' : 's'}`;
-        diagnostics.querySelector('ul').replaceChildren(...warnings.map(warning => {
-          const item = document.createElement('li');
-          if (Number.isInteger(warning.line) && warning.line > 0) {
-            const location = document.createElement('button');
-            location.type = 'button';
-            location.textContent = `Line ${warning.line}${warning.column ? `, column ${warning.column}` : ''}`;
-            location.style.cssText = 'font:inherit;color:inherit;background:none;border:0;padding:0;text-decoration:underline;cursor:pointer;';
-            location.addEventListener('click', () => {
-              const line = editor.state.doc.line(Math.min(warning.line, editor.state.doc.lines));
-              const anchor = line.from + Math.max(0, Math.min((warning.column || 1) - 1, line.length));
-              editor.dispatch({selection: {anchor}, scrollIntoView: true});
-              editor.focus();
-            });
-            item.append(location, document.createTextNode(`: ${warning.message}`));
-          } else {
-            item.textContent = warning.message;
-          }
-          return item;
-        }));
-        statusBar.className = 'success';
-        
-        previewFrame.addEventListener('load', restoreScroll, { once: true });
-      } catch (error) {
-        if (revision !== previewRevision) return;
-        document.getElementById('diagnostics').hidden = true;
-        statusBar.textContent = `✗ Error: ${error.message}`;
-        statusBar.className = 'error';
-        console.error('Compilation error:', error);
-      }
-    }
+    const {updatePreview, scheduleUpdate} = createPreviewController({
+      compile, getDesignOptions: () => designSettings.options, getEditor: () => editor,
+      getFilename: () => currentFilename, draftStore, previewFrame, statusBar,
+      diagnostics: document.getElementById('diagnostics'), document,
+    });
 
     // New document and file operations
     const {newDocument, showTemplate, openFile, saveFile, downloadFile, exportHTML} = createFileOperations({
