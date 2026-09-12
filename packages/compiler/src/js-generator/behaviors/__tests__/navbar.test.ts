@@ -21,7 +21,7 @@ it('tracks wrapped fixed navigation without double-counting sticky flow', () => 
     height = 134;
     resize();
     expect(value('--navbar-offset')).toBe('134px');
-    navs[0].remove();
+    navs[0]!.remove();
     window.dispatchEvent(new window.Event('resize'));
     expect(value('--navbar-offset')).toBe('0px');
     expect(value('--navbar-anchor-offset')).toBe('138px');

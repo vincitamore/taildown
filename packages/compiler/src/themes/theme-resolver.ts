@@ -13,6 +13,7 @@ import type { TaildownConfig } from '../config/config-schema';
 import { generateDarkModeCSS, getDarkModeOptions, isDarkModeEnabled } from './dark-mode';
 import { generateGlassmorphismCSS } from './glassmorphism';
 import { generateAnimationCSS } from './animations';
+import { generateColorPaletteCSS } from './color-palette';
 
 /**
  * Theme resolver class
@@ -34,6 +35,9 @@ export class ThemeResolver {
     // Dark mode CSS (includes color palette)
     if (isDarkModeEnabled(this.config)) {
       sections.push(generateDarkModeCSS(this.config));
+    } else {
+      // Base semantic colors are required even when theme switching is off.
+      sections.push(generateColorPaletteCSS(this.config));
     }
     
     // Glassmorphism effects
