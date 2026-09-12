@@ -162,6 +162,7 @@
       background: var(--bg-secondary);
       color: var(--text-primary);
       height: 100vh;
+      height: 100dvh;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -176,9 +177,10 @@
       padding: 10px 16px;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 10px;
       flex-shrink: 0;
-      height: 56px;
+      min-height: 56px;
       backdrop-filter: blur(8px);
       box-shadow: var(--shadow-sm);
       z-index: 10;
@@ -190,6 +192,8 @@
       border: 1px solid var(--border-color);
       color: var(--text-primary);
       padding: 8px 18px;
+      min-height: 44px;
+      white-space: nowrap;
       border-radius: 8px;
       cursor: pointer;
       font-size: 14px;
@@ -253,6 +257,8 @@
     }
 
     #filename-display {
+      max-width: 100%;
+      overflow-wrap: anywhere;
       color: var(--text-secondary);
       font-size: 14px;
       margin-left: 4px;
@@ -272,6 +278,8 @@
     }
 
     #status {
+      max-width: 100%;
+      overflow-wrap: anywhere;
       margin-left: auto;
       color: var(--text-secondary);
       font-size: 13px;
@@ -301,6 +309,7 @@
     #editor-container {
       display: flex;
       flex: 1;
+      min-height: 0;
       overflow: hidden;
       position: relative;
       background: var(--bg-secondary);
@@ -876,236 +885,57 @@
     } = Taildown;
 
     // Default welcome template
-    const DEFAULT_TEMPLATE = `# Welcome to Taildown Live Editor! {huge-bold primary center}
+    const DEFAULT_TEMPLATE = `:::container {wide}
+**TAILDOWN / A PLACE TO BEGIN** {small primary}
 
-Your modern, offline-capable Markdown editor with superpowers {large muted center}
+# Give your next idea a page. {text-4xl bold tight-lines}
 
----
+A field note, a project guide, a small corner of the web. Start with words and shape the rest as you go. {large muted}
 
-## :icon[zap]{warning} Quick Start Guide
-
-**Try these powerful features:**
-
-1. Type :kbd[/] to open the slash command menu
-2. Select text and use the **bubble menu** for formatting
-3. Type :kbd[:] for autocomplete (try :kbd[:::], :kbd[:icon], or :kbd[{])
-4. Press :kbd[Tab] to accept suggestions
-5. Toggle **dark mode** with the moon/sun icon
-
-:::alert {info}
-:icon[lightbulb]{warning} **Tip:** The preview updates as you type. Browser draft recovery saves your latest edits when storage is available; use Save or Download to keep a file copy.
-:::
+Change this sentence in the editor. The preview follows as you type.
 
 ---
 
-## :icon[keyboard]{primary} Slash Commands
+## A little structure goes a long way.
 
-Type :kbd[/] anywhere to access quick insert commands:
-
-- **/h1** → Large heading
-- **/card** → Card component with auto-fencing
-- **/mermaid** → Diagram block
-- **/code** → Code block
-- **/table** → 2-column table template
-
-Try it now: Type :kbd[/] below this line!
-
-
-
----
-
-## :icon[sparkles]{accent} Smart Autocomplete
-
-Experience intelligent, context-aware suggestions:
-
-**Component Fence:** Type :kbd[:::c] and press :kbd[Tab] to see card, callout, carousel...
-
-**Attributes:** Type :kbd[{] to see 50+ style options:
-- **{primary}**, **{secondary}**, **{accent}**
-- **{huge-bold}**, **{large-light}**, **{xl-bold}**
-- **{light-glass}**, **{elevated}**, **{shadow-xl}**
-- **{fade-in}**, **{slide-up}**, **{hover-lift}**
-
-**Icons:** Type :kbd[:icon] to browse the complete included Lucide library with previews!
-
----
-
-## :icon[edit]{secondary} Bubble Menu
-
-**Select any text** to see the floating toolbar with quick formatting:
-- Bold (Ctrl+B)
-- Italic (Ctrl+I)
-- Code
-- Heading
-- Link (Ctrl/Cmd+Shift+K)
-- Search insert commands (Ctrl/Cmd+K)
-
----
-
-## :icon[layout]{success} Interactive Components
-
+:::card {light-glass padded-lg}
 :::tabs
-### Cards & Layouts
+### The idea
 
-:::card {light-glass padded hover-lift}
-#### Beautiful Cards {primary}
-Cards support titles, icons, and style attributes. Hover over this card!
-
-:icon[heart]{error} :icon[star]{warning} :icon[zap]{primary}
-:::
-
-:::grid {3}
-:::card {subtle-glass padded center}
-:icon[box]{primary}
-
-**Grid Layout**
-
-Responsive grids
-:::
-
-:::card {subtle-glass padded center}
-:icon[layers]{secondary}
-
-**Stack Items**
-
-Equal heights
-:::
-
-:::card {subtle-glass padded center}
-:icon[table]{accent}
-
-**Auto-flow**
-
-Smart wrapping
-:::
-:::
-
-### Mermaid Diagrams
-
-:::mermaid
-graph LR
-  A[Write] --> B{Compile}
-  B -->|Success| C[Preview]
-  B -->|Error| D[Debug]
-  C --> E[Export HTML]
-:::
-
-### Buttons & Modals
-
-:::card {center}
-
-[Click Me](#){button primary modal="Success! This is an inline modal. Click anywhere outside or press Escape to close."}
-
-[Hover Me](#){button secondary tooltip="Tooltips provide helpful context without cluttering your UI"}
-:::
-
-:::
-
----
-
-## :icon[type]{info} Typography & Styling
-
-Make your content **pop** with natural language styles:
-
-# Huge Bold Primary Heading {huge-bold primary}
-## Large Bold Secondary {large-bold secondary}  
-### Medium Accent Heading {medium accent}
-
-Regular text, **bold text**, *italic text*, and \`inline code\`.
-
-
-This entire block is styled with multiple attributes!
-You can combine size, color, padding, borders, and effects.
-{large-bold light-glass padded rounded primary} 
-
----
-
-## :icon[code-2]{primary} Code Highlighting
-
-Syntax highlighting powered by CodeMirror 6:
-
-${'```'}javascript
-function greet(name) {
-  console.log('Hello, ' + name + '!');
-  return true;
-}
-
-greet('Taildown');
-${'```'}
-
-${'```'}css
-.beautiful {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
-  padding: 2rem;
-}
-${'```'}
-
----
-
-## :icon[list]{secondary} Lists & Tables
-
-**Bullet List:**
-- First item
-- Second item with **bold**
-- :icon[check]{success} Third item with a checkmark
-
-**Numbered List:**
-1. Step one
-2. Step two  
-3. Step three
-
-**Table:**
-
-| Feature | Status | Priority |
-|---------|--------|----------|
-| Slash Commands | :icon[check-circle]{success} | High |
-| Autocomplete | :icon[check-circle]{success} | High |
-| Dark Mode | :icon[check-circle]{success} | Medium |
-{sortable zebra}
-
----
-
-## :icon[smile]{accent} More Components
+Make something worth keeping. A few useful details, arranged with care, are enough to begin.
 
 :::callout {info}
-:icon[info]{info} **Did you know?**  
-Callouts are great for tips, warnings, and important information.
+**Try a small change.**
+
+Replace this note with something you want your reader to remember. Keep the surrounding fences to preserve the callout.
 :::
 
-:::alert {warning}
-:icon[alert-triangle]{warning} **Warning:** This editor is highly addictive. You may never want to use another Markdown editor again!
+### The details
+
+:::accordion
+**What gives this page its shape?**
+
+Markdown handles headings, links, lists, and emphasis. Fences such as \`:::card\` group content into components. Attributes such as \`{light-glass}\` change its appearance.
+
+**Can the page travel on its own?**
+
+Use **Export HTML** to make a standalone page with its styles and interactions included. Keep the editable source with **Save** or **Download**.
+:::
+:::
 :::
 
-**Inline Badges:** Project Status: :badge[active]{success} Version: :badge[v0.2.0]{info} License: :badge[MIT]{primary}
+Switch the tabs and open a question. These are working components you can edit. {small muted}
 
----
+## Make it yours.
 
-## :icon[download]{primary} Export & Share
+1. **Write.** Replace the title and the note above, or choose **New** for a blank start.
+2. **Compose.** Choose **Insert** or press :kbd[Ctrl/Cmd+K] to browse components and formatting. Type \`{\` for style suggestions.
+3. **Keep a copy.** Save the editable source as a \`.td\` file. Export HTML when it is ready to share.
 
-When you're done:
+Browser recovery keeps your latest draft when storage is available. Save or download a file copy for safekeeping. {small muted}
 
-1. **Save** (.td file) - Ctrl+S
-2. **Export HTML** - Ctrl+E (production-ready, self-contained)
-3. **Download** - Get raw .td file
-4. **Share** - All features work offline!
-
-:::card {elevated primary}
-
-### Ready to create something amazing? {huge-bold center}
-
-Start by clearing this template and writing your own content!
-{center}
-
-Try the **New** button (Ctrl+N) to start fresh!
-{center}
-
+[Read the guide](https://taildown.dev/getting-started) · [Explore components](https://taildown.dev/components)
 :::
-
----
-
-Built with :icon[heart]{error} using Taildown • Fully offline-capable • No tracking
-{center muted small}
 `;
 
     // State

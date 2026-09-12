@@ -3023,7 +3023,7 @@ ${generateThemeCSS()}
 }
 
 .tab-button[aria-selected="true"] {
-  color: var(--primary);
+  color: var(--primary-text);
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
               0 1px 2px -1px rgba(0, 0, 0, 0.1),
@@ -3101,7 +3101,7 @@ ${generateThemeCSS()}
 
 .tabs-pills .tab-button[aria-selected="true"] {
   background: var(--primary);
-  color: white;
+  color: var(--primary-foreground);
 }
 
 /* ========================================

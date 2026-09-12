@@ -5,6 +5,19 @@ import {generateColorPaletteCSS,getLightModeColors,getDarkModeColors} from '../.
 import {getDefaultConfig} from '../../config/default-config';
 import {getAuthoringReference} from '../../authoring-reference';
 
+it('keeps selected tab labels readable in plain and filled variants across themes', async () => {
+  const config = getDefaultConfig();
+  const result = await compile(':::tabs\n## First\nContent\n## Second\nMore\n:::');
+  expect(result.css).toContain('.tab-button[aria-selected="true"] {\n  color: var(--primary-text);');
+  expect(result.css).toContain('.tabs-pills .tab-button[aria-selected="true"] {\n  background: var(--primary);\n  color: var(--primary-foreground);');
+  const palette = generateColorPaletteCSS(config);
+  const textColors = [...palette.matchAll(/--primary-text:\s*([^;]+);/g)].map(match => match[1]!);
+  [getLightModeColors(config), getDarkModeColors(config)].forEach((theme, index) => {
+    expect(contrast(textColors[index]!, theme.card)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(theme.primaryForeground, theme.primary)).toBeGreaterThanOrEqual(4.5);
+  });
+});
+
 it('treats error and destructive as the same button variant in compilation and authoring references', async () => {
   const result = await compile('[Error](#){button error}\n\n[Destructive](#){button destructive}\n\n[Override](#){button error text-white}');
   const dom = new JSDOM(result.html);
