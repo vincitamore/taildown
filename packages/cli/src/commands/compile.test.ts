@@ -21,6 +21,14 @@ async function expectFailure(input: string, options: Parameters<typeof compileCo
   expect(errors.mock.calls.flat().map(String).join(' ')).toContain(message);
 }
 
+it('preserves source locations in compilation notices', async () => {
+  const {directory, input} = await fixture();
+  await writeFile(input, '# Intro\n\n# Heading {title="unsupported"}');
+  const warnings = vi.spyOn(console, 'warn').mockImplementation(() => {});
+  await compileCommand(input, {config: false, output: join(directory, 'result.html')});
+  expect(warnings.mock.calls.flat().join('\n')).toContain(`${input}:3:1: Unsupported inline attribute "title"`);
+});
+
 it.each(['html', 'css', 'js'])('rejects a %s destination that would overwrite the source', async target => {
   const { directory, input } = await fixture();
   const original = await readFile(input, 'utf8');

@@ -148,7 +148,10 @@ export async function compileCommand(
     if (result.metadata.warnings.length > 0) {
       console.warn(`\n⚠ ${result.metadata.warnings.length} warning(s):`);
       for (const warning of result.metadata.warnings) {
-        console.warn(`  - ${warning.message}`);
+        const location = warning.line
+          ? `${input}:${warning.line}${warning.column ? `:${warning.column}` : ''}: `
+          : '';
+        console.warn(`  - ${location}${warning.message}`);
       }
     }
   } catch (error) {
