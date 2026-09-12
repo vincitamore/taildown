@@ -11,3 +11,10 @@ it('preserves old and new number columns for every unified diff row', async () =
   expect(rows.map(row => row.querySelector('.diff-line-content')?.textContent))
     .toEqual(['@@ -4,2 +9,2 @@', 'removed', 'added', 'unchanged']);
 });
+
+it('copies the original diff with markers and line breaks instead of rendered numbers', async () => {
+  const source = '@@ -4,2 +9,2 @@\n-removed <tag>\n+added & kept\n unchanged';
+  const result = await compile('```diff\n' + source + '\n```', {minify: true});
+  const document = new JSDOM(result.html).window.document;
+  expect(document.querySelector('.code-copy-btn')?.getAttribute('data-code-text')).toBe(source);
+});

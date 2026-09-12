@@ -32,6 +32,11 @@ interface RawNode {
  * Extract text content from code element
  */
 function extractCodeText(codeElement: Element): string {
+  const source = codeElement.properties?.['data-code-source'];
+  if (typeof source === 'string') {
+    delete codeElement.properties!['data-code-source'];
+    return source;
+  }
   let text = '';
   
   function traverse(node: Element | TextNode | RawNode) {

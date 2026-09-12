@@ -1343,6 +1343,7 @@ export function renderDiff(_state: State, node: any): Element {
               tagName: 'code',
               properties: {
                 className: ['diff-code', 'block'],
+                'data-code-source': typeof node.value === 'string' ? node.value : undefined,
               },
               children: lineElements,
             },
