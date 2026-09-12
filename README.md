@@ -1193,11 +1193,11 @@ taildown/
 - Save/load with File System API
 - Auto-save to localStorage
 - Dark mode support
-- Standalone ~1.5MB HTML file
+- Standalone offline HTML editor with embedded diagram runtime
 
 ### Phase 4: Enhancement (Ongoing)
 
-- ✅ Performance optimization (sub-100ms compile)
+- ⏳ Performance measurement and optimization across document types and devices
 - ✅ Advanced theming (CSS variables)
 - ✅ Animation presets (7 entrance + 6 hover)
 - ⏳ Plugin system (infrastructure exists, loader not implemented)
