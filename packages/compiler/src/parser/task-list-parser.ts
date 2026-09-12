@@ -21,7 +21,7 @@
  */
 
 import { visit } from 'unist-util-visit';
-import type { Root, ListItem, List, Text, Paragraph } from 'mdast';
+import type { Root, ListItem, List, Nodes } from 'mdast';
 import type { Plugin } from 'unified';
 
 /**
@@ -73,10 +73,11 @@ function getListItemText(item: ListItem): { text: string; cleanText: string; cus
   let text = '';
   let customState: 'in-progress' | 'blocked' | undefined;
   
-  function extractText(node: any): void {
+  function extractText(node: Nodes): void {
+    if (node.type === 'list') return;
     if (node.type === 'text') {
       text += node.value;
-    } else if (node.children) {
+    } else if ('children' in node) {
       for (const child of node.children) {
         extractText(child);
       }
@@ -92,21 +93,21 @@ function getListItemText(item: ListItem): { text: string; cleanText: string; cus
   // Check if first paragraph/text starts with [~] or [-]
   const firstChild = item.children?.[0];
   if (firstChild?.type === 'paragraph') {
-    const firstTextNode = (firstChild as Paragraph).children?.[0];
+    const firstTextNode = firstChild.children?.[0];
     if (firstTextNode?.type === 'text') {
-      const textValue = (firstTextNode as Text).value;
+      const textValue = firstTextNode.value;
       if (textValue.startsWith('[~]')) {
         customState = 'in-progress';
         // Remove the marker from the text
-        (firstTextNode as Text).value = textValue.substring(3).trim();
+        firstTextNode.value = textValue.substring(3).trim();
         // Mark item as checked so GFM structures it properly
-        (item as any).checked = false;
+        item.checked = false;
       } else if (textValue.startsWith('[-]')) {
         customState = 'blocked';
         // Remove the marker from the text
-        (firstTextNode as Text).value = textValue.substring(3).trim();
+        firstTextNode.value = textValue.substring(3).trim();
         // Mark item as checked so GFM structures it properly
-        (item as any).checked = false;
+        item.checked = false;
       }
     }
   }
@@ -129,7 +130,7 @@ export const parseEnhancedTaskList: Plugin<[], Root> = () => {
       
       for (const item of listNode.children) {
         if (item.type !== 'listItem') continue;
-        const listItem = item as ListItem;
+        const listItem = item;
         
         // Check for GFM task items
         if (typeof listItem.checked === 'boolean') {
@@ -140,9 +141,9 @@ export const parseEnhancedTaskList: Plugin<[], Root> = () => {
         // Check for custom state markers [~] or [-]
         const firstChild = listItem.children?.[0];
         if (firstChild?.type === 'paragraph') {
-          const firstTextNode = (firstChild as Paragraph).children?.[0];
+          const firstTextNode = firstChild.children?.[0];
           if (firstTextNode?.type === 'text') {
-            const textValue = (firstTextNode as Text).value;
+            const textValue = firstTextNode.value;
             if (textValue.startsWith('[~]') || textValue.startsWith('[-]')) {
               hasCustomStateMarkers = true;
               break;
@@ -183,7 +184,7 @@ export const parseEnhancedTaskList: Plugin<[], Root> = () => {
       for (const item of listNode.children) {
         if (item.type !== 'listItem') continue;
         
-        const listItem = item as ListItem;
+        const listItem = item;
         
         // Get item text and check for custom state markers
         const { text: _itemText, cleanText, customState } = getListItemText(listItem);
