@@ -89,24 +89,29 @@ getComponents('carousel').forEach(carousel => {
   });
   
   // Touch swipe support
-  let touchStartX = 0;
-  let touchEndX = 0;
+  let touchStart = null;
   
   carousel.addEventListener('touchstart', (e) => {
-    if (!owns(e.target) || editing(e.target) || e.target.closest('input, textarea, select, [role="slider"]')) return;
-    touchStartX = e.changedTouches[0].screenX;
+    touchStart = null;
+    if (e.touches.length !== 1 || !owns(e.target) || editing(e.target) || e.target.closest('input, textarea, select, [role="slider"]')) return;
+    const touch = e.touches[0];
+    touchStart = {id: touch.identifier, x: touch.clientX, y: touch.clientY};
   }, { passive: true });
   
   carousel.addEventListener('touchend', (e) => {
-    if (!owns(e.target) || editing(e.target) || e.target.closest('input, textarea, select, [role="slider"]')) return;
-    touchEndX = e.changedTouches[0].screenX;
-    const diff = touchStartX - touchEndX;
-    
-    if (Math.abs(diff) > 50) {
+    const start = touchStart;
+    touchStart = null;
+    if (!start || e.touches.length !== 0) return;
+    const touch = Array.from(e.changedTouches).find(touch => touch.identifier === start.id);
+    if (!touch) return;
+    const diff = start.x - touch.clientX;
+    const vertical = start.y - touch.clientY;
+    if (Math.abs(diff) > 50 && Math.abs(diff) > Math.abs(vertical)) {
       if (diff > 0) next();
       else prev();
     }
   }, { passive: true });
+  carousel.addEventListener('touchcancel', () => { touchStart = null; }, { passive: true });
   
   // Desktop mouse drag support
   let mouseStartX = 0;
@@ -158,6 +163,14 @@ getComponents('carousel').forEach(carousel => {
   
   // Set initial cursor style
   carousel.style.cursor = 'grab';
+
+  function cancelGesture() {
+    touchStart = null;
+    isDragging = false;
+    carousel.style.cursor = 'grab';
+  }
+  window.addEventListener('blur', cancelGesture);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) cancelGesture(); });
   
   // Auto-play
   if (autoPlay && slides.length > 1) {
