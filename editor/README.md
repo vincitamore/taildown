@@ -91,6 +91,7 @@ To distribute the offline editor, share `editor/dist/editor.html`. To host the s
 - `editor/commands.ts`: command palette and slash menu, shared templates, search, and selection-aware insertion.
 - `editor/icons.ts`: toolbar and completion SVG rendering from compiler-supplied icon data.
 - `editor/preview.ts`: debounced compilation, stale-result guards, diagnostics navigation, and preview scroll restoration.
+- `editor/recovery.ts`: restores saved drafts and checks for unsaved changes before closing.
 - `editor/files.ts`: open/save/download/export operations, document identity checks, and per-handle write queues.
 - `editor/design-settings.js`: design JSON validation and persistence.
 - `editor/draft-store.js`: atomic browser recovery snapshots and storage-failure handling.

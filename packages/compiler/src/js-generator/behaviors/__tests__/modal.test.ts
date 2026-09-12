@@ -3,29 +3,58 @@ import { JSDOM } from 'jsdom';
 import { modalBehavior } from '../modal';
 
 const windows: JSDOM[] = [];
-afterEach(() => { for (const dom of windows.splice(0)) dom.window.close(); });
+afterEach(() => {
+  for (const dom of windows.splice(0)) dom.window.close();
+});
 
 function setup(content = '', closeButton = true) {
-  const dom = new JSDOM(`<body style="overflow: auto"><main><button data-modal-trigger="dialog">Open</button><button data-modal-trigger="dialog">Also open</button></main><div id="dialog" role="dialog" hidden>${closeButton ? '<button data-modal-close>Close</button>' : ''}${content}</div><aside inert>Already inert</aside></body>`, { runScripts: 'outside-only', pretendToBeVisual: true });
+  const dom = new JSDOM(
+    `<body style="overflow: auto"><main><button data-modal-trigger="dialog">Open</button><button data-modal-trigger="dialog">Also open</button></main><div id="dialog" role="dialog" hidden>${closeButton ? '<button data-modal-close>Close</button>' : ''}${content}</div><aside inert>Already inert</aside></body>`,
+    { runScripts: 'outside-only', pretendToBeVisual: true }
+  );
   windows.push(dom);
   const { window } = dom;
   // jsdom has no layout engine or native inert property. Model their platform
   // contracts here; actual geometry and keyboard behavior are checked in-browser.
   Object.defineProperty(window.HTMLElement.prototype, 'inert', {
-    get() { return this.hasAttribute('inert'); },
-    set(value: boolean) { this.toggleAttribute('inert', value); },
+    get(this: HTMLElement) {
+      return this.hasAttribute('inert');
+    },
+    set(this: HTMLElement, value: boolean) {
+      this.toggleAttribute('inert', value);
+    },
     configurable: true,
   });
   window.HTMLElement.prototype.getClientRects = function () {
-    return (this.closest('[hidden]') ? [] : [{}]) as unknown as DOMRectList;
+    const rect: DOMRect = {
+      x: 0,
+      y: 0,
+      width: 1,
+      height: 1,
+      top: 0,
+      left: 0,
+      bottom: 1,
+      right: 1,
+      toJSON: () => ({}),
+    };
+    const rects = this.closest('[hidden]') ? [] : [rect];
+    return Object.assign(rects, { item: (index: number) => rects[index] ?? null });
   };
   window.eval(modalBehavior.code);
   const document = window.document;
   const dialog = document.getElementById('dialog')!;
   const triggers = [...document.querySelectorAll<HTMLButtonElement>('[data-modal-trigger]')];
-  const open = (index = 0) => { triggers[index]!.focus(); triggers[index]!.click(); };
+  const open = (index = 0) => {
+    triggers[index]!.focus();
+    triggers[index]!.click();
+  };
   const key = (key: string, shiftKey = false) => {
-    const event = new window.KeyboardEvent('keydown', { key, shiftKey, bubbles: true, cancelable: true });
+    const event = new window.KeyboardEvent('keydown', {
+      key,
+      shiftKey,
+      bubbles: true,
+      cancelable: true,
+    });
     document.activeElement!.dispatchEvent(event);
     return event.defaultPrevented;
   };
@@ -34,7 +63,9 @@ function setup(content = '', closeButton = true) {
 
 describe('modal lifecycle', () => {
   it('wraps at the selected radio and updates when the selection changes', () => {
-    const {document, open, key} = setup('<input id="a" type="radio" name="choice" checked><input id="b" type="radio" name="choice">');
+    const { document, open, key } = setup(
+      '<input id="a" type="radio" name="choice" checked><input id="b" type="radio" name="choice">'
+    );
     open();
     const a = document.getElementById('a') as HTMLInputElement;
     const b = document.getElementById('b') as HTMLInputElement;
@@ -51,7 +82,9 @@ describe('modal lifecycle', () => {
   });
 
   it('keeps radio groups with the same name in different forms independent', () => {
-    const {document, open, key} = setup('<form><input id="a" type="radio" name="choice" checked></form><form><input id="b" type="radio" name="choice" checked></form>');
+    const { document, open, key } = setup(
+      '<form><input id="a" type="radio" name="choice" checked></form><form><input id="b" type="radio" name="choice" checked></form>'
+    );
     open();
     document.getElementById('a')!.focus();
     expect(key('Tab')).toBe(false);
@@ -61,7 +94,9 @@ describe('modal lifecycle', () => {
   });
 
   it('handles unselected group entry and reversing direction without moving within the group', () => {
-    const {document, open, key} = setup('<input id="a" type="radio" name="choice"><input id="b" type="radio" name="choice">');
+    const { document, open, key } = setup(
+      '<input id="a" type="radio" name="choice"><input id="b" type="radio" name="choice">'
+    );
     open();
     key('Tab', true);
     expect(document.activeElement?.id).toBe('b');
@@ -73,7 +108,9 @@ describe('modal lifecycle', () => {
   });
 
   it('uses positive tab order and ignores CSS-hidden controls', () => {
-    const {document, open, key} = setup('<button tabindex="2">Second</button><button tabindex="1" style="visibility:hidden">Invisible</button><button tabindex="1">First</button>');
+    const { document, open, key } = setup(
+      '<button tabindex="2">Second</button><button tabindex="1" style="visibility:hidden">Invisible</button><button tabindex="1">First</button>'
+    );
     open();
     expect(document.activeElement?.textContent).toBe('First');
     key('Tab', true);
@@ -82,8 +119,8 @@ describe('modal lifecycle', () => {
     expect(document.activeElement?.textContent).toBe('First');
   });
 
-  it.each(['removed','disabled'])('restores document focus when its opener is %s', state => {
-    const {document, triggers, open, key} = setup();
+  it.each(['removed', 'disabled'])('restores document focus when its opener is %s', (state) => {
+    const { document, triggers, open, key } = setup();
     open();
     if (state === 'removed') triggers[0]!.remove();
     else triggers[0]!.disabled = true;
@@ -94,7 +131,9 @@ describe('modal lifecycle', () => {
   });
 
   it('focuses a text-only dialog, wraps Tab, restores focus and existing scroll state', () => {
-    const { document, dialog, triggers, open, key } = setup('<h2>Information</h2><p>Read this.</p>');
+    const { document, dialog, triggers, open, key } = setup(
+      '<h2>Information</h2><p>Read this.</p>'
+    );
     open();
     expect(document.activeElement).toBe(dialog.querySelector('[data-modal-close]'));
     expect(key('Tab')).toBe(true);
@@ -111,7 +150,9 @@ describe('modal lifecycle', () => {
   });
 
   it('wraps between the first and last eligible controls', () => {
-    const { document, dialog, open, key } = setup('<button disabled>Disabled</button><div hidden><a href="#hidden">Hidden</a></div><a href="#first">First</a><a href="#last">Last</a>');
+    const { document, dialog, open, key } = setup(
+      '<button disabled>Disabled</button><div hidden><a href="#hidden">Hidden</a></div><a href="#first">First</a><a href="#last">Last</a>'
+    );
     open();
     key('Tab', true);
     expect(document.activeElement?.textContent).toBe('Last');
@@ -132,7 +173,7 @@ describe('modal lifecycle', () => {
     open(0);
     key('Escape');
     open(1);
-    await new Promise(resolve => window.setTimeout(resolve, 250));
+    await new Promise((resolve) => window.setTimeout(resolve, 250));
     expect(dialog.hidden).toBe(false);
     expect(document.body.style.overflow).toBe('hidden');
     key('Escape');
@@ -141,7 +182,9 @@ describe('modal lifecycle', () => {
   });
 
   it('closes only the inner dialog when its close-button event bubbles', () => {
-    const { document, dialog, open } = setup('<button data-modal-trigger="inner">Open inner</button><div id="inner" role="dialog" hidden><button data-modal-close>Close inner</button></div>');
+    const { document, dialog, open } = setup(
+      '<button data-modal-trigger="inner">Open inner</button><div id="inner" role="dialog" hidden><button data-modal-close>Close inner</button></div>'
+    );
     open();
     const innerTrigger = dialog.querySelector<HTMLButtonElement>('[data-modal-trigger]')!;
     innerTrigger.focus();

@@ -899,6 +899,7 @@
     import {createFileOperations} from './files.ts';
     import {createCommands} from './commands.ts';
     import {createPreviewController} from './preview.ts';
+    import {restoreDraft, createBeforeUnloadHandler} from './recovery.ts';
     import {createDraftStore} from './draft-store.js';
     import {createDesignSettings, typographyChoices, prepareTypography, parseDesignSettings} from './design-settings.js';
     
@@ -1486,21 +1487,10 @@ Browser recovery keeps your latest draft when storage is available. Save or down
         // Add theme toggle event listener
         themeToggleBtn.addEventListener('click', toggleTheme);
 
-        // Try to restore the browser draft
-        const saved = draftStore.load();
-        if (saved !== null) {
-          editor.dispatch({
-            changes: { from: 0, to: editor.state.doc.length, insert: saved.content }
-          });
-          if (saved.filename) {
-            currentFilename = saved.filename;
-            filenameDisplay.textContent = filenameDisplay.title = currentFilename;
-          }
-          // The editor's update listener will trigger updatePreview, so don't call it here
-        } else {
-          // Only call updatePreview if no saved content (template is already in editor)
-          updatePreview(editor.state.doc.toString());
-        }
+        restoreDraft({editor, draftStore, updatePreview, setFilename: filename => {
+          currentFilename = filename;
+          filenameDisplay.textContent = filenameDisplay.title = filename;
+        }});
 
         // Hide loading indicator
         loading.classList.add('hidden');
@@ -1613,13 +1603,9 @@ Browser recovery keeps your latest draft when storage is available. Save or down
     }
 
     // Warn before closing with unsaved changes
-    window.addEventListener('beforeunload', (e) => {
-      const current = editor?.state.doc.toString();
-      if (current !== undefined && !draftStore.isSaved(current, currentFilename)) {
-        e.preventDefault();
-        e.returnValue = '';
-      }
-    });
+    window.addEventListener('beforeunload', createBeforeUnloadHandler({
+      getContent: () => editor?.state.doc.toString(), getFilename: () => currentFilename, draftStore,
+    }));
   </script>
 </body>
 </html>
