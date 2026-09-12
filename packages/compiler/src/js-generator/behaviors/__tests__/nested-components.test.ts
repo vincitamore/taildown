@@ -1,4 +1,4 @@
-import { afterEach, expect, it } from 'vitest';
+import { afterEach, expect, it, vi } from 'vitest';
 import { JSDOM } from 'jsdom';
 import { compile } from '../../../index';
 import { tabsBehavior } from '../tabs';
@@ -27,6 +27,20 @@ it('outer tabs preserve nested tab panel state across switching', async () => {
   expect(selected.getAttribute('aria-selected')).toBe('true');
   expect(doc.getElementById(selected.getAttribute('aria-controls')!)?.hidden).toBe(false);
   expect([...doc.querySelectorAll('[data-component="tabs"]')]).toHaveLength(2);
+});
+
+it('reveals keyboard-selected tabs without animated scrolling or moving unrelated tabs', async () => {
+  const window = await setup(':::card\n:::tabs\n## First\nAlpha\n## Last\nBeta\n:::\n:::', tabsBehavior.code);
+  const buttons = [...window.document.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+  const scroll = vi.fn();
+  buttons[1]!.scrollIntoView = scroll;
+  buttons[0]!.focus();
+  buttons[0]!.dispatchEvent(new window.KeyboardEvent('keydown', {key: 'End', bubbles: true, cancelable: true}));
+  expect(window.document.activeElement).toBe(buttons[1]);
+  expect(buttons[1]!.getAttribute('aria-selected')).toBe('true');
+  expect(scroll).toHaveBeenCalledWith({block: 'nearest', inline: 'nearest', behavior: 'instant'});
+  buttons[1]!.dispatchEvent(new window.KeyboardEvent('keydown', {key: 'a', bubbles: true}));
+  expect(scroll).toHaveBeenCalledTimes(1);
 });
 
 it('nested accordion triggers toggle once without changing their parent', async () => {

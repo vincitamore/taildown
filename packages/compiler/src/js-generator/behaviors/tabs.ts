@@ -77,6 +77,8 @@ tabElements.forEach(tabs => {
     if (newIndex !== activeIndex) {
       switchTab(newIndex);
       tabButtons[newIndex].focus();
+      // Focus alone can leave tabs clipped inside nested scrolling containers.
+      tabButtons[newIndex].scrollIntoView({block: 'nearest', inline: 'nearest', behavior: 'instant'});
     }
   });
   
