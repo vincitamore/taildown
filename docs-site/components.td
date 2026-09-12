@@ -3838,12 +3838,12 @@ Taildown focuses on zero-config simplicity with plain English syntax, while MDX 
 Display initials or a profile image in a compact frame. Shapes are `circular` (default), `square`, and `rounded`; sizes run from `xs` through `2xl`.
 
 ```taildown
-:::avatar {circular lg bg-primary text-primary-foreground}
+:::avatar
 AM
 :::
 ```
 
-:::avatar {circular lg bg-primary text-primary-foreground}
+:::avatar
 AM
 :::
 
