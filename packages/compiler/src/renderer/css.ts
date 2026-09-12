@@ -2631,7 +2631,11 @@ ${generateThemeCSS()}
     if (!cssDeclarations) {
       const responsive = className.match(/^(sm|md|lg|xl|2xl):(.+)$/);
       const breakpoints: Record<string, number> = { sm: 640, md: 768, lg: 1024, xl: 1280, '2xl': 1536 };
-      const base = responsive?.[2] ? TAILWIND_UTILITIES[responsive[2]] : undefined;
+      // Explicit breakpoint columns are literal counts, unlike adaptive bare grids.
+      const columns = responsive?.[2]?.match(/^grid-cols-([1-5])$/);
+      const base = columns
+        ? `grid-template-columns: repeat(${columns[1]}, minmax(0, 1fr));`
+        : responsive?.[2] ? TAILWIND_UTILITIES[responsive[2]] : undefined;
       if (responsive?.[1] && base && !base.startsWith('@media')) {
         cssDeclarations = `@media (min-width: ${breakpoints[responsive[1]]}px) { ${base} }`;
       }
@@ -2726,6 +2730,72 @@ ${generateThemeCSS()}
   }
 
   cssRules.push(utilityRules.join('\n'));
+
+  // Add responsive grid rules for mobile-first behavior
+  // These ensure grids gracefully scale from 1 column on mobile to full column count on larger screens
+  if (classes.has('grid-cols-2')) {
+    cssRules.push(`
+/* grid-cols-2: 1 column on mobile, 2 on tablet+ */
+@media (min-width: 640px) {
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+`);
+  }
+
+  if (classes.has('grid-cols-3')) {
+    cssRules.push(`
+/* grid-cols-3: 1 column on mobile, 3 on tablet+ */
+@media (min-width: 768px) {
+  .grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+`);
+  }
+
+  if (classes.has('grid-cols-4')) {
+    cssRules.push(`
+/* grid-cols-4: 1 column on mobile, 2 on small, 3 on tablet, 4 on desktop */
+@media (min-width: 640px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 768px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+`);
+  }
+
+  if (classes.has('grid-cols-5')) {
+    cssRules.push(`
+/* grid-cols-5: 1 column on mobile, 2 on small, 3 on tablet, 5 on extra-large */
+@media (min-width: 640px) {
+  .grid-cols-5 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 768px) {
+  .grid-cols-5 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1280px) {
+  .grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+`);
+  }
 
   // Add media queries
   const breakpointWidth = (query: string) => Number(query.match(/min-width:\s*(\d+(?:\.\d+)?)px/)?.[1] ?? 0);
@@ -6531,161 +6601,7 @@ li[role="doc-footnote"]:target {
   min-height: 0;
 }
 
-/* Intelligent text scaling for cards: Scale down to fit, never wrap mid-word */
-.card h1, .card h2, .card h3, .card h4, .card h5, .card h6,
-.card .huge-bold, .card .large-bold, .card .medium-bold {
-  /* Dynamic font sizing: scales down on small screens, grows on large screens */
-  font-size: clamp(0.875rem, 4vw, 2rem);
-  /* Wrap at word boundaries only, never mid-word */
-  overflow-wrap: normal;
-  word-break: normal;
-  /* Prefer balanced line breaks when wrapping is necessary */
-  text-wrap: balance;
-  /* Allow hyphens as last resort for very long words */
-  hyphens: auto;
-}
-
-/* For interactive nav cards - EXTREMELY aggressive scaling to fit grid cells */
-.grid .card h1, .grid .card h2, .grid .card h3,
-.grid .card h4, .grid .card h5, .grid .card h6,
-.grid .card .huge-bold, .grid .card .large-bold,
-.grid .card .text-4xl, .grid .card .text-3xl, .grid .card .text-2xl,
-.grid .card p.text-4xl, .grid .card p.text-3xl,
-.card.hover-lift h1, .card.hover-lift h2, .card.hover-lift h3,
-.card.hover-lift .huge-bold, .card.hover-lift .large-bold,
-.card.hover-lift .text-4xl, .card.hover-lift .text-3xl {
-  /* ULTRA aggressive scaling: 10px minimum to prevent overflow clipping */
-  font-size: clamp(0.625rem, 1.2vw + 0.3rem, 1.5rem) !important;
-  line-height: 1.3 !important;
-  /* Allow text to wrap and break if absolutely necessary to prevent overflow */
-  white-space: normal;
-  overflow-wrap: break-word; /* Break words if they're too long */
-  word-break: normal; /* Prefer breaking at word boundaries */
-  /* Balance lines for aesthetically pleasing wraps */
-  text-wrap: balance;
-  /* Use hyphens as visual indicator when breaking */
-  hyphens: auto;
-}
-
-/* MOBILE + TABLET: Force scaled text for 2-column grids to prevent clipping */
-@media (max-width: 768px) {
-  .grid.grid-cols-2 .card .text-4xl,
-  .grid.grid-cols-2 .card .text-3xl,
-  .grid.grid-cols-2 .card .text-2xl,
-  .grid.grid-cols-2 .card p.text-4xl,
-  .grid.grid-cols-2 .card p.text-3xl,
-  .grid.grid-cols-2 .card h1,
-  .grid.grid-cols-2 .card h2,
-  .grid.grid-cols-2 .card h3 {
-    font-size: 1.125rem !important; /* 18px for tablet */
-    line-height: 1.3 !important;
-  }
-}
-
-/* MOBILE ONLY: Even smaller text */
-@media (max-width: 640px) {
-  .grid.grid-cols-2 .card .text-4xl,
-  .grid.grid-cols-2 .card p.text-4xl {
-    font-size: 0.95rem !important; /* ~15px on mobile */
-    line-height: 1.2 !important;
-  }
-}
-
-/* Reduce card padding on mobile for grid layouts */
-@media (max-width: 640px) {
-  .grid .card,
-  .grid > .card {
-    padding: 0.75rem !important; /* Even more reduced */
-  }
-}
-
-/* Even tighter padding for very small screens */
-@media (max-width: 400px) {
-  .grid .card,
-  .grid > .card {
-    padding: 0.5rem !important; /* Maximum reduction */
-  }
-  
-  .grid .card .text-4xl,
-  .grid .card p.text-4xl,
-  .grid .card h1 {
-    font-size: 0.875rem !important; /* 14px for very small screens */
-  }
-}
-
-/* Regular card text - allow natural wrapping */
-.card p, .card li, .card .muted {
-  overflow-wrap: normal;
-  word-break: normal;
-  text-wrap: pretty; /* Modern CSS for optimal line breaks */
-}
 `);
-
-  // Add responsive grid rules for mobile-first behavior
-  // These ensure grids gracefully scale from 1 column on mobile to full column count on larger screens
-  if (classes.has('grid-cols-2')) {
-    cssRules.push(`
-/* grid-cols-2: 1 column on mobile, 2 on tablet+ */
-@media (min-width: 640px) {
-  .grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-`);
-  }
-  
-  if (classes.has('grid-cols-3')) {
-    cssRules.push(`
-/* grid-cols-3: 1 column on mobile, 3 on tablet+ */
-@media (min-width: 768px) {
-  .grid-cols-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
-}
-`);
-  }
-  
-  if (classes.has('grid-cols-4')) {
-    cssRules.push(`
-/* grid-cols-4: 1 column on mobile, 2 on small, 3 on tablet, 4 on desktop */
-@media (min-width: 640px) {
-  .grid-cols-4 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-@media (min-width: 768px) {
-  .grid-cols-4 {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
-}
-@media (min-width: 1024px) {
-  .grid-cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  }
-}
-`);
-  }
-  
-  if (classes.has('grid-cols-5')) {
-    cssRules.push(`
-/* grid-cols-5: 1 column on mobile, 2 on small, 3 on tablet, 5 on extra-large */
-@media (min-width: 640px) {
-  .grid-cols-5 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-@media (min-width: 768px) {
-  .grid-cols-5 {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
-}
-@media (min-width: 1280px) {
-  .grid-cols-5 {
-    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-  }
-}
-`);
-  }
 
   const css = cssRules.join('\n');
 

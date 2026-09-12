@@ -221,6 +221,8 @@ Clickable card - entire card is a link
 
 Choose `cols-1` through `cols-5` (or the equivalent bare numbers `1` through `5`). Grids start with one column on small screens. Two-column grids expand at 640px, three-column grids at 768px, and four/five-column grids add columns progressively. With no column attribute, the default is three. Combine a column choice with `tight`, `normal`, `loose`, or `extra-loose` spacing.
 
+For precise control, add breakpoint utilities such as `{cols-3 sm:grid-cols-2 lg:grid-cols-4}`: one column below 640px, two from 640px, and four from 1024px. Explicit breakpoint choices override the automatic column progression. All counts from `grid-cols-1` through `grid-cols-5` work with `sm:`, `md:`, `lg:`, `xl:`, and `2xl:` (640, 768, 1024, 1280, and 1536px).
+
 ```taildown
 :::grid {cols-2 loose}
 :::card
