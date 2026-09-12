@@ -37,11 +37,11 @@ const BASE_URL = 'https://www.taildown.dev';
 // Page metadata configuration
 const PAGE_METADATA = {
   'index.td': {
-    title: 'Taildown - Write markdown. Get magic.',
-    description: 'The markup language that transforms plain English into stunning, interactive web pages - zero configuration required.',
+    title: 'Taildown - Markdown that becomes a website.',
+    description: 'Create interactive documents with Markdown, plain-English styling, and composable components. Start in the browser and export a page you can keep.',
     openGraph: {
-      title: 'Taildown - Write markdown. Get magic.',
-      description: 'The markup language that transforms plain English into stunning, interactive web pages - zero configuration required.',
+      title: 'Taildown - Markdown that becomes a website.',
+      description: 'Create interactive documents with Markdown, plain-English styling, and composable components. Start in the browser and export a page you can keep.',
       type: 'website',
       url: `${BASE_URL}/`,
       image: `${BASE_URL}/1759672632566.jpg`,
@@ -330,3 +330,4 @@ main().catch(error => {
   console.error('Build failed:', error);
   process.exit(1);
 });
+
