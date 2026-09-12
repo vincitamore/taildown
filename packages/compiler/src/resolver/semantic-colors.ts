@@ -11,6 +11,7 @@
  */
 
 import type { ResolverContext } from './style-resolver';
+import type { ColorScale } from '@taildown/shared';
 
 /**
  * Semantic color names supported by Taildown
@@ -101,7 +102,7 @@ export function resolveSemanticColor(
  * Get the base shade for a color prefix
  * Default to 600 for most cases
  */
-function getBaseShade(_prefix: ColorPrefix, colorConfig: any): number {
+function getBaseShade(_prefix: ColorPrefix, colorConfig: ColorScale): 500 | 600 {
   // Check if config has DEFAULT
   if (colorConfig.DEFAULT) {
     return 600; // Standard shade
@@ -125,11 +126,11 @@ function getBaseShade(_prefix: ColorPrefix, colorConfig: any): number {
  * Get the hover shade for a color prefix
  * Typically one shade darker (700)
  */
-function getHoverShade(prefix: ColorPrefix, colorConfig: any): number {
+function getHoverShade(prefix: ColorPrefix, colorConfig: ColorScale): number {
   const baseShade = getBaseShade(prefix, colorConfig);
   
   // Hover is typically 100 darker
-  const hoverShade = baseShade + 100;
+  const hoverShade = baseShade === 500 ? 600 : 700;
 
   // Check if that shade exists
   if (colorConfig[hoverShade]) {
@@ -144,7 +145,7 @@ function getHoverShade(prefix: ColorPrefix, colorConfig: any): number {
  * Get the dark mode shade for a color prefix
  * Typically lighter shade for dark backgrounds
  */
-function getDarkModeShade(prefix: ColorPrefix, colorConfig: any): number {
+function getDarkModeShade(prefix: ColorPrefix, colorConfig: ColorScale): number {
   // For dark mode, use lighter shades
   if (prefix === 'text') {
     // Text should be lighter in dark mode
@@ -195,13 +196,11 @@ export function getSemanticColorVariations(color: SemanticColor): string[] {
  * Useful for documentation and autocomplete
  */
 export function getAllSemanticColors(): Record<SemanticColor, string[]> {
-  const result: any = {};
-  
-  for (const color of SEMANTIC_COLORS) {
-    result[color] = getSemanticColorVariations(color);
-  }
-  
-  return result;
+  return {
+    primary: getSemanticColorVariations('primary'),
+    secondary: getSemanticColorVariations('secondary'),
+    accent: getSemanticColorVariations('accent'),
+  };
 }
 
 /**
