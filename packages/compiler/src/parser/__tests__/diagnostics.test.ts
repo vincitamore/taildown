@@ -47,9 +47,8 @@ it('accepts compact attributes without reporting a spurious correction', async (
 it.each(['\n', '\r\n'])('preserves compact syntax inside code examples (%j)', async (newline) => {
   const literal = ':::card{elevated}\nContent\n:::';
   const result = await compile(['```taildown', ...literal.split('\n'), '```'].join(newline));
-  expect(new JSDOM(result.html).window.document.querySelector('pre code')?.textContent).toBe(
-    literal + '\n'
-  );
+  // Highlighting preserves the parsed code value without adding a display-only newline.
+  expect(new JSDOM(result.html).window.document.querySelector('pre code')?.textContent).toBe(literal);
   expect(result.metadata.warnings).toEqual([]);
 });
 

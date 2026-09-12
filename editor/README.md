@@ -48,6 +48,10 @@ These shortcuts apply while the editor has focus. `Mod` means Ctrl on Windows/Li
 
 The editor also uses CodeMirror's standard editing, history, folding, and search bindings.
 
+### Syntax highlighting
+
+The editor and exported `td`, `tdown`, and `taildown` code examples share one tokenizer. It distinguishes component structure, complete attribute words and values, inline directives, Markdown links, tasks, footnotes, math, and literal code. The theme toggle changes the editor palette; exported code blocks use the corresponding dark palette. Highlighting helps read source; compilation notices remain the authority on invalid syntax.
+
 ## Files and recovery
 
 **New** asks before replacing the current document, starts with `# New Document`, resets the filename to `untitled.td`, and replaces the browser recovery draft. **Template** loads the welcome document, asking first when the current document has content.

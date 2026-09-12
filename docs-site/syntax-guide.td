@@ -96,6 +96,16 @@
 Use `backticks` for inline code
 ```
 
+**Code blocks:** Add a language after the opening fence. Use `td`, `tdown`, or `taildown` for Taildown examples; these use the same syntax tokenizer as the editor. Code examples preserve literal source and include a copy button.
+
+````taildown
+```td
+:::card{elevated padded-lg}
+Read the [guide](https://taildown.dev/getting-started).
+:::
+```
+````
+
 
 ### Blockquotes
 
