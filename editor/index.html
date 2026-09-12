@@ -1085,6 +1085,9 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     let editor;
     let currentFilename = 'untitled.td';
     let currentFileHandle = null;
+    let documentVersion = 0;
+    let openRequestVersion = 0;
+    const pendingFileWrites = new WeakMap();
     let updateTimeout = null;
     let isDragging = false;
     let slashMenuActive = false;
@@ -2035,6 +2038,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     // New document
     function newDocument() {
       if (confirm('Create new document? Any unsaved changes will be lost.')) {
+        documentVersion++;
         // Start with a truly blank document
         const blankContent = '# New Document\n\n';
         editor.dispatch({
@@ -2056,6 +2060,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       if (hasContent && !confirm('Load welcome template? Any unsaved changes will be lost.')) {
         return;
       }
+      documentVersion++;
       
       editor.dispatch({
         changes: { from: 0, to: editor.state.doc.length, insert: DEFAULT_TEMPLATE }
@@ -2068,51 +2073,58 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
 
     // Open file
     async function openFile() {
+      const version = documentVersion;
+      const requestVersion = ++openRequestVersion;
+      const originalDocument = editor.state.doc;
+      const acceptFile = async (file, fileHandle = null) => {
+        try {
+          const content = await file.text();
+          if (version !== documentVersion || requestVersion !== openRequestVersion) return;
+          if (editor.state.doc !== originalDocument) {
+            statusBar.textContent = 'File not opened: the document changed while opening. Try again.';
+            statusBar.className = 'error';
+            return;
+          }
+          documentVersion++;
+          currentFileHandle = fileHandle;
+          currentFilename = file.name;
+          filenameDisplay.textContent = currentFilename;
+          editor.dispatch({changes: {from: 0, to: editor.state.doc.length, insert: content}});
+          statusBar.textContent = `✓ Opened ${currentFilename}`;
+          statusBar.className = 'success';
+        } catch (error) {
+          if (version !== documentVersion || requestVersion !== openRequestVersion) return;
+          statusBar.textContent = `✗ Error opening file: ${error.message}`;
+          statusBar.className = 'error';
+        }
+      };
       try {
         if ('showOpenFilePicker' in window) {
           // Modern File System API
           const [fileHandle] = await window.showOpenFilePicker({
             types: [{
               description: 'Taildown Files',
-              accept: { 'text/plain': ['.td', '.taildown'] }
+              accept: { 'text/plain': ['.td', '.tdown', '.taildown'] }
             }],
             multiple: false
           });
           const file = await fileHandle.getFile();
-          const content = await file.text();
-          
-          editor.dispatch({
-            changes: { from: 0, to: editor.state.doc.length, insert: content }
-          });
-          
-          currentFileHandle = fileHandle;
-          currentFilename = file.name;
-          filenameDisplay.textContent = currentFilename;
-          
-          statusBar.textContent = `✓ Opened ${currentFilename}`;
-          statusBar.className = 'success';
+          await acceptFile(file, fileHandle);
         } else {
           // Fallback: traditional file input
           const input = document.createElement('input');
           input.type = 'file';
-          input.accept = '.td,.taildown';
+          input.accept = '.td,.tdown,.taildown';
           input.onchange = async (e) => {
             const file = e.target.files[0];
             if (file) {
-              const content = await file.text();
-              editor.dispatch({
-                changes: { from: 0, to: editor.state.doc.length, insert: content }
-              });
-              currentFilename = file.name;
-              currentFileHandle = null;
-              filenameDisplay.textContent = currentFilename;
-              statusBar.textContent = `✓ Opened ${currentFilename}`;
-              statusBar.className = 'success';
+              await acceptFile(file);
             }
           };
           input.click();
         }
       } catch (error) {
+        if (version !== documentVersion || requestVersion !== openRequestVersion) return;
         if (error.name !== 'AbortError') {
           statusBar.textContent = `✗ Error opening file: ${error.message}`;
           statusBar.className = 'error';
@@ -2122,15 +2134,32 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     }
 
     // Save file
+    async function writeFileSnapshot(fileHandle, content) {
+      const previous = pendingFileWrites.get(fileHandle) || Promise.resolve();
+      const pending = previous.catch(() => {}).then(async () => {
+        const writable = await fileHandle.createWritable();
+        await writable.write(content);
+        await writable.close();
+      });
+      pendingFileWrites.set(fileHandle, pending);
+      try {
+        await pending;
+      } finally {
+        if (pendingFileWrites.get(fileHandle) === pending) pendingFileWrites.delete(fileHandle);
+      }
+    }
+
     async function saveFile() {
+      const version = documentVersion;
+      const filename = currentFilename;
+      const existingHandle = currentFileHandle;
       try {
         const content = editor.state.doc.toString();
         
-        if (currentFileHandle && 'createWritable' in currentFileHandle) {
+        if (existingHandle && 'createWritable' in existingHandle) {
           // File System API save
-          const writable = await currentFileHandle.createWritable();
-          await writable.write(content);
-          await writable.close();
+          await writeFileSnapshot(existingHandle, content);
+          if (version !== documentVersion) return;
           statusBar.textContent = `✓ Saved ${currentFilename}`;
           statusBar.className = 'success';
         } else if ('showSaveFilePicker' in window) {
@@ -2140,25 +2169,27 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
               description: 'Taildown Files',
               accept: { 'text/plain': ['.td'] }
             }],
-            suggestedName: currentFilename
+            suggestedName: filename
           });
-          const writable = await fileHandle.createWritable();
-          await writable.write(content);
-          await writable.close();
+          if (version !== documentVersion) return;
+          await writeFileSnapshot(fileHandle, content);
+          if (version !== documentVersion) return;
           currentFileHandle = fileHandle;
-          currentFilename = (await fileHandle.getFile()).name;
+          currentFilename = fileHandle.name;
           filenameDisplay.textContent = currentFilename;
           statusBar.textContent = `✓ Saved ${currentFilename}`;
           statusBar.className = 'success';
         } else {
           // Fallback: download
-          downloadFile(content, currentFilename);
+          downloadFile(content, filename);
         }
         
         // Also save to localStorage
-        localStorage.setItem('taildown-editor-content', content);
+        localStorage.setItem('taildown-editor-content', editor.state.doc.toString());
         localStorage.setItem('taildown-editor-filename', currentFilename);
+        if (content !== editor.state.doc.toString()) statusBar.textContent += ' (newer edits remain)';
       } catch (error) {
+        if (version !== documentVersion) return;
         if (error.name !== 'AbortError') {
           statusBar.textContent = `✗ Error saving: ${error.message}`;
           statusBar.className = 'error';
@@ -2168,8 +2199,8 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     }
 
     // Download file
-    function downloadFile(content, filename) {
-      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    function downloadFile(content, filename, mimeType = 'text/plain;charset=utf-8') {
+      const blob = new Blob([content], { type: mimeType });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -2182,6 +2213,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
 
     // Export HTML
     async function exportHTML() {
+      const filename = currentFilename;
       try {
         const source = editor.state.doc.toString();
         
@@ -2192,8 +2224,9 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
           darkMode: true,
         });
         
-        const htmlFilename = currentFilename.replace(/\.td$/, '.html');
-        downloadFile(result.html, htmlFilename);
+        const htmlFilename = /\.(?:td|tdown|taildown)$/i.test(filename)
+          ? filename.replace(/\.(?:td|tdown|taildown)$/i, '.html') : filename + '.html';
+        downloadFile(result.html, htmlFilename, 'text/html;charset=utf-8');
         statusBar.textContent = `✓ Exported ${htmlFilename}`;
         statusBar.className = 'success';
       } catch (error) {
