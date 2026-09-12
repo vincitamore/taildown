@@ -5,12 +5,12 @@
  * See PHASE-2-IMPLEMENTATION-PLAN.md §3 for configuration system design
  */
 
-import { readFile } from 'fs/promises';
+import { stat } from 'fs/promises';
 import { resolve } from 'path';
 import { pathToFileURL } from 'url';
 import type { TaildownConfig, PartialTaildownConfig } from './config-schema';
 import { validateConfig } from './config-schema';
-import { DEFAULT_CONFIG } from './default-config';
+import { getDefaultConfig } from './default-config';
 import { mergeConfig } from './theme-merger';
 
 /**
@@ -71,95 +71,21 @@ export interface LoadConfigOptions {
 export async function loadConfig(
   options: LoadConfigOptions = {}
 ): Promise<LoadConfigResult> {
-  const cwd = options.cwd || process.cwd();
-  const warnings: string[] = [];
-  
-  // If specific config path provided, load it directly
-  if (options.configPath) {
-    try {
-      const userConfig = await loadConfigFile(options.configPath);
-      const validation = validateConfig(userConfig as TaildownConfig);
-      
-      if (!validation.valid) {
-        const errorMsg = `Config validation failed:\n${validation.errors.join('\n')}`;
-        if (options.throwOnError) {
-          throw new Error(errorMsg);
-        }
-        warnings.push(...validation.errors);
-      }
-      
-      const mergedConfig = mergeConfig(DEFAULT_CONFIG, userConfig);
-      
-      return {
-        config: mergedConfig,
-        configPath: resolve(options.configPath),
-        hasUserConfig: true,
-        warnings,
-      };
-    } catch (error) {
-      const msg = `Failed to load config from ${options.configPath}: ${(error as Error).message}`;
-      if (options.throwOnError) {
-        throw new Error(msg);
-      }
-      warnings.push(msg);
-      return {
-        config: DEFAULT_CONFIG,
-        hasUserConfig: false,
-        warnings,
-      };
-    }
-  }
-  
-  // Search for config file in standard locations
-  const configPath = await findConfigFile(cwd);
-  
-  if (!configPath) {
-    // No config file found, use defaults
-    return {
-      config: DEFAULT_CONFIG,
-      hasUserConfig: false,
-      warnings: [],
-    };
-  }
-  
-  // Load the config file
+  const cwd = resolve(options.cwd || process.cwd());
+  let configPath: string | undefined;
   try {
-    const userConfig = await loadConfigFile(configPath);
-    
-    // Validate
-    const validation = validateConfig(userConfig as TaildownConfig);
-    
-    if (!validation.valid) {
-      const errorMsg = `Config validation failed:\n${validation.errors.join('\n')}`;
-      if (options.throwOnError) {
-        throw new Error(errorMsg);
-      }
-      warnings.push(...validation.errors);
-    }
-    
-    // Merge with defaults
-    const mergedConfig = mergeConfig(DEFAULT_CONFIG, userConfig);
-    
-    return {
-      config: mergedConfig,
-      configPath,
-      hasUserConfig: true,
-      warnings,
-    };
+    configPath = options.configPath
+      ? resolve(cwd, options.configPath)
+      : await findConfigFile(cwd) ?? undefined;
+    if (!configPath) return {config: getDefaultConfig(), hasUserConfig: false, warnings: []};
+    const config = createConfig(await loadConfigFile(configPath));
+    return {config, configPath, hasUserConfig: true, warnings: []};
   } catch (error) {
-    const msg = `Failed to load config from ${configPath}: ${(error as Error).message}`;
-    if (options.throwOnError) {
-      throw new Error(msg);
-    }
-    warnings.push(msg);
-    return {
-      config: DEFAULT_CONFIG,
-      hasUserConfig: false,
-      warnings,
-    };
+    const message = `Failed to load config from ${configPath ?? cwd}: ${(error as Error).message}`;
+    if (options.throwOnError) throw new Error(message);
+    return {config: getDefaultConfig(), configPath, hasUserConfig: false, warnings: [message]};
   }
 }
-
 /**
  * Find configuration file in the given directory
  * Searches for standard config file names
@@ -171,17 +97,15 @@ export async function findConfigFile(cwd: string): Promise<string | null> {
   for (const filename of CONFIG_FILES) {
     const filePath = resolve(cwd, filename);
     try {
-      await readFile(filePath, 'utf-8');
+      const info = await stat(filePath);
+      if (!info.isFile()) throw new Error(`Configuration path is not a file: ${filePath}`);
       return filePath;
-    } catch {
-      // File doesn't exist, try next
-      continue;
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
     }
   }
-  
   return null;
 }
-
 /**
  * Load configuration from a file
  * Supports both ESM and CommonJS
@@ -189,42 +113,23 @@ export async function findConfigFile(cwd: string): Promise<string | null> {
  * @param configPath - Absolute path to config file
  * @returns Parsed configuration object
  */
-export async function loadConfigFile(
-  configPath: string
-): Promise<PartialTaildownConfig> {
-  const absolutePath = resolve(configPath);
-  
+export async function loadConfigFile(configPath: string): Promise<PartialTaildownConfig> {
   try {
-    // For ESM (.mjs) or .js files in ESM mode
-    if (configPath.endsWith('.mjs') || configPath.endsWith('.js')) {
-      const fileUrl = pathToFileURL(absolutePath).href;
-      const module = await import(fileUrl);
-      return module.default || module;
-    }
-    
-    // For CommonJS (.cjs)
-    if (configPath.endsWith('.cjs')) {
-      // Use dynamic require in a way that works in ESM
-      const module = await import(absolutePath);
-      return module.default || module;
-    }
-    
-    // Default: try as ESM first, fall back to CJS
-    try {
-      const fileUrl = pathToFileURL(absolutePath).href;
-      const module = await import(fileUrl);
-      return module.default || module;
-    } catch {
-      const module = await import(absolutePath);
-      return module.default || module;
-    }
+    // file: URLs work for ESM and CommonJS, including Windows drive letters.
+    const module = await import(pathToFileURL(resolve(configPath)).href);
+    const config = Object.prototype.hasOwnProperty.call(module, 'default') ? module.default : module;
+    assertConfigurationObject(config);
+    return config;
   } catch (error) {
-    throw new Error(
-      `Failed to load config file: ${(error as Error).message}`
-    );
+    throw new Error(`Failed to load config file: ${(error as Error).message}`);
   }
 }
 
+function assertConfigurationObject(value: unknown): asserts value is PartialTaildownConfig {
+  if (value === null || typeof value !== 'object' || Array.isArray(value)) {
+    throw new Error('Expected a configuration object');
+  }
+}
 /**
  * Load configuration synchronously (for CLI use)
  * Note: This is less flexible than the async version
@@ -238,7 +143,7 @@ export function loadConfigSync(_cwd: string = process.cwd()): TaildownConfig {
   // Synchronous loading of ESM modules is complex in Node.js
   // We'll use the async version in most cases
   console.warn('[Taildown] Synchronous config loading not fully supported, using defaults');
-  return DEFAULT_CONFIG;
+  return getDefaultConfig();
 }
 
 /**
@@ -251,6 +156,10 @@ export function loadConfigSync(_cwd: string = process.cwd()): TaildownConfig {
 export function createConfig(
   userConfig: PartialTaildownConfig
 ): TaildownConfig {
-  return mergeConfig(DEFAULT_CONFIG, userConfig);
+  assertConfigurationObject(userConfig);
+  const config = mergeConfig(getDefaultConfig(), userConfig);
+  const validation = validateConfig(config);
+  if (!validation.valid) throw new Error(`Config validation failed:\n${validation.errors.join('\n')}`);
+  return config;
 }
 

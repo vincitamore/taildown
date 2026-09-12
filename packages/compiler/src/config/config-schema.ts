@@ -250,7 +250,7 @@ export interface TaildownConfig {
  * Allows users to specify only what they want to override
  */
 export type PartialTaildownConfig = {
-  theme?: Partial<ThemeConfig> & {
+  theme?: {
     colors?: Partial<ColorConfig>;
     fonts?: Partial<FontConfig>;
     glass?: Partial<GlassConfig>;
