@@ -1174,15 +1174,15 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       { name: 'Heading 1', icon: 'heading-1', insert: '# ', description: 'Large heading' },
       { name: 'Heading 2', icon: 'heading-2', insert: '## ', description: 'Medium heading' },
       { name: 'Heading 3', icon: 'heading-3', insert: '### ', description: 'Small heading' },
-      { name: 'Bold', icon: 'bold', insert: '****', description: 'Bold text', cursorOffset: -2 },
-      { name: 'Italic', icon: 'italic', insert: '**', description: 'Italic text', cursorOffset: -1 },
+      { name: 'Bold', icon: 'bold', insert: '****', description: 'Bold text', cursorOffset: -2, wrapSelection: true },
+      { name: 'Italic', icon: 'italic', insert: '**', description: 'Italic text', cursorOffset: -1, wrapSelection: true },
       { name: 'Code Block', icon: 'code-2', insert: '```\n\n```', description: 'Code with syntax highlighting', cursorOffset: -4 },
-      { name: 'Inline Code', icon: 'code', insert: '``', description: 'Inline code', cursorOffset: -1 },
+      { name: 'Inline Code', icon: 'code', insert: '``', description: 'Inline code', cursorOffset: -1, wrapSelection: true },
       { name: 'Quote', icon: 'quote', insert: '> ', description: 'Blockquote' },
       { name: 'List', icon: 'list', insert: '- ', description: 'Bullet list' },
       { name: 'Numbered List', icon: 'list-ordered', insert: '1. ', description: 'Numbered list' },
-      { name: 'Link', icon: 'link', insert: '[](url)', description: 'Hyperlink', cursorOffset: -5 },
-      { name: 'Image', icon: 'image', insert: '![](url)', description: 'Insert image', cursorOffset: -5 },
+      { name: 'Link', icon: 'link', insert: '[](url)', description: 'Hyperlink', cursorOffset: -6, wrapSelection: true },
+      { name: 'Image', icon: 'image', insert: '![](url)', description: 'Insert image', cursorOffset: -6, wrapSelection: true },
       { name: 'Divider', icon: 'minus', insert: ':::divider\n\n:::', description: 'Decorative divider', cursorOffset: -4 },
       { name: 'Table', icon: 'table', insert: '| Header 1 | Header 2 |\n|----------|----------|\n|  |  |', description: '2-column table', cursorOffset: -6 },
       { name: 'Card', icon: 'box', insert: ':::card\n\n:::', description: 'Card component', cursorOffset: -4 },
@@ -1270,12 +1270,31 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       return true;
     }
 
+    function commandEdit(command, from, to, doc, preserveSelection = false) {
+      let insert = command.insert;
+      let cursor = insert.length + (command.cursorOffset || 0);
+      if (preserveSelection && command.wrapSelection && to > from) {
+        const selected = doc.sliceString(from, to);
+        insert = insert.slice(0, cursor) + selected + insert.slice(cursor);
+        cursor += selected.length;
+      }
+      const block = insert.includes('\n') && !command.wrapSelection || /^(?:#{1,6} |>[ ]|-[ ]|\d+\. )/.test(insert);
+      let prefix = '', suffix = '';
+      if (block) {
+        const before = doc.sliceString(0, from);
+        const after = doc.sliceString(to);
+        if (before) prefix = '\n'.repeat(Math.max(0, 2 - before.match(/\n*$/)[0].length));
+        if (after) suffix = '\n'.repeat(Math.max(0, 2 - after.match(/^\n*/)[0].length));
+      }
+      return {changes: {from, to, insert: prefix + insert + suffix},
+        selection: {anchor: from + prefix.length + cursor}};
+    }
+
     function insertPaletteCommand(index) {
       const command = paletteCommands[index];
       if (!command || !paletteSelection) return;
       const {from, to} = paletteSelection;
-      editor.dispatch({changes: {from, to, insert: command.insert},
-        selection: {anchor: from + command.insert.length + (command.cursorOffset || 0)}});
+      editor.dispatch(commandEdit(command, from, to, editor.state.doc, true));
       commandPalette.close();
     }
 
@@ -1361,13 +1380,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       if (!command || slashMenuStart === null) return;
 
       const { from, to } = { from: slashMenuStart, to: editor.state.selection.main.head };
-      const insert = command.insert;
-      const cursorOffset = command.cursorOffset || 0;
-
-      editor.dispatch({
-        changes: { from, to, insert },
-        selection: { anchor: from + insert.length + cursorOffset }
-      });
+      editor.dispatch(commandEdit(command, from, to, editor.state.doc));
 
       hideSlashMenu();
     }
