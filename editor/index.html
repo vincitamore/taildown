@@ -1916,7 +1916,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
         // Try to restore from localStorage
         const saved = localStorage.getItem('taildown-editor-content');
         const savedFilename = localStorage.getItem('taildown-editor-filename');
-        if (saved) {
+        if (saved !== null) {
           editor.dispatch({
             changes: { from: 0, to: editor.state.doc.length, insert: saved }
           });
@@ -2310,7 +2310,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     window.addEventListener('beforeunload', (e) => {
       const current = editor?.state.doc.toString();
       const saved = localStorage.getItem('taildown-editor-content');
-      if (current && current !== saved) {
+      if (current !== undefined && current !== saved) {
         e.preventDefault();
         e.returnValue = '';
       }
