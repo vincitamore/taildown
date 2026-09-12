@@ -43,9 +43,33 @@
       "children": [
         {
           "type": "text",
-          "value": "Test ID references per SYNTAX.md §3.8"
+          "value": "Test ID references per SYNTAX.md §3.8",
+          "position": {
+            "start": {
+              "line": 3,
+              "column": 1,
+              "offset": 30
+            },
+            "end": {
+              "line": 3,
+              "column": 38,
+              "offset": 67
+            }
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 30
+        },
+        "end": {
+          "line": 3,
+          "column": 38,
+          "offset": 67
+        }
+      },
       "data": {
         "hProperties": {}
       }
@@ -133,26 +157,25 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
-                "modal=\"\""
+                "transition-all"
               ],
-              "id": "modal-1",
               "data-modal-attach": "#modal-1"
             }
           }
         },
         {
           "type": "text",
-          "value": "",
+          "value": "\n",
           "position": {
             "start": {
               "line": 7,
@@ -209,26 +232,25 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
-                "modal=\"\""
+                "transition-all"
               ],
-              "id": "modal-2",
               "data-modal-attach": "#modal-2"
             }
           }
         },
         {
           "type": "text",
-          "value": "",
+          "value": "\n",
           "position": {
             "start": {
               "line": 8,
@@ -285,19 +307,18 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
-                "modal=\"\""
+                "transition-all"
               ],
-              "id": "modal-3",
               "data-modal-attach": "#modal-3"
             }
           }
@@ -336,198 +357,360 @@
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "modal",
       "children": [
         {
-          "type": "text",
-          "value": ":::modal"
-        }
-      ],
-      "data": {
-        "hProperties": {
-          "className": [
-            "id=\"modal-1\""
-          ]
-        }
-      }
-    },
-    {
-      "type": "heading",
-      "depth": 1,
-      "children": [
-        {
-          "type": "text",
-          "value": "Modal 1",
+          "type": "heading",
+          "depth": 1,
+          "children": [
+            {
+              "type": "text",
+              "value": "Modal 1",
+              "position": {
+                "start": {
+                  "line": 12,
+                  "column": 3,
+                  "offset": 257
+                },
+                "end": {
+                  "line": 12,
+                  "column": 10,
+                  "offset": 264
+                }
+              }
+            }
+          ],
           "position": {
             "start": {
               "line": 12,
-              "column": 3,
-              "offset": 257
+              "column": 1,
+              "offset": 255
             },
             "end": {
               "line": 12,
               "column": 10,
               "offset": 264
             }
+          },
+          "data": {
+            "hProperties": {}
+          }
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Content for first modal",
+              "position": {
+                "start": {
+                  "line": 13,
+                  "column": 1,
+                  "offset": 266
+                },
+                "end": {
+                  "line": 13,
+                  "column": 24,
+                  "offset": 289
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 266
+            },
+            "end": {
+              "line": 13,
+              "column": 24,
+              "offset": 289
+            }
+          },
+          "data": {
+            "hProperties": {}
           }
         }
       ],
       "position": {
         "start": {
-          "line": 12,
+          "line": 11,
           "column": 1,
-          "offset": 255
+          "offset": 231
         },
         "end": {
-          "line": 12,
-          "column": 10,
-          "offset": 264
+          "line": 14,
+          "column": 4,
+          "offset": 294
         }
       },
+      "attributes": {
+        "id": "modal-1"
+      },
       "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "paragraph",
-      "children": [
-        {
-          "type": "text",
-          "value": "Content for first modal"
-        }
-      ],
-      "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "paragraph",
-      "children": [
-        {
-          "type": "text",
-          "value": ":::modal"
-        }
-      ],
-      "data": {
+        "hName": "div",
         "hProperties": {
           "className": [
-            "id=\"modal-2\""
+            "taildown-component",
+            "component-modal",
+            "modal",
+            "bg-card",
+            "text-card-foreground",
+            "rounded-lg",
+            "shadow-xl",
+            "p-6",
+            "max-w-2xl",
+            "mx-auto",
+            "id"
+          ],
+          "data-component": "modal"
+        },
+        "component": {
+          "name": "modal",
+          "attributes": [
+            "id"
           ]
         }
       }
     },
     {
-      "type": "heading",
-      "depth": 1,
+      "type": "containerDirective",
+      "name": "modal",
       "children": [
         {
-          "type": "text",
-          "value": "Modal 2",
+          "type": "heading",
+          "depth": 1,
+          "children": [
+            {
+              "type": "text",
+              "value": "Modal 2",
+              "position": {
+                "start": {
+                  "line": 17,
+                  "column": 3,
+                  "offset": 324
+                },
+                "end": {
+                  "line": 17,
+                  "column": 10,
+                  "offset": 331
+                }
+              }
+            }
+          ],
           "position": {
             "start": {
               "line": 17,
-              "column": 3,
-              "offset": 324
+              "column": 1,
+              "offset": 322
             },
             "end": {
               "line": 17,
               "column": 10,
               "offset": 331
             }
+          },
+          "data": {
+            "hProperties": {}
+          }
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Content for second modal",
+              "position": {
+                "start": {
+                  "line": 18,
+                  "column": 1,
+                  "offset": 333
+                },
+                "end": {
+                  "line": 18,
+                  "column": 25,
+                  "offset": 357
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 18,
+              "column": 1,
+              "offset": 333
+            },
+            "end": {
+              "line": 18,
+              "column": 25,
+              "offset": 357
+            }
+          },
+          "data": {
+            "hProperties": {}
           }
         }
       ],
       "position": {
         "start": {
-          "line": 17,
+          "line": 16,
           "column": 1,
-          "offset": 322
+          "offset": 298
         },
         "end": {
-          "line": 17,
-          "column": 10,
-          "offset": 331
+          "line": 19,
+          "column": 4,
+          "offset": 362
         }
       },
+      "attributes": {
+        "id": "modal-2"
+      },
       "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "paragraph",
-      "children": [
-        {
-          "type": "text",
-          "value": "Content for second modal"
-        }
-      ],
-      "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "paragraph",
-      "children": [
-        {
-          "type": "text",
-          "value": ":::modal"
-        }
-      ],
-      "data": {
+        "hName": "div",
         "hProperties": {
           "className": [
-            "id=\"modal-3\""
+            "taildown-component",
+            "component-modal",
+            "modal",
+            "bg-card",
+            "text-card-foreground",
+            "rounded-lg",
+            "shadow-xl",
+            "p-6",
+            "max-w-2xl",
+            "mx-auto",
+            "id"
+          ],
+          "data-component": "modal"
+        },
+        "component": {
+          "name": "modal",
+          "attributes": [
+            "id"
           ]
         }
       }
     },
     {
-      "type": "heading",
-      "depth": 1,
+      "type": "containerDirective",
+      "name": "modal",
       "children": [
         {
-          "type": "text",
-          "value": "Modal 3",
+          "type": "heading",
+          "depth": 1,
+          "children": [
+            {
+              "type": "text",
+              "value": "Modal 3",
+              "position": {
+                "start": {
+                  "line": 22,
+                  "column": 3,
+                  "offset": 392
+                },
+                "end": {
+                  "line": 22,
+                  "column": 10,
+                  "offset": 399
+                }
+              }
+            }
+          ],
           "position": {
             "start": {
               "line": 22,
-              "column": 3,
-              "offset": 392
+              "column": 1,
+              "offset": 390
             },
             "end": {
               "line": 22,
               "column": 10,
               "offset": 399
             }
+          },
+          "data": {
+            "hProperties": {}
+          }
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Content for third modal",
+              "position": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 401
+                },
+                "end": {
+                  "line": 23,
+                  "column": 24,
+                  "offset": 424
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 401
+            },
+            "end": {
+              "line": 23,
+              "column": 24,
+              "offset": 424
+            }
+          },
+          "data": {
+            "hProperties": {}
           }
         }
       ],
       "position": {
         "start": {
-          "line": 22,
+          "line": 21,
           "column": 1,
-          "offset": 390
+          "offset": 366
         },
         "end": {
-          "line": 22,
-          "column": 10,
-          "offset": 399
+          "line": 24,
+          "column": 4,
+          "offset": 429
         }
       },
+      "attributes": {
+        "id": "modal-3"
+      },
       "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "paragraph",
-      "children": [
-        {
-          "type": "text",
-          "value": "Content for third modal"
+        "hName": "div",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-modal",
+            "modal",
+            "bg-card",
+            "text-card-foreground",
+            "rounded-lg",
+            "shadow-xl",
+            "p-6",
+            "max-w-2xl",
+            "mx-auto",
+            "id"
+          ],
+          "data-component": "modal"
+        },
+        "component": {
+          "name": "modal",
+          "attributes": [
+            "id"
+          ]
         }
-      ],
-      "data": {
-        "hProperties": {}
       }
     },
     {
@@ -606,17 +789,13 @@
           },
           "data": {
             "hProperties": {
-              "className": [
-                "tooltip=\"\""
-              ],
-              "id": "tip-1",
               "data-tooltip-attach": "#tip-1"
             }
           }
         },
         {
           "type": "text",
-          "value": "",
+          "value": "\n",
           "position": {
             "start": {
               "line": 28,
@@ -666,17 +845,13 @@
           },
           "data": {
             "hProperties": {
-              "className": [
-                "tooltip=\"\""
-              ],
-              "id": "tip-2",
               "data-tooltip-attach": "#tip-2"
             }
           }
         },
         {
           "type": "text",
-          "value": "",
+          "value": "\n",
           "position": {
             "start": {
               "line": 29,
@@ -726,10 +901,6 @@
           },
           "data": {
             "hProperties": {
-              "className": [
-                "tooltip=\"\""
-              ],
-              "id": "tip-3",
               "data-tooltip-attach": "#tip-3"
             }
           }
@@ -768,39 +939,252 @@
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "tooltip",
       "children": [
         {
-          "type": "text",
-          "value": ":::tooltip{id=\"tip-1\"}\nFirst tooltip content"
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "First tooltip content",
+              "position": {
+                "start": {
+                  "line": 33,
+                  "column": 1,
+                  "offset": 589
+                },
+                "end": {
+                  "line": 33,
+                  "column": 22,
+                  "offset": 610
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 33,
+              "column": 1,
+              "offset": 589
+            },
+            "end": {
+              "line": 33,
+              "column": 22,
+              "offset": 610
+            }
+          },
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 32,
+          "column": 1,
+          "offset": 565
+        },
+        "end": {
+          "line": 34,
+          "column": 4,
+          "offset": 615
+        }
+      },
+      "attributes": {
+        "id": "tip-1"
+      },
       "data": {
-        "hProperties": {}
+        "hName": "span",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-tooltip",
+            "tooltip",
+            "inline-block",
+            "px-3",
+            "py-2",
+            "text-sm",
+            "bg-popover",
+            "text-popover-foreground",
+            "rounded",
+            "shadow-lg",
+            "id"
+          ],
+          "data-component": "tooltip"
+        },
+        "component": {
+          "name": "tooltip",
+          "attributes": [
+            "id"
+          ]
+        }
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "tooltip",
       "children": [
         {
-          "type": "text",
-          "value": ":::tooltip{id=\"tip-2\"}\nSecond tooltip content"
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Second tooltip content",
+              "position": {
+                "start": {
+                  "line": 37,
+                  "column": 1,
+                  "offset": 643
+                },
+                "end": {
+                  "line": 37,
+                  "column": 23,
+                  "offset": 665
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 37,
+              "column": 1,
+              "offset": 643
+            },
+            "end": {
+              "line": 37,
+              "column": 23,
+              "offset": 665
+            }
+          },
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 36,
+          "column": 1,
+          "offset": 619
+        },
+        "end": {
+          "line": 38,
+          "column": 4,
+          "offset": 670
+        }
+      },
+      "attributes": {
+        "id": "tip-2"
+      },
       "data": {
-        "hProperties": {}
+        "hName": "span",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-tooltip",
+            "tooltip",
+            "inline-block",
+            "px-3",
+            "py-2",
+            "text-sm",
+            "bg-popover",
+            "text-popover-foreground",
+            "rounded",
+            "shadow-lg",
+            "id"
+          ],
+          "data-component": "tooltip"
+        },
+        "component": {
+          "name": "tooltip",
+          "attributes": [
+            "id"
+          ]
+        }
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "tooltip",
       "children": [
         {
-          "type": "text",
-          "value": ":::tooltip{id=\"tip-3\"}\nThird tooltip content"
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Third tooltip content",
+              "position": {
+                "start": {
+                  "line": 41,
+                  "column": 1,
+                  "offset": 698
+                },
+                "end": {
+                  "line": 41,
+                  "column": 22,
+                  "offset": 719
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 41,
+              "column": 1,
+              "offset": 698
+            },
+            "end": {
+              "line": 41,
+              "column": 22,
+              "offset": 719
+            }
+          },
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 40,
+          "column": 1,
+          "offset": 674
+        },
+        "end": {
+          "line": 42,
+          "column": 4,
+          "offset": 724
+        }
+      },
+      "attributes": {
+        "id": "tip-3"
+      },
       "data": {
-        "hProperties": {}
+        "hName": "span",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-tooltip",
+            "tooltip",
+            "inline-block",
+            "px-3",
+            "py-2",
+            "text-sm",
+            "bg-popover",
+            "text-popover-foreground",
+            "rounded",
+            "shadow-lg",
+            "id"
+          ],
+          "data-component": "tooltip"
+        },
+        "component": {
+          "name": "tooltip",
+          "attributes": [
+            "id"
+          ]
+        }
       }
     },
     {
@@ -886,26 +1270,25 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
-                "modal=\"\""
+                "transition-all"
               ],
-              "id": "shared",
               "data-modal-attach": "#shared"
             }
           }
         },
         {
           "type": "text",
-          "value": "",
+          "value": "\n",
           "position": {
             "start": {
               "line": 46,
@@ -962,26 +1345,25 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-purple-600",
-                "text-white",
-                "hover:bg-purple-700",
-                "active:bg-purple-800",
+                "bg-secondary",
+                "text-secondary-foreground",
+                "hover:bg-secondary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
-                "modal=\"\""
+                "transition-all"
               ],
-              "id": "shared",
               "data-modal-attach": "#shared"
             }
           }
         },
         {
           "type": "text",
-          "value": "",
+          "value": "\n",
           "position": {
             "start": {
               "line": 47,
@@ -1038,20 +1420,18 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
-                "text-red-600",
-                "modal=\"\""
+                "transition-all",
+                "text-red-600"
               ],
-              "id": "shared",
               "data-modal-attach": "#shared"
             }
           }
@@ -1090,68 +1470,122 @@
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "modal",
       "children": [
         {
-          "type": "text",
-          "value": ":::modal"
-        }
-      ],
-      "data": {
-        "hProperties": {
-          "className": [
-            "id=\"shared\""
-          ]
-        }
-      }
-    },
-    {
-      "type": "heading",
-      "depth": 1,
-      "children": [
-        {
-          "type": "text",
-          "value": "Shared Content",
+          "type": "heading",
+          "depth": 1,
+          "children": [
+            {
+              "type": "text",
+              "value": "Shared Content",
+              "position": {
+                "start": {
+                  "line": 51,
+                  "column": 3,
+                  "offset": 928
+                },
+                "end": {
+                  "line": 51,
+                  "column": 17,
+                  "offset": 942
+                }
+              }
+            }
+          ],
           "position": {
             "start": {
               "line": 51,
-              "column": 3,
-              "offset": 928
+              "column": 1,
+              "offset": 926
             },
             "end": {
               "line": 51,
               "column": 17,
               "offset": 942
             }
+          },
+          "data": {
+            "hProperties": {}
+          }
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "This modal is referenced by multiple buttons.",
+              "position": {
+                "start": {
+                  "line": 53,
+                  "column": 1,
+                  "offset": 946
+                },
+                "end": {
+                  "line": 53,
+                  "column": 46,
+                  "offset": 991
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 53,
+              "column": 1,
+              "offset": 946
+            },
+            "end": {
+              "line": 53,
+              "column": 46,
+              "offset": 991
+            }
+          },
+          "data": {
+            "hProperties": {}
           }
         }
       ],
       "position": {
         "start": {
-          "line": 51,
+          "line": 50,
           "column": 1,
-          "offset": 926
+          "offset": 903
         },
         "end": {
-          "line": 51,
-          "column": 17,
-          "offset": 942
+          "line": 54,
+          "column": 4,
+          "offset": 996
         }
       },
+      "attributes": {
+        "id": "shared"
+      },
       "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "paragraph",
-      "children": [
-        {
-          "type": "text",
-          "value": "This modal is referenced by multiple buttons."
+        "hName": "div",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-modal",
+            "modal",
+            "bg-card",
+            "text-card-foreground",
+            "rounded-lg",
+            "shadow-xl",
+            "p-6",
+            "max-w-2xl",
+            "mx-auto",
+            "id"
+          ],
+          "data-component": "modal"
+        },
+        "component": {
+          "name": "modal",
+          "attributes": [
+            "id"
+          ]
         }
-      ],
-      "data": {
-        "hProperties": {}
       }
     },
     {
@@ -1237,19 +1671,18 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
-                "modal=\"\""
+                "transition-all"
               ],
-              "id": "help-modal",
               "data-modal-attach": "#help-modal",
               "data-tooltip-attach": "Click to open help"
             }
@@ -1327,10 +1760,6 @@
           },
           "data": {
             "hProperties": {
-              "className": [
-                "tooltip=\"\""
-              ],
-              "id": "info-tip",
               "data-tooltip-attach": "#info-tip"
             }
           }
@@ -1369,80 +1798,205 @@
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "modal",
       "children": [
         {
-          "type": "text",
-          "value": ":::modal"
-        }
-      ],
-      "data": {
-        "hProperties": {
-          "className": [
-            "id=\"help-modal\""
-          ]
-        }
-      }
-    },
-    {
-      "type": "heading",
-      "depth": 1,
-      "children": [
-        {
-          "type": "text",
-          "value": "Help Documentation",
+          "type": "heading",
+          "depth": 1,
+          "children": [
+            {
+              "type": "text",
+              "value": "Help Documentation",
+              "position": {
+                "start": {
+                  "line": 63,
+                  "column": 3,
+                  "offset": 1198
+                },
+                "end": {
+                  "line": 63,
+                  "column": 21,
+                  "offset": 1216
+                }
+              }
+            }
+          ],
           "position": {
             "start": {
               "line": 63,
-              "column": 3,
-              "offset": 1198
+              "column": 1,
+              "offset": 1196
             },
             "end": {
               "line": 63,
               "column": 21,
               "offset": 1216
             }
+          },
+          "data": {
+            "hProperties": {}
+          }
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Full help content here.",
+              "position": {
+                "start": {
+                  "line": 65,
+                  "column": 1,
+                  "offset": 1220
+                },
+                "end": {
+                  "line": 65,
+                  "column": 24,
+                  "offset": 1243
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 65,
+              "column": 1,
+              "offset": 1220
+            },
+            "end": {
+              "line": 65,
+              "column": 24,
+              "offset": 1243
+            }
+          },
+          "data": {
+            "hProperties": {}
           }
         }
       ],
       "position": {
         "start": {
-          "line": 63,
+          "line": 62,
           "column": 1,
-          "offset": 1196
+          "offset": 1169
         },
         "end": {
-          "line": 63,
-          "column": 21,
-          "offset": 1216
+          "line": 66,
+          "column": 4,
+          "offset": 1248
         }
       },
+      "attributes": {
+        "id": "help-modal"
+      },
       "data": {
-        "hProperties": {}
+        "hName": "div",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-modal",
+            "modal",
+            "bg-card",
+            "text-card-foreground",
+            "rounded-lg",
+            "shadow-xl",
+            "p-6",
+            "max-w-2xl",
+            "mx-auto",
+            "id"
+          ],
+          "data-component": "modal"
+        },
+        "component": {
+          "name": "modal",
+          "attributes": [
+            "id"
+          ]
+        }
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "tooltip",
       "children": [
         {
-          "type": "text",
-          "value": "Full help content here."
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Quick info tooltip",
+              "position": {
+                "start": {
+                  "line": 69,
+                  "column": 1,
+                  "offset": 1279
+                },
+                "end": {
+                  "line": 69,
+                  "column": 19,
+                  "offset": 1297
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 69,
+              "column": 1,
+              "offset": 1279
+            },
+            "end": {
+              "line": 69,
+              "column": 19,
+              "offset": 1297
+            }
+          },
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
-      "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "paragraph",
-      "children": [
-        {
-          "type": "text",
-          "value": ":::tooltip{id=\"info-tip\"}\nQuick info tooltip"
+      "position": {
+        "start": {
+          "line": 68,
+          "column": 1,
+          "offset": 1252
+        },
+        "end": {
+          "line": 70,
+          "column": 4,
+          "offset": 1302
         }
-      ],
+      },
+      "attributes": {
+        "id": "info-tip"
+      },
       "data": {
-        "hProperties": {}
+        "hName": "span",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-tooltip",
+            "tooltip",
+            "inline-block",
+            "px-3",
+            "py-2",
+            "text-sm",
+            "bg-popover",
+            "text-popover-foreground",
+            "rounded",
+            "shadow-lg",
+            "id"
+          ],
+          "data-component": "tooltip"
+        },
+        "component": {
+          "name": "tooltip",
+          "attributes": [
+            "id"
+          ]
+        }
       }
     },
     {
@@ -1528,21 +2082,20 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
+                "transition-all",
                 "text-lg",
-                "modal=\"\"",
                 "custom-class"
               ],
-              "id": "feature-modal",
               "data-modal-attach": "#feature-modal"
             }
           }
@@ -1581,100 +2134,126 @@
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "modal",
       "children": [
         {
-          "type": "text",
-          "value": ":::modal"
-        }
-      ],
-      "data": {
-        "hProperties": {
-          "className": [
-            "id=\"feature-modal\""
-          ]
-        }
-      }
-    },
-    {
-      "type": "heading",
-      "depth": 2,
-      "children": [
-        {
-          "type": "text",
-          "value": "Feature Details",
+          "type": "heading",
+          "depth": 2,
+          "children": [
+            {
+              "type": "text",
+              "value": "Feature Details",
+              "position": {
+                "start": {
+                  "line": 77,
+                  "column": 4,
+                  "offset": 1444
+                },
+                "end": {
+                  "line": 77,
+                  "column": 19,
+                  "offset": 1459
+                }
+              }
+            }
+          ],
           "position": {
             "start": {
               "line": 77,
-              "column": 4,
-              "offset": 1444
+              "column": 1,
+              "offset": 1441
             },
             "end": {
               "line": 77,
               "column": 19,
               "offset": 1459
             }
+          },
+          "data": {
+            "hProperties": {}
           }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 77,
-          "column": 1,
-          "offset": 1441
         },
-        "end": {
-          "line": 77,
-          "column": 19,
-          "offset": 1459
-        }
-      },
-      "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "paragraph",
-      "children": [
         {
-          "type": "text",
-          "value": "This modal demonstrates:"
-        }
-      ],
-      "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "list",
-      "ordered": false,
-      "start": null,
-      "spread": false,
-      "children": [
-        {
-          "type": "listItem",
-          "spread": false,
-          "checked": null,
+          "type": "paragraph",
           "children": [
             {
-              "type": "paragraph",
+              "type": "text",
+              "value": "This modal demonstrates:",
+              "position": {
+                "start": {
+                  "line": 79,
+                  "column": 1,
+                  "offset": 1463
+                },
+                "end": {
+                  "line": 79,
+                  "column": 25,
+                  "offset": 1487
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 79,
+              "column": 1,
+              "offset": 1463
+            },
+            "end": {
+              "line": 79,
+              "column": 25,
+              "offset": 1487
+            }
+          },
+          "data": {
+            "hProperties": {}
+          }
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "start": null,
+          "spread": false,
+          "children": [
+            {
+              "type": "listItem",
+              "spread": false,
+              "checked": null,
               "children": [
                 {
-                  "type": "strong",
+                  "type": "paragraph",
                   "children": [
                     {
-                      "type": "text",
-                      "value": "Rich content",
+                      "type": "strong",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Rich content",
+                          "position": {
+                            "start": {
+                              "line": 80,
+                              "column": 5,
+                              "offset": 1493
+                            },
+                            "end": {
+                              "line": 80,
+                              "column": 17,
+                              "offset": 1505
+                            }
+                          }
+                        }
+                      ],
                       "position": {
                         "start": {
                           "line": 80,
-                          "column": 5,
-                          "offset": 1493
+                          "column": 3,
+                          "offset": 1491
                         },
                         "end": {
                           "line": 80,
-                          "column": 17,
-                          "offset": 1505
+                          "column": 19,
+                          "offset": 1507
                         }
                       }
                     }
@@ -1696,8 +2275,8 @@
               "position": {
                 "start": {
                   "line": 80,
-                  "column": 3,
-                  "offset": 1491
+                  "column": 1,
+                  "offset": 1489
                 },
                 "end": {
                   "line": 80,
@@ -1705,32 +2284,32 @@
                   "offset": 1507
                 }
               }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 80,
-              "column": 1,
-              "offset": 1489
             },
-            "end": {
-              "line": 80,
-              "column": 19,
-              "offset": 1507
-            }
-          }
-        },
-        {
-          "type": "listItem",
-          "spread": false,
-          "checked": null,
-          "children": [
             {
-              "type": "paragraph",
+              "type": "listItem",
+              "spread": false,
+              "checked": null,
               "children": [
                 {
-                  "type": "text",
-                  "value": "Multiple sections",
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Multiple sections",
+                      "position": {
+                        "start": {
+                          "line": 81,
+                          "column": 3,
+                          "offset": 1511
+                        },
+                        "end": {
+                          "line": 81,
+                          "column": 20,
+                          "offset": 1528
+                        }
+                      }
+                    }
+                  ],
                   "position": {
                     "start": {
                       "line": 81,
@@ -1742,50 +2321,50 @@
                       "column": 20,
                       "offset": 1528
                     }
+                  },
+                  "data": {
+                    "hProperties": {}
                   }
                 }
               ],
               "position": {
                 "start": {
                   "line": 81,
-                  "column": 3,
-                  "offset": 1511
+                  "column": 1,
+                  "offset": 1509
                 },
                 "end": {
                   "line": 81,
                   "column": 20,
                   "offset": 1528
                 }
-              },
-              "data": {
-                "hProperties": {}
               }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 81,
-              "column": 1,
-              "offset": 1509
             },
-            "end": {
-              "line": 81,
-              "column": 20,
-              "offset": 1528
-            }
-          }
-        },
-        {
-          "type": "listItem",
-          "spread": false,
-          "checked": null,
-          "children": [
             {
-              "type": "paragraph",
+              "type": "listItem",
+              "spread": false,
+              "checked": null,
               "children": [
                 {
-                  "type": "inlineCode",
-                  "value": "Code examples",
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "inlineCode",
+                      "value": "Code examples",
+                      "position": {
+                        "start": {
+                          "line": 82,
+                          "column": 3,
+                          "offset": 1532
+                        },
+                        "end": {
+                          "line": 82,
+                          "column": 18,
+                          "offset": 1547
+                        }
+                      }
+                    }
+                  ],
                   "position": {
                     "start": {
                       "line": 82,
@@ -1803,8 +2382,8 @@
               "position": {
                 "start": {
                   "line": 82,
-                  "column": 3,
-                  "offset": 1532
+                  "column": 1,
+                  "offset": 1530
                 },
                 "end": {
                   "line": 82,
@@ -1812,47 +2391,47 @@
                   "offset": 1547
                 }
               }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 82,
-              "column": 1,
-              "offset": 1530
             },
-            "end": {
-              "line": 82,
-              "column": 18,
-              "offset": 1547
-            }
-          }
-        },
-        {
-          "type": "listItem",
-          "spread": false,
-          "checked": null,
-          "children": [
             {
-              "type": "paragraph",
+              "type": "listItem",
+              "spread": false,
+              "checked": null,
               "children": [
                 {
-                  "type": "link",
-                  "title": null,
-                  "url": "https://example.com",
+                  "type": "paragraph",
                   "children": [
                     {
-                      "type": "text",
-                      "value": "Links",
+                      "type": "link",
+                      "title": null,
+                      "url": "https://example.com",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Links",
+                          "position": {
+                            "start": {
+                              "line": 83,
+                              "column": 4,
+                              "offset": 1552
+                            },
+                            "end": {
+                              "line": 83,
+                              "column": 9,
+                              "offset": 1557
+                            }
+                          }
+                        }
+                      ],
                       "position": {
                         "start": {
                           "line": 83,
-                          "column": 4,
-                          "offset": 1552
+                          "column": 3,
+                          "offset": 1551
                         },
                         "end": {
                           "line": 83,
-                          "column": 9,
-                          "offset": 1557
+                          "column": 31,
+                          "offset": 1579
                         }
                       }
                     }
@@ -1874,8 +2453,8 @@
               "position": {
                 "start": {
                   "line": 83,
-                  "column": 3,
-                  "offset": 1551
+                  "column": 1,
+                  "offset": 1549
                 },
                 "end": {
                   "line": 83,
@@ -1887,9 +2466,9 @@
           ],
           "position": {
             "start": {
-              "line": 83,
+              "line": 80,
               "column": 1,
-              "offset": 1549
+              "offset": 1489
             },
             "end": {
               "line": 83,
@@ -1897,70 +2476,122 @@
               "offset": 1579
             }
           }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 80,
-          "column": 1,
-          "offset": 1489
         },
-        "end": {
-          "line": 83,
-          "column": 31,
-          "offset": 1579
-        }
-      }
-    },
-    {
-      "type": "containerDirective",
-      "name": "card",
-      "children": [
         {
-          "type": "paragraph",
+          "type": "containerDirective",
+          "name": "card",
           "children": [
             {
-              "type": "text",
-              "value": "Nested card in modal"
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Nested card in modal",
+                  "position": {
+                    "start": {
+                      "line": 86,
+                      "column": 1,
+                      "offset": 1592
+                    },
+                    "end": {
+                      "line": 86,
+                      "column": 21,
+                      "offset": 1612
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 86,
+                  "column": 1,
+                  "offset": 1592
+                },
+                "end": {
+                  "line": 86,
+                  "column": 21,
+                  "offset": 1612
+                }
+              },
+              "data": {
+                "hProperties": {}
+              }
             }
           ],
+          "position": {
+            "start": {
+              "line": 85,
+              "column": 1,
+              "offset": 1583
+            },
+            "end": {
+              "line": 87,
+              "column": 4,
+              "offset": 1617
+            }
+          },
           "data": {
-            "hProperties": {}
+            "hName": "div",
+            "hProperties": {
+              "className": [
+                "taildown-component",
+                "component-card",
+                "rounded-lg",
+                "p-6",
+                "max-w-full",
+                "overflow-x-hidden",
+                "overflow-wrap-normal",
+                "glass-effect",
+                "glass-subtle",
+                "shadow-sm"
+              ],
+              "data-component": "card"
+            },
+            "component": {
+              "name": "card",
+              "attributes": []
+            }
           }
         }
       ],
       "position": {
         "start": {
-          "line": 85,
+          "line": 76,
           "column": 1,
-          "offset": 0
+          "offset": 1411
         },
         "end": {
-          "line": 85,
-          "column": 8,
-          "offset": 0
+          "line": 88,
+          "column": 4,
+          "offset": 1622
         }
+      },
+      "attributes": {
+        "id": "feature-modal"
       },
       "data": {
         "hName": "div",
         "hProperties": {
           "className": [
             "taildown-component",
-            "component-card",
+            "component-modal",
+            "modal",
+            "bg-card",
+            "text-card-foreground",
             "rounded-lg",
+            "shadow-xl",
             "p-6",
-            "max-w-full",
-            "overflow-x-hidden",
-            "break-words",
-            "glass-effect",
-            "glass-subtle",
-            "shadow-sm"
+            "max-w-2xl",
+            "mx-auto",
+            "id"
           ],
-          "data-component": "card"
+          "data-component": "modal"
         },
         "component": {
-          "name": "card",
-          "attributes": []
+          "name": "modal",
+          "attributes": [
+            "id"
+          ]
         }
       }
     },
@@ -2040,10 +2671,6 @@
           },
           "data": {
             "hProperties": {
-              "className": [
-                "modal=\"\""
-              ],
-              "id": "nonexistent",
               "data-modal-attach": "#nonexistent"
             }
           }
@@ -2120,10 +2747,6 @@
           },
           "data": {
             "hProperties": {
-              "className": [
-                "tooltip=\"\""
-              ],
-              "id": "also-nonexistent",
               "data-tooltip-attach": "#also-nonexistent"
             }
           }

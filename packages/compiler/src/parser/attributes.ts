@@ -33,7 +33,8 @@ interface AttributePluginOptions {
  */
 function extractAttributesFromText(
   text: string,
-  resolverContext?: ResolverContext
+  resolverContext?: ResolverContext,
+  afterLink = false
 ): {
   classes: string[];
   remainingText: string;
@@ -42,7 +43,7 @@ function extractAttributesFromText(
   tooltip?: string;
 } {
   // Try to match attribute block at the END first (standard case)
-  let match = text.match(ATTRIBUTE_BLOCK_REGEX);
+  let match = afterLink ? null : text.match(ATTRIBUTE_BLOCK_REGEX);
   let attributeBlockRaw: string | null = null;
   let remainingAfterRemoval: string = text;
 
@@ -50,7 +51,7 @@ function extractAttributesFromText(
     attributeBlockRaw = match[1].trim();
     // Remove trailing attribute block from text
     remainingAfterRemoval = text.replace(ATTRIBUTE_BLOCK_REGEX, '').trimEnd();
-  } else {
+  } else if (afterLink) {
     // Fallback: Match attribute block at the START (common after links)
     // CRITICAL FIX: Match the block but preserve the space after it
     // Pattern: optional whitespace + { + content + } (but DON'T consume trailing space)
@@ -193,7 +194,8 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
         // Extract attributes including modal/tooltip attachments and ID
         const { classes, remainingText, id, modal, tooltip } = extractAttributesFromText(
           textNode.value,
-          resolverContext
+          resolverContext,
+          true
         );
 
         // Update text node

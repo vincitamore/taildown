@@ -43,9 +43,33 @@
       "children": [
         {
           "type": "text",
-          "value": "Test modal attachment per SYNTAX.md §2.8.1"
+          "value": "Test modal attachment per SYNTAX.md §2.8.1",
+          "position": {
+            "start": {
+              "line": 3,
+              "column": 1,
+              "offset": 23
+            },
+            "end": {
+              "line": 3,
+              "column": 43,
+              "offset": 65
+            }
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 23
+        },
+        "end": {
+          "line": 3,
+          "column": 43,
+          "offset": 65
+        }
+      },
       "data": {
         "hProperties": {}
       }
@@ -133,16 +157,17 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
-                "hover:shadow-lg"
+                "hover:shadow-lg",
+                "transition-all"
               ],
               "data-modal-attach": "This is a simple alert!"
             }
@@ -432,19 +457,18 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
-                "modal=\"\""
+                "transition-all"
               ],
-              "id": "welcome-modal",
               "data-modal-attach": "#welcome-modal"
             }
           }
@@ -528,19 +552,18 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-purple-600",
-                "text-white",
-                "hover:bg-purple-700",
-                "active:bg-purple-800",
+                "bg-secondary",
+                "text-secondary-foreground",
+                "hover:bg-secondary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
-                "modal=\"\""
+                "transition-all"
               ],
-              "id": "info-modal",
               "data-modal-attach": "#info-modal"
             }
           }
@@ -624,20 +647,18 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
-                "text-red-600",
-                "modal=\"\""
+                "transition-all",
+                "text-red-600"
               ],
-              "id": "alert-modal",
               "data-modal-attach": "#alert-modal"
             }
           }
@@ -676,64 +697,115 @@
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "modal",
       "children": [
         {
-          "type": "text",
-          "value": ":::modal"
-        }
-      ],
-      "data": {
-        "hProperties": {
-          "className": [
-            "id=\"welcome-modal\""
-          ]
-        }
-      }
-    },
-    {
-      "type": "heading",
-      "depth": 1,
-      "children": [
-        {
-          "type": "text",
-          "value": "Welcome to Taildown!",
+          "type": "heading",
+          "depth": 1,
+          "children": [
+            {
+              "type": "text",
+              "value": "Welcome to Taildown!",
+              "position": {
+                "start": {
+                  "line": 22,
+                  "column": 3,
+                  "offset": 522
+                },
+                "end": {
+                  "line": 22,
+                  "column": 23,
+                  "offset": 542
+                }
+              }
+            }
+          ],
           "position": {
             "start": {
               "line": 22,
-              "column": 3,
-              "offset": 522
+              "column": 1,
+              "offset": 520
             },
             "end": {
               "line": 22,
               "column": 23,
               "offset": 542
             }
+          },
+          "data": {
+            "hProperties": {}
           }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 22,
-          "column": 1,
-          "offset": 520
         },
-        "end": {
-          "line": 22,
-          "column": 23,
-          "offset": 542
-        }
-      },
-      "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "paragraph",
-      "children": [
         {
-          "type": "text",
-          "value": "This modal has ",
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "This modal has ",
+              "position": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 546
+                },
+                "end": {
+                  "line": 24,
+                  "column": 16,
+                  "offset": 561
+                }
+              }
+            },
+            {
+              "type": "strong",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "rich markdown",
+                  "position": {
+                    "start": {
+                      "line": 24,
+                      "column": 18,
+                      "offset": 563
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 31,
+                      "offset": 576
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 24,
+                  "column": 16,
+                  "offset": 561
+                },
+                "end": {
+                  "line": 24,
+                  "column": 33,
+                  "offset": 578
+                }
+              }
+            },
+            {
+              "type": "text",
+              "value": " content:",
+              "position": {
+                "start": {
+                  "line": 24,
+                  "column": 33,
+                  "offset": 578
+                },
+                "end": {
+                  "line": 24,
+                  "column": 42,
+                  "offset": 587
+                }
+              }
+            }
+          ],
           "position": {
             "start": {
               "line": 24,
@@ -742,94 +814,45 @@
             },
             "end": {
               "line": 24,
-              "column": 16,
-              "offset": 561
-            }
-          }
-        },
-        {
-          "type": "strong",
-          "children": [
-            {
-              "type": "text",
-              "value": "rich markdown",
-              "position": {
-                "start": {
-                  "line": 24,
-                  "column": 18,
-                  "offset": 563
-                },
-                "end": {
-                  "line": 24,
-                  "column": 31,
-                  "offset": 576
-                }
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 24,
-              "column": 16,
-              "offset": 561
-            },
-            "end": {
-              "line": 24,
-              "column": 33,
-              "offset": 578
-            }
-          }
-        },
-        {
-          "type": "text",
-          "value": " content:",
-          "position": {
-            "start": {
-              "line": 24,
-              "column": 33,
-              "offset": 578
-            },
-            "end": {
-              "line": 24,
               "column": 42,
               "offset": 587
             }
+          },
+          "data": {
+            "hProperties": {}
           }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 24,
-          "column": 1,
-          "offset": 546
         },
-        "end": {
-          "line": 24,
-          "column": 42,
-          "offset": 587
-        }
-      },
-      "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "list",
-      "ordered": false,
-      "start": null,
-      "spread": false,
-      "children": [
         {
-          "type": "listItem",
+          "type": "list",
+          "ordered": false,
+          "start": null,
           "spread": false,
-          "checked": null,
           "children": [
             {
-              "type": "paragraph",
+              "type": "listItem",
+              "spread": false,
+              "checked": null,
               "children": [
                 {
-                  "type": "text",
-                  "value": "Multiple paragraphs",
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Multiple paragraphs",
+                      "position": {
+                        "start": {
+                          "line": 25,
+                          "column": 3,
+                          "offset": 591
+                        },
+                        "end": {
+                          "line": 25,
+                          "column": 22,
+                          "offset": 610
+                        }
+                      }
+                    }
+                  ],
                   "position": {
                     "start": {
                       "line": 25,
@@ -841,50 +864,50 @@
                       "column": 22,
                       "offset": 610
                     }
+                  },
+                  "data": {
+                    "hProperties": {}
                   }
                 }
               ],
               "position": {
                 "start": {
                   "line": 25,
-                  "column": 3,
-                  "offset": 591
+                  "column": 1,
+                  "offset": 589
                 },
                 "end": {
                   "line": 25,
                   "column": 22,
                   "offset": 610
                 }
-              },
-              "data": {
-                "hProperties": {}
               }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 25,
-              "column": 1,
-              "offset": 589
             },
-            "end": {
-              "line": 25,
-              "column": 22,
-              "offset": 610
-            }
-          }
-        },
-        {
-          "type": "listItem",
-          "spread": false,
-          "checked": null,
-          "children": [
             {
-              "type": "paragraph",
+              "type": "listItem",
+              "spread": false,
+              "checked": null,
               "children": [
                 {
-                  "type": "text",
-                  "value": "Lists and formatting",
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Lists and formatting",
+                      "position": {
+                        "start": {
+                          "line": 26,
+                          "column": 3,
+                          "offset": 614
+                        },
+                        "end": {
+                          "line": 26,
+                          "column": 23,
+                          "offset": 634
+                        }
+                      }
+                    }
+                  ],
                   "position": {
                     "start": {
                       "line": 26,
@@ -896,50 +919,66 @@
                       "column": 23,
                       "offset": 634
                     }
+                  },
+                  "data": {
+                    "hProperties": {}
                   }
                 }
               ],
               "position": {
                 "start": {
                   "line": 26,
-                  "column": 3,
-                  "offset": 614
+                  "column": 1,
+                  "offset": 612
                 },
                 "end": {
                   "line": 26,
                   "column": 23,
                   "offset": 634
                 }
-              },
-              "data": {
-                "hProperties": {}
               }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 26,
-              "column": 1,
-              "offset": 612
             },
-            "end": {
-              "line": 26,
-              "column": 23,
-              "offset": 634
-            }
-          }
-        },
-        {
-          "type": "listItem",
-          "spread": false,
-          "checked": null,
-          "children": [
             {
-              "type": "paragraph",
+              "type": "listItem",
+              "spread": false,
+              "checked": null,
               "children": [
                 {
-                  "type": "text",
-                  "value": "Even ",
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Even ",
+                      "position": {
+                        "start": {
+                          "line": 27,
+                          "column": 3,
+                          "offset": 638
+                        },
+                        "end": {
+                          "line": 27,
+                          "column": 8,
+                          "offset": 643
+                        }
+                      }
+                    },
+                    {
+                      "type": "inlineCode",
+                      "value": "code blocks",
+                      "position": {
+                        "start": {
+                          "line": 27,
+                          "column": 8,
+                          "offset": 643
+                        },
+                        "end": {
+                          "line": 27,
+                          "column": 21,
+                          "offset": 656
+                        }
+                      }
+                    }
+                  ],
                   "position": {
                     "start": {
                       "line": 27,
@@ -948,35 +987,31 @@
                     },
                     "end": {
                       "line": 27,
-                      "column": 8,
-                      "offset": 643
-                    }
-                  }
-                },
-                {
-                  "type": "inlineCode",
-                  "value": "code blocks",
-                  "position": {
-                    "start": {
-                      "line": 27,
-                      "column": 8,
-                      "offset": 643
-                    },
-                    "end": {
-                      "line": 27,
                       "column": 21,
                       "offset": 656
                     }
                   }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 27,
+                  "column": 1,
+                  "offset": 636
+                },
+                "end": {
+                  "line": 28,
+                  "column": 4,
+                  "offset": 661
+                }
+              }
             }
           ],
           "position": {
             "start": {
-              "line": 27,
+              "line": 25,
               "column": 1,
-              "offset": 636
+              "offset": 589
             },
             "end": {
               "line": 28,
@@ -988,99 +1023,153 @@
       ],
       "position": {
         "start": {
-          "line": 25,
+          "line": 21,
           "column": 1,
-          "offset": 589
+          "offset": 490
         },
         "end": {
           "line": 28,
           "column": 4,
           "offset": 661
         }
-      }
-    },
-    {
-      "type": "paragraph",
-      "children": [
-        {
-          "type": "text",
-          "value": ":::modal"
-        }
-      ],
+      },
+      "attributes": {
+        "id": "welcome-modal"
+      },
       "data": {
+        "hName": "div",
         "hProperties": {
           "className": [
-            "id=\"info-modal\""
+            "taildown-component",
+            "component-modal",
+            "modal",
+            "bg-card",
+            "text-card-foreground",
+            "rounded-lg",
+            "shadow-xl",
+            "p-6",
+            "max-w-2xl",
+            "mx-auto",
+            "id"
+          ],
+          "data-component": "modal"
+        },
+        "component": {
+          "name": "modal",
+          "attributes": [
+            "id"
           ]
         }
       }
     },
     {
-      "type": "heading",
-      "depth": 2,
+      "type": "containerDirective",
+      "name": "modal",
       "children": [
         {
-          "type": "text",
-          "value": "Information",
+          "type": "heading",
+          "depth": 2,
+          "children": [
+            {
+              "type": "text",
+              "value": "Information",
+              "position": {
+                "start": {
+                  "line": 31,
+                  "column": 4,
+                  "offset": 695
+                },
+                "end": {
+                  "line": 31,
+                  "column": 15,
+                  "offset": 706
+                }
+              }
+            }
+          ],
           "position": {
             "start": {
               "line": 31,
-              "column": 4,
-              "offset": 695
+              "column": 1,
+              "offset": 692
             },
             "end": {
               "line": 31,
               "column": 15,
               "offset": 706
             }
+          },
+          "data": {
+            "hProperties": {}
           }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 31,
-          "column": 1,
-          "offset": 692
         },
-        "end": {
-          "line": 31,
-          "column": 15,
-          "offset": 706
-        }
-      },
-      "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "paragraph",
-      "children": [
         {
-          "type": "text",
-          "value": "This is detailed information with:"
-        }
-      ],
-      "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "list",
-      "ordered": true,
-      "start": 1,
-      "spread": false,
-      "children": [
-        {
-          "type": "listItem",
-          "spread": false,
-          "checked": null,
+          "type": "paragraph",
           "children": [
             {
-              "type": "paragraph",
+              "type": "text",
+              "value": "This is detailed information with:",
+              "position": {
+                "start": {
+                  "line": 33,
+                  "column": 1,
+                  "offset": 710
+                },
+                "end": {
+                  "line": 33,
+                  "column": 35,
+                  "offset": 744
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 33,
+              "column": 1,
+              "offset": 710
+            },
+            "end": {
+              "line": 33,
+              "column": 35,
+              "offset": 744
+            }
+          },
+          "data": {
+            "hProperties": {}
+          }
+        },
+        {
+          "type": "list",
+          "ordered": true,
+          "start": 1,
+          "spread": false,
+          "children": [
+            {
+              "type": "listItem",
+              "spread": false,
+              "checked": null,
               "children": [
                 {
-                  "type": "text",
-                  "value": "Numbered lists",
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Numbered lists",
+                      "position": {
+                        "start": {
+                          "line": 34,
+                          "column": 4,
+                          "offset": 749
+                        },
+                        "end": {
+                          "line": 34,
+                          "column": 18,
+                          "offset": 763
+                        }
+                      }
+                    }
+                  ],
                   "position": {
                     "start": {
                       "line": 34,
@@ -1092,63 +1181,63 @@
                       "column": 18,
                       "offset": 763
                     }
+                  },
+                  "data": {
+                    "hProperties": {}
                   }
                 }
               ],
               "position": {
                 "start": {
                   "line": 34,
-                  "column": 4,
-                  "offset": 749
+                  "column": 1,
+                  "offset": 746
                 },
                 "end": {
                   "line": 34,
                   "column": 18,
                   "offset": 763
                 }
-              },
-              "data": {
-                "hProperties": {}
               }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 34,
-              "column": 1,
-              "offset": 746
             },
-            "end": {
-              "line": 34,
-              "column": 18,
-              "offset": 763
-            }
-          }
-        },
-        {
-          "type": "listItem",
-          "spread": false,
-          "checked": null,
-          "children": [
             {
-              "type": "paragraph",
+              "type": "listItem",
+              "spread": false,
+              "checked": null,
               "children": [
                 {
-                  "type": "strong",
+                  "type": "paragraph",
                   "children": [
                     {
-                      "type": "text",
-                      "value": "Bold text",
+                      "type": "strong",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Bold text",
+                          "position": {
+                            "start": {
+                              "line": 35,
+                              "column": 6,
+                              "offset": 770
+                            },
+                            "end": {
+                              "line": 35,
+                              "column": 15,
+                              "offset": 779
+                            }
+                          }
+                        }
+                      ],
                       "position": {
                         "start": {
                           "line": 35,
-                          "column": 6,
-                          "offset": 770
+                          "column": 4,
+                          "offset": 768
                         },
                         "end": {
                           "line": 35,
-                          "column": 15,
-                          "offset": 779
+                          "column": 17,
+                          "offset": 781
                         }
                       }
                     }
@@ -1170,8 +1259,8 @@
               "position": {
                 "start": {
                   "line": 35,
-                  "column": 4,
-                  "offset": 768
+                  "column": 1,
+                  "offset": 765
                 },
                 "end": {
                   "line": 35,
@@ -1179,45 +1268,45 @@
                   "offset": 781
                 }
               }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 35,
-              "column": 1,
-              "offset": 765
             },
-            "end": {
-              "line": 35,
-              "column": 17,
-              "offset": 781
-            }
-          }
-        },
-        {
-          "type": "listItem",
-          "spread": false,
-          "checked": null,
-          "children": [
             {
-              "type": "paragraph",
+              "type": "listItem",
+              "spread": false,
+              "checked": null,
               "children": [
                 {
-                  "type": "emphasis",
+                  "type": "paragraph",
                   "children": [
                     {
-                      "type": "text",
-                      "value": "Italic text",
+                      "type": "emphasis",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Italic text",
+                          "position": {
+                            "start": {
+                              "line": 36,
+                              "column": 5,
+                              "offset": 787
+                            },
+                            "end": {
+                              "line": 36,
+                              "column": 16,
+                              "offset": 798
+                            }
+                          }
+                        }
+                      ],
                       "position": {
                         "start": {
                           "line": 36,
-                          "column": 5,
-                          "offset": 787
+                          "column": 4,
+                          "offset": 786
                         },
                         "end": {
                           "line": 36,
-                          "column": 16,
-                          "offset": 798
+                          "column": 17,
+                          "offset": 799
                         }
                       }
                     }
@@ -1235,14 +1324,26 @@
                     }
                   }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 36,
+                  "column": 1,
+                  "offset": 783
+                },
+                "end": {
+                  "line": 37,
+                  "column": 4,
+                  "offset": 804
+                }
+              }
             }
           ],
           "position": {
             "start": {
-              "line": 36,
+              "line": 34,
               "column": 1,
-              "offset": 783
+              "offset": 746
             },
             "end": {
               "line": 37,
@@ -1254,59 +1355,101 @@
       ],
       "position": {
         "start": {
-          "line": 34,
+          "line": 30,
           "column": 1,
-          "offset": 746
+          "offset": 665
         },
         "end": {
           "line": 37,
           "column": 4,
           "offset": 804
         }
+      },
+      "attributes": {
+        "id": "info-modal"
+      },
+      "data": {
+        "hName": "div",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-modal",
+            "modal",
+            "bg-card",
+            "text-card-foreground",
+            "rounded-lg",
+            "shadow-xl",
+            "p-6",
+            "max-w-2xl",
+            "mx-auto",
+            "id"
+          ],
+          "data-component": "modal"
+        },
+        "component": {
+          "name": "modal",
+          "attributes": [
+            "id"
+          ]
+        }
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "modal",
       "children": [
         {
-          "type": "text",
-          "value": ":::modal{id=\"alert-modal\"}\r\n"
-        },
-        {
-          "type": "icon",
-          "name": "alert-triangle",
-          "data": {
-            "hName": "svg",
-            "hProperties": {
-              "className": [
-                "icon",
-                "icon-alert-triangle",
-                "text-yellow-600"
-              ],
-              "data-icon": "alert-triangle"
-            }
-          }
-        },
-        {
-          "type": "text",
-          "value": " "
-        },
-        {
-          "type": "strong",
+          "type": "paragraph",
           "children": [
             {
+              "type": "icon",
+              "name": "alert-triangle",
+              "data": {
+                "hName": "svg",
+                "hProperties": {
+                  "className": [
+                    "icon",
+                    "icon-alert-triangle",
+                    "text-yellow-600"
+                  ],
+                  "data-icon": "alert-triangle"
+                }
+              }
+            },
+            {
               "type": "text",
-              "value": "Warning!",
+              "value": " "
+            },
+            {
+              "type": "strong",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Warning!",
+                  "position": {
+                    "start": {
+                      "line": 40,
+                      "column": 34,
+                      "offset": 869
+                    },
+                    "end": {
+                      "line": 40,
+                      "column": 42,
+                      "offset": 877
+                    }
+                  }
+                }
+              ],
               "position": {
                 "start": {
                   "line": 40,
-                  "column": 34,
-                  "offset": 869
+                  "column": 32,
+                  "offset": 867
                 },
                 "end": {
                   "line": 40,
-                  "column": 42,
-                  "offset": 877
+                  "column": 44,
+                  "offset": 879
                 }
               }
             }
@@ -1314,14 +1457,50 @@
           "position": {
             "start": {
               "line": 40,
-              "column": 32,
-              "offset": 867
+              "column": 1,
+              "offset": 836
             },
             "end": {
               "line": 40,
               "column": 44,
               "offset": 879
             }
+          }
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "This action cannot be undone.",
+              "position": {
+                "start": {
+                  "line": 42,
+                  "column": 1,
+                  "offset": 883
+                },
+                "end": {
+                  "line": 42,
+                  "column": 30,
+                  "offset": 912
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 42,
+              "column": 1,
+              "offset": 883
+            },
+            "end": {
+              "line": 42,
+              "column": 30,
+              "offset": 912
+            }
+          },
+          "data": {
+            "hProperties": {}
           }
         }
       ],
@@ -1332,22 +1511,38 @@
           "offset": 808
         },
         "end": {
-          "line": 40,
-          "column": 44,
-          "offset": 879
+          "line": 43,
+          "column": 4,
+          "offset": 917
         }
-      }
-    },
-    {
-      "type": "paragraph",
-      "children": [
-        {
-          "type": "text",
-          "value": "This action cannot be undone."
-        }
-      ],
+      },
+      "attributes": {
+        "id": "alert-modal"
+      },
       "data": {
-        "hProperties": {}
+        "hName": "div",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-modal",
+            "modal",
+            "bg-card",
+            "text-card-foreground",
+            "rounded-lg",
+            "shadow-xl",
+            "p-6",
+            "max-w-2xl",
+            "mx-auto",
+            "id"
+          ],
+          "data-component": "modal"
+        },
+        "component": {
+          "name": "modal",
+          "attributes": [
+            "id"
+          ]
+        }
       }
     },
     {
@@ -1433,19 +1628,18 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
-                "modal=\"\""
+                "transition-all"
               ],
-              "id": "shared-modal",
               "data-modal-attach": "#shared-modal"
             }
           }
@@ -1529,19 +1723,18 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
-                "modal=\"\""
+                "transition-all"
               ],
-              "id": "shared-modal",
               "data-modal-attach": "#shared-modal"
             }
           }
@@ -1625,19 +1818,18 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
-                "modal=\"\""
+                "transition-all"
               ],
-              "id": "shared-modal",
               "data-modal-attach": "#shared-modal"
             }
           }
@@ -1676,68 +1868,122 @@
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "modal",
       "children": [
         {
-          "type": "text",
-          "value": ":::modal"
-        }
-      ],
-      "data": {
-        "hProperties": {
-          "className": [
-            "id=\"shared-modal\""
-          ]
-        }
-      }
-    },
-    {
-      "type": "heading",
-      "depth": 1,
-      "children": [
-        {
-          "type": "text",
-          "value": "Shared Modal",
+          "type": "heading",
+          "depth": 1,
+          "children": [
+            {
+              "type": "text",
+              "value": "Shared Modal",
+              "position": {
+                "start": {
+                  "line": 54,
+                  "column": 3,
+                  "offset": 1132
+                },
+                "end": {
+                  "line": 54,
+                  "column": 15,
+                  "offset": 1144
+                }
+              }
+            }
+          ],
           "position": {
             "start": {
               "line": 54,
-              "column": 3,
-              "offset": 1132
+              "column": 1,
+              "offset": 1130
             },
             "end": {
               "line": 54,
               "column": 15,
               "offset": 1144
             }
+          },
+          "data": {
+            "hProperties": {}
+          }
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "This content is shown when any of the three buttons is clicked.",
+              "position": {
+                "start": {
+                  "line": 56,
+                  "column": 1,
+                  "offset": 1148
+                },
+                "end": {
+                  "line": 56,
+                  "column": 64,
+                  "offset": 1211
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 56,
+              "column": 1,
+              "offset": 1148
+            },
+            "end": {
+              "line": 56,
+              "column": 64,
+              "offset": 1211
+            }
+          },
+          "data": {
+            "hProperties": {}
           }
         }
       ],
       "position": {
         "start": {
-          "line": 54,
+          "line": 53,
           "column": 1,
-          "offset": 1130
+          "offset": 1101
         },
         "end": {
-          "line": 54,
-          "column": 15,
-          "offset": 1144
+          "line": 57,
+          "column": 4,
+          "offset": 1216
         }
       },
+      "attributes": {
+        "id": "shared-modal"
+      },
       "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "paragraph",
-      "children": [
-        {
-          "type": "text",
-          "value": "This content is shown when any of the three buttons is clicked."
+        "hName": "div",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-modal",
+            "modal",
+            "bg-card",
+            "text-card-foreground",
+            "rounded-lg",
+            "shadow-xl",
+            "p-6",
+            "max-w-2xl",
+            "mx-auto",
+            "id"
+          ],
+          "data-component": "modal"
+        },
+        "component": {
+          "name": "modal",
+          "attributes": [
+            "id"
+          ]
         }
-      ],
-      "data": {
-        "hProperties": {}
       }
     },
     {
@@ -1823,16 +2069,17 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
+                "transition-all",
                 "text-lg"
               ],
               "data-modal-attach": "Form submitted successfully!"
@@ -1912,15 +2159,8 @@
           "data": {
             "hProperties": {
               "className": [
-                "inline-flex",
-                "items-center",
-                "px-3",
-                "py-1",
-                "rounded-full",
-                "font-medium",
-                "text-sm",
-                "bg-sky-100",
-                "text-sky-700"
+                "badge",
+                "badge-info"
               ],
               "data-modal-attach": "Click for assistance"
             }
@@ -2005,20 +2245,19 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-purple-600",
-                "text-white",
-                "hover:bg-purple-700",
-                "active:bg-purple-800",
+                "bg-secondary",
+                "text-secondary-foreground",
+                "hover:bg-secondary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
-                "modal=\"\"",
+                "transition-all",
                 "custom-class"
               ],
-              "id": "settings-modal",
               "data-modal-attach": "#settings-modal"
             }
           }
@@ -2057,68 +2296,122 @@
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "modal",
       "children": [
         {
-          "type": "text",
-          "value": ":::modal"
-        }
-      ],
-      "data": {
-        "hProperties": {
-          "className": [
-            "id=\"settings-modal\""
-          ]
-        }
-      }
-    },
-    {
-      "type": "heading",
-      "depth": 2,
-      "children": [
-        {
-          "type": "text",
-          "value": "Settings",
+          "type": "heading",
+          "depth": 2,
+          "children": [
+            {
+              "type": "text",
+              "value": "Settings",
+              "position": {
+                "start": {
+                  "line": 68,
+                  "column": 4,
+                  "offset": 1492
+                },
+                "end": {
+                  "line": 68,
+                  "column": 12,
+                  "offset": 1500
+                }
+              }
+            }
+          ],
           "position": {
             "start": {
               "line": 68,
-              "column": 4,
-              "offset": 1492
+              "column": 1,
+              "offset": 1489
             },
             "end": {
               "line": 68,
               "column": 12,
               "offset": 1500
             }
+          },
+          "data": {
+            "hProperties": {}
+          }
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Configure your preferences here.",
+              "position": {
+                "start": {
+                  "line": 70,
+                  "column": 1,
+                  "offset": 1504
+                },
+                "end": {
+                  "line": 70,
+                  "column": 33,
+                  "offset": 1536
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 70,
+              "column": 1,
+              "offset": 1504
+            },
+            "end": {
+              "line": 70,
+              "column": 33,
+              "offset": 1536
+            }
+          },
+          "data": {
+            "hProperties": {}
           }
         }
       ],
       "position": {
         "start": {
-          "line": 68,
+          "line": 67,
           "column": 1,
-          "offset": 1489
+          "offset": 1458
         },
         "end": {
-          "line": 68,
-          "column": 12,
-          "offset": 1500
+          "line": 71,
+          "column": 4,
+          "offset": 1541
         }
       },
+      "attributes": {
+        "id": "settings-modal"
+      },
       "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "paragraph",
-      "children": [
-        {
-          "type": "text",
-          "value": "Configure your preferences here."
+        "hName": "div",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-modal",
+            "modal",
+            "bg-card",
+            "text-card-foreground",
+            "rounded-lg",
+            "shadow-xl",
+            "p-6",
+            "max-w-2xl",
+            "mx-auto",
+            "id"
+          ],
+          "data-component": "modal"
+        },
+        "component": {
+          "name": "modal",
+          "attributes": [
+            "id"
+          ]
         }
-      ],
-      "data": {
-        "hProperties": {}
       }
     }
   ],

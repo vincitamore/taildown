@@ -115,7 +115,8 @@
         "hProperties": {
           "className": [
             "font-bold",
-            "text-blue-600"
+            "text-primary-600",
+            "hover:text-primary-700"
           ]
         }
       }
@@ -174,7 +175,7 @@
             "p-6",
             "max-w-full",
             "overflow-x-hidden",
-            "break-words",
+            "overflow-wrap-normal",
             "glass-effect",
             "glass-subtle",
             "shadow-sm"
@@ -228,7 +229,7 @@
             "p-6",
             "max-w-full",
             "overflow-x-hidden",
-            "break-words",
+            "overflow-wrap-normal",
             "glass-effect",
             "glass-subtle",
             "shadow-sm",
@@ -931,7 +932,7 @@
             "p-6",
             "max-w-full",
             "overflow-x-hidden",
-            "break-words",
+            "overflow-wrap-normal",
             "glass-effect",
             "glass-subtle",
             "shadow-sm",
@@ -984,11 +985,10 @@
           "className": [
             "taildown-component",
             "component-card",
-            "rounded-lg",
             "p-6",
             "max-w-full",
             "overflow-x-hidden",
-            "break-words",
+            "overflow-wrap-normal",
             "glass-effect",
             "glass-subtle",
             "shadow-sm",

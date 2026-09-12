@@ -263,15 +263,35 @@
       "children": [
         {
           "type": "text",
-          "value": " This paragraph has attributes at the start, not the end."
+          "value": "{.invalid} This paragraph has attributes at the start, not the end.",
+          "position": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 315
+            },
+            "end": {
+              "line": 11,
+              "column": 68,
+              "offset": 382
+            }
+          }
         }
       ],
-      "data": {
-        "hProperties": {
-          "className": [
-            "invalid"
-          ]
+      "position": {
+        "start": {
+          "line": 11,
+          "column": 1,
+          "offset": 315
+        },
+        "end": {
+          "line": 11,
+          "column": 68,
+          "offset": 382
         }
+      },
+      "data": {
+        "hProperties": {}
       }
     },
     {

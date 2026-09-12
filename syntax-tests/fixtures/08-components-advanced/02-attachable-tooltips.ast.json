@@ -43,9 +43,33 @@
       "children": [
         {
           "type": "text",
-          "value": "Test tooltip attachment per SYNTAX.md §2.8.2"
+          "value": "Test tooltip attachment per SYNTAX.md §2.8.2",
+          "position": {
+            "start": {
+              "line": 3,
+              "column": 1,
+              "offset": 25
+            },
+            "end": {
+              "line": 3,
+              "column": 45,
+              "offset": 69
+            }
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 25
+        },
+        "end": {
+          "line": 3,
+          "column": 45,
+          "offset": 69
+        }
+      },
       "data": {
         "hProperties": {}
       }
@@ -414,19 +438,18 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
-                "tooltip=\"\""
+                "transition-all"
               ],
-              "id": "detailed-info",
               "data-tooltip-attach": "#detailed-info"
             }
           }
@@ -504,18 +527,9 @@
           "data": {
             "hProperties": {
               "className": [
-                "inline-flex",
-                "items-center",
-                "px-3",
-                "py-1",
-                "rounded-full",
-                "font-medium",
-                "text-sm",
-                "bg-sky-100",
-                "text-sky-700",
-                "tooltip=\"\""
+                "badge",
+                "badge-info"
               ],
-              "id": "help-text",
               "data-tooltip-attach": "#help-text"
             }
           }
@@ -592,10 +606,6 @@
           },
           "data": {
             "hProperties": {
-              "className": [
-                "tooltip=\"\""
-              ],
-              "id": "explanation",
               "data-tooltip-attach": "#explanation"
             }
           }
@@ -634,261 +644,405 @@
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "tooltip",
       "children": [
         {
-          "type": "text",
-          "value": ":::tooltip{id=\"detailed-info\"}\r\nThis is a ",
-          "position": {
-            "start": {
-              "line": 21,
-              "column": 1,
-              "offset": 429
-            },
-            "end": {
-              "line": 22,
-              "column": 11,
-              "offset": 471
-            }
-          }
-        },
-        {
-          "type": "strong",
+          "type": "paragraph",
           "children": [
             {
               "type": "text",
-              "value": "detailed tooltip",
+              "value": "This is a ",
               "position": {
                 "start": {
                   "line": 22,
-                  "column": 13,
-                  "offset": 473
+                  "column": 1,
+                  "offset": 461
                 },
                 "end": {
                   "line": 22,
-                  "column": 29,
-                  "offset": 489
+                  "column": 11,
+                  "offset": 471
                 }
               }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 22,
-              "column": 11,
-              "offset": 471
             },
-            "end": {
-              "line": 22,
-              "column": 31,
-              "offset": 491
-            }
-          }
-        },
-        {
-          "type": "text",
-          "value": " with full markdown support including ",
-          "position": {
-            "start": {
-              "line": 22,
-              "column": 31,
-              "offset": 491
-            },
-            "end": {
-              "line": 22,
-              "column": 69,
-              "offset": 529
-            }
-          }
-        },
-        {
-          "type": "inlineCode",
-          "value": "code",
-          "position": {
-            "start": {
-              "line": 22,
-              "column": 69,
-              "offset": 529
-            },
-            "end": {
-              "line": 22,
-              "column": 75,
-              "offset": 535
-            }
-          }
-        },
-        {
-          "type": "text",
-          "value": " and ",
-          "position": {
-            "start": {
-              "line": 22,
-              "column": 75,
-              "offset": 535
-            },
-            "end": {
-              "line": 22,
-              "column": 80,
-              "offset": 540
-            }
-          }
-        },
-        {
-          "type": "emphasis",
-          "children": [
             {
-              "type": "text",
-              "value": "emphasis",
-              "position": {
-                "start": {
-                  "line": 22,
-                  "column": 81,
-                  "offset": 541
-                },
-                "end": {
-                  "line": 22,
-                  "column": 89,
-                  "offset": 549
-                }
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 22,
-              "column": 80,
-              "offset": 540
-            },
-            "end": {
-              "line": 22,
-              "column": 90,
-              "offset": 550
-            }
-          }
-        },
-        {
-          "type": "text",
-          "value": ".",
-          "position": {
-            "start": {
-              "line": 22,
-              "column": 90,
-              "offset": 550
-            },
-            "end": {
-              "line": 23,
-              "column": 4,
-              "offset": 556
-            }
-          }
-        }
-      ],
-      "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "paragraph",
-      "children": [
-        {
-          "type": "text",
-          "value": ":::tooltip{id=\"help-text\"}\r\n",
-          "position": {
-            "start": {
-              "line": 25,
-              "column": 1,
-              "offset": 560
-            },
-            "end": {
-              "line": 26,
-              "column": 1,
-              "offset": 588
-            }
-          }
-        },
-        {
-          "type": "strong",
-          "children": [
-            {
-              "type": "text",
-              "value": "Help",
-              "position": {
-                "start": {
-                  "line": 26,
-                  "column": 3,
-                  "offset": 590
-                },
-                "end": {
-                  "line": 26,
-                  "column": 7,
-                  "offset": 594
-                }
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 26,
-              "column": 1,
-              "offset": 588
-            },
-            "end": {
-              "line": 26,
-              "column": 9,
-              "offset": 596
-            }
-          }
-        },
-        {
-          "type": "text",
-          "value": ": This feature allows you to do X, Y, and Z.",
-          "position": {
-            "start": {
-              "line": 26,
-              "column": 9,
-              "offset": 596
-            },
-            "end": {
-              "line": 27,
-              "column": 4,
-              "offset": 645
-            }
-          }
-        }
-      ],
-      "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "paragraph",
-      "children": [
-        {
-          "type": "text",
-          "value": ":::tooltip{id=\"explanation\"}\nA comprehensive explanation with:"
-        }
-      ],
-      "data": {
-        "hProperties": {}
-      }
-    },
-    {
-      "type": "list",
-      "ordered": false,
-      "start": null,
-      "spread": false,
-      "children": [
-        {
-          "type": "listItem",
-          "spread": false,
-          "checked": null,
-          "children": [
-            {
-              "type": "paragraph",
+              "type": "strong",
               "children": [
                 {
                   "type": "text",
-                  "value": "Point 1",
+                  "value": "detailed tooltip",
+                  "position": {
+                    "start": {
+                      "line": 22,
+                      "column": 13,
+                      "offset": 473
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 29,
+                      "offset": 489
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 22,
+                  "column": 11,
+                  "offset": 471
+                },
+                "end": {
+                  "line": 22,
+                  "column": 31,
+                  "offset": 491
+                }
+              }
+            },
+            {
+              "type": "text",
+              "value": " with full markdown support including ",
+              "position": {
+                "start": {
+                  "line": 22,
+                  "column": 31,
+                  "offset": 491
+                },
+                "end": {
+                  "line": 22,
+                  "column": 69,
+                  "offset": 529
+                }
+              }
+            },
+            {
+              "type": "inlineCode",
+              "value": "code",
+              "position": {
+                "start": {
+                  "line": 22,
+                  "column": 69,
+                  "offset": 529
+                },
+                "end": {
+                  "line": 22,
+                  "column": 75,
+                  "offset": 535
+                }
+              }
+            },
+            {
+              "type": "text",
+              "value": " and ",
+              "position": {
+                "start": {
+                  "line": 22,
+                  "column": 75,
+                  "offset": 535
+                },
+                "end": {
+                  "line": 22,
+                  "column": 80,
+                  "offset": 540
+                }
+              }
+            },
+            {
+              "type": "emphasis",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "emphasis",
+                  "position": {
+                    "start": {
+                      "line": 22,
+                      "column": 81,
+                      "offset": 541
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 89,
+                      "offset": 549
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 22,
+                  "column": 80,
+                  "offset": 540
+                },
+                "end": {
+                  "line": 22,
+                  "column": 90,
+                  "offset": 550
+                }
+              }
+            },
+            {
+              "type": "text",
+              "value": ".",
+              "position": {
+                "start": {
+                  "line": 22,
+                  "column": 90,
+                  "offset": 550
+                },
+                "end": {
+                  "line": 22,
+                  "column": 91,
+                  "offset": 551
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 461
+            },
+            "end": {
+              "line": 22,
+              "column": 91,
+              "offset": 551
+            }
+          },
+          "data": {
+            "hProperties": {}
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 21,
+          "column": 1,
+          "offset": 429
+        },
+        "end": {
+          "line": 23,
+          "column": 4,
+          "offset": 556
+        }
+      },
+      "attributes": {
+        "id": "detailed-info"
+      },
+      "data": {
+        "hName": "span",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-tooltip",
+            "tooltip",
+            "inline-block",
+            "px-3",
+            "py-2",
+            "text-sm",
+            "bg-popover",
+            "text-popover-foreground",
+            "rounded",
+            "shadow-lg",
+            "id"
+          ],
+          "data-component": "tooltip"
+        },
+        "component": {
+          "name": "tooltip",
+          "attributes": [
+            "id"
+          ]
+        }
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "tooltip",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "strong",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Help",
+                  "position": {
+                    "start": {
+                      "line": 26,
+                      "column": 3,
+                      "offset": 590
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 7,
+                      "offset": 594
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 26,
+                  "column": 1,
+                  "offset": 588
+                },
+                "end": {
+                  "line": 26,
+                  "column": 9,
+                  "offset": 596
+                }
+              }
+            },
+            {
+              "type": "text",
+              "value": ": This feature allows you to do X, Y, and Z.",
+              "position": {
+                "start": {
+                  "line": 26,
+                  "column": 9,
+                  "offset": 596
+                },
+                "end": {
+                  "line": 26,
+                  "column": 53,
+                  "offset": 640
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 26,
+              "column": 1,
+              "offset": 588
+            },
+            "end": {
+              "line": 26,
+              "column": 53,
+              "offset": 640
+            }
+          },
+          "data": {
+            "hProperties": {}
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 25,
+          "column": 1,
+          "offset": 560
+        },
+        "end": {
+          "line": 27,
+          "column": 4,
+          "offset": 645
+        }
+      },
+      "attributes": {
+        "id": "help-text"
+      },
+      "data": {
+        "hName": "span",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-tooltip",
+            "tooltip",
+            "inline-block",
+            "px-3",
+            "py-2",
+            "text-sm",
+            "bg-popover",
+            "text-popover-foreground",
+            "rounded",
+            "shadow-lg",
+            "id"
+          ],
+          "data-component": "tooltip"
+        },
+        "component": {
+          "name": "tooltip",
+          "attributes": [
+            "id"
+          ]
+        }
+      }
+    },
+    {
+      "type": "containerDirective",
+      "name": "tooltip",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "A comprehensive explanation with:",
+              "position": {
+                "start": {
+                  "line": 30,
+                  "column": 1,
+                  "offset": 679
+                },
+                "end": {
+                  "line": 30,
+                  "column": 34,
+                  "offset": 712
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 30,
+              "column": 1,
+              "offset": 679
+            },
+            "end": {
+              "line": 30,
+              "column": 34,
+              "offset": 712
+            }
+          },
+          "data": {
+            "hProperties": {}
+          }
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "start": null,
+          "spread": false,
+          "children": [
+            {
+              "type": "listItem",
+              "spread": false,
+              "checked": null,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Point 1",
+                      "position": {
+                        "start": {
+                          "line": 31,
+                          "column": 3,
+                          "offset": 716
+                        },
+                        "end": {
+                          "line": 31,
+                          "column": 10,
+                          "offset": 723
+                        }
+                      }
+                    }
+                  ],
                   "position": {
                     "start": {
                       "line": 31,
@@ -900,50 +1054,50 @@
                       "column": 10,
                       "offset": 723
                     }
+                  },
+                  "data": {
+                    "hProperties": {}
                   }
                 }
               ],
               "position": {
                 "start": {
                   "line": 31,
-                  "column": 3,
-                  "offset": 716
+                  "column": 1,
+                  "offset": 714
                 },
                 "end": {
                   "line": 31,
                   "column": 10,
                   "offset": 723
                 }
-              },
-              "data": {
-                "hProperties": {}
               }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 31,
-              "column": 1,
-              "offset": 714
             },
-            "end": {
-              "line": 31,
-              "column": 10,
-              "offset": 723
-            }
-          }
-        },
-        {
-          "type": "listItem",
-          "spread": false,
-          "checked": null,
-          "children": [
             {
-              "type": "paragraph",
+              "type": "listItem",
+              "spread": false,
+              "checked": null,
               "children": [
                 {
-                  "type": "text",
-                  "value": "Point 2",
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Point 2",
+                      "position": {
+                        "start": {
+                          "line": 32,
+                          "column": 3,
+                          "offset": 727
+                        },
+                        "end": {
+                          "line": 32,
+                          "column": 10,
+                          "offset": 734
+                        }
+                      }
+                    }
+                  ],
                   "position": {
                     "start": {
                       "line": 32,
@@ -955,62 +1109,86 @@
                       "column": 10,
                       "offset": 734
                     }
+                  },
+                  "data": {
+                    "hProperties": {}
                   }
                 }
               ],
               "position": {
                 "start": {
                   "line": 32,
-                  "column": 3,
-                  "offset": 727
+                  "column": 1,
+                  "offset": 725
                 },
                 "end": {
                   "line": 32,
                   "column": 10,
                   "offset": 734
                 }
-              },
-              "data": {
-                "hProperties": {}
               }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 32,
-              "column": 1,
-              "offset": 725
             },
-            "end": {
-              "line": 32,
-              "column": 10,
-              "offset": 734
-            }
-          }
-        },
-        {
-          "type": "listItem",
-          "spread": false,
-          "checked": null,
-          "children": [
             {
-              "type": "paragraph",
+              "type": "listItem",
+              "spread": false,
+              "checked": null,
               "children": [
                 {
-                  "type": "text",
-                  "value": "Point 3"
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Point 3",
+                      "position": {
+                        "start": {
+                          "line": 33,
+                          "column": 3,
+                          "offset": 738
+                        },
+                        "end": {
+                          "line": 33,
+                          "column": 10,
+                          "offset": 745
+                        }
+                      }
+                    }
+                  ],
+                  "position": {
+                    "start": {
+                      "line": 33,
+                      "column": 3,
+                      "offset": 738
+                    },
+                    "end": {
+                      "line": 33,
+                      "column": 10,
+                      "offset": 745
+                    }
+                  },
+                  "data": {
+                    "hProperties": {}
+                  }
                 }
               ],
-              "data": {
-                "hProperties": {}
+              "position": {
+                "start": {
+                  "line": 33,
+                  "column": 1,
+                  "offset": 736
+                },
+                "end": {
+                  "line": 34,
+                  "column": 4,
+                  "offset": 750
+                }
               }
             }
           ],
           "position": {
             "start": {
-              "line": 33,
+              "line": 31,
               "column": 1,
-              "offset": 736
+              "offset": 714
             },
             "end": {
               "line": 34,
@@ -1022,14 +1200,43 @@
       ],
       "position": {
         "start": {
-          "line": 31,
+          "line": 29,
           "column": 1,
-          "offset": 714
+          "offset": 649
         },
         "end": {
           "line": 34,
           "column": 4,
           "offset": 750
+        }
+      },
+      "attributes": {
+        "id": "explanation"
+      },
+      "data": {
+        "hName": "span",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-tooltip",
+            "tooltip",
+            "inline-block",
+            "px-3",
+            "py-2",
+            "text-sm",
+            "bg-popover",
+            "text-popover-foreground",
+            "rounded",
+            "shadow-lg",
+            "id"
+          ],
+          "data-component": "tooltip"
+        },
+        "component": {
+          "name": "tooltip",
+          "attributes": [
+            "id"
+          ]
         }
       }
     },
@@ -1125,10 +1332,6 @@
           },
           "data": {
             "hProperties": {
-              "className": [
-                "tooltip=\"\""
-              ],
-              "id": "glossary-term",
               "data-tooltip-attach": "#glossary-term"
             }
           }
@@ -1221,10 +1424,6 @@
           },
           "data": {
             "hProperties": {
-              "className": [
-                "tooltip=\"\""
-              ],
-              "id": "glossary-term",
               "data-tooltip-attach": "#glossary-term"
             }
           }
@@ -1317,10 +1516,6 @@
           },
           "data": {
             "hProperties": {
-              "className": [
-                "tooltip=\"\""
-              ],
-              "id": "glossary-term",
               "data-tooltip-attach": "#glossary-term"
             }
           }
@@ -1359,40 +1554,58 @@
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "tooltip",
       "children": [
         {
-          "type": "text",
-          "value": ":::tooltip{id=\"glossary-term\"}\r\n",
-          "position": {
-            "start": {
-              "line": 44,
-              "column": 1,
-              "offset": 951
-            },
-            "end": {
-              "line": 45,
-              "column": 1,
-              "offset": 983
-            }
-          }
-        },
-        {
-          "type": "strong",
+          "type": "paragraph",
           "children": [
             {
-              "type": "text",
-              "value": "Definition",
+              "type": "strong",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Definition",
+                  "position": {
+                    "start": {
+                      "line": 45,
+                      "column": 3,
+                      "offset": 985
+                    },
+                    "end": {
+                      "line": 45,
+                      "column": 13,
+                      "offset": 995
+                    }
+                  }
+                }
+              ],
               "position": {
                 "start": {
                   "line": 45,
-                  "column": 3,
-                  "offset": 985
+                  "column": 1,
+                  "offset": 983
                 },
                 "end": {
                   "line": 45,
-                  "column": 13,
-                  "offset": 995
+                  "column": 15,
+                  "offset": 997
+                }
+              }
+            },
+            {
+              "type": "text",
+              "value": ": Detailed explanation of the technical term.",
+              "position": {
+                "start": {
+                  "line": 45,
+                  "column": 15,
+                  "offset": 997
+                },
+                "end": {
+                  "line": 45,
+                  "column": 60,
+                  "offset": 1042
                 }
               }
             }
@@ -1405,30 +1618,55 @@
             },
             "end": {
               "line": 45,
-              "column": 15,
-              "offset": 997
+              "column": 60,
+              "offset": 1042
             }
-          }
-        },
-        {
-          "type": "text",
-          "value": ": Detailed explanation of the technical term.",
-          "position": {
-            "start": {
-              "line": 45,
-              "column": 15,
-              "offset": 997
-            },
-            "end": {
-              "line": 46,
-              "column": 4,
-              "offset": 1047
-            }
+          },
+          "data": {
+            "hProperties": {}
           }
         }
       ],
+      "position": {
+        "start": {
+          "line": 44,
+          "column": 1,
+          "offset": 951
+        },
+        "end": {
+          "line": 46,
+          "column": 4,
+          "offset": 1047
+        }
+      },
+      "attributes": {
+        "id": "glossary-term"
+      },
       "data": {
-        "hProperties": {}
+        "hName": "span",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-tooltip",
+            "tooltip",
+            "inline-block",
+            "px-3",
+            "py-2",
+            "text-sm",
+            "bg-popover",
+            "text-popover-foreground",
+            "rounded",
+            "shadow-lg",
+            "id"
+          ],
+          "data-component": "tooltip"
+        },
+        "component": {
+          "name": "tooltip",
+          "attributes": [
+            "id"
+          ]
+        }
       }
     },
     {
@@ -1514,16 +1752,17 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
-                "hover:shadow-lg"
+                "hover:shadow-lg",
+                "transition-all"
               ],
               "data-tooltip-attach": "Click to submit the form"
             }
@@ -1680,20 +1919,9 @@
           "data": {
             "hProperties": {
               "className": [
-                "inline-flex",
-                "items-center",
-                "px-3",
-                "py-1",
-                "rounded-full",
-                "font-medium",
-                "text-sm",
-                "bg-muted",
-                "text-muted-foreground",
-                "text-secondary-600",
-                "hover:text-secondary-700",
-                "tooltip=\"\""
+                "badge",
+                "badge-secondary"
               ],
-              "id": "more-info",
               "data-tooltip-attach": "#more-info"
             }
           }
@@ -1732,15 +1960,86 @@
       }
     },
     {
-      "type": "paragraph",
+      "type": "containerDirective",
+      "name": "tooltip",
       "children": [
         {
-          "type": "text",
-          "value": ":::tooltip{id=\"more-info\"}\nAdditional information about this feature."
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Additional information about this feature.",
+              "position": {
+                "start": {
+                  "line": 57,
+                  "column": 1,
+                  "offset": 1291
+                },
+                "end": {
+                  "line": 57,
+                  "column": 43,
+                  "offset": 1333
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 57,
+              "column": 1,
+              "offset": 1291
+            },
+            "end": {
+              "line": 57,
+              "column": 43,
+              "offset": 1333
+            }
+          },
+          "data": {
+            "hProperties": {}
+          }
         }
       ],
+      "position": {
+        "start": {
+          "line": 56,
+          "column": 1,
+          "offset": 1263
+        },
+        "end": {
+          "line": 58,
+          "column": 4,
+          "offset": 1338
+        }
+      },
+      "attributes": {
+        "id": "more-info"
+      },
       "data": {
-        "hProperties": {}
+        "hName": "span",
+        "hProperties": {
+          "className": [
+            "taildown-component",
+            "component-tooltip",
+            "tooltip",
+            "inline-block",
+            "px-3",
+            "py-2",
+            "text-sm",
+            "bg-popover",
+            "text-popover-foreground",
+            "rounded",
+            "shadow-lg",
+            "id"
+          ],
+          "data-component": "tooltip"
+        },
+        "component": {
+          "name": "tooltip",
+          "attributes": [
+            "id"
+          ]
+        }
       }
     },
     {

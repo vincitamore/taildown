@@ -449,10 +449,9 @@
                     "p-6",
                     "max-w-full",
                     "overflow-x-hidden",
-                    "break-words",
+                    "overflow-wrap-normal",
                     "glass-effect",
                     "glass-subtle",
-                    "shadow-sm",
                     "shadow-xl"
                   ],
                   "data-component": "card"
@@ -750,10 +749,9 @@
                     "p-6",
                     "max-w-full",
                     "overflow-x-hidden",
-                    "break-words",
+                    "overflow-wrap-normal",
                     "glass-effect",
                     "glass-subtle",
-                    "shadow-sm",
                     "shadow-xl"
                   ],
                   "data-component": "card"
@@ -1051,10 +1049,9 @@
                     "p-6",
                     "max-w-full",
                     "overflow-x-hidden",
-                    "break-words",
+                    "overflow-wrap-normal",
                     "glass-effect",
                     "glass-subtle",
-                    "shadow-sm",
                     "shadow-xl"
                   ],
                   "data-component": "card"
@@ -1088,10 +1085,7 @@
                 "taildown-component",
                 "component-grid",
                 "grid",
-                "gap-4",
-                "grid-cols-1",
-                "sm:grid-cols-2",
-                "lg:grid-cols-3"
+                "grid-cols-3"
               ],
               "data-component": "grid"
             },
@@ -1438,10 +1432,9 @@
               "className": [
                 "taildown-component",
                 "component-card",
-                "p-6",
                 "max-w-full",
                 "overflow-x-hidden",
-                "break-words",
+                "overflow-wrap-normal",
                 "bg-card",
                 "text-card-foreground",
                 "shadow-md",
@@ -1754,10 +1747,9 @@
               "className": [
                 "taildown-component",
                 "component-card",
-                "p-6",
                 "max-w-full",
                 "overflow-x-hidden",
-                "break-words",
+                "overflow-wrap-normal",
                 "bg-card",
                 "text-card-foreground",
                 "shadow-md",
@@ -1879,23 +1871,24 @@
                     "rounded-lg",
                     "font-medium",
                     "text-center",
-                    "transition-all",
                     "duration-200",
                     "cursor-pointer",
                     "no-underline",
-                    "bg-blue-600",
-                    "text-white",
-                    "hover:bg-blue-700",
-                    "active:bg-blue-800",
+                    "bg-primary",
+                    "text-primary-foreground",
+                    "hover:bg-primary",
+                    "hover:brightness-110",
+                    "active:brightness-95",
                     "shadow-md",
-                    "hover:shadow-lg"
+                    "hover:shadow-lg",
+                    "transition-all"
                   ]
                 }
               }
             },
             {
               "type": "text",
-              "value": "",
+              "value": " ",
               "position": {
                 "start": {
                   "line": 67,
@@ -1952,23 +1945,24 @@
                     "rounded-lg",
                     "font-medium",
                     "text-center",
-                    "transition-all",
                     "duration-200",
                     "cursor-pointer",
                     "no-underline",
-                    "bg-purple-600",
-                    "text-white",
-                    "hover:bg-purple-700",
-                    "active:bg-purple-800",
+                    "bg-secondary",
+                    "text-secondary-foreground",
+                    "hover:bg-secondary",
+                    "hover:brightness-110",
+                    "active:brightness-95",
                     "shadow-md",
-                    "hover:shadow-lg"
+                    "hover:shadow-lg",
+                    "transition-all"
                   ]
                 }
               }
             },
             {
               "type": "text",
-              "value": "",
+              "value": " ",
               "position": {
                 "start": {
                   "line": 67,
@@ -2025,16 +2019,17 @@
                     "rounded-lg",
                     "font-medium",
                     "text-center",
-                    "transition-all",
                     "duration-200",
                     "cursor-pointer",
                     "no-underline",
-                    "bg-purple-600",
-                    "text-white",
-                    "hover:bg-purple-700",
-                    "active:bg-purple-800",
+                    "bg-secondary",
+                    "text-secondary-foreground",
+                    "hover:bg-secondary",
+                    "hover:brightness-110",
+                    "active:brightness-95",
                     "shadow-md",
-                    "hover:shadow-lg"
+                    "hover:shadow-lg",
+                    "transition-all"
                   ]
                 }
               }

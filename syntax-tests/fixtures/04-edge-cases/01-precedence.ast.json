@@ -404,15 +404,35 @@
       "children": [
         {
           "type": "text",
-          "value": " This paragraph starts with braces - treated as text"
+          "value": "{.at-start} This paragraph starts with braces - treated as text",
+          "position": {
+            "start": {
+              "line": 35,
+              "column": 1,
+              "offset": 545
+            },
+            "end": {
+              "line": 35,
+              "column": 64,
+              "offset": 608
+            }
+          }
         }
       ],
-      "data": {
-        "hProperties": {
-          "className": [
-            "at-start"
-          ]
+      "position": {
+        "start": {
+          "line": 35,
+          "column": 1,
+          "offset": 545
+        },
+        "end": {
+          "line": 35,
+          "column": 64,
+          "offset": 608
         }
+      },
+      "data": {
+        "hProperties": {}
       }
     },
     {

@@ -3328,6 +3328,12 @@ Attributes should be stored in node metadata, following rehype conventions:
 
 ## 11. Version History
 
+### Revival corrections (2026-09-11)
+
+- Component attribute blocks allow optional horizontal whitespace, consistent with the compact ID-reference examples (§3.2.3).
+- Link attributes consume only the block following the link, preserving the whitespace after it. Paragraph/heading attributes remain trailing attributes (§2.2.5).
+- The fixture runner now compares every AST fixture, including integration, plain-English, icons and advanced attachments. Nonempty semantic attributes are compared. The enhanced-table fixture has executable rendered assertions; passing the suite proves these covered cases, not exhaustive language or browser conformance.
+
 ### v0.1.1 (2025-10-11) - Content Components Update
 
 **Added:**
