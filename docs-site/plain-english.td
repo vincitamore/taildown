@@ -516,6 +516,20 @@ Falls back to raw CSS classes
 
 ---
 
+## Styling dark mode {bold primary}
+
+Semantic colors adapt automatically. For a deliberate palette in each theme, prefix a utility with `dark:`. The rule applies while the document's dark-mode toggle is active, including in exported HTML.
+
+```taildown
+Your text {text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900 padded}
+
+Hover here {dark:hover:text-primary-600}
+
+Responsive text {md:dark:text-gray-100}
+```
+
+Dark variants compose with `hover:`, `active:`, `focus:`, `focus-visible:`, `disabled:`, `last:`, and the `sm:`, `md:`, `lg:`, `xl:`, `2xl:` breakpoints. Use utility names after the prefix, such as `dark:text-gray-100`. In the editor, search **Dark mode colors** in the Insert menu to start with an editable example.
+
 ## Quick Reference Card {bold primary center}
 
 :::card {heavy-glass padded-xl}

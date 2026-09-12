@@ -2692,6 +2692,30 @@ ${generateThemeCSS(config)}
       .replace(/\//g, '\\/')
       .replace(/\./g, '\\.');
 
+    // Explicit dark variants compose with interaction and breakpoint prefixes.
+    // Keep the complete authored class as the selector, regardless of prefix order.
+    if (!cssDeclarations && className.split(':').includes('dark')) {
+      const parts = className.split(':');
+      const baseClass = parts.pop()!;
+      const breakpoints: Record<string, number> = { sm: 640, md: 768, lg: 1024, xl: 1280, '2xl': 1536 };
+      const states: Record<string, string> = { hover: 'hover', active: 'active', focus: 'focus', 'focus-visible': 'focus-visible', disabled: 'disabled', last: 'last-child' };
+      if (parts.every(part => part === 'dark' || part in breakpoints || part in states)) {
+        const widths = parts.filter(part => part in breakpoints).map(part => breakpoints[part]!);
+        const columns = widths.length ? baseClass.match(/^grid-cols-([1-5])$/) : null;
+        const base = columns ? `grid-template-columns: repeat(${columns[1]}, minmax(0, 1fr));` : utilities[baseClass];
+        if (base && !base.startsWith('@media')) {
+          const pseudos = parts.filter(part => part in states).map(part => `:${states[part]}`).join('');
+          const rule = `.dark .${escapeCSS(className)}${pseudos} { ${base} }`;
+          if (widths.length) {
+            const query = `(min-width: ${Math.max(...widths)}px)`;
+            if (!mediaQueries.has(query)) mediaQueries.set(query, []);
+            mediaQueries.get(query)!.push(rule);
+          } else utilityRules.push(rule);
+          continue;
+        }
+      }
+    }
+
     // Handle hover: prefix dynamically
     if (!cssDeclarations && className.startsWith('hover:')) {
       const baseClass = className.substring(6); // Remove 'hover:' prefix

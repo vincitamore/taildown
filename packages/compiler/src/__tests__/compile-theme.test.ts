@@ -1,6 +1,14 @@
 import {expect,it} from 'vitest';
 import {compile} from '../index';
 
+it('emits explicit dark utilities composed with states and breakpoints', async () => {
+ const result = await compile('Theme {text-gray-900 dark:text-gray-100 dark:hover:text-primary-600 md:dark:text-primary-600 dark:md:grid-cols-3}', {theme:{colors:{primary:{600:'#234567'}}}});
+ expect(result.css).toContain('.dark .dark\\:text-gray-100 { color: #f3f4f6; }');
+ expect(result.css).toContain('.dark .dark\\:hover\\:text-primary-600:hover { color: #234567; }');
+ expect(result.css).toContain('.dark .md\\:dark\\:text-primary-600 { color: #234567; }');
+ expect(result.css).toContain('.dark .dark\\:md\\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }');
+});
+
 it('applies per-document colors to semantic, numbered, hover and responsive output',async()=>{
  const result=await compile('Semantic {primary}\n\nNumbered {text-primary-600}\n\nHover {hover:bg-primary-700}\n\nResponsive {md:text-primary-600}\n\nCustom {text-forest}',{inlineStyles:true,theme:{colors:{primary:{DEFAULT:'#123456',600:'#234567',700:'#345678'},forest:'#14532d'}}});
  expect(result.css).toContain('--primary: #123456;');
