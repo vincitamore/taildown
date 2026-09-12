@@ -8,9 +8,23 @@
 import { build } from 'esbuild';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// Browser exports carry the runtime as text so saved diagrams need no server.
+const mermaidSourcePlugin = {
+  name: 'mermaid-source',
+  setup(build) {
+    build.onResolve({ filter: /mermaid-source$/ }, () => ({ path: 'mermaid-source', namespace: 'mermaid-text' }));
+    build.onLoad({ filter: /.*/, namespace: 'mermaid-text' }, () => {
+      const source = readFileSync(createRequire(import.meta.url).resolve('mermaid/dist/mermaid.min.js'), 'utf8');
+      return { contents: `export async function loadMermaidSource() { return ${JSON.stringify(source)}; }`, loader: 'js' };
+    });
+  },
+};
 
 // Plugin to replace shiki-highlighter with CodeMirror static highlighter for browser
 const shikiReplacementPlugin = {
@@ -40,7 +54,7 @@ async function buildBrowserBundle() {
     minify: true,
     sourcemap: false,
     treeShaking: true,
-    plugins: [shikiReplacementPlugin], // Replace shiki-highlighter with CodeMirror static highlighter
+    plugins: [shikiReplacementPlugin, mermaidSourcePlugin], // Replace shiki-highlighter with CodeMirror static highlighter
       define: {
         'process.env.NODE_ENV': '"production"',
       },
@@ -61,7 +75,7 @@ async function buildBrowserBundle() {
     minify: true,
     sourcemap: false,
     treeShaking: true,
-    plugins: [shikiReplacementPlugin], // Replace shiki-highlighter with CodeMirror static highlighter
+    plugins: [shikiReplacementPlugin, mermaidSourcePlugin], // Replace shiki-highlighter with CodeMirror static highlighter
       define: {
         'process.env.NODE_ENV': '"production"',
       },
@@ -80,4 +94,3 @@ async function buildBrowserBundle() {
 }
 
 buildBrowserBundle();
-

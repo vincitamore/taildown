@@ -77,7 +77,7 @@ export async function compile(
     if (hasMermaid) return; // Early exit if already found
     
     // Check for code blocks with language-mermaid
-    if (node.type === 'code' && node.lang === 'mermaid') {
+    if ((node.type === 'code' && node.lang === 'mermaid') || (node.type === 'containerDirective' && node.name === 'mermaid')) {
       hasMermaid = true;
       return;
     }
@@ -269,4 +269,3 @@ export {
   hasShorthand,
   getShorthand,
 } from './resolver/shorthand-mappings';
-

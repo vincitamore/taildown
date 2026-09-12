@@ -29,6 +29,14 @@ function locateDirectives(tree: Root, source: string): void {
       }
       point.offset = lineOffset + point.column - 1;
     }
+    if (node.name === 'mermaid') {
+      const start = node.position.start.offset;
+      const end = node.position.end.offset;
+      if (start !== undefined && end !== undefined) {
+        const raw = source.slice(start, end).replace(/^[^\n]*\n/, '').replace(/\r?\n[ \t]*:::[ \t]*$/, '');
+        node.children = [{ type: 'code', lang: 'mermaid', value: raw }];
+      }
+    }
   });
 }
 

@@ -49,21 +49,6 @@ async function build() {
     }
     fs.mkdirSync(distDir, { recursive: true });
 
-    // Create lib subdirectory for external dependencies
-    const libDir = path.join(distDir, 'lib');
-    fs.mkdirSync(libDir, { recursive: true });
-
-    // Copy Mermaid bundle to lib/
-    const mermaidSrc = path.join(__dirname, '../packages/compiler/dist/mermaid.min.js');
-    const mermaidDest = path.join(libDir, 'mermaid.min.js');
-    if (fs.existsSync(mermaidSrc)) {
-      fs.copyFileSync(mermaidSrc, mermaidDest);
-      const mermaidSize = (fs.statSync(mermaidDest).size / 1024).toFixed(0);
-      console.log(`✓ Copied Mermaid bundle: ${mermaidSize}KB`);
-    } else {
-      console.warn('⚠ Mermaid bundle not found - diagrams will not render');
-    }
-
     // Write the standalone file
     const outputPath = path.join(distDir, 'editor.html');
     fs.writeFileSync(outputPath, output, 'utf8');
@@ -88,4 +73,3 @@ async function build() {
 }
 
 build();
-

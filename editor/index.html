@@ -1953,99 +1953,16 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     }
 
     // Mermaid dynamic loading
-    let mermaidLoaded = false;
-    let mermaidLoading = false;
-
-    /**
-     * Intelligently resolve Mermaid path based on context
-     * - file:// → Relative path to lib/mermaid.min.js
-     * - localhost/127.0.0.1 → Absolute path from root
-     * - Other domains → CDN fallback
-     */
-    function resolveMermaidPath() {
-      const protocol = window.location.protocol;
-      const hostname = window.location.hostname;
-      
-      if (protocol === 'file:') {
-        // For file:// protocol, use relative path
-        return './lib/mermaid.min.js';
-      } else if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1') {
-        // For localhost, use absolute path
-        const basePath = window.location.pathname.replace(/\/[^\/]*$/, '');
-        return `${basePath}/lib/mermaid.min.js`;
-      } else {
-        // For hosted/production, try relative first, fallback to CDN
-        return './lib/mermaid.min.js';
-      }
-    }
-
-    /**
-     * Load Mermaid on-demand when diagrams are detected
-     */
-    async function ensureMermaidLoaded() {
-      if (mermaidLoaded) return true;
-      if (mermaidLoading) {
-        // Wait for existing load
-        return new Promise(resolve => {
-          const check = setInterval(() => {
-            if (mermaidLoaded || !mermaidLoading) {
-              clearInterval(check);
-              resolve(mermaidLoaded);
-            }
-          }, 50);
-        });
-      }
-
-      mermaidLoading = true;
-      try {
-        const mermaidPath = resolveMermaidPath();
-        
-        // Use script tag loading (works with file:// protocol)
-        await new Promise((resolve, reject) => {
-          const script = document.createElement('script');
-          script.src = mermaidPath;
-          script.onload = () => {
-            // Initialize Mermaid (v11+ uses mermaid.default if ESM)
-            if (window.mermaid) {
-              const mermaidAPI = window.mermaid.default || window.mermaid;
-              // Mermaid v11+ doesn't need explicit initialize, just set config
-              if (typeof mermaidAPI === 'object' && mermaidAPI.run) {
-                mermaidLoaded = true;
-                console.log('✓ Mermaid loaded successfully');
-                resolve();
-              } else {
-                reject(new Error('Mermaid API not found'));
-              }
-            } else {
-              reject(new Error('Mermaid global not found'));
-            }
-          };
-          script.onerror = () => reject(new Error('Failed to load script'));
-          document.head.appendChild(script);
-        });
-      } catch (error) {
-        console.warn('⚠ Failed to load Mermaid:', error);
-        mermaidLoaded = false;
-      } finally {
-        mermaidLoading = false;
-      }
-      
-      return mermaidLoaded;
-    }
-
-    // Schedule preview update (debounced)
+    // Schedule preview updates and autosave after typing pauses.
     function scheduleUpdate() {
       clearTimeout(updateTimeout);
       updateTimeout = setTimeout(() => {
         const content = editor.state.doc.toString();
         updatePreview(content);
-        // Auto-save to localStorage
         localStorage.setItem('taildown-editor-content', content);
         localStorage.setItem('taildown-editor-filename', currentFilename);
-      }, 1000); // 1s debounce - only update when user pauses typing
+      }, 1000);
     }
-
-    // Update preview
     async function updatePreview(source) {
       try {
         const startTime = performance.now();
@@ -2061,12 +1978,6 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
           }
         } catch (e) {
           // Ignore if iframe not accessible yet
-        }
-        
-        // Check if source contains Mermaid diagrams (both :::mermaid and ```mermaid syntax)
-        const hasMermaid = /:::mermaid|```mermaid/i.test(source);
-        if (hasMermaid) {
-          await ensureMermaidLoaded();
         }
         
         const result = await compile(source, {
@@ -2095,102 +2006,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
         statusBar.textContent = `✓ Compiled in ${compileTime.toFixed(0)}ms`;
         statusBar.className = 'success';
         
-        // Inject and render Mermaid diagrams if present and loaded
-        if (hasMermaid && mermaidLoaded) {
-          previewFrame.addEventListener('load', async () => {
-            try {
-              const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
-              // Taildown compiles :::mermaid as component divs, ```mermaid as code blocks
-              const mermaidComponents = previewDoc.querySelectorAll('[data-component="mermaid"], .component-mermaid');
-              const mermaidCodeBlocks = previewDoc.querySelectorAll('code.language-mermaid');
-              const mermaidBlocks = [...mermaidComponents, ...mermaidCodeBlocks];
-              
-              if (mermaidBlocks.length > 0) {
-                // Inject Mermaid script into the preview iframe
-                const mermaidPath = resolveMermaidPath();
-                const script = previewDoc.createElement('script');
-                script.src = mermaidPath;
-                
-                script.onload = async () => {
-                  try {
-                    // Get Mermaid from iframe context (handle both ESM and UMD)
-                    let iframeMermaid = previewDoc.defaultView.mermaid;
-                    
-                    if (!iframeMermaid) {
-                      console.warn('Mermaid not found in iframe');
-                      return;
-                    }
-                    
-                    // Handle ESM module format (with __esModule and default export)
-                    if (iframeMermaid.__esModule && iframeMermaid.default) {
-                      iframeMermaid = iframeMermaid.default;
-                    }
-                    
-                    // Render each diagram
-                    for (const block of mermaidBlocks) {
-                      // Get source based on element type
-                      const isComponent = block.hasAttribute('data-component') || block.classList.contains('component-mermaid');
-                      let source;
-                      
-                      if (isComponent) {
-                        // For :::mermaid components, source is in child <p> tag
-                        const pTag = block.querySelector('p');
-                        source = pTag ? pTag.textContent : block.textContent;
-                      } else {
-                        // For ```mermaid code blocks, source is direct text content
-                        source = block.textContent;
-                      }
-                      
-                      const id = 'mermaid-' + Math.random().toString(36).substr(2, 9);
-                      
-                      try {
-                        const { svg } = await iframeMermaid.render(id, source);
-                        
-                        if (isComponent) {
-                          // For components, replace the inner content but keep the container
-                          block.innerHTML = svg;
-                          block.classList.add('mermaid-rendered');
-                        } else {
-                          // For code blocks, replace the entire structure
-                          const container = previewDoc.createElement('div');
-                          container.className = 'mermaid-container';
-                          container.innerHTML = svg;
-                          block.parentElement.parentElement.replaceWith(container);
-                        }
-                      } catch (err) {
-                        console.warn('Mermaid render error:', err);
-                      }
-                    }
-                    
-                    // Restore scroll position after Mermaid rendering
-                    restoreScroll();
-                  } catch (err) {
-                    console.warn('Mermaid processing error:', err);
-                    restoreScroll();
-                  }
-                };
-                
-                script.onerror = () => {
-                  console.warn('Failed to load Mermaid script');
-                  restoreScroll();
-                };
-                
-                previewDoc.head.appendChild(script);
-              } else {
-                // No Mermaid blocks, just restore scroll
-                restoreScroll();
-              }
-            } catch (e) {
-              console.warn('Mermaid render failed:', e);
-              restoreScroll();
-            }
-          }, { once: true });
-        } else {
-          // No Mermaid at all, restore scroll after iframe loads
-          previewFrame.addEventListener('load', () => {
-            restoreScroll();
-          }, { once: true });
-        }
+        previewFrame.addEventListener('load', restoreScroll, { once: true });
       } catch (error) {
         statusBar.textContent = `✗ Error: ${error.message}`;
         statusBar.className = 'error';
@@ -2351,8 +2167,6 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       try {
         const source = editor.state.doc.toString();
         
-        // Check if source contains Mermaid diagrams
-        const hasMermaid = source.includes(':::mermaid');
         
         const result = await compile(source, {
           inlineStyles: true,
@@ -2360,38 +2174,8 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
           darkMode: true,
         });
         
-        let finalHtml = result.html;
-        
-        // If Mermaid diagrams exist, get rendered SVGs from preview iframe
-        if (hasMermaid) {
-          const previewDoc = previewFrame.contentDocument;
-          if (previewDoc) {
-            const mermaidElements = previewDoc.querySelectorAll('[data-component="mermaid"], .component-mermaid');
-            
-            if (mermaidElements.length > 0) {
-              // Create a temporary div to parse the compiled HTML
-              const tempDiv = document.createElement('div');
-              tempDiv.innerHTML = finalHtml;
-              
-              // Find mermaid elements in the compiled HTML
-              const compiledMermaidElements = tempDiv.querySelectorAll('[data-component="mermaid"], .component-mermaid');
-              
-              // Replace each mermaid element with its rendered SVG
-              mermaidElements.forEach((renderedElement, index) => {
-                const svg = renderedElement.querySelector('svg');
-                if (svg && compiledMermaidElements[index]) {
-                  // Keep the wrapper div but replace its content with the rendered SVG
-                  compiledMermaidElements[index].innerHTML = svg.outerHTML;
-                }
-              });
-              
-              finalHtml = tempDiv.innerHTML;
-            }
-          }
-        }
-        
         const htmlFilename = currentFilename.replace(/\.td$/, '.html');
-        downloadFile(finalHtml, htmlFilename);
+        downloadFile(result.html, htmlFilename);
         statusBar.textContent = `✓ Exported ${htmlFilename}`;
         statusBar.className = 'success';
       } catch (error) {
@@ -2584,4 +2368,3 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
   </script>
 </body>
 </html>
-

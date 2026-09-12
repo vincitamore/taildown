@@ -1,3 +1,4 @@
+import { generateMermaidScript } from './mermaid-runtime';
 /**
  * HTML Renderer for Taildown
  * Generates semantic HTML5 from AST
@@ -352,94 +353,7 @@ export async function renderHTMLDocument(
       : `<script src="${escapeHTML(options.jsFilename || 'script.js')}" defer></script>`
     : '';
 
-  // Generate Mermaid.js inline bundle if diagrams detected (tree-shaken)
-  let mermaidScript = '';
-  if (options.hasMermaid) {
-    try {
-      // Read Mermaid.js from node_modules
-      const { readFileSync } = await import('fs');
-      const { resolve, dirname } = await import('path');
-      const { fileURLToPath } = await import('url');
-      
-      // Get the directory of this module
-      const __filename = fileURLToPath(import.meta.url);
-      const __dirname = dirname(__filename);
-      
-      // Find mermaid in @taildown/compiler's node_modules
-      // From dist/ (packages/compiler/dist) go up one level to packages/compiler/ then to node_modules/
-      // Use UMD build (mermaid.min.js) which is fully self-contained, not ESM which has chunk dependencies
-      const mermaidPath = resolve(__dirname, '../node_modules/mermaid/dist/mermaid.min.js');
-      const mermaidCode = readFileSync(mermaidPath, 'utf-8');
-      
-      mermaidScript = `
-  <script>
-    // Inline Mermaid.js UMD build for self-contained offline support
-    ${mermaidCode}
-  </script>
-  <script type="module">
-    // Mermaid is now available as a global variable
-    
-    // Initialize Mermaid with theme support
-    const isDark = document.documentElement.classList.contains('dark');
-    mermaid.initialize({ 
-      startOnLoad: false, // We'll manually trigger rendering
-      theme: isDark ? 'dark' : 'default',
-      securityLevel: 'loose',
-      flowchart: { useMaxWidth: true },
-      sequence: { useMaxWidth: true },
-      gantt: { useMaxWidth: true }
-    });
-    
-    // Render all mermaid diagrams
-    document.addEventListener('DOMContentLoaded', async () => {
-      const mermaidBlocks = document.querySelectorAll('code.language-mermaid');
-      
-      for (const block of mermaidBlocks) {
-        const source = block.textContent;
-        const pre = block.parentElement;
-        
-        try {
-          // Render the diagram
-          const { svg } = await mermaid.render('mermaid-' + Math.random().toString(36).substr(2, 9), source);
-          
-          // Replace the code block with the rendered SVG
-          const container = document.createElement('div');
-          container.className = 'mermaid-container';
-          container.innerHTML = svg;
-          pre.replaceWith(container);
-        } catch (error) {
-          console.error('Mermaid rendering error:', error);
-          // Keep the code block on error
-        }
-      }
-    });
-    
-    // Re-render on theme change
-    const observer = new MutationObserver(async () => {
-      const isDark = document.documentElement.classList.contains('dark');
-      mermaid.initialize({ 
-        startOnLoad: false,
-        theme: isDark ? 'dark' : 'default'
-      });
-      
-      // Re-render all diagrams
-      const containers = document.querySelectorAll('.mermaid-container');
-      for (const container of containers) {
-        // Store original source in data attribute on first render
-        // For now, just reload the page or accept theme won't update live
-        // TODO: Store diagram source for re-rendering
-      }
-    });
-    observer.observe(document.documentElement, { 
-      attributes: true, 
-      attributeFilter: ['class'] 
-    });
-  </script>`;
-    } catch (error) {
-      // Mermaid.js not installed or not found - graceful fallback
-      console.warn('Mermaid.js not found in node_modules. Diagrams will show as code blocks.');
-    }
-  }
+  const mermaidScript = options.hasMermaid ? await generateMermaidScript() : '';
 
   // Generate meta description tag
   const descriptionTag = options.description
@@ -510,4 +424,3 @@ export async function renderHTMLDocument(
 
   return html;
 }
-
