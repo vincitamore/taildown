@@ -1179,6 +1179,8 @@ Professional tooltips with excellent UX:
 
 ## Alert {#alert center bold primary}
 
+Alerts support multiple paragraphs, lists, and headings in normal reading order. Their status text adapts to the active theme and stays readable over the tinted background, including inside cards.
+
 **Semantic message boxes with theming and icons.**
 
 ### All Variants {bold}

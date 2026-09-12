@@ -27,6 +27,26 @@ const luminance = (hex:string) => {
 };
 const contrast = (a:string,b:string) => (Math.max(luminance(a),luminance(b))+0.05)/(Math.min(luminance(a),luminance(b))+0.05);
 
+it('keeps alert text readable against its translucent surface in either theme', async () => {
+  const result = await compile(':::alert{warning}\nFirst paragraph.\n\nSecond paragraph.\n:::',{inlineStyles:true});
+  const config = getDefaultConfig();
+  const palette = generateColorPaletteCSS(config);
+  for(const name of ['success','warning','error','info']) {
+    const colors = [...palette.matchAll(new RegExp(`--${name}-text:\\s*([^;]+);`,'g'))].map(match=>match[1]!);
+    const rules = [...result.css!.matchAll(new RegExp(`\\.alert-${name} \\{([^}]+)\\}`,'g'))].map(match=>match[1]!);
+    expect(rules).toHaveLength(2);
+    [getLightModeColors(config),getDarkModeColors(config)].forEach((theme,index)=>{
+      expect(rules[index]).toContain(`color: var(--${name}-text)`);
+      const rgba = rules[index]!.match(/background: rgba\(([^)]+)\)/)![1]!.split(',').map(Number);
+      for(const base of [theme.background,theme.card]) {
+        const channels = base.slice(1).match(/../g)!.map(part=>parseInt(part,16));
+        const blended = '#'+channels.map((value,channel)=>Math.round(rgba[channel]!*rgba[3]!+value*(1-rgba[3]!)).toString(16).padStart(2,'0')).join('');
+        expect(contrast(colors[index]!,blended),`${name} alert ${index} over ${base}`).toBeGreaterThanOrEqual(4.5);
+      }
+    });
+  }
+});
+
 it('provides readable status text and status background pairs in both themes', async () => {
   const names = ['success','warning','error','info'] as const;
   const config = getDefaultConfig();
