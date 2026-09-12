@@ -1684,6 +1684,8 @@ Four columns with divider lines
 
 **Semantic `<dl>` element for term-definition pairs - perfect for glossaries and API docs.**
 
+**Definitions** in the editor's **Command-K** menu inserts an editable example. Each bold term followed by `{term}` becomes a semantic `dt`; the next line beginning with `:` becomes its `dd`. Links and emphasis remain available inside descriptions. For compact metadata, `**Name:** Fieldnotes` creates a pair; put each pair on its own line.
+
 ### What are Definition Lists? {bold}
 
 Definition lists use semantic HTML (`<dl>`, `<dt>`, `<dd>`) to pair terms with their definitions. They're perfect for glossaries, API parameters, metadata, and any key-value documentation.
@@ -3827,32 +3829,6 @@ Taildown focuses on zero-config simplicity with plain English syntax, while MDX 
 :::
 
 [Back to top](#top){badge primary}
-
----
-
-## Definitions {#definitions bold primary}
-
-Use term/description pairs for a glossary or project metadata. **Definitions** in the editor's **Command-K** menu inserts an editable example. Each bold term followed by `{term}` becomes a semantic `dt`; the next line beginning with `:` becomes its `dd`. Links and emphasis remain available inside descriptions.
-
-```taildown
-:::definitions {horizontal}
-**Purpose** {term}
-: A clear question for the work to answer.
-
-**Next step** {term}
-: Review the draft with your team.
-:::
-```
-
-For compact metadata, `**Name:** Fieldnotes` also creates a pair. Put each pair on its own line. Layouts include `vertical` (default), `horizontal`, and `compact`.
-
-:::definitions {horizontal}
-**Purpose** {term}
-: A clear question for the work to answer.
-
-**Next step** {term}
-: Review the draft with your team.
-:::
 
 ---
 
