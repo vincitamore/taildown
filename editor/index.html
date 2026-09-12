@@ -1884,13 +1884,8 @@ Browser recovery keeps your latest draft when storage is available. Save or down
               }
             ])),
             keymap.of([
-              ...defaultKeymap,
-              ...historyKeymap,
-              ...foldKeymap,
-              ...closeBracketsKeymap,
-              ...searchKeymap,
-              ...lintKeymap,
-              // Custom keybindings
+              // Product shortcuts take precedence over CodeMirror defaults
+              // (Mod-Shift-k otherwise deletes the current line).
               { key: 'Ctrl-s', run: () => { saveFile(); return true; } },
               { key: 'Cmd-s', run: () => { saveFile(); return true; } },
               { key: 'Ctrl-o', run: () => { openFile(); return true; } },
@@ -1906,6 +1901,12 @@ Browser recovery keeps your latest draft when storage is available. Save or down
               { key: 'Cmd-i', run: () => { handleBubbleAction('italic'); return true; } },
               { key: 'Mod-k', run: openCommandPalette },
               { key: 'Mod-Shift-k', run: () => { handleBubbleAction('link'); return true; } },
+              ...defaultKeymap,
+              ...historyKeymap,
+              ...foldKeymap,
+              ...closeBracketsKeymap,
+              ...searchKeymap,
+              ...lintKeymap,
             ]),
             EditorView.updateListener.of((update) => {
               if (update.docChanged) {
