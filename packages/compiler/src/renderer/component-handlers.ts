@@ -1571,6 +1571,7 @@ export function renderTooltip(state: State, node: ContainerDirectiveNode): Eleme
         properties: {
           'data-tooltip-trigger': '',
           type: 'button',
+          'aria-label': 'More information',
           className: ['tooltip-trigger', 'inline-flex', 'items-center', 'justify-center', 'w-6', 'h-6', 'rounded-full', 'bg-blue-100', 'text-blue-600', 'cursor-help', 'hover:bg-blue-200', 'transition-all', 'text-sm', 'font-bold']
         },
         children: [{ type: 'text', value: 'i' }]

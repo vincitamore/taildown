@@ -5654,6 +5654,7 @@ mark,
 .tooltip-content,
 .tooltip-popup {
   position: fixed !important; /* Fixed relative to viewport, positioned by JS */
+  margin: 0;
   z-index: 10000 !important; /* Above modals */
   color: white;
   padding: 0.75rem 1rem;
@@ -5674,6 +5675,8 @@ mark,
     0 0 0 1px rgba(255, 255, 255, 0.05) inset;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
   max-width: min(90vw, 28rem);
+  max-height: calc(100vh - 16px);
+  overflow: auto;
   width: max-content;
   white-space: normal;
   word-wrap: break-word;
