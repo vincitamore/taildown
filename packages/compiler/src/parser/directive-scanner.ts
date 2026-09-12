@@ -100,7 +100,7 @@ function extractMarkersFromParagraph(node: Paragraph, source?: string): Array<{
       const next = node.children[childIndex + 1];
       const sharedLine = (index === 0 && previous?.position?.end.line === lineNumber && previous.position.end.column > 1)
         || (index === lines.length - 1 && next?.position?.start.line === lineNumber);
-      const rawLine = sourceLines?.[lineNumber - 1];
+      const rawLine = sourceLines?.[lineNumber - 1]?.slice((mappedStart?.column ?? 1) - 1);
       const literalFence = rawLine === undefined || (rawLine.trimStart().startsWith(':::') && decodeString(rawLine.trim()) === line.trim());
       const marker = sharedLine || !literalFence ? null : parseFenceLine(line.trim(), lineNumber);
       if (marker) {
@@ -256,68 +256,6 @@ export function scanForMarkers(nodes: Content[], source?: string): {
             items.push({ type: 'content', node: extracted.contentNode, position: node.position });
           }
         }
-        continue;
-      }
-    }
-
-    // Handle list nodes - recursively scan list items for fence markers
-    // This handles cases like: "5. Item\n:::" where the fence is inside the list item
-    if (node.type === 'list' && 'children' in node) {
-      const listNode = node as any; // List type
-      const cleanedListItems: any[] = [];
-      const listMarkers: ComponentMarker[] = [];
-      const listMarkerItems: ScanItem[] = [];
-      let foundMarkersInList = false;
-      
-      for (const listItem of listNode.children) {
-        if (listItem.type === 'listItem' && 'children' in listItem) {
-          // Scan the list item's children for markers
-          const itemResults = scanForMarkers(listItem.children as Content[], source);
-          
-          if (itemResults.markers.length > 0) {
-            // Found markers in this list item
-            foundMarkersInList = true;
-            
-            // Add the list item's content (without markers)
-            if (itemResults.content.length > 0) {
-              cleanedListItems.push({
-                ...listItem,
-                children: itemResults.content,
-              });
-            }
-            
-            // Collect markers to add AFTER the list content
-            listMarkers.push(...itemResults.markers);
-            itemResults.items.forEach(item => {
-              if (item.type === 'marker') {
-                listMarkerItems.push(item);
-              }
-            });
-          } else {
-            // No markers in this list item, keep it as-is
-            cleanedListItems.push(listItem);
-          }
-        } else {
-          cleanedListItems.push(listItem);
-        }
-      }
-      
-      if (foundMarkersInList) {
-        // Add the cleaned list (without fence markers) to content FIRST
-        if (cleanedListItems.length > 0) {
-          const cleanedList = {
-            ...listNode,
-            children: cleanedListItems,
-          };
-          content.push(cleanedList);
-          if (node.position) {
-            items.push({ type: 'content', node: cleanedList, position: node.position });
-          }
-        }
-        
-        // NOW add the markers AFTER the list content
-        markers.push(...listMarkers);
-        items.push(...listMarkerItems);
         continue;
       }
     }

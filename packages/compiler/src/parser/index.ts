@@ -25,7 +25,7 @@ import { parseFootnoteReferences, parseFootnoteDefinitions } from './footnote-pa
 import { remarkMath } from './math-parser';
 import { parseTimeline } from './timeline-parser';
 import { registryInitialized } from '../components/component-registry';
-import { restoreTableFenceBoundaries } from './table-fence-boundaries';
+import { recognizeFenceBlocks } from './fence-blocks';
 
 /**
  * Parse Taildown source to AST
@@ -43,7 +43,7 @@ export async function parse(source: string): Promise<TaildownRoot> {
   const processor = unified()
     .use(remarkParse) // Base CommonMark parsing
     .use(remarkGfm) // GitHub Flavored Markdown (tables, task lists, etc.)
-    .use(restoreTableFenceBoundaries)
+    .use(recognizeFenceBlocks)
     .use(parseEnhancedTaskList) // Enhance GFM task lists with priorities, assignees, states (MUST run after remarkGfm)
     .use(remarkMath) // Parse LaTeX math equations ($...$ and $$...$$) - MUST run before directives
     .use(parseFootnoteReferences) // Parse [^id] references in text (MUST run before directives)
@@ -82,7 +82,7 @@ export async function parseWithWarnings(source: string): Promise<ParseResult> {
   const processor = unified()
     .use(remarkParse)
     .use(remarkGfm)
-    .use(restoreTableFenceBoundaries)
+    .use(recognizeFenceBlocks)
     .use(parseEnhancedTaskList) // Enhance GFM task lists with priorities, assignees, states
     .use(remarkMath) // Parse LaTeX math equations ($...$ and $$...$$)
     .use(parseFootnoteReferences) // Parse [^id] references

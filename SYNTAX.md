@@ -1300,6 +1300,21 @@ No indent
 ```
 All three are equivalent; indentation is for readability only.
 
+**Rule 3.3.3 - Markdown Containers**: Components can appear inside blockquotes and list items. Keep the Markdown container prefix on component content and closing fences:
+
+```taildown
+> :::card
+> Quoted content
+> :::
+
+- :::card
+  List item content
+  :::
+- Next item
+```
+
+Each quote or list item owns its component nesting. An unclosed component ends at that container boundary and reports a warning; it cannot consume another list item. A standalone unprefixed closing fence can end an outer component immediately after a list or quote. Fenced code and escaped fences remain literal.
+
 ### 3.4 Standard Components **[REQUIRED]**
 
 Taildown includes 28 standard components out of the box:

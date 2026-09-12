@@ -34,7 +34,24 @@ function locateDirectives(tree: Root, source: string): void {
       const start = node.position.start.offset;
       const end = node.position.end.offset;
       if (start !== undefined && end !== undefined) {
-        const raw = source.slice(start, end).replace(/^[^\n]*\n/, '').replace(/\r?\n[ \t]*:::[ \t]*$/, '');
+        const openingPrefix = lines[node.position.start.line - 1]!.slice(0, node.position.start.column - 1);
+        let continuationPrefix = '';
+        for (const character of openingPrefix.replace(/(?:[-+*]|\d+[.)])(?=[ \t])/g, marker => ' '.repeat(marker.length))) {
+          continuationPrefix += character === '\t' ? ' '.repeat(4 - continuationPrefix.length % 4) : character;
+        }
+        const raw = source.slice(start, end).split(/\r?\n/).slice(1).map(line => {
+          // Consume container markers in their original order: a quote can
+          // contain a list, and a list can contain a quote.
+          let column = 0;
+          for (const character of continuationPrefix) {
+            if (line.startsWith('\t')) line = ' '.repeat(4 - column % 4) + line.slice(1);
+            if (character === '>' ? line.startsWith('>') : line.startsWith(' ')) {
+              line = line.slice(1);
+              column++;
+            }
+          }
+          return line;
+        }).join('\n').replace(/(?:^|\n)[ \t]*:::[ \t]*$/, '');
         node.children = [{ type: 'code', lang: 'mermaid', value: raw }];
       }
     }

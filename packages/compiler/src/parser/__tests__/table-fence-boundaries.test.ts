@@ -34,7 +34,7 @@ it('keeps the restored suffix and later inline transforms inside its blockquote'
   const source = '> :::card\n> | A |\n> |---|\n> | One |\n> :::\n> Outside $x$';
   const {ast, warnings} = await parseWithWarnings(source);
   expect(warnings).toEqual([]);
-  expect(ast.children[0]).toMatchObject({type: 'blockquote', children: [{type: 'paragraph'}, {type: 'table', children: [{type: 'tableRow'}, {type: 'tableRow'}]}, {type: 'paragraph', children: [{value: ':::\nOutside '}, {type: 'math'}]}]});
+  expect(ast.children[0]).toMatchObject({type: 'blockquote', children: [{type: 'containerDirective', name: 'card', children: [{type: 'table', children: [{type: 'tableRow'}, {type: 'tableRow'}]}]}, {type: 'paragraph', children: [{value: 'Outside '}, {type: 'math'}]}]});
 });
 
 it.each([false, true])('preserves external link and image reference definitions (before=%s)', async before => {

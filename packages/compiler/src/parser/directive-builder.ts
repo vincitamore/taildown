@@ -111,51 +111,19 @@ export function buildComponentTree(
         }
       }
     } else if (item.type === 'content') {
-      // Check if this content node might contain nested components
-      // If so, recursively process it
-      const needsRecursion = item.node.type === 'paragraph' || 
-                            item.node.type === 'list' ||
-                            item.node.type === 'listItem' ||
-                            item.node.type === 'blockquote';
-      
-      if (needsRecursion && item.node.type === 'paragraph') {
-        // Scan for nested component markers within the paragraph
-        const scanned = scanForMarkers([item.node], options?.source);
-        
-        if (scanned.markers.length > 0) {
-          // Found nested components, recursively build their tree
-          const nestedItems = scanned.items.map((scanItem) => {
-            if (scanItem.type === 'marker') {
-              return { type: 'marker' as const, marker: scanItem.marker };
-            } else {
-              return { type: 'content' as const, node: scanItem.node };
-            }
-          });
-          
-          const nestedChildren = buildComponentTree(nestedItems, options);
-          
-          // Add all nested children
-          if (stack.length > 0) {
-            stack[stack.length - 1]!.children.push(...nestedChildren);
-          } else {
-            rootChildren.push(...nestedChildren);
-          }
-        } else {
-          // No nested components, add content as-is
-          if (stack.length > 0) {
-            stack[stack.length - 1]!.children.push(item.node);
-          } else {
-            rootChildren.push(item.node);
-          }
-        }
-      } else {
-        // Add content to current component's children or root
-        if (stack.length > 0) {
-          stack[stack.length - 1]!.children.push(item.node);
-        } else {
-          rootChildren.push(item.node);
-        }
+      const node = item.node;
+      if (node.type === 'list') {
+        node.children = node.children.map(listItem => ({...listItem, children:
+          buildComponentTree(scanForMarkers(listItem.children, options?.source).items.map(entry =>
+            entry.type === 'marker' ? {type: 'marker', marker: entry.marker} : {type: 'content', node: entry.node}),
+          {...options, endPosition: listItem.position?.end}) as typeof listItem.children}));
+      } else if (node.type === 'blockquote') {
+        node.children = buildComponentTree(scanForMarkers(node.children, options?.source).items.map(entry =>
+          entry.type === 'marker' ? {type: 'marker', marker: entry.marker} : {type: 'content', node: entry.node}),
+        {...options, endPosition: node.position?.end}) as typeof node.children;
       }
+      if (stack.length > 0) stack[stack.length - 1]!.children.push(node);
+      else rootChildren.push(node);
     }
   }
 
