@@ -651,19 +651,29 @@ Comprehensive testing phase.
 
 ```taildown
 :::timeline {centered}
+## Centered milestone
 Alternating left/right alignment
+:::
 
 :::timeline {compact}
+## Compact milestone
 Smaller markers, tighter spacing
+:::
 
 :::timeline {glass}
+## Glass milestone
 Glassmorphism effect on content
+:::
 
 :::timeline {elevated}
+## Elevated milestone
 Shadow elevation on content cards
+:::
 
 :::timeline {bordered}
+## Bordered milestone
 Primary color border on content
+:::
 ```
 
 **Examples:**
@@ -726,9 +736,9 @@ Paragraph {attributes}
 :::card {subtle-glass padded}
 ### Icons
 ```taildown
-:icon[name]
-:icon[name]{size}
-:icon[name]{color size}
+:icon[star]
+:icon[star]{lg}
+:icon[star]{primary lg}
 ```
 
 **Sizes:** tiny, xs, sm, md, lg, xl, 2xl, huge  
@@ -738,11 +748,11 @@ Paragraph {attributes}
 :::card {subtle-glass padded}
 ### Components
 ```taildown
-:::component-name
+:::card
 Content
 :::
 
-:::component {attributes}
+:::card {glass padded}
 Content with attributes
 :::
 ```
