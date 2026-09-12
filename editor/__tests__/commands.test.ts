@@ -14,7 +14,7 @@ it('retains a slash search through no results so a typo can be corrected', () =>
   const dom = new JSDOM(source);
   try {
     const menu = dom.window.document.querySelector('#slash-menu')!;
-    const functions = source.slice(source.indexOf('    // Slash command functions'), source.indexOf('    // Helper to render autocomplete'));
+    const functions = source.slice(source.indexOf('    // Slash command functions'), source.indexOf('    const taildownAutocomplete ='));
     const run = new Function('document', 'slashMenu', 'editor', 'lucideIcon', `
       let filteredCommands = [], slashMenuIndex = 0, slashMenuActive = false, slashMenuStart = 12;
       const searchCommands = query => query === 'serif' ? [{name:'Serif text',description:'Serif font',icon:'type'}] : [];

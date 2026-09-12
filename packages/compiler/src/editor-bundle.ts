@@ -43,6 +43,7 @@ import { tags } from '@lezer/highlight';
 export { tags };
 
 // Re-export types that might be useful in browser context
+export type {Completion, CompletionContext, CompletionResult} from '@codemirror/autocomplete';
 export type {
   CompileOptions,
   CompileResult,

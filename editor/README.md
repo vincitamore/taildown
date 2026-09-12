@@ -14,7 +14,7 @@ pnpm build:editor
 
 Open `editor/dist/editor.html` in a modern browser. This file contains the editor, compiler, and diagram runtime for offline use. Remote images, video embeds, and other external resources referenced by your document still require their original hosts.
 
-For UI development, edit `editor/index.html`, `editor/design-settings.js`, or `editor/draft-store.js`, then rebuild. The source template imports built compiler modules; serve the repository root over HTTP if using it directly. Opening the built file is the simplest local workflow.
+For UI development, edit the template or modules in `editor/`, then rebuild and open `editor/dist/editor.html`. The source template imports TypeScript and built compiler modules; it is a build input and cannot be served directly as a browser application.
 
 ## Authoring
 
@@ -86,7 +86,8 @@ To distribute the offline editor, share `editor/dist/editor.html`. To host the s
 
 ## Implementation and verification
 
-- `editor/index.html`: UI, CodeMirror setup, authoring interactions, preview and file operations.
+- `editor/index.html`: UI, CodeMirror setup, preview and file operations.
+- `editor/authoring.ts`: typed autocomplete shared by the editor and its tests.
 - `editor/design-settings.js`: design JSON validation and persistence.
 - `editor/draft-store.js`: atomic browser recovery snapshots and storage-failure handling.
 - `editor/compiler-client.js`: background requests, settings snapshots, error handling, and worker-unavailable fallback.
