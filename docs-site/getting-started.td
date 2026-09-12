@@ -435,7 +435,7 @@ Complete reference of all styling shorthands.
 
 **Components** {large-bold center}
 
-Explore all 18+ built-in components.
+Explore the built-in component reference.
 
 [Browse Components](components.html){button info}
 :::

@@ -77,10 +77,10 @@ const PAGE_METADATA = {
   },
   'components.td': {
     title: 'Components - Taildown',
-    description: 'Explore Taildown\'s 18+ built-in components including cards, tabs, accordions, modals, carousels, and more.',
+    description: 'Explore Taildown\'s built-in components including cards, tabs, accordions, modals, carousels, and more.',
     openGraph: {
       title: 'Components - Taildown',
-      description: 'Explore Taildown\'s 18+ built-in components including cards, tabs, accordions, modals, carousels, and more.',
+      description: 'Explore Taildown\'s built-in components including cards, tabs, accordions, modals, carousels, and more.',
       type: 'article',
       url: `${BASE_URL}/components.html`,
       image: `${BASE_URL}/1759672632566.jpg`,

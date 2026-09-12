@@ -71,7 +71,7 @@ async function build() {
     fs.mkdirSync(path.join(distDir, 'assets'), {recursive:true});
     fs.copyFileSync(path.join(__dirname, '../packages/compiler/dist', diagramFile), path.join(distDir, 'assets', diagramFile));
 
-    const outputSize = (output.length / 1024).toFixed(0);
+    const outputSize = (Buffer.byteLength(output, 'utf8') / 1024).toFixed(0);
     console.log(`✓ Standalone editor created: ${outputSize}KB`);
     console.log(`  Output: ${outputPath}`);
     console.log('');
@@ -81,7 +81,7 @@ async function build() {
     console.log('To use:');
     console.log('  • Open editor/dist/editor.html in your browser');
     console.log('  • Or serve: npx serve editor/dist');
-    console.log('  • Works 100% offline, no dependencies!');
+    console.log('  • Editor and compiler work offline; remote document media requires its host.');
     console.log('');
     console.log('✨ Ready to ship!');
   } catch (error) {
