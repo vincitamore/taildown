@@ -6718,6 +6718,26 @@ li[role="doc-footnote"]:target {
 `);
 
   cssRules.push(PRINT_CSS);
+  if (classes.has('component-avatar')) {
+    cssRules.push(`
+:where(.component-avatar) > p {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+:where(.component-avatar) > img,
+:where(.component-avatar) > p > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin: 0;
+}
+`);
+  }
   const css = cssRules.join('\n');
 
   if (minify) {

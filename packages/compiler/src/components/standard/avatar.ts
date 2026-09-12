@@ -30,6 +30,7 @@ export const avatarComponent: ComponentDefinition = defineComponent({
     'inline-flex',
     'items-center',
     'justify-center',
+    'overflow-hidden',
     'font-semibold',
     'text-foreground',
     'bg-muted',
