@@ -28,7 +28,7 @@ import { registryInitialized } from '../components/component-registry';
 import { recognizeFenceBlocks } from './fence-blocks';
 import {getDefaultConfig} from '../config/default-config';
 import type {ComponentDefinition} from '@taildown/shared';
-import {prepareCustomComponents} from '../components/custom-components';
+import {prepareCustomComponents, snapshotCustomComponents} from '../components/custom-components';
 import {snapshotComponentConfig, configureComponents} from '../components/component-config';
 
 export interface ParseOptions {
@@ -57,8 +57,7 @@ export async function parse(source: string, options: ParseOptions = {}): Promise
 export async function parseWithWarnings(source: string, options: ParseOptions = {}): Promise<ParseResult> {
   const styleMappings = options.styleMappings ? {...options.styleMappings} : undefined;
   const componentConfig = snapshotComponentConfig(options.componentConfig);
-  const componentDefinitions = Object.fromEntries(Object.entries(options.components ?? {}).map(([name, definition]) =>
-    [name, {...definition, defaultClasses: [...definition.defaultClasses]}]));
+  const componentDefinitions = snapshotCustomComponents(options.components);
   await registryInitialized;
   const warnings: CompilationWarning[] = [];
   const components = configureComponents(prepareCustomComponents(componentDefinitions), componentConfig);

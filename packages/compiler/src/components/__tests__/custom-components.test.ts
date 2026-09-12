@@ -81,3 +81,19 @@ it('surfaces the same custom vocabulary and insertable examples to authoring cli
   expect((await compile(example!,options)).metadata.warnings).toEqual([]);
   expect((await getAuthoringReference()).components.some(component => component.name === 'editorial')).toBe(false);
 });
+
+it.each([
+  {editorial:null},
+  {editorial:{name:'editorial',defaultClasses:'p-4'}},
+  {editorial:{name:'editorial'}},
+  {editorial:{name:'editorial',defaultClasses:[42]}},
+  {editorial:{name:'editorial',defaultClasses:[' ']}},
+  {editorial:{name:'editorial',defaultClasses:[],htmlElement:''}},
+  {editorial:{name:'editorial',defaultClasses:[],htmlElement:42}},
+  [],
+  null,
+])('rejects malformed custom definitions consistently in compiler and authoring reference: %j', async components => {
+  const options={components} as any;
+  await expect(compile('',options)).rejects.toThrow(/Custom component|Invalid HTML element/);
+  await expect(getAuthoringReference(options)).rejects.toThrow(/Custom component|Invalid HTML element/);
+});
