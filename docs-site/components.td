@@ -894,7 +894,7 @@ Battle-tested syntax with comprehensive test coverage.
 :::
 :::
 
-[Get Started](#getting-started){button primary large} [View Examples](#examples){button secondary large}
+[Get Started](getting-started.html){button primary large} [View Examples](syntax-guide.html){button secondary large}
 :::
 
 :::modal{id="feature-modal"}

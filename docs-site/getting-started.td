@@ -367,7 +367,7 @@ The generated HTML includes the component's markup and styling. Keep the definit
 
 Authoring integrations can pass the same options to `getAuthoringReference` to receive custom component names, insertable examples, and custom style names. In the browser editor, add the `components` object to **Design settings** and apply it. Custom components then appear in the **Command-K** insertion menu and attribute completion. These definitions provide presentation and semantic containers; JavaScript behaviors remain those of the built-in components nested inside them.
 
-### Component presets
+### Component presets {#component-presets}
 
 Use `componentConfig` to give registered or custom components document-specific defaults, variants, and sizes. Additional default classes preserve the component's structure; a named variant or size replaces that name's class list. Explicit attributes still override defaults in source order.
 
