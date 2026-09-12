@@ -249,8 +249,19 @@ const taildownParser = {
     }
     
     // Inline code
-    if (stream.match(/`([^`]+)`/)) {
-      return 'monospace';
+    const inlineFence = stream.match(/^`+/, false);
+    if (inlineFence) {
+      const length = inlineFence[0].length;
+      const remainder = stream.string.slice(stream.pos + length);
+      for (const closing of remainder.matchAll(/`+/g)) {
+        if (closing[0].length === length) {
+          stream.pos += length + closing.index + length;
+          return 'monospace';
+        }
+      }
+      // An unmatched delimiter is literal; do not reinterpret part of its run.
+      stream.pos += length;
+      return null;
     }
     
     // Math equations - display: $$ ... $$
