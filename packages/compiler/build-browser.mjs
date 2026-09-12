@@ -8,7 +8,8 @@
 import { build } from 'esbuild';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
+import {createHash} from 'node:crypto';
 import { createRequire } from 'node:module';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -84,6 +85,28 @@ async function buildBrowserBundle() {
       },
     });
     
+    const diagramSource = readFileSync(createRequire(import.meta.url).resolve('mermaid/dist/mermaid.min.js'), 'utf8');
+    const diagramFile = `mermaid-${createHash('sha256').update(diagramSource).digest('hex').slice(0, 16)}.txt`;
+    writeFileSync(join(__dirname, 'dist', diagramFile), diagramSource);
+    writeFileSync(join(__dirname, 'dist/hosted-assets.json'), JSON.stringify({diagramFile}));
+    const hostedSourcePlugin = {
+      name: 'hosted-mermaid-source',
+      setup(build) {
+        build.onResolve({filter: /mermaid-source$/}, () => ({path:'mermaid-source',namespace:'hosted-mermaid'}));
+        build.onLoad({filter: /.*/,namespace:'hosted-mermaid'}, () => ({loader:'js',contents:`
+          let pending;
+          export function loadMermaidSource() {
+            return pending ??= fetch(new URL(${JSON.stringify(`assets/${diagramFile}`)}, document.baseURI))
+              .then(response => { if (!response.ok) throw new Error('Diagram runtime could not load. Check your connection and try again.'); return response.text(); })
+              .catch(error => { pending = undefined; throw error; });
+          }
+        `}));
+      },
+    };
+    await build({entryPoints:[join(__dirname,'src/browser-bundle.ts')],bundle:true,format:'esm',
+      outfile:join(__dirname,'dist/taildown-browser-hosted.js'),platform:'browser',target:'es2022',minify:true,
+      treeShaking:true,plugins:[shikiReplacementPlugin,hostedSourcePlugin],
+      define:{'process.env.NODE_ENV':'"production"'},loader:{'.node':'empty'}});
     console.log('✓ Browser bundles built successfully!');
     console.log('  ESM: dist/taildown-browser.js');
     console.log('  IIFE: dist/taildown-browser.iife.js');

@@ -42,7 +42,9 @@ it('builds fresh runtime assets and writes only to the deployment output', async
   await main();
   expect(loadCompiler.mock.invocationCallOrder[0]).toBeLessThan(execFileSync.mock.invocationCallOrder[0]!);
   expect(execFileSync.mock.calls.map(call => call[1])).toEqual([['build-browser.mjs'], ['editor/build.mjs']]);
-  expect(fs.copyFile).toHaveBeenCalledWith(join('project', 'editor/dist/editor.html'), join('project', 'docs-site/dist/editor.html'));
+  expect(fs.copyFile).toHaveBeenCalledWith(join('project', 'editor/dist/editor-hosted.html'), join('project', 'docs-site/dist/editor.html'));
+  expect(fs.copyFile).toHaveBeenCalledWith(join('project', 'editor/dist/editor.html'), join('project', 'docs-site/dist/offline-editor.html'));
+  expect(fs.cp).toHaveBeenCalledWith(join('project', 'editor/dist/assets'), join('project', 'docs-site/dist/assets'), {recursive:true});
   expect(fs.writeFile.mock.calls.every(([path]) => String(path).startsWith(join('project', 'docs-site', 'dist')))).toBe(true);
   expect(fs.writeFile.mock.calls[1]?.[1]).toContain('A &amp; B');
   expect(fs.writeFile.mock.calls[1]?.[1]).toContain('&quot;quoted&quot;');

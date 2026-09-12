@@ -63,6 +63,14 @@ async function build() {
     const outputPath = path.join(distDir, 'editor.html');
     fs.writeFileSync(outputPath, output, 'utf8');
 
+    const hostedTemplate = template
+      .replace('../packages/compiler/dist/taildown-browser.js', '../packages/compiler/dist/taildown-browser-hosted.js')
+      .replace('id="offline-editor" hidden', 'id="offline-editor"');
+    fs.writeFileSync(path.join(distDir, 'editor-hosted.html'), await inlineEditorModule(hostedTemplate), 'utf8');
+    const {diagramFile} = JSON.parse(fs.readFileSync(path.join(__dirname, '../packages/compiler/dist/hosted-assets.json'), 'utf8'));
+    fs.mkdirSync(path.join(distDir, 'assets'), {recursive:true});
+    fs.copyFileSync(path.join(__dirname, '../packages/compiler/dist', diagramFile), path.join(distDir, 'assets', diagramFile));
+
     const outputSize = (output.length / 1024).toFixed(0);
     console.log(`✓ Standalone editor created: ${outputSize}KB`);
     console.log(`  Output: ${outputPath}`);

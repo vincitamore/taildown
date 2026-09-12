@@ -288,7 +288,9 @@ async function main() {
   compile = await loadCompiler();
   execFileSync(process.execPath, ['build-browser.mjs'], {cwd: join(PROJECT_DIR, 'packages/compiler'), stdio: 'inherit'});
   execFileSync(process.execPath, ['editor/build.mjs'], {cwd: PROJECT_DIR, stdio: 'inherit'});
-  await fs.copyFile(join(PROJECT_DIR, 'editor/dist/editor.html'), join(OUTPUT_DIR, 'editor.html'));
+  await fs.copyFile(join(PROJECT_DIR, 'editor/dist/editor-hosted.html'), join(OUTPUT_DIR, 'editor.html'));
+  await fs.copyFile(join(PROJECT_DIR, 'editor/dist/editor.html'), join(OUTPUT_DIR, 'offline-editor.html'));
+  await fs.cp(join(PROJECT_DIR, 'editor/dist/assets'), join(OUTPUT_DIR, 'assets'), {recursive:true});
   for (const asset of ['1759672632566.jpg', 'dynamic_regularization.png', 'grid_transformation.png', 'scale_correspondence.png', 'scale_shape_decomposition.png', 'favicon']) {
     await fs.cp(join(DOCS_DIR, asset), join(OUTPUT_DIR, asset), {recursive: true});
   }

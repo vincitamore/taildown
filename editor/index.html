@@ -869,6 +869,7 @@
     <button id="save-btn" title="Save file (Ctrl+S)">Save</button>
     <button id="download-btn" title="Download .td file">Download</button>
     <button id="export-btn" title="Export HTML (Ctrl+E)">Export HTML</button>
+    <button id="offline-editor" hidden title="Download the complete editor for offline use">Offline editor</button>
     <button id="help-btn" title="Show welcome template">?</button>
     <button id="theme-toggle-btn" title="Toggle dark mode" style="margin-left: auto;"></button>
     <span id="filename-display">untitled.td</span>
@@ -1097,6 +1098,14 @@ Browser recovery keeps your latest draft when storage is available. Save or down
     const saveBtn = document.getElementById('save-btn');
     const downloadBtn = document.getElementById('download-btn');
     const exportBtn = document.getElementById('export-btn');
+    document.getElementById('offline-editor').addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.href = new URL('offline-editor.html', document.baseURI).href;
+      link.download = 'taildown-editor.html';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    });
     const helpBtn = document.getElementById('help-btn');
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const slashMenu = document.getElementById('slash-menu');
