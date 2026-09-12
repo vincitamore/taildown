@@ -19,6 +19,8 @@
 
 Open the editor, replace the sample with your own document, and use **Export HTML** to save the compiled page. No installation is required.
 
+The editor keeps a browser recovery copy of your draft when storage is available. If browser settings or a full quota prevent recovery, a notice appears and editing still works. Use **Save** or **Download** to keep a file copy; browser recovery is not a substitute for one.
+
 To print or save a PDF, open the exported HTML in your browser and choose **Print**. The print layout shows every tab panel, accordion answer, details section, and carousel slide; paused scroll animations are made visible. Long code wraps, controls are hidden, and the page uses dark text on white paper. Details panels return to their previous open/closed state afterward. Print the exported document rather than the editor interface; modal overlays and tooltips are not included.
 
 [Open the Live Editor](editor.html){button primary}

@@ -827,6 +827,7 @@
   </div>
 
   <details id="diagnostics" hidden style="padding: 0.5rem 1rem; max-height: 25vh; overflow: auto;"><summary></summary><ul></ul></details>
+  <div id="storage-warning" role="status" hidden style="padding: 0.5rem 1rem; font-size: 0.875rem;">Browser draft recovery is unavailable. Save or download a copy before leaving.</div>
 
   <div id="editor-container">
     <div id="editor-pane"></div>
@@ -840,6 +841,7 @@
     // Import Taildown bundle from relative path (development)
     // Production bundles this module and its imports directly into the page.
     import * as Taildown from '../packages/compiler/dist/taildown-browser.js';
+    import {createDraftStore} from './draft-store.js';
     
     const {
       compile,
@@ -891,7 +893,7 @@ Your modern, offline-capable Markdown editor with superpowers {large muted cente
 5. Toggle **dark mode** with the moon/sun icon
 
 :::alert {info}
-:icon[lightbulb]{warning} **Tip:** All your work is auto-saved to localStorage and the preview updates as you type!
+:icon[lightbulb]{warning} **Tip:** The preview updates as you type. Browser draft recovery saves your latest edits when storage is available; use Save or Download to keep a file copy.
 :::
 
 ---
@@ -1127,6 +1129,9 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     const filenameDisplay = document.getElementById('filename-display');
     const divider = document.getElementById('divider');
     const loading = document.getElementById('loading');
+    const draftStore = createDraftStore(undefined, available => {
+      document.getElementById('storage-warning').hidden = available;
+    });
 
     // Buttons
     const newBtn = document.getElementById('new-btn');
@@ -1692,14 +1697,14 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     // Dark mode toggle functionality
     function initThemeToggle() {
       // Check for saved theme preference or default to light mode
-      const savedTheme = localStorage.getItem('taildown-editor-theme') || 'light';
+      const savedTheme = draftStore.readTheme();
       setTheme(savedTheme);
       updateThemeButton(savedTheme);
     }
 
     function setTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('taildown-editor-theme', theme);
+      draftStore.saveTheme(theme);
       
       // Update editor syntax highlighting if editor is initialized
       if (editor) {
@@ -1810,7 +1815,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     function initEditor() {
       try {
         // Get saved theme to determine initial syntax highlighting
-        const savedTheme = localStorage.getItem('taildown-editor-theme') || 'light';
+        const savedTheme = draftStore.readTheme();
         const initialHighlightStyle = savedTheme === 'dark' ? taildownDarkHighlightStyle : taildownHighlightStyle;
 
         // Create editor with theme-aware syntax highlighting
@@ -1913,15 +1918,14 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
         // Add theme toggle event listener
         themeToggleBtn.addEventListener('click', toggleTheme);
 
-        // Try to restore from localStorage
-        const saved = localStorage.getItem('taildown-editor-content');
-        const savedFilename = localStorage.getItem('taildown-editor-filename');
+        // Try to restore the browser draft
+        const saved = draftStore.load();
         if (saved !== null) {
           editor.dispatch({
-            changes: { from: 0, to: editor.state.doc.length, insert: saved }
+            changes: { from: 0, to: editor.state.doc.length, insert: saved.content }
           });
-          if (savedFilename) {
-            currentFilename = savedFilename;
+          if (saved.filename) {
+            currentFilename = saved.filename;
             filenameDisplay.textContent = currentFilename;
           }
           // The editor's update listener will trigger updatePreview, so don't call it here
@@ -1949,8 +1953,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       updateTimeout = setTimeout(() => {
         const content = editor.state.doc.toString();
         updatePreview(content);
-        localStorage.setItem('taildown-editor-content', content);
-        localStorage.setItem('taildown-editor-filename', currentFilename);
+        draftStore.save(content, currentFilename);
       }, 1000);
     }
     async function updatePreview(source) {
@@ -2030,8 +2033,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
         currentFilename = 'untitled.td';
         currentFileHandle = null;
         filenameDisplay.textContent = currentFilename;
-        localStorage.removeItem('taildown-editor-content');
-        localStorage.removeItem('taildown-editor-filename');
+        draftStore.save(blankContent, currentFilename);
       }
     }
 
@@ -2167,9 +2169,8 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
           downloadFile(content, filename);
         }
         
-        // Also save to localStorage
-        localStorage.setItem('taildown-editor-content', editor.state.doc.toString());
-        localStorage.setItem('taildown-editor-filename', currentFilename);
+        // Browser recovery failure must not turn a successful file write into an error.
+        draftStore.save(editor.state.doc.toString(), currentFilename);
         if (content !== editor.state.doc.toString()) statusBar.textContent += ' (newer edits remain)';
       } catch (error) {
         if (version !== documentVersion) return;
@@ -2309,8 +2310,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     // Warn before closing with unsaved changes
     window.addEventListener('beforeunload', (e) => {
       const current = editor?.state.doc.toString();
-      const saved = localStorage.getItem('taildown-editor-content');
-      if (current !== undefined && current !== saved) {
+      if (current !== undefined && !draftStore.isSaved(current, currentFilename)) {
         e.preventDefault();
         e.returnValue = '';
       }

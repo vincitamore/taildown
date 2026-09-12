@@ -9,10 +9,10 @@ function harness(filename='draft.td', window:any={}) {
  const status={textContent:'',className:''}, display={textContent:filename};
  const elements:any[]=[], blobs:Blob[]=[];
  const document={createElement:(tag:string)=>{const element={tag,click:vi.fn()};elements.push(element);return element;}};
- const storage={setItem:vi.fn(),removeItem:vi.fn()};
+ const storage={save:vi.fn()};
  let finish!:(value:any)=>void;
  const compile=vi.fn(()=>new Promise(resolve=>{finish=resolve;}));
- const create=new Function('editor','window','document','statusBar','filenameDisplay','localStorage','compile','Blob','URL','confirm','initialFilename',`let currentFilename=initialFilename,currentFileHandle=null,documentVersion=0,openRequestVersion=0; const pendingFileWrites=new WeakMap(); const DEFAULT_TEMPLATE='Welcome';\n${source}\nreturn {openFile,saveFile,exportHTML,newDocument,setHandle:handle=>{currentFileHandle=handle;}};`);
+ const create=new Function('editor','window','document','statusBar','filenameDisplay','draftStore','compile','Blob','URL','confirm','initialFilename',`let currentFilename=initialFilename,currentFileHandle=null,documentVersion=0,openRequestVersion=0; const pendingFileWrites=new WeakMap(); const DEFAULT_TEMPLATE='Welcome';\n${source}\nreturn {openFile,saveFile,exportHTML,newDocument,setHandle:handle=>{currentFileHandle=handle;}};`);
  const api=create(editor,window,document,status,display,storage,compile,Blob,{createObjectURL:(blob:Blob)=>{blobs.push(blob);return 'blob:fixture';},revokeObjectURL:vi.fn()},()=>true,filename);
  return {api,editor,status,display,storage,elements,blobs,complete:()=>finish({html:'<!DOCTYPE html><p>Export</p>'}),edit:(text:string)=>editor.dispatch({changes:{insert:text}})};
 }
@@ -44,7 +44,7 @@ it('preserves newer edits in autosave after writing the captured file version',a
  let finish!:()=>void;const write=vi.fn();const h=harness('draft.td',{showSaveFilePicker:async()=>({name:'saved.td',createWritable:async()=>({write,close:()=>new Promise<void>(resolve=>{finish=resolve;})})})});
  const pending=h.api.saveFile();await vi.waitFor(()=>expect(write).toHaveBeenCalledWith('Original'));
  h.edit('Newer edits');finish();await pending;
- expect(h.storage.setItem).toHaveBeenCalledWith('taildown-editor-content','Newer edits');expect(h.status.textContent).toContain('newer edits remain');
+ expect(h.storage.save).toHaveBeenCalledWith('Newer edits','saved.td');expect(h.status.textContent).toContain('newer edits remain');
 });
 it('keeps an in-progress save valid when an open dialog is cancelled',async()=>{
  let finish!:(value:any)=>void;
