@@ -139,6 +139,24 @@ Settings belong to this browser workspace and apply across opened documents. A d
 
 With those settings, `Welcome {brand}` uses the custom primary color and bold text.
 
+For an editorial card preset, configure a font stack and named component variants. Font stacks use fonts already available to the reader; they do not download or embed font files. Invalid values or CSS declarations are rejected.
+
+```json
+{
+  "theme": {"fonts": {"serif": "Georgia, serif"}},
+  "componentConfig": {
+    "card": {
+      "defaultVariant": "editorial",
+      "defaultSize": "roomy",
+      "variants": {"editorial": {"classes": ["font-serif"]}},
+      "sizes": {"roomy": {"classes": ["p-8"]}}
+    }
+  }
+}
+```
+
+New cards use these defaults. The `editorial` and `roomy` attributes also appear in completion, and an explicit attribute such as `p-4` can override the preset's padding.
+
 Inline attributes accept styling words, CSS classes, `#anchor` IDs, and `modal="..."` or `tooltip="..."` attachments. Arbitrary HTML key-value attributes such as `tabindex="1"` or `aria-label="..."` are currently unsupported: the compiler reports a warning and omits them. Quoted attachment values can contain spaces and apostrophes.
 
 :icon[brackets]{primary large} **Add styling to any element using curly brace notation.** {large}

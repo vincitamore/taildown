@@ -202,6 +202,13 @@ export function validateThemeConfig(theme: ThemeConfig): string[] {
   // Validate colors
   errors.push(...validateColorConfig(theme.colors));
 
+  // Font stacks are CSS values, not declarations or markup.
+  for (const [name, value] of Object.entries(theme.fonts)) {
+    if (typeof value !== 'string' || !value.trim() || /[;{}<>\r\n\u0000]/.test(value)) {
+      errors.push(`Invalid font stack for ${name}: use a non-empty font-family value without declarations or markup`);
+    }
+  }
+
   // Validate glass config
   if (theme.glass.opacity < 0 || theme.glass.opacity > 100) {
     errors.push('Glass opacity must be between 0 and 100');
