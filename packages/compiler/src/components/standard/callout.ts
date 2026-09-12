@@ -59,9 +59,6 @@ export const calloutComponent: ComponentDefinition = defineComponent({
     'rounded-lg',
     'p-4',
     'border-l-4',
-    'flex',
-    'gap-3',
-    'items-start',
   ],
   
   // Default type
