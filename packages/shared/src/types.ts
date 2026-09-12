@@ -62,7 +62,7 @@ export interface CompileOptions {
   /** Enable dark mode in generated output (default: true) */
   darkMode?: boolean;
 
-  /** Custom component definitions */
+  /** Per-document custom components. Keys must match names; registered names cannot be replaced. */
   components?: Record<string, ComponentDefinition>;
 
   /** Custom style mappings (plain English to CSS classes) */

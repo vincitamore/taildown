@@ -33,6 +33,7 @@ export interface VariantResult {
  * Options for applying variants
  */
 export interface VariantOptions {
+  componentDefinition?: ComponentDefinition;
   styleMappings?: Record<string, string>;
   /** Custom classes from user attributes */
   customClasses?: string[];
@@ -314,7 +315,7 @@ export function resolveComponentClasses(
   options: VariantOptions = {}
 ): VariantResult {
   rawAttributes = expandStyleMappings(rawAttributes, options.styleMappings);
-  const component = registry.get(componentName);
+  const component = options.componentDefinition ?? registry.get(componentName);
   
   if (!component) {
     return {

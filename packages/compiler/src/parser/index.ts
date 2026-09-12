@@ -27,6 +27,13 @@ import { parseTimeline } from './timeline-parser';
 import { registryInitialized } from '../components/component-registry';
 import { recognizeFenceBlocks } from './fence-blocks';
 import {getDefaultConfig} from '../config/default-config';
+import type {ComponentDefinition} from '@taildown/shared';
+import {prepareCustomComponents} from '../components/custom-components';
+
+export interface ParseOptions {
+  styleMappings?: Record<string, string>;
+  components?: Record<string, ComponentDefinition>;
+}
 
 /**
  * Parse Taildown source to AST
@@ -35,7 +42,7 @@ import {getDefaultConfig} from '../config/default-config';
  * @param source - Taildown source code
  * @returns Parsed AST with Taildown extensions
  */
-export async function parse(source: string, options: {styleMappings?: Record<string, string>} = {}): Promise<TaildownRoot> {
+export async function parse(source: string, options: ParseOptions = {}): Promise<TaildownRoot> {
   return (await parseWithWarnings(source, options)).ast;
 }
 
@@ -45,11 +52,14 @@ export async function parse(source: string, options: {styleMappings?: Record<str
  * @param source - Taildown source code
  * @returns Parse result with AST and warnings
  */
-export async function parseWithWarnings(source: string, options: {styleMappings?: Record<string, string>} = {}): Promise<ParseResult> {
+export async function parseWithWarnings(source: string, options: ParseOptions = {}): Promise<ParseResult> {
+  const styleMappings = options.styleMappings ? {...options.styleMappings} : undefined;
+  const componentDefinitions = Object.fromEntries(Object.entries(options.components ?? {}).map(([name, definition]) =>
+    [name, {...definition, defaultClasses: [...definition.defaultClasses]}]));
   await registryInitialized;
   const warnings: CompilationWarning[] = [];
-  const styleMappings = options.styleMappings ? {...options.styleMappings} : undefined;
-  const resolverContext = {config: getDefaultConfig(), darkMode: false, styleMappings};
+  const components = prepareCustomComponents(componentDefinitions);
+  const resolverContext = {config: getDefaultConfig(), darkMode: false, styleMappings, components};
 
   const processor = unified()
     .use(remarkParse)
@@ -71,7 +81,7 @@ export async function parseWithWarnings(source: string, options: {styleMappings?
     .use(parseStepIndicators) // Parse step indicator components
     .use(parseTimeline) // Parse timeline components with milestones
     .use(parseVideoEmbeds) // Parse video embed components
-    .use(processComponents, { warnings, styleMappings });
+    .use(processComponents, { warnings, styleMappings, components });
 
   const ast = processor.parse(source);
   const processedAst = await processor.run(ast as Root, { value: source });

@@ -2,6 +2,8 @@ import {registry, registryInitialized} from './components/component-registry';
 import {getAllShorthands} from './resolver/shorthand-mappings';
 import {ICON_SIZES} from './icons/icon-parser';
 import {KEYBOARD_PLATFORMS} from './parser/kbd-parser';
+import type {CompileOptions} from '@taildown/shared';
+import {prepareCustomComponents} from './components/custom-components';
 
 // Small offline examples shared by authoring clients. Keep these ordinary
 // Taildown source so they exercise the same public syntax as authored pages.
@@ -18,16 +20,20 @@ const COMPONENT_EXAMPLES: Record<string, string> = {
 };
 
 /** Authoring suggestions reflect the same initialized definitions as compilation. */
-export async function getAuthoringReference() {
+export async function getAuthoringReference(options: Pick<CompileOptions, 'components' | 'styleMappings'> = {}) {
+  const definitions = Object.fromEntries(Object.entries(options.components ?? {}).map(([name, definition]) =>
+    [name, {...definition, defaultClasses: [...definition.defaultClasses]}]));
+  const customStyles = Object.keys(options.styleMappings ?? {});
   await registryInitialized;
+  const customComponents = prepareCustomComponents(definitions);
   return {
-    components: registry.getAll().map(component => ({
+    components: [...registry.getAll(), ...customComponents.values()].map(component => ({
       name: component.name,
       description: component.description ?? '',
-      example: COMPONENT_EXAMPLES[component.name],
+      example: COMPONENT_EXAMPLES[component.name] ?? (customComponents.has(component.name) ? `:::${component.name}\nYour content here.\n:::` : undefined),
       attributes: [...new Set([...Object.keys(component.variants), ...Object.keys(component.sizes)])].sort(),
     })).sort((a, b) => a.name.localeCompare(b.name)),
-    styles: getAllShorthands().sort(),
+    styles: [...new Set([...getAllShorthands(), ...customStyles])].sort(),
     iconSizes: Object.keys(ICON_SIZES),
     keyboardPlatforms: Object.keys(KEYBOARD_PLATFORMS),
   };

@@ -9,6 +9,7 @@ import type { Plugin } from 'unified';
 import type { CompilationWarning, TaildownNodeData } from '@taildown/shared';
 import { COMPONENT_NAME_REGEX } from '@taildown/shared';
 import { registry } from '../components/component-registry';
+import type {ComponentDefinition} from '../components/component-registry';
 import { resolveComponentClasses } from '../components/variant-system';
 
 // remark-directive creates these node types
@@ -33,6 +34,7 @@ interface TextDirective {
 interface ComponentPluginOptions {
   warnings: CompilationWarning[];
   styleMappings?: Record<string, string>;
+  components?: ReadonlyMap<string, ComponentDefinition>;
 }
 
 /**
@@ -41,7 +43,8 @@ interface ComponentPluginOptions {
 function processDirectiveNode(
   node: ContainerDirective | TextDirective,
   warnings: CompilationWarning[],
-  styleMappings?: Record<string, string>
+  styleMappings?: Record<string, string>,
+  components?: ReadonlyMap<string, ComponentDefinition>
 ): void {
       const componentName = node.name;
 
@@ -55,7 +58,7 @@ function processDirectiveNode(
       }
 
       // Get component definition from registry
-      const component = registry.get(componentName);
+      const component = components?.get(componentName) ?? registry.get(componentName);
       if (!component) {
         warnings.push({
           type: 'validation',
@@ -99,7 +102,7 @@ function processDirectiveNode(
         const result = resolveComponentClasses(
           componentName,
           rawAttributes,
-          { includeDefaults: true, warnOnUnknown: false, styleMappings }
+          { includeDefaults: true, warnOnUnknown: false, styleMappings, componentDefinition: component }
         );
         classNames.push(...result.classes);
       } else {
@@ -128,12 +131,12 @@ export const processComponents: Plugin<[ComponentPluginOptions?], Root> = (optio
   return (tree) => {
     // Process block-level components (:::card)
     visit(tree, 'containerDirective', (node: ContainerDirective) => {
-      processDirectiveNode(node, warnings, options?.styleMappings);
+      processDirectiveNode(node, warnings, options?.styleMappings, options?.components);
     });
 
     // Process inline components (:badge:, :alert:)
     visit(tree, 'textDirective', (node: TextDirective) => {
-      processDirectiveNode(node, warnings, options?.styleMappings);
+      processDirectiveNode(node, warnings, options?.styleMappings, options?.components);
     });
   };
 };

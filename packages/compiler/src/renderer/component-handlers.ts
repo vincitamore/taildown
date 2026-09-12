@@ -1790,7 +1790,7 @@ function renderGenericComponent(state: State, node: ContainerDirectiveNode): Ele
   
   // Determine HTML element (use component definition or default to div)
   // ENHANCEMENT: If href attribute is present, render as <a> tag for clickable components
-  let tagName = component?.htmlElement || 'div';
+  let tagName = node.data?.hName || component?.htmlElement || 'div';
   if (attributes.href && tagName === 'div') {
     tagName = 'a';
   }
@@ -1813,7 +1813,7 @@ function renderGenericComponent(state: State, node: ContainerDirectiveNode): Ele
   
   // Add data-component attribute for components that have interactive behaviors
   // This allows JavaScript behaviors to be attached (e.g., navbar scroll effect)
-  if (component) {
+  if (component || node.data?.component) {
     properties['data-component'] = componentName;
   }
   

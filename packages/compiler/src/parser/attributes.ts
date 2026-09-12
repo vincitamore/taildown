@@ -134,7 +134,7 @@ function extractAttributesFromText(
   // Scan for component names, preferring the last one (noun position)
   for (let i = rawAttributes.length - 1; i >= 0; i--) {
     const token = rawAttributes[i];
-    if (token !== undefined && registry.get(token)) {
+    if (token !== undefined && (resolverContext?.components?.has(token) || registry.get(token))) {
       componentToken = token;
       componentIndex = i;
       break; // Found the component (scanning backwards, so first match is last in array)
@@ -148,6 +148,7 @@ function extractAttributesFromText(
       ...rawAttributes.slice(componentIndex + 1)
     ];
     const result = resolveComponentClasses(componentToken, modifiers, {
+      componentDefinition: resolverContext?.components?.get(componentToken),
       styleMappings: resolverContext?.styleMappings,
       includeDefaults: true,
       warnOnUnknown: false,

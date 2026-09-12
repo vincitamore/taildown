@@ -15,6 +15,7 @@ import { SHORTHAND_MAPPINGS, type ShorthandMapping } from './shorthand-mappings'
 import { resolveSemanticColor } from './semantic-colors';
 import { resolveVariant } from './variant-resolver';
 import { mergeClasses } from './merge-classes';
+import type {ComponentDefinition} from '../components/component-registry';
 
 /**
  * Context passed to resolver for theme-aware resolution
@@ -29,6 +30,7 @@ export interface ResolverContext {
   /** Component context (for component-specific variants) */
   component?: string;
   styleMappings?: Record<string, string>;
+  components?: ReadonlyMap<string, ComponentDefinition>;
 }
 
 export function expandStyleMappings(attributes: string[], mappings?: Record<string, string>): string[] {

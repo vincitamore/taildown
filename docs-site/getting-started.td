@@ -283,7 +283,7 @@ All components automatically adapt to dark mode!
 
 ---
 
-## Next Steps {large-bold primary center}
+## Compiler API customization {large-bold primary}
 
 ### Custom shorthands in the compiler API
 
@@ -302,6 +302,38 @@ const result = await compile('# A quieter heading {editorial}', {
 ```
 
 This is a compiler API option; the browser editor currently uses the built-in vocabulary. The [plain-English reference](plain-english.html) lists that vocabulary.
+
+### Custom components
+
+Define reusable containers with `components`. Each key must match its definition's `name`; choose a new name instead of replacing a registered component. `htmlElement` defaults to `div`, and `defaultClasses` contains CSS utility names. Normal Taildown attributes can override those defaults. Definitions belong to the compilation and never change other documents.
+
+```javascript
+import { compile, getAuthoringReference } from '@taildown/compiler';
+
+const options = {
+  inlineStyles: true,
+  inlineScripts: true,
+  components: {
+    editorial: {
+      name: 'editorial',
+      htmlElement: 'article',
+      defaultClasses: ['p-8', 'rounded-lg', 'text-lg']
+    }
+  }
+};
+
+const result = await compile(
+  ':::editorial\n## A considered idea\n\nYour content here.\n:::',
+  options
+);
+const reference = await getAuthoringReference(options);
+```
+
+The generated HTML includes the component's markup and styling. Keep the definitions alongside the `.td` source for recompilation. Custom names also work in inline style attributes, such as `# Title {editorial small}`, where they apply classes while preserving the original Markdown element.
+
+Authoring integrations can pass the same options to `getAuthoringReference` to receive custom component names, insertable examples, and custom style names. The hosted editor does not yet expose custom-definition settings. These definitions provide presentation and semantic containers; JavaScript behaviors remain those of the built-in components nested inside them.
+
+## Next Steps {large-bold primary center}
 
 :::grid {3}
 :::card {elevated zoom-in hover-lift}

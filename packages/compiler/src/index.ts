@@ -7,7 +7,6 @@ import type { CompileOptions, CompileResult } from '@taildown/shared';
 import { parseWithWarnings } from './parser';
 import { renderHTMLDocument, astToHast, generateCSS, collectClassesFromHast } from './renderer';
 import { generateJavaScript, hasInteractiveBehavior } from './js-generator';
-import { ensureRegistryInitialized } from './renderer/component-handlers';
 
 /**
  * Compile Taildown source to HTML and CSS
@@ -21,14 +20,12 @@ export async function compile(
   source: string,
   options: CompileOptions = {}
 ): Promise<CompileResult> {
-  // CRITICAL: Ensure component registry is initialized before any processing
-  await ensureRegistryInitialized();
-  
+  // Parsing awaits registry initialization after snapshotting caller options.
   const startTime = performance.now();
 
   // Parse the authored source directly. Compact component attributes are valid,
   // and rewriting source here would also alter literal code and source offsets.
-  const parseResult = await parseWithWarnings(source, {styleMappings: options.styleMappings});
+  const parseResult = await parseWithWarnings(source, {styleMappings: options.styleMappings, components: options.components});
   const { ast, warnings } = parseResult;
 
   // Count nodes for metadata
@@ -216,6 +213,8 @@ export async function compile(
 
 // Re-export parser and renderer for advanced usage
 export { parse, parseWithWarnings } from './parser';
+export type {ParseOptions} from './parser';
+export {getAuthoringReference} from './authoring-reference';
 export type { ContainerDirectiveNode } from './parser/directive-types';
 export { renderHTML, renderHTMLDocument, renderCSS } from './renderer';
 
