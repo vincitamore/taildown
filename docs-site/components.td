@@ -2192,9 +2192,13 @@ https://youtube.com/watch?v=dQw4w9WgXcQ
 
 ### Vimeo Embed {medium-bold}
 
+Replace `VIDEO_ID` with the ID of a Vimeo video that allows embedding:
+
+```taildown
 :::video {vimeo 16:9}
-https://vimeo.com/123456789
+https://vimeo.com/VIDEO_ID
 :::
+```
 
 ### Self-Hosted Video {medium-bold}
 
@@ -2208,29 +2212,39 @@ Place your video beside the exported HTML, then reference its filename:
 
 ### Different Aspect Ratios {medium-bold}
 
+Use your video's ID in these examples:
+
 **Widescreen (16:9 default):**
 
+```taildown
 :::video {16:9}
 https://youtube.com/watch?v=EXAMPLE_ID
 :::
+```
 
 **Standard (4:3):**
 
+```taildown
 :::video {4:3}
 https://youtube.com/watch?v=EXAMPLE_ID
 :::
+```
 
 **Ultrawide (21:9):**
 
+```taildown
 :::video {21:9}
 https://youtube.com/watch?v=EXAMPLE_ID
 :::
+```
 
 **Square (1:1):**
 
+```taildown
 :::video {1:1}
 https://youtube.com/watch?v=EXAMPLE_ID
 :::
+```
 
 ### Syntax & Variants {medium-bold}
 

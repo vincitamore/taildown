@@ -2,8 +2,8 @@
  * Compile command implementation
  */
 
-import { readFile, writeFile } from 'fs/promises';
-import { resolve, basename, extname, dirname, join } from 'path';
+import { mkdir, readFile, writeFile } from 'fs/promises';
+import { resolve, basename, extname, dirname, join, relative, sep } from 'path';
 import { compile } from '@taildown/compiler';
 import type { CompileOptions } from '@taildown/shared';
 
@@ -31,9 +31,12 @@ export async function compileCommand(
     const inputBase = basename(input, extname(input));
     
     // Determine output paths (default to same directory as input)
-    const outputHtml = options.output || join(inputDir, `${inputBase}.html`);
-    const outputCss = options.css || join(inputDir, `${inputBase}.css`);
-    const outputJs = options.js || join(inputDir, `${inputBase}.js`);
+    const outputHtml = resolve(options.output || join(inputDir, `${inputBase}.html`));
+    const outputDir = dirname(outputHtml);
+    const outputBase = basename(outputHtml, extname(outputHtml));
+    const outputCss = resolve(options.css || join(outputDir, `${outputBase}.css`));
+    const outputJs = resolve(options.js || join(outputDir, `${outputBase}.js`));
+    const assetURL = (file: string) => relative(outputDir, file).split(sep).map(encodeURIComponent).join('/');
 
     // Compile - inline by default, separate only if --separate flag is used
     const shouldInline = !options.separate;
@@ -41,26 +44,29 @@ export async function compileCommand(
       inlineStyles: shouldInline,
       inlineScripts: shouldInline,
       minify: options.minify,
-      cssFilename: basename(outputCss), // Pass CSS filename for <link> tag
-      jsFilename: basename(outputJs), // Pass JS filename for <script> tag
+      cssFilename: assetURL(outputCss),
+      jsFilename: assetURL(outputJs),
     };
 
     const result = await compile(source, compileOptions);
 
     // Write HTML
     const htmlPath = resolve(outputHtml);
+    await mkdir(dirname(htmlPath), { recursive: true });
     await writeFile(htmlPath, result.html, 'utf-8');
     console.log(`✓ HTML written to ${outputHtml}`);
 
     // Write CSS only if --separate flag is used
     if (options.separate) {
       const cssPath = resolve(outputCss);
+      await mkdir(dirname(cssPath), { recursive: true });
       await writeFile(cssPath, result.css, 'utf-8');
       console.log(`✓ CSS written to ${outputCss}`);
       
       // Write JavaScript separately too (only if there are interactive components)
       if (result.js && result.js.length > 0) {
         const jsPath = resolve(outputJs);
+        await mkdir(dirname(jsPath), { recursive: true });
         await writeFile(jsPath, result.js, 'utf-8');
         console.log(`✓ JavaScript written to ${outputJs}`);
       }

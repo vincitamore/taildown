@@ -51,7 +51,7 @@ Every Taildown document includes automatic dark mode with system detection, loca
 - Auto-toggle button
 - System preference detection
 - 300ms smooth transitions
-- Zero JavaScript required
+- Toggle behavior included automatically
 :::
 :::
 
@@ -378,18 +378,21 @@ Rapid mockups, design exploration
 
 ## Quick Start {large-bold primary center}
 
-Get up and running in under 2 minutes: {center muted}
+Start in your browser, or compile documents locally: {center muted}
+
+[Open the Live Editor](editor.html){button primary}
+
+Write your document and choose **Export HTML** to save a standalone page. For command-line use, follow the steps below.
 
 :::card {heavy-glass padded-lg}
 ### :icon[download]{primary} Step 1: Install {medium-bold}
 
 ```bash
-# Via npm (coming soon)
-npm install -g taildown
-
-# Or clone repository
+# With Node.js and pnpm 8.11.0 installed
 git clone https://github.com/vincitamore/taildown.git
-cd taildown && pnpm install && pnpm build
+cd taildown
+pnpm install --frozen-lockfile
+pnpm build
 ```
 
 ### :icon[file-text]{accent} Step 2: Create Document {medium-bold}

@@ -12,20 +12,20 @@
 
 ---
 
-## Installation {large-bold primary}
+## Start Writing {large-bold primary}
 
 :::tabs
-## npm (Coming Soon)
+## Browser Editor
 
-```bash
-# Global installation
-npm install -g taildown
+Open the editor, replace the sample with your own document, and use **Export HTML** to save the compiled page. No installation is required.
 
-# Or use npx
-npx taildown compile document.td
-```
+[Open the Live Editor](editor.html){button primary}
 
-## Clone Repository
+Use **Save** to keep the editable Taildown source as well as your exported HTML.
+
+## Command Line
+
+Install Node.js and the repository's declared pnpm version, **8.11.0**, then run:
 
 ```bash
 # Clone the repository
@@ -33,18 +33,13 @@ git clone https://github.com/vincitamore/taildown.git
 cd taildown
 
 # Install dependencies
-pnpm install
+pnpm install --frozen-lockfile
 
 # Build all packages
 pnpm build
 ```
 
-## Manual Setup
-
-1. Download the latest release from GitHub
-2. Extract to your preferred location
-3. Run `pnpm install` in the extracted directory
-4. Run `pnpm build` to compile packages
+Run the commands below from this repository directory. The browser editor is also available if you prefer to work without a local toolchain.
 :::
 
 ---
@@ -94,11 +89,12 @@ pnpm taildown compile my-first-document.td --separate
 This creates:
 - `my-first-document.html` - HTML file
 - `my-first-document.css` - Separate CSS file
+- `my-first-document.js` - JavaScript for enabled interactive features
 
 ### Custom Output
 
 ```bash
-pnpm taildown compile my-first-document.td -o output/index.html --css output/styles.css
+pnpm taildown compile my-first-document.td --separate -o output/index.html --css output/styles.css
 ```
 :::
 
