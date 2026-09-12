@@ -3,15 +3,21 @@ import {expect, it} from 'vitest';
 import {getAuthoringReference} from '../../packages/compiler/src/authoring-reference';
 import {registry} from '../../packages/compiler/src/components/component-registry';
 import {getAllShorthands} from '../../packages/compiler/src/resolver/shorthand-mappings';
+import {isCodePosition} from '../../packages/compiler/src/authoring-context';
 
 const source = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const data = source.slice(source.indexOf('    const authoringReference ='), source.indexOf('    const iconNames ='));
 const code = source.slice(source.indexOf('    // Helper to render autocomplete items'), source.indexOf('    // Bubble Menu'));
 async function suggestions(input: string) {
   const reference = await getAuthoringReference();
-  const complete = new Function('reference', data.replace('await Taildown.getAuthoringReference()', 'reference') + code + '\nreturn taildownAutocomplete;')(reference);
-  return complete({pos: input.length, matchBefore: () => null, state: {doc: {lineAt: () => ({text: input, from: 0})}}});
+  const complete = new Function('reference', 'isCodePosition', data.replace('await Taildown.getAuthoringReference()', 'reference') + code + '\nreturn taildownAutocomplete;')(reference, isCodePosition);
+  const from = input.lastIndexOf('\n') + 1;
+  return complete({pos: input.length, matchBefore: () => null, state: {doc: {toString:()=>input, lineAt: () => ({text: input.slice(from), from})}}});
 }
+
+it.each(['```js\nconst value = {', '    :icon[sta', '~~~td\n:::car'])('does not suggest Taildown syntax inside code: %s', async input => {
+  expect(await suggestions(input)).toBeNull();
+});
 
 it('waits for compiler definitions and exposes their names, variants, sizes and shorthands', async () => {
   const reference = await getAuthoringReference();

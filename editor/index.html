@@ -1302,9 +1302,10 @@ Browser recovery keeps your latest draft when storage is available. Save or down
 
     // Smart autocomplete extension
     function taildownAutocomplete(context) {
-      const word = context.matchBefore(/[\w-]+/);
       const line = context.state.doc.lineAt(context.pos);
       const textBefore = line.text.slice(0, context.pos - line.from);
+      // Only inspect Markdown context when a Taildown completion trigger exists.
+      if (!/[:{]/.test(textBefore) || isCodePosition(context.state.doc.toString(), context.pos)) return null;
       
       // Colon trigger - suggest ::: or inline elements
       if (textBefore.endsWith(':') && !textBefore.endsWith('::')) {
