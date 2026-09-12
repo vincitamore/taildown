@@ -26,6 +26,8 @@ For UI development, edit `editor/index.html`, `editor/design-settings.js`, or `e
 
 Preview compilation and browser draft recovery run after a one-second pause in typing. Actual compilation cost depends on the document and device; the status bar reports the latest compilation time.
 
+Compilation normally runs in a background worker so it does not block editing. If workers cannot start, the editor uses the same compiler on the main thread. Both paths support the complete offline editor.
+
 ### Shortcuts
 
 These shortcuts apply while the editor has focus. `Mod` means Ctrl on Windows/Linux and Cmd on macOS.
@@ -87,8 +89,10 @@ To distribute the offline editor, share `editor/dist/editor.html`. To host the s
 - `editor/index.html`: UI, CodeMirror setup, authoring interactions, preview and file operations.
 - `editor/design-settings.js`: design JSON validation and persistence.
 - `editor/draft-store.js`: atomic browser recovery snapshots and storage-failure handling.
+- `editor/compiler-client.js`: background requests, settings snapshots, error handling, and worker-unavailable fallback.
 - `editor/build.mjs`: bundles the editor module and produces offline/hosted variants.
-- `packages/compiler/src/browser-bundle.ts`: browser compiler and editor exports.
+- `packages/compiler/src/browser-bundle.ts`: combined public browser API; `editor-bundle.ts` provides UI/authoring exports separately.
+- `packages/compiler/src/worker-entry.ts`: compiler worker protocol and shared fallback exports.
 - `editor/__tests__/`: editor integration contracts and regression tests.
 
 After source changes, rebuild and run relevant tests with `pnpm exec vitest run`. Verify the built editor in a browser: insert components, edit styles, open/save source, export HTML, and inspect the downloaded result offline. Changes to component syntax or defaults must also reach authoring references, completions, command insertion, and public documentation.

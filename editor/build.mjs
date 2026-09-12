@@ -36,7 +36,7 @@ async function build() {
     console.log('Building standalone Taildown editor...');
 
     // Read the ESM browser bundle
-    const bundlePath = path.join(__dirname, '../packages/compiler/dist/taildown-browser.js');
+    const bundlePath = path.join(__dirname, '../packages/compiler/dist/taildown-editor.js');
     if (!fs.existsSync(bundlePath)) {
       throw new Error('Browser bundle (ESM) not found. Run "pnpm build:browser" first.');
     }
@@ -64,7 +64,7 @@ async function build() {
     fs.writeFileSync(outputPath, output, 'utf8');
 
     const hostedTemplate = template
-      .replace('../packages/compiler/dist/taildown-browser.js', '../packages/compiler/dist/taildown-browser-hosted.js')
+      .replace('../packages/compiler/dist/taildown-worker-source.js', '../packages/compiler/dist/taildown-worker-hosted-source.js')
       .replace('id="offline-editor" hidden', 'id="offline-editor"');
     fs.writeFileSync(path.join(distDir, 'editor-hosted.html'), await inlineEditorModule(hostedTemplate), 'utf8');
     const {diagramFile} = JSON.parse(fs.readFileSync(path.join(__dirname, '../packages/compiler/dist/hosted-assets.json'), 'utf8'));

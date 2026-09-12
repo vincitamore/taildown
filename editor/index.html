@@ -891,12 +891,13 @@
   <script type="module">
     // Import Taildown bundle from relative path (development)
     // Production bundles this module and its imports directly into the page.
-    import * as Taildown from '../packages/compiler/dist/taildown-browser.js';
+    import * as Taildown from '../packages/compiler/dist/taildown-editor.js';
+    import compilerSource from '../packages/compiler/dist/taildown-worker-source.js';
+    import {createCompilerClient} from './compiler-client.js';
     import {createDraftStore} from './draft-store.js';
     import {createDesignSettings, typographyChoices, prepareTypography, parseDesignSettings} from './design-settings.js';
     
     const {
-      compile,
       isCodePosition,
       EditorView,
       EditorState,
@@ -927,6 +928,8 @@
       taildownHighlightStyle,
       taildownDarkHighlightStyle,
     } = Taildown;
+
+    const compile = createCompilerClient(compilerSource, document.baseURI);
 
     // Default welcome template
     const DEFAULT_TEMPLATE = `:::container {wide}

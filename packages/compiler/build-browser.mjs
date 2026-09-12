@@ -40,9 +40,25 @@ const shikiReplacementPlugin = {
   },
 };
 
+const workerDecoderPlugin = {
+  name: 'worker-entity-decoder',
+  setup(build) {
+    build.onResolve({filter: /^decode-named-character-reference$/}, args => ({
+      path: createRequire(join(args.resolveDir, 'resolve.cjs')).resolve('decode-named-character-reference'),
+      namespace: 'worker-decoder',
+    }));
+    build.onLoad({filter: /.*/, namespace: 'worker-decoder'}, args => ({
+      contents: readFileSync(args.path, 'utf8'), loader: 'js', resolveDir: dirname(args.path),
+    }));
+  },
+};
+
 async function buildBrowserBundle() {
   try {
     console.log('Building Taildown browser bundle...');
+    await build({entryPoints:[join(__dirname,'src/editor-bundle.ts')],bundle:true,format:'esm',
+      outfile:join(__dirname,'dist/taildown-editor.js'),platform:'browser',target:'es2022',minify:true,
+      treeShaking:true,define:{'process.env.NODE_ENV':'"production"'}});
     
     // Build ESM version for development
   await build({
@@ -96,7 +112,8 @@ async function buildBrowserBundle() {
         build.onResolve({filter: /mermaid-source$/}, () => ({path:'mermaid-source',namespace:'hosted-mermaid'}));
         build.onLoad({filter: /.*/,namespace:'hosted-mermaid'}, () => ({loader:'js',contents:`
           import {createRuntimeLoader} from 'taildown-hosted-runtime-loader';
-          export const loadMermaidSource = createRuntimeLoader(new URL(${JSON.stringify(`assets/${diagramFile}`)}, document.baseURI), ${diagramSource.length});
+          let loader;
+          export const loadMermaidSource = () => (loader ??= createRuntimeLoader(new URL(${JSON.stringify(`assets/${diagramFile}`)}, globalThis.__taildownAssetBase ?? document.baseURI), ${diagramSource.length}))();
         `}));
       },
     };
@@ -104,6 +121,13 @@ async function buildBrowserBundle() {
       outfile:join(__dirname,'dist/taildown-browser-hosted.js'),platform:'browser',target:'es2022',minify:true,
       treeShaking:true,plugins:[shikiReplacementPlugin,hostedSourcePlugin],
       define:{'process.env.NODE_ENV':'"production"'},loader:{'.node':'empty'}});
+    for (const [name, runtimePlugin] of [['taildown-worker-source.js', mermaidSourcePlugin], ['taildown-worker-hosted-source.js', hostedSourcePlugin]]) {
+      const result = await build({entryPoints:[join(__dirname,'src/worker-entry.ts')],bundle:true,format:'iife',globalName:'TaildownCompiler',
+        write:false,platform:'browser',target:'es2022',minify:true,treeShaking:true,
+        plugins:[workerDecoderPlugin,shikiReplacementPlugin,runtimePlugin],
+        define:{'process.env.NODE_ENV':'"production"'},loader:{'.node':'empty'}});
+      writeFileSync(join(__dirname,'dist',name), `export default ${JSON.stringify(result.outputFiles[0].text)};`);
+    }
     console.log('✓ Browser bundles built successfully!');
     console.log('  ESM: dist/taildown-browser.js');
     console.log('  IIFE: dist/taildown-browser.iife.js');
