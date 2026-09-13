@@ -30,6 +30,12 @@ Compilation normally runs in a background worker so it does not block editing. T
 
 Section links such as `[Read more](#details)` navigate within the preview when the document contains that ID. They keep their ordinary fragment URLs in downloaded HTML.
 
+### Phones and narrow windows
+
+At phone widths, **Edit** and **Preview** each use the available workspace. Switching views preserves the document and preview. Long source lines wrap; **Undo**, **Redo** and **Find** are available below the editor. **Insert**, **Save** and **Design** remain directly accessible, while **File** contains opening, source downloads, HTML export and the welcome template.
+
+Selecting a compilation notice returns to the source view before focusing its location. Wider windows retain the resizable side-by-side layout. Browser file capabilities determine whether Save writes through a file picker or downloads a source file.
+
 ### Shortcuts
 
 These shortcuts apply while the editor has focus. `Mod` means Ctrl on Windows/Linux and Cmd on macOS.

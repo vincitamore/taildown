@@ -3029,6 +3029,7 @@ ${generateThemeCSS(config)}
  * ======================================== */
 
 .component-tabs {
+  min-width: 0;
   width: 100%;
   margin-bottom: 1.5rem;
 }
@@ -3137,8 +3138,12 @@ ${generateThemeCSS(config)}
 
 @media (max-width: 640px) {
   .tab-button {
-    font-size: 0.813rem;
-    padding: 0.5rem 1rem;
+    min-height: 44px;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    font-size: 0.875rem;
+    padding: 0.625rem 1rem;
   }
 }
 
