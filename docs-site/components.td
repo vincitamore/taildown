@@ -1087,7 +1087,7 @@ The navigation at the top of this page is a live navbar. Use a linked `.navbar-b
 ````
 :::
 
-The default navbar is fixed and reserves page space. Test long labels at narrow widths. Placement variants include `sticky`, `fixed` and `floating`.
+The default navbar is fixed and reserves page space. On narrow screens, Menu opens the destinations; Escape or choosing a link closes them. Without JavaScript, the links remain visible. Test long labels at narrow widths. Placement variants include `sticky`, `fixed` and `floating`.
 
 ---
 
@@ -1482,6 +1482,8 @@ alt: Fieldnotes illustration before and after its visual refinement
 :::
 ```
 :::
+
+On narrow screens, fixed-size comparisons follow the image aspect ratio within their height limit. Swipe outside the handle to scroll the page; drag the handle or tap the image to compare.
 
 The vertical variant reveals the pair from top to bottom:
 

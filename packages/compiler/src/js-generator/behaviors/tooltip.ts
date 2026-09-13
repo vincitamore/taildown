@@ -32,6 +32,9 @@ document.querySelectorAll('[data-tooltip-trigger]').forEach((trigger, index) => 
   trigger.setAttribute('aria-describedby', tooltip.id);
   
   let isVisible = false;
+  let pointerOrigin = '';
+  trigger.addEventListener('pointerdown', event => {pointerOrigin = event.pointerType;});
+  trigger.addEventListener('pointercancel', () => {pointerOrigin = '';});
   let hideTimeout = null;
   let isHoveringTooltip = false;
   let isHoveringTrigger = false;
@@ -104,22 +107,23 @@ document.querySelectorAll('[data-tooltip-trigger]').forEach((trigger, index) => 
   
   ${attachmentKeyboard}
   // Trigger mouse events
-  trigger.addEventListener('mouseenter', () => { isHoveringTrigger = true; show(); });
-  trigger.addEventListener('mouseleave', () => { isHoveringTrigger = false; hide(false); });
+  trigger.addEventListener('pointerenter', event => { if (event.pointerType === 'touch') return; isHoveringTrigger = true; show(); });
+  trigger.addEventListener('pointerleave', () => { isHoveringTrigger = false; hide(false); });
   
   // Tooltip hover persistence
-  tooltip.addEventListener('mouseenter', () => {
+  tooltip.addEventListener('pointerenter', event => {
+    if (event.pointerType === 'touch') return;
     isHoveringTooltip = true;
     clearTimeout(hideTimeout);
   });
   
-  tooltip.addEventListener('mouseleave', () => {
+  tooltip.addEventListener('pointerleave', () => {
     isHoveringTooltip = false;
     hide(false);
   });
   
   // Focus events
-  trigger.addEventListener('focus', () => { if (trigger.matches(':focus-visible')) show(); });
+  trigger.addEventListener('focus', () => { if (pointerOrigin !== 'touch' && trigger.matches(':focus-visible')) show(); });
   trigger.addEventListener('blur', () => hide(false));
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && isVisible) hide(true);
@@ -127,6 +131,7 @@ document.querySelectorAll('[data-tooltip-trigger]').forEach((trigger, index) => 
   
   // Click to toggle (mobile and desktop)
   trigger.addEventListener('click', (event) => {
+    pointerOrigin = '';
     ${attachmentDescendant}
     // A tooltip enhances real links without taking ownership of navigation.
     const link = trigger.closest('a[href]');
@@ -143,6 +148,10 @@ document.querySelectorAll('[data-tooltip-trigger]').forEach((trigger, index) => 
     }
   });
   
+  document.addEventListener('pointerdown', event => {
+    if (!trigger.contains(event.target) && !tooltip.contains(event.target)) hide(true);
+  });
+
   // Re-position on scroll/resize
   document.addEventListener('scroll', () => {
     if (isVisible) positionTooltip();

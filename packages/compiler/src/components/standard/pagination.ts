@@ -13,7 +13,7 @@ export const paginationComponent = defineComponent({
     default: [],
     compact: ['gap-1'],
     spaced: ['gap-4'],
-    rounded: ['gap-2'],
+    rounded: ['gap-2', 'pagination-rounded'],
   },
   sizes: {
     sm: ['text-sm'],

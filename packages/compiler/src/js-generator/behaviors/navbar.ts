@@ -32,6 +32,50 @@ if (navbars.length) {
       } catch { /* An invalid authored URL must not stop navigation behavior. */ }
     }
   }
+  // Enhance existing content in place; without JavaScript every link stays visible.
+  navbars.forEach((navbar, index) => {
+    if (navbar.querySelectorAll('a[href]').length < 2 || !window.matchMedia) return;
+    const children = [...navbar.children];
+    let brand = children.find(child => child.matches('h1,h2,h3,.navbar-brand') || child.querySelector('.navbar-brand'));
+    if (brand && brand.querySelectorAll('a').length > 1) {
+      brand = brand.querySelector('.navbar-brand');
+      if (brand) navbar.prepend(brand);
+    }
+    const links = document.createElement('div');
+    links.className = 'navbar-links';
+    let id = 'taildown-navbar-links-' + index;
+    while (document.getElementById(id)) id += '-menu';
+    links.id = id;
+    [...navbar.childNodes].filter(child => child !== brand).forEach(child => links.append(child));
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'navbar-menu-toggle';
+    toggle.textContent = 'Menu';
+    toggle.setAttribute('aria-controls', id);
+    navbar.append(toggle, links);
+    navbar.classList.add('navbar-enhanced');
+    const mobile = window.matchMedia('(max-width: 768px)');
+    function close() {
+      navbar.classList.remove('navbar-menu-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      links.inert = mobile.matches;
+      measureNavigation();
+    }
+    toggle.addEventListener('click', () => {
+      const open = !navbar.classList.contains('navbar-menu-open');
+      navbar.classList.toggle('navbar-menu-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      links.inert = mobile.matches && !open;
+      measureNavigation();
+    });
+    links.addEventListener('click', event => {if (event.target.closest('a[href]')) close();});
+    navbar.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && navbar.classList.contains('navbar-menu-open')) {close(); toggle.focus();}
+    });
+    document.addEventListener('pointerdown', event => {if (!navbar.contains(event.target)) close();});
+    mobile.addEventListener('change', close);
+    close();
+  });
   let ticking = false;
   const scrollThreshold = 50; // pixels
 

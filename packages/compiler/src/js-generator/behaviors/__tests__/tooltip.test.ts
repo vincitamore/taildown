@@ -11,11 +11,11 @@ it('hands shared tooltip visibility and positioning to the latest trigger', asyn
     dom.window.eval(tooltipBehavior.code);
     const tip = dom.window.document.querySelector<HTMLElement>('[role="tooltip"]')!;
     const mouse = (node:Element, name:string) => node.dispatchEvent(new dom.window.MouseEvent(name));
-    mouse(first!, 'mouseenter'); mouse(first!, 'mouseleave'); mouse(second!, 'mouseenter');
+    mouse(first!, 'pointerenter'); mouse(first!, 'pointerleave'); mouse(second!, 'pointerenter');
     await new Promise(resolve => setTimeout(resolve, 180));
     expect(tip.hidden).toBe(false);
     expect(tip.style.left).toBe('410px');
-    mouse(second!, 'mouseleave'); mouse(first!, 'mouseenter');
+    mouse(second!, 'pointerleave'); mouse(first!, 'pointerenter');
     dom.window.dispatchEvent(new dom.window.Event('resize'));
     await new Promise(resolve => setTimeout(resolve, 180));
     expect(tip.hidden).toBe(false);
@@ -30,7 +30,7 @@ it('preserves real link activation and only cancels placeholder help links', () 
     const [link, help] = dom.window.document.querySelectorAll('a');
     // Observe before stopping native navigation in this isolated DOM test.
     for (const ctrlKey of [false, true]) {
-      link!.dispatchEvent(new dom.window.MouseEvent('mouseenter'));
+      link!.dispatchEvent(new dom.window.MouseEvent('pointerenter'));
       let prevented = true;
       link!.addEventListener('click', event => { prevented = event.defaultPrevented; event.preventDefault(); }, {once:true});
       link!.dispatchEvent(new dom.window.MouseEvent('click', {cancelable:true, ctrlKey}));
@@ -52,13 +52,13 @@ it('links descriptions, preserves hover reentry, and lets Escape override hover'
     const tooltip = window.document.querySelector<HTMLElement>('[role="tooltip"]')!;
     expect(trigger.getAttribute('aria-describedby')).toBe(tooltip.id);
     const mouse = (name:string) => trigger.dispatchEvent(new window.MouseEvent(name));
-    mouse('mouseenter'); mouse('mouseleave'); mouse('mouseenter');
+    mouse('pointerenter'); mouse('pointerleave'); mouse('pointerenter');
     await new Promise(resolve => setTimeout(resolve, 180));
     expect(tooltip.hidden).toBe(false);
-    tooltip.dispatchEvent(new window.MouseEvent('mouseenter'));
+    tooltip.dispatchEvent(new window.MouseEvent('pointerenter'));
     window.document.dispatchEvent(new window.KeyboardEvent('keydown', {key:'Escape'}));
     expect(tooltip.hidden).toBe(true);
-    mouse('mouseleave'); mouse('mouseenter');
+    mouse('pointerleave'); mouse('pointerenter');
     await new Promise(resolve => setTimeout(resolve, 220));
     expect(tooltip.hidden).toBe(false);
   } finally {dom.window.close();}
@@ -71,9 +71,31 @@ it('keeps a focused trigger described when the pointer leaves', async () => {
     const trigger = dom.window.document.querySelector('button')!;
     const tooltip = dom.window.document.querySelector<HTMLElement>('[role="tooltip"]')!;
     trigger.focus();
-    trigger.dispatchEvent(new dom.window.MouseEvent('mouseenter'));
-    trigger.dispatchEvent(new dom.window.MouseEvent('mouseleave'));
+    trigger.dispatchEvent(new dom.window.MouseEvent('pointerenter'));
+    trigger.dispatchEvent(new dom.window.MouseEvent('pointerleave'));
     await new Promise(resolve => setTimeout(resolve, 180));
     expect(tooltip.hidden).toBe(false);
+  } finally {dom.window.close();}
+});
+
+it('a touch tap opens once despite compatibility mouse events and closes outside', () => {
+  const dom = new JSDOM('<button data-tooltip-trigger>Info</button><div role="tooltip">Description</div>', {runScripts:'outside-only',pretendToBeVisual:true});
+  try {
+    const {window} = dom;
+    window.eval(tooltipBehavior.code);
+    const trigger = window.document.querySelector('button')!;
+    const tooltip = window.document.querySelector<HTMLElement>('[role="tooltip"]')!;
+    for (const type of ['pointerenter', 'pointerdown']) {
+      const event = new window.Event(type, {bubbles:true});
+      Object.defineProperty(event, 'pointerType', {value:'touch'});
+      trigger.dispatchEvent(event);
+    }
+    trigger.dispatchEvent(new window.MouseEvent('mouseenter'));
+    trigger.focus();
+    expect(tooltip.hidden).toBe(true);
+    trigger.click();
+    expect(tooltip.hidden).toBe(false);
+    window.document.body.dispatchEvent(new window.Event('pointerdown',{bubbles:true}));
+    expect(tooltip.hidden).toBe(true);
   } finally {dom.window.close();}
 });
