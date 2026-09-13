@@ -3928,6 +3928,12 @@ ${generateThemeCSS(config)}
   animation: detailsSlideIn 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Code blocks already own their header and inner content spacing. */
+.details-component > pre {
+  padding-top: 0;
+  border-top: 0;
+}
+
 /* Remove margins from first and last children */
 .details-component > *:first-child:not(summary) {
   margin-top: 0;
