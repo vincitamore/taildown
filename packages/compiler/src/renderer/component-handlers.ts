@@ -132,6 +132,20 @@ export function wrapWithAttachments(element: Element, nodeData?: TaildownNodeDat
   return wrapped;
 }
 
+/** Give attachment-only controls native-button-equivalent keyboard semantics. */
+function attachmentProperties(element: Element): Properties {
+  const properties = {...element.properties};
+  const native = ['button', 'input', 'select', 'textarea', 'summary'].includes(element.tagName)
+    || (element.tagName === 'a' && properties.href !== undefined);
+  if (!native) {
+    properties.tabIndex ??= 0;
+    properties.role ??= 'button';
+    const iconName = properties['data-icon'];
+    if (typeof iconName === 'string') properties.ariaLabel ??= iconName.replaceAll('-', ' ');
+  }
+  return properties;
+}
+
 /**
  * Wrap element with tooltip functionality
  * Supports inline content: tooltip="text" or ID reference: tooltip="#id"
@@ -154,7 +168,7 @@ function wrapWithTooltip(triggerElement: Element, content: string, _state?: Stat
     return {
       ...triggerElement,
       properties: {
-        ...(triggerElement.properties || {}),
+        ...attachmentProperties(triggerElement),
         'aria-describedby': tooltipId,
         'data-tooltip-trigger': 'true'
       }
@@ -180,7 +194,7 @@ function wrapWithTooltip(triggerElement: Element, content: string, _state?: Stat
   const enhancedTrigger: Element = {
     ...triggerElement,
     properties: {
-      ...(triggerElement.properties || {}),
+      ...attachmentProperties(triggerElement),
       'aria-describedby': tooltipId,
       'data-tooltip-trigger': 'true'
     }
@@ -232,6 +246,10 @@ export function clearRegistries() {
  * Supports inline content: modal="text" or ID reference: modal="#id"
  */
 function wrapWithModal(triggerElement: Element, content: string): Element {
+  // Tooltip wrappers only carry layout; both attachments belong to the control.
+  if (triggerElement.properties?.style === 'display: contents;' && triggerElement.children[0]?.type === 'element') {
+    return {...triggerElement, children: [wrapWithModal(triggerElement.children[0], content), ...triggerElement.children.slice(1)]};
+  }
   // Safety check
   if (!triggerElement || triggerElement.type !== 'element') {
     console.warn('[Taildown] Invalid trigger element for modal, skipping attachment');
@@ -245,7 +263,7 @@ function wrapWithModal(triggerElement: Element, content: string): Element {
   const enhancedTrigger: Element = {
     ...triggerElement,
     properties: {
-      ...(triggerElement.properties || {}),
+      ...attachmentProperties(triggerElement),
       'data-modal-trigger': modalId,
       'aria-haspopup': 'dialog'
     }

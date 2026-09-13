@@ -1027,6 +1027,8 @@ This is a **detailed tooltip** with full markdown support including `code` and *
 **Syntax Rules**:
 - `tooltip="text"` - Inline content (brief help text)
 - `tooltip="#id"` - Reference to `:::tooltip{id="..."}` block
+
+Icon attribute blocks accept the same `tooltip`, `modal`, and `#id` metadata as other inline elements, alongside icon styles and sizes. Icon and plain-text attachment controls enter the keyboard tab order; Enter/Space activate them, and Escape dismisses tooltips. Existing links and buttons retain their native semantics.
 - Shows on hover (desktop) or click (mobile/touch)
 - Automatically positioned relative to trigger
 - Fade in/out animations

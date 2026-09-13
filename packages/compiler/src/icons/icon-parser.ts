@@ -1,3 +1,4 @@
+import { parseAttributeValues } from '../parser/attribute-values';
 import type {Node} from 'unist';
 /**
  * Icon Parser for Taildown
@@ -116,12 +117,11 @@ interface IconFragment {
   start: number;
   end: number;
   value?: string;
-  icon?: {name: string; classes: string[]};
+  icon?: {name: string; attributes: string};
 }
 
 function extractIconsFromText(
   text: string,
-  resolverContext?: ResolverContext,
   node?: Text,
   source?: string,
 ): IconFragment[] {
@@ -150,12 +150,11 @@ function extractIconsFromText(
     const attributeBlock = match[2] || '';
     
     if (iconName) {
-      const classes = parseIconAttributes(attributeBlock, resolverContext);
       results.push({
         type: 'icon',
         start: match.index,
         end: ICON_REGEX.lastIndex,
-        icon: { name: iconName, classes },
+        icon: { name: iconName, attributes: attributeBlock },
       });
     }
 
@@ -206,7 +205,7 @@ export const parseIcons: Plugin<[IconPluginOptions?], Root> = (options) => {
       ICON_REGEX.lastIndex = 0;
 
       // Extract icons and text fragments
-      const fragments = extractIconsFromText(text, resolverContext, node, source);
+      const fragments = extractIconsFromText(text, node, source);
 
       if (!fragments.some(fragment => fragment.type === 'icon')) {
         return;
@@ -224,6 +223,8 @@ export const parseIcons: Plugin<[IconPluginOptions?], Root> = (options) => {
             position,
           });
         } else if (fragment.type === 'icon' && fragment.icon) {
+          const metadata = parseAttributeValues(fragment.icon.attributes, options?.warnings, position?.start);
+          const classes = parseIconAttributes(metadata.cleanedBlock, resolverContext);
           // Create icon node
           const iconNode: IconNode = {
             type: 'icon',
@@ -232,8 +233,11 @@ export const parseIcons: Plugin<[IconPluginOptions?], Root> = (options) => {
             data: {
               hName: 'svg',
               hProperties: {
-                className: ['icon', `icon-${fragment.icon.name}`, ...fragment.icon.classes],
+                className: ['icon', `icon-${fragment.icon.name}`, ...classes],
                 'data-icon': fragment.icon.name,
+                ...(metadata.id ? {id: metadata.id} : {}),
+                ...(metadata.tooltip ? {'data-tooltip-attach': metadata.tooltip} : {}),
+                ...(metadata.modal ? {'data-modal-attach': metadata.modal} : {}),
               },
             },
           };

@@ -1,3 +1,4 @@
+import {attachmentKeyboard} from './attachment-keyboard';
 /**
  * Tooltip Component Behavior
  * 
@@ -101,6 +102,7 @@ document.querySelectorAll('[data-tooltip-trigger]').forEach((trigger, index) => 
     else hideTimeout = setTimeout(close, 150);
   }
   
+  ${attachmentKeyboard}
   // Trigger mouse events
   trigger.addEventListener('mouseenter', () => { isHoveringTrigger = true; show(); });
   trigger.addEventListener('mouseleave', () => { isHoveringTrigger = false; hide(false); });

@@ -1148,7 +1148,8 @@ These terms relate to Application Programming Interface design and implementatio
 Professional tooltips with excellent UX:
 
 - :icon[check]{info} **Smart positioning**: Auto-positions to stay in viewport
-- :icon[check]{info} **Hover on desktop**: Shows on mouse hover
+- :icon[check]{info} **Hover and keyboard focus**: Shows on hover or visible keyboard focus
+- :icon[check]{info} **Keyboard controls**: Escape dismisses; Enter/Space toggle icon and text controls
 - :icon[check]{info} **Click on mobile**: Touch-friendly behavior
 - :icon[check]{info} **Fade animations**: Smooth appearance and dismissal
 - :icon[check]{info} **ARIA attributes**: `aria-describedby` for screen readers
