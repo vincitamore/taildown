@@ -133,6 +133,13 @@ export function wrapWithAttachments(element: Element, nodeData?: TaildownNodeDat
   return wrapped;
 }
 
+function containsInteractiveContent(element: Element): boolean {
+  return element.children.some(child => child.type === 'element' && (
+    ['a', 'button', 'input', 'select', 'textarea', 'summary'].includes(child.tagName) ||
+    child.properties.tabIndex !== undefined || containsInteractiveContent(child)
+  ));
+}
+
 /** Give attachment-only controls native-button-equivalent keyboard semantics. */
 function attachmentProperties(element: Element): Properties {
   const properties = {...element.properties};
@@ -140,7 +147,7 @@ function attachmentProperties(element: Element): Properties {
     || (element.tagName === 'a' && properties.href !== undefined);
   if (!native) {
     properties.tabIndex ??= 0;
-    properties.role ??= 'button';
+    properties.role ??= containsInteractiveContent(element) ? 'group' : 'button';
     const iconName = properties['data-icon'];
     if (typeof iconName === 'string') properties.ariaLabel ??= iconName.replaceAll('-', ' ');
   }

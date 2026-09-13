@@ -46,7 +46,7 @@ The [component registry](packages/compiler/src/components/component-registry.ts)
 
 ## Rendering and runtime
 
-[renderer/](packages/compiler/src/renderer/) transforms the AST into HAST, supplies component markup, and generates styles. Node compilation uses Shiki for code highlighting; browser builds substitute a CodeMirror/Lezer static highlighter. Literal code contents must survive both highlighting paths and minification.
+[renderer/](packages/compiler/src/renderer/) transforms the AST into HAST, supplies component markup, and generates styles. Taildown fences (`taildown`, `td`, and `tdown`) use the same CodeMirror parser and canonical highlight styles as the editor in both Node and browser compilation. Other code languages use Shiki in Node; browser builds substitute a CodeMirror/Lezer static highlighter. Literal code contents must survive both highlighting paths and minification.
 
 [js-generator/](packages/compiler/src/js-generator/) selects behavior needed by the document. Interactive components use generated browser JavaScript rather than a client application framework. Selection includes behavior discovered from rendered markup, including attached dialogs and tooltips. Tests must cover combinations and focus ownership, not just each component in isolation.
 

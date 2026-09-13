@@ -1,4 +1,4 @@
-import {attachmentKeyboard} from './attachment-keyboard';
+import {attachmentKeyboard, attachmentDescendant} from './attachment-keyboard';
 /** Modal dialogs: one controller per dialog, with focus and scroll restoration. */
 import type { ComponentBehavior } from '../index';
 
@@ -121,6 +121,7 @@ document.querySelectorAll('[data-modal-trigger]').forEach(trigger => {
   }
   ${attachmentKeyboard}
   trigger.addEventListener('click', event => {
+    ${attachmentDescendant}
     event.preventDefault();
     modalControllers.get(modal).open();
   });

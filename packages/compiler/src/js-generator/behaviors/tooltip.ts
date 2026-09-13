@@ -1,4 +1,4 @@
-import {attachmentKeyboard} from './attachment-keyboard';
+import {attachmentKeyboard, attachmentDescendant} from './attachment-keyboard';
 /**
  * Tooltip Component Behavior
  * 
@@ -126,15 +126,16 @@ document.querySelectorAll('[data-tooltip-trigger]').forEach((trigger, index) => 
   });
   
   // Click to toggle (mobile and desktop)
-  trigger.addEventListener('click', (e) => {
+  trigger.addEventListener('click', (event) => {
+    ${attachmentDescendant}
     // A tooltip enhances real links without taking ownership of navigation.
     const link = trigger.closest('a[href]');
     if (link && link.getAttribute('href') !== '#') {
       hide(true);
       return;
     }
-    e.preventDefault(); // Placeholder help links must not jump to the page top.
-    e.stopPropagation(); // Stop event bubbling
+    event.preventDefault(); // Placeholder help links must not jump to the page top.
+    event.stopPropagation(); // Stop event bubbling
     if (isVisible && tooltipOwners.get(tooltip) === trigger) {
       hide(true);
     } else {

@@ -79,3 +79,21 @@ it('puts simultaneous tooltip and modal attachments on one control', async () =>
   expect(trigger.hasAttribute('data-tooltip-trigger')).toBe(true);
   expect(trigger.parentElement?.closest('[role="button"]')).toBeNull();
 });
+
+it('keeps links inside rich tooltip attachments independent and accessible', async () => {
+  const result = await compile('Read [the **guide**](#guide) today{tooltip="Helpful context"}\n\n## Guide {#guide}');
+  const dom = new JSDOM(result.html, {runScripts: 'outside-only'});
+  try {
+    dom.window.eval(tooltipBehavior.code);
+    const trigger = dom.window.document.querySelector('[data-tooltip-trigger]')!;
+    expect(trigger.getAttribute('role')).toBe('group');
+    const child = trigger.querySelector('strong')!;
+    const event = new dom.window.MouseEvent('click', {bubbles: true, cancelable: true});
+    child.dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(false);
+    const ownClick = new dom.window.MouseEvent('click', {bubbles: true, cancelable: true});
+    trigger.dispatchEvent(ownClick);
+    expect(ownClick.defaultPrevented).toBe(true);
+    expect(dom.window.document.getElementById(trigger.getAttribute('aria-describedby')!)?.hidden).toBe(false);
+  } finally { dom.window.close(); }
+});
