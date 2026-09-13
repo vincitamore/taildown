@@ -39,7 +39,8 @@ export function initializeMobileEditor({
     const viewport = window.visualViewport;
     document.documentElement.style.setProperty(
       '--mobile-viewport-height',
-      `${viewport?.height ?? window.innerHeight}px`
+      // Pinch zoom magnifies the layout; only keyboard/browser chrome should shrink it.
+      `${viewport ? viewport.height * viewport.scale : window.innerHeight}px`
     );
   }
   edit.addEventListener('click', () => {

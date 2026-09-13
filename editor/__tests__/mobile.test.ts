@@ -26,6 +26,24 @@ function setup() {
 }
 beforeEach(() => vi.unstubAllGlobals());
 const button = (id: string) => document.getElementById(id) as HTMLButtonElement;
+it('preserves layout height during magnification while following keyboard resizing', () => {
+  const viewport = Object.assign(new EventTarget(), { height: 844, scale: 1 });
+  vi.stubGlobal('visualViewport', viewport);
+  setup();
+  const height = () => document.documentElement.style.getPropertyValue('--mobile-viewport-height');
+  expect(height()).toBe('844px');
+  viewport.height = 422;
+  viewport.scale = 2;
+  viewport.dispatchEvent(new Event('resize'));
+  expect(height()).toBe('844px');
+  viewport.height = 220;
+  viewport.dispatchEvent(new Event('resize'));
+  expect(height()).toBe('440px');
+  viewport.scale = 1;
+  viewport.height = 440;
+  viewport.dispatchEvent(new Event('resize'));
+  expect(height()).toBe('440px');
+});
 it('keeps inactive panes inert and exposes both again on desktop', () => {
   const { media, setMobile } = setup();
   button('mobile-preview').click();

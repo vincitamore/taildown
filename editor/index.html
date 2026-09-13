@@ -1117,7 +1117,13 @@ Browser recovery keeps your latest draft when storage is available. Save or down
       designJSON.focus();
     }
     document.getElementById('design-close').addEventListener('click', () => designDialog.close());
-    designDialog.addEventListener('close', () => editor?.focus());
+    designDialog.addEventListener('close', () => {
+      if (document.getElementById('editor-pane').inert) {
+        document.getElementById('mobile-design').focus();
+      } else {
+        editor?.focus();
+      }
+    });
     document.getElementById('design-reset').addEventListener('click', () => {
       designJSON.value = '{}';
       designMessage.textContent = 'Defaults are ready. Apply settings to use them.';
