@@ -1338,7 +1338,7 @@ Taildown includes 28 standard components out of the box:
 | **Feedback Components** | | |
 | `alert` | Contextual messages | Color-coded alerts (info, success, warning, error) |
 | `badge` | Status indicators | Inline labels with semantic colors |
-| `progress` | Progress indicator | Progress bars and spinners |
+| `progress` | Completion status | Native determinate or indeterminate progress indicator |
 | **Content Components** | | |
 | `details` | Progressive disclosure | Native HTML5 `<details>` element with glass styling |
 | `callout` | Semantic admonitions | Color-coded callouts (note, tip, warning, danger, success, info, error) |
@@ -1359,6 +1359,36 @@ Taildown includes 28 standard components out of the box:
 | `button` | Styled links/actions | Button styling with variants |
 
 **Note**: Component default classes are defined in implementation, not syntax spec.
+
+#### Progress Indicators
+
+A `progress` component renders a native progress indicator. Its body is retained as the visible label, including inline formatting:
+
+```taildown
+:::progress {value="35" max="100"}
+Preparing **report**
+:::
+```
+
+- `max` defaults to `100` and must be finite and greater than zero.
+- `value`, when present, must be finite and satisfy `0 <= value <= max`. Zero is a valid determinate value.
+- An omitted `value` produces indeterminate progress. The `indeterminate` flag also selects this mode; if a value was supplied, it is overridden with a compilation warning.
+- Invalid numeric values produce a warning with a source location and fall back to indeterminate progress.
+- Quote attribute values: use `value="35"`, not `value=35`.
+- Sizes are `xs`, `sm`, `md` (default), `lg`, and `xl`. Variants are `default`, `striped`, `animated`, and `indeterminate`. Presentation uses theme colors and respects reduced motion.
+
+Provide a useful name for the operation. The body provides a visible label; when there is no body, supply `aria-label` or `aria-labelledby` pointing to an existing label. Taildown does not advance progress automatically.
+
+```taildown
+:::progress
+Waiting for the next observation
+:::
+
+:::progress {value="3" max="8" sm aria-label="Chapters reviewed"}
+:::
+```
+
+See the [live progress reference](docs-site/components.td#progress) for examples.
 
 ### 3.4A Content Components **[REQUIRED]**
 

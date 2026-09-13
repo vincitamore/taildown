@@ -16,7 +16,7 @@ Component defaults can be customized per document with the compiler's `component
 
 ## Quick Navigation {#nav bold primary}
 
-Jump directly to any component category, or visit [Container](#container), [Tree](#tree), [Flow](#flow), [Code Diff](#diff), [Avatar](#avatar), [Breadcrumb](#breadcrumb), [Pagination](#pagination), [Sidebar](#sidebar), [Skeleton](#skeleton), and [Footnotes](#footnotes).
+Jump directly to any component category, or visit [Container](#container), [Tree](#tree), [Flow](#flow), [Code Diff](#diff), [Progress](#progress), [Avatar](#avatar), [Breadcrumb](#breadcrumb), [Pagination](#pagination), [Sidebar](#sidebar), [Skeleton](#skeleton), and [Footnotes](#footnotes).
 
 :::grid {2}
 :::card {subtle-glass padded center hover-lift href="#layout"}
@@ -1409,6 +1409,45 @@ Combine badges with icons for visual context:
 **Sizes:** `sm` `md (default)` `lg`
 
 [Back to top](#top){button link}
+
+---
+
+### Progress {#progress bold primary}
+
+Show completion with a native progress indicator and a visible label. Set a quoted `value` and, optionally, a quoted `max`; the default maximum is `100`. Taildown displays the supplied value rather than tracking background work automatically.
+
+```taildown
+:::progress {value="35" max="100"}
+Preparing **report**
+:::
+```
+
+:::progress {value="35" max="100"}
+Preparing **report**
+:::
+
+Omit `value` when the amount of remaining work is unknown. The label still tells the reader what is happening:
+
+```taildown
+:::progress
+Waiting for the next observation
+:::
+```
+
+:::progress
+Waiting for the next observation
+:::
+
+Sizes are `xs`, `sm`, `md` (default), `lg`, and `xl`. Use `striped` for a striped fill or `animated` for motion; the styling adapts to the document theme and respects reduced-motion preferences. The `indeterminate` flag explicitly selects an unknown amount. If both that flag and a value are supplied, indeterminate mode wins and compilation reports a warning.
+
+`max` must be a finite number greater than zero. `value` must be finite and between zero and `max`, inclusive. Invalid numbers produce a located compilation warning and an indeterminate fallback. Use quoted values, such as `{value="3" max="8"}`.
+
+The body supplies a visible label and can contain inline formatting. If the body is omitted, provide `aria-label` or `aria-labelledby` referencing an existing label:
+
+```taildown
+:::progress {value="3" max="8" sm aria-label="Chapters reviewed"}
+:::
+```
 
 ---
 
@@ -4111,7 +4150,7 @@ A supporting observation belongs in a note.[^reference-example]
 ### :icon[bell]{error} Feedback Components
 - :icon[check]{success} **Alert** - Semantic message boxes
 - :icon[check]{success} **Badge** - Inline status indicators
-- :icon[check]{success} **Progress** - Loading indicators
+- :icon[check]{success} **[Progress](#progress)** - Native determinate and indeterminate indicators
 :::
 
 :::card {light-glass padded}

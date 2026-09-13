@@ -10,6 +10,7 @@ import type { CompilationWarning, TaildownNodeData } from '@taildown/shared';
 import { COMPONENT_NAME_REGEX } from '@taildown/shared';
 import { registry } from '../components/component-registry';
 import type {ComponentDefinition} from '../components/component-registry';
+import { progressValues } from '../components/progress-values';
 import { resolveComponentClasses } from '../components/variant-system';
 
 // remark-directive creates these node types
@@ -29,6 +30,14 @@ interface TextDirective {
   children: Content[];
   data?: TaildownNodeData;
   position?: import('unist').Position;
+}
+
+function hasLabelContent(nodes: readonly Content[]): boolean {
+  return nodes.some(node =>
+    ('value' in node && node.type !== 'html' && node.value.trim().length > 0) ||
+    ('alt' in node && Boolean(node.alt?.trim())) ||
+    ('children' in node && hasLabelContent(node.children))
+  );
 }
 
 interface ComponentPluginOptions {
@@ -112,6 +121,14 @@ function processDirectiveNode(
       } else {
         // Fallback: just add raw attributes as classes for custom components
         classNames.push(...rawAttributes);
+      }
+
+      if (componentName === 'progress') {
+        const messages = progressValues(node.attributes ?? {}, [...rawAttributes, ...classNames]).warnings;
+        if (!hasLabelContent(node.children) && !node.attributes?.['aria-label']?.trim() && !node.attributes?.['aria-labelledby']?.trim()) {
+          messages.push('Progress needs visible label content, aria-label, or aria-labelledby.');
+        }
+        for (const message of messages) warnings.push({type: 'validation', message, line: node.position?.start.line, column: node.position?.start.column});
       }
 
       // Store component metadata

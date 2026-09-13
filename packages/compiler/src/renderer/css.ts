@@ -67,6 +67,8 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'w-16': 'width: 4rem;',
   'w-20': 'width: 5rem;',
   'w-full': 'width: 100%;',
+  'h-1': 'height: 0.25rem;',
+  'h-3': 'height: 0.75rem;',
   'h-2': 'height: 0.5rem;',
   'h-4': 'height: 1rem;',
   'h-6': 'height: 1.5rem;',
@@ -809,6 +811,38 @@ li:has(> .icon:first-child) {
 .task-done input[type="checkbox"] + * {
   text-decoration: line-through;
   color: var(--muted-foreground);
+}
+
+/* Native progress keeps the authored label outside the bar. */
+.progress-field { margin-block: 1rem; min-width: 0; }
+.progress-label { margin-bottom: .5rem; font-size: .875rem; }
+.progress-label > :first-child { margin-top: 0; }
+.progress-label > :last-child { margin-bottom: 0; }
+:where(progress.progress) { display: block; appearance: none; border: 0; }
+progress.progress::-webkit-progress-bar { background: inherit; border-radius: inherit; }
+progress.progress::-webkit-progress-value { background: currentColor; border-radius: inherit; }
+progress.progress::-moz-progress-bar { background: currentColor; border-radius: inherit; }
+progress.progress-striped::-webkit-progress-value {
+  background-image: repeating-linear-gradient(135deg, transparent 0 8px, rgba(255,255,255,.25) 8px 16px);
+}
+progress.progress-striped::-moz-progress-bar {
+  background-image: repeating-linear-gradient(135deg, transparent 0 8px, rgba(255,255,255,.25) 8px 16px);
+}
+progress.progress-animated { animation: progress-pulse 2s ease-in-out infinite; }
+progress.progress:indeterminate {
+  background-image: linear-gradient(90deg, transparent, currentColor, transparent);
+  background-size: 45% 100%;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  animation: progress-travel 1.8s ease-in-out infinite alternate;
+}
+progress.progress:indeterminate::-webkit-progress-bar { background: transparent; }
+progress.progress:indeterminate::-moz-progress-bar { background: transparent; }
+@keyframes progress-travel { to { background-position: 100% 0; } }
+@keyframes progress-pulse { 50% { opacity: .6; } }
+@media (prefers-reduced-motion: reduce) {
+  progress.progress-animated, progress.progress:indeterminate { animation: none; }
+  progress.progress:indeterminate { background-position: 50% 0; }
 }
 
 /* In-progress [~] - blue with icon */

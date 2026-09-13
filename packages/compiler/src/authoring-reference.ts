@@ -10,6 +10,7 @@ import {snapshotComponentConfig, configureComponents} from './components/compone
 // Small offline examples shared by authoring clients. Keep these ordinary
 // Taildown source so they exercise the same public syntax as authored pages.
 const COMPONENT_EXAMPLES: Record<string, string> = {
+  progress: ':::progress {value="35" max="100"}\nPreparing the report — 35% complete\n:::',
   avatar: ':::avatar\nAM\n:::',
   skeleton: ':::skeleton {rectangle aria-hidden="true"}\n:::',
   footnotes: 'A supporting observation belongs in a note.[^note]\n\n[^note]: Add the useful detail or source here.',

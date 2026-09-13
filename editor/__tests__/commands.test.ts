@@ -94,6 +94,11 @@ it('shared content examples compile to meaningful component content', async () =
         expect(content!.classList.contains('h-32')).toBe(true);
       else if (['breadcrumb', 'pagination', 'sidebar'].includes(component.name))
         expect(content!.querySelector('a[href]')).not.toBeNull();
+      else if (component.name === 'progress') {
+        expect(content?.tagName).toBe('PROGRESS');
+        expect(content?.getAttribute('value')).toBe('35');
+        expect(dom.window.document.getElementById(content!.getAttribute('aria-labelledby')!)?.textContent).toContain('Preparing the report');
+      }
       else expect(content?.textContent?.trim().length, component.name).toBeGreaterThan(25);
     } finally {
       dom.window.close();

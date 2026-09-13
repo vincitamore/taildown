@@ -23,6 +23,7 @@ import type { Root, Code } from 'mdast';
 import type {DiffLine} from '../parser/diff-parser';
 import { toHast } from 'mdast-util-to-hast';
 import { registry, registryInitialized } from '../components/component-registry';
+import { progressValues } from '../components/progress-values';
 import {mergeClasses} from '../resolver/merge-classes';
 
 /** Presentation belongs to the dialog surface, never the full-screen backdrop. */
@@ -1771,6 +1772,8 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
       return renderSteps(state, node);
     case 'timeline':
       return renderTimeline(state, node);
+    case 'progress':
+      return renderProgress(state, node);
     case 'details':
       return renderDetails(state, node);
     case 'definitions': {
@@ -1794,6 +1797,30 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
       // For other components (card, alert, grid, etc.), use generic renderer
       return renderGenericComponent(state, node);
   }
+}
+
+/** Preserve rich label content outside the native, presentational-only bar. */
+function renderProgress(state: State, node: ContainerDirectiveNode): Element {
+  const bar = renderGenericComponent(state, node);
+  const label = bar.children;
+  const classes = bar.properties.className;
+  const values = progressValues(node.attributes ?? {}, [...(node.data?.component?.attributes ?? []), ...(Array.isArray(classes) ? classes.map(String) : [])]);
+  bar.tagName = 'progress';
+  bar.children = [];
+  delete bar.properties.value;
+  delete bar.properties.indeterminate;
+  bar.properties.max = values.max;
+  if (values.value !== undefined) bar.properties.value = values.value;
+  const children: ElementContent[] = [];
+  if (label.length) {
+    const labelId = `progress-label-${Math.random().toString(36).slice(2)}`;
+    children.push({type: 'element', tagName: 'div', properties: {id: labelId, className: ['progress-label']}, children: label});
+    if (!String(bar.properties['aria-label'] ?? '').trim()) delete bar.properties['aria-label'];
+    if (!String(bar.properties['aria-labelledby'] ?? '').trim()) delete bar.properties['aria-labelledby'];
+    if (!bar.properties['aria-label'] && !bar.properties['aria-labelledby']) bar.properties['aria-labelledby'] = labelId;
+  }
+  children.push(bar);
+  return {type: 'element', tagName: 'div', properties: {className: ['progress-field']}, children};
 }
 
 /**
