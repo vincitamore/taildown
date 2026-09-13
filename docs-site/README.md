@@ -24,6 +24,7 @@ Open `docs-site/dist/index.html` to inspect document pages locally. Use a local 
 | `components.td` | Component reference |
 | `plain-english.td` | Styling vocabulary |
 | `infinity-at-origin-v2.td`, `principle-of-transformative-representation.td` | Long-form document examples |
+| `assets/` | Locally authored reference illustrations and silent demonstration video |
 | `build.mjs` | Compilation, editor packaging, assets and page metadata |
 | `vercel.json` | Deployment build/output contract and routing |
 | `../editor/index.html` | Editor source; see [editor development](../editor/README.md) |

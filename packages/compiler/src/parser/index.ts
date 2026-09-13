@@ -10,6 +10,7 @@ import type { ParseResult, TaildownRoot, CompilationWarning } from '@taildown/sh
 import { extractInlineAttributes } from './attributes';
 import { processComponents } from './components';
 import { parseDirectives } from './directive-parser';
+import { parseMermaidFences } from './mermaid-parser';
 import { parseIcons } from '../icons/icon-parser';
 import { parseInlineBadges } from '../components/inline-badge-parser';
 import { parseInlineMarks } from './inline-mark-parser';
@@ -70,6 +71,7 @@ export async function parseWithWarnings(source: string, options: ParseOptions = 
     .use(remarkMath) // Parse LaTeX math equations ($...$ and $$...$$)
     .use(parseTableAttributes, {styleMappings}) // Parse table attributes
     .use(parseDirectives, { warnings }) // Custom component directive parser
+    .use(parseMermaidFences) // Resolve Mermaid fence metadata as component attributes
     .use(parseImageCompare) // Parse image comparison components
     .use(parseDiff) // Parse code diff blocks (unified and side-by-side)
     .use(parseIcons, { warnings, resolverContext }) // Parse icon syntax

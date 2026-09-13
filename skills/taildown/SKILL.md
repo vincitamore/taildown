@@ -1,11 +1,17 @@
 ---
 name: taildown
-description: Author and refine Taildown (.td) documents using the repository CLI, current syntax references, and rendered browser checks. Use for creating pages, improving document design, or preparing portable HTML exports.
+description: Author or refine Taildown (.td) documents and portable HTML with the local CLI. Use when asked to make a Taildown page, improve its design, or verify its export. Skip ordinary Markdown edits and unrelated web applications; compiler implementation follows the repository engineering guides.
 ---
 
 # Authoring Taildown
 
 Work from this checkout's source and CLI. Taildown extends Markdown with readable styling attributes and components; keep the editable `.td` document as the deliverable alongside its compiled output.
+
+## Maintaining this skill
+
+Update this skill in the same change that alters its CLI recipe, reference locations, or a repeatable authoring constraint. Keep syntax and component details in [SYNTAX.md](../../SYNTAX.md) and the relevant site reference; update those when shipped behavior changes. The [CLI declaration](../../packages/cli/src/cli.ts) owns available commands, and compiler source plus regression tests establish implemented behavior when prose disagrees.
+
+Keep standing workflow here, implementation rationale in [architecture](../../tech-spec.md), and release/task history outside the skill. Replace stale instructions rather than appending exceptions. Recheck links and exercise an affected recipe after edits; record a blocker with its concrete resolution condition instead of adding an undated future instruction.
 
 ## Find the right reference
 
@@ -21,7 +27,13 @@ Resolve these links relative to this skill; run commands from the repository roo
 
 Start with the reader's purpose, content hierarchy, and intended screen or print format. Use Markdown for the prose and add layout only where it clarifies relationships. Choose a coherent type scale, spacing rhythm, color emphasis, and surface treatment; avoid putting every paragraph in a card or making every section equally prominent.
 
-Check the reference before inventing a styling token or component. Nest containers according to their documented child structure. Prefer semantic links, headings, lists, and component behavior over raw HTML workarounds. Use meaningful link labels and image descriptions, readable contrast, and motion that leaves content usable with reduced motion.
+Look up unfamiliar tokens before using them; highlighting is not syntax validation. A few authoring boundaries matter across components:
+
+- Quote key-value attributes, including numbers: `{value="35" max="100"}`. Bare styling words and shorthand IDs follow separate syntax.
+- Paragraph attributes belong at the end of the paragraph. Separate a styled label from following prose with a blank line; a mid-sentence attribute can remain literal text. Links and icons have their own inline attachment syntax.
+- Component children carry meaning: tabs use headings for panels, and details uses its leading paragraph or heading as the summary. Check the component reference before substituting a generic card layout.
+- Use native Markdown footnote references and definitions for notes; keep code examples in fences so their contents remain literal.
+- Attached modal/tooltip content may reference an ID elsewhere in the document. Preserve those targets when reorganizing a page and test the trigger with keyboard focus as well as a pointer.
 
 When refining an existing document, preserve its wording, code examples, URLs, IDs, and data unless the requested change calls for editing them. Keep generated HTML separate from the source. Inspect the diff for accidental content loss.
 

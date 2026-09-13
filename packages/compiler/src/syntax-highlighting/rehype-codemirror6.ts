@@ -88,6 +88,9 @@ const paletteStyles = taildownDarkHighlightStyle.map(rule => {
 });
 
 function highlightTaildown(code: string): string {
+  // HTML normalizes CRLF to LF. Normalize before spans split the pair, or a
+  // token ending in CR becomes an extra line break beside the emitted LF.
+  code = code.replace(/\r\n?/g, '\n');
   let html = '<span class="code-line">';
   let position = 0;
   const append = (text: string, classes = '', style = '') => {

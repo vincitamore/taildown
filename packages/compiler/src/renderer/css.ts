@@ -680,6 +680,10 @@ a {
   text-decoration: none;
 }
 
+:where(a) {
+  color: var(--link);
+}
+
 /* Linked containers retain their surrounding theme; explicit color utilities win. */
 :where(a.taildown-component) {
   color: inherit;
@@ -2534,7 +2538,18 @@ td svg.icon {
   white-space: pre;
   overflow-wrap: normal;
   word-break: normal;
-  color: #e2e8f0;
+  color: var(--foreground);
+}
+
+.diff-pane .code-copy-btn {
+  color: var(--foreground);
+  background: var(--background);
+  border-color: var(--border);
+}
+
+.diff-pane .code-copy-btn:hover {
+  background: var(--muted);
+  border-color: var(--foreground);
 }
 
 /* Synchronized scrolling for side-by-side */
@@ -2980,8 +2995,9 @@ ${generateThemeCSS(config)}
   margin-bottom: 0;
 }
 
-.component-container {
-  /* Additional container-specific styles */
+:where(.component-container) {
+  /* Fill the available track even when children have no intrinsic width. */
+  width: 100%;
 }
 
 /* Alert Component - Mobile Optimization */
@@ -4403,13 +4419,16 @@ ${generateThemeCSS(config)}
   font-size: 2.5rem;
   font-weight: 700;
   line-height: 1;
-  color: var(--foreground);
   margin: 0;
+}
+
+:where(.stat-value, .stat-item > h3, .stat-item > strong) {
+  color: var(--foreground);
 }
 
 /* Stat label - descriptive text */
 .stat-label,
-.stat-item > p {
+.stat-item > p:not(.stat-value) {
   font-size: 0.9375rem;
   color: var(--muted-foreground);
   font-weight: 500;
@@ -4470,7 +4489,7 @@ ${generateThemeCSS(config)}
   }
   
   .stat-label,
-  .stat-item > p {
+  .stat-item > p:not(.stat-value) {
     font-size: 0.8125rem;
   }
   

@@ -43,13 +43,18 @@ export const MERMAID_CONTROLLER = String.raw`
     for (const code of document.querySelectorAll('code.language-mermaid')) {
       const pre = code.closest('pre');
       if (!pre) continue;
-      const container = document.createElement('div');
-      container.className = 'mermaid-container';
+      // Compiled components already carry resolved classes and author attributes.
+      // Reuse that wrapper; plain Markdown fences still receive a container here.
+      let container = pre.parentElement;
+      if (container?.getAttribute('data-component') !== 'mermaid') {
+        container = document.createElement('div');
+        container.className = 'mermaid-container';
+        pre.replaceWith(container);
+      }
       const output = document.createElement('div');
       const status = document.createElement('p');
       status.setAttribute('role', 'status');
       status.hidden = true;
-      pre.replaceWith(container);
       container.append(output, status, pre);
       diagrams.push({source: code.textContent, code: pre, output, status});
     }
