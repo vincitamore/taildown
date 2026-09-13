@@ -121,7 +121,7 @@ function extractMarkersFromParagraph(node: Paragraph, source?: string, sourceInd
   }}];
 }
 
-function parseFenceLine(line: string, lineNumber: number): ComponentMarker | null {
+export function parseFenceLine(line: string, lineNumber: number): ComponentMarker | null {
   if (line === ':::') {
     return {
       type: 'close',

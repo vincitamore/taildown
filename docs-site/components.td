@@ -4,4205 +4,1701 @@
 [Home](index.html) [Getting Started](getting-started.html) [Syntax Guide](syntax-guide.html) [Components](components.html) [Plain English](plain-english.html) [Live Editor](editor.html)
 :::
 
----
+:::container {wide}
 
-# Component Reference {#top huge-bold center primary}
+# A small vocabulary. A wide canvas. {#top}
 
-**Your complete guide to every Taildown component with live examples.** {center large-muted}
+Component reference {primary bold}
 
-Component defaults can be customized per document with the compiler's `componentConfig` option, or the CLI configuration's `components` field. Add named variants and sizes, choose defaults, and share the same configuration with `getAuthoringReference` for authoring suggestions. See [component presets](getting-started.html#component-presets) for the complete example.
+Build a reading room, a project brief, or an interactive field guide. These working examples show how Taildown's components compose—and give you the exact source to make them your own.
 
----
+[Open the editor](editor.html){button primary} [Read the syntax guide](syntax-guide.html){button secondary}
 
-## Quick Navigation {#nav bold primary}
+## Find your building block {#nav}
 
-Jump directly to any component category, or visit [Container](#container), [Tree](#tree), [Flow](#flow), [Code Diff](#diff), [Progress](#progress), [Avatar](#avatar), [Breadcrumb](#breadcrumb), [Pagination](#pagination), [Sidebar](#sidebar), [Skeleton](#skeleton), and [Footnotes](#footnotes).
+35 components, plus Markdown quotes, highlights and mathematics. Open **View source** beneath an example to inspect or copy it. The Fieldnotes names and measurements are illustrative.
 
-:::grid {2}
-:::card {subtle-glass padded center hover-lift href="#layout"}
-:icon[layout]{primary huge}
+| Family | Components |
+| --- | --- |
+| [Layout](#layout) | [Container](#container) · [Card](#card) · [Grid](#grid) · [Columns](#columns) · [Button](#button) · [Button group](#button-group) |
+| [Interaction](#interactive) | [Tabs](#tabs) · [Accordion](#accordion) · [Carousel](#carousel) · [Modal](#modal) · [Tooltip](#tooltip) · [Details](#details) |
+| [Feedback](#feedback) | [Alert](#alert) · [Badge](#badge) · [Progress](#progress) · [Skeleton](#skeleton) |
+| [Content](#content) | [Callout](#callout) · [Definitions](#definitions) · [Stats](#stats) · [Divider](#divider) · [Steps](#steps) · [Timeline](#timeline) · [Blockquote](#blockquote) · [Mark / highlight](#mark) · [Footnotes](#footnotes) |
+| [Navigation](#navigation) | [Navbar](#navbar) · [Breadcrumb](#breadcrumb) · [Pagination](#pagination) · [Sidebar](#sidebar) · [Avatar](#avatar) |
+| [Data & media](#data) | [Tree](#tree) · [Flow](#flow) · [Enhanced table](#table) · [Code diff](#diff) · [Image comparison](#compare-images) · [Mermaid](#mermaid) · [Math](#math) · [Video](#video) |
 
-**Layout** {large-bold}
-
-Card, Grid, Button Group
-:::
-
-:::card {subtle-glass padded center hover-lift href="#interactive"}
-:icon[activity]{success huge}
-
-**Interactive** {large-bold}
-
-Tabs, Accordion, Carousel
-:::
-
-:::card {subtle-glass padded center hover-lift href="#overlays"}
-:icon[message-square]{warning huge}
-
-**Overlays** {large-bold}
-
-Modal, Tooltip
-:::
-
-:::card {subtle-glass padded center hover-lift href="#feedback"}
-:icon[bell]{error huge}
-
-**Feedback** {large-bold}
-
-Alert, Badge, Progress
-:::
-
-:::card {subtle-glass padded center hover-lift href="#content"}
-:icon[file-text]{info huge}
-
-**Content** {large-bold}
-
-Details, Callout, Columns, Definitions, Stats, Divider, Steps, Mark
-:::
-
-:::card {subtle-glass padded center hover-lift href="#data"}
-:icon[table]{success huge}
-
-**Data & Comparison** {large-bold}
-
-Enhanced Tables, Image Comparison Slider, Mermaid Diagrams, Math Equations, Timeline
-:::
-
-:::card {subtle-glass padded center hover-lift href="#media"}
-:icon[video]{accent huge}
-
-**Media** {large-bold}
-
-Video Embeds
-:::
-:::
+The examples use the page theme. Change it with the theme control to compare light and dark surfaces. Styling words compose with component variants; [component presets](getting-started.html#component-presets) explain shared defaults and custom variants.
 
 ---
 
-## Layout Components {#layout huge-bold center primary}
+## Layout {#layout}
 
-**Organize and structure your content beautifully.**
+### Container {#container}
 
----
+Give a section a comfortable maximum width. Containers center and pad content; use a grid inside when you need columns.
 
-### Container {#container bold primary}
-
-Use a container to center a section and limit its reading width. It adds horizontal padding, not columns; combine it with a grid when the content also needs a column layout.
-
-Widths are `narrow` (42rem), `normal` (56rem), `wide` (72rem, the default), `extra-wide` (1536px), and `full` (100% maximum width). Size aliases `sm`, `md`, `lg`, and `xl` correspond to the first four widths. These are maximums: the container still fits its parent.
-
-```taildown
 :::container {narrow}
-A focused reading column gives a short passage room to breathe.
+:::card {bordered padded}
+#### A comfortable reading measure
+A container keeps a short field note from stretching across the entire screen. Its width is a maximum, so it still fits a smaller parent.
 :::
-```
+:::
 
-:::container {narrow id="container-reference-example"}
-A focused reading column gives a short passage room to breathe. Use a wider container for a dashboard or a grid of related items.
+:::details
+**View source**
+
+````taildown
+:::container {narrow}
+:::card {bordered padded}
+#### A comfortable reading measure
+A container keeps a short field note from stretching across the entire screen. Its width is a maximum, so it still fits a smaller parent.
 :::
+:::
+````
+:::
+
+**Options:** `extra-wide`, `full`, `lg`, `md`, `narrow`, `normal`, `sm`, `wide`, `xl`.
+
+Widths: `narrow` 42rem, `normal` 56rem, `wide` 72rem (default), `extra-wide` 1536px, `full` 100%. Size aliases `sm` / `md` / `lg` / `xl` select the first four widths. Nesting a wider container cannot make it wider than its parent.
+
+
+
+[Back to index](#nav){small}
 
 ---
 
-### Card {#card bold primary}
+### Card {#card}
 
-**Versatile content containers with glassmorphism effects.**
+Group related content with a surface that suits the document. Compare a quiet border, a raised surface, and a translucent treatment.
 
-#### Glassmorphism Variants {bold}
-
-:::grid {cols-3}
-:::card {subtle-glass padded}
-#### Subtle Glass
-
-Barely-there translucency with soft shadows.
-
-[Example](#){button primary small}
+:::grid {cols-3 gap-lg}
+:::card {bordered padded}
+:icon[book-open]{primary large}
+#### Reading room
+A clear outline keeps the emphasis on the words.
+[Explore layouts](#grid)
 :::
-
-:::card {light-glass padded}
-#### Light Glass
-
-Gentle frosted appearance with elegant borders.
-
-[Example](#){button primary small}
+:::card {elevated padded}
+:icon[layers]{primary large}
+#### Project collection
+A raised surface separates a group from its surroundings.
+[Explore interaction](#interactive)
 :::
-
 :::card {glass padded}
-#### Standard Glass
-
-Balanced translucency - the default choice.
-
-[Example](#){button primary small}
+:icon[sparkles]{primary large}
+#### Evening notes
+A translucent surface adds depth while preserving contrast.
+[Explore feedback](#feedback)
 :::
 :::
 
-:::grid {cols-2}
-:::card {heavy-glass padded}
-#### Heavy Glass
+:::details
+**View source**
 
-Pronounced frosted blur that makes a statement.
-
-[Example](#){button primary small}
+````taildown
+:::grid {cols-3 gap-lg}
+:::card {bordered padded}
+:icon[book-open]{primary large}
+#### Reading room
+A clear outline keeps the emphasis on the words.
+[Explore layouts](#grid)
 :::
-
-:::card {elevated padded rounded-xl}
-#### Elevated
-
-Classic elevated card with shadow instead of glass.
-
-[Example](#){button primary small}
+:::card {elevated padded}
+:icon[layers]{primary large}
+#### Project collection
+A raised surface separates a group from its surroundings.
+[Explore interaction](#interactive)
 :::
-:::
-
-#### Rich Content Example {bold}
-
-:::card {light-glass padded-xl}
-#### :icon[sparkles]{warning} Feature Showcase Card
-
-Cards support any content: headings, paragraphs, lists, images, icons, and nested components.
-
-**Key Features:**
-- :icon[check]{success} Automatic glassmorphism styling
-- :icon[check]{success} Responsive padding variants
-- :icon[check]{success} Perfect dark mode support
-- :icon[check]{success} Full nesting support
-
-:::alert {info}
-:icon[lightbulb]{warning} Cards work perfectly with all other components!
-:::
-
-:::button-group
-[Primary Action](#){button primary} [Secondary](#){button secondary}
-:::
-:::
-
-#### Clickable Cards {bold}
-
-Make entire cards clickable by adding an `href` attribute - modern UX best practice!
-
-:::grid {cols-2}
-:::card {light-glass padded hover-lift href="#layout"}
-#### :icon[mouse-pointer]{primary} Clickable Navigation Card
-
-The entire card is a link! This is the modern approach for navigation cards - no visible link styling, just an intuitive clickable surface.
-
-Try hovering over this card - the whole thing responds!
-:::
-
-:::card {subtle-glass padded hover-lift href="#interactive"}
-#### :icon[hand]{success} Interactive Card Link
-
-Click anywhere on this card to navigate. The `hover-lift` variant provides visual feedback on hover.
-
-**Syntax:**
-```
-:::card {glass hover-lift href="#target"}
-Content here
-:::
-```
-:::
-:::
-
-**Benefits:**
-- :icon[check]{success} Larger click target (better UX)
-- :icon[check]{success} No distracting link underlines
-- :icon[check]{success} Entire card provides visual feedback
-- :icon[check]{success} Modern, clean aesthetic
-
-#### Syntax & Variants {bold}
-
-```taildown
 :::card {glass padded}
-Your content here
+:icon[sparkles]{primary large}
+#### Evening notes
+A translucent surface adds depth while preserving contrast.
+[Explore feedback](#feedback)
+:::
+:::
+````
 :::
 
-:::card {subtle-glass padded-xl rounded-xl hover-lift}
-Card with multiple attributes
-:::
+**Options:** `bordered`, `elevated`, `flat`, `floating`, `glass`, `heavy-glass`, `interactive`, `lg`, `light-glass`, `md`, `outlined`, `sm`, `subtle-glass`, `xl`.
 
-:::card {glass padded hover-lift href="#destination"}
-Clickable card - entire card is a link
-:::
-```
+Glass strengths run from `subtle-glass` through `light-glass`, `glass`, and `heavy-glass`. `href="…"` turns a whole card into a link; use that for a single destination and avoid nested interactive controls. Padding, colors, borders, typography and hover effects can be composed with [styling words](plain-english.html).
 
-**Glass Variants:** `subtle-glass` `light-glass` `glass` `heavy-glass`
 
-**Padding:** `padded-sm` `padded` `padded-lg` `padded-xl`
 
-**Effects:** `elevated` `floating` `hover-lift` `rounded` `rounded-lg` `rounded-xl`
-
-**Clickable:** Add `href="#target"` to make entire card a link
-
-[Back to top](#top){badge primary}
+[Back to index](#nav){small}
 
 ---
 
-### Grid {#grid bold primary}
+### Grid {#grid}
 
-**Responsive column layouts with automatic equal-height columns.**
+Arrange independent items into responsive tracks. Unlike columns, a grid keeps each child together.
 
-Choose `cols-1` through `cols-5` (or the equivalent bare numbers `1` through `5`). Grids start with one column on small screens. Two-column grids expand at 640px, three-column grids at 768px, and four/five-column grids add columns progressively. With no column attribute, the default is three. Combine a column choice with `tight`, `normal`, `loose`, or `extra-loose` spacing.
-
-For precise control, add breakpoint utilities such as `{cols-3 sm:grid-cols-2 lg:grid-cols-4}`: one column below 640px, two from 640px, and four from 1024px. Explicit breakpoint choices override the automatic column progression. All counts from `grid-cols-1` through `grid-cols-5` work with `sm:`, `md:`, `lg:`, `xl:`, and `2xl:` (640, 768, 1024, 1280, and 1536px).
-
-```taildown
-:::grid {cols-2 loose}
-:::card
-First column
-:::
-:::card
-Second column
-:::
-:::
-```
-
-#### Column Examples {bold}
-
-**2 Columns:**
-
-:::grid {2}
-:::card {subtle-glass padded}
-#### :icon[zap]{warning} Column 1
-
-Equal height columns automatically adjust to match the tallest sibling.
-:::
-
-:::card {subtle-glass padded}
-#### :icon[heart]{error} Column 2
-
-This column has more content to demonstrate the equal-height behavior. Notice how both columns maintain the same height regardless of content length. This creates a clean, professional grid layout without manual height adjustments.
-:::
-:::
-
-**3 Columns:**
-
-:::grid {3}
-:::card {subtle-glass padded center}
-:icon[code]{primary huge}
-
-**Developer Friendly** {bold}
-
-Plain English syntax that just makes sense.
-:::
-
-:::card {subtle-glass padded center}
-:icon[palette]{success huge}
-
-**Beautiful Design** {bold}
-
-Zero-config professional aesthetics.
-:::
-
-:::card {subtle-glass padded center}
-:icon[zap]{warning huge}
-
-**Lightning Fast** {bold}
-
-Sub-100ms compilation targets.
-:::
-:::
-
-**4 Columns:**
-
-:::grid {4}
-:::card {subtle-glass padded center}
-:icon[home]{primary}
-
-**Home**
-:::
-
-:::card {subtle-glass padded center}
-:icon[search]{success}
-
-**Search**
-:::
-
-:::card {subtle-glass padded center}
-:icon[settings]{warning}
-
-**Settings**
-:::
-
-:::card {subtle-glass padded center}
-:icon[user]{error}
-
-**Profile**
-:::
-:::
-
-#### Nested Grids {bold}
-
-:::grid {2}
+:::grid {cols-3 gap-lg}
 :::card {light-glass padded}
-#### Main Content
+**01 / OBSERVE** {small primary}
 
-:::grid {2}
-:::card {subtle-glass padded center}
-:icon[check]{success}
-
-Nested 1
+Notice what deserves attention.
 :::
-
-:::card {subtle-glass padded center}
-:icon[check]{success}
-
-Nested 2
-:::
-:::
-:::
-
 :::card {light-glass padded}
-#### Sidebar
+**02 / CONNECT** {small primary}
 
-Grids can be nested infinitely for complex layouts that maintain equal heights throughout.
+Bring the related ideas together.
+:::
+:::card {light-glass padded}
+**03 / SHARE** {small primary}
+
+Give the reader a useful next step.
 :::
 :::
 
-#### Syntax & Variants {bold}
+:::details
+**View source**
 
-```taildown
-:::grid {2}
-:::card
-Column 1
+````taildown
+:::grid {cols-3 gap-lg}
+:::card {light-glass padded}
+**01 / OBSERVE** {small primary}
+
+Notice what deserves attention.
+:::
+:::card {light-glass padded}
+**02 / CONNECT** {small primary}
+
+Bring the related ideas together.
+:::
+:::card {light-glass padded}
+**03 / SHARE** {small primary}
+
+Give the reader a useful next step.
+:::
+:::
+````
 :::
 
-:::card
-Column 2
-:::
-:::
+**Options:** `1`, `2`, `3`, `4`, `5`, `cols-1`, `cols-2`, `cols-3`, `cols-4`, `cols-5`, `extra-loose`, `loose`, `normal`, `tight`.
 
-:::grid {3 gap-lg}
-Three columns with large gap
-:::
-```
+Column counts `1`–`5` (or `cols-1`–`cols-5`) provide responsive defaults. Use `gap-sm`, `gap`, `gap-lg`, or `gap-xl` for spacing. Resize the page: the cards stack at narrow widths.
 
-**Columns:** `2` `3` `4`
 
-**Gaps:** `gap-sm` `gap` `gap-lg`
 
-[Back to top](#top){badge primary}
+[Back to index](#nav){small}
 
 ---
 
-### Button Group {#button-group bold primary}
+### Columns {#columns}
 
-**Intelligent button layout with centering and mobile stacking.**
+Let prose flow between columns, like a magazine. Use this for continuous reading rather than independent cards.
 
-Use `{button error}` or `{button destructive}` for the same error-colored action. Both names appear in the editor's button attribute suggestions. Other status variants include `success`, `warning`, and `info`.
+:::columns {2 gap-lg divider}
+A field notebook is a place to notice before deciding. Keep the first observation simple: what changed, what remained, and what deserves a closer look?
 
-[Remove item](#button-group){button error} [Review warning](#button-group){button warning}
+The second reading is different. Patterns begin to appear, and a few details become more useful than the rest. Leave enough space for those details to stand out.
 
-#### Alignment Variants {bold}
+When the note is ready to share, retain the observations that support it. A clear record lets another reader follow the same path and reach their own conclusion.
+:::
 
-:::card {subtle-glass padded}
-**Left Aligned:**
+:::details
+**View source**
+
+````taildown
+:::columns {2 gap-lg divider}
+A field notebook is a place to notice before deciding. Keep the first observation simple: what changed, what remained, and what deserves a closer look?
+
+The second reading is different. Patterns begin to appear, and a few details become more useful than the rest. Leave enough space for those details to stand out.
+
+When the note is ready to share, retain the observations that support it. A clear record lets another reader follow the same path and reach their own conclusion.
+:::
+````
+:::
+
+**Options:** `2`, `3`, `4`, `auto`, `balanced`, `divider`, `gap`, `gap-lg`, `gap-sm`, `gap-xl`.
+
+`2`, `3`, `4` and `auto` control the column layout. `divider` adds a rule between columns; `balanced` balances column heights. Prefer [Grid](#grid) when a heading and its card must stay together.
+
+
+
+[Back to index](#nav){small}
+
+---
+
+### Button {#button}
+
+Make a link read as an action. These examples navigate to real sections of this reference.
 
 :::button-group {left}
-[Start](#){button primary} [Progress](#){button secondary} [End](#){button info}
+[Start with a card](#card){button primary}
+[Read the syntax](syntax-guide.html){button secondary}
+[See the source workflow](#authoring){button outline}
 :::
+
+:::details
+**View source**
+
+````taildown
+:::button-group {left}
+[Start with a card](#card){button primary}
+[Read the syntax](syntax-guide.html){button secondary}
+[See the source workflow](#authoring){button outline}
+:::
+````
+:::
+
+**Options:** `accent`, `destructive`, `error`, `ghost`, `info`, `lg`, `link`, `md`, `outline`, `primary`, `secondary`, `sm`, `success`, `warning`, `xl`.
+
+Apply `{button …}` to a Markdown link to retain native navigation and keyboard behavior. A block `:::button` without a link is a native button; it needs application behavior to perform an action. Styling a label does not invent a save, payment or submission workflow.
+
+
+
+[Back to index](#nav){small}
 
 ---
 
-**Centered (default):**
+### Button group {#button-group}
 
-:::button-group
-[Option A](#){button primary} [Option B](#){button secondary} [Option C](#){button info}
+Keep related actions together, with wrapping and a usable narrow-screen layout.
+
+:::button-group {left sm}
+[Components](#nav){button primary}
+[Examples](#combinations){button outline}
+[Open editor](editor.html){button ghost}
 :::
+
+:::details
+**View source**
+
+````taildown
+:::button-group {left sm}
+[Components](#nav){button primary}
+[Examples](#combinations){button outline}
+[Open editor](editor.html){button ghost}
+:::
+````
+:::
+
+**Options:** `center`, `default`, `left`, `lg`, `md`, `right`, `sm`, `stack`.
+
+Choose `left`, `center` or `right` alignment, or `stack` for a vertical arrangement. `sm`, `md` and `lg` control group spacing. The group arranges its children; each link or button retains its own behavior.
+
+
+
+[Back to index](#nav){small}
 
 ---
 
-**Right Aligned:**
+## Interaction {#interactive}
 
-:::button-group {right}
-[Save Draft](#){button secondary} [Publish](#){button primary}
-:::
-:::
+### Tabs {#tabs}
 
-#### Size Variants {bold}
-
-:::card {subtle-glass padded}
-**Small Gap:**
-
-:::button-group {sm}
-[Compact](#){button primary small} [Layout](#){button secondary small} [Here](#){button info small}
-:::
-
----
-
-**Medium Gap (default):**
-
-:::button-group
-[Standard](#){button primary} [Spacing](#){button secondary} [Works](#){button info}
-:::
-
----
-
-**Large Gap:**
-
-:::button-group {lg}
-[Spacious](#){button primary large} [Layout](#){button secondary large}
-:::
-:::
-
-#### Responsive Behavior {bold}
-
-:::card {light-glass padded}
-**Desktop:** Horizontal layout with auto-sizing and proper gaps
-
-**Mobile:** Automatically stacks vertically with full-width buttons for better touch targets
-
-**Try resizing your browser to see it in action!**
-
-:::button-group
-[Mobile](#){button primary large} [Friendly](#){button secondary large} [Layout](#){button success large}
-:::
-:::
-
-#### Syntax & Variants {bold}
-
-```taildown
-:::button-group
-[Primary](#){button primary large}
-[Secondary](#){button secondary large}
-:::
-
-:::button-group {right lg}
-Right-aligned with large gaps
-:::
-```
-
-**Alignment:** `left` `center` `right` `stack`
-
-**Sizes:** `sm` `md` `lg`
-
-[Back to top](#top){badge primary}
-
----
-
-## Interactive Components {#interactive huge-bold center primary}
-
-**Components with built-in JavaScript behaviors - zero configuration required.**
-
----
-
-### Tabs {#tabs bold primary}
-
-**Tabbed interface using headings as labels.**
-
-#### Live Example {bold}
-
-:::container
-:::tabs
-### :icon[home]{primary} Overview
-
-Tabs use headings (h2 or h3) as labels. Everything between headings becomes panel content.
-
-**Features:**
-- :icon[check]{success} First tab active by default
-- :icon[check]{success} Click or keyboard navigation (arrow keys)
-- :icon[check]{success} Smooth transitions
-- :icon[check]{success} Full ARIA accessibility
-
-### :icon[code]{success} Syntax
-
-Simple, intuitive syntax:
-
-```taildown
-:::tabs
-## First Tab
-Content for first tab
-
-## Second Tab
-Content for second tab
-
-## Third Tab
-Content for third tab
-:::
-```
-
-### :icon[sparkles]{warning} Rich Content
-
-Tabs support full Taildown syntax:
-
-- **Bold** and *emphasis*
-- `Code snippets`
-- [Links](#) and buttons
-- :icon[heart]{error} Icons
-- Nested components!
-
-:::alert {info}
-:icon[lightbulb]{warning} Even alerts work inside tabs!
-:::
-
-### :icon[palette]{error} Nested Components
-
-Complex layouts inside tabs:
-
-:::grid {cols-2}
-:::card {subtle-glass padded}
-**Left Column**
-
-Cards work perfectly
-:::
-
-:::card {subtle-glass padded}
-**Right Column**
-
-Grids too!
-:::
-:::
-:::
-:::
-
-#### Usage Summary {bold}
-
-```taildown
-:::tabs
-## First Tab
-Content
-
-## Second Tab
-More content
-:::
-```
-
-**Key Points:**
-- H2 or H3 headings become tab labels (not H4!)
-- First tab automatically active
-- Supports all markdown and components
-- Mobile-responsive wrapping
-
-#### Pills and Minimal Tabs {bold}
-
-Use `{pills}` for rounded tab controls or `{minimal}` for a quieter underline treatment. The heading-to-panel structure and keyboard behavior stay the same.
-
-```taildown
-:::tabs {pills}
-## Read
-Start with the main idea.
-
-## Practice
-Try it with your own content.
-:::
-```
+Offer related views without making the reader lose their place. Headings become tab labels; the content beneath each heading becomes its panel.
 
 :::tabs {pills}
-## Read
-Start with the main idea.
-
-## Practice
-Try it with your own content.
-:::
-
-Change the opening line to `:::tabs {minimal}` for this presentation:
-
-:::tabs {minimal}
 ## Overview
-A restrained style works well inside a documentation page.
+#### Fieldnotes / Issue 04
+A collection of observations about making useful things.
 
-## Notes
-Keep secondary information close to its context.
-:::
+:badge[Ready to read]{success}
+## Contents
+- A place to begin
+- The value of a rough draft
+- Leaving room for another idea
+## Details
+:::definitions {compact}
+**Format** {term}
+: A portable HTML document
 
-[Back to top](#top){badge primary}
-
----
-
-### Accordion {#accordion bold primary}
-
-**Expandable sections using bold text as triggers.**
-
-#### Live Example {bold}
-
-:::accordion
-**What is an accordion?**
-An accordion is a vertically stacked list where each item expands to reveal content. The first item is open by default. Click any trigger to expand/collapse.
-
-**How do I create one?**
-Use `:::accordion` fences and **bold text** for triggers. Everything between triggers becomes panel content.
-
-**What content is supported?**
-Everything! Full markdown, components, icons, images - the entire Taildown syntax works inside accordion panels.
-
-**Can I nest components?**
-Absolutely! Here's a card inside an accordion:
-
-:::card {subtle-glass padded}
-#### Nested Card Example
-
-This card lives inside an accordion panel with full styling support.
-
-:::alert {success}
-:icon[check]{success} Alerts work here too!
+**Source** {term}
+: An editable Taildown file
 :::
 :::
 
-**How is accessibility handled?**
-Accordions include proper ARIA attributes (`aria-expanded`, `aria-controls`) and full keyboard navigation for screen readers.
-:::
+:::details
+**View source**
 
-#### Complex Content Example {bold}
+````taildown
+:::tabs {pills}
+## Overview
+#### Fieldnotes / Issue 04
+A collection of observations about making useful things.
 
-:::accordion
-**:icon[zap]{warning} Performance**
+:badge[Ready to read]{success}
+## Contents
+- A place to begin
+- The value of a rough draft
+- Leaving room for another idea
+## Details
+:::definitions {compact}
+**Format** {term}
+: A portable HTML document
 
-Optimized for speed:
-- :icon[check]{success} Sub-100ms compilation
-- :icon[check]{success} Tree-shaking for minimal JS
-- :icon[check]{success} GPU-accelerated animations
-- :icon[check]{success} Minimal runtime overhead
-
-**:icon[heart]{error} Design System**
-
-Beautiful by default:
-
-:::grid {cols-3}
-:::card {subtle-glass padded center}
-:icon[sparkles]{warning}
-
-**Glass**
-
-Glassmorphism
-:::
-
-:::card {subtle-glass padded center}
-:icon[sun]{warning}
-
-**Light**
-
-Light mode
-:::
-
-:::card {subtle-glass padded center}
-:icon[moon]{primary}
-
-**Dark**
-
-Dark mode
+**Source** {term}
+: An editable Taildown file
 :::
 :::
-
-**:icon[code]{primary} Developer Experience**
-
-Simple syntax:
-
-```taildown
-:::accordion
-**Section Title**
-Section content here
-:::
-```
-
-Clean, intuitive, and powerful!
+````
 :::
 
-#### Usage Summary {bold}
+**Options:** `boxed`, `default`, `glass`, `lg`, `md`, `minimal`, `pills`, `sm`.
 
-```taildown
-:::accordion
-**First Section**
-Content (open by default)
+Compare the default strip with `pills` and `minimal`. Arrow keys move between tabs; Home and End select the first and last. Tab then enters the selected panel. Keep tab labels concise and use nested tabs only when the content needs another independent choice.
 
-**Second Section**
-More content
 
-**Third Section**
-Even more content
-:::
-```
 
-**Key Points:**
-- Bold text paragraphs become triggers
-- First item open by default
-- Click to expand/collapse
-- Full ARIA support
-
-[Back to top](#top){badge primary}
+[Back to index](#nav){small}
 
 ---
 
-### Carousel {#carousel bold primary}
+### Accordion {#accordion}
 
-Use `{autoplay}` for automatic advancement every five seconds. A visible Play/Pause control lets readers stop it. Hover temporarily pauses playback; keyboard focus pauses it until Play is chosen again. Reduced-motion preference starts the carousel paused, and hidden tabs do not advance.
+Make a short collection of questions easy to scan. Bold opening paragraphs become controls; the following content is the answer.
 
-**Slideshow with navigation, indicators, and 3D card effects.**
+:::accordion {separated}
+**Can I keep the source?**
 
-#### Feature Showcase {bold}
+Yes. The `.td` file stays editable, and the HTML export is a separate artifact.
 
-:::carousel
-:::card {heavy-glass padded-xl center}
-:icon[zap]{warning huge}
+**What works offline?**
 
-**Lightning Fast** {huge-bold}
+Embedded styles and interactive behavior travel with the export. Authored remote images, videos and URLs still need their hosts.
 
-Taildown compiles in milliseconds with sub-100ms targets. {large-muted}
+**Can I combine components?**
 
-:::button-group
-[Learn More](#){button primary large} [Benchmarks](#){button secondary}
-:::
+Yes. Put a callout inside a panel, or pair a grid with a set of details. Each control keeps ownership of its own interaction.
 :::
 
----
+:::details
+**View source**
 
-:::card {heavy-glass padded-xl center}
-:icon[heart]{error huge}
+````taildown
+:::accordion {separated}
+**Can I keep the source?**
 
-**Zero Config Beautiful** {huge-bold}
+Yes. The `.td` file stays editable, and the HTML export is a separate artifact.
 
-Every component is gorgeous by default with glassmorphism. {large-muted}
+**What works offline?**
 
-:::button-group
-[Examples](#){button primary large} [Style Guide](#){button secondary}
+Embedded styles and interactive behavior travel with the export. Authored remote images, videos and URLs still need their hosts.
+
+**Can I combine components?**
+
+Yes. Put a callout inside a panel, or pair a grid with a set of details. Each control keeps ownership of its own interaction.
 :::
+````
 :::
 
----
+**Options:** `bordered`, `default`, `flush`, `lg`, `md`, `separated`, `sm`.
 
-:::card {heavy-glass padded-xl center}
-:icon[code]{primary huge}
+`bordered`, `separated` and `flush` change the grouping. Activate each heading with Enter or Space. Use [Details](#details) for a single disclosure instead of creating an accordion with one item.
 
-**Plain English** {huge-bold}
 
-Style with natural language: `large-bold`, `subtle-glass`. {large-muted}
 
-:::button-group
-[Syntax](#){button primary large} [Get Started](#){button secondary}
-:::
-:::
+[Back to index](#nav){small}
 
 ---
 
-:::card {heavy-glass padded-xl center}
-:icon[package]{success huge}
+### Carousel {#carousel}
 
-**Interactive Components** {huge-bold}
+Present a short sequence one panel at a time. A horizontal rule separates slides.
 
-Tabs, accordions, modals with auto-generated JavaScript. {large-muted}
+:::carousel {indicators}
+#### 01 / A question
+What is the smallest useful thing this page can say?
 
-:::button-group
-[Components](#){button primary large} [Docs](#){button secondary}
-:::
-:::
-:::
-
-#### Simple Content Example {bold}
-
-:::container
-:::carousel
-:::card {light-glass padded-xl center}
-:icon[image]{primary huge}
-
-**Slide 1** {huge-bold}
-
-Create stunning visual presentations easily. {large-muted}
-:::
+:icon[lightbulb]{large primary}
 
 ---
 
-:::card {light-glass padded-xl center}
-:icon[video]{success huge}
+#### 02 / An observation
+Write down the detail that changes the answer.
 
-**Slide 2** {huge-bold}
-
-Embed any media type or content. {large-muted}
-:::
+:icon[notebook-pen]{large primary}
 
 ---
 
-:::card {light-glass padded-xl center}
-:icon[music]{warning huge}
+#### 03 / A next step
+Leave the reader with somewhere meaningful to go.
 
-**Slide 3** {huge-bold}
-
-Build multimedia experiences effortlessly. {large-muted}
-:::
-:::
+[Explore composition](#combinations){button primary}
 :::
 
-#### Usage Summary {bold}
+:::details
+**View source**
 
-```taildown
-:::carousel
-First slide content
+````taildown
+:::carousel {indicators}
+#### 01 / A question
+What is the smallest useful thing this page can say?
 
----
-
-Second slide content
+:icon[lightbulb]{large primary}
 
 ---
 
-Third slide content
-:::
-```
+#### 02 / An observation
+Write down the detail that changes the answer.
 
-**Features:**
-- Horizontal rules (`---`) divide slides
-- Previous/next navigation buttons
-- Indicator dots
-- Keyboard navigation (arrow keys)
-- Swipe support on touch devices
-- 3D card effects with glassmorphism
-
-[Back to top](#top){badge primary}
+:icon[notebook-pen]{large primary}
 
 ---
 
-## Overlay Components {#overlays huge-bold center primary}
+#### 03 / A next step
+Leave the reader with somewhere meaningful to go.
 
-**Create stunning modals and tooltips with zero configuration - just add an attribute.**
-
-:::grid {3}
-:::card {glass padded center}
-:icon[layers]{primary huge}
-
-**Modals** {large-bold}
-
-Overlay dialogs with backdrop blur, focus management, and accessibility built-in.
+[Explore composition](#combinations){button primary}
+:::
+````
 :::
 
-:::card {light-glass padded center}
-:icon[message-circle]{info huge}
+**Options:** `autoplay`, `default`, `fade`, `full`, `indicators`, `lg`, `md`, `slide`, `sm`, `xl`.
 
-**Tooltips** {large-bold}
+Use the arrow controls, dot controls, or keyboard navigation. This example starts paused. The `autoplay` variant starts playback unless reduced motion is requested; keep its pause control available. Avoid hiding essential instructions in a carousel. Test the exported document when slides contain other interactive controls.
 
-Contextual help on hover or click. Perfect for definitions, hints, and extra context.
-:::
 
-:::card {subtle-glass padded center}
-:icon[zap]{warning huge}
 
-**Zero Config** {large-bold}
-
-No JavaScript setup required. Just add `modal="..."` or `tooltip="..."` to any element.
-:::
-:::
+[Back to index](#nav){small}
 
 ---
 
-### Modal {#modal bold primary}
+### Modal {#modal}
 
-**Powerful overlay dialogs that work beautifully across all devices.**
+Keep a short secondary task or explanation nearby. Define a dialog with an ID, then attach a trigger to that ID.
 
-:::card {glass padded}
-### :icon[sparkles]{primary} Quick Start {bold}
+[Read the publishing note](#modal){button primary modal="#publishing-note"}
 
-The simplest modal is just one attribute:
-
-[Try Simple Modal](#){button primary modal="Success! This is an inline modal. Click anywhere outside or press Escape to close."}
-
-```taildown
-[Click Me](#){button primary modal="Your message here"}
-```
-
-**Perfect for:** Alerts, confirmations, simple messages
-:::
-
-#### Rich Content Modals {bold}
-
-For complex layouts with markdown, components, and interactivity, use ID-referenced modals:
-
-:::grid {3}
-[Welcome Dialog](#){button primary large hover-lift modal="#welcome-modal"}
-[Feature Tour](#){button info large hover-lift modal="#feature-modal"}
-[Pricing Details](#){button success large hover-lift modal="#pricing-modal"}
-:::
-
-:::modal{id="welcome-modal"}
-### :icon[sparkles]{warning} Welcome to Taildown! {center}
-
-The future of content markup is here. {large-muted center}
-
-:::grid {2}
-:::card {subtle-glass padded}
-:icon[code]{primary}
-
-**Plain English** {bold}
-
-Natural syntax that reads like regular text. No cryptic class names.
-:::
-
-:::card {subtle-glass padded}
-:icon[layers]{success}
-
-**Zero Config** {bold}
-
-Beautiful by default. No setup, no build tools, no configuration files.
-:::
-
-:::card {subtle-glass padded}
-:icon[zap]{warning}
-
-**Lightning Fast** {bold}
-
-Compiles to pure HTML, CSS, and vanilla JS. No framework overhead.
-:::
-
-:::card {subtle-glass padded}
-:icon[check-circle]{info}
-
-**Production Ready** {bold}
-
-Battle-tested syntax with comprehensive test coverage.
-:::
-:::
-
-[Get Started](getting-started.html){button primary large} [View Examples](syntax-guide.html){button secondary large}
-:::
-
-:::modal{id="feature-modal"}
-### :icon[layers]{primary} Feature Highlights
-
-Everything you need to create modern, responsive content:
-
-- :icon[check]{success} **Components**: Cards, grids, tabs, accordions, carousels, modals, tooltips
-- :icon[check]{success} **Styling**: Plain English shorthands like `large-bold`, `center`, `glass-effect`
-- :icon[check]{success} **Icons**: 1000+ Lucide icons with `:icon[name]{attributes}` syntax
-- :icon[check]{success} **Interactive**: Tabs, accordions, carousels with automatic JavaScript generation
-- :icon[check]{success} **Responsive**: Mobile-first with smart breakpoints
-- :icon[check]{success} **Accessible**: ARIA attributes and keyboard navigation built-in
-
-:::alert {info}
-:icon[lightbulb]{warning} **Pro Tip:** You can nest any Taildown content inside modals - even other components!
-:::
-:::
-
-:::modal{id="pricing-modal"}
-### :icon[dollar-sign]{success} Simple Pricing
-
-:icon[gift]{success huge} {center}
-
-**100% Free & Open Source** {huge-bold center}
-
-Forever. No hidden costs, no premium tiers. {large-muted center}
-
-:::grid {3}
-:::card {padded center}
-:icon[check]{success}
-
-**MIT Licensed**
-:::
-
-:::card {padded center}
-:icon[check]{success}
-
-**No Watermarks**
-:::
-
-:::card {padded center}
-:icon[check]{success}
-
-**Commercial Use OK**
-:::
-:::
-
-[View on GitHub](#){button primary large} [Read Docs](#){button secondary large}
-:::
-
-#### Shared Modals {bold}
-
-Define once, trigger from anywhere. Perfect for reusable content:
-
-:::card {light-glass padded}
-[Trigger A](#){button primary modal="#shared-content"} [Trigger B](#){button secondary modal="#shared-content"} [Trigger C](#){button info modal="#shared-content"} [Trigger D](#){button success modal="#shared-content"}
-
-**All four buttons open the same modal** {muted}
-:::
-
-:::modal{id="shared-content"}
-### :icon[users]{primary} Shared Modal
-
-This modal is defined once but can be triggered by any number of elements throughout your document.
-
-**Benefits:**
-- :icon[check]{success} DRY principle - Don't Repeat Yourself
-- :icon[check]{success} Single source of truth for content
-- :icon[check]{success} Easy to maintain and update
-- :icon[check]{success} Better performance (content only rendered once)
-- :icon[check]{success} Consistent user experience
-
-```taildown
-[Button 1](#){button modal="#shared"}
-[Button 2](#){button modal="#shared"}
-
-:::modal{id="shared"}
-Content defined once
-:::
-```
-:::
-
-#### Modal Syntax Reference {bold}
-
-:::grid {2}
-:::card {padded}
-#### Inline Modals {bold}
-
-```taildown
-[Button](#){button modal="Simple text"}
-[Link](#){modal="Also works on links"}
-```
-
-**Best for:** Short messages, alerts, confirmations
-:::
-
-:::card {padded}
-#### ID-Referenced Modals {bold}
-
-```taildown
-[Open](#){button modal="#my-modal"}
-
-:::modal{id="my-modal"}
-# Full Markdown Support
-With components, styling, everything!
-:::
-```
-
-**Best for:** Rich content, complex layouts, reusable modals
-:::
-:::
-
-:::card {elevated padded}
-### :icon[shield]{success} Accessibility Features {bold}
-
-Modals include enterprise-grade accessibility out of the box:
-
-- :icon[check]{success} **Focus trap**: Tab stays within modal when open
-- :icon[check]{success} **Escape key**: Press ESC to close
-- :icon[check]{success} **Backdrop click**: Click outside to dismiss
-- :icon[check]{success} **Body scroll lock**: Prevents scrolling main content
-- :icon[check]{success} **ARIA attributes**: Proper roles and labels for screen readers
-- :icon[check]{success} **Keyboard navigation**: Full keyboard support
-:::
-
-[Back to top](#top){badge primary}
-
----
-
-### Tooltip {#tooltip bold primary}
-
-**Contextual help that appears on hover or click. Perfect for hints, definitions, and extra context.**
-
-:::card {glass padded}
-### :icon[message-circle]{info} Quick Start {bold}
-
-Add tooltips to any element with one attribute:
-
-Hover over [this text](#){tooltip="Simple tooltip content!"} or [this link](#){primary tooltip="Tooltips provide context without cluttering your UI."} to see tooltips in action.
-
-```taildown
-[Hover me](#){tooltip="Helpful information"}
-```
-
-**Perfect for:** Help text, definitions, extra context, hints
-:::
-
-#### Tooltip Showcase {bold}
-
-:::grid {2}
-:::card {light-glass padded}
-**On Buttons** {bold}
-
-[Need Help?](#){button primary tooltip="This button submits your form after validation."} [Cancel](#){button secondary tooltip="Discard changes and return to the previous page."}
-:::
-
-:::card {light-glass padded}
-**On Badges** {bold}
-
-Status: [Active](#){badge success tooltip="Service is running normally"} [Beta](#){badge warning tooltip="Feature is in beta testing"} [v2.1.0](#){badge info tooltip="Latest stable release"}
-:::
-
-:::card {subtle-glass padded}
-**On Icons** {bold}
-
-:icon[help-circle]{primary tooltip="Click for help documentation"}
-:icon[settings]{muted tooltip="Open settings panel"}
-:icon[info]{info tooltip="View additional information"}
-:::
-
-:::card {subtle-glass padded}
-**In Text** {bold}
-
-The API uses REST[?](#){badge primary tooltip="REpresentational State Transfer - architectural style for distributed systems"} architecture with JSON[?](#){badge primary tooltip="JavaScript Object Notation - lightweight data format"} payloads.
-:::
-:::
-
-#### Rich Content Tooltips {bold}
-
-For complex tooltip content, use ID references:
-
-:::card {padded}
-Hover over [this badge](#){badge info tooltip="#rich-tooltip-demo"} for a rich tooltip with full markdown support.
-
-[Another trigger](#){primary tooltip="#rich-tooltip-demo"} can reference the same tooltip content.
-:::
-
-:::tooltip{id="rich-tooltip-demo"}
-**Rich Tooltip Example** {large-bold}
-
-Tooltips support full markdown:
-- Bulleted lists
-- `Code examples`
-- *Emphasis* and **bold text**
-- Even [links](#) work!
-
-Perfect for detailed explanations.
-:::
-
-#### Multiple Triggers {bold}
-
-Share one tooltip across multiple triggers for consistency:
-
-:::card {light-glass padded}
-Technical terms: API[?](#){badge primary tooltip="#api-definition"}, REST[?](#){badge primary tooltip="#api-definition"}, endpoint[?](#){badge primary tooltip="#api-definition"}, JSON[?](#){badge primary tooltip="#api-definition"}
-
-All four terms share the same tooltip definition.
-:::
-
-:::tooltip{id="api-definition"}
-**API Terminology** {bold}
-
-These terms relate to Application Programming Interface design and implementation using RESTful architecture patterns.
-:::
-
-#### Tooltip Syntax Reference {bold}
-
-:::grid {2}
-:::card {padded}
-#### Inline Tooltips {bold}
-
-```taildown
-[Text](#){tooltip="Help text"}
-[Button](#){button tooltip="Hint"}
-[Badge](#){badge tooltip="Info"}
-```
-
-**Best for:** Short hints, simple definitions
-:::
-
-:::card {padded}
-#### ID-Referenced Tooltips {bold}
-
-```taildown
-[Term 1](#){tooltip="#def"}
-[Term 2](#){tooltip="#def"}
-
-:::tooltip{id="def"}
-**Definition** with full markdown
-:::
-```
-
-**Best for:** Complex content, shared definitions
-:::
-:::
-
-:::card {elevated padded}
-### :icon[shield]{info} Tooltip Features {bold}
-
-Professional tooltips with excellent UX:
-
-- :icon[check]{info} **Smart positioning**: Auto-positions to stay in viewport
-- :icon[check]{info} **Hover and keyboard focus**: Shows on hover or visible keyboard focus
-- :icon[check]{info} **Keyboard controls**: Escape dismisses; Enter/Space toggle icon and text controls
-- :icon[check]{info} **Click on mobile**: Touch-friendly behavior
-- :icon[check]{info} **Fade animations**: Smooth appearance and dismissal
-- :icon[check]{info} **ARIA attributes**: `aria-describedby` for screen readers
-- :icon[check]{info} **Attaches to anything**: Works on any element
-:::
-
-:::card {glass padded}
-### :icon[lightbulb]{warning} Best Practices {bold}
-
-**Do:**
-- :icon[check]{success} Use for supplementary information
-- :icon[check]{success} Keep tooltips concise (or use ID references for longer content)
-- :icon[check]{success} Ensure tooltip text is meaningful
-- :icon[check]{success} Use consistent terminology
-
-**Don't:**
-- :icon[x]{error} Put critical information only in tooltips
-- :icon[x]{error} Use tooltips for interactive content (use modals instead)
-- :icon[x]{error} Nest tooltips inside other tooltips
-- :icon[x]{error} Overuse - not everything needs a tooltip
-:::
-
-[Back to top](#top){badge primary}
-
----
-
-## Feedback Components {#feedback huge-bold center primary}
-
-**Display messages, status, and notifications.**
-
----
-
-### Alert {#alert center bold primary}
-
-Alerts support multiple paragraphs, lists, and headings in normal reading order. Their status text adapts to the active theme and stays readable over the tinted background, including inside cards.
-
-**Semantic message boxes with theming and icons.**
-
-#### All Variants {bold}
-
-:::alert {info}
-:icon[info]{info} **Information:** This is an informational alert with proper theming and icon integration.
-:::
-
-:::alert {success}
-:icon[check-circle]{success} **Success:** Your operation completed successfully with no errors!
-:::
-
-:::alert {warning}
-:icon[alert-triangle]{warning} **Warning:** Please review this information carefully before proceeding.
-:::
-
-:::alert {error}
-:icon[x-circle]{error} **Error:** An error occurred. Please check your input and try again.
-:::
-
-#### Rich Content Example {bold}
-
-:::alert {info}
-#### :icon[lightbulb]{warning} Pro Tip
-
-Alerts support full markdown content:
-
-- **Bold text** and *emphasis*
-- `Code snippets` and technical terms
-- [Links](#) and inline buttons
-- Lists and structured content
-
-[Learn More](#){button primary small}
-:::
-
-#### Minimal Style {bold}
-
-:::alert {success}
-**Clean alert** without an icon for minimal, focused messaging.
-:::
-
-#### Usage Summary {bold}
-
-```taildown
-:::alert {info}
-:icon[info]{info} Information message
-:::
-
-:::alert {success}
-:icon[check-circle]{success} Success message
-:::
-
-:::alert {warning}
-:icon[alert-triangle]{warning} Warning message
-:::
-
-:::alert {error}
-:icon[x-circle]{error} Error message
-:::
-```
-
-**Variants:** 
-
-:::badge {lg info}
-info
-:::
-
-:::badge {lg success}
-success
-:::
-
-:::badge {warning lg}
-warning
-:::
-
-:::badge {error lg}
-error
-:::
-
-**Features:** Proper theming • Dark mode support • Responsive padding • Smooth animations
-
-[Back to top](#top){badge primary}
-
----
-
-### Badges {#badge center bold primary}
-
-:::grid {2}
-:::card
-### Inline labels and status indicators
-
-#### Color Variants {bold}
-:::card
-:badge[default]{default} :badge[primary]{primary} :badge[secondary]{secondary} :badge[success]{success} :badge[warning]{warning} :badge[error]{error} :badge[info]{info} :badge[muted]{muted}
-:::
-
-#### Size Variants {bold}
-:::container
-:::card
-:::badge {muted sm}
-small badges for subtle badges
-:::
-:::badge {primary}
-medium badges for regular badges
-:::
-:::badge {warning lg}
-large badges for emphasized badges
-:::
-:::
-:::    
-:::
-
-:::card
-### In Context {bold}
-
-Use badges to highlight status and metadata:
-
-:::container
-:::card
-#### Project Status: :badge[active]{success} 
-#### Version :badge[v2.1.0]{info} 
-#### License :badge[MIT]{primary}
-:::
-:::
-
-**Features:** :badge[new]{warning} :badge[beta]{info} :badge[deprecated]{error} :badge[coming soon]{secondary}
-
-### With Icons {bold}
-
-Combine badges with icons and markdown content for visual context and alternative use:
-
-:::badge {primary}
-:icon[lightbulb]{warning} Pro Tip: Badges support content but don't go overboard.
-:::
-:::badge {success}
-:icon[trending-up]{success} trending
-:::
-:::badge {error}
-:icon[flame]{error} hot
-:::
-:::
-:::
-
-#### Usage Summary {bold}
-
-```taildown
-# Inline badges
-Project Status: :badge[active]{success}
-Version: :badge[v2.1.0]{info}
-License: :badge[MIT]{primary}
-
-Features: :badge[new]{warning} :badge[beta]{info} :badge[deprecated]{error}
-
-# Component syntax
-Combine badges with icons for visual context:
-
-:::badge {primary}
-:icon[star]{warning} featured
-:::
-:::badge {success}
-:icon[trending-up]{success} trending
-:::
-:::badge {error}
-:icon[flame]{error} hot
-:::
-
-```
-
-**Colors:** `default` `primary` `secondary` `success` `warning` `error` `info` `muted`
-
-**Sizes:** `sm` `md (default)` `lg`
-
-[Back to top](#top){button link}
-
----
-
-### Progress {#progress bold primary}
-
-Show completion with a native progress indicator and a visible label. Set a quoted `value` and, optionally, a quoted `max`; the default maximum is `100`. Taildown displays the supplied value rather than tracking background work automatically.
-
-```taildown
-:::progress {value="35" max="100"}
-Preparing **report**
-:::
-```
-
-:::progress {value="35" max="100"}
-Preparing **report**
-:::
-
-Omit `value` when the amount of remaining work is unknown. The label still tells the reader what is happening:
-
-```taildown
-:::progress
-Waiting for the next observation
-:::
-```
-
-:::progress
-Waiting for the next observation
-:::
-
-Sizes are `xs`, `sm`, `md` (default), `lg`, and `xl`. Use `striped` for a striped fill or `animated` for motion; the styling adapts to the document theme and respects reduced-motion preferences. The `indeterminate` flag explicitly selects an unknown amount. If both that flag and a value are supplied, indeterminate mode wins and compilation reports a warning.
-
-`max` must be a finite number greater than zero. `value` must be finite and between zero and `max`, inclusive. Invalid numbers produce a located compilation warning and an indeterminate fallback. Use quoted values, such as `{value="3" max="8"}`.
-
-The body supplies a visible label and can contain inline formatting. If the body is omitted, provide `aria-label` or `aria-labelledby` referencing an existing label:
-
-```taildown
-:::progress {value="3" max="8" sm aria-label="Chapters reviewed"}
-:::
-```
-
----
-
-## Content Components {#content huge-bold center primary}
-
-**Progressive disclosure and semantic alert boxes for better content organization.**
-
----
-
-### Details/Summary {#details bold primary}
-
-**Native HTML5 disclosure widget with beautiful Taildown styling - zero JavaScript required!**
-
-#### What is Details/Summary? {bold}
-
-Use details for FAQs, optional explanations, and expandable sections. The leading paragraph or heading becomes the clickable summary, preserving its inline formatting. If the first block is something else, the label is "Details" and that block stays in the body.
-
-:::card {light-glass padded}
-**Key Benefits:**
-- :icon[check]{success} **Zero JavaScript** - Uses native HTML5
-- :icon[check]{success} **Native Semantics** - Browser-provided disclosure behavior
-- :icon[check]{success} **Keyboard Navigation** - Enter/Space to toggle
-- :icon[check]{success} **Source Preserved** - Title formatting and body content stay intact
-:::
-
-#### Live Examples {bold}
-
-:::details {glass}
-**What is Taildown?** {bold}
-
-Taildown is a markup language for creating beautiful UIs with plain English styling. It compiles to pure HTML, CSS, and minimal vanilla JavaScript.
-
-**Key Features:**
-- Zero-config beautiful defaults
-- Plain English syntax
-- Glassmorphism built-in
-- Full dark mode support
-
-[Learn More](getting-started.html){button primary small}
-:::
-
-:::details {subtle-glass}
-**How do I install it?**
-
-Follow the [source setup guide](getting-started.html) for the required tools and repository checkout. From that directory, use the pinned pnpm version:
-
-```bash
-pnpm install --frozen-lockfile
-pnpm build
-```
-
-Then create a `.td` file and compile it:
-
-```bash
-pnpm taildown compile myfile.td
-```
-:::
-
-:::details {elevated}
-**What components are available?**
-
-Taildown includes a comprehensive component library:
-
-- **Layout**: Card, Grid, Button Group
-- **Interactive**: Tabs, Accordion, Carousel
-- **Overlays**: Modal, Tooltip
-- **Feedback**: Alert, Badge, Progress
-- **Content**: Details, Callout
-- **Navigation**: Navbar, Breadcrumb, Pagination
-:::
-
-#### Glass Variants {bold}
-
-:::grid {3}
-:::details {subtle-glass}
-**Subtle Glass** {bold}
-
-Minimal transparency with soft shadows for a clean, professional look.
-:::
-
-:::details {glass}
-**Standard Glass** {bold}
-
-Balanced glassmorphism - the default choice for most use cases.
-:::
-
-:::details {heavy-glass}
-**Heavy Glass** {bold}
-
-Pronounced frosted blur that makes a bold statement.
-:::
-:::
-
-#### Open by Default {bold}
-
-Add `{open}` to start expanded:
-
-:::details {glass open}
-**This details is open by default** {bold}
-
-Perfect for showing important content that should be visible initially while still being collapsible.
-
-Users can still click to collapse it if they want to focus on other content.
-:::
-
-#### Syntax & Variants {bold}
-
-```taildown
-:::details {glass}
-**Summary Text** {bold}
-
-Details content here - supports full markdown, components, everything!
-:::
-
-:::details {elevated open}
-**Open by Default**
-
-Content visible initially
-:::
-```
-
-**Glass Variants:** `subtle-glass` `glass` `light-glass` `heavy-glass`
-
-**Other Variants:** `elevated` `bordered`
-
-**Attributes:** `open` - Start expanded
-
-[Back to top](#top){badge primary}
-
----
-
-### Callout/Admonition {#callout bold primary}
-
-**Semantic alert boxes with color-coded types for notes, tips, warnings, and critical alerts.**
-
-#### What are Callouts? {bold}
-
-Callouts (also known as admonitions) are highlighted content boxes that draw attention to important information. They're essential for documentation, technical writing, and any content that needs clear visual hierarchy.
-
-:::card {light-glass padded}
-**Why Use Callouts?**
-- :icon[check]{success} **Visual Hierarchy** - Important info stands out
-- :icon[check]{success} **Semantic Meaning** - Color conveys message type
-- :icon[check]{success} **Better Scanning** - Readers quickly identify key points
-- :icon[check]{success} **Professional Look** - Polished documentation style
-:::
-
-#### All Callout Types {bold}
-
-:::callout {note}
-:icon[info]{primary} **Note:** This is a note callout for general information and context. Use for neutral, informational content that provides additional detail.
-:::
+:::modal {id="publishing-note" sm}
+#### Before you share
+Keep the source beside your export so you can revise the page later.
 
 :::callout {info}
-:icon[info]{info} **Info:** Similar to note but with a lighter blue color scheme. Perfect for helpful information and guidance.
+The exported HTML contains its styles and behavior. Remote resources retain their original URLs.
+:::
 :::
 
-:::callout {tip}
-:icon[lightbulb]{success} **Pro Tip:** This is a tip callout for helpful advice and best practices. Use green to convey positive, helpful guidance.
+:::details
+**View source**
+
+````taildown
+[Read the publishing note](#modal){button primary modal="#publishing-note"}
+
+:::modal {id="publishing-note" sm}
+#### Before you share
+Keep the source beside your export so you can revise the page later.
+
+:::callout {info}
+The exported HTML contains its styles and behavior. Remote resources retain their original URLs.
+:::
+:::
+````
 :::
 
-:::callout {success}
-:icon[check-circle]{success} **Success:** Use for positive messages, confirmations, and successful outcomes. Emphasizes that something worked correctly.
+**Options:** `centered`, `default`, `drawer`, `full-screen`, `lg`, `md`, `sm`, `xl`.
+
+The trigger opens the dialog; Escape and the close control dismiss it. Keyboard focus stays inside while open and returns to the trigger on close. Modal IDs must be unique. Sizes control dialog width, not the amount of content a reader should have to navigate.
+
+
+
+[Back to index](#nav){small}
+
+---
+
+### Tooltip {#tooltip}
+
+Explain a short unfamiliar term without interrupting the sentence. Tooltips work on focus as well as hover.
+
+A portable document keeps its presentation close to its content.{tooltip="A file with its styles and behavior included."}
+
+:icon[info]{primary tooltip="Focus this icon with Tab to read the explanation."}
+
+Read [the authoring guide](#authoring) when you are ready{tooltip="Links inside this explanation keep their normal navigation."}
+
+:::details
+**View source**
+
+````taildown
+A portable document keeps its presentation close to its content.{tooltip="A file with its styles and behavior included."}
+
+:icon[info]{primary tooltip="Focus this icon with Tab to read the explanation."}
+
+Read [the authoring guide](#authoring) when you are ready{tooltip="Links inside this explanation keep their normal navigation."}
+````
 :::
 
+**Options:** `default`, `error`, `lg`, `light`, `md`, `sm`, `success`, `warning`.
+
+Use `tooltip="Short explanation"` for an inline definition or `tooltip="#definition-id"` for an ID-defined `:::tooltip` body. Escape dismisses a visible tooltip. Put essential instructions in visible prose or a callout; do not make hover the only route to information.
+
+
+
+[Back to index](#nav){small}
+
+---
+
+### Details {#details}
+
+Make one optional explanation expandable with native browser behavior. The leading paragraph or heading becomes the summary.
+
+:::details
+**What belongs in a field note?**
+
+An observation, the context needed to understand it, and a useful next question.
+
+- Keep the source clear.
+- Preserve details that affect the conclusion.
+- Let the reader choose how far to explore.
+:::
+
+:::details
+**View source**
+
+````taildown
+:::details
+**What belongs in a field note?**
+
+An observation, the context needed to understand it, and a useful next question.
+
+- Keep the source clear.
+- Preserve details that affect the conclusion.
+- Let the reader choose how far to explore.
+:::
+````
+:::
+
+**Options:** `bordered`, `elevated`, `glass`, `heavy-glass`, `lg`, `light-glass`, `md`, `sm`, `subtle-glass`.
+
+Enter or Space toggles the summary. `{open}` starts expanded. Formatting in the title and body is preserved; without a leading paragraph or heading, the summary falls back to “Details”. This page uses the same primitive for every source disclosure.
+
+
+
+[Back to index](#nav){small}
+
+---
+
+## Feedback {#feedback}
+
+### Alert {#alert}
+
+Give a status message an appropriate semantic color. Each message says what happened and what the reader can do next.
+
+:::alert {info}
+**A useful starting point.** You can edit these examples in the browser.
+:::
+:::alert {success}
+**Export ready.** Your document can be kept as a standalone HTML file.
+:::
+:::alert {warning}
+**Check remote media.** Linked images and videos need their original hosts.
+:::
+:::alert {error}
+**An example error.** Correct the highlighted source before trying again.
+:::
+
+:::details
+**View source**
+
+````taildown
+:::alert {info}
+**A useful starting point.** You can edit these examples in the browser.
+:::
+:::alert {success}
+**Export ready.** Your document can be kept as a standalone HTML file.
+:::
+:::alert {warning}
+**Check remote media.** Linked images and videos need their original hosts.
+:::
+:::alert {error}
+**An example error.** Correct the highlighted source before trying again.
+:::
+````
+:::
+
+**Options:** `error`, `info`, `lg`, `md`, `sm`, `success`, `warning`.
+
+Use `info`, `success`, `warning` and `error` for meaning, not decoration. These are authored message examples; they do not report the state of a real export on this page.
+
+
+
+[Back to index](#nav){small}
+
+---
+
+### Badge {#badge}
+
+Attach a short label to a document, item or state without turning it into a full message.
+
+:badge[Draft]{muted} :badge[In review]{warning} :badge[Published]{success} :badge[Fieldnotes]{primary}
+
+A small label can live inside ordinary prose: this note is :badge[Updated]{info}.
+
+:::details
+**View source**
+
+````taildown
+:badge[Draft]{muted} :badge[In review]{warning} :badge[Published]{success} :badge[Fieldnotes]{primary}
+
+A small label can live inside ordinary prose: this note is :badge[Updated]{info}.
+````
+:::
+
+**Options:** `default`, `error`, `info`, `lg`, `md`, `muted`, `primary`, `secondary`, `sm`, `success`, `warning`.
+
+Inline syntax is `:badge[Label]{variant}`. Block `:::badge` is available when needed. Labels should be short; use an [Alert](#alert) or [Callout](#callout) when the reader needs an explanation.
+
+
+
+[Back to index](#nav){small}
+
+---
+
+### Progress {#progress}
+
+Show a known fraction of completion, or an explicitly unknown amount of remaining work.
+
+:::progress {value="35" max="100" striped}
+Preparing **Fieldnotes** — 35% complete
+:::
+:::progress {value="3" max="8" lg}
+Three of eight chapters reviewed
+:::
+:::progress
+Waiting for the next observation
+:::
+
+:::details
+**View source**
+
+````taildown
+:::progress {value="35" max="100" striped}
+Preparing **Fieldnotes** — 35% complete
+:::
+:::progress {value="3" max="8" lg}
+Three of eight chapters reviewed
+:::
+:::progress
+Waiting for the next observation
+:::
+````
+:::
+
+**Options:** `animated`, `default`, `indeterminate`, `lg`, `md`, `sm`, `striped`, `xl`, `xs`.
+
+The native bar uses `max="100"` by default. Values must be finite, with `max > 0` and `0 ≤ value ≤ max`; zero and fractions are valid. Missing or invalid values render indeterminate; invalid values produce a located warning. `indeterminate` overrides a supplied value with a warning. Sizes `xs`–`xl` change height; `striped` and `animated` change presentation, with reduced motion respected. Supply visible label content or an explicit `aria-label` / `aria-labelledby`. Taildown displays authored values; it does not track background work.
+
+
+
+[Back to index](#nav){small}
+
+---
+
+### Skeleton {#skeleton}
+
+Reserve a recognizable shape while an application loads content. Here the placeholders remain visible so you can inspect their shape and pulse treatment.
+
+:::grid {cols-3 gap-lg}
+:::skeleton {rectangle aria-hidden="true"}
+:::
+:::container {full}
+:::skeleton {text aria-hidden="true"}
+:::
+:::skeleton {text aria-hidden="true"}
+:::
+:::skeleton {text aria-hidden="true"}
+:::
+:::
+:::skeleton {circle aria-hidden="true"}
+:::
+:::
+
+:::details
+**View source**
+
+````taildown
+:::grid {cols-3 gap-lg}
+:::skeleton {rectangle aria-hidden="true"}
+:::
+:::container {full}
+:::skeleton {text aria-hidden="true"}
+:::
+:::skeleton {text aria-hidden="true"}
+:::
+:::skeleton {text aria-hidden="true"}
+:::
+:::
+:::skeleton {circle aria-hidden="true"}
+:::
+:::
+````
+:::
+
+**Options:** `circle`, `default`, `lg`, `md`, `rectangle`, `sm`, `text`, `xl`, `xs`.
+
+Choose `text`, `circle`, or `rectangle` to describe the space being reserved. Skeletons do not fetch or replace content themselves. Hide decorative placeholders from assistive technology and supply a real loading status elsewhere when an application needs one.
+
+
+
+[Back to index](#nav){small}
+
+---
+
+## Content {#content}
+
+### Callout {#callout}
+
+Give a useful aside its own place in the reading flow.
+
+:::callout {info}
+**Keep the source close.** The `.td` file is the editable document; the HTML export is what you share.
+:::
 :::callout {warning}
-:icon[alert-triangle]{warning} **Warning:** This is a warning callout for caution messages. The amber/orange color draws attention without being alarming.
+**Leave room for context.** A striking visual is more useful when the reader understands what it represents.
 :::
 
-:::callout {danger}
-:icon[alert-octagon]{error} **Danger:** For critical warnings about destructive or irreversible actions. The red border immediately signals importance.
+:::details
+**View source**
+
+````taildown
+:::callout {info}
+**Keep the source close.** The `.td` file is the editable document; the HTML export is what you share.
+:::
+:::callout {warning}
+**Leave room for context.** A striking visual is more useful when the reader understands what it represents.
+:::
+````
 :::
 
-:::callout {error}
-:icon[x-circle]{error} **Error:** For error messages and problems that need attention. Use when something went wrong or failed.
-:::
+**Options:** `bordered`, `danger`, `elevated`, `error`, `glass`, `info`, `lg`, `md`, `note`, `sm`, `success`, `tip`, `warning`.
 
-#### Rich Content Callouts {bold}
+A callout remains part of the document rather than appearing as a transient notification. Use the semantic variants listed above and normal styling attributes; do not assume an unlisted decorative variant exists.
 
-Callouts support full markdown and nested components:
 
-:::callout {tip glass}
-:icon[sparkles]{warning} **Advanced Usage Tip**
 
-You can nest any Taildown content inside callouts:
-
-**Example workflow:**
-1. Create your `.td` file
-2. Add components and styling
-3. Compile with `taildown compile`
-4. Deploy the HTML
-
-:::grid {2}
-:::card {subtle-glass padded center}
-:icon[zap]{warning}
-
-**Fast**
-:::
-
-:::card {subtle-glass padded center}
-:icon[heart]{error}
-
-**Beautiful**
-:::
-:::
-
-[View Full Tutorial](getting-started.html){button primary small}
-:::
-
-#### Callout without Icons {bold}
-
-Icons are optional - callouts work great with just text:
-
-:::callout {note}
-**Clean and Minimal:** Callouts don't require icons. The colored left border and background tint provide clear visual distinction.
-:::
-
-:::callout {success}
-**Operation Successful:** Your changes have been saved and deployed to production.
-:::
-
-#### Glass Effect Callouts {bold}
-
-Add `{glass}` for glassmorphism styling:
-
-:::callout {warning glass}
-:icon[alert-triangle]{warning} **Important Notice:** Combining callout types with glass effects creates a modern, professional appearance while maintaining readability.
-:::
-
-#### Syntax & Variants {bold}
-
-```taildown
-:::callout {note}
-:icon[info]{primary} **Note:** Additional information here
-:::
-
-:::callout {tip glass}
-:icon[lightbulb]{success} **Pro Tip:** Helpful advice with glass effect
-:::
-
-:::callout {danger elevated}
-:icon[alert-octagon]{error} **Danger:** Critical warning with shadow
-:::
-```
-
-**Types:** `note` `info` `tip` `success` `warning` `danger` `error`
-
-**Visual Variants:** `glass` `elevated` `bordered`
-
-**Sizes:** `sm` `md` `lg`
-
-[Back to top](#top){badge primary}
+[Back to index](#nav){small}
 
 ---
 
-### Multi-Column Layout {#columns bold primary}
+### Definitions {#definitions}
 
-**CSS multi-column layout for magazine-style text flow - content reflows naturally.**
+Pair terms with their meanings using a semantic definition list.
 
-#### What are Columns? {bold}
+:::definitions {horizontal bordered}
+**Source** {term}
+: The editable Taildown document.
 
-The `:::columns` component uses CSS multi-column layout to create magazine-style text flow. Content automatically reflows between columns, creating professional, space-efficient layouts perfect for long-form content.
+**Export** {term}
+: The generated HTML file, with optional companion assets.
 
-:::card {light-glass padded}
-**Key Benefits:**
-- :icon[check]{success} **Natural Flow** - Text reflows like a magazine
-- :icon[check]{success} **Zero JavaScript** - Pure CSS solution
-- :icon[check]{success} **Responsive** - Mobile: 1 column, scales up on larger screens
-- :icon[check]{success} **Smart Breaks** - Prevents awkward heading/image splits
+**Preset** {term}
+: Shared component defaults that keep related documents consistent.
 :::
 
-#### Live Example - 2 Columns {bold}
+:::details
+**View source**
 
-:::columns {2}
-**Magazine-style text flow** {bold}
+````taildown
+:::definitions {horizontal bordered}
+**Source** {term}
+: The editable Taildown document.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+**Export** {term}
+: The generated HTML file, with optional companion assets.
 
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-**Automatic reflow** {bold}
-
-The text naturally flows from one column to the next, creating a professional magazine-style layout. Paragraphs, lists, and images all work seamlessly within the column structure.
-
-This is perfect for long-form content, documentation, articles, and any content that benefits from shorter line lengths for improved readability.
+**Preset** {term}
+: Shared component defaults that keep related documents consistent.
+:::
+````
 :::
 
-#### 3 Column Example {bold}
+**Options:** `bordered`, `compact`, `elevated`, `glass`, `heavy-glass`, `horizontal`, `lg`, `light-glass`, `md`, `sm`, `subtle-glass`, `vertical`.
 
-:::columns {3 gap-lg}
-**First Column** - Content automatically distributes across three columns with large gaps between them for optimal readability and visual separation.
+Use bold terms with `{term}` and a following `: definition` line. `vertical` stacks entries, `horizontal` puts term and definition side by side, and `compact` reduces spacing. Surface variants change the surrounding treatment.
 
-**Second Column** - Notice how the text flows naturally and the layout remains balanced. CSS columns automatically handle the distribution.
 
-**Third Column** - Perfect for feature lists, specifications, or any content that benefits from compact, organized presentation.
-:::
 
-#### Syntax & Variants {bold}
-
-```taildown
-:::columns {2}
-Content flows between 2 columns
-:::
-
-:::columns {3 gap-lg}
-Three columns with large gap
-:::
-
-:::columns {4 divider}
-Four columns with divider lines
-:::
-```
-
-**Column Counts:** `2` `3` `4` `auto`
-
-**Gap Sizes:** `gap-sm` `gap` (default) `gap-lg` `gap-xl`
-
-**Options:** `divider` (column rule line) `balanced` (equal column heights)
-
-[Back to top](#top){badge primary}
+[Back to index](#nav){small}
 
 ---
 
-### Definition List {#definitions bold primary}
+### Stats {#stats}
 
-**Semantic `<dl>` element for term-definition pairs - perfect for glossaries and API docs.**
+Arrange a few meaningful metrics with their labels. These values are sample editorial data, not Taildown performance claims.
 
-**Definitions** in the editor's **Command-K** menu inserts an editable example. Each bold term followed by `{term}` becomes a semantic `dt`; the next line beginning with `:` becomes its `dd`. Links and emphasis remain available inside descriptions. For compact metadata, `**Name:** Fieldnotes` creates a pair; put each pair on its own line.
+:::stats {3}
+### 24 {stat}
+Field notes
 
-#### What are Definition Lists? {bold}
-
-Definition lists use semantic HTML (`<dl>`, `<dt>`, `<dd>`) to pair terms with their definitions. They're perfect for glossaries, API parameters, metadata, and any key-value documentation.
-
-:::card {light-glass padded}
-**Key Benefits:**
-- :icon[check]{success} **Semantic HTML** - Proper term-definition structure
-- :icon[check]{success} **Flexible Layouts** - Vertical, horizontal, or compact
-- :icon[check]{success} **Better than Tables** - For simple key-value pairs
-- :icon[check]{success} **Excellent Accessibility** - Screen reader friendly
-:::
-
-#### Vertical Layout (Default) {bold}
-
-:::definitions {glass}
-**API Key** {term}
-: A unique identifier for authentication with the service. Keep this secure and never commit it to version control.
-
-**Base URL** {term}
-: https://api.example.com/v1
-
-**Rate Limit** {term}
-: 1000 requests per hour per API key. Contact support for higher limits.
-
-**Authentication** {term}
-: Bearer token authentication via the Authorization header. Include your API key in all requests.
-:::
-
-#### Horizontal Layout {bold}
-
-:::definitions {horizontal elevated}
-**Name:** John Doe
-**Email:** john@example.com
-**Role:** Lead Developer
-**Location:** San Francisco, CA
-**Status:** :badge[Active]{success}
-:::
-
-#### Compact Layout {bold}
-
-:::definitions {compact subtle-glass}
-**Version:** v2.1.0
-**License:** MIT
-**Author:** Taildown Team
-**Updated:** 2025-10-11
-:::
-
-#### Syntax & Variants {bold}
-
-```taildown
-:::definitions {glass}
-**Term** {term}
-: Definition text here
-
-**Another Term** {term}
-: Another definition
-:::
-
-:::definitions {horizontal}
-**Key:** Value
-**Another:** Value
-:::
-```
-
-**Layouts:** `vertical` (default) `horizontal` `compact`
-
-**Visual Variants:** `glass` `subtle-glass` `elevated` `bordered`
-
-**Sizes:** `sm` `md` `lg`
-
-[Back to top](#top){badge primary}
-
----
-
-### Stats/Metrics Display {#stats bold primary}
-
-**Large, prominent statistics for landing pages, dashboards, and social proof.**
-
-#### What are Stats? {bold}
-
-The stats component displays large, eye-catching numbers with labels and icons - perfect for showcasing key metrics, social proof, and important statistics on landing pages.
-
-:::card {light-glass padded}
-**Key Benefits:**
-- :icon[check]{success} **High Visual Impact** - Large, prominent numbers
-- :icon[check]{success} **Scannable** - Easy to digest at a glance
-- :icon[check]{success} **Responsive Grid** - Adapts to all screen sizes
-- :icon[check]{success} **Glass Effects** - Beautiful by default
-:::
-
-#### Live Example - 3 Stats {bold}
-
-:::stats {3 glass}
-### 10,000+ {stat}
-:icon[users]{primary huge}
-Active Users
-
-### 99.9% {stat}
-:icon[check-circle]{success huge}
-Uptime SLA
-
-### < 50ms {stat}
-:icon[zap]{warning huge}
-Response Time
-:::
-
-#### 4 Stats Grid {bold}
-
-:::stats {4 elevated}
-### 1M+ {stat}
-:icon[download]{primary huge}
-Downloads
-
-### 150 {stat}
-:icon[users]{success huge}
+### 8 {stat}
 Contributors
 
-### 5.0★ {stat}
-:icon[star]{warning huge}
-Rating
-
-### 24/7 {stat}
-:icon[headphones]{info huge}
-Support
+### 3 {stat}
+Open questions
 :::
 
-#### Syntax & Variants {bold}
+:::details
+**View source**
 
-```taildown
+````taildown
 :::stats {3}
-### 10,000+ {stat}
-:icon[users]{primary huge}
-Active Users
+### 24 {stat}
+Field notes
 
-### 99.9% {stat}
-:icon[check-circle]{success huge}
-Uptime
+### 8 {stat}
+Contributors
 
-### < 50ms {stat}
-:icon[zap]{warning huge}
-Response Time
+### 3 {stat}
+Open questions
 :::
-```
+````
+:::
 
-**Column Counts:** `2` `3` (default) `4`
+**Options:** `2`, `3`, `4`, `bordered`, `compact`, `elevated`, `glass`, `heavy-glass`, `light-glass`, `subtle-glass`.
 
-**Visual Variants:** `glass` `elevated` `bordered` `compact`
+Headings marked `{stat}` supply the values; the following text supplies labels. Choose `2`, `3` or `4` for the column count, then add a surface treatment. Use a table when comparing many rows or when values need additional context.
 
-**Usage:** Use H3 headings with `{stat}` marker, add icon above, label text below
 
-[Back to top](#top){badge primary}
+
+[Back to index](#nav){small}
 
 ---
 
-### Divider/Separator {#divider bold primary}
+### Divider {#divider}
 
-**Enhanced horizontal rules with text, icons, and decorative styles.**
-
-#### What are Dividers? {bold}
-
-Dividers create visual section breaks with more expressiveness than plain markdown `---`. Add text, icons, gradients, and decorative styles to match your brand.
-
-:::card {light-glass padded}
-**Key Benefits:**
-- :icon[check]{success} **Visual Breaks** - Clear section separation
-- :icon[check]{success} **Decorative Options** - Gradients, dots, waves
-- :icon[check]{success} **Brand Styling** - Colored and themed
-- :icon[check]{success} **Better than HR** - More expressive than `---`
-:::
-
-#### Basic Divider {bold}
+Mark a change of topic without adding another box.
 
 :::divider
-Simple divider
-:::
-
-#### Text Divider {bold}
-
-:::divider {text}
-Section Break
-:::
-
-#### Icon Divider {bold}
-
-:::divider {icon}
-:icon[star]{warning}
-:::
-
-#### Gradient Divider {bold}
-
-:::divider {gradient primary}
-:::
-
-#### Decorative Styles {bold}
-
-**Dotted:**
-
-:::divider {dots}
-:::
-
-**Dashed:**
-
-:::divider {dashed muted}
-:::
-
-**Thick:**
-
-:::divider {thick primary}
-:::
-
-**Double Line:**
-
-:::divider {double}
-:::
-
-#### Colored Dividers {bold}
-
-:::divider {gradient success}
-:::
-
-:::divider {text warning}
-Important Section
-:::
-
-:::divider {thick error}
-:::
-
-#### Syntax & Variants {bold}
-
-```taildown
-:::divider
-Basic divider
 :::
 
 :::divider {text}
-Section Break
+A new observation
 :::
 
-:::divider {icon}
-:icon[star]{warning}
+:::divider {gradient}
 :::
 
-:::divider {gradient primary}
-Gradient with color
+:::details
+**View source**
+
+````taildown
+:::divider
 :::
 
-:::divider {dots muted}
-Decorative style
+:::divider {text}
+A new observation
 :::
-```
 
-**Styles:** `solid` `text` `icon` `gradient` `dots` `dashed` `double` `wavy` `thick`
+:::divider {gradient}
+:::
+````
+:::
 
-**Colors:** `primary` `accent` `muted` `success` `warning` `error`
+**Options:** `accent`, `dashed`, `dots`, `double`, `error`, `gradient`, `icon`, `muted`, `primary`, `solid`, `success`, `text`, `thick`, `warning`, `wavy`.
 
-[Back to top](#top){badge primary}
+Use a plain horizontal rule `---` when that is enough. Text and icon content can label a separator; decorative variants are most useful between major sections, not every paragraph.
+
+
+
+[Back to index](#nav){small}
 
 ---
 
-### Enhanced Blockquote {#blockquote bold primary}
+### Steps {#steps}
 
-**Beautiful blockquotes with attribution, citations, and pull-quote styling.**
+Show the state of a short ordered process. Each heading marked `{step}` becomes one step.
 
-#### What are Enhanced Blockquotes? {bold}
-
-Enhanced blockquotes go beyond basic markdown `>` syntax with professional styling, attribution support, and special variants for pull quotes and testimonials.
-
-:::card {light-glass padded}
-**Key Benefits:**
-- :icon[check]{success} **Professional Presentation** - Decorative quote marks
-- :icon[check]{success} **Attribution Support** - Proper citation formatting
-- :icon[check]{success} **Pull Quotes** - Large, emphasized quotes
-- :icon[check]{success} **Testimonials** - Glass cards for reviews
-:::
-
-#### Standard Blockquote {bold}
-
-> This is a standard blockquote with regular styling. It has a colored left border, subtle background tint, and decorative quote marks.
-
-> Multiple paragraphs in a blockquote work seamlessly.
->
-> Each paragraph flows naturally with proper spacing and formatting.
-
-#### Pull Quote Variant {bold}
-
-> The best design tool I've used. Taildown makes beautiful UIs effortless.
-{pull-quote primary}
-
-#### Testimonial Variant {bold}
-
-> Taildown transformed our documentation. The glassmorphism is stunning and the plain English syntax is so intuitive. Our entire team adopted it in days.
->
-> — Sarah Chen, Lead Designer
-> Company Name
-{testimonial glass}
-
-#### Glass Effect Blockquote {bold}
-
-> This blockquote has a beautiful glassmorphism effect with backdrop blur, creating a modern, professional appearance that stands out.
-{glass}
-
-#### Bordered Variant {bold}
-
-> This blockquote features a heavier left border (6px) for extra emphasis without background styling.
-{bordered primary}
-
-#### Color Variants {bold}
-
-> Information blockquote with blue accent
-{primary}
-
-> Success or positive quote
-{success}
-
-> Warning or caution quote
-{warning}
-
-> Error or critical quote
-{error}
-
-#### Syntax & Variants {bold}
-
-```taildown
-> Standard blockquote
-> with multiple lines
-
-> Pull quote for emphasis
-{pull-quote primary}
-
-> Testimonial with attribution
->
-> — Author Name
-> Title/Company
-{testimonial glass}
-
-> Glass effect blockquote
-{glass}
-
-> Bordered with color
-{bordered success}
-```
-
-**Variants:** `pull-quote` `testimonial` `bordered` `glass` `subtle-glass`
-
-**Colors:** `primary` `success` `warning` `error` `accent`
-
-[Back to top](#top){badge primary}
-
----
-
-### Step Indicator {#steps bold primary}
-
-**Visual progress indicator for multi-step processes, tutorials, and onboarding flows.**
-
-#### What are Step Indicators? {bold}
-
-Step indicators show progress through multi-step processes with visual markers, numbers, and connecting lines. Perfect for installation guides, tutorials, and documenting workflows.
-
-:::card {light-glass padded}
-**Key Benefits:**
-- :icon[check]{success} **Visual Progress** - Clear step-by-step guidance
-- :icon[check]{success} **State Indicators** - Completed, current, pending states
-- :icon[check]{success} **Auto-Numbering** - Automatic step numbers
-- :icon[check]{success} **Responsive** - Horizontal becomes vertical on mobile
-:::
-
-#### Vertical Steps (Default) {bold}
-
-:::steps {numbered connected glass}
-### Install Dependencies {step completed}
-Run `pnpm install` to install all required packages.
-
-### Configure Environment {step current}
-Create a `.env` file with your configuration settings:
-
-```bash
-API_KEY=your-api-key-here
-BASE_URL=https://api.example.com
-```
-
-### Build Project {step}
-Run `pnpm build` to compile the project.
-
-### Deploy {step}
-Push to production using your deployment pipeline.
-:::
-
-#### Horizontal Layout {bold}
-
-:::steps {horizontal numbered}
-### Setup {step completed}
-Initial setup and configuration
-
-### Build {step current}
-Compile and package
-
-### Deploy {step}
-Push to production
-:::
-
-#### Syntax & Variants {bold}
-
-```taildown
 :::steps {numbered connected}
-### Install Dependencies {step completed}
-First step is done
+### Gather observations {step completed}
+Collect the details that matter.
 
-### Configure {step current}
-Currently working on this
+### Shape the document {step current}
+Choose a structure that makes the relationships clear.
 
-### Deploy {step}
-Future step
+### Share and revise {step}
+Export the page and keep the source for the next edition.
 :::
 
-:::steps {horizontal glass}
-Simple horizontal steps
+:::details
+**View source**
+
+````taildown
+:::steps {numbered connected}
+### Gather observations {step completed}
+Collect the details that matter.
+
+### Shape the document {step current}
+Choose a structure that makes the relationships clear.
+
+### Share and revise {step}
+Export the page and keep the source for the next edition.
 :::
-```
+````
+:::
 
-**Layouts:** `vertical` (default) `horizontal` `compact`
+**Options:** `bordered`, `compact`, `connected`, `elevated`, `glass`, `horizontal`, `icons`, `lg`, `md`, `numbered`, `sm`, `subtle-glass`, `vertical`.
 
-**Styles:** `numbered` `icons` `connected` (connecting lines)
+`completed` and `current` mark authored states; an unmarked step remains upcoming. The component does not advance automatically. Horizontal arrangements suit short labels; vertical steps leave more room for explanation.
 
-**States:** `{step}` `{step current}` `{step completed}`
 
-**Visual Variants:** `glass` `elevated` `bordered`
 
-[Back to top](#top){badge primary}
+[Back to index](#nav){small}
 
 ---
 
-### Mark/Highlight Text {#mark bold primary}
+### Timeline {#timeline}
 
-**Inline text highlighting with semantic colors - like a highlighter pen for your content.**
+Place milestones along a chronological line. Headings form events; their following blocks provide the details.
 
-#### What is Mark/Highlight? {bold}
+:::timeline {compact}
+## First observations {completed}
+**Monday · 09:00**
+The team records the questions worth exploring.
 
-The `==highlighted text==` syntax creates inline text highlighting with semantic color variants. Better than just bold or italic, it provides visual emphasis with meaning.
+## A working draft {current}
+**Wednesday · 14:00**
+A shared document brings the observations together.
 
-:::card {light-glass padded}
-**Key Benefits:**
-- :icon[check]{success} **Semantic Highlighting** - Color conveys meaning
-- :icon[check]{success} **Easy Syntax** - Simple `==text==` wrapper
-- :icon[check]{success} **Inline Flow** - Works anywhere in text
-- :icon[check]{success} **Search Emphasis** - Perfect for highlighting matches
+## The next edition
+**Friday · 11:00**
+Reader feedback shapes a more useful version.
 :::
 
-#### All Color Variants {bold}
+:::details
+**View source**
 
-This is ==highlighted text== with default yellow background.
+````taildown
+:::timeline {compact}
+## First observations {completed}
+**Monday · 09:00**
+The team records the questions worth exploring.
 
-==Important!=={warning} uses orange/red highlighting for warnings.
+## A working draft {current}
+**Wednesday · 14:00**
+A shared document brings the observations together.
 
-==Success=={success} uses green highlighting for positive emphasis.
-
-==Critical=={error} uses red highlighting for errors or critical content.
-
-==Note=={info} uses blue highlighting for informational content.
-
-==Featured=={primary} uses the primary brand color.
-
-==Muted=={muted} uses gray for subtle emphasis.
-
-#### In Context {bold}
-
-:::card {subtle-glass padded}
-**Example Documentation:**
-
-The API uses ==REST=={primary} architecture with ==JSON=={info} payloads. 
-
-:icon[check]{success} ==Recommended=={success}: Use HTTPS for all requests
-
-:icon[alert-triangle]{warning} ==Warning=={warning}: Rate limits apply
-
-:icon[x-circle]{error} ==Deprecated=={error}: Legacy endpoint removed
+## The next edition
+**Friday · 11:00**
+Reader feedback shapes a more useful version.
+:::
+````
 :::
 
-#### Syntax & Variants {bold}
+**Options:** `centered`, `compact`, `glass`, `vertical`.
 
-```taildown
-==highlighted text== with default yellow
+Use `{completed}` and `{current}` on event headings. Use `vertical`, `centered`, `compact` or `glass` to change the arrangement and surface treatment. Dates and states remain authored content.
 
-==Important!=={warning} orange/red
 
-==Success=={success} green
 
-==Critical=={error} red
-
-==Note=={info} blue
-
-==Custom=={primary} brand color
-
-==Subtle=={muted} gray
-```
-
-**Variants:** `warning` `success` `error` `info` `primary` `muted` (default: yellow)
-
-**Usage:** Wrap text with `==` on both sides, optionally add `{variant}` after
-
-[Back to top](#top){badge primary}
+[Back to index](#nav){small}
 
 ---
 
-## Media Components {#media huge-bold center primary}
+### Blockquote {#blockquote}
 
-**Embed videos and rich media with responsive aspect ratios.**
+Set an attributed passage apart from the surrounding prose.
+
+> The best note is the one another reader can follow.
+>
+> — Fieldnotes editorial guide
+
+> Leave enough room for the reader to think.{pull-quote}
+
+:::details
+**View source**
+
+````taildown
+> The best note is the one another reader can follow.
+>
+> — Fieldnotes editorial guide
+
+> Leave enough room for the reader to think.{pull-quote}
+````
+:::
+
+Start lines with `>`. Styling attributes such as `pull-quote`, `testimonial`, `bordered` and glass treatments enhance the Markdown blockquote; blockquote is not a separate registered directive. Keep attribution visible and distinguish illustrative copy from an external quotation.
+
+
+
+[Back to index](#nav){small}
 
 ---
 
-### Video Embed {#video bold primary}
+### Mark / highlight {#mark}
 
-**Responsive video embeds for YouTube, Vimeo, and self-hosted videos with aspect ratio preservation.**
+Emphasize a short phrase without turning the whole paragraph into a callout.
 
-#### What are Video Embeds? {bold}
+Keep ==the essential observation== close to the claim it supports.
 
-The video component creates responsive video embeds with automatic aspect ratio preservation, lazy loading, and platform detection. Works with YouTube, Vimeo, or self-hosted videos.
+==A decision to revisit=={warning} and ==a detail worth keeping=={success} can use semantic colors.
 
-:::card {light-glass padded}
-**Key Benefits:**
-- :icon[check]{success} **Responsive** - Maintains aspect ratio on all screens
-- :icon[check]{success} **Lazy Loading** - Native browser lazy load support
-- :icon[check]{success} **Privacy-Friendly** - YouTube nocookie domain
-- :icon[check]{success} **Aspect Ratios** - 16:9, 4:3, 21:9, 1:1
+:::details
+**View source**
+
+````taildown
+Keep ==the essential observation== close to the claim it supports.
+
+==A decision to revisit=={warning} and ==a detail worth keeping=={success} can use semantic colors.
+````
 :::
 
-#### YouTube Embed {bold}
+Use `==text==`, with optional styling attributes after the closing marker. Color should supplement the words, not carry the only meaning.
 
-:::video {youtube glass}
-https://youtube.com/watch?v=dQw4w9WgXcQ
-:::
 
-#### Vimeo Embed {bold}
 
-Replace `VIDEO_ID` with the ID of a Vimeo video that allows embedding:
-
-```taildown
-:::video {vimeo 16:9}
-https://vimeo.com/VIDEO_ID
-:::
-```
-
-#### Self-Hosted Video {bold}
-
-Place your video beside the exported HTML, then reference its filename:
-
-```taildown
-:::video {16:9 glass}
-![Demo Video](demo.mp4)
-:::
-```
-
-#### Different Aspect Ratios {bold}
-
-Use your video's ID in these examples:
-
-**Widescreen (16:9 default):**
-
-```taildown
-:::video {16:9}
-https://youtube.com/watch?v=EXAMPLE_ID
-:::
-```
-
-**Standard (4:3):**
-
-```taildown
-:::video {4:3}
-https://youtube.com/watch?v=EXAMPLE_ID
-:::
-```
-
-**Ultrawide (21:9):**
-
-```taildown
-:::video {21:9}
-https://youtube.com/watch?v=EXAMPLE_ID
-:::
-```
-
-**Square (1:1):**
-
-```taildown
-:::video {1:1}
-https://youtube.com/watch?v=EXAMPLE_ID
-:::
-```
-
-#### Syntax & Variants {bold}
-
-```taildown
-:::video {youtube}
-https://youtube.com/watch?v=VIDEO_ID
-:::
-
-:::video {vimeo glass}
-https://vimeo.com/VIDEO_ID
-:::
-
-:::video {16:9}
-![Video](video.mp4)
-:::
-
-:::video {glass autoplay muted loop}
-![Background](bg-video.mp4)
-:::
-```
-
-**Platforms:** `youtube` `vimeo` (auto-detected from URL)
-
-**Aspect Ratios:** `16:9` (default) `4:3` `21:9` `1:1`
-
-**Visual Variants:** `glass` `subtle-glass`
-
-**Attributes:** `autoplay` `muted` `loop` `controls`
-
-[Back to top](#top){badge primary}
+[Back to index](#nav){small}
 
 ---
 
-## Data & Comparison Components {#data huge-bold center primary}
+### Footnotes {#footnotes}
 
-**Professional data presentation and visual comparison tools.**
+Keep supporting detail connected to the sentence it explains.
+
+A useful field note distinguishes an observation from its interpretation.[^reference-observation]
+
+[^reference-observation]: Record what you saw before describing what you think it means. The return link brings you back to the sentence.
+
+:::details
+**View source**
+
+````taildown
+A useful field note distinguishes an observation from its interpretation.[^reference-observation]
+
+[^reference-observation]: Record what you saw before describing what you think it means. The return link brings you back to the sentence.
+````
+:::
+
+Use native Markdown references `[^name]` and definitions `[^name]: …`. Repeated references stay connected to their note. Hover or focus can reveal a note; the actual footnote and return links remain available. Definitions render together at the end of the document. A `:::footnotes` container is available for authored notes, but native references provide the automatic links.
+
+
+
+[Back to index](#nav){small}
 
 ---
 
-### Tree {#tree bold primary}
+## Navigation {#navigation}
 
-Write a nested Markdown list to display a directory or another hierarchy. End a directory name with `/` to mark it as a folder, including an empty folder. This is a styled list: it does not read your filesystem or create expandable controls.
+### Navbar {#navbar}
 
-Choose `vscode`, `minimal`, `boxed`, `rounded`, `colored`, `dark`, or `glass`, or omit the variant for the default connecting-line style. Sizes are `sm`, `md`, and `lg`.
+The navigation at the top of this page is a live navbar. Use a linked `.navbar-brand`, followed by the page destinations.
+
+:::details
+**View source**
+
+````taildown
+:::navbar
+[Taildown](index.html){.navbar-brand}
+
+[Home](index.html) [Getting Started](getting-started.html) [Syntax Guide](syntax-guide.html) [Components](components.html) [Plain English](plain-english.html) [Live Editor](editor.html)
+:::
+````
+:::
+
+The default navbar is fixed and reserves page space. Test long labels at narrow widths. Placement variants include `sticky`, `fixed` and `floating`.
+
+---
+
+### Breadcrumb {#breadcrumb}
+
+Show where a reader is within a small hierarchy. The final item is plain text when it represents the current page.
+
+:::breadcrumb {aria-label="Reference breadcrumb"}
+[Home](index.html) / [Reference](#nav) / Components
+:::
+
+:::details
+**View source**
+
+````taildown
+:::breadcrumb {aria-label="Reference breadcrumb"}
+[Home](index.html) / [Reference](#nav) / Components
+:::
+````
+:::
+
+**Options:** `boxed`, `default`, `lg`, `md`, `separated`, `sm`.
+
+The component supplies a navigation landmark; author the links and separators. `aria-label` distinguishes it from other navigation on the page. It does not infer a hierarchy or rewrite URLs.
+
+
+
+[Back to index](#nav){small}
+
+---
+
+### Pagination {#pagination}
+
+Offer a short set of destinations in a sequence.
+
+:::pagination {aria-label="Reference chapters"}
+[Layout](#layout) [Interaction](#interactive) [Feedback](#feedback) [Content](#content) [Data](#data)
+:::
+
+:::details
+**View source**
+
+````taildown
+:::pagination {aria-label="Reference chapters"}
+[Layout](#layout) [Interaction](#interactive) [Feedback](#feedback) [Content](#content) [Data](#data)
+:::
+````
+:::
+
+**Options:** `compact`, `default`, `lg`, `md`, `rounded`, `sm`, `spaced`.
+
+Pagination arranges authored links; it does not split content or create pages. Use meaningful link labels and indicate the current destination when building a real multi-page sequence.
+
+
+
+[Back to index](#nav){small}
+
+---
+
+### Sidebar {#sidebar}
+
+Place supporting navigation beside a document. This example stays in normal flow so it does not obscure the reference.
+
+:::grid {cols-2 gap-lg}
+:::sidebar {sm}
+#### In this guide
+- [Layout](#layout)
+- [Interaction](#interactive)
+- [Data and media](#data)
+:::
+:::container {full}
+#### Keep the main idea in view
+Use a sidebar for a short local outline or supporting controls. The main reading column should remain useful when the layout stacks on a narrow screen.
+:::
+:::
+
+:::details
+**View source**
+
+````taildown
+:::grid {cols-2 gap-lg}
+:::sidebar {sm}
+#### In this guide
+- [Layout](#layout)
+- [Interaction](#interactive)
+- [Data and media](#data)
+:::
+:::container {full}
+#### Keep the main idea in view
+Use a sidebar for a short local outline or supporting controls. The main reading column should remain useful when the layout stacks on a narrow screen.
+:::
+:::
+````
+:::
+
+**Options:** `collapsible`, `dark`, `default`, `fixed`, `floating`, `lg`, `md`, `sm`, `xl`.
+
+Sizes `sm`, `md`, `lg`, `xl` set panel width. `floating` adds margin, rounding and shadow; `fixed` positions the panel at the viewport edge and requires a layout that reserves space for it. `collapsible` supplies transition styling, not a built-in toggle or hidden state.
+
+
+
+[Back to index](#nav){small}
+
+---
+
+### Avatar {#avatar}
+
+Identify a person with readable initials or an image that you supply.
+
+:::button-group {left}
+:::avatar {circular lg}
+AM
+:::
+:::avatar {rounded lg}
+JR
+:::
+:::avatar {square lg}
+SK
+:::
+:::
+
+:::details
+**View source**
+
+````taildown
+:::button-group {left}
+:::avatar {circular lg}
+AM
+:::
+:::avatar {rounded lg}
+JR
+:::
+:::avatar {square lg}
+SK
+:::
+:::
+````
+:::
+
+**Options:** `2xl`, `circular`, `lg`, `md`, `rounded`, `sm`, `square`, `xl`, `xs`.
+
+Choose `circular`, `rounded` or `square`, then a size from `xs` to `2xl`. Initials work without external assets. When using an image, provide meaningful alternative text and check the final crop.
+
+
+
+[Back to index](#nav){small}
+
+---
+
+## Data & media {#data}
+
+### Tree {#tree}
+
+Make a folder structure or content hierarchy legible with nested Markdown lists. A trailing slash identifies a folder; this is a static outline, not an expandable file browser.
+
+:::tree {vscode}
+- fieldnotes/
+  - observations/
+    - dawn-on-the-ridge.td
+    - tidal-pools.td
+  - assets/
+    - ridge.svg
+  - index.td
+:::
+
+:::details
+**View source**
 
 ```taildown
-:::tree {vscode sm}
-- field-guide/
-  - notes/
-    - morning.td
-  - drafts/
+:::tree {vscode}
+- fieldnotes/
+  - observations/
+    - dawn-on-the-ridge.td
+    - tidal-pools.td
+  - assets/
+    - ridge.svg
   - index.td
 :::
 ```
-
-:::tree {vscode sm id="tree-reference-example"}
-- field-guide/
-  - notes/
-    - morning.td
-  - drafts/
-  - index.td
 :::
 
-### Flow {#flow bold primary}
+**Variants:** `default`, `vscode`, `minimal`, `boxed`, `rounded`, `colored`, `dark`, `glass`. **Sizes:** `sm`, `md`, `lg`. Indentation creates the hierarchy; folder names and filenames remain selectable text. Use descriptive labels instead of relying on the icons alone.
 
-Use a Markdown list for a small process diagram. The default is vertical; `horizontal` places steps across the available width and wraps when needed. Use `stepped` for numbered steps. Other presentations are `branching`, `timeline`, `minimal`, `dark`, and `glass`; sizes are `sm`, `md`, and `lg`.
 
-Flow is a visual arrangement of your list, not an executable workflow. Use [Mermaid](#mermaid) when you need explicitly connected nodes and labeled relationships.
+
+[Back to index](#nav){small}
+
+---
+
+### Flow {#flow}
+
+Present a short process as a connected list. Use Mermaid when the diagram needs explicitly named edges, loops, or decision branches.
+
+:::flow {horizontal sm}
+- Observe
+- Record
+- Publish
+:::
+
+:::details
+**View source**
 
 ```taildown
 :::flow {horizontal sm}
 - Observe
 - Record
-- Refine
+- Publish
 :::
 ```
-
-:::flow {horizontal sm id="flow-reference-example"}
-- Observe
-- Record
-- Refine
 :::
 
-For a vertical numbered sequence, use `stepped`:
+For a chronological account, switch the same list structure to `timeline`:
 
-:::flow {stepped sm}
-- Gather the material
-- Find a clear structure
-- Review the result
+:::flow {timeline sm}
+- **06:10** — Reach the ridge
+- **06:35** — Record the first light
+- **07:00** — Compare field sketches
 :::
+
+:::details
+**View source**
+
+```taildown
+:::flow {timeline sm}
+- **06:10** — Reach the ridge
+- **06:35** — Record the first light
+- **07:00** — Compare field sketches
+:::
+```
+:::
+
+**Variants:** `default` (vertical), `horizontal`, `stepped`, `branching`, `timeline`, `minimal`, `dark`, `glass`. **Sizes:** `sm`, `md`, `lg`. These are visual treatments of your list, not an executable workflow. Keep a horizontal sequence short enough to scan; its container can scroll on narrow screens.
+
+
+
+[Back to index](#nav){small}
 
 ---
 
-### Enhanced Table {#table bold primary}
+### Enhanced table {#table}
 
-**GFM tables supercharged with sorting, zebra striping, glass effects, and sticky headers.**
+Add sorting and surface treatments to a standard Markdown table. Activate a column header with a click, Enter, or Space to change its sort order.
 
-#### What are Enhanced Tables? {bold}
-
-Enhanced tables extend GitHub Flavored Markdown tables with professional features like client-side sorting, alternating row colors, glassmorphism effects, and sticky headers. Perfect for data presentation, documentation, and dashboards.
-
-:::card {light-glass padded}
-**Key Benefits:**
-- :icon[check]{success} **Zero Config** - Works with standard GFM table syntax
-- :icon[check]{success} **Interactive Sorting** - Click headers to sort (~1KB JS)
-- :icon[check]{success} **Visual Polish** - Zebra striping, glass effects, hover states
-- :icon[check]{success} **Mobile Responsive** - Horizontal scrolling with sticky first column
-:::
-
-#### Live Example - Sortable Table {bold}
-
-Click any header to sort the data:
-
-| Employee | Department | Salary | Performance | Status |
-|----------|-----------|--------|-------------|--------|
-| Alice Chen | Engineering | $95,000 | Excellent | :badge[Active]{success} |
-| Bob Smith | Design | $82,000 | Good | :badge[Active]{success} |
-| Charlie Davis | Product | $105,000 | Excellent | :badge[Active]{success} |
-| Diana Wilson | Marketing | $78,000 | Very Good | :badge[Active]{success} |
-| Eve Martinez | Engineering | $98,000 | Excellent | :badge[Active]{success} |
-| Frank Johnson | Sales | $88,000 | Good | :badge[Active]{success} |
+| Observation | Recorded | Duration | Readiness |
+|-------------|----------|---------:|----------:|
+| Ridge at dawn | 2026-09-08 | 35 | 100% |
+| Tidal pools | 2026-09-10 | 80 | 75% |
+| Woodland canopy | 2026-09-09 | 55 | 90% |
 {sortable zebra hoverable}
 
-**Try it:** Click on "Salary" to sort by amount, or "Department" to alphabetize!
+Duration is in minutes. Try sorting **Duration** or **Recorded**; the initial order is intentionally unsorted.
 
-#### Glass Effect Table {bold}
+:::details
+**View source**
 
-:::card {padded}
-| Metric | Q1 2024 | Q2 2024 | Q3 2024 | Growth |
-|--------|---------|---------|---------|--------|
-| Revenue | $1.2M | $1.5M | $1.8M | :icon[trending-up]{success} +50% |
-| Users | 10,500 | 12,300 | 14,800 | :icon[trending-up]{success} +41% |
-| Conversion | 3.2% | 3.8% | 4.1% | :icon[trending-up]{success} +28% |
-| Churn | 2.1% | 1.8% | 1.5% | :icon[trending-down]{success} -29% |
-{glass sticky-header}
+```taildown
+| Observation | Recorded | Duration | Readiness |
+|-------------|----------|---------:|----------:|
+| Ridge at dawn | 2026-09-08 | 35 | 100% |
+| Tidal pools | 2026-09-10 | 80 | 75% |
+| Woodland canopy | 2026-09-09 | 55 | 90% |
+{sortable zebra hoverable}
+```
 :::
 
-#### Compact Data Table {bold}
+A compact bordered table suits a small reference:
 
-| Setting | Value | Description |
-|---------|-------|-------------|
-| Version | v2.1.0 | Current release |
-| License | MIT | Open source |
-| Build | 1,234 | Latest CI run |
-| Status | :icon[check-circle]{success} Passing | All tests green |
+| File | Purpose |
+|------|---------|
+| `index.td` | Collection introduction |
+| `observations/` | Individual field notes |
+| `assets/` | Local photographs and diagrams |
 {compact bordered sm}
 
-#### All Variants {bold}
+:::details
+**View source**
 
-:::grid {2}
-:::card {subtle-glass padded}
-**Styling Variants:**
-- `sortable` - Interactive column sorting (click a header, or focus it and press Enter or Space). Numbers, grouped currency values and percentages sort numerically; ISO dates such as `2026-09-12` sort chronologically. Other labels sort as text. Mixed columns group numbers, then ISO dates, then text in ascending order; descending reverses that order.
-- `zebra` / `striped` - Alternating row colors
-- `bordered` - Full cell borders
-- `glass` - Glassmorphism effect
-- `sticky-header` - Header stays on scroll
-- `compact` - Tighter spacing
-- `hoverable` - Row hover effects
-:::
-
-:::card {subtle-glass padded}
-**Size Modifiers:**
-- `sm` - Small (0.5rem/0.75rem padding)
-- `md` - Medium (default)
-- `lg` - Large (1rem/1.25rem padding)
-
-**Combinations:**
 ```taildown
-{sortable zebra hoverable}
-{glass sticky-header}
+| File | Purpose |
+|------|---------|
+| `index.td` | Collection introduction |
+| `observations/` | Individual field notes |
+| `assets/` | Local photographs and diagrams |
 {compact bordered sm}
 ```
 :::
-:::
 
-#### Syntax & Usage {bold}
+**Variants:** `sortable`, `zebra` (alias `striped`), `bordered`, `glass`, `sticky-header`, `compact`, `hoverable`. **Sizes:** `sm`, `md` (default), `lg`. Attach the attribute block immediately after the table. Markdown's colons control alignment.
 
-```taildown
-# Basic sortable table
-| Name | Value | Status |
-|------|-------|--------|
-| Item A | 100 | Active |
-| Item B | 200 | Pending |
-{sortable}
+Sorting compares numbers, grouped currency, percentages, and ISO dates by value; other labels sort as text. Mixed columns group numbers, ISO dates, then text in ascending order. Use consistent units and an explicit header for every column. A sticky header needs a scrollable ancestor to demonstrate its effect; it does not paginate or filter the data.
 
-# Full-featured dashboard table
-| Metric | Q1 | Q2 | Q3 |
-|--------|-----|-----|-----|
-| Revenue | $1.2M | $1.5M | $1.8M |
-| Users | 10.5K | 12.3K | 14.8K |
-{sortable zebra glass sticky-header hoverable}
 
-# Compact data list
-| Key | Value |
-|-----|-------|
-| API | v2.0 |
-| Status | Live |
-{compact bordered sm}
-```
 
-**Attributes:** Place `{variants}` after the table (last row or separate line)
-
-**Features:**
-- :icon[check]{success} **Auto-type Detection** - Sorts strings, numbers, dates correctly
-- :icon[check]{success} **Keyboard Accessible** - Enter/Space to trigger sort
-- :icon[check]{success} **Visual Indicators** - Sort direction arrows (↑/↓)
-- :icon[check]{success} **ARIA Support** - `aria-sort` attributes for screen readers
-
-[Back to top](#top){badge primary}
+[Back to index](#nav){small}
 
 ---
 
-### Code Diff {#diff bold primary}
+### Code diff {#diff}
 
-Show an existing patch in a fenced `diff` block. Lines beginning with `-` are removed, `+` lines are added, and a leading space marks unchanged context. Hunk headers provide the starting line numbers.
+Show the change itself, either as a unified patch or as two complete versions. Taildown displays these sources; it does not apply patches to files.
+
+```diff
+@@ -1,3 +1,3 @@
+ title: Ridge at dawn
+-status: draft
++status: published
+ author: Fieldnotes
+```
+
+:::details
+**View source**
 
 ````taildown
 ```diff
-@@ -1,2 +1,2 @@
--const greeting = "Hello";
-+const greeting = "Welcome";
- render(greeting);
+@@ -1,3 +1,3 @@
+ title: Ridge at dawn
+-status: draft
++status: published
+ author: Fieldnotes
 ```
 ````
+:::
 
-```diff
-@@ -1,2 +1,2 @@
--const greeting = "Hello";
-+const greeting = "Welcome";
- render(greeting);
+A Before/After pair shows each version in its own column:
+
+:::diff {side-by-side}
+```before
+const collection = {
+  title: "Fieldnotes",
+  visibility: "private"
+};
 ```
 
-For separate Before and After columns, place two code fences inside `:::diff`. Label them `before` and `after`; either side may be empty to show a complete addition or removal. The source form determines the layout: a `diff` fence is unified, while a Before/After pair renders two columns.
+```after
+const collection = {
+  title: "Fieldnotes",
+  visibility: "public"
+};
+```
+:::
+
+:::details
+**View source**
 
 ````taildown
 :::diff {side-by-side}
 ```before
-const label = "Save";
+const collection = {
+  title: "Fieldnotes",
+  visibility: "private"
+};
 ```
 
 ```after
-const label = "Save draft";
+const collection = {
+  title: "Fieldnotes",
+  visibility: "public"
+};
 ```
 :::
 ````
-
-:::diff {side-by-side}
-```before
-const label = "Save";
-```
-
-```after
-const label = "Save draft";
-```
 :::
 
-Keep the actual source in these fences. Taildown displays the comparison; it does not apply a patch to files.
+**Treatments on `:::diff`:** `glass`, `elevated`, `compact`; sizes `sm`, `md`, `lg`. `split` is an alias for the `side-by-side` class. Language-name variants are registered, but the current renderer displays plain source with change colors rather than language-token highlighting.
+
+**Structure:** a `diff` fence produces the unified view; `before` and `after` fences inside `:::diff` produce two columns. An empty side represents a complete addition or removal. Preserve leading spaces for context lines and use `@@` hunk headers for starting line numbers. `+` and `-` markers accompany the color changes, so color is not the only signal.
+
+
+
+[Back to index](#nav){small}
 
 ---
 
-### Image Comparison Slider {#compare-images bold primary}
+### Image comparison {#compare-images}
 
-**Interactive before/after image comparisons with draggable slider - perfect for showcasing transformations.**
+Reveal a before-and-after pair without moving between images. This example uses two local illustrations of the same scene so the differences stay aligned.
 
-#### What is Image Comparison? {bold}
-
-The image comparison slider creates interactive before/after comparisons with a draggable slider. Perfect for design showcases, photo editing demos, renovation projects, or any visual transformation.
-
-:::card {light-glass padded}
-**Key Benefits:**
-- :icon[check]{success} **Interactive** - Drag, touch, or keyboard control
-- :icon[check]{success} **Zero-Config Beautiful** - Rounded corners and shadows by default
-- :icon[check]{success} **Viewport Aware** - Never awkward scrolling on large screens
-- :icon[check]{success} **Fully Accessible** - ARIA roles, keyboard navigation, alt text
+:::compare-images {horizontal labels lg}
+before: assets/compare-before.svg
+after: assets/compare-after.svg
+alt: Fieldnotes illustration before and after its visual refinement
 :::
 
-#### Basic Horizontal Example {bold}
-
-:::compare-images {horizontal}
-before: https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=450&fit=crop
-after: https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&h=450&fit=crop
-alt: Office workspace transformation
-:::
-
-**Try it:** Click and drag the slider, or use arrow keys!
-
-#### With Labels {bold}
-
-:::compare-images {horizontal labels glass}
-before: https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&h=450&fit=crop
-after: https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=450&fit=crop
-alt: Modern office redesign
-:::
-
-#### Vertical Comparison {bold}
-
-:::compare-images {vertical labels}
-before: https://images.unsplash.com/photo-1497215842964-222b430dc094?w=800&h=600&fit=crop
-after: https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=600&fit=crop
-alt: Design evolution
-:::
-
-#### Size Variants {bold}
-
-:::grid {2}
-:::card {subtle-glass padded}
-**Small (280px):**
-
-Perfect for thumbnails or compact comparisons.
-
-:::compare-images {sm labels}
-before: https://images.unsplash.com/photo-1560807707-8cc77767d783?w=800&h=450&fit=crop
-after: https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=450&fit=crop
-alt: Small comparison
-:::
-:::
-
-:::card {subtle-glass padded}
-**Large (580px):**
-
-Great for detailed visual comparisons.
-
-:::compare-images {lg labels glass}
-before: https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=800&h=450&fit=crop
-after: https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=450&fit=crop
-alt: Large comparison
-:::
-:::
-:::
-
-#### Extra Large Showcase {bold}
-
-:::compare-images {xl labels shadow}
-before: https://images.unsplash.com/photo-1541746972996-4e0b0f43e02a?w=1200&h=675&fit=crop
-after: https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=1200&h=675&fit=crop
-alt: Portfolio showcase
-:::
-
-#### All Variants {bold}
-
-:::grid {2}
-:::card {subtle-glass padded}
-**Orientation:**
-- `horizontal` - Left/right comparison (default)
-- `vertical` - Top/bottom comparison
-
-**Visual:**
-- `labels` - Show "Before" and "After" overlays
-- `glass` - Glassmorphism on handle and labels
-- `shadow` - Enhanced shadow on handle
-:::
-
-:::card {subtle-glass padded}
-**Sizes:**
-- `sm` - 280px (36px handle)
-- `md` - 450px (48px handle, default)
-- `lg` - 580px (48px handle)
-- `xl` - 700px (56px handle)
-- `full` - Full height (400px min)
-
-All sizes respect viewport (no awkward scrolling!)
-:::
-:::
-
-#### Syntax & Usage {bold}
+:::details
+**View source**
 
 ```taildown
-# Basic horizontal
-:::compare-images {horizontal}
-before: https://example.com/before.jpg
-after: https://example.com/after.jpg
-alt: Workspace transformation
-:::
-
-# Vertical with labels
-:::compare-images {vertical labels}
-before: /images/design-v1.png
-after: /images/design-v2.png
-beforeAlt: Original design
-afterAlt: New design
-:::
-
-# Small with glass effect
-:::compare-images {sm glass labels}
-before: /photos/original.jpg
-after: /photos/edited.jpg
-alt: Photo editing showcase
-:::
-
-# Extra large hero
-:::compare-images {xl labels shadow}
-before: /portfolio/mockup-before.png
-after: /portfolio/mockup-after.png
-alt: Website redesign
+:::compare-images {horizontal labels lg}
+before: assets/compare-before.svg
+after: assets/compare-after.svg
+alt: Fieldnotes illustration before and after its visual refinement
 :::
 ```
-
-**Required Attributes:**
-- `before` - URL to before image
-- `after` - URL to after image
-
-**Optional Attributes:**
-- `alt` - Alt text for both images
-- `beforeAlt` - Specific alt for before image
-- `afterAlt` - Specific alt for after image
-
-#### Interaction Features {bold}
-
-:::card {elevated padded}
-**Mouse/Track Interaction:**
-- :icon[mouse-pointer]{primary} Click and drag the handle
-- :icon[hand]{success} Entire handle is draggable (not just center!)
-- Smooth real-time updates
-
-**Touch Devices:**
-- :icon[smartphone]{info} Touch and drag on mobile/tablets
-- Works perfectly on all touch screens
-- Native touch event handling
-
-**Keyboard Navigation:**
-- :icon[keyboard]{warning} Focus the slider with Tab
-- :icon[arrow-left]{primary} Left/Up: Move slider left/up (5% steps)
-- :icon[arrow-right]{success} Right/Down: Move slider right/down (5% steps)
-- Full keyboard accessibility
 :::
 
-#### Accessibility Features {bold}
+The vertical variant reveals the pair from top to bottom:
 
-:::card {light-glass padded}
-**Enterprise-Grade Accessibility:**
-- :icon[check]{success} `role="slider"` with ARIA attributes
-- :icon[check]{success} `aria-valuenow` updates as slider moves (0-100)
-- :icon[check]{success} Keyboard navigation fully supported
-- :icon[check]{success} Proper `alt` text for screen readers
-- :icon[check]{success} Focus visible indicators
-- :icon[check]{success} Screen reader announcements
+:::compare-images {vertical labels glass lg}
+before: assets/compare-before.svg
+after: assets/compare-after.svg
+alt: The same Fieldnotes illustration compared vertically
 :::
 
-[Back to top](#top){badge primary}
+:::details
+**View source**
+
+```taildown
+:::compare-images {vertical labels glass lg}
+before: assets/compare-before.svg
+after: assets/compare-after.svg
+alt: The same Fieldnotes illustration compared vertically
+:::
+```
+:::
+
+**Variants:** `horizontal` (default), `vertical`, `labels`, `glass`, `rounded`, `shadow`. **Sizes:** `sm` (280px, capped at 35vh), `md` (450px / 55vh, default), `lg` (580px / 70vh), `xl` (700px / 80vh), `full` (parent height, at least 400px).
+
+Drag the handle, or focus it and use the orientation's arrow keys. Home and End reveal the extremes. Supply `before:`, `after:`, and a meaningful `alt:` description. Two Markdown images are also accepted and preserve their separate alt texts. Use matching image dimensions and keep local assets with an exported HTML file; images are not embedded by the compiler.
+
+
+
+[Back to index](#nav){small}
 
 ---
 
-### Mermaid Diagrams {#mermaid bold primary}
+### Mermaid {#mermaid}
 
-**Client-side rendered diagrams with zero-overhead tree-shaking.**
+Use a Mermaid diagram for relationships that need more than a list. Keep a short prose explanation alongside the graphic.
 
-:::alert {info}
-:icon[zap]{warning} **Tree-Shaken:** 0KB overhead when no diagrams present. ~2.7MB inline UMD bundle only when diagrams detected.
+This publishing flow returns a note to revision until it is ready:
+
+:::mermaid {bordered compact}
+flowchart TD
+  accTitle: Fieldnotes publishing flow
+  accDescr: A draft returns to revision until it is ready to publish.
+  A[Field observation] --> B[Draft note]
+  B --> C{Ready to share?}
+  C -->|Revise| B
+  C -->|Publish| D[Collection]
 :::
 
-#### What are Mermaid Diagrams? {bold}
+:::details
+**View source**
 
-Mermaid enables you to create diagrams and visualizations using text-based syntax:
-
-```mermaid
-graph LR
-  A[Start] --> B{Decision}
-  B -->|Yes| C[Action 1]
-  B -->|No| D[Action 2]
-  C --> E[End]
-  D --> E
-```
-
-#### Supported Diagram Types {bold}
-
-:::grid {cols-3}
-:::card {subtle-glass padded}
-#### :icon[git-branch]{primary} Flow & Process
-- Flowcharts
-- Sequence Diagrams
-- State Machines
-- Git Graphs
+````taildown
+:::mermaid {bordered compact}
+flowchart TD
+  accTitle: Fieldnotes publishing flow
+  accDescr: A draft returns to revision until it is ready to publish.
+  A[Field observation] --> B[Draft note]
+  B --> C{Ready to share?}
+  C -->|Revise| B
+  C -->|Publish| D[Collection]
+:::
+````
 :::
 
-:::card {subtle-glass padded}
-#### :icon[database]{success} Data & Structure
-- Class Diagrams
-- ER Diagrams
-- Pie Charts
-- Gantt Charts
-:::
+A sequence diagram emphasizes who does what: the author saves a note, then the reader opens the resulting collection.
 
-:::card {subtle-glass padded}
-#### :icon[user]{info} User & Journey
-- User Journey Maps
-- Timeline Diagrams
-:::
-:::
-
-#### Basic Flowchart {bold}
-
-Simple decision tree:
-
-```mermaid
-graph TD
-  A[Christmas] -->|Get money| B(Go shopping)
-  B --> C{Let me think}
-  C -->|One| D[Laptop]
-  C -->|Two| E[iPhone]
-  C -->|Three| F[Car]
-```
-
-#### Sequence Diagram {bold}
-
-UML sequence diagram for interactions:
-
-```mermaid {glass}
+```mermaid {compact}
 sequenceDiagram
-  participant Alice
-  participant Bob
-  Alice->>John: Hello John, how are you?
-  loop Healthcheck
-    John->>John: Fight against hypochondria
-  end
-  Note right of John: Rational thoughts!
-  John-->>Alice: Great!
-  John->>Bob: How about you?
-  Bob-->>John: Jolly good!
+  participant Author
+  participant Collection
+  participant Reader
+  Author->>Collection: Save a field note
+  Reader->>Collection: Open the collection
+  Collection-->>Reader: Show published notes
 ```
 
-#### Class Diagram {bold}
+:::details
+**View source**
 
-Object-oriented structure:
-
-```mermaid
-classDiagram
-  Animal <|-- Duck
-  Animal <|-- Fish
-  Animal <|-- Zebra
-  Animal : +int age
-  Animal : +String gender
-  Animal: +isMammal()
-  Animal: +mate()
-  class Duck{
-    +String beakColor
-    +swim()
-    +quack()
-  }
-  class Fish{
-    -int sizeInFeet
-    -canEat()
-  }
-  class Zebra{
-    +bool is_wild
-    +run()
-  }
+````taildown
+```mermaid {compact}
+sequenceDiagram
+  participant Author
+  participant Collection
+  participant Reader
+  Author->>Collection: Save a field note
+  Reader->>Collection: Open the collection
+  Collection-->>Reader: Show published notes
 ```
-
-#### State Diagram {bold compact}
-
-State machine visualization:
-
-```mermaid {compact bordered}
-stateDiagram-v2
-  [*] --> Still
-  Still --> [*]
-  Still --> Moving
-  Moving --> Still
-  Moving --> Crash
-  Crash --> [*]
-```
-
-#### Gantt Chart {bold}
-
-Project timeline:
-
-```mermaid {lg}
-gantt
-  title Project Development Timeline
-  dateFormat YYYY-MM-DD
-  section Design Phase
-  Research & Planning    :a1, 2024-01-01, 30d
-  UI/UX Design          :a2, after a1, 20d
-  Design Review         :milestone, after a2, 0d
-  section Development
-  Backend Development    :b1, 2024-02-15, 45d
-  Frontend Development   :b2, after b1, 30d
-  Integration           :b3, after b2, 15d
-  section Testing
-  QA Testing            :c1, after b3, 20d
-  User Acceptance       :c2, after c1, 10d
-  Launch                :milestone, after c2, 0d
-```
-
-#### Pie Chart {bold}
-
-Data visualization:
-
-```mermaid
-pie title Browser Usage
-  "Chrome" : 65
-  "Firefox" : 15
-  "Safari" : 12
-  "Edge" : 5
-  "Other" : 3
-```
-
-#### Git Graph {bold}
-
-Branch visualization:
-
-```mermaid
-gitGraph
-  commit
-  commit
-  branch develop
-  checkout develop
-  commit
-  commit
-  checkout main
-  merge develop
-  commit
-  commit
-```
-
-#### ER Diagram {bold}
-
-Entity relationships:
-
-```mermaid
-erDiagram
-  CUSTOMER ||--o{ ORDER : places
-  CUSTOMER {
-    string name
-    string custNumber
-    string sector
-  }
-  ORDER ||--|{ LINE-ITEM : contains
-  ORDER {
-    int orderNumber
-    string deliveryAddress
-  }
-  LINE-ITEM {
-    string productCode
-    int quantity
-    float pricePerUnit
-  }
-```
-
-#### User Journey {bold}
-
-Journey map:
-
-```mermaid
-journey
-  title My working day
-  section Go to work
-    Make tea: 5: Me
-    Go upstairs: 3: Me
-    Do work: 1: Me, Cat
-  section Go home
-    Go downstairs: 5: Me
-    Sit down: 5: Me
-```
-
-#### Styling Variants {bold}
-
-:::grid {cols-2}
-:::card {subtle-glass padded}
-**Glass Effect:**
-
-```mermaid {glass compact}
-graph LR
-  A --> B
-  B --> C
-  C --> A
-```
+````
 :::
 
-:::card {subtle-glass padded}
-**Elevated:**
+**Diagram families:** Mermaid also provides class, state, entity-relationship, Gantt, pie, and Git diagrams. Taildown passes diagram source to its bundled Mermaid runtime; use the syntax of the chosen family.
 
-```mermaid {elevated compact}
-graph TD
-  Start --> Stop
-```
-:::
-:::
+**Variants:** `glass`, `elevated`, `bordered`, `centered`, `compact`. **Sizes:** `sm` (400px maximum width), `md` (600px), `lg` (800px, default), `xl` (1000px), `full`. `small`, `medium`, and `large` are aliases. Put styling attributes on the opening `:::mermaid` directive or after the language name of a fenced `mermaid` block. Both attributed forms use the same component presets. Plain Mermaid fences also render diagrams.
 
-#### Size Modifiers {bold}
+Diagrams render to SVG in the browser and require JavaScript. The hosted editor loads its diagram asset when needed; portable exports include the runtime. Rendering is theme-aware, but a diagram still needs concise labels and a text explanation for readers who cannot interpret the graphic.
 
-Control diagram container size:
 
-```taildown
-```mermaid {sm}        # Small (max-width: 640px)
-```mermaid {md}        # Medium (768px, default)
-```mermaid {lg}        # Large (1024px)
-```mermaid {xl}        # Extra Large (1280px)
-```
 
-#### Performance & Features {bold}
-
-:::grid {cols-2}
-:::card {light-glass padded}
-**Performance:**
-- :icon[zap]{warning} Tree-shaken (0KB when unused)
-- :icon[package]{success} ~2.7MB inline when used
-- :icon[activity]{info} Client-side rendering
-- :icon[refresh-cw]{primary} Theme-aware (auto light/dark)
-:::
-
-:::card {light-glass padded}
-**Features:**
-- :icon[check]{success} 9 diagram types
-- :icon[check]{success} Standard Mermaid syntax
-- :icon[check]{success} SVG output (scalable)
-- :icon[check]{success} Professional styling
-:::
-:::
-
-#### Accessibility {bold}
-
-:::card {light-glass padded}
-**Enterprise-Grade Accessibility:**
-- :icon[check]{success} SVG includes `<title>` and `<desc>` elements
-- :icon[check]{success} Semantic container with `role="img"`
-- :icon[check]{success} Keyboard navigable focus
-- :icon[check]{success} Screen reader compatible
-:::
-
-[Back to top](#top){badge primary}
+[Back to index](#nav){small}
 
 ---
 
-### Math Equations {#math bold primary}
+### Math {#math}
 
-**Compile-time LaTeX to MathML conversion with zero runtime JavaScript.**
+Use LaTeX notation for inline expressions and display equations. Taildown converts supported expressions to native MathML at compile time; no math renderer runs in the browser.
 
-:::alert {info}
-:icon[zap]{warning} **Zero Overhead:** MathML is generated at compile time. No JavaScript libraries loaded in browser!
-:::
-
-#### What are Math Equations? {bold}
-
-Write beautiful mathematical equations using standard LaTeX syntax. Rendered as native MathML for perfect rendering in modern browsers:
-
-**Inline Math:** The quadratic formula $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$ is fundamental in algebra.
-
-**Display Math (Centered):**
+Across $n$ visits, the mean observation time is $\bar{x}$:
 
 $$
-E = mc^2
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i
 $$
 
-#### Basic Syntax {bold}
+Here $x_i$ is the duration of visit $i$, measured in minutes. A mean summarizes the visits; it does not describe their variation.
 
-:::grid {cols-2}
-:::card {subtle-glass padded}
-#### :icon[type]{primary} Inline Math
-Use single `$` delimiters for inline equations:
+:::details
+**View source**
 
 ```taildown
-Einstein's $E = mc^2$ changed physics.
+Across $n$ visits, the mean observation time is $\bar{x}$:
+
+$$
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i
+$$
+
+Here $x_i$ is the duration of visit $i$, measured in minutes. A mean summarizes the visits; it does not describe their variation.
 ```
-
-**Result:** Einstein's $E = mc^2$ changed physics.
 :::
 
-:::card {subtle-glass padded}
-#### :icon[maximize]{success} Display Math
-Use double `$$` for centered display equations:
+**Syntax:** single `$` delimiters for inline math; `$$` on separate lines for display math. Fractions, roots, subscripts, superscripts, Greek letters, sums, integrals, and matrices can express more involved notation. This is mathematical notation support, not a complete LaTeX document engine. Define symbols in nearby prose and check complex equations at narrow widths and in the browsers your readers use.
 
-```taildown
-$$
-\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
-$$
-```
 
-**Result:**
 
-$$
-\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
-$$
-:::
-:::
-
-#### Common Examples {bold}
-
-##### Greek Letters & Symbols {bold}
-
-Greek letters: $\alpha$, $\beta$, $\gamma$, $\Delta$, $\Sigma$, $\Omega$
-
-Special symbols: $\infty$, $\partial$, $\nabla$, $\approx$, $\neq$, $\leq$, $\geq$
-
-##### Subscripts & Superscripts {bold}
-
-Simple: $x_1$, $x^2$, $x_1^2$
-
-Complex: $x_{i,j}^{n+1}$, $e^{i\pi}$
-
-##### Fractions & Roots {bold}
-
-Fraction: $\frac{numerator}{denominator}$
-
-Roots: $\sqrt{x}$, $\sqrt[3]{x}$, $\sqrt[n]{x}$
-
-##### Summations & Products {bold}
-
-Sum of natural numbers:
-
-$$
-\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
-$$
-
-Product notation:
-
-$$
-\prod_{i=1}^{n} i = n!
-$$
-
-#### Advanced Examples {bold}
-
-:::grid {cols-2}
-:::card {subtle-glass padded}
-#### Calculus
-
-Definition of derivative:
-
-$$
-f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}
-$$
-
-Fundamental theorem:
-
-$$
-\int_a^b f(x) dx = F(b) - F(a)
-$$
-:::
-
-:::card {subtle-glass padded}
-#### Linear Algebra
-
-Identity matrix:
-
-$$
-I = \begin{bmatrix}
-1 & 0 & 0 \\
-0 & 1 & 0 \\
-0 & 0 & 1
-\end{bmatrix}
-$$
-:::
-:::
-
-#### Complex Equations {bold}
-
-##### Euler's Identity {bold}
-
-Often called the most beautiful equation in mathematics:
-
-$$
-e^{i\pi} + 1 = 0
-$$
-
-##### Normal Distribution {bold}
-
-The probability density function:
-
-$$
-f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
-$$
-
-##### Maxwell's Equations {bold}
-
-The foundations of electromagnetism:
-
-$$
-\begin{aligned}
-\nabla \cdot \mathbf{E} &= \frac{\rho}{\epsilon_0} \\
-\nabla \cdot \mathbf{B} &= 0 \\
-\nabla \times \mathbf{E} &= -\frac{\partial \mathbf{B}}{\partial t} \\
-\nabla \times \mathbf{B} &= \mu_0\mathbf{J} + \mu_0\epsilon_0\frac{\partial \mathbf{E}}{\partial t}
-\end{aligned}
-$$
-
-#### Supported LaTeX Features {bold}
-
-:::grid {cols-3}
-:::card {subtle-glass padded}
-#### :icon[plus]{primary} Basic Operations
-- `+`, `-`, `\times`, `\div`
-- `\pm`, `\mp`
-- `=`, `\neq`
-- `<`, `>`, `\leq`, `\geq`
-:::
-
-:::card {subtle-glass padded}
-#### :icon[code]{success} Functions
-- `\frac{a}{b}` - Fractions
-- `\sqrt{x}` - Square root
-- `\sqrt[n]{x}` - Nth root
-- `x^2`, `x_i` - Exponents/subscripts
-:::
-
-:::card {subtle-glass padded}
-#### :icon[star]{info} Advanced
-- `\sum`, `\prod`, `\int`
-- `\lim`, `\log`, `\sin`, `\cos`
-- `\begin{bmatrix}` - Matrices
-- `\begin{aligned}` - Alignment
-:::
-:::
-
-#### Features & Performance {bold}
-
-:::grid {cols-2}
-:::card {light-glass padded}
-**Performance:**
-- :icon[zap]{warning} Zero runtime JavaScript
-- :icon[clock]{success} Compile-time conversion
-- :icon[feather]{info} Small MathML output
-- :icon[check]{success} No external libraries
-:::
-
-:::card {light-glass padded}
-**Features:**
-- :icon[check]{success} Full LaTeX syntax
-- :icon[check]{success} Professional math fonts
-- :icon[check]{success} Theme-aware colors
-- :icon[check]{success} Responsive scaling
-:::
-:::
-
-#### Browser Support {bold}
-
-:::card {light-glass padded}
-**Modern Browser Support:**
-- :icon[check]{success} Chrome 109+ (native MathML)
-- :icon[check]{success} Firefox 78+ (native MathML)
-- :icon[check]{success} Safari 14.1+ (native MathML)
-- :icon[check]{success} Edge 109+ (native MathML)
-
-**Accessibility:** MathML provides semantic meaning for screen readers, making equations accessible to all users.
-:::
-
-#### Best Practices {bold}
-
-:::alert {success}
-**Tips for Beautiful Math:**
-
-1. Use display math (`$$`) for important equations
-2. Use inline math (`$`) for simple formulas in text
-3. Break complex equations into multiple lines
-4. Use `\begin{aligned}` for equation systems
-5. Add spacing with `\,` `\:` `\;` `\quad` where needed
-:::
-
-[Back to top](#top){badge primary}
+[Back to index](#nav){small}
 
 ---
 
-### Timeline {#timeline bold primary}
+### Video {#video}
 
-**Chronological visualization of events and milestones with state management.**
+Give a short recording its own responsive player. This silent local illustration is deliberately paused until you choose to play it.
 
-:::alert {info}
-:icon[clock]{info} **Perfect For:** Project roadmaps, company history, process workflows, and event chronologies!
+:::video {16:9 controls loop}
+![A slow animated Fieldnotes landscape](assets/fieldnotes-motion.webm)
 :::
 
-#### What is a Timeline? {bold}
-
-Display events in chronological order with visual state indicators and connecting lines. H2 headings automatically become milestones:
-
-:::timeline {compact glass}
-## Example Started {completed}
-This milestone is marked as completed with a checkmark.
-
-## Currently Here {current}
-This milestone is marked as current with a pulsing dot.
-
-## Coming Soon
-This milestone has no state (pending by default).
-:::
-
-#### Basic Syntax {bold}
-
-:::grid {cols-2}
-:::card {subtle-glass padded}
-#### :icon[file-text]{primary} Structure
-```taildown
-:::timeline
-## Milestone Title {state}
-
-Content for this milestone goes here.
-
-- List items
-- More details
-
-## Next Milestone {state}
-
-More content...
-:::
-```
-
-**H2 headings** become milestones automatically.
-:::
-
-:::card {subtle-glass padded}
-#### :icon[check-circle]{success} States
-Add state markers to milestones:
-
-- `{completed}` - Green checkmark ✓
-- `{current}` - Pulsing dot ●
-- No marker - Pending ○
+:::details
+**View source**
 
 ```taildown
-## Done {completed}
-## Active {current}
-## Todo
-```
-:::
-:::
-
-#### Timeline Variants {bold}
-
-:::grid {cols-3}
-:::card {subtle-glass padded center}
-:icon[align-left]{primary huge}
-
-**Default (Vertical)**
-
-Left-aligned milestones with connecting line
-
-```taildown
-:::timeline
-## Milestone 1
+:::video {16:9 controls loop}
+![A slow animated Fieldnotes landscape](assets/fieldnotes-motion.webm)
 :::
 ```
 :::
 
-:::card {subtle-glass padded center}
-:icon[align-center]{success huge}
+**Aspect ratios:** `16:9` (default), `4:3`, `21:9`, `1:1`. **Treatments:** `glass`, `subtle-glass`. **Playback options:** `autoplay`, `muted`, `loop`, `controls`; self-hosted videos always receive native controls. Prefer deliberate playback, and pair autoplay with muted audio if you use it in your own document. Browser autoplay rules still apply.
 
-**Centered**
+Use Markdown image syntax for a self-hosted media URL. YouTube and Vimeo URLs can instead appear as the body of `:::video {youtube}` or `:::video {vimeo}`; those embeds contact the provider and require a network connection. This page uses local media to avoid making that request for you.
 
-Alternating left/right alignment
+**Description of this demo:** a silent landscape illustration changes slowly over time; it contains no spoken information. Provide a transcript for meaningful audio or visual content. The component does not expose a caption-track directive. Portable HTML does not embed the video bytes: distribute the media file beside it or use a reachable hosted URL.
 
-```taildown
-:::timeline {centered}
-## Milestone 1
-:::
-```
-:::
 
-:::card {subtle-glass padded center}
-:icon[minimize]{info huge}
-
-**Compact**
-
-Smaller markers, tighter spacing
-
-```taildown
-:::timeline {compact}
-## Milestone 1
-:::
-```
-:::
-:::
-
-#### Styling Variants {bold}
-
-:::grid {cols-3}
-:::card {subtle-glass padded center}
-:icon[droplet]{primary huge}
-
-**Glass Effect**
-
-Glassmorphism on content
-
-```taildown
-:::timeline {glass}
-## Milestone
-:::
-```
-:::
-
-:::card {subtle-glass padded center}
-:icon[box]{success huge}
-
-**Elevated**
-
-Shadow elevation
-
-```taildown
-:::timeline {elevated}
-## Milestone
-:::
-```
-:::
-
-:::card {subtle-glass padded center}
-:icon[square]{warning huge}
-
-**Bordered**
-
-Primary color border
-
-```taildown
-:::timeline {bordered}
-## Milestone
-:::
-```
-:::
-:::
-
-#### Project Roadmap Example {bold}
-
-A typical project timeline with phases and current status:
-
-:::timeline {glass}
-## Phase 1: Research & Planning {completed}
-
-**Duration:** 4 weeks | **Status:** ✓ Complete
-
-Initial planning and requirements gathering phase.
-
-**Key Deliverables:**
-- Requirements document
-- User personas
-- Technical architecture
-- Project timeline
-
-> "Understanding the problem is half the solution"
-
-## Phase 2: Design & Prototyping {completed}
-
-**Duration:** 6 weeks | **Status:** ✓ Complete
-
-Created comprehensive designs and interactive prototypes.
-
-**Achievements:**
-- Wireframes for all 20+ screens
-- Interactive Figma prototype
-- Design system components
-- Accessibility guidelines (WCAG 2.1 AA)
-
-**Team:** 3 designers, 1 UX researcher
-
-## Phase 3: Development {current}
-
-**Duration:** 12 weeks | **Status:** 🔄 In Progress (Week 7)
-
-Building core features and functionality.
-
-**Current Sprint Focus:**
-- [ ] Backend API development
-- [x] Database schema design
-- [x] Authentication system
-- [x] User management
-- [ ] Frontend components
-- [ ] Integration tests
-
-**Tech Stack:**
-- Next.js 15 + TypeScript
-- PostgreSQL + Prisma
-- Tailwind CSS
-- Vercel deployment
-
-**Progress:** 60% complete
-
-## Phase 4: Testing & QA
-
-**Duration:** 4 weeks | **Status:** ⏳ Upcoming
-
-Comprehensive testing and quality assurance phase.
-
-**Testing Plan:**
-- Unit tests (target: 80% coverage)
-- Integration tests
-- End-to-end tests
-- Performance testing
-- Security audit
-- User acceptance testing
-
-## Phase 5: Launch
-
-**Duration:** 2 weeks | **Status:** ⏳ Planned
-
-Final deployment and go-live.
-
-**Launch Checklist:**
-- Production deployment
-- DNS configuration
-- SSL certificates
-- Monitoring setup
-- Analytics integration
-- Marketing campaign
-:::
-
-#### Company History Timeline {bold}
-
-Centered layout for alternating presentation:
-
-:::timeline {centered elevated}
-## 2020 - Foundation {completed}
-
-Company founded with initial seed funding of $1M.
-
-**Founders:** Alex Kim, Sarah Chen, Michael Rodriguez
-
-**Mission:** Transform how teams collaborate on complex projects.
-
-## 2021 - Product Launch {completed}
-
-Launched MVP and acquired first 100 customers.
-
-**Metrics:**
-- 100 paying customers
-- $500K ARR
-- 4.8/5 customer satisfaction
-- Team grew to 15 people
-
-## 2022 - Series A {completed}
-
-Closed $10M Series A led by Accel Partners.
-
-**Achievements:**
-- Expanded to 1,000 customers
-- $5M ARR
-- Opened European office (London)
-- Team grew to 45 people
-- Launched mobile apps
-
-## 2023 - Expansion {current}
-
-Expanding into EMEA and APAC markets.
-
-**Current Status:**
-- 5,000+ customers worldwide
-- $25M ARR run rate
-- 3 offices (SF, London, Singapore)
-- 120 employees
-- Launched enterprise tier
-
-## 2024 - IPO Planning
-
-Planning initial public offering.
-
-**Targets:**
-- 20,000 customers
-- $100M ARR
-- Profitable unit economics
-- SOC 2 Type II certified
-:::
-
-#### Daily Schedule Example {bold}
-
-Compact timeline for dense information:
-
-:::timeline {compact}
-## 9:00 AM {completed}
-
-**Team Standup Meeting**
-
-Daily sync - 15 minutes
-
-## 10:30 AM {completed}
-
-**Client Presentation**
-
-Q4 roadmap review with Acme Corp
-
-## 12:00 PM {current}
-
-**Lunch Break**
-
-Team lunch at the new cafe
-
-## 2:00 PM
-
-**Code Review Session**
-
-Review PRs from morning work
-
-## 3:30 PM
-
-**1-on-1 with Manager**
-
-Quarterly goal check-in
-
-## 4:00 PM
-
-**Sprint Planning**
-
-Plan next week's sprint
-:::
-
-#### Process Workflow Timeline {bold}
-
-Timeline for documenting multi-stage processes:
-
-:::timeline {bordered glass}
-## Stage 1: Awareness {completed}
-
-**Goal:** Build brand recognition and attract potential customers.
-
-**Tactics:**
-- Content marketing (blog, videos)
-- Social media campaigns
-- SEO optimization
-- Conference presence
-
-**KPIs:**
-- Website traffic: 50K monthly visitors
-- Social followers: 10K+
-- Brand mentions: 500+/month
-
-## Stage 2: Interest {completed}
-
-**Goal:** Convert awareness into qualified leads.
-
-**Tactics:**
-- Lead magnets (ebooks, webinars)
-- Email marketing campaigns
-- Retargeting ads
-- Free tools and calculators
-
-**KPIs:**
-- Email list growth: 1,000/month
-- Lead quality score: 7+/10
-- Engagement rate: 25%+
-
-## Stage 3: Consideration {current}
-
-**Goal:** Nurture leads and demonstrate value.
-
-**Tactics:**
-- Product demos and trials
-- Case studies and testimonials
-- Comparison guides
-- Free consultations
-
-**KPIs:**
-- Demo requests: 200/month
-- Trial signups: 150/month
-- Trial-to-paid: 30%
-
-## Stage 4: Conversion
-
-**Goal:** Close deals and onboard customers.
-
-**Tactics:**
-- Sales calls and negotiations
-- Custom proposals
-- Onboarding support
-- Quick wins demonstration
-
-**KPIs:**
-- Closed deals: 45/month
-- Average deal size: $10K
-- Sales cycle: 30 days
-
-## Stage 5: Retention & Advocacy
-
-**Goal:** Keep customers happy and turn them into advocates.
-
-**Tactics:**
-- Customer success programs
-- Regular check-ins
-- Feature updates
-- Referral incentives
-
-**KPIs:**
-- Churn rate: <5%/year
-- NPS score: 50+
-- Referrals: 20%
-:::
-
-#### Features & Best Practices {bold}
-
-:::grid {cols-2}
-:::card {light-glass padded}
-**Visual Features:**
-- :icon[circle]{success} State markers (completed, current, pending)
-- :icon[git-branch]{primary} Connecting gradient line
-- :icon[circle]{info} Animated pulsing on current
-- :icon[layout]{warning} Responsive design
-:::
-
-:::card {light-glass padded}
-**Best Practices:**
-- :icon[check]{success} Use H2 for milestone titles
-- :icon[check]{success} Keep titles concise and clear
-- :icon[check]{success} Group related content
-- :icon[check]{success} Combine glass + elevated for impact
-:::
-
-:::card {light-glass padded}
-**Use Cases:**
-- :icon[briefcase]{primary} Project roadmaps
-- :icon[trending-up]{success} Company milestones
-- :icon[calendar]{info} Event schedules
-- :icon[settings]{warning} Process workflows
-:::
-
-:::card {light-glass padded}
-**Accessibility:**
-- :icon[check]{success} Semantic H3 headings
-- :icon[check]{success} ARIA labels on icons
-- :icon[check]{success} High contrast markers
-- :icon[check]{success} Screen reader friendly
-:::
-:::
-
-[Back to top](#top){badge primary}
+[Back to index](#nav){small}
 
 ---
 
-## Navigation Components {#navigation huge-bold center primary}
+## Put the pieces together {#combinations}
 
-**Components for site navigation and wayfinding.**
+A composition needs a hierarchy, not every available component. This compact project note combines a card, status badge, progress and a useful next step.
 
----
+:::card {bordered padded}
+### The coastal notebook
+:badge[In progress]{primary}
 
-### Navbar {#navbar bold primary}
+Eight observations, one collection. Keep the source editable and give each note enough context to stand on its own.
 
-**Modern navigation bar with glassmorphism and responsive behavior.**
-
-:::alert {success}
-:icon[check]{success} **Live Example:** The navbar at the top of this page is a working Taildown navbar!
+:::progress {value="3" max="8"}
+3 of 8 notes reviewed
 :::
 
-#### Basic Structure {bold}
-
-Use a home link with `.navbar-brand` for branding and paragraph links for navigation. This keeps the document's heading hierarchy focused on its content:
-
-```taildown
-:::navbar
-[Brand Name](/){.navbar-brand}
-
-[Home](/) [About](/about) [Docs](/docs) [Contact](/contact)
-:::
-```
-
-Navigation links have a minimum height of 44px. When no `aria-current` attribute is authored, the runtime marks matching same-origin document links with `aria-current="page"`; static `.html` and clean URLs are treated as equivalent. Section links and query-string differences are not marked as the current page. Existing authored current-state attributes are preserved.
-
-#### Features {bold}
-
-:::grid {cols-2}
-:::card {subtle-glass padded}
-#### Desktop Experience
-
-- Glassmorphic translucent background
-- Horizontal flex layout
-- Hover effects on links
-- Active link highlighting
-- Smooth scroll transparency
+[Build your own](editor.html){button primary}
 :::
 
-:::card {subtle-glass padded}
-#### Mobile Experience
+:::details
+**View source**
 
-- Responsive breakpoints
-- Wrapped navigation
-- Touch-friendly targets
-- Full-width layout
-:::
-:::
+````taildown
+:::card {bordered padded}
+### The coastal notebook
+:badge[In progress]{primary}
 
-#### Theming & Behavior {bold}
+Eight observations, one collection. Keep the source editable and give each note enough context to stand on its own.
 
-:::card {light-glass padded}
-**Automatic Theming:**
-- Light mode: translucent white with blur
-- Dark mode: translucent slate with blur
-- Smooth theme transitions
-
-**Scroll Behavior:**
-- Fixed position (stays at top)
-- Increases transparency on scroll
-- Enhanced blur effect when scrolling
-- Professional modern appearance
+:::progress {value="3" max="8"}
+3 of 8 notes reviewed
 :::
 
-#### Usage Summary {bold}
-
-```taildown
-:::navbar
-[Site Name](/){.navbar-brand}
-
-[Link 1](#) [Link 2](#) [Link 3](#)
+[Build your own](editor.html){button primary}
 :::
-```
-
-**Best Practices:**
-- Use a `.navbar-brand` home link for branding; headings remain supported when they belong in the document outline
-- Use paragraph links for navigation
-- Keep navigation concise (5-7 links max)
-- Include icons for visual interest
-
-**Variants:** `glass` (default) `solid` `minimal` `floating`
-
-[Back to top](#top){badge primary}
-
----
-
-## Component Combinations {#combinations huge-bold center primary}
-
-**Powerful layouts using multiple components together.**
-
----
-
-### Feature Grid Showcase {bold primary}
-
-Combine grids, cards, and icons for stunning feature sections:
-
-:::grid {cols-3}
-:::card {subtle-glass padded center hover-lift}
-:icon[zap]{warning huge}
-
-**Lightning Fast** {large-bold}
-
-Sub-100ms compilation targets
+````
 :::
 
-:::card {subtle-glass padded center hover-lift}
-:icon[heart]{error huge}
+## From example to document {#authoring}
 
-**Beautiful Design** {large-bold}
+Copy an example's source into the [editor](editor.html), then change its content and styling. Keep the `.td` source alongside your HTML export. Test your actual links, keyboard interactions and narrow layout before sharing.
 
-Zero-config glassmorphism
+Exported styles and behavior travel with inline HTML; authored images and video still need their files. The media on this page lives with the site in `assets/`. See [getting started](getting-started.html) for the local CLI and [component presets](getting-started.html#component-presets) for shared defaults.
+
+## Small marks, useful meaning {#inline}
+
+Use :icon[book-open] icons, :kbd[Ctrl] + :kbd[K] keyboard hints, and task lists alongside components:
+
+- [x] Record the observation
+- [ ] Add an interpretation
+
+See the [syntax guide](syntax-guide.html) for inline syntax, links, images, code and task lists, and [plain English](plain-english.html) for the styling vocabulary.
+
+[Back to the index](#nav){button secondary}
+
 :::
-
-:::card {subtle-glass padded center hover-lift}
-:icon[code]{primary huge}
-
-**Simple Syntax** {large-bold}
-
-Plain English styling
-:::
-
-:::card {light-glass padded center hover-lift}
-:icon[package]{success huge}
-
-**Rich Components** {large-bold}
-
-Interactive with auto JS
-:::
-
-:::card {light-glass padded center hover-lift}
-:icon[palette]{info huge}
-
-**Full Theming** {large-bold}
-
-Dark mode everywhere
-:::
-
-:::card {light-glass padded center hover-lift}
-:icon[accessibility]{warning huge}
-
-**Accessible** {large-bold}
-
-ARIA and keyboard nav
-:::
-:::
-
----
-
-### Documentation Section {bold primary}
-
-Combine cards, tabs, and alerts for rich documentation:
-
-:::card {light-glass padded}
-#### :icon[book]{primary} Quick Reference
-
-:::tabs
-### Getting Started
-
-:::alert {info}
-:icon[lightbulb]{warning} New to Taildown? Start here for a quick introduction!
-:::
-
-**Quick Steps:**
-1. Set up a [source checkout](getting-started.html), then run `pnpm install --frozen-lockfile` and `pnpm build`
-2. Create a `.td` file in that checkout
-3. Compile: `pnpm taildown compile file.td`
-4. Open the generated HTML
-
-[Full Tutorial](#){button primary}
-
-### Syntax Reference
-
-Common patterns at a glance:
-
-| Syntax | Purpose |
-|--------|---------|
-| `{large-bold}` | Plain English styling |
-| `:icon[name]` | Inline icons |
-| `:::component` | Component blocks |
-| `[Text](#){button}` | Button links |
-
-[Complete Syntax](#){button primary}
-
-### Components
-
-All available components:
-
-- :icon[check]{success} Layout: Card, Grid, Button Group
-- :icon[check]{success} Interactive: Tabs, Accordion, Carousel
-- :icon[check]{success} Overlays: Modal, Tooltip
-- :icon[check]{success} Feedback: Alert, Badge
-- :icon[check]{success} Navigation: Navbar
-
-[Component Reference](#){button primary}
-:::
-:::
-
----
-
-### Call to Action Section {bold primary}
-
-Cards, buttons, and icons create compelling CTAs:
-
-:::card {heavy-glass padded-xl}
-:icon[sparkles]{warning huge} {center}
-
-**Ready to build something amazing?** {huge-bold center primary}
-
-Get started with Taildown in 5 minutes. No configuration, no complexity - just beautiful results. {large-muted center}
-
-:::button-group
-[Get Started Free](#){button primary large hover-lift} [View Docs](#){button secondary large} [See Examples](#){button info large}
-:::
-:::
-
----
-
-### FAQ Accordion {bold primary}
-
-Accordion inside a card for elegant FAQs:
-
-:::card {light-glass padded-xl}
-### :icon[help-circle]{primary} Frequently Asked Questions
-
-:::accordion
-**Is Taildown production-ready?**
-
-Taildown is in active development with strong stability focus. The core syntax is stable and backwards compatibility is a priority. Many features are production-ready while others are being refined.
-
-**Does it work with existing Markdown?**
-
-Yes! Taildown is a superset of Markdown. Every valid Markdown document is also valid Taildown. You can gradually add Taildown features to existing content.
-
-**What about bundle size?**
-
-Taildown uses tree-shaking to include only JavaScript for components you actually use. Output size depends on the components and features used. Theme controls and other enabled features can add JavaScript even to a mostly static document; diagrams include their own runtime. Measure the exported file for your document rather than assuming a fixed bundle size.
-
-**Can I customize the styling?**
-
-Absolutely! The generated CSS can be extended or overridden. You can use custom CSS classes alongside Taildown's plain English shorthands.
-
-**How does it compare to MDX?**
-
-Taildown focuses on zero-config simplicity with plain English syntax, while MDX focuses on JSX integration. Taildown is markup-first, MDX is component-first. Choose based on your needs!
-:::
-:::
-
-[Back to top](#top){badge primary}
-
----
-
-
-## Supporting Components {#supporting huge-bold center primary}
-
-### Avatar {#avatar bold primary}
-
-Display initials or a profile image in a compact frame. Shapes are `circular` (default), `square`, and `rounded`; sizes run from `xs` through `2xl`.
-
-```taildown
-:::avatar
-AM
-:::
-```
-
-:::avatar
-AM
-:::
-
-### Breadcrumb {#breadcrumb bold primary}
-
-A navigation trail made from your own links and separators. Use `boxed` for a bordered surface or `separated` for more spacing; sizes are `sm`, `md`, and `lg`. Mark the current page as text rather than a redundant link.
-
-```taildown
-:::breadcrumb {boxed aria-label="Breadcrumb"}
-[Home](index.html) / [Guides](getting-started.html) / Components
-:::
-```
-
-:::breadcrumb {boxed aria-label="Breadcrumb"}
-[Home](index.html) / [Guides](getting-started.html) / Components
-:::
-
-### Pagination {#pagination bold primary}
-
-Arrange links to pages or sections. Pagination does not split content or fetch pages automatically. Variants `compact` and `spaced` adjust the gap; sizes are `sm`, `md`, and `lg`.
-
-```taildown
-:::pagination {spaced aria-label="Guide pages"}
-[Getting Started](getting-started.html) [Syntax Guide](syntax-guide.html) [Components](components.html)
-:::
-```
-
-:::pagination {spaced aria-label="Guide pages"}
-[Getting Started](getting-started.html) [Syntax Guide](syntax-guide.html) [Components](components.html)
-:::
-
-### Sidebar {#sidebar bold primary}
-
-An `aside` for supporting navigation or information. The default sits in normal document flow. Widths are `sm`, `md`, `lg`, and `xl`; `floating` adds margin, rounding, and shadow. The `fixed` variant pins the panel to the viewport, so reserve space for it in your layout. The `collapsible` variant supplies a transition style only; it does not create a toggle or collapse behavior.
-
-```taildown
-:::sidebar {sm}
-### On this page
-
-- [Avatar](#avatar)
-- [Breadcrumb](#breadcrumb)
-- [Pagination](#pagination)
-:::
-```
-
-:::sidebar {sm}
-### On this page
-
-- [Avatar](#avatar)
-- [Breadcrumb](#breadcrumb)
-- [Pagination](#pagination)
-:::
-
-### Skeleton {#skeleton bold primary}
-
-A visual loading placeholder. Choose `text`, `circle`, or `rectangle` for its shape; size keywords change the height. The pulse respects reduced-motion preferences. It does not load data or replace itself when content arrives.
-
-```taildown
-:::skeleton {rectangle aria-hidden="true"}
-:::
-```
-
-:::skeleton {rectangle aria-hidden="true"}
-:::
-
-### Footnotes {#footnotes bold primary}
-
-Use Markdown footnote references and definitions. Taildown generates the numbered links, return links, and footnotes section; you do not need to create a `footnotes` component block yourself.
-
-```taildown
-A supporting observation belongs in a note.[^example]
-
-[^example]: Keep the main paragraph focused while preserving useful detail.
-```
-
-A supporting observation belongs in a note.[^reference-example]
-
-[^reference-example]: Keep the main paragraph focused while preserving useful detail.
-
----
-
-## Complete Component List {#checklist huge-bold center primary}
-
-**Every component at a glance:**
-
-:::grid {cols-2}
-:::card {light-glass padded}
-### :icon[layout]{primary} Layout Components
-- :icon[check]{success} **Card** - Content containers with glass effects
-- :icon[check]{success} **Grid** - Equal-height column layouts
-- :icon[check]{success} **[Container](#container)** - Centered reading and layout widths
-- :icon[check]{success} **Button Group** - Intelligent button layout
-:::
-
-:::card {light-glass padded}
-### :icon[activity]{success} Interactive Components
-- :icon[check]{success} **Tabs** - Tabbed interfaces with headings
-- :icon[check]{success} **Accordion** - Expandable sections with bold triggers
-- :icon[check]{success} **Carousel** - Slideshows with 3D effects
-:::
-
-:::card {light-glass padded}
-### :icon[message-square]{warning} Overlay Components
-- :icon[check]{success} **Modal** - Overlay dialogs with blur
-- :icon[check]{success} **Tooltip** - Contextual help text
-:::
-
-:::card {light-glass padded}
-### :icon[bell]{error} Feedback Components
-- :icon[check]{success} **Alert** - Semantic message boxes
-- :icon[check]{success} **Badge** - Inline status indicators
-- :icon[check]{success} **[Progress](#progress)** - Native determinate and indeterminate indicators
-:::
-
-:::card {light-glass padded}
-### :icon[file-text]{info} Content Components
-- :icon[check]{success} **Details** - Progressive disclosure (HTML5)
-- :icon[check]{success} **Callout** - Semantic alert boxes
-- :icon[check]{success} **Columns** - Multi-column layouts
-- :icon[check]{success} **Definitions** - Term-definition pairs
-- :icon[check]{success} **Stats** - Prominent metrics display
-- :icon[check]{success} **Divider** - Enhanced separators
-- :icon[check]{success} **Steps** - Progress indicators
-- :icon[check]{success} **Mark** - Text highlighting
-:::
-
-:::card {light-glass padded}
-### :icon[table]{success} Data & Visualization
-- :icon[check]{success} **[Tree](#tree)** - Directory and hierarchy lists
-- :icon[check]{success} **[Flow](#flow)** - List-based process diagrams
-- :icon[check]{success} **[Code Diff](#diff)** - Unified patches and Before/After comparisons
-- :icon[check]{success} **Enhanced Table** - Sortable, zebra, glass effects
-- :icon[check]{success} **Image Comparison** - Interactive before/after slider
-- :icon[check]{success} **Mermaid Diagrams** - Flowcharts, sequence, Gantt, and more
-- :icon[check]{success} **Math Equations** - LaTeX to MathML conversion
-:::
-
-:::card {light-glass padded}
-### :icon[video]{accent} Media Components
-- :icon[check]{success} **Video** - Responsive video embeds
-:::
-:::
-
-:::card {subtle-glass padded center}
-### :icon[compass]{info} Navigation Components
-- :icon[check]{success} **Navbar** - Modern site navigation with glassmorphism
-- :icon[check]{success} **Breadcrumb** - Navigation trails
-- :icon[check]{success} **Pagination** - Page navigation
-:::
-
----
-
-## Next Steps {#next huge-bold center primary}
-
-:::card {light-glass padded-xl center}
-**You've mastered every component!** {huge-bold}
-
-Now start building your own beautiful documents. {large-muted}
-
-:::button-group
-[Getting Started](getting-started.html){button primary large hover-lift} [Syntax Guide](syntax-guide.html){button secondary large} [Plain English](plain-english.html){button info large}
-:::
-:::
-
----
-
-[Back to top](#top){button primary large}

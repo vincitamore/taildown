@@ -1988,6 +1988,11 @@ graph LR
 
 - **Component syntax (`:::mermaid`)** is recommended for consistency with other Taildown components and more natural attribute placement
 - **Fenced code block syntax** (```mermaid```) is also supported for compatibility with GitHub/GitLab Markdown
+- A brace attribute block after the `mermaid` language uses the same variants, sizes,
+  plain-English styles, direct classes, quoted HTML attributes, and per-document
+  component configuration as `:::mermaid`. These attributes belong to the diagram
+  container and survive rendering, errors, and theme changes. A plain Mermaid fence
+  without metadata continues to use the basic diagram container.
 
 **Supported Diagram Types:**
 
@@ -2022,15 +2027,16 @@ graph LR
 - `glass` - Glassmorphism effect
 - `elevated` - Enhanced shadow
 - `compact` - Reduced padding
-- `full` - Full width container
 - `bordered` - Prominent border
+- `centered` - Horizontally centered container
 
 **Size Modifiers:**
 
-- `sm` - Small container (max-width: 640px)
-- `md` - Medium container (max-width: 768px, default)
-- `lg` - Large container (max-width: 1024px)
-- `xl` - Extra large container (max-width: 1280px)
+- `sm` / `small` - Small container (max-width: 400px)
+- `md` / `medium` - Medium container (max-width: 600px)
+- `lg` / `large` - Large container (max-width: 800px, default)
+- `xl` - Extra large container (max-width: 1000px)
+- `full` - Full width container
 
 **Examples:**
 

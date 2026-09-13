@@ -45,3 +45,10 @@ it('keeps clipboard source unchanged through the actual compiler export path', a
   expect(document.querySelector('pre code')?.textContent).toBe(source);
   expect(document.querySelector('.code-copy-btn')?.getAttribute('data-code-text')).toBe(source);
 });
+
+it('keeps Windows line endings from becoming extra lines between highlighted tokens', async () => {
+  const source = ':::card\r\n#### A heading\r\nThe paragraph\r\n:::';
+  const document = await highlight(source);
+  expect(document.querySelector('code')?.textContent).toBe(source.replace(/\r\n/g, '\n'));
+  expect(document.querySelectorAll('.code-line')).toHaveLength(4);
+});

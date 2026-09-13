@@ -1783,6 +1783,8 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
       return renderProgress(state, node);
     case 'details':
       return renderDetails(state, node);
+    case 'stats':
+      return renderStats(state, node);
     case 'definitions': {
       const result = renderGenericComponent(state, node);
       result.children = definitionPairs(result.children);
@@ -1804,6 +1806,28 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
       // For other components (card, alert, grid, etc.), use generic renderer
       return renderGenericComponent(state, node);
   }
+}
+
+/** Keep each marked value with its rich label instead of separate grid cells. */
+function renderStats(state: State, node: ContainerDirectiveNode): Element {
+  const result = renderGenericComponent(state, node);
+  const children: ElementContent[] = [];
+  let item: Element | undefined;
+  for (const child of result.children) {
+    const raw = child.type === 'element' ? child.properties.className : undefined;
+    const classes = Array.isArray(raw) ? raw.map(String) : typeof raw === 'string' ? raw.split(/\s+/) : [];
+    if (child.type === 'element' && classes.includes('stat')) {
+      child.properties.className = [...classes, 'stat-value'];
+      item = {type: 'element', tagName: 'div', properties: {className: ['stat-item']}, children: [child]};
+      children.push(item);
+    } else if (item) {
+      item.children.push(child);
+    } else {
+      children.push(child);
+    }
+  }
+  result.children = children;
+  return result;
 }
 
 /** Preserve rich label content outside the native, presentational-only bar. */
