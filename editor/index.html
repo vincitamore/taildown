@@ -798,6 +798,9 @@
         transition-duration: 0.01ms !important;
       }
     }
+    #toolbar button[hidden] { display: none; }
+    #app-status:empty { display: none; }
+    #app-status { padding: 4px 12px; font-size: 12px; background: var(--bg-secondary); color: var(--text-secondary); flex-shrink: 0; }
     #design-settings { background: var(--bg-primary); color: var(--text-primary); }
     #design-settings::backdrop { background: rgb(15 23 42 / 55%); }
     #design-settings h2 { margin: 0 0 0.75rem; font-size: 1.375rem; }
@@ -869,6 +872,8 @@
       <button id="open-btn" title="Open file (Ctrl+O)">Open</button>
       <button id="download-btn" title="Download .td file">Download source</button>
       <button id="export-btn" title="Export HTML (Ctrl+E)">Export HTML</button>
+      <button id="install-app" hidden>Install app</button>
+      <button id="update-app" hidden>Update app</button>
       <button id="offline-editor" hidden title="Download the complete editor for offline use">Offline editor</button>
       <button id="help-btn" title="Show welcome template" aria-label="Load welcome template">Template</button>
     </div>
@@ -878,6 +883,7 @@
     <div id="document-info"><span id="filename-display">untitled.td</span>
     <span id="status" role="status" aria-live="polite"></span></div>
   </div>
+  <p id="app-status" role="status" aria-live="polite"></p>
   <nav id="mobile-navigation" aria-label="Editor views and design">
     <button id="mobile-edit" aria-pressed="true" aria-controls="editor-pane">Edit</button>
     <button id="mobile-preview" aria-pressed="false" aria-controls="preview-pane">Preview</button>
@@ -913,6 +919,7 @@
     import {createPreviewController} from './preview.ts';
     import {restoreDraft, createBeforeUnloadHandler} from './recovery.ts';
     import {initializeDivider} from './divider.ts';
+    import {initializePwa} from './pwa.ts';
     import {initializeMobileEditor} from './mobile.ts';
     import {createDraftStore} from './draft-store.js';
     import {createDesignSettings, typographyChoices, prepareTypography, parseDesignSettings} from './design-settings.js';
@@ -1564,6 +1571,19 @@ Browser recovery keeps your latest draft when storage is available. Save or down
       initEditor();
     }
 
+    initializePwa({
+      saveDraft: () => {
+        if (!editor) return false;
+        try { localStorage.setItem('taildown-editor-design', JSON.stringify(designSettings.options)); }
+        catch { return false; }
+        return draftStore.save(editor.state.doc.toString(), currentFilename);
+      },
+      canReload: () => !designDialog.open,
+    });
+    // Mobile app suspension need not fire beforeunload; save synchronously when hidden.
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden' && editor) draftStore.save(editor.state.doc.toString(), currentFilename);
+    });
     // Warn before closing with unsaved changes
     window.addEventListener('beforeunload', createBeforeUnloadHandler({
       getContent: () => editor?.state.doc.toString(), getFilename: () => currentFilename, draftStore,

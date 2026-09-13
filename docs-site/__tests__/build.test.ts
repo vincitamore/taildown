@@ -78,6 +78,7 @@ it('builds fresh runtime assets and writes only to the deployment output', async
   expect(execFileSync.mock.calls.map((call) => call[1])).toEqual([
     ['build-browser.mjs'],
     ['editor/build.mjs'],
+    ['editor/build-pwa.mjs', join(PROJECT_DIR, 'docs-site/dist')],
   ]);
   expect(fs.copyFile).toHaveBeenCalledWith(
     join(PROJECT_DIR, 'editor/dist/editor-hosted.html'),

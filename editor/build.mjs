@@ -64,6 +64,7 @@ async function build() {
     fs.writeFileSync(outputPath, output, 'utf8');
 
     const hostedTemplate = template
+      .replace('</head>', '<link rel="manifest" href="/favicon/site.webmanifest"><meta name="theme-color" content="#3b82f6"><link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png"></head>')
       .replace('../packages/compiler/dist/taildown-worker-source.js', '../packages/compiler/dist/taildown-worker-hosted-source.js')
       .replace('id="offline-editor" hidden', 'id="offline-editor"');
     fs.writeFileSync(path.join(distDir, 'editor-hosted.html'), await inlineEditorModule(hostedTemplate), 'utf8');
