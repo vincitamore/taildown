@@ -114,6 +114,10 @@ To distribute the offline editor, share `editor/dist/editor.html`. To host the s
 - `editor/icons.ts`: toolbar and completion SVG rendering from compiler-supplied icon data.
 - `editor/preview.ts`: debounced compilation, stale-result guards, diagnostics navigation, preview fragment navigation and scroll restoration.
 - `editor/divider.ts`: responsive split-pane resizing with pointer and keyboard controls.
+- `editor/mobile.ts`: mobile pane navigation, focus boundaries and zoom-aware viewport sizing.
+- `editor/pwa.ts`: installation prompts and updates gated on durable drafts and open dialogs.
+- `editor/incoming.ts`: system sharing and incoming file review with source backup before replacement.
+- `editor/service-worker.js` and `editor/build-pwa.mjs`: content-addressed offline shell and local shared-file intake.
 - `editor/recovery.ts`: restores saved drafts and checks for unsaved changes before closing.
 - `editor/files.ts`: open/save/download/export operations, document identity checks, and per-handle write queues.
 - `editor/design-settings.js`: design JSON validation and persistence.
