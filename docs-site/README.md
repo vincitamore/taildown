@@ -1,173 +1,41 @@
-# Taildown Documentation Site
+# Documentation site
 
-This directory contains the source files and build scripts for the Taildown documentation website at **taildown.dev**.
+The public Taildown site is authored in `.td` and built with the same compiler used by the editor. Edit the sources here; publish the generated `dist/` directory.
 
-## Overview
+## Build and preview
 
-The documentation site is built entirely with Taildown itself, demonstrating:
+From the repository root, after installing the workspace dependencies:
 
-- **Dark Mode** - Automatic theme switching with system preference detection
-- **Glassmorphism** - Modern frosted glass effects throughout
-- **Scroll Animations** - Entrance animations triggered on scroll
-- **Interactive Components** - Tabs, accordions, modals, and tooltips
-- **Plain English Syntax** - Natural language styling
-- **Zero Configuration** - Beautiful by default
-
-## Structure
-
-```
-docs-site/
-├── index.td                  # Main landing page
-├── getting-started.td        # Installation and quick start guide
-├── build.mjs                 # Build script (compiles all .td files)
-├── README.md                 # This file
-├── index.html                # Compiled output (generated)
-└── getting-started.html      # Compiled output (generated)
+```sh
+node docs-site/build.mjs
 ```
 
-## Building
+The build refreshes the shared and compiler packages, builds both editor variants, compiles every top-level `.td` page, copies site assets, and applies page metadata. It recreates `docs-site/dist/` and fails if a page cannot compile. Generated output is ignored by Git.
 
-To compile all documentation files to HTML:
+Open `docs-site/dist/index.html` to inspect document pages locally. Use a local HTTP server rooted at `docs-site/dist/` to exercise the hosted editor and its lazy diagram asset. For a standalone editor that works from a file with networking disabled, open `docs-site/dist/offline-editor.html`.
 
-```bash
-# From the docs-site directory
-node build.mjs
+## Source map
 
-# Or from the project root
-cd docs-site && node build.mjs
-```
+| Source | Purpose |
+| --- | --- |
+| `index.td` | Product introduction |
+| `getting-started.td` | First document and source-build setup |
+| `syntax-guide.td` | Author-facing syntax reference |
+| `components.td` | Component reference |
+| `plain-english.td` | Styling vocabulary |
+| `infinity-at-origin-v2.td`, `principle-of-transformative-representation.td` | Long-form document examples |
+| `build.mjs` | Compilation, editor packaging, assets and page metadata |
+| `vercel.json` | Deployment build/output contract and routing |
+| `../editor/index.html` | Editor source; see [editor development](../editor/README.md) |
 
-This will:
-1. Find all `.td` files in the directory
-2. Compile each to HTML with embedded CSS and JavaScript
-3. Include dark mode support automatically
-4. Generate self-contained HTML files
+The build emits `editor.html`, the complete `offline-editor.html`, and `assets/` alongside the compiled pages. The hosted editor fetches the diagram runtime on first use; the offline editor embeds it. Exported documents carry the runtime needed by their content.
 
-## Development
+## Deploy
 
-When editing the documentation:
+For a Vercel project connected to this workspace, set its root directory to `docs-site`. Keep the settings in `vercel.json`: install/build from the parent workspace, run `node build.mjs`, and publish `dist`. Include files outside the root directory so the workspace packages and editor sources are available. Do not deploy the source directory or copy previously generated HTML into another repository.
 
-1. Edit the `.td` source files
-2. Run `node build.mjs` to recompile
-3. Open the `.html` files in your browser to preview
-4. Test dark mode by clicking the toggle button (bottom-right)
+Before promotion, inspect the preview's document routes, editor, first diagram render and download. Open the downloaded editor and an exported document with networking disabled. After promotion, repeat the relevant checks on the production domain. A successful build alone does not prove that domain routing or downloads work.
 
-## Features Demonstrated
+## Editing
 
-### Dark Mode
-- Automatic detection of system preference
-- Floating toggle button (moon/sun icon)
-- LocalStorage persistence
-- Smooth 300ms transitions
-- CSS variables for theming
-- Always included (~0.8KB) in every document
-
-### Scroll Animations
-- Zero-config entrance animations
-- Intersection Observer API
-- Triggers at 15% visibility
-- Respects `prefers-reduced-motion`
-- Staggered timing for multiple elements
-- 7 animation types (fade-in, slide-up, slide-down, etc.)
-- Auto-included when animation classes detected
-
-### Copy Code Functionality
-- One-click copy buttons on all code blocks
-- Visual feedback on copy success
-- Automatic clipboard integration
-- Auto-included when code blocks present
-- ~0.5KB behavior
-
-### Components Used
-- Cards with glassmorphism (`:::card{light-glass}`)
-- Responsive grids (`:::grid{3}`)
-- Interactive tabs (`:::tabs`)
-- Alert boxes (`:::alert{success}`)
-- Icons (`:icon[name]{attributes}`)
-- Tree diagrams (`:::tree{colored}`)
-- Flow diagrams (`:::flow{stepped}`)
-
-### Plain English Styling
-- `{huge-bold center primary}` - Large, bold, centered, primary-colored text
-- `{light-glass fade-in hover-lift}` - Glass effect with entrance and hover animations
-- `{button primary large}` - Primary button, large size
-
-## Deployment to Vercel
-
-The documentation site can be deployed to Vercel in two ways:
-
-### Option 1: Same Repository
-
-Deploy directly from the `/docs-site` directory:
-
-1. Link your Vercel account to this repository
-2. Set the root directory to `docs-site`
-3. Set build command to `node build.mjs`
-4. Set output directory to `.` (current directory)
-5. Deploy!
-
-### Option 2: Separate Repository
-
-For a simpler deployment:
-
-1. Create a new repository for the docs site
-2. Copy the compiled `.html` files to the new repo
-3. Link to Vercel
-4. No build step needed - just serve static files
-
-**Recommended:** Option 2 for simplicity, since the HTML files are self-contained.
-
-## Custom Domain
-
-The site is configured for **taildown.dev**:
-
-1. Add `taildown.dev` as a custom domain in Vercel
-2. Update DNS records to point to Vercel
-3. SSL certificate is automatically provisioned
-
-## Testing Dark Mode
-
-1. Open `index.html` in your browser
-2. Click the moon/sun icon in the bottom-right corner
-3. Theme should switch smoothly
-4. Refresh the page - theme should persist
-5. Open browser DevTools and toggle system preference - theme should update
-
-## File Sizes
-
-The compiled HTML files are self-contained and include:
-- HTML structure
-- Full CSS (including dark mode, animations, glassmorphism)
-- JavaScript (dark mode toggle, scroll animations, interactive components)
-
-Typical file sizes:
-- `index.html`: ~120KB (fully featured landing page)
-- `getting-started.html`: ~110KB (documentation guide)
-
-## Documentation Pages
-
-Current pages (completed):
-- ✅ `index.html` - Main landing page with dark mode and animations
-- ✅ `getting-started.html` - Installation and quick start guide
-- ✅ `syntax-guide.html` - Complete syntax reference  
-- ✅ `plain-english.html` - Plain English styling reference
-- ✅ `components.html` - Component library with examples
-- ✅ `vercel-deployment.html` - Deployment guide
-
-Future pages to be added:
-- `configuration.html` - Configuration guide
-- `api-reference.html` - Compiler API documentation
-- `examples/` - Example pages showcasing different use cases
-- `migration-guide.html` - Migration from other formats
-
-## Notes
-
-- All files are self-contained with embedded CSS and JavaScript
-- Dark mode works automatically on every page
-- No external dependencies required
-- Can be hosted on any static file server
-- Vercel is recommended for automatic SSL and CDN
-
----
-
-**Built with Taildown** - Demonstrating our own capabilities!
+Keep examples executable and links relative to generated pages. Update metadata in `build.mjs` when adding or renaming a page. Verify authored examples in the editor and export, at narrow and wide widths and in both color schemes. Keep historical implementation notes out of the user-facing reference. See [project rules](../PROJECT-RULES.md) and [the syntax contract](../SYNTAX.md).

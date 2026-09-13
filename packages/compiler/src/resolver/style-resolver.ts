@@ -7,13 +7,15 @@
  * 
  * @example
  * Input:  ['primary', 'large', 'bold', 'center']
- * Output: ['text-primary-600', 'hover:text-primary-700', 'text-4xl', 'font-bold', 'text-center']
+ * Output: ['text-primary', 'hover:text-primary-hover', 'text-4xl', 'font-bold', 'text-center']
  */
 
 import type { TaildownConfig } from '../config/config-schema';
 import { SHORTHAND_MAPPINGS, type ShorthandMapping } from './shorthand-mappings';
 import { resolveSemanticColor } from './semantic-colors';
 import { resolveVariant } from './variant-resolver';
+import { mergeClasses } from './merge-classes';
+import type {ComponentDefinition} from '../components/component-registry';
 
 /**
  * Context passed to resolver for theme-aware resolution
@@ -27,6 +29,23 @@ export interface ResolverContext {
   
   /** Component context (for component-specific variants) */
   component?: string;
+  styleMappings?: Record<string, string>;
+  components?: ReadonlyMap<string, ComponentDefinition>;
+}
+
+export function snapshotStyleMappings(mappings?: Record<string, string>): Record<string, string> | undefined {
+  if (mappings === undefined) return undefined;
+  if (!mappings || typeof mappings !== 'object' || Array.isArray(mappings)) throw new Error('Style mappings must be an object of alias strings.');
+  for (const [name, value] of Object.entries(mappings)) {
+    if (typeof value !== 'string') throw new Error(`Style mapping "${name}" must be a string of style tokens.`);
+  }
+  return {...mappings};
+}
+
+export function expandStyleMappings(attributes: string[], mappings?: Record<string, string>): string[] {
+  if (!mappings) return attributes;
+  return attributes.flatMap(attribute => Object.hasOwn(mappings, attribute)
+    ? mappings[attribute]!.split(/\s+/).filter(Boolean) : [attribute]);
 }
 
 /**
@@ -48,7 +67,7 @@ export interface ResolverContext {
  * 
  * @example
  * resolveAttributes(['primary', 'large', 'bold'], context)
- * // => ['text-primary-600', 'hover:text-primary-700', 'text-4xl', 'font-bold']
+ * // => ['text-primary', 'hover:text-primary-hover', 'text-4xl', 'font-bold']
  * 
  * @example
  * resolveAttributes(['glass', 'elevated'], context)
@@ -60,7 +79,7 @@ export function resolveAttributes(
 ): string[] {
   const resolved: string[] = [];
 
-  for (const attr of attributes) {
+  for (const attr of expandStyleMappings(attributes, context.styleMappings)) {
     // Skip empty attributes
     if (!attr || attr.trim() === '') {
       continue;
@@ -106,7 +125,7 @@ export function resolveAttributes(
   }
 
   // Deduplicate classes while preserving order
-  return deduplicateClasses(resolved);
+  return mergeClasses(resolved);
 }
 
 /**
@@ -185,29 +204,6 @@ function resolveShorthand(
   }
   
   return [];
-}
-
-/**
- * Deduplicate CSS classes while preserving order
- * Later classes take precedence (last-wins for conflicting properties)
- * 
- * @param classes - Array of CSS classes (may contain duplicates)
- * @returns Deduplicated array
- */
-function deduplicateClasses(classes: string[]): string[] {
-  const seen = new Set<string>();
-  const result: string[] = [];
-
-  // Iterate in reverse to keep last occurrence
-  for (let i = classes.length - 1; i >= 0; i--) {
-    const cls = classes[i];
-    if (!seen.has(cls)) {
-      seen.add(cls);
-      result.unshift(cls); // Add to front to maintain original order
-    }
-  }
-
-  return result;
 }
 
 /**

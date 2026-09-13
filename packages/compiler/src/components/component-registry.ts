@@ -2,7 +2,7 @@
  * Component Registry for Taildown
  * Central registry for all standard and custom components
  * 
- * See PHASE-2-IMPLEMENTATION-PLAN.md §4 for component system design
+ * See tech-spec.md for current architecture and docs-site/ for authoring references.
  */
 
 import type { ComponentConfig } from '../config/config-schema';
@@ -14,31 +14,37 @@ import type { ComponentConfig } from '../config/config-schema';
 export interface ComponentDefinition {
   /** Component name (lowercase, kebab-case) */
   name: string;
-  
+
+  /** Display name for documentation */
+  displayName?: string;
+
+  /** Component category for grouping */
+  category?: string;
+
   /** HTML element to render as */
-  htmlElement: string;
-  
+  htmlElement?: string;
+
   /** Default CSS classes applied to all instances */
   defaultClasses: string[];
-  
+
   /** Default variant (if none specified) */
   defaultVariant?: string;
-  
+
   /** Default size (if none specified) */
   defaultSize?: string;
-  
+
   /** Available variants and their classes */
   variants: Record<string, string[]>;
-  
+
   /** Available sizes and their classes */
   sizes: Record<string, string[]>;
-  
+
   /** Component description */
   description?: string;
-  
+
   /** Whether component supports children */
-  hasChildren: boolean;
-  
+  hasChildren?: boolean;
+
   /** Whether component requires specific attributes */
   requiredAttributes?: string[];
 }
@@ -134,9 +140,12 @@ class ComponentRegistry {
     // Add variant classes if specified
     if (variant && component.variants[variant]) {
       classes.push(...component.variants[variant]);
-    } else if (component.defaultVariant && component.variants[component.defaultVariant]) {
+    } else {
       // Use default variant if no variant specified
-      classes.push(...component.variants[component.defaultVariant]);
+      const defaultVar = component.defaultVariant;
+      if (defaultVar && component.variants[defaultVar]) {
+        classes.push(...component.variants[defaultVar]);
+      }
     }
     
     return classes;
@@ -299,6 +308,15 @@ export async function registerStandardComponents(): Promise<void> {
   registry.register(codeDiffComponent);
   registry.register(mermaidComponent);
   registry.register(timelineComponent);
+  // Native Markdown builds footnotes; this legacy wrapper keeps validation,
+  // linting and component rendering aligned on the supported directive name.
+  registry.register(defineComponent({
+    name: 'footnotes',
+    htmlElement: 'section',
+    defaultClasses: ['footnotes'],
+    variants: {},
+    sizes: {},
+  }));
   
   // Grid Component
   registry.register(
@@ -314,6 +332,12 @@ export async function registerStandardComponents(): Promise<void> {
         'extra-loose': ['gap-8'],
       },
       sizes: {
+        // Public authoring forms share the numeric sizes' responsive behavior.
+        'cols-1': ['grid-cols-1'],
+        'cols-2': ['grid-cols-2'],
+        'cols-3': ['grid-cols-3'],
+        'cols-4': ['grid-cols-4'],
+        'cols-5': ['grid-cols-5'],
         '1': ['grid-cols-1'],
         '2': ['grid-cols-2'], // 1 column on mobile, 2 on tablet+ (CSS handles responsive behavior)
         '3': ['grid-cols-3'], // 1 column on mobile, 3 on tablet+ (CSS handles responsive behavior)

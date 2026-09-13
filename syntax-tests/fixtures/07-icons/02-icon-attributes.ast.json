@@ -103,7 +103,9 @@
               "className": [
                 "icon",
                 "icon-home",
-                "tiny"
+                "tiny",
+                "w-3",
+                "h-3"
               ],
               "data-icon": "home"
             }
@@ -127,7 +129,9 @@
               "className": [
                 "icon",
                 "icon-home",
-                "text-xs"
+                "text-xs",
+                "w-4",
+                "h-4"
               ],
               "data-icon": "home"
             }
@@ -151,7 +155,9 @@
               "className": [
                 "icon",
                 "icon-home",
-                "sm"
+                "sm",
+                "w-5",
+                "h-5"
               ],
               "data-icon": "home"
             }
@@ -175,7 +181,9 @@
               "className": [
                 "icon",
                 "icon-home",
-                "md"
+                "md",
+                "w-6",
+                "h-6"
               ],
               "data-icon": "home"
             }
@@ -199,7 +207,9 @@
               "className": [
                 "icon",
                 "icon-home",
-                "lg"
+                "lg",
+                "w-8",
+                "h-8"
               ],
               "data-icon": "home"
             }
@@ -223,7 +233,9 @@
               "className": [
                 "icon",
                 "icon-home",
-                "text-xl"
+                "text-xl",
+                "w-10",
+                "h-10"
               ],
               "data-icon": "home"
             }
@@ -247,7 +259,9 @@
               "className": [
                 "icon",
                 "icon-home",
-                "text-2xl"
+                "text-2xl",
+                "w-12",
+                "h-12"
               ],
               "data-icon": "home"
             }
@@ -271,7 +285,9 @@
               "className": [
                 "icon",
                 "icon-home",
-                "text-4xl"
+                "text-4xl",
+                "w-16",
+                "h-16"
               ],
               "data-icon": "home"
             }
@@ -332,8 +348,8 @@
               "className": [
                 "icon",
                 "icon-heart",
-                "text-primary-600",
-                "hover:text-primary-700"
+                "text-primary",
+                "hover:text-primary-hover"
               ],
               "data-icon": "heart"
             }
@@ -357,8 +373,8 @@
               "className": [
                 "icon",
                 "icon-heart",
-                "text-secondary-600",
-                "hover:text-secondary-700"
+                "text-secondary",
+                "hover:text-secondary-hover"
               ],
               "data-icon": "heart"
             }
@@ -382,7 +398,7 @@
               "className": [
                 "icon",
                 "icon-check",
-                "text-green-600"
+                "text-success"
               ],
               "data-icon": "check"
             }
@@ -406,7 +422,7 @@
               "className": [
                 "icon",
                 "icon-alert-triangle",
-                "text-yellow-600"
+                "text-warning"
               ],
               "data-icon": "alert-triangle"
             }
@@ -430,7 +446,7 @@
               "className": [
                 "icon",
                 "icon-x-circle",
-                "text-red-600"
+                "text-error"
               ],
               "data-icon": "x-circle"
             }
@@ -454,7 +470,7 @@
               "className": [
                 "icon",
                 "icon-info",
-                "text-blue-600"
+                "text-info"
               ],
               "data-icon": "info"
             }
@@ -647,8 +663,10 @@
               "className": [
                 "icon",
                 "icon-check",
-                "text-green-600",
-                "text-lg"
+                "text-success",
+                "text-lg",
+                "w-8",
+                "h-8"
               ],
               "data-icon": "check"
             }
@@ -672,9 +690,11 @@
               "className": [
                 "icon",
                 "icon-star",
-                "text-primary-600",
-                "hover:text-primary-700",
-                "text-4xl"
+                "text-primary",
+                "hover:text-primary-hover",
+                "text-4xl",
+                "w-16",
+                "h-16"
               ],
               "data-icon": "star"
             }
@@ -698,8 +718,10 @@
               "className": [
                 "icon",
                 "icon-alert-triangle",
-                "text-yellow-600",
-                "text-sm"
+                "text-warning",
+                "text-sm",
+                "w-5",
+                "h-5"
               ],
               "data-icon": "alert-triangle"
             }
@@ -870,8 +892,8 @@
               "className": [
                 "icon",
                 "icon-star",
-                "text-primary-600",
-                "hover:text-primary-700",
+                "text-primary",
+                "hover:text-primary-hover",
                 "w-6",
                 "h-6"
               ],
@@ -897,8 +919,10 @@
               "className": [
                 "icon",
                 "icon-check",
-                "text-green-600",
+                "text-success",
                 "text-lg",
+                "w-8",
+                "h-8",
                 "custom-class"
               ],
               "data-icon": "check"

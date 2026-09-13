@@ -6,6 +6,12 @@
 
 import type { Position } from 'unist';
 import type { Content } from 'mdast';
+import type { Properties } from 'hast';
+
+declare module 'mdast' {
+  interface RootContentMap { containerDirective: ContainerDirectiveNode; }
+  interface BlockContentMap { containerDirective: ContainerDirectiveNode; }
+}
 
 /**
  * Component marker found during scanning phase
@@ -62,11 +68,9 @@ export interface ContainerDirectiveNode {
   attributes?: Record<string, string | null | undefined> | null;
   children: Content[];
   data?: {
+    isTimeline?: boolean;
     hName?: string;
-    hProperties?: {
-      className?: string[];
-      [key: string]: unknown;
-    };
+    hProperties?: Properties & { className?: string[] };
     component?: {
       name: string;
       attributes: string[];
@@ -93,7 +97,7 @@ export interface ScanResult {
  * Item in the sequential scan - either content or a marker
  */
 export type ScanItem = 
-  | { type: 'content'; node: Content; position: Position }
+  | { type: 'content'; node: Content; position?: Position }
   | { type: 'marker'; marker: ComponentMarker };
 
 /**
@@ -113,7 +117,7 @@ export interface ParseDirectivesOptions {
 export interface ValidationError {
   type: 'invalid-name' | 'unclosed-component' | 'extra-close' | 'malformed-attributes';
   message: string;
-  position: Position;
+  position?: Position;
   suggestion?: string;
 }
 

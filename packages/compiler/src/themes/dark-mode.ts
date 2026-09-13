@@ -22,8 +22,8 @@ export interface DarkModeOptions {
   /** Enable dark mode system */
   enabled: boolean;
   
-  /** Toggle method: 'class' or 'media' */
-  toggle: 'class' | 'media';
+  /** Toggle method, matching the public configuration schema. */
+  toggle: 'class' | 'media' | 'manual';
   
   /** Transition speed in milliseconds */
   transitionSpeed: number;
@@ -193,13 +193,15 @@ export function generateDarkModeScript(options: DarkModeOptions): string {
   
   const STORAGE_KEY = 'taildown-dark-mode';
   const DARK_CLASS = 'dark';
+  let preference = null;
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored === 'dark' || stored === 'light') preference = stored;
+  } catch (_) { /* Storage is optional for portable documents. */ }
   
   // Get initial theme from localStorage or system preference
   function getInitialTheme() {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      return stored === 'dark';
-    }
+    if (preference !== null) return preference === 'dark';
     
     // Check system preference
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -216,6 +218,8 @@ export function generateDarkModeScript(options: DarkModeOptions): string {
     } else {
       document.documentElement.classList.remove(DARK_CLASS);
     }
+    const toggle = document.querySelector('.dark-mode-toggle');
+    if (toggle) toggle.setAttribute('aria-pressed', String(isDark));
   }
   
   // Toggle theme
@@ -224,7 +228,8 @@ export function generateDarkModeScript(options: DarkModeOptions): string {
     const newTheme = !isDark;
     
     applyTheme(newTheme);
-    localStorage.setItem(STORAGE_KEY, newTheme ? 'dark' : 'light');
+    preference = newTheme ? 'dark' : 'light';
+    try { localStorage.setItem(STORAGE_KEY, preference); } catch (_) { /* Keep this page's selection. */ }
   }
   
   // Apply initial theme (synchronously to prevent flash)
@@ -249,12 +254,13 @@ export function generateDarkModeScript(options: DarkModeOptions): string {
     
     // Add click handler
     toggleButton.addEventListener('click', toggleTheme);
+    toggleButton.setAttribute('aria-pressed', String(document.documentElement.classList.contains(DARK_CLASS)));
     
     // Listen for system preference changes
     if (window.matchMedia) {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
         // Only auto-switch if user hasn't set a preference
-        if (!localStorage.getItem(STORAGE_KEY)) {
+        if (preference === null) {
           applyTheme(e.matches);
         }
       });
@@ -264,6 +270,7 @@ export function generateDarkModeScript(options: DarkModeOptions): string {
   // Create toggle button element
   function createToggleButton() {
     const button = document.createElement('button');
+    button.type = 'button';
     button.className = 'dark-mode-toggle';
     button.setAttribute('aria-label', 'Toggle dark mode');
     button.innerHTML = \`

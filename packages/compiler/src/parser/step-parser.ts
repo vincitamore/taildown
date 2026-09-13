@@ -19,12 +19,12 @@ import type { Root, Heading } from 'mdast';
  * Looks for {step}, {step current}, {step completed} patterns
  */
 function extractStepState(heading: Heading): 'pending' | 'current' | 'completed' | null {
-  const data = heading.data as any;
+  const data = heading.data;
   if (!data?.hProperties?.className) return null;
   
   const classes = Array.isArray(data.hProperties.className) 
     ? data.hProperties.className 
-    : [data.hProperties.className];
+    : typeof data.hProperties.className === 'string' ? data.hProperties.className.split(/\s+/) : [];
   
   // Check for step markers in classes
   if (classes.includes('step') || classes.includes('current') || classes.includes('completed')) {
@@ -42,12 +42,8 @@ function extractStepState(heading: Heading): 'pending' | 'current' | 'completed'
  */
 export const parseStepIndicators: Plugin<[], Root> = () => {
   return (tree: Root) => {
-    visit(tree, 'containerDirective', (node: any) => {
+    visit(tree, 'containerDirective', (node) => {
       if (node.name !== 'steps') return;
-      
-      // Mark this as a steps component that needs custom rendering
-      node.data = node.data || {};
-      node.data.needsCustomRenderer = 'steps';
       
       // Auto-number the steps
       let stepNumber = 0;

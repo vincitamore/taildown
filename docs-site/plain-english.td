@@ -1,5 +1,5 @@
 :::navbar
-# Taildown
+[Taildown](index.html){.navbar-brand}
 
 [Home](index.html) [Getting Started](getting-started.html) [Syntax Guide](syntax-guide.html) [Components](components.html) [Plain English](plain-english.html) [Live Editor](editor.html)
 :::
@@ -14,10 +14,10 @@ Natural language styling is Taildown's superpower. Write `{large-bold primary}` 
 
 ---
 
-## Philosophy {large-bold primary}
+## Philosophy {bold primary}
 
 :::card {subtle-glass padded}
-### :icon[type]{primary} Natural Grammar First {medium-bold}
+### :icon[type]{primary} Natural Grammar First {bold}
 
 Taildown follows **natural English grammar and word order**, not CSS conventions. This makes styling intuitive and self-documenting.
 
@@ -30,12 +30,16 @@ Taildown follows **natural English grammar and word order**, not CSS conventions
 
 ---
 
-## Typography {large-bold primary}
+## Typography {bold primary}
 
 :::tabs
 ## Sizes
 
 Control text size with natural keywords:
+
+Unstyled reading text scales from 16px to 18px with the viewport. Headings retain their semantic size hierarchy and use compact line spacing. Explicit size and line-height attributes override these defaults.
+
+Inline code uses a readable text/background pair in both themes, including inside tables and tooltips. Customize `--inline-code-text` and `--inline-code-background` in your CSS when composing a different palette; fenced code retains its syntax-highlighting theme.
 
 | Shorthand | Result | CSS Equivalent |
 |-----------|--------|----------------|
@@ -55,6 +59,22 @@ Control text size with natural keywords:
 Normal paragraph text {base}
 Small footnote {small muted}
 ```
+
+## Font families
+
+| Shorthand | Family | CSS Equivalent |
+|-----------|--------|----------------|
+| `{sans}` | Sans-serif | `font-sans` |
+| `{serif}` | Serif | `font-serif` |
+| `{mono}` | Monospace | `font-mono` |
+
+These use the document's font stacks. Set `theme.fonts` in the compiler API to override the stacks; font files are not downloaded automatically. The editor exposes all three in style completion and the Insert / Ctrl/Cmd+K menu.
+
+A considered idea {serif large}
+
+A clear instruction {sans}
+
+const idea = 'make it readable'; {mono}
 
 ## Weights
 
@@ -81,6 +101,8 @@ Light muted text {light muted}
 ## Combinations
 
 Combine size and weight naturally:
+
+Use the listed compound shorthands or separate tokens, such as `{xl bold}`. `medium` means font weight, so use `{bold}` for a bold heading at its natural size rather than the unsupported `medium-bold`.
 
 ```taildown
 # Large Bold Title {large-bold primary}
@@ -114,11 +136,17 @@ Paragraph with relaxed lines {relaxed-lines}
 
 ---
 
-## Colors {large-bold primary}
+## Colors {bold primary}
 
 :::grid {2}
 :::card {light-glass}
-### :icon[palette]{primary} Semantic Colors {medium-bold}
+### :icon[palette]{primary} Semantic Colors {bold}
+
+`success`, `warning`, `error`, and `info` use separate text colors for light and dark pages. Customize `--success-text` (and the corresponding status variables) independently of the background `--success` and its `--success-foreground`. Explicit numbered utilities keep their fixed shades.
+
+`muted` and combinations such as `small-muted` use the theme's `--muted-foreground`, keeping supporting text readable in both themes. Use a numbered gray utility when you specifically want a fixed shade.
+
+`primary`, `secondary`, and `accent` text colors follow the active light or dark theme, including their hover shades. Use these semantic names for readable accents on the default page and card surfaces. Explicit numbered utilities such as `text-primary-600` keep their fixed shade. Custom CSS can tune `--primary-text` and `--primary-text-hover` (and the corresponding secondary/accent variables) independently of button and background colors.
 
 Use semantic color names for consistency:
 
@@ -143,16 +171,16 @@ Muted footer text {muted small}
 :::
 
 :::card {light-glass}
-### :icon[droplet]{accent} Background Colors {medium-bold}
+### :icon[droplet]{accent} Background Colors {bold}
 
-Add `-bg` suffix for background colors:
+Add `-bg` suffix for background colors. Status pairs use the same theme colors and contrasting foregrounds as status buttons:
 
 | Shorthand | Result |
 |-----------|--------|
 | `{primary-bg}` | Primary background + white text |
-| `{success-bg}` | Success background + white text |
+| `{success-bg}` | Success background + contrasting text |
 | `{warning-bg}` | Warning background + dark text |
-| `{error-bg}` | Error background + white text |
+| `{error-bg}` | Error background + contrasting text |
 | `{muted-bg}` | Muted background + dark text |
 
 **Examples:**
@@ -170,7 +198,7 @@ Success message with background
 
 ---
 
-## Layout {large-bold primary}
+## Layout {bold primary}
 
 :::tabs
 ## Flex
@@ -233,11 +261,11 @@ Fully centered card
 
 ---
 
-## Spacing {large-bold primary}
+## Spacing {bold primary}
 
 :::grid {2}
 :::card {subtle-glass}
-### :icon[box]{primary} Padding {medium-bold}
+### :icon[box]{primary} Padding {bold}
 
 Control internal spacing:
 
@@ -258,7 +286,7 @@ Large padded card
 :::
 
 :::card {subtle-glass}
-### :icon[maximize]{accent} Gap {medium-bold}
+### :icon[maximize]{accent} Gap {bold}
 
 Control spacing between items:
 
@@ -281,7 +309,7 @@ Grid with large gaps
 
 ---
 
-## Effects {large-bold primary}
+## Effects {bold primary}
 
 :::tabs
 ## Borders & Corners
@@ -354,11 +382,11 @@ Heavy frosted with padding
 
 ---
 
-## Animations {large-bold primary}
+## Animations {bold primary}
 
 :::grid {3}
 :::card {light-glass fade-in}
-### :icon[zap]{warning} Entrance {medium-bold}
+### :icon[zap]{warning} Entrance {bold}
 
 Scroll-triggered entrance animations:
 
@@ -374,7 +402,7 @@ Scroll-triggered entrance animations:
 :::
 
 :::card {light-glass slide-up}
-### :icon[mouse-pointer]{primary} Hover Effects {medium-bold}
+### :icon[mouse-pointer]{primary} Hover Effects {bold}
 
 Interactive hover animations:
 
@@ -388,7 +416,7 @@ Interactive hover animations:
 :::
 
 :::card {light-glass zoom-in}
-### :icon[clock]{accent} Speed {medium-bold}
+### :icon[clock]{accent} Speed {bold}
 
 Control animation speed:
 
@@ -402,7 +430,7 @@ Control animation speed:
 
 ---
 
-## Combining Shorthands {large-bold primary}
+## Combining Shorthands {bold primary}
 
 :::card {heavy-glass padded-lg}
 ### :icon[layers]{primary huge} The Power of Composition {large-bold center}
@@ -445,7 +473,7 @@ Combines:
 
 ---
 
-## Best Practices {large-bold primary}
+## Best Practices {bold primary}
 
 :::grid {2}
 :::card {subtle-glass}
@@ -488,7 +516,33 @@ Falls back to raw CSS classes
 
 ---
 
-## Quick Reference Card {large-bold primary center}
+## Color transparency {bold primary}
+
+For neutral surfaces, `gray` provides a neutral scale and `slate` a cooler blue-gray scale. Both have shades `50`, `100` through `900` in steps of `100`, and `950`. Use `text-slate-900`, `bg-slate-50`, or `border-slate-200`, with dark variants for an alternate theme. Semantic `muted` text adapts automatically when you want a readable secondary text color.
+
+Add an integer opacity from `0` to `100` after a color utility: `bg-primary/20`, `text-gray-900/80`, or `border-primary/30`. This changes that color rather than fading the element's children. It also works with configured colors and prefixes such as `dark:bg-primary/10` or `md:bg-primary/20`.
+
+```taildown
+:::card {bg-primary/10 dark:bg-primary/20 border-primary/30 padded}
+A translucent surface with fully opaque text.
+:::
+```
+
+## Styling dark mode {bold primary}
+
+Semantic colors adapt automatically. For a deliberate palette in each theme, prefix a utility with `dark:`. The rule applies while the document's dark-mode toggle is active, including in exported HTML.
+
+```taildown
+Your text {text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900 padded}
+
+Hover here {dark:hover:text-primary-600}
+
+Responsive text {md:dark:text-gray-100}
+```
+
+Dark variants compose with `hover:`, `active:`, `focus:`, `focus-visible:`, `disabled:`, `last:`, and the `sm:`, `md:`, `lg:`, `xl:`, `2xl:` breakpoints. Use utility names after the prefix, such as `dark:text-gray-100`. In the editor, search **Dark mode colors** in the Insert menu to start with an editable example.
+
+## Quick Reference Card {bold primary center}
 
 :::card {heavy-glass padded-xl}
 ### :icon[bookmark]{primary} Cheat Sheet {large-bold center}

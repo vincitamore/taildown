@@ -7,6 +7,7 @@
 
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
+import type { Root } from 'hast';
 import { getLucideIconElements, hasLucideIcon } from './lucide-icons';
 
 /**
@@ -32,14 +33,15 @@ const SIZE_MAPPINGS: Record<string, number> = {
 function getIconSize(classes: string[]): number {
   // Check for size keywords
   for (const cls of classes) {
-    if (cls in SIZE_MAPPINGS) {
-      return SIZE_MAPPINGS[cls];
+    const mappedSize = SIZE_MAPPINGS[cls];
+    if (typeof mappedSize === 'number') {
+      return mappedSize;
     }
     
     // Check for width classes (w-4, w-6, etc.)
     if (cls.startsWith('w-')) {
-      const size = parseInt(cls.substring(2), 10);
-      if (!isNaN(size)) {
+      const size = Number(cls.substring(2));
+      if (Number.isFinite(size) && size >= 0) {
         return size * 4; // Tailwind sizes are in 0.25rem increments
       }
     }
@@ -72,16 +74,17 @@ function getStrokeWidth(classes: string[]): number {
  * 
  * @returns unified transformer
  */
-export const renderIcons: Plugin = () => {
-  return (tree: any) => {
-    visit(tree, 'element', (node: any) => {
+export const renderIcons: Plugin<[], Root> = () => {
+  return (tree: Root) => {
+    visit(tree, 'element', (node) => {
       // Only process SVG elements with data-icon attribute
-      if (node.tagName !== 'svg' || !node.properties?.['data-icon']) {
+      if (node.tagName !== 'svg' || typeof node.properties['data-icon'] !== 'string' || !node.properties['data-icon']) {
         return;
       }
 
       const iconName = node.properties['data-icon'];
-      const classes = node.properties.className || [];
+      const className = node.properties.className;
+      const classes = typeof className === 'string' ? className.split(/\s+/).filter(Boolean) : Array.isArray(className) ? className.filter((value): value is string => typeof value === 'string') : [];
 
       // Check if icon exists
       if (!hasLucideIcon(iconName)) {

@@ -3,7 +3,7 @@
  * Phase 2: Resolves primary/secondary/accent with prefixes
  * 
  * Handles patterns like:
- * - primary => text-primary-600 + hover:text-primary-700
+ * - primary => text-primary + hover:text-primary-hover
  * - bg-primary => bg-primary-600 + hover:bg-primary-700
  * - border-accent => border-accent-600
  * 
@@ -11,6 +11,7 @@
  */
 
 import type { ResolverContext } from './style-resolver';
+import type { ColorScale } from '@taildown/shared';
 
 /**
  * Semantic color names supported by Taildown
@@ -28,7 +29,7 @@ export type ColorPrefix = (typeof COLOR_PREFIXES)[number];
  * Resolve semantic color attributes to CSS classes
  * 
  * Supports patterns:
- * - 'primary' => ['text-primary-600', 'hover:text-primary-700']
+ * - 'primary' => ['text-primary', 'hover:text-primary-hover']
  * - 'bg-primary' => ['bg-primary-600', 'hover:bg-primary-700']
  * - 'border-accent' => ['border-accent-600']
  * 
@@ -38,7 +39,7 @@ export type ColorPrefix = (typeof COLOR_PREFIXES)[number];
  * 
  * @example
  * resolveSemanticColor('primary', context)
- * // => ['text-primary-600', 'hover:text-primary-700']
+ * // => ['text-primary', 'hover:text-primary-hover']
  * 
  * @example
  * resolveSemanticColor('bg-secondary', context)
@@ -67,6 +68,12 @@ export function resolveSemanticColor(
     return null;
   }
 
+  // Semantic text follows the displayed theme, independently of the parser's
+  // initial theme state. Numbered palette utilities remain literal colors.
+  if (prefix === 'text') {
+    return [`text-${color}`, `hover:text-${color}-hover`];
+  }
+
   // Determine which shades to use
   const baseShade = getBaseShade(prefix, colorConfig);
   const hoverShade = getHoverShade(prefix, colorConfig);
@@ -77,8 +84,8 @@ export function resolveSemanticColor(
   // Base class
   classes.push(`${prefix}-${color}-${baseShade}`);
 
-  // Add hover for text and bg (but not border/ring/divide)
-  if (prefix === 'text' || prefix === 'bg') {
+  // Background hover uses its paired palette shade.
+  if (prefix === 'bg') {
     classes.push(`hover:${prefix}-${color}-${hoverShade}`);
   }
 
@@ -95,7 +102,7 @@ export function resolveSemanticColor(
  * Get the base shade for a color prefix
  * Default to 600 for most cases
  */
-function getBaseShade(prefix: ColorPrefix, colorConfig: any): number {
+function getBaseShade(_prefix: ColorPrefix, colorConfig: ColorScale): 500 | 600 {
   // Check if config has DEFAULT
   if (colorConfig.DEFAULT) {
     return 600; // Standard shade
@@ -119,11 +126,11 @@ function getBaseShade(prefix: ColorPrefix, colorConfig: any): number {
  * Get the hover shade for a color prefix
  * Typically one shade darker (700)
  */
-function getHoverShade(prefix: ColorPrefix, colorConfig: any): number {
+function getHoverShade(prefix: ColorPrefix, colorConfig: ColorScale): number {
   const baseShade = getBaseShade(prefix, colorConfig);
   
   // Hover is typically 100 darker
-  const hoverShade = baseShade + 100;
+  const hoverShade = baseShade === 500 ? 600 : 700;
 
   // Check if that shade exists
   if (colorConfig[hoverShade]) {
@@ -138,7 +145,7 @@ function getHoverShade(prefix: ColorPrefix, colorConfig: any): number {
  * Get the dark mode shade for a color prefix
  * Typically lighter shade for dark backgrounds
  */
-function getDarkModeShade(prefix: ColorPrefix, colorConfig: any): number {
+function getDarkModeShade(prefix: ColorPrefix, colorConfig: ColorScale): number {
   // For dark mode, use lighter shades
   if (prefix === 'text') {
     // Text should be lighter in dark mode
@@ -175,7 +182,7 @@ export function isSemanticColor(attr: string): boolean {
  * // => ['primary', 'bg-primary', 'text-primary', 'border-primary', ...]
  */
 export function getSemanticColorVariations(color: SemanticColor): string[] {
-  const variations = [color]; // Base (defaults to text)
+  const variations: string[] = [color]; // Base (defaults to text)
   
   for (const prefix of COLOR_PREFIXES) {
     variations.push(`${prefix}-${color}`);
@@ -189,13 +196,11 @@ export function getSemanticColorVariations(color: SemanticColor): string[] {
  * Useful for documentation and autocomplete
  */
 export function getAllSemanticColors(): Record<SemanticColor, string[]> {
-  const result: any = {};
-  
-  for (const color of SEMANTIC_COLORS) {
-    result[color] = getSemanticColorVariations(color);
-  }
-  
-  return result;
+  return {
+    primary: getSemanticColorVariations('primary'),
+    secondary: getSemanticColorVariations('secondary'),
+    accent: getSemanticColorVariations('accent'),
+  };
 }
 
 /**

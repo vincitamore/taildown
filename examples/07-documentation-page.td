@@ -1,15 +1,17 @@
-# API Documentation {huge-bold}
+:::container
+# API reference {text-4xl bold #overview}
 
-## Version 2.0 {xl muted}
+VERSION 2 · EXAMPLE SERVICE {small bold primary}
 
-Last updated: October 4, 2025 {small muted}
+A sample API guide demonstrating requests, responses, status messages, and code in Taildown. The service, credentials, and SDK packages below are illustrative. {large muted relaxed-lines}
+
+[Authentication](#authentication) · [Endpoints](#endpoints) · [Errors](#errors) · [Rate limits](#rate-limits) · [SDK examples](#sdks)
 
 ---
 
-:::container
-# Getting Started {huge-bold fade-in}
+## Getting started {text-3xl bold}
 
-## Authentication {xl-bold}
+### Authentication {xl-bold #authentication}
 
 All API requests require authentication using Bearer tokens. {large}
 
@@ -37,9 +39,9 @@ curl https://api.example.com/v2/users \
 
 ---
 
-# Endpoints {huge-bold fade-in}
+## Endpoints {text-3xl bold #endpoints}
 
-## Users {xl-bold}
+### Users {xl-bold}
 
 ### :icon[users]{info} GET /users
 
@@ -127,7 +129,7 @@ Content-Type: application/json
 
 ---
 
-## :icon[alert-octagon]{error} Error Handling {xl-bold}
+## Error handling {text-3xl bold #errors}
 
 The API uses standard HTTP status codes and returns errors in a consistent format.
 
@@ -163,7 +165,7 @@ The API uses standard HTTP status codes and returns errors in a consistent forma
 
 ---
 
-# :icon[clock]{warning} Rate Limiting {huge-bold fade-in}
+## Rate limits {text-3xl bold #rate-limits}
 
 :::card {elevated}
 API requests are limited by plan:
@@ -189,7 +191,7 @@ X-RateLimit-Reset: 1696425600
 
 ---
 
-# :icon[package]{primary} SDKs and Libraries {huge-bold fade-in}
+## SDK examples {text-3xl bold #sdks}
 
 :::grid
 :::card {light-glass slide-up}
@@ -197,7 +199,7 @@ X-RateLimit-Reset: 1696425600
 ```bash
 npm install @example/sdk
 ```
-[View Docs](#) :icon[external-link]{xs} | [GitHub](#) :icon[github]{xs}
+Illustrative package name; replace it with your published client and documentation links. {small muted}
 :::
 
 :::card {light-glass slide-up}
@@ -205,7 +207,7 @@ npm install @example/sdk
 ```bash
 pip install example-sdk
 ```
-[View Docs](#) :icon[external-link]{xs} | [GitHub](#) :icon[github]{xs}
+Illustrative package name; replace it with your published client and documentation links. {small muted}
 :::
 
 :::card {light-glass slide-up}
@@ -213,7 +215,7 @@ pip install example-sdk
 ```bash
 go get github.com/example/sdk-go
 ```
-[View Docs](#) :icon[external-link]{xs} | [GitHub](#) :icon[github]{xs}
+Illustrative package name; replace it with your published client and documentation links. {small muted}
 :::
 
 :::card {light-glass slide-up}
@@ -221,20 +223,15 @@ go get github.com/example/sdk-go
 ```bash
 gem install example-sdk
 ```
-[View Docs](#) :icon[external-link]{xs} | [GitHub](#) :icon[github]{xs}
+Illustrative package name; replace it with your published client and documentation links. {small muted}
 :::
 :::
 
 ---
 
-# :icon[life-buoy]{success} Support {huge-bold fade-in}
+## Make this guide your own {text-3xl bold}
 
-:::card {subtle-glass}
-Need help? We're here for you!
+Replace the example service, endpoints, and package names with your own. Keep the requests and responses close together so readers can compare them without losing their place.
 
-- :icon[mail]{primary} Email: api@example.com
-- :icon[message-circle]{secondary} Discord: [Join our community](#)
-- :icon[book-open]{info} More docs: [docs.example.com](#)
-- :icon[bug]{error} Report bugs: [GitHub Issues](#)
-:::
+[Open the Taildown editor](https://taildown.dev/editor){button primary} [Return to the overview](#overview){button ghost}
 :::

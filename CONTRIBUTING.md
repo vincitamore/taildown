@@ -1,439 +1,85 @@
 # Contributing to Taildown
 
-Thank you for your interest in contributing to Taildown! This document provides guidelines and information for contributors.
+Contributions should make Taildown easier to author with, maintain, and share. Report bugs with a minimal source document, the observed and expected behavior, and your runtime/browser version. Discuss substantial syntax changes before implementing them so the language contract stays coherent.
 
----
+Read [PROJECT-RULES.md](PROJECT-RULES.md) for repository organization and the complete feature-integration contract. [tech-spec.md](tech-spec.md) maps the implementation.
 
-## Table of Contents
+## Set up
 
-1. [Code of Conduct](#code-of-conduct)
-2. [Getting Started](#getting-started)
-3. [Development Workflow](#development-workflow)
-4. [Contributing Syntax Changes](#contributing-syntax-changes)
-5. [Contributing Code](#contributing-code)
-6. [Contributing Documentation](#contributing-documentation)
-7. [Contributing Tests](#contributing-tests)
-8. [Pull Request Process](#pull-request-process)
-9. [Code Style](#code-style)
-10. [Community](#community)
+Use Node.js and the repository's pinned **pnpm 8.11.0**. Clone your fork, create a branch from `main`, and run:
 
----
-
-## Code of Conduct
-
-Taildown is committed to providing a welcoming and inclusive environment for all contributors. Please be respectful, constructive, and professional in all interactions.
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- **Node.js** 18 or higher
-- **pnpm** package manager
-- **Git** for version control
-
-### Development Setup
-
-1. **Fork the repository** on GitHub
-
-2. **Clone your fork**
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/taildown.git
-   cd taildown
-   ```
-
-3. **Install dependencies**
-   ```bash
-   pnpm install
-   ```
-
-4. **Build packages**
-   ```bash
-   pnpm build
-   ```
-
-5. **Run tests**
-   ```bash
-   pnpm test
-   ```
-
-6. **Verify everything works**
-   ```bash
-   pnpm typecheck
-   ```
-
----
-
-## Development Workflow
-
-### Branch Strategy
-
-- **`main`** - Stable release branch
-- **`develop`** - Integration branch for next release
-- **`feature/*`** - Feature branches
-- **`fix/*`** - Bug fix branches
-- **`docs/*`** - Documentation branches
-
-### Creating a Feature Branch
-
-```bash
-git checkout develop
-git pull origin develop
-git checkout -b feature/your-feature-name
+```sh
+pnpm install --frozen-lockfile
+pnpm build
+pnpm exec vitest run
+pnpm typecheck
 ```
 
-### Making Changes
+`pnpm test` starts Vitest in watch mode. Use `pnpm exec vitest run` for a terminating check. Package builds do not build the editor or documentation website:
 
-```bash
-# Make your changes
-git add .
-git commit -m "feat: add amazing feature"
-git push origin feature/your-feature-name
+```sh
+pnpm build:editor
+node docs-site/build.mjs
 ```
 
-### Commit Message Format
+The offline editor is `editor/dist/editor.html`; the website output is `docs-site/dist/`. See the [editor](editor/README.md) and [site](docs-site/README.md) guides for previewing them.
 
-We follow [Conventional Commits](https://www.conventionalcommits.org/):
+## Make and verify a change
 
-```
-<type>(<scope>): <subject>
+Keep a change focused on its intended behavior. Add a regression test when it meaningfully protects a bug fix or new contract. For example, a parser fix should assert preserved content and structure; an export fix should check the downloaded document, not just an internal helper.
 
-<body>
+```sh
+# One test file or suite
+pnpm exec vitest run syntax-tests/reference.test.ts
 
-<footer>
-```
+# Full suite and static checks
+pnpm exec vitest run
+pnpm typecheck
+pnpm lint
 
-**Types:**
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation changes
-- `test`: Adding or updating tests
-- `refactor`: Code refactoring
-- `perf`: Performance improvement
-- `chore`: Maintenance tasks
-
-**Examples:**
-```
-feat(parser): add support for image attributes
-fix(compiler): handle empty component blocks
-docs(syntax): clarify attribute positioning rules
-test(syntax): add edge case tests for nested components
+# Coverage, when assessing coverage changes
+pnpm exec vitest run --coverage
 ```
 
----
+Coverage thresholds are configured in `vitest.config.ts`; an ordinary test run does not measure coverage. Format the files you changed with Prettier. The root `pnpm format` command rewrites broadly, so review its scope before using it.
 
-## Contributing Syntax Changes
+Choose verification that covers the affected surface:
 
-**⚠️ Important**: Syntax changes follow a special process defined in [`SYNTAX-CHANGES.md`](SYNTAX-CHANGES.md).
+| Change | Additional verification |
+| --- | --- |
+| Parser or resolver | Source preservation, located diagnostics, nesting, literal code, configuration isolation |
+| Component or CSS | Complete compositions, mobile/desktop, light/dark, authored overrides |
+| Runtime interaction | Keyboard and focus, nested components, reduced motion, exported HTML |
+| CLI | Actual files, configuration precedence, inline/separate output, failure without overwrites |
+| Editor | Built editor, insertion/completions, source open/save, recovery, design settings, HTML export |
+| Browser/worker build | Worker and fallback, offline editor, hosted assets, browser errors |
+| Documentation | Commands, examples, links, diagnostics, generated site |
 
-### Quick Summary
+Report exactly what you tested and any remaining limitations. Avoid broad claims from a narrow sample.
 
-1. **Open an RFC Issue** using the syntax RFC template
-2. **Discuss with community** for 1-4 weeks depending on change type
-3. **Update SYNTAX.md** first (specification-driven development)
-4. **Create test fixtures** in `syntax-tests/fixtures/`
-5. **Implement in parser** to match specification
-6. **Update documentation** to reflect changes
-7. **Submit PR** using syntax change template
+## Syntax and public features
 
-### When to Propose a Syntax Change
+[SYNTAX.md](SYNTAX.md) is the detailed syntax contract. Use the [syntax RFC template](.github/ISSUE_TEMPLATE/syntax-rfc.md) for substantial additions or incompatible changes. Explain the authoring need, concrete syntax, ambiguity/compatibility concerns, and expected output.
 
-- **Clarification**: Syntax spec is ambiguous or confusing
-- **Addition**: New feature that doesn't break existing documents
-- **Breaking Change**: Only if absolutely necessary and well-justified
-- **Deprecation**: Phasing out problematic syntax
+Implement public additions through parsing, styles/rendering/runtime, configuration, authoring reference, editor insertion/completions, reference documentation, and examples where applicable. Check Node/CLI and browser/export behavior together. A working parser branch alone is not a finished feature.
 
-### Read First
+Syntax fixtures live in `syntax-tests/fixtures/`. Follow the [fixture guide](syntax-tests/README.md): inspect expected AST changes against source and intended semantics. Do not bulk-regenerate expectations to hide a regression.
 
-Before proposing syntax changes, please read:
-- [`SYNTAX.md`](SYNTAX.md) - Current syntax specification
-- [`SYNTAX-CHANGES.md`](SYNTAX-CHANGES.md) - Change management process
-- Existing [syntax RFCs](https://github.com/taildown/taildown/labels/syntax)
+## Documentation
 
----
+Use the [documentation map](README.md#documentation) to find the maintained source for a topic. Keep contributor guidance in Markdown and authored website/examples in Taildown. Update affected references in the same change as behavior; retire superseded prose instead of maintaining contradictory versions. Generated output belongs in ignored build directories.
 
-## Contributing Code
+Code examples should run against this checkout. Distinguish implemented APIs from proposals, and avoid hardcoded performance, bundle-size, component-count, or test-count claims that become stale without a measurement process.
 
-### Areas for Contribution
+## Submit a pull request
 
-- **Parser**: Implement syntax features, improve performance
-- **Renderer**: HTML/CSS generation, optimization
-- **Components**: New component types, component system improvements
-- **CLI**: New commands, better UX, error messages
-- **Testing**: More test coverage, edge cases, integration tests
-- **Performance**: Optimization, benchmarking, profiling
+Use a descriptive commit and PR title, such as `fix(parser): preserve spaces around link attributes`. Explain the user-visible problem, resulting behavior, and validation. Include a small reproduction or before/after example when it makes the change clearer. Use the [syntax-change template](.github/PULL_REQUEST_TEMPLATE/syntax-change.md) for syntax work.
 
-### Code Standards
+Before submitting:
 
-- **TypeScript** with strict mode enabled
-- **Prettier** for code formatting (run `pnpm format`)
-- **ESLint** for code quality (run `pnpm lint`)
-- **Vitest** for testing (run `pnpm test`)
-- **Minimum 80%** test coverage for new code
+- Review the complete diff for unrelated edits, generated artifacts, and accidental local configuration.
+- Run checks appropriate to the change and investigate failures.
+- Update documentation and examples that describe the changed behavior.
+- Include browser/export evidence for visual or interactive changes.
 
-### Testing Requirements
-
-All code contributions must include tests:
-
-```typescript
-// Example test structure
-describe('Feature Name', () => {
-  it('should handle basic case', () => {
-    // Test implementation
-  });
-
-  it('should handle edge case', () => {
-    // Test implementation
-  });
-
-  it('should throw error on invalid input', () => {
-    // Test implementation
-  });
-});
-```
-
-### Running Tests
-
-```bash
-# Run all tests
-pnpm test
-
-# Run tests in watch mode
-pnpm test -- --watch
-
-# Run tests with coverage
-pnpm test -- --coverage
-
-# Run specific test file
-pnpm test path/to/test.ts
-
-# Run syntax conformance tests
-pnpm test syntax-tests/reference.test.ts
-```
-
----
-
-## Contributing Documentation
-
-### Documentation Types
-
-- **README.md** - User-facing overview and quick start
-- **SYNTAX.md** - Canonical syntax specification
-- **tech-spec.md** - Technical architecture
-- **phase-1-implementation-plan.md** - Implementation guide
-- **API documentation** - Coming in Phase 2
-
-### Documentation Standards
-
-- **Clear and concise** language
-- **Concrete examples** for all concepts
-- **Code samples** that are tested and working
-- **Cross-references** between related sections
-- **Up-to-date** with current implementation
-
-### Updating Documentation
-
-When code changes affect documentation:
-
-1. Update relevant `.md` files
-2. Update code examples if needed
-3. Verify all links work
-4. Check for consistency across docs
-5. Update version history in SYNTAX.md if syntax affected
-
----
-
-## Contributing Tests
-
-### Test Categories
-
-1. **Unit Tests** - Test individual functions/modules
-2. **Integration Tests** - Test component interactions
-3. **Syntax Tests** - Canonical syntax conformance tests
-4. **Performance Tests** - Benchmarks and performance validation
-5. **End-to-End Tests** - Full compilation pipeline
-
-### Adding Syntax Tests
-
-Syntax tests in `syntax-tests/fixtures/` are the executable specification:
-
-```bash
-# Create new test directory
-mkdir -p syntax-tests/fixtures/02-inline-attributes
-
-# Create input file
-cat > syntax-tests/fixtures/02-inline-attributes/04-new-feature.td << 'EOF'
-# Test heading {.class}
-EOF
-
-# Note: Taildown files use .td (primary), but .tdown and .taildown are also supported
-
-# Create expected AST
-cat > syntax-tests/fixtures/02-inline-attributes/04-new-feature.ast.json << 'EOF'
-{
-  "type": "root",
-  "children": [...]
-}
-EOF
-```
-
-Tests must:
-- Cover all examples from SYNTAX.md
-- Include edge cases
-- Have clear, descriptive names
-- Match the expected AST format exactly
-
----
-
-## Pull Request Process
-
-### Before Submitting
-
-- [ ] All tests pass (`pnpm test`)
-- [ ] Code is formatted (`pnpm format`)
-- [ ] No linting errors (`pnpm lint`)
-- [ ] Type checking passes (`pnpm typecheck`)
-- [ ] Documentation is updated
-- [ ] Commit messages follow convention
-- [ ] Branch is up to date with `develop`
-
-### Submitting
-
-1. **Push your branch** to your fork
-2. **Open a Pull Request** against `develop` branch
-3. **Fill out PR template** completely
-4. **Link related issues** (e.g., "Closes #123")
-5. **Wait for review** from maintainers
-
-### PR Review Process
-
-- Maintainers will review within 1 week
-- Feedback will be provided constructively
-- Address feedback and update PR
-- Once approved, maintainer will merge
-
-### Approval Requirements
-
-- **Minor changes** (docs, tests): 1 approval
-- **Code changes**: 2 approvals
-- **Syntax changes**: 2-3 approvals (see SYNTAX-CHANGES.md)
-- **All CI checks** must pass
-
----
-
-## Code Style
-
-### TypeScript
-
-```typescript
-// Use explicit types
-function compile(source: string, options: CompileOptions): CompileResult {
-  // ...
-}
-
-// Prefer interfaces over types
-interface ComponentDefinition {
-  name: string;
-  defaultClasses: string[];
-}
-
-// Use meaningful variable names
-const parsedAST = await parse(source);
-const renderedHTML = await render(parsedAST);
-
-// Add JSDoc for public APIs
-/**
- * Compile Taildown source to HTML and CSS
- * @param source - Taildown source code
- * @param options - Compilation options
- * @returns Compiled HTML and CSS
- */
-export async function compile(source: string, options?: CompileOptions): Promise<CompileResult> {
-  // ...
-}
-```
-
-### File Organization
-
-```
-package/
-├── src/
-│   ├── index.ts           # Public API exports
-│   ├── parser/            # Parser implementation
-│   │   ├── index.ts       # Parser entry point
-│   │   ├── attributes.ts  # Attribute parsing
-│   │   └── components.ts  # Component parsing
-│   ├── renderer/          # Renderer implementation
-│   └── types.ts           # Type definitions
-└── package.json
-```
-
-### Naming Conventions
-
-- **Files**: `kebab-case.ts`
-- **Classes**: `PascalCase`
-- **Functions**: `camelCase`
-- **Constants**: `UPPER_SNAKE_CASE`
-- **Interfaces**: `PascalCase`
-- **Types**: `PascalCase`
-
----
-
-## Community
-
-### Communication Channels
-
-- **GitHub Issues** - Bug reports and feature requests
-- **GitHub Discussions** - Questions and general discussion
-- **Discord** - Real-time chat (coming soon)
-- **Twitter/X** - Announcements (coming soon)
-
-### Getting Help
-
-- Check existing [issues](https://github.com/taildown/taildown/issues)
-- Search [discussions](https://github.com/taildown/taildown/discussions)
-- Read the documentation
-- Ask in Discord (coming soon)
-
-### Reporting Bugs
-
-Use the bug report template and include:
-- Taildown version
-- Node.js version
-- Operating system
-- Minimal reproduction example
-- Expected vs actual behavior
-- Error messages or screenshots
-
-### Requesting Features
-
-Use the feature request template and include:
-- Use case and motivation
-- Proposed solution
-- Alternatives considered
-- Willingness to contribute
-
----
-
-## Recognition
-
-Contributors will be:
-- Listed in CONTRIBUTORS.md
-- Credited in release notes
-- Acknowledged in documentation (for major contributions)
-
----
-
-## Questions?
-
-If you have any questions about contributing, please:
-- Open a [Discussion](https://github.com/taildown/taildown/discussions)
-- Join our Discord (coming soon)
-- Email the maintainers (coming soon)
-
----
-
-**Thank you for contributing to Taildown!** 🎉
-
-Every contribution, no matter how small, helps make Taildown better for everyone.
+Be respectful and concrete in review. Questions and bug reports belong in the [repository issues](https://github.com/vincitamore/taildown/issues).

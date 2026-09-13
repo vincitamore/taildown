@@ -5,10 +5,58 @@
  */
 
 import type { Plugin } from 'unified';
-import type { Root, Content } from 'mdast';
-import type { VFile } from 'vfile';
+import type { Root } from 'mdast';
 import { scanForMarkers } from './directive-scanner';
 import { buildComponentTree } from './directive-builder';
+import { visit } from 'unist-util-visit';
+import type { CompilationWarning } from '@taildown/shared';
+
+/** Restore absolute source offsets after scanning component fences. */
+function locateDirectives(tree: Root, source: string): void {
+  const lines = source.split('\n');
+  const offsets: number[] = [];
+  let offset = 0;
+  for (const line of lines) { offsets.push(offset); offset += line.length + 1; }
+  visit(tree, 'containerDirective', node => {
+    if (!node.position) return;
+    for (const edge of ['start', 'end'] as const) {
+      const point = node.position[edge];
+      const line = lines[point.line - 1];
+      const lineOffset = offsets[point.line - 1];
+      if (line === undefined || lineOffset === undefined) continue;
+      const fence = edge === 'start' ? line.indexOf(':::' + node.name) : line.lastIndexOf(':::');
+      if (fence >= 0) {
+        point.column = edge === 'start' ? fence + 1 : line.replace(/\r$/, '').length + 1;
+      }
+      point.offset = lineOffset + point.column - 1;
+    }
+    if (node.name === 'mermaid') {
+      const start = node.position.start.offset;
+      const end = node.position.end.offset;
+      if (start !== undefined && end !== undefined) {
+        const openingPrefix = lines[node.position.start.line - 1]!.slice(0, node.position.start.column - 1);
+        let continuationPrefix = '';
+        for (const character of openingPrefix.replace(/(?:[-+*]|\d+[.)])(?=[ \t])/g, marker => ' '.repeat(marker.length))) {
+          continuationPrefix += character === '\t' ? ' '.repeat(4 - continuationPrefix.length % 4) : character;
+        }
+        const raw = source.slice(start, end).split(/\r?\n/).slice(1).map(line => {
+          // Consume container markers in their original order: a quote can
+          // contain a list, and a list can contain a quote.
+          let column = 0;
+          for (const character of continuationPrefix) {
+            if (line.startsWith('\t')) line = ' '.repeat(4 - column % 4) + line.slice(1);
+            if (character === '>' ? line.startsWith('>') : line.startsWith(' ')) {
+              line = line.slice(1);
+              column++;
+            }
+          }
+          return line;
+        }).join('\n').replace(/(?:^|\n)[ \t]*:::[ \t]*$/, '');
+        node.children = [{ type: 'code', lang: 'mermaid', value: raw }];
+      }
+    }
+  });
+}
 
 /**
  * unified plugin to parse component directives (:::component syntax)
@@ -28,13 +76,14 @@ import { buildComponentTree } from './directive-builder';
  * 
  * @returns unified transformer
  */
-export const parseDirectives: Plugin<[], Root> = () => {
-  return (tree: Root, file: VFile) => {
+export const parseDirectives: Plugin<[{ warnings?: CompilationWarning[] }?], Root> = (options) => {
+  return (tree, file) => {
     const warnings: Array<{ message: string; line?: number }> = [];
 
     // Callback for collecting warnings
     const onWarning = (message: string, line?: number) => {
       warnings.push({ message, line });
+      options?.warnings?.push({ type: 'parse', message, line, column: 1 });
       // Optionally add to file messages
       if (file && line) {
         file.message(message, {
@@ -45,7 +94,7 @@ export const parseDirectives: Plugin<[], Root> = () => {
     };
 
     // Phase 1: Scan for markers
-    const { items } = scanForMarkers(tree.children);
+    const { items } = scanForMarkers(tree.children, String(file));
 
     // Phase 2: Build component tree
     const transformedChildren = buildComponentTree(
@@ -56,11 +105,12 @@ export const parseDirectives: Plugin<[], Root> = () => {
           return { type: 'content', node: item.node };
         }
       }),
-      { onWarning }
+      { onWarning, endPosition: tree.position?.end, source: String(file) }
     );
 
     // Replace tree children with transformed content
     tree.children = transformedChildren;
+    if (file.value !== undefined) locateDirectives(tree, String(file));
 
     // Log warnings for debugging (in development)
     if (process.env.NODE_ENV === 'development' && warnings.length > 0) {
@@ -98,11 +148,10 @@ export function parseDirectivesWithWarnings(tree: Root): {
         return { type: 'content', node: item.node };
       }
     }),
-    { onWarning }
+    { onWarning, endPosition: tree.position?.end }
   );
 
   tree.children = transformedChildren;
 
   return { tree, warnings };
 }
-

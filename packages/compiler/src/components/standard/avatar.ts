@@ -30,14 +30,16 @@ export const avatarComponent: ComponentDefinition = defineComponent({
     'inline-flex',
     'items-center',
     'justify-center',
+    'overflow-hidden',
     'font-semibold',
-    'text-white',
+    'text-foreground',
     'bg-muted',
     'w-10',
     'h-10',
   ],
   
   defaultVariant: 'circular',
+  defaultSize: 'md',
   
   variants: {
     circular: [

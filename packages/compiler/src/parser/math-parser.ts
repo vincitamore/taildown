@@ -1,3 +1,4 @@
+import { textSlicePosition } from './text-position';
 /**
  * Math Parser
  * 
@@ -8,53 +9,19 @@
  * Converts LaTeX to MathML at compile time using temml
  */
 
-import type { Root, Text, Parent } from 'mdast';
+import type { Root, Text, Literal, Data } from 'mdast';
 import { visit } from 'unist-util-visit';
-import type { Plugin } from 'unified';
 import temml from 'temml';
 
-/**
- * Math node type (extends MDAST)
- */
-interface MathNode {
+export interface MathNode extends Literal {
   type: 'math';
-  value: string; // LaTeX source
-  data: {
-    hName: 'span' | 'div';
-    hProperties: {
-      className: string[];
-      'data-math-type': 'inline' | 'display';
-    };
-    hChildren: Array<{ type: 'raw'; value: string }>;
-  };
+  mathML: string;
+  data?: Data;
 }
 
-/**
- * Inline math node
- */
-interface InlineMathNode extends MathNode {
-  data: {
-    hName: 'span';
-    hProperties: {
-      className: ['math', 'math-inline'];
-      'data-math-type': 'inline';
-    };
-    hChildren: Array<{ type: 'raw'; value: string }>;
-  };
-}
-
-/**
- * Display math node (block-level)
- */
-interface DisplayMathNode extends MathNode {
-  data: {
-    hName: 'div';
-    hProperties: {
-      className: ['math', 'math-display'];
-      'data-math-type': 'display';
-    };
-    hChildren: Array<{ type: 'raw'; value: string }>;
-  };
+declare module 'mdast' {
+  interface PhrasingContentMap { math: MathNode; }
+  interface RootContentMap { math: MathNode; }
 }
 
 /**
@@ -70,8 +37,9 @@ interface DisplayMathNode extends MathNode {
  * - $ anywhere else for inline math
  */
 export function remarkMath() {
-  return (tree: Root): void => {
-    // Visit text nodes directly (like footnote parser does)
+  return (tree: Root, file?: { toString(): string }): void => {
+    const source = file?.toString();
+    // Visit decoded Markdown text nodes.
     visit(tree, 'text', (node: Text, index, parent) => {
       if (!parent || index === undefined) return;
       
@@ -80,7 +48,7 @@ export function remarkMath() {
       // Check if text contains math delimiters
       if (!text.includes('$')) return;
       
-      const newNodes: any[] = [];
+      const newNodes: (Text | MathNode)[] = [];
       let lastIndex = 0;
       
       // Create a list of all math matches with their positions
@@ -93,13 +61,13 @@ export function remarkMath() {
         mathMatches.push({
           start: match.index,
           end: match.index + match[0].length,
-          latex: match[1],
+          latex: match[1] ?? '',
           isDisplay: true,
         });
       }
       
       // Find all inline math ($...$) - skip positions overlapping with display math
-      const inlineMathRegex = /\$([^\$\n]+?)\$/g;
+      const inlineMathRegex = /\$([^$\n]+?)\$/g;
       while ((match = inlineMathRegex.exec(text)) !== null) {
         const start = match.index;
         const end = start + match[0].length;
@@ -113,7 +81,7 @@ export function remarkMath() {
           mathMatches.push({
             start,
             end,
-            latex: match[1],
+            latex: match[1] ?? '',
             isDisplay: false,
           });
         }
@@ -132,6 +100,7 @@ export function remarkMath() {
           newNodes.push({
             type: 'text',
             value: text.slice(lastIndex, mathMatch.start),
+            position: textSlicePosition(node, lastIndex, mathMatch.start, source),
           });
         }
         
@@ -152,6 +121,7 @@ export function remarkMath() {
         if (mathMatch.isDisplay) {
           newNodes.push({
             type: 'math',
+            position: textSlicePosition(node, mathMatch.start, mathMatch.end, source),
             value: mathMatch.latex,
             mathML: mathML, // Store MathML for custom handler
             data: {
@@ -165,6 +135,7 @@ export function remarkMath() {
         } else {
           newNodes.push({
             type: 'math',
+            position: textSlicePosition(node, mathMatch.start, mathMatch.end, source),
             value: mathMatch.latex,
             mathML: mathML, // Store MathML for custom handler
             data: {
@@ -185,10 +156,11 @@ export function remarkMath() {
         newNodes.push({
           type: 'text',
           value: text.slice(lastIndex),
+          position: textSlicePosition(node, lastIndex, text.length, source),
         });
       }
       
-      // Replace the text node with new nodes (same as footnote parser)
+      // Replace the text node with positioned text and math nodes.
       if (newNodes.length > 0) {
         parent.children.splice(index, 1, ...newNodes);
       }
@@ -207,4 +179,3 @@ function escapeHtml(text: string): string {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
 }
-

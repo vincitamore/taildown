@@ -18,7 +18,7 @@ import { createHighlighter, type Highlighter, type BundledLanguage, type Bundled
  * Singleton highlighter instance
  * Initialized lazily on first use and reused across all highlighting operations
  */
-let highlighterInstance: Highlighter | null = null;
+let highlighterPromise: Promise<Highlighter> | null = null;
 
 /**
  * Languages to preload for optimal performance
@@ -55,16 +55,17 @@ const THEMES: BundledTheme[] = ['dark-plus', 'light-plus'];
  * This is called automatically on first highlight request
  */
 async function initializeHighlighter(): Promise<Highlighter> {
-  if (highlighterInstance) {
-    return highlighterInstance;
+  if (!highlighterPromise) {
+    highlighterPromise = createHighlighter({
+      themes: THEMES,
+      langs: PRELOADED_LANGUAGES,
+    }).catch(error => {
+      // Failed startup must not poison future compilations.
+      highlighterPromise = null;
+      throw error;
+    });
   }
-
-  highlighterInstance = await createHighlighter({
-    themes: THEMES,
-    langs: PRELOADED_LANGUAGES,
-  });
-
-  return highlighterInstance;
+  return highlighterPromise;
 }
 
 /**
@@ -90,7 +91,7 @@ function normalizeLanguage(lang: string): BundledLanguage | null {
   
   // Check if it's an alias first
   if (normalized in LANGUAGE_ALIASES) {
-    return LANGUAGE_ALIASES[normalized];
+    return LANGUAGE_ALIASES[normalized] ?? null;
   }
   
   // Return as-is if it looks like a valid language
@@ -182,7 +183,7 @@ export function extractTokenClasses(html: string): string[] {
   
   let match;
   while ((match = classRegex.exec(html)) !== null) {
-    const classList = match[1].split(' ');
+    const classList = (match[1] ?? '').split(' ').filter(Boolean);
     classList.forEach(cls => classes.add(cls));
   }
   

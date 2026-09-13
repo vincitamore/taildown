@@ -11,11 +11,17 @@ export const carouselBehavior: ComponentBehavior = {
   size: 2400, // ~2.4KB (includes touch + desktop drag support)
   code: `// Carousel Component
 getComponents('carousel').forEach(carousel => {
-  const track = carousel.querySelector('[data-carousel-track]');
-  const slides = Array.from(carousel.querySelectorAll('[data-carousel-slide]'));
-  const prevBtn = carousel.querySelector('[data-carousel-prev]');
-  const nextBtn = carousel.querySelector('[data-carousel-next]');
-  const indicators = Array.from(carousel.querySelectorAll('[data-carousel-indicator]'));
+  const owns = element => element.closest('[data-component="carousel"]') === carousel;
+  const owned = selector => Array.from(carousel.querySelectorAll(selector)).filter(owns);
+  const track = owned('[data-carousel-track]')[0];
+  const slides = owned('[data-carousel-slide]');
+  const prevBtn = owned('[data-carousel-prev]')[0];
+  const nextBtn = owned('[data-carousel-next]')[0];
+  const indicators = owned('[data-carousel-indicator]');
+  const editing = target => {
+    const editable = target.closest('[contenteditable]');
+    return target.isContentEditable || (editable && editable.getAttribute('contenteditable') !== 'false');
+  };
   
   if (!track || slides.length === 0) return;
   
@@ -72,6 +78,7 @@ getComponents('carousel').forEach(carousel => {
   
   // Keyboard navigation
   carousel.addEventListener('keydown', (e) => {
+    if (!owns(e.target) || e.defaultPrevented || editing(e.target) || e.target.closest('input, textarea, select, [role="slider"], [role="tablist"]')) return;
     if (e.key === 'ArrowLeft') {
       prev();
       e.preventDefault();
@@ -82,22 +89,29 @@ getComponents('carousel').forEach(carousel => {
   });
   
   // Touch swipe support
-  let touchStartX = 0;
-  let touchEndX = 0;
+  let touchStart = null;
   
   carousel.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
+    touchStart = null;
+    if (e.touches.length !== 1 || !owns(e.target) || editing(e.target) || e.target.closest('input, textarea, select, [role="slider"]')) return;
+    const touch = e.touches[0];
+    touchStart = {id: touch.identifier, x: touch.clientX, y: touch.clientY};
   }, { passive: true });
   
   carousel.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    const diff = touchStartX - touchEndX;
-    
-    if (Math.abs(diff) > 50) {
+    const start = touchStart;
+    touchStart = null;
+    if (!start || e.touches.length !== 0) return;
+    const touch = Array.from(e.changedTouches).find(touch => touch.identifier === start.id);
+    if (!touch) return;
+    const diff = start.x - touch.clientX;
+    const vertical = start.y - touch.clientY;
+    if (Math.abs(diff) > 50 && Math.abs(diff) > Math.abs(vertical)) {
       if (diff > 0) next();
       else prev();
     }
   }, { passive: true });
+  carousel.addEventListener('touchcancel', () => { touchStart = null; }, { passive: true });
   
   // Desktop mouse drag support
   let mouseStartX = 0;
@@ -106,6 +120,7 @@ getComponents('carousel').forEach(carousel => {
   let hasMoved = false;
   
   carousel.addEventListener('mousedown', (e) => {
+    if (!owns(e.target) || e.defaultPrevented || editing(e.target) || e.target.closest('button, a, input, textarea, select, [role="slider"]')) return;
     // Only respond to left mouse button
     if (e.button !== 0) return;
     isDragging = true;
@@ -148,19 +163,40 @@ getComponents('carousel').forEach(carousel => {
   
   // Set initial cursor style
   carousel.style.cursor = 'grab';
+
+  function cancelGesture() {
+    touchStart = null;
+    isDragging = false;
+    carousel.style.cursor = 'grab';
+  }
+  window.addEventListener('blur', cancelGesture);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) cancelGesture(); });
   
   // Auto-play
-  if (autoPlay) {
-    autoPlayInterval = setInterval(next, interval);
-    
-    // Pause on hover
-    carousel.addEventListener('mouseenter', () => {
+  if (autoPlay && slides.length > 1) {
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let paused = motion.matches;
+    let hovered = false;
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'carousel-play-toggle';
+    carousel.appendChild(toggle);
+    function syncPlayback() {
       clearInterval(autoPlayInterval);
+      autoPlayInterval = null;
+      toggle.textContent = paused ? 'Play' : 'Pause';
+      toggle.setAttribute('aria-label', paused ? 'Start automatic slides' : 'Pause automatic slides');
+      if (!paused && !hovered && !document.hidden) autoPlayInterval = setInterval(next, interval);
+    }
+    toggle.addEventListener('click', () => { paused = !paused; syncPlayback(); });
+    carousel.addEventListener('mouseenter', () => { hovered = true; syncPlayback(); });
+    carousel.addEventListener('mouseleave', () => { hovered = false; syncPlayback(); });
+    carousel.addEventListener('focusin', event => {
+      if (event.target !== toggle) { paused = true; syncPlayback(); }
     });
-    
-    carousel.addEventListener('mouseleave', () => {
-      autoPlayInterval = setInterval(next, interval);
-    });
+    document.addEventListener('visibilitychange', syncPlayback);
+    motion.addEventListener('change', () => { if (motion.matches) paused = true; syncPlayback(); });
+    syncPlayback();
   }
   
   // Initialize

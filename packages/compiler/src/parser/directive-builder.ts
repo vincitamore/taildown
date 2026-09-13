@@ -33,11 +33,12 @@ export function buildComponentTree(
   items: Array<{ type: 'content'; node: Content } | { type: 'marker'; marker: ComponentMarker }>,
   options?: {
     onWarning?: (message: string, line?: number) => void;
+    endPosition?: import('unist').Point;
+    source?: string;
   }
 ): Content[] {
   const stack: ComponentFrame[] = [];
   const rootChildren: Content[] = [];
-  const warnings: ValidationError[] = [];
 
   const warn = (message: string, line?: number) => {
     if (options?.onWarning) {
@@ -98,6 +99,7 @@ export function buildComponentTree(
         
         // Attach children to the component node
         frame.node.children = frame.children;
+        frame.node.position = { start: frame.openPosition.start, end: marker.position.end };
 
         // Add completed component to parent's children or root
         if (stack.length > 0) {
@@ -109,51 +111,19 @@ export function buildComponentTree(
         }
       }
     } else if (item.type === 'content') {
-      // Check if this content node might contain nested components
-      // If so, recursively process it
-      const needsRecursion = item.node.type === 'paragraph' || 
-                            item.node.type === 'list' ||
-                            item.node.type === 'listItem' ||
-                            item.node.type === 'blockquote';
-      
-      if (needsRecursion && item.node.type === 'paragraph') {
-        // Scan for nested component markers within the paragraph
-        const scanned = scanForMarkers([item.node]);
-        
-        if (scanned.markers.length > 0) {
-          // Found nested components, recursively build their tree
-          const nestedItems = scanned.items.map((scanItem) => {
-            if (scanItem.type === 'marker') {
-              return { type: 'marker', marker: scanItem.marker };
-            } else {
-              return { type: 'content', node: scanItem.node };
-            }
-          });
-          
-          const nestedChildren = buildComponentTree(nestedItems, options);
-          
-          // Add all nested children
-          if (stack.length > 0) {
-            stack[stack.length - 1]!.children.push(...nestedChildren);
-          } else {
-            rootChildren.push(...nestedChildren);
-          }
-        } else {
-          // No nested components, add content as-is
-          if (stack.length > 0) {
-            stack[stack.length - 1]!.children.push(item.node);
-          } else {
-            rootChildren.push(item.node);
-          }
-        }
-      } else {
-        // Add content to current component's children or root
-        if (stack.length > 0) {
-          stack[stack.length - 1]!.children.push(item.node);
-        } else {
-          rootChildren.push(item.node);
-        }
+      const node = item.node;
+      if (node.type === 'list') {
+        node.children = node.children.map(listItem => ({...listItem, children:
+          buildComponentTree(scanForMarkers(listItem.children, options?.source).items.map(entry =>
+            entry.type === 'marker' ? {type: 'marker', marker: entry.marker} : {type: 'content', node: entry.node}),
+          {...options, endPosition: listItem.position?.end}) as typeof listItem.children}));
+      } else if (node.type === 'blockquote') {
+        node.children = buildComponentTree(scanForMarkers(node.children, options?.source).items.map(entry =>
+          entry.type === 'marker' ? {type: 'marker', marker: entry.marker} : {type: 'content', node: entry.node}),
+        {...options, endPosition: node.position?.end}) as typeof node.children;
       }
+      if (stack.length > 0) stack[stack.length - 1]!.children.push(node);
+      else rootChildren.push(node);
     }
   }
 
@@ -167,6 +137,10 @@ export function buildComponentTree(
 
     // Attach children
     frame.node.children = frame.children;
+
+    if (options?.endPosition) {
+      frame.node.position = { start: frame.openPosition.start, end: { ...options.endPosition } };
+    }
 
     // Add to parent or root
     if (stack.length > 0) {
@@ -218,7 +192,7 @@ export function createContainerDirective(
 export function validateComponentTree(nodes: Content[]): ValidationError[] {
   const errors: ValidationError[] = [];
 
-  function walk(node: any, depth: number = 0) {
+  function walk(node: Content) {
     if (node.type === 'containerDirective') {
       // Validate name
       if (!node.name || !isValidComponentName(node.name)) {
@@ -241,13 +215,13 @@ export function validateComponentTree(nodes: Content[]): ValidationError[] {
       // Recursively validate children
       if (Array.isArray(node.children)) {
         for (const child of node.children) {
-          walk(child, depth + 1);
+          walk(child);
         }
       }
-    } else if (Array.isArray(node.children)) {
+    } else if ('children' in node && Array.isArray(node.children)) {
       // Regular nodes with children
       for (const child of node.children) {
-        walk(child, depth);
+        walk(child);
       }
     }
   }
@@ -258,4 +232,3 @@ export function validateComponentTree(nodes: Content[]): ValidationError[] {
 
   return errors;
 }
-

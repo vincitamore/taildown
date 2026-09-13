@@ -129,7 +129,7 @@ describe('Config Schema', () => {
           },
         };
         const errors = validateColorConfig(config);
-        expect(errors.some(e => e.includes('not-a-color'))).toBe(true);
+        expect(errors.some((e) => e.includes('not-a-color'))).toBe(true);
       });
 
       it('should error on invalid simple color values', () => {
@@ -138,7 +138,7 @@ describe('Config Schema', () => {
           success: 'invalid-color',
         };
         const errors = validateColorConfig(config);
-        expect(errors.some(e => e.includes('invalid-color'))).toBe(true);
+        expect(errors.some((e) => e.includes('invalid-color'))).toBe(true);
       });
     });
 
@@ -178,7 +178,7 @@ describe('Config Schema', () => {
           },
         };
         const errors = validateThemeConfig(config);
-        expect(errors.some(e => e.includes('opacity must be between 0 and 100'))).toBe(true);
+        expect(errors.some((e) => e.includes('opacity must be between 0 and 100'))).toBe(true);
       });
 
       it('should error on invalid glass opacity (negative)', () => {
@@ -190,7 +190,7 @@ describe('Config Schema', () => {
           },
         };
         const errors = validateThemeConfig(config);
-        expect(errors.some(e => e.includes('opacity must be between 0 and 100'))).toBe(true);
+        expect(errors.some((e) => e.includes('opacity must be between 0 and 100'))).toBe(true);
       });
 
       it('should error on invalid border opacity', () => {
@@ -202,7 +202,9 @@ describe('Config Schema', () => {
           },
         };
         const errors = validateThemeConfig(config);
-        expect(errors.some(e => e.includes('borderOpacity must be between 0 and 100'))).toBe(true);
+        expect(errors.some((e) => e.includes('borderOpacity must be between 0 and 100'))).toBe(
+          true
+        );
       });
 
       it('should error on negative transition speed', () => {
@@ -214,7 +216,7 @@ describe('Config Schema', () => {
           },
         };
         const errors = validateThemeConfig(config);
-        expect(errors.some(e => e.includes('transitionSpeed must be positive'))).toBe(true);
+        expect(errors.some((e) => e.includes('transitionSpeed must be positive'))).toBe(true);
       });
 
       it('should propagate color validation errors', () => {
@@ -226,7 +228,7 @@ describe('Config Schema', () => {
           } as ColorConfig,
         };
         const errors = validateThemeConfig(config);
-        expect(errors.some(e => e.includes('Missing required color: primary'))).toBe(true);
+        expect(errors.some((e) => e.includes('Missing required color: primary'))).toBe(true);
       });
     });
 
@@ -292,7 +294,7 @@ describe('Config Schema', () => {
         const result = validateConfigDetailed(config);
         expect(result.valid).toBe(true);
         expect(result.warnings.length).toBeGreaterThan(0);
-        expect(result.warnings.some(w => w.includes('sans-serif font'))).toBe(true);
+        expect(result.warnings.some((w) => w.includes('sans-serif font'))).toBe(true);
       });
 
       it('should warn about missing gray scale', () => {
@@ -307,7 +309,7 @@ describe('Config Schema', () => {
           },
         };
         const result = validateConfigDetailed(config);
-        expect(result.warnings.some(w => w.includes('gray'))).toBe(true);
+        expect(result.warnings.some((w) => w.includes('gray'))).toBe(true);
       });
 
       it('should return errors and warnings separately', () => {
@@ -362,22 +364,22 @@ describe('Config Schema', () => {
     };
 
     it('should handle null values in color config gracefully', () => {
-      const config: any = {
+      const config = {
         primary: null,
         secondary: validColorConfig.secondary,
         accent: validColorConfig.accent,
       };
-      const errors = validateColorConfig(config);
+      const errors: unknown = Reflect.apply(validateColorConfig, undefined, [config]);
       expect(errors).toContain('Missing required color: primary');
     });
 
     it('should handle undefined color scales', () => {
-      const config: any = {
+      const config = {
         primary: undefined,
         secondary: validColorConfig.secondary,
         accent: validColorConfig.accent,
       };
-      const errors = validateColorConfig(config);
+      const errors: unknown = Reflect.apply(validateColorConfig, undefined, [config]);
       expect(errors).toContain('Missing required color: primary');
     });
 
@@ -391,7 +393,7 @@ describe('Config Schema', () => {
         },
       };
       const errors = validateColorConfig(config);
-      expect(errors.some(e => e.includes('primary.500'))).toBe(true);
+      expect(errors.some((e) => e.includes('primary.500'))).toBe(true);
     });
   });
 });

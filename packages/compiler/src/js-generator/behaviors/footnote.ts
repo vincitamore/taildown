@@ -1,124 +1,75 @@
 import type { ComponentBehavior } from '../index';
 
-/**
- * Footnote hover preview behavior
- * Shows a preview tooltip when hovering over footnote references
- */
+/** Native Markdown footnote previews and accessible reference navigation. */
 export const footnoteBehavior: ComponentBehavior = {
   name: 'footnote',
-  size: 800, // Estimated size in bytes (~0.8KB)
+  size: 1800,
   code: `// Footnote hover preview
 const footnoteRefs = document.querySelectorAll('a[data-footnote-ref]');
-const previewDelay = 300; // milliseconds before showing preview
 let previewTimer = null;
 let activePreview = null;
-
+function footnoteTarget(href) {
+  if (!href || !href.startsWith('#')) return null;
+  const id = href.slice(1);
+  const direct = document.getElementById(id);
+  if (direct) return direct;
+  try { return document.getElementById(decodeURIComponent(id)); } catch { return null; }
+}
+function dismissFootnotePreview() {
+  clearTimeout(previewTimer);
+  const preview = activePreview;
+  activePreview = null;
+  if (!preview) return;
+  preview.classList.remove('visible');
+  setTimeout(() => preview.remove(), 200);
+}
 footnoteRefs.forEach(ref => {
-  ref.addEventListener('mouseenter', (e) => {
-    clearTimeout(previewTimer);
-    
+  ref.addEventListener('mouseenter', () => {
+    dismissFootnotePreview();
     previewTimer = setTimeout(() => {
-      // Get footnote ID from href (GFM format: #user-content-fn-X)
-      const href = ref.getAttribute('href');
-      if (!href || !href.startsWith('#')) return;
-      
-      const footnoteId = href.slice(1); // Remove #
-      const footnoteElement = document.getElementById(footnoteId);
+      const footnoteElement = footnoteTarget(ref.getAttribute('href'));
       if (!footnoteElement) return;
-      
-      // Create preview tooltip
       const preview = document.createElement('div');
       preview.className = 'footnote-preview';
-      
-      // Clone footnote content (exclude backlink)
       const content = footnoteElement.cloneNode(true);
-      const backlink = content.querySelector('.footnote-backlink');
-      if (backlink) {
-        backlink.remove();
-      }
+      content.querySelectorAll('[data-footnote-backref], .footnote-backlink').forEach(backlink => backlink.remove());
+      content.querySelectorAll('[id]').forEach(node => node.removeAttribute('id'));
       preview.innerHTML = content.innerHTML;
-      
-      // Position preview near reference (using tooltip positioning logic)
       document.body.appendChild(preview);
       preview.style.position = 'fixed';
-      
       const refRect = ref.getBoundingClientRect();
       const previewRect = preview.getBoundingClientRect();
       const gap = 8;
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-      
-      // Try to position above the reference first
-      let top = refRect.top - previewRect.height - gap;
-      let left = refRect.left + (refRect.width / 2) - (previewRect.width / 2);
-      
-      // If preview would go above viewport, position below instead
-      if (top < gap) {
-        top = refRect.bottom + gap;
-      }
-      
-      // Keep preview on screen horizontally
-      if (left < gap) {
-        left = gap;
-      }
-      if (left + previewRect.width > viewportWidth - gap) {
-        left = viewportWidth - previewRect.width - gap;
-      }
-      
-      preview.style.left = left + 'px';
-      preview.style.top = top + 'px';
-      
-      // Show preview with animation
-      requestAnimationFrame(() => {
-        preview.classList.add('visible');
-      });
-      
+      const above = refRect.top - previewRect.height - gap;
+      const top = above >= gap ? above : refRect.bottom + gap;
+      const left = refRect.left + refRect.width / 2 - previewRect.width / 2;
+      preview.style.left = Math.max(gap, Math.min(left, window.innerWidth - previewRect.width - gap)) + 'px';
+      preview.style.top = Math.max(gap, Math.min(top, window.innerHeight - previewRect.height - gap)) + 'px';
       activePreview = preview;
-    }, previewDelay);
+      requestAnimationFrame(() => { if (activePreview === preview) preview.classList.add('visible'); });
+    }, 300);
   });
-  
-  ref.addEventListener('mouseleave', () => {
-    clearTimeout(previewTimer);
-    
-    if (activePreview) {
-      activePreview.classList.remove('visible');
-      setTimeout(() => {
-        if (activePreview && activePreview.parentNode) {
-          activePreview.parentNode.removeChild(activePreview);
-        }
-        activePreview = null;
-      }, 200); // Match CSS transition duration
-    }
-  });
-  
-  // Close preview on scroll
-  window.addEventListener('scroll', () => {
-    clearTimeout(previewTimer);
-    if (activePreview) {
-      activePreview.classList.remove('visible');
-      setTimeout(() => {
-        if (activePreview && activePreview.parentNode) {
-          activePreview.parentNode.removeChild(activePreview);
-        }
-        activePreview = null;
-      }, 200);
-    }
-  }, { passive: true });
+  ref.addEventListener('mouseleave', dismissFootnotePreview);
 });
+window.addEventListener('scroll', dismissFootnotePreview, {passive: true});
+window.addEventListener('resize', dismissFootnotePreview);
+document.addEventListener('keydown', event => { if (event.key === 'Escape') dismissFootnotePreview(); });
 
-// Smooth scroll to footnotes and back
-document.querySelectorAll('a[href^="#fn"]').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    const targetId = link.getAttribute('href').slice(1);
-    const target = document.getElementById(targetId);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      // Add focus for accessibility
+// Scroll to native footnotes and back without changing the keyboard tab order.
+document.querySelectorAll('a[data-footnote-ref], a[data-footnote-backref], a.footnote-backlink').forEach(link => {
+  link.addEventListener('click', event => {
+    if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    const target = footnoteTarget(link.getAttribute('href'));
+    if (!target) return;
+    event.preventDefault();
+    dismissFootnotePreview();
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    target.scrollIntoView({behavior: reducedMotion ? 'auto' : 'smooth', block: 'center'});
+    if (target.tabIndex < 0 && !target.hasAttribute('tabindex')) {
       target.setAttribute('tabindex', '-1');
-      target.focus();
+      target.addEventListener('blur', () => target.removeAttribute('tabindex'), {once: true});
     }
+    target.focus({preventScroll: true});
   });
 });`
 };
-

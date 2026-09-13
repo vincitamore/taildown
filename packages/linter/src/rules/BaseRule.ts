@@ -1,4 +1,4 @@
-import type { LintRule, Severity, RuleContext } from '../types';
+import type { LintRule, Severity, RuleContext, FixTransform } from '../types';
 
 /**
  * Base class for lint rules providing common functionality
@@ -12,7 +12,7 @@ export abstract class BaseRule implements LintRule {
 
   abstract check(context: RuleContext): void;
 
-  fix?(context: RuleContext): any {
+  fix?(_context: RuleContext): FixTransform | null {
     return null;
   }
 
@@ -32,7 +32,7 @@ export abstract class BaseRule implements LintRule {
       
       // Add pointer for the error line
       if (i === line - 1) {
-        snippet.push(`       | ${''.padStart(lines[i].length, '^')}`);
+        snippet.push(`       | ${''.padStart(lines[i]?.length ?? 0, '^')}`);
       }
     }
     
@@ -47,7 +47,7 @@ export abstract class BaseRule implements LintRule {
     const lines = before.split('\n');
     return {
       line: lines.length,
-      column: lines[lines.length - 1].length + 1,
+      column: (lines[lines.length - 1]?.length ?? 0) + 1,
     };
   }
 }

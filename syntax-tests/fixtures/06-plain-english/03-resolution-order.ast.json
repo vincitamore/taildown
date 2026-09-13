@@ -130,8 +130,8 @@
       "data": {
         "hProperties": {
           "className": [
-            "text-primary-600",
-            "hover:text-primary-700"
+            "text-primary",
+            "hover:text-primary-hover"
           ]
         }
       }
@@ -184,7 +184,6 @@
       "data": {
         "hProperties": {
           "className": [
-            "text-lg",
             "text-sm"
           ]
         }
@@ -201,7 +200,6 @@
       "data": {
         "hProperties": {
           "className": [
-            "font-bold",
             "font-thin"
           ]
         }
@@ -218,10 +216,8 @@
       "data": {
         "hProperties": {
           "className": [
-            "text-primary-600",
-            "hover:text-primary-700",
-            "text-secondary-600",
-            "hover:text-secondary-700"
+            "text-secondary",
+            "hover:text-secondary-hover"
           ]
         }
       }
@@ -309,16 +305,17 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
-                "hover:shadow-lg"
+                "hover:shadow-lg",
+                "transition-all"
               ]
             }
           }
@@ -396,15 +393,8 @@
           "data": {
             "hProperties": {
               "className": [
-                "inline-flex",
-                "items-center",
-                "px-3",
-                "py-1",
-                "rounded-full",
-                "font-medium",
-                "text-sm",
-                "bg-green-100",
-                "text-green-700"
+                "badge",
+                "badge-success"
               ]
             }
           }
@@ -676,8 +666,8 @@
             "text-4xl",
             "font-bold",
             "custom-class",
-            "text-primary-600",
-            "hover:text-primary-700"
+            "text-primary",
+            "hover:text-primary-hover"
           ]
         }
       }
@@ -728,16 +718,17 @@
                 "rounded-lg",
                 "font-medium",
                 "text-center",
-                "transition-all",
                 "duration-200",
                 "cursor-pointer",
                 "no-underline",
-                "bg-blue-600",
-                "text-white",
-                "hover:bg-blue-700",
-                "active:bg-blue-800",
+                "bg-primary",
+                "text-primary-foreground",
+                "hover:bg-primary",
+                "hover:brightness-110",
+                "active:brightness-95",
                 "shadow-md",
                 "hover:shadow-lg",
+                "transition-all",
                 "custom-button-class",
                 "text-lg"
               ]

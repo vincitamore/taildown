@@ -6,92 +6,31 @@ labels: ['syntax', 'rfc']
 assignees: ''
 ---
 
-## Summary
-<!-- Brief one-sentence description of the proposed change -->
+## Authoring need
 
-## Change Category
-<!-- Check one -->
-- [ ] Clarification (no behavioral change)
-- [ ] Addition (backward compatible new syntax)
-- [ ] Breaking Change (alters parsing of existing documents)
-- [ ] Deprecation (mark syntax for future removal)
+<!-- Describe a concrete document that is difficult or impossible to author today. -->
 
-## Motivation
-<!-- Why is this change needed? What problem does it solve? -->
+## Proposed syntax and behavior
 
-## Use Cases
-<!-- Real-world examples of when this would be used -->
-
-```taildown
-<!-- Example Taildown code showing the proposed syntax -->
-<!-- Note: Taildown files use .td extension (primary), with .tdown and .taildown also accepted -->
-```
-
-## Proposed Syntax
-<!-- Concrete examples with before/after if applicable -->
-
-### Grammar
-<!-- EBNF or BNF grammar if relevant -->
-
-```ebnf
-```
-
-### Examples
-<!-- Multiple examples showing different scenarios -->
+<!-- Give a small source example and describe its rendered result. Include defaults, invalid input, and interaction with existing syntax. -->
 
 ```taildown
 ```
 
-## Alternatives Considered
-<!-- What other approaches were considered and why were they rejected? -->
+## Alternatives and compatibility
 
-## Backward Compatibility
-<!-- Does this break existing documents? If so, how many and what's the migration path? -->
-- [ ] Fully backward compatible
-- [ ] Potentially breaking (explain below)
-- [ ] Definitely breaking (explain migration below)
+<!-- Could existing primitives express this? Explain ambiguity, nesting, literal code, and effects on existing documents. For a breaking change, show a before/after migration example. -->
 
-### Migration Path
-<!-- If breaking, how should users update their documents? -->
+## Integration and verification
 
-## Implementation Complexity
-<!-- How difficult is this to implement? Any special parser considerations? -->
-- [ ] Simple (few lines of code)
-- [ ] Moderate (new parser rules)
-- [ ] Complex (significant refactoring)
+<!-- Identify affected compiler stages, configuration, diagnostics, authoring reference, editor insertion/completions, documentation, and exports. Describe evidence that would establish the intended behavior. Grammar or AST examples are useful when they clarify parsing; they are not required for every proposal. -->
 
-### Implementation Notes
-<!-- Technical details for implementers -->
+## Related work
 
-## Test Fixtures
-<!-- Propose test cases that should be added to syntax-tests/ -->
+<!-- Link relevant issues or discussions, if any. -->
 
-### Input
-```taildown
-```
+## Before submitting
 
-### Expected AST
-```json
-```
-
-## Related Issues
-<!-- Links to related discussions or issues -->
-- Related to #
-- Depends on #
-- Blocks #
-
-## Checklist
-<!-- Before submitting -->
-- [ ] I have read [`SYNTAX-CHANGES.md`](../../SYNTAX-CHANGES.md)
-- [ ] I have searched for similar proposals
-- [ ] I have considered backward compatibility
-- [ ] I have provided concrete examples
-- [ ] I am prepared to help with implementation (if approved)
-
----
-
-**For Maintainers:**
-- [ ] Categorized correctly
-- [ ] Sufficient detail provided
-- [ ] Community discussion period: ___ to ___
-- [ ] Decision: Approved / Needs revision / Rejected
+- [ ] I checked the [language contract](https://github.com/vincitamore/taildown/blob/main/SYNTAX.md) and searched for similar proposals.
+- [ ] I considered the [public feature integration contract](https://github.com/vincitamore/taildown/blob/main/PROJECT-RULES.md#public-feature-integration).
+- [ ] The proposal includes a concrete use case and compatibility considerations.

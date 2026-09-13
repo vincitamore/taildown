@@ -21,7 +21,7 @@ export const copyCodeBehavior: ComponentBehavior = {
       copyButtons.forEach((button, index) => {
         button.addEventListener('click', async function() {
           const codeText = this.getAttribute('data-code-text');
-          if (!codeText) {
+          if (codeText === null) {
             console.warn('[Taildown] No code text found for copy button');
             return;
           }
@@ -40,10 +40,15 @@ export const copyCodeBehavior: ComponentBehavior = {
               textArea.style.left = '-999999px';
               textArea.style.top = '-999999px';
               document.body.appendChild(textArea);
-              textArea.focus();
-              textArea.select();
-              document.execCommand('copy');
-              textArea.remove();
+              const previousFocus = document.activeElement;
+              try {
+                textArea.focus();
+                textArea.select();
+                if (!document.execCommand('copy')) throw new Error('Copy was not accepted');
+              } finally {
+                textArea.remove();
+                if (previousFocus && previousFocus.isConnected) previousFocus.focus();
+              }
             }
             
             // Show success feedback
@@ -51,14 +56,17 @@ export const copyCodeBehavior: ComponentBehavior = {
             
           } catch (err) {
             console.warn('[Taildown] Failed to copy code:', err);
-            // Still show feedback even if copy failed
-            showCopySuccess(this);
+            showCopyResult(this, false);
           }
         });
       });
     }
     
     function showCopySuccess(button) {
+      showCopyResult(button, true);
+    }
+
+    function showCopyResult(button, success) {
       // Get elements
       const copyIcon = button.querySelector('.copy-icon');
       const checkIcon = button.querySelector('.check-icon');
@@ -66,17 +74,23 @@ export const copyCodeBehavior: ComponentBehavior = {
       const copiedText = button.querySelector('.copied-text');
       
       // Add success class
-      button.classList.add('copied');
+      clearTimeout(button.copyFeedbackTimer);
+      button.classList.toggle('copied', success);
+      button.setAttribute('aria-label', success ? 'Code copied to clipboard' : 'Copy failed. Try again');
       
       // Switch icons and text
       if (copyIcon) copyIcon.style.display = 'none';
-      if (checkIcon) checkIcon.style.display = 'block';
+      if (checkIcon) checkIcon.style.display = success ? 'block' : 'none';
       if (copyText) copyText.style.display = 'none';
-      if (copiedText) copiedText.style.display = 'block';
+      if (copiedText) {
+        copiedText.textContent = success ? 'Copied!' : 'Copy failed';
+        copiedText.style.display = 'block';
+      }
       
       // Reset after 2 seconds
-      setTimeout(() => {
+      button.copyFeedbackTimer = setTimeout(() => {
         button.classList.remove('copied');
+        button.setAttribute('aria-label', 'Copy code to clipboard');
         if (copyIcon) copyIcon.style.display = 'block';
         if (checkIcon) checkIcon.style.display = 'none';
         if (copyText) copyText.style.display = 'block';

@@ -1,5 +1,5 @@
 import { visit } from 'unist-util-visit';
-import type { ContainerDirective } from 'mdast';
+import { registry, type ContainerDirectiveNode as ContainerDirective } from '@taildown/compiler';
 import { BaseRule } from './BaseRule';
 import type { RuleContext, FixTransform } from '../types';
 
@@ -16,13 +16,10 @@ export class InvalidComponentNameRule extends BaseRule {
   readonly category = 'component';
   readonly fixable = true;
 
-  // Valid component names
-  private readonly validComponents = new Set([
-    'tabs', 'accordion', 'carousel', 'card', 'grid', 'alert',
-    'modal', 'tooltip', 'navbar', 'button-group', 'badge',
-    'breadcrumb', 'pagination', 'progress', 'skeleton',
-    'avatar', 'sidebar', 'tree', 'flow',
-  ]);
+  // Parsing awaits initialization; custom registered components are valid too.
+  private get validComponents(): Set<string> {
+    return new Set(registry.getNames());
+  }
 
   // Common typos and their corrections
   private readonly typoMap: Record<string, string> = {
@@ -92,28 +89,30 @@ export class InvalidComponentNameRule extends BaseRule {
 
   fix(context: RuleContext): FixTransform | null {
     let { source } = context;
-    let modified = false;
+    const replacements: Array<{ start: number; end: number; text: string }> = [];
 
     // Only fix known typos (high confidence)
     visit(context.ast, 'containerDirective', (node: ContainerDirective) => {
       const componentName = node.name;
       const suggestion = this.typoMap[componentName.toLowerCase()];
+      if (this.validComponents.has(componentName)) return;
       
-      if (suggestion && node.position) {
+      if (suggestion && suggestion !== componentName && node.position) {
         // Replace the typo with correct name
         const start = node.position.start.offset;
         const openingTag = `:::${componentName}`;
         
         if (start !== undefined && source.substring(start, start + openingTag.length) === openingTag) {
-          source = source.substring(0, start) + 
-                   `:::${suggestion}` +
-                   source.substring(start + openingTag.length);
-          modified = true;
+          replacements.push({ start, end: start + openingTag.length, text: `:::${suggestion}` });
         }
       }
     });
 
-    if (!modified) return null;
+    if (replacements.length === 0) return null;
+    // Offsets belong to the original source, so edit from the end backward.
+    for (const replacement of replacements.sort((a, b) => b.start - a.start)) {
+      source = source.slice(0, replacement.start) + replacement.text + source.slice(replacement.end);
+    }
 
     return {
       source,
@@ -152,24 +151,24 @@ export class InvalidComponentNameRule extends BaseRule {
     }
 
     for (let j = 0; j <= a.length; j++) {
-      matrix[0][j] = j;
+      matrix[0]![j] = j;
     }
 
     for (let i = 1; i <= b.length; i++) {
       for (let j = 1; j <= a.length; j++) {
         if (b.charAt(i - 1) === a.charAt(j - 1)) {
-          matrix[i][j] = matrix[i - 1][j - 1];
+          matrix[i]![j] = matrix[i - 1]![j - 1]!;
         } else {
-          matrix[i][j] = Math.min(
-            matrix[i - 1][j - 1] + 1,
-            matrix[i][j - 1] + 1,
-            matrix[i - 1][j] + 1
+          matrix[i]![j] = Math.min(
+            matrix[i - 1]![j - 1]! + 1,
+            matrix[i]![j - 1]! + 1,
+            matrix[i - 1]![j]! + 1
           );
         }
       }
     }
 
-    return matrix[b.length][a.length];
+    return matrix[b.length]![a.length]!;
   }
 }
 

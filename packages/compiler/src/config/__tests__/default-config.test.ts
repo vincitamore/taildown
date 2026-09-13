@@ -164,23 +164,26 @@ describe('Default Config', () => {
   });
 
   describe('Color Accessibility', () => {
-    it('should use accessible colors (WCAG AA compliant)', () => {
-      // Verify that default colors are from Tailwind's accessible palette
-      const primary = DEFAULT_CONFIG.theme.colors.primary;
-      expect(primary[600]).toBe('#2563eb'); // Tailwind blue-600
-      
-      const secondary = DEFAULT_CONFIG.theme.colors.secondary;
-      expect(secondary[600]).toBe('#9333ea'); // Tailwind purple-600 (note: our secondary is actually purple)
-    });
+    // WCAG relative luminance; these assertions cover only the named white/text pairs.
+    function contrastOnWhite(hex: string): number {
+      const channels = [1, 3, 5].map(start => {
+        const value = parseInt(hex.slice(start, start + 2), 16) / 255;
+        return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+      });
+      const luminance = channels.reduce((sum, value, index) =>
+        sum + value * [0.2126, 0.7152, 0.0722][index]!, 0);
+      return 1.05 / (luminance + 0.05);
+    }
 
-    it('should have good contrast ratios for semantic colors', () => {
-      // Semantic colors should be visible and accessible
-      expect(DEFAULT_CONFIG.theme.colors.success).toBeDefined();
-      expect(DEFAULT_CONFIG.theme.colors.warning).toBeDefined();
-      expect(DEFAULT_CONFIG.theme.colors.error).toBeDefined();
-    });
+    it.each(['primary', 'secondary', 'accent'] as const)(
+      '%s text and hover shades meet normal-text contrast on white', name => {
+        const palette = DEFAULT_CONFIG.theme.colors[name];
+        for (const shade of [600, 700] as const) {
+          expect(contrastOnWhite(palette[shade]!)).toBeGreaterThanOrEqual(4.5);
+        }
+      }
+    );
   });
-
   describe('Professional Defaults', () => {
     it('should default to elevated card style', () => {
       expect(DEFAULT_CONFIG.components!.card!.defaultVariant).toBe('elevated');

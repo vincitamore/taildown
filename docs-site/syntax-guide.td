@@ -1,5 +1,5 @@
 :::navbar
-# Taildown
+[Taildown](index.html){.navbar-brand}
 
 [Home](index.html) [Getting Started](getting-started.html) [Syntax Guide](syntax-guide.html) [Components](components.html) [Plain English](plain-english.html) [Live Editor](editor.html)
 :::
@@ -10,7 +10,7 @@
 
 ---
 
-## Quick Navigation {large-bold primary}
+## Quick Navigation {bold primary}
 
 :::grid {cols-3}
 :::card {subtle-glass padded}
@@ -37,7 +37,7 @@
 
 ---
 
-## Markdown Compatibility {#markdown large-bold primary}
+## Markdown Compatibility {#markdown bold primary}
 
 :icon[check]{success large} **Taildown is a superset of Markdown** - every valid Markdown document is also valid Taildown. {large}
 
@@ -96,6 +96,16 @@
 Use `backticks` for inline code
 ```
 
+**Code blocks:** Add a language after the opening fence. Use `td`, `tdown`, or `taildown` for Taildown examples; these use the same syntax tokenizer as the editor. Code examples preserve literal source and include a copy button.
+
+````taildown
+```td
+:::card{elevated padded-lg}
+Read the [guide](https://taildown.dev/getting-started).
+:::
+```
+````
+
 
 ### Blockquotes
 
@@ -125,7 +135,43 @@ ___
 
 ---
 
-## Inline Attributes {#attributes large-bold primary}
+## Inline Attributes {#attributes bold primary}
+
+### Editor design settings
+
+Open **Design settings** from the editor's **Command-K** menu to configure a custom design. The advanced JSON form accepts `theme` (colors and fonts), `styleMappings` (plain-English aliases), `components` (custom definitions), and `componentConfig` (component defaults, variants, and sizes). Applied settings affect both the preview and exported HTML. Invalid settings leave the previous design active.
+
+The **Modern**, **Editorial**, and **Technical** typography buttons prepare a sans-serif, serif, or monospace document font. Choose **Apply settings** to see the result. These starting points preserve your other font stacks, colors, and component settings, and remain editable in the JSON below.
+
+Settings belong to this browser workspace and apply across opened documents. A downloaded `.td` file contains only document text: use **Download applied settings** to keep a separate JSON copy, then **Import settings** in another browser. Import prepares the JSON for review; **Apply settings** activates it. Invalid imports preserve the current draft. You can also paste JSON directly. **Use defaults** prepares an empty configuration; choose **Apply settings** to activate it.
+
+```json
+{"theme":{"colors":{"primary":"#4338ca"}},"styleMappings":{"brand":"text-primary font-bold"}}
+```
+
+With those settings, `Welcome {brand}` uses the custom primary color and bold text.
+
+A single color replaces every shade of that palette. Use a shade object such as `{"DEFAULT":"#4338ca","400":"#a5b4fc","600":"#4338ca"}` when light and dark themes need distinct tones. The compiler API and configuration files accept the same single-color or shade-map overrides.
+
+For an editorial card preset, configure a font stack and named component variants. Font stacks use fonts already available to the reader; they do not download or embed font files. Invalid values or CSS declarations are rejected.
+
+```json
+{
+  "theme": {"fonts": {"serif": "Georgia, serif"}},
+  "componentConfig": {
+    "card": {
+      "defaultVariant": "editorial",
+      "defaultSize": "roomy",
+      "variants": {"editorial": {"classes": ["font-serif"]}},
+      "sizes": {"roomy": {"classes": ["p-8"]}}
+    }
+  }
+}
+```
+
+New cards use these defaults. The `editorial` and `roomy` attributes also appear in completion, and an explicit attribute such as `p-4` can override the preset's padding.
+
+Inline attributes accept styling words, CSS classes, `#anchor` IDs, and `modal="..."` or `tooltip="..."` attachments. Arbitrary HTML key-value attributes such as `tabindex="1"` or `aria-label="..."` are currently unsupported: the compiler reports a warning and omits them. Quoted attachment values can contain spaces and apostrophes.
 
 :icon[brackets]{primary large} **Add styling to any element using curly brace notation.** {large}
 
@@ -200,7 +246,7 @@ Combine multiple attributes with spaces:
 
 ---
 
-## Plain English Styling {#plain-english large-bold primary}
+## Plain English Styling {#plain-english bold primary}
 
 :icon[type]{success large} **Style using natural English instead of CSS classes.** {large}
 
@@ -308,7 +354,7 @@ Unnatural and confusing.
 
 ---
 
-## Icon Syntax {#icons large-bold primary}
+## Icon Syntax {#icons bold primary}
 
 :icon[smile]{warning large} **Embed beautiful SVG icons anywhere with `:icon[name]` syntax.** {large}
 
@@ -385,9 +431,11 @@ Result:
 
 [Browse all 1000+ icons at lucide.dev →](https://lucide.dev/icons/){button secondary}
 
+Taildown includes the complete Lucide 0.544.0 library in its offline compiler. Icons added to Lucide after that version require a Taildown dependency update. Exported pages contain only the SVG icons used in the document.
+
 ---
 
-## Component Blocks {#components large-bold primary}
+## Component Blocks {#components bold primary}
 
 :icon[package]{primary large} **Wrap content in components using `:::name` fences.** {large}
 
@@ -436,7 +484,7 @@ Column 2
 
 ---
 
-## Interactive Components {#interactive large-bold primary}
+## Interactive Components {#interactive bold primary}
 
 :icon[activity]{success large} **Zero-config JavaScript generation for interactive components.** {large}
 
@@ -613,19 +661,29 @@ Comprehensive testing phase.
 
 ```taildown
 :::timeline {centered}
+## Centered milestone
 Alternating left/right alignment
+:::
 
 :::timeline {compact}
+## Compact milestone
 Smaller markers, tighter spacing
+:::
 
 :::timeline {glass}
+## Glass milestone
 Glassmorphism effect on content
+:::
 
 :::timeline {elevated}
+## Elevated milestone
 Shadow elevation on content cards
+:::
 
 :::timeline {bordered}
+## Bordered milestone
 Primary color border on content
+:::
 ```
 
 **Examples:**
@@ -667,7 +725,7 @@ Code review session
 
 ---
 
-## Quick Reference Card {#reference large-bold primary}
+## Quick Reference Card {#reference bold primary}
 
 :::grid {cols-2}
 :::card {subtle-glass padded}
@@ -688,9 +746,9 @@ Paragraph {attributes}
 :::card {subtle-glass padded}
 ### Icons
 ```taildown
-:icon[name]
-:icon[name]{size}
-:icon[name]{color size}
+:icon[star]
+:icon[star]{lg}
+:icon[star]{primary lg}
 ```
 
 **Sizes:** tiny, xs, sm, md, lg, xl, 2xl, huge  
@@ -700,11 +758,11 @@ Paragraph {attributes}
 :::card {subtle-glass padded}
 ### Components
 ```taildown
-:::component-name
+:::card
 Content
 :::
 
-:::component {attributes}
+:::card {glass padded}
 Content with attributes
 :::
 ```
@@ -731,7 +789,7 @@ Content with attributes
 
 ---
 
-## Enhanced Table Component {#table large-bold primary}
+## Enhanced Table Component {#table bold primary}
 
 :icon[table]{success large} **Professional tables with sorting, zebra striping, and glass effects - zero JavaScript unless you need sorting.** {large}
 
@@ -802,7 +860,7 @@ Tables use standard GitHub Flavored Markdown with an attribute block:
 
 ---
 
-## Image Comparison Slider {#image-comparison large-bold primary}
+## Image Comparison Slider {#image-comparison bold primary}
 
 :icon[image]{warning large} **Interactive before/after comparisons with draggable slider - perfect for showcasing transformations.** {large}
 
@@ -917,7 +975,9 @@ after: /img/after.jpg
 
 ---
 
-## Complete Component List {#component-list large-bold primary}
+## Selected Component Quick Reference {#component-list bold primary}
+
+This table covers common starting points. The [component reference](components.html) includes the broader library, live examples, and detailed usage; see [Container](components.html#container), [Tree](components.html#tree), [Flow](components.html#flow), and [Code Diff](components.html#diff) for additional layouts and visualizations.
 
 | Component | Purpose | Usage | Variants |
 |-----------|---------|-------|----------|
@@ -938,7 +998,7 @@ after: /img/after.jpg
 
 ---
 
-## Complete Shorthand Reference {#shorthands large-bold primary}
+## Complete Shorthand Reference {#shorthands bold primary}
 
 ### Typography Shorthands
 
@@ -1030,7 +1090,7 @@ Natural combinations work automatically:
 
 ---
 
-## Next Steps {large-bold center primary}
+## Next Steps {bold center primary}
 
 :::card {light-glass padded-xl center}
 **You're now a Taildown expert!** {huge-bold}

@@ -11,6 +11,8 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   
   <style>
+    :root { --taildown-code-foreground: #374151; --taildown-code-background: #f3f4f6; }
+    [data-theme="dark"] { --taildown-code-foreground: #e5e7eb; --taildown-code-background: #374151; }
     * {
       margin: 0;
       padding: 0;
@@ -36,11 +38,11 @@
       --accent-glow: rgba(59, 130, 246, 0.2);
       
       /* Status colors */
-      --success: #10b981;
+      --success: #047857;
       --success-light: #d1fae5;
-      --error: #ef4444;
+      --error: #b91c1c;
       --error-light: #fee2e2;
-      --warning: #f59e0b;
+      --warning: #92400e;
       --warning-light: #fef3c7;
       
       /* Shadows - Layered depth */
@@ -162,6 +164,7 @@
       background: var(--bg-secondary);
       color: var(--text-primary);
       height: 100vh;
+      height: 100dvh;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -176,9 +179,10 @@
       padding: 10px 16px;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 10px;
       flex-shrink: 0;
-      height: 56px;
+      min-height: 56px;
       backdrop-filter: blur(8px);
       box-shadow: var(--shadow-sm);
       z-index: 10;
@@ -190,6 +194,8 @@
       border: 1px solid var(--border-color);
       color: var(--text-primary);
       padding: 8px 18px;
+      min-height: 44px;
+      white-space: nowrap;
       border-radius: 8px;
       cursor: pointer;
       font-size: 14px;
@@ -253,6 +259,10 @@
     }
 
     #filename-display {
+      max-width: min(20rem, 100%);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       color: var(--text-secondary);
       font-size: 14px;
       margin-left: 4px;
@@ -272,6 +282,8 @@
     }
 
     #status {
+      max-width: 100%;
+      overflow-wrap: anywhere;
       margin-left: auto;
       color: var(--text-secondary);
       font-size: 13px;
@@ -301,6 +313,7 @@
     #editor-container {
       display: flex;
       flex: 1;
+      min-height: 0;
       overflow: hidden;
       position: relative;
       background: var(--bg-secondary);
@@ -325,6 +338,7 @@
 
     /* Draggable divider - Enhanced */
     #divider {
+      touch-action: none;
       width: 5px;
       background: var(--border-color);
       cursor: col-resize;
@@ -455,15 +469,32 @@
     }
 
     /* Slash Command Menu */
+    #command-palette {
+      width: min(36rem, calc(100vw - 2rem));
+      padding: 0;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      color: #111827;
+      background: #fff;
+      box-shadow: 0 24px 80px #0003;
+    }
+    #command-palette::backdrop { background: #11182766; }
+    #command-palette header { display: flex; align-items: center; gap: 1rem; padding: 1rem; }
+    #command-search { flex: 1; min-width: 0; padding: .75rem; font: inherit; color: inherit; background: transparent; border: 1px solid #9ca3af; border-radius: 8px; }
+    #command-results { max-height: min(55vh, 28rem); overflow: auto; padding: 0 .5rem .5rem; }
+    #command-results .slash-menu-item { border-radius: 8px; }
+    #command-palette [role="status"] { padding: 1rem; }
+    [data-theme="dark"] #command-palette { background: #1f2937; color: #f9fafb; border-color: #4b5563; }
+
     #slash-menu {
-      position: absolute;
+      position: fixed;
       z-index: 1000;
       background: white;
       border: 1px solid var(--border-color);
       border-radius: 8px;
       box-shadow: var(--shadow-xl);
-      max-width: 320px;
-      max-height: 400px;
+      width: min(320px, calc(100vw - 16px));
+      max-height: min(400px, calc(100vh - 16px));
       overflow-y: auto;
       display: none;
     }
@@ -544,6 +575,7 @@
     }
 
     .cm-tooltip-autocomplete > ul > li {
+      color: var(--text-primary) !important;
       padding: 10px 14px !important;
       cursor: pointer !important;
       display: flex !important;
@@ -558,7 +590,7 @@
       border-bottom: none !important;
     }
 
-    .cm-tooltip-autocomplete > ul > li[aria-selected] {
+    .cm-tooltip-autocomplete > ul > li[aria-selected="true"] {
       background: var(--accent-light) !important;
     }
 
@@ -643,9 +675,6 @@
       height: 24px;
       background: var(--border-color);
       margin: 0 4px;
-    }
-      color: var(--text-primary);
-      font-size: 15px;
     }
 
     .spinner {
@@ -769,6 +798,21 @@
         transition-duration: 0.01ms !important;
       }
     }
+    #design-settings { background: var(--bg-primary); color: var(--text-primary); }
+    #design-settings::backdrop { background: rgb(15 23 42 / 55%); }
+    #design-settings h2 { margin: 0 0 0.75rem; font-size: 1.375rem; }
+    #design-settings p { line-height: 1.6; font-size: 0.875rem; overflow-wrap: anywhere; }
+    #design-settings textarea { background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--text-secondary); border-radius: 0.5rem; resize: vertical; }
+    #design-settings button { padding: 0.625rem 0.875rem; border: 1px solid var(--text-secondary); border-radius: 0.5rem; background: var(--bg-secondary); color: var(--text-primary); cursor: pointer; }
+    #design-settings :focus-visible { outline: 2px solid var(--text-primary); outline-offset: 3px; }
+    #design-settings button:disabled { opacity: 0.6; cursor: wait; }
+    #design-message { max-height: 7rem; overflow: auto; }
+    #design-settings > .design-actions { position: sticky; bottom: -1.5rem; background: var(--bg-primary); padding: 0.75rem 0; }
+    #typography-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; margin: 0.75rem 0 1rem; }
+    #typography-choices button { padding: 0.75rem 0.25rem; text-align: center; }
+    #typography-choices button:hover { background: var(--bg-tertiary); }
+    #typography-choices .type-sample { display: block; font-size: 1.75rem; line-height: 1.4; margin-bottom: 0.25rem; }
+    #typography-choices .type-name { font-size: 0.75rem; }
   </style>
 </head>
 <body>
@@ -779,6 +823,34 @@
 
   <!-- Slash Command Menu -->
   <div id="slash-menu"></div>
+  <dialog id="command-palette" aria-label="Insert a component or format">
+    <header>
+      <input id="command-search" type="search" placeholder="Search components and formatting…" aria-label="Search commands" role="combobox" aria-autocomplete="list" aria-controls="command-results" aria-expanded="true">
+      <button id="command-close" type="button" aria-label="Close commands">Esc</button>
+    </header>
+    <div id="command-results" role="listbox" aria-label="Commands"></div>
+    <div id="command-empty" role="status" hidden>No matching commands.</div>
+  </dialog>
+
+  <dialog id="design-settings" aria-labelledby="design-title" style="width: min(42rem, calc(100vw - 2rem)); max-height: 85vh; overflow: auto; padding: 1.5rem; border: 1px solid #94a3b8; border-radius: 1rem;">
+    <h2 id="design-title">Design settings</h2>
+    <p>Advanced settings for this browser workspace. Apply a custom palette, fonts, style aliases, or components to previews and HTML exports. These settings also apply when you open another document.</p>
+    <p id="typography-label">Choose a typography starting point</p>
+    <div id="typography-choices" role="group" aria-labelledby="typography-label"></div>
+    <label for="design-json">Configuration JSON</label>
+    <textarea id="design-json" spellcheck="false" style="display: block; box-sizing: border-box; width: 100%; min-height: 16rem; margin: 0.75rem 0; padding: 0.75rem; font: 0.875rem/1.5 monospace;"></textarea>
+    <p>Example: <code>{"theme":{"colors":{"primary":"#4338ca"}},"styleMappings":{"brand":"text-primary font-bold"}}</code></p>
+    <p>Saving a .td file saves its text. Download these settings separately to reuse them in another browser; import the JSON file here.</p>
+    <input id="design-file" type="file" accept=".json,application/json" hidden>
+    <p id="design-message" role="status" aria-live="polite"></p>
+    <div class="design-actions" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+      <button id="design-apply" type="button">Apply settings</button>
+      <button id="design-download" type="button">Download applied settings</button>
+      <button id="design-import" type="button">Import settings</button>
+      <button id="design-reset" type="button">Use defaults</button>
+      <button id="design-close" type="button">Close</button>
+    </div>
+  </dialog>
 
   <!-- Bubble Menu -->
   <div id="bubble-menu">
@@ -787,24 +859,30 @@
     <button class="bubble-menu-button" data-action="code" title="Code"></button>
     <div class="bubble-menu-divider"></div>
     <button class="bubble-menu-button" data-action="heading" title="Heading"></button>
-    <button class="bubble-menu-button" data-action="link" title="Link (Ctrl+K)"></button>
+    <button class="bubble-menu-button" data-action="link" title="Link (Ctrl/Cmd+Shift+K)"></button>
   </div>
 
   <div id="toolbar">
     <button id="new-btn" title="Create new document (Ctrl+N)">New</button>
+    <button id="commands-btn" title="Insert a component or format (Ctrl/Cmd+K)">Insert</button>
     <button id="open-btn" title="Open file (Ctrl+O)">Open</button>
     <button id="save-btn" title="Save file (Ctrl+S)">Save</button>
     <button id="download-btn" title="Download .td file">Download</button>
     <button id="export-btn" title="Export HTML (Ctrl+E)">Export HTML</button>
+    <button id="offline-editor" hidden title="Download the complete editor for offline use">Offline editor</button>
     <button id="help-btn" title="Show welcome template">?</button>
     <button id="theme-toggle-btn" title="Toggle dark mode" style="margin-left: auto;"></button>
     <span id="filename-display">untitled.td</span>
-    <span id="status"></span>
+    <span id="status" role="status" aria-live="polite"></span>
   </div>
+
+  <details id="diagnostics" hidden style="padding: 0.5rem 1rem; max-height: 25vh; overflow: auto;"><summary></summary><ul></ul></details>
+  <div id="design-recovery-warning" role="status" hidden style="padding: 0.5rem 1rem; font-size: 0.875rem;">Design settings could not be restored. Defaults are active. Open Design settings from Command-K to recover a saved copy.</div>
+  <div id="storage-warning" role="status" hidden style="padding: 0.5rem 1rem; font-size: 0.875rem;">Browser draft recovery is unavailable. Save or download a copy before leaving.</div>
 
   <div id="editor-container">
     <div id="editor-pane"></div>
-    <div id="divider"></div>
+    <div id="divider" role="separator" tabindex="0" aria-label="Editor pane size" aria-controls="editor-pane" aria-valuemin="15" aria-valuemax="85" aria-valuenow="50" aria-orientation="vertical"></div>
     <div id="preview-pane">
       <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin"></iframe>
     </div>
@@ -812,11 +890,22 @@
 
   <script type="module">
     // Import Taildown bundle from relative path (development)
-    // In production build, this will be replaced with an inline data URL
-    import * as Taildown from '../packages/compiler/dist/taildown-browser.js';
+    // Production bundles this module and its imports directly into the page.
+    import * as Taildown from '../packages/compiler/dist/taildown-editor.js';
+    import compilerSource from '../packages/compiler/dist/taildown-worker-source.js';
+    import {createCompilerClient} from './compiler-client.js';
+    import {createTaildownAutocomplete} from './authoring.ts';
+    import {createIconRenderer} from './icons.ts';
+    import {createFileOperations} from './files.ts';
+    import {createCommands} from './commands.ts';
+    import {createPreviewController} from './preview.ts';
+    import {restoreDraft, createBeforeUnloadHandler} from './recovery.ts';
+    import {initializeDivider} from './divider.ts';
+    import {createDraftStore} from './draft-store.js';
+    import {createDesignSettings, typographyChoices, prepareTypography, parseDesignSettings} from './design-settings.js';
     
     const {
-      compile,
+      isCodePosition,
       EditorView,
       EditorState,
       Compartment,
@@ -847,246 +936,72 @@
       taildownDarkHighlightStyle,
     } = Taildown;
 
+    const compile = createCompilerClient(compilerSource, document.baseURI);
+
     // Default welcome template
-    const DEFAULT_TEMPLATE = `# Welcome to Taildown Live Editor! {huge-bold primary center}
+    const DEFAULT_TEMPLATE = `:::container {wide}
+**TAILDOWN / A PLACE TO BEGIN** {small primary}
 
-Your modern, offline-capable Markdown editor with superpowers {large muted center}
+# Give your next idea a page. {text-4xl bold tight-lines}
 
----
+A field note, a project guide, a small corner of the web. Start with words and shape the rest as you go. {large muted}
 
-## :icon[zap]{warning} Quick Start Guide
-
-**Try these powerful features:**
-
-1. Type :kbd[/] to open the slash command menu
-2. Select text and use the **bubble menu** for formatting
-3. Type :kbd[:] for autocomplete (try :kbd[:::], :kbd[:icon], or :kbd[{])
-4. Press :kbd[Tab] to accept suggestions
-5. Toggle **dark mode** with the moon/sun icon
-
-:::alert {info}
-:icon[lightbulb]{warning} **Tip:** All your work is auto-saved to localStorage and the preview updates as you type!
-:::
+Change this sentence in the editor. The preview follows as you type.
 
 ---
 
-## :icon[keyboard]{primary} Slash Commands
+## A little structure goes a long way.
 
-Type :kbd[/] anywhere to access quick insert commands:
-
-- **/h1** → Large heading
-- **/card** → Card component with auto-fencing
-- **/mermaid** → Diagram block
-- **/code** → Code block
-- **/table** → 2-column table template
-
-Try it now: Type :kbd[/] below this line!
-
-
-
----
-
-## :icon[sparkles]{accent} Smart Autocomplete
-
-Experience intelligent, context-aware suggestions:
-
-**Component Fence:** Type :kbd[:::c] and press :kbd[Tab] to see card, callout, carousel...
-
-**Attributes:** Type :kbd[{] to see 50+ style options:
-- **{primary}**, **{secondary}**, **{accent}**
-- **{huge-bold}**, **{large-light}**, **{xl-bold}**
-- **{light-glass}**, **{elevated}**, **{shadow-xl}**
-- **{fade-in}**, **{slide-up}**, **{hover-lift}**
-
-**Icons:** Type :kbd[:icon] to browse 157+ Lucide icons with previews!
-
----
-
-## :icon[edit]{secondary} Bubble Menu
-
-**Select any text** to see the floating toolbar with quick formatting:
-- Bold (Ctrl+B)
-- Italic (Ctrl+I)
-- Code
-- Heading
-- Link (Ctrl+K)
-
----
-
-## :icon[layout]{success} Interactive Components
-
+:::card {light-glass padded-lg}
 :::tabs
-### Cards & Layouts
+### The idea
 
-:::card {light-glass padded hover-lift}
-#### Beautiful Cards {primary}
-Cards support titles, icons, and style attributes. Hover over this card!
-
-:icon[heart]{error} :icon[star]{warning} :icon[zap]{primary}
-:::
-
-:::grid {3}
-:::card {subtle-glass padded center}
-:icon[box]{primary}
-
-**Grid Layout**
-
-Responsive grids
-:::
-
-:::card {subtle-glass padded center}
-:icon[layers]{secondary}
-
-**Stack Items**
-
-Equal heights
-:::
-
-:::card {subtle-glass padded center}
-:icon[table]{accent}
-
-**Auto-flow**
-
-Smart wrapping
-:::
-:::
-
-### Mermaid Diagrams
-
-:::mermaid
-graph LR
-  A[Write] --> B{Compile}
-  B -->|Success| C[Preview]
-  B -->|Error| D[Debug]
-  C --> E[Export HTML]
-:::
-
-### Buttons & Modals
-
-:::card {center}
-
-[Click Me](#){button primary modal="Success! This is an inline modal. Click anywhere outside or press Escape to close."}
-
-[Hover Me](#){button secondary tooltip="Tooltips provide helpful context without cluttering your UI"}
-:::
-
-:::
-
----
-
-## :icon[type]{info} Typography & Styling
-
-Make your content **pop** with natural language styles:
-
-# Huge Bold Primary Heading {huge-bold primary}
-## Large Bold Secondary {large-bold secondary}  
-### Medium Accent Heading {medium accent}
-
-Regular text, **bold text**, *italic text*, and \`inline code\`.
-
-
-This entire block is styled with multiple attributes!
-You can combine size, color, padding, borders, and effects.
-{large-bold light-glass padded rounded primary} 
-
----
-
-## :icon[code-2]{primary} Code Highlighting
-
-Syntax highlighting powered by CodeMirror 6:
-
-${'```'}javascript
-function greet(name) {
-  console.log('Hello, ' + name + '!');
-  return true;
-}
-
-greet('Taildown');
-${'```'}
-
-${'```'}css
-.beautiful {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
-  padding: 2rem;
-}
-${'```'}
-
----
-
-## :icon[list]{secondary} Lists & Tables
-
-**Bullet List:**
-- First item
-- Second item with **bold**
-- :icon[check]{success} Third item with a checkmark
-
-**Numbered List:**
-1. Step one
-2. Step two  
-3. Step three
-
-**Table:**
-
-| Feature | Status | Priority |
-|---------|--------|----------|
-| Slash Commands | :icon[check-circle]{success} | High |
-| Autocomplete | :icon[check-circle]{success} | High |
-| Dark Mode | :icon[check-circle]{success} | Medium |
-{sortable zebra}
-
----
-
-## :icon[smile]{accent} More Components
+Make something worth keeping. A few useful details, arranged with care, are enough to begin.
 
 :::callout {info}
-:icon[info]{info} **Did you know?**  
-Callouts are great for tips, warnings, and important information.
+**Try a small change.**
+
+Replace this note with something you want your reader to remember. Keep the surrounding fences to preserve the callout.
 :::
 
-:::alert {warning}
-:icon[alert-triangle]{warning} **Warning:** This editor is highly addictive. You may never want to use another Markdown editor again!
+### The details
+
+:::accordion
+**What gives this page its shape?**
+
+Markdown handles headings, links, lists, and emphasis. Fences such as \`:::card\` group content into components. Attributes such as \`{light-glass}\` change its appearance.
+
+**Can the page travel on its own?**
+
+Use **Export HTML** to make a standalone page with its styles and interactions included. Keep the editable source with **Save** or **Download**.
+:::
+:::
 :::
 
-**Inline Badges:** Project Status: :badge[active]{success} Version: :badge[v0.2.0]{info} License: :badge[MIT]{primary}
+Switch the tabs and open a question. These are working components you can edit. {small muted}
 
----
+## Make it yours.
 
-## :icon[download]{primary} Export & Share
+1. **Write.** Replace the title and the note above, or choose **New** for a blank start.
+2. **Compose.** Choose **Insert** or press :kbd[Ctrl/Cmd+K] to browse components and formatting. Type \`{\` for style suggestions.
+3. **Keep a copy.** Save the editable source as a \`.td\` file. Export HTML when it is ready to share.
 
-When you're done:
+Browser recovery keeps your latest draft when storage is available. Save or download a file copy for safekeeping. {small muted}
 
-1. **Save** (.td file) - Ctrl+S
-2. **Export HTML** - Ctrl+E (production-ready, self-contained)
-3. **Download** - Get raw .td file
-4. **Share** - All features work offline!
-
-:::card {elevated primary}
-
-### Ready to create something amazing? {huge-bold center}
-
-Start by clearing this template and writing your own content!
-{center}
-
-Try the **New** button (Ctrl+N) to start fresh!
-{center}
-
+[Read the guide](https://taildown.dev/getting-started) · [Explore components](https://taildown.dev/components)
 :::
-
----
-
-Built with :icon[heart]{error} using Taildown • Fully offline-capable • No tracking
-{center muted small}
 `;
 
     // State
     let editor;
     let currentFilename = 'untitled.td';
-    let currentFileHandle = null;
-    let updateTimeout = null;
-    let isDragging = false;
+    const fileState = {
+      get filename() { return currentFilename; },
+      set filename(value) { currentFilename = value; },
+      handle: null, documentVersion: 0,
+    };
+
     let slashMenuActive = false;
-    let slashMenuIndex = 0;
     let slashMenuStart = null;
     let filteredCommands = []; // Track currently filtered commands
 
@@ -1097,6 +1012,92 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     const filenameDisplay = document.getElementById('filename-display');
     const divider = document.getElementById('divider');
     const loading = document.getElementById('loading');
+    const draftStore = createDraftStore(undefined, available => {
+      document.getElementById('storage-warning').hidden = available;
+    });
+    const designSettings = createDesignSettings(compile);
+    const designDialog = document.getElementById('design-settings');
+    const designJSON = document.getElementById('design-json');
+    const designMessage = document.getElementById('design-message');
+    let designImportRevision = 0;
+    const designFile = document.getElementById('design-file');
+    document.getElementById('design-import').addEventListener('click', () => designFile.click());
+    designFile.addEventListener('change', async () => {
+      const file = designFile.files[0];
+      designFile.value = '';
+      if (!file) return;
+      const revision = ++designImportRevision;
+      const previousText = designJSON.value;
+      designMessage.textContent = 'Reading settings…';
+      try {
+        const options = parseDesignSettings(await file.text());
+        if (revision !== designImportRevision || !designDialog.open) return;
+        if (designJSON.value !== previousText) {
+          designMessage.textContent = 'Import skipped because you edited the settings while the file was loading.';
+          return;
+        }
+        designJSON.value = JSON.stringify(options, null, 2);
+        designMessage.textContent = `${file.name} is ready. Review it and Apply settings to use it.`;
+        designJSON.focus();
+      } catch (error) {
+        if (revision === designImportRevision && designDialog.open) designMessage.textContent = `Settings were not imported: ${error.message}`;
+      }
+    });
+    designDialog.addEventListener('close', () => { designImportRevision++; });
+    for (const choice of typographyChoices) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.setAttribute('aria-label', `${choice.name} typography`);
+      const sample = document.createElement('span');
+      sample.className = 'type-sample';
+      sample.textContent = 'Aa';
+      sample.style.fontFamily = choice.font;
+      sample.setAttribute('aria-hidden', 'true');
+      const label = document.createElement('span');
+      label.className = 'type-name';
+      label.textContent = choice.name;
+      button.append(sample, label);
+      button.addEventListener('click', () => {
+        try {
+          designJSON.value = prepareTypography(designJSON.value, choice.name);
+          designMessage.textContent = `${choice.name} typography is ready. Apply settings to preview it.`;
+        } catch (error) { designMessage.textContent = `Typography was not changed: ${error.message}`; }
+      });
+      document.getElementById('typography-choices').appendChild(button);
+    }
+    try { await designSettings.restore(); }
+    catch {
+      designMessage.textContent = 'Saved design settings could not be restored. Defaults are active; paste a saved copy here to recover them.';
+      document.getElementById('design-recovery-warning').hidden = false;
+    }
+    function openDesignSettings() {
+      designJSON.value = JSON.stringify(designSettings.options, null, 2);
+      designDialog.showModal();
+      designJSON.focus();
+    }
+    document.getElementById('design-close').addEventListener('click', () => designDialog.close());
+    designDialog.addEventListener('close', () => editor?.focus());
+    document.getElementById('design-reset').addEventListener('click', () => {
+      designJSON.value = '{}';
+      designMessage.textContent = 'Defaults are ready. Apply settings to use them.';
+    });
+    document.getElementById('design-download').addEventListener('click', () => {
+      downloadFile(JSON.stringify(designSettings.options, null, 2), 'taildown-editor-design.json', 'application/json');
+    });
+    document.getElementById('design-apply').addEventListener('click', async event => {
+      const button = event.currentTarget;
+      button.disabled = true;
+      designMessage.textContent = 'Checking settings…';
+      try {
+        const saved = await designSettings.apply(designJSON.value, editor.state.doc.toString());
+        const reference = await compile.getAuthoringReference(designSettings.options);
+        Object.assign(authoringReference, reference);
+        document.getElementById('design-recovery-warning').hidden = true;
+        designMessage.textContent = saved ? 'Settings applied and saved in this browser.' : 'Settings applied for this session. Browser storage is unavailable; download a copy.';
+        await updatePreview(editor.state.doc.toString());
+      } catch (error) { designMessage.textContent = `Settings were not applied: ${error.message}`; }
+      finally { button.disabled = false; }
+    });
 
     // Buttons
     const newBtn = document.getElementById('new-btn');
@@ -1104,486 +1105,44 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     const saveBtn = document.getElementById('save-btn');
     const downloadBtn = document.getElementById('download-btn');
     const exportBtn = document.getElementById('export-btn');
+    document.getElementById('offline-editor').addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.href = new URL('offline-editor.html', document.baseURI).href;
+      link.download = 'taildown-editor.html';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    });
     const helpBtn = document.getElementById('help-btn');
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const slashMenu = document.getElementById('slash-menu');
     const bubbleMenu = document.getElementById('bubble-menu');
 
     // Autocomplete data sources
-    const componentNames = [
-      'card', 'button', 'alert', 'badge', 'avatar', 'grid', 'container',
-      'tabs', 'accordion', 'modal', 'tooltip', 'carousel', 'navbar',
-      'tree', 'flow', 'button-group', 'sidebar', 'breadcrumb', 'pagination',
-      'progress', 'skeleton', 'callout', 'mermaid'
-    ];
-
-    const styleAttributes = [
-      // Colors
-      'primary', 'secondary', 'accent', 'success', 'warning', 'error', 'info', 'muted',
-      // Sizes
-      'xs', 'small', 'large', 'xl', '2xl', '3xl', 'huge', 'massive',
-      // Weight
-      'thin', 'light', 'normal', 'medium', 'semibold', 'bold', 'extra-bold', 'black',
-      // Combinations
-      'huge-bold', 'large-bold', 'xl-bold', 'small-light',
-      // Padding
-      'padded', 'padded-sm', 'padded-lg', 'padded-xl',
-      // Gaps
-      'gap', 'gap-sm', 'gap-lg', 'gap-xl',
-      // Line height
-      'tight-lines', 'normal-lines', 'relaxed-lines', 'loose-lines',
-      // Alignment
-      'center', 'left', 'right', 'justify',
-      // Display
-      'flex', 'grid', 'inline', 'block',
-      // Shadows
-      'shadow', 'shadow-sm', 'shadow-lg', 'shadow-xl', 'elevated', 'floating',
-      // Borders
-      'rounded', 'rounded-sm', 'rounded-lg', 'rounded-full',
-      // Glass
-      'subtle-glass', 'light-glass', 'heavy-glass',
-      // Animations
-      'fade-in', 'slide-up', 'slide-down', 'slide-left', 'slide-right', 'zoom-in', 'scale-in',
-      'hover-lift', 'hover-glow', 'hover-scale', 'interactive',
-      // Component variants
-      'flat', 'elevated', 'outlined', 'bordered', 'interactive',
-      'sm', 'md', 'lg', 'xl'
-    ];
-
-    const iconNames = [
-      "accessibility", "activity", "alert-circle", "alert-octagon", "alert-triangle",
-      "align-center", "align-left", "arrow-down", "arrow-left", "arrow-right", "arrow-up",
-      "award", "bar-chart", "beaker", "bell", "bluetooth", "book", "book-open", "bookmark",
-      "box", "brackets", "briefcase", "bug", "calendar", "check", "check-circle", "check-square",
-      "chevron-right", "chevrons-right", "circle", "clock", "cloud", "code", "code-2", "compass",
-      "copy", "cpu", "credit-card", "crown", "database", "dollar-sign", "download", "droplet",
-      "edit", "external-link", "eye", "facebook", "feather", "figma", "file", "file-code",
-      "file-plus", "file-text", "file-tree", "flag", "flame", "folder", "gauge", "gift",
-      "git-branch", "git-commit", "git-fork", "git-pull-request", "github", "globe",
-      "graduation-cap", "grid", "grid-3x3", "hand", "hash", "headphones", "heart", "help-circle",
-      "highlighter", "home", "image", "info", "key", "keyboard", "layers", "layout", "life-buoy",
-      "lightbulb", "link", "linkedin", "list", "loader", "lock", "mail", "map", "maximize",
-      "maximize-2", "menu", "message-circle", "message-square", "minimize", "minus", "minus-square",
-      "monitor", "moon", "more-horizontal", "mouse-pointer", "move", "music", "package", "palette",
-      "panel-left", "party-popper", "play", "play-circle", "plus", "refresh-cw", "rocket", "search",
-      "server", "settings", "share", "share-2", "shield", "shopping-bag", "shopping-cart",
-      "smartphone", "smile", "sparkles", "speaker", "square", "square-stack", "star", "sun",
-      "table", "tag", "target", "terminal", "test-tube", "thumbs-down", "thumbs-up", "tool",
-      "trash", "trending-down", "trending-up", "trophy", "twitter", "type", "upload", "user",
-      "user-plus", "users", "video", "wand-2", "wave", "wind", "wrench", "x", "x-circle", "zap"
-    ];
-
-    // Helper to create Lucide icon SVG
-    function lucideIcon(iconName) {
-      // Map of Lucide icons we use (SVG paths from lucide.dev)
-      const icons = {
-        'type': '<path d="M4 7V4h16v3M9 20h6M12 4v16"/>',
-        'heading-1': '<path d="M4 12h8M4 18V6M12 18V6"/><path d="m17 12 3-3 3 3M20 9v12"/>',
-        'heading-2': '<path d="M4 12h8M4 18V6M12 18V6"/><path d="M21 18h-4c0-4 4-3 4-6 0-1.5-2-2.5-4-2.5"/>',
-        'heading-3': '<path d="M4 12h8M4 18V6M12 18V6"/><path d="M17.5 10.5c1.7-1 3.5 0 3.5 1.5a2 2 0 0 1-2 2"/><path d="M17 17.5c2 1.5 4 .3 4-1.5a2 2 0 0 0-2-2"/>',
-        'bold': '<path d="M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8"/>',
-        'italic': '<line x1="19" x2="10" y1="4" y2="4"/><line x1="14" x2="5" y1="20" y2="20"/><line x1="15" x2="9" y1="4" y2="20"/>',
-        'code': '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
-        'code-2': '<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>',
-        'quote': '<path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>',
-        'list': '<line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/>',
-        'list-ordered': '<line x1="10" x2="21" y1="6" y2="6"/><line x1="10" x2="21" y1="12" y2="12"/><line x1="10" x2="21" y1="18" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/>',
-        'link': '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
-        'image': '<rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>',
-        'minus': '<path d="M5 12h14"/>',
-        'table': '<path d="M12 3v18"/><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/>',
-        'box': '<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>',
-        'alert-circle': '<circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>',
-        'lightbulb': '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
-        'layout': '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>',
-        'wand-2': '<path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z"/><path d="m14 7 3 3"/><path d="M5 6v4"/><path d="M19 14v4"/><path d="M10 2v2"/><path d="M7 8H3"/><path d="M21 16h-4"/><path d="M11 3H9"/>',
-        'sun': '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
-        'moon': '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
-      };
-      
-      const path = icons[iconName] || icons['code'];
-      return `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${path}</svg>`;
-    }
+    const iconData = await compile.getIconData();
+    const authoringReference = await compile.getAuthoringReference(designSettings.options);
+    const {iconNames, lucideIcon, renderIconCompletion} = createIconRenderer(iconData, document);
 
     // Slash command registry
-    const slashCommands = [
-      { name: 'Heading 1', icon: 'heading-1', insert: '# ', description: 'Large heading' },
-      { name: 'Heading 2', icon: 'heading-2', insert: '## ', description: 'Medium heading' },
-      { name: 'Heading 3', icon: 'heading-3', insert: '### ', description: 'Small heading' },
-      { name: 'Bold', icon: 'bold', insert: '****', description: 'Bold text', cursorOffset: -2 },
-      { name: 'Italic', icon: 'italic', insert: '**', description: 'Italic text', cursorOffset: -1 },
-      { name: 'Code Block', icon: 'code-2', insert: '```\n\n```', description: 'Code with syntax highlighting', cursorOffset: -4 },
-      { name: 'Inline Code', icon: 'code', insert: '``', description: 'Inline code', cursorOffset: -1 },
-      { name: 'Quote', icon: 'quote', insert: '> ', description: 'Blockquote' },
-      { name: 'List', icon: 'list', insert: '- ', description: 'Bullet list' },
-      { name: 'Numbered List', icon: 'list-ordered', insert: '1. ', description: 'Numbered list' },
-      { name: 'Link', icon: 'link', insert: '[](url)', description: 'Hyperlink', cursorOffset: -5 },
-      { name: 'Image', icon: 'image', insert: '![](url)', description: 'Insert image', cursorOffset: -5 },
-      { name: 'Divider', icon: 'minus', insert: ':::divider\n\n:::', description: 'Decorative divider', cursorOffset: -4 },
-      { name: 'Table', icon: 'table', insert: '| Header 1 | Header 2 |\n|----------|----------|\n|  |  |', description: '2-column table', cursorOffset: -6 },
-      { name: 'Card', icon: 'box', insert: ':::card\n\n:::', description: 'Card component', cursorOffset: -4 },
-      { name: 'Alert', icon: 'alert-circle', insert: ':::alert\n\n:::', description: 'Alert box', cursorOffset: -4 },
-      { name: 'Callout', icon: 'lightbulb', insert: ':::callout\n\n:::', description: 'Callout box', cursorOffset: -4 },
-      { name: 'Button', icon: 'box', insert: '[Button Text](#){button}', description: 'Inline button', cursorOffset: -17 },
-      { name: 'Tabs', icon: 'layout', insert: ':::tabs\n## Tab 1\n\n## Tab 2\n\n:::', description: 'Tabbed interface', cursorOffset: -17 },
-      { name: 'Mermaid', icon: 'wand-2', insert: ':::mermaid\n\n:::', description: 'Empty diagram', cursorOffset: -4 },
-      { name: 'Mermaid: Flowchart', icon: 'git-branch', insert: ':::mermaid\ngraph TD\n  A[Start] --> B{Decision}\n  B -->|Yes| C[Action 1]\n  B -->|No| D[Action 2]\n  C --> E[End]\n  D --> E\n:::', description: 'Process flow diagram', cursorOffset: -4 },
-      { name: 'Mermaid: Sequence', icon: 'arrow-right-left', insert: ':::mermaid\nsequenceDiagram\n  participant A as Alice\n  participant B as Bob\n  A->>B: Hello Bob!\n  B-->>A: Hi Alice!\n:::', description: 'UML sequence diagram', cursorOffset: -4 },
-      { name: 'Mermaid: Gantt', icon: 'calendar', insert: ':::mermaid\ngantt\n  title Project Timeline\n  dateFormat YYYY-MM-DD\n  section Phase 1\n  Task 1 :a1, 2024-01-01, 30d\n  Task 2 :after a1, 20d\n  section Phase 2\n  Task 3 :2024-03-01, 45d\n:::', description: 'Project timeline', cursorOffset: -4 },
-      { name: 'Mermaid: Class', icon: 'box', insert: ':::mermaid\nclassDiagram\n  class Animal {\n    +String name\n    +int age\n    +makeSound()\n  }\n  class Dog {\n    +bark()\n  }\n  Animal <|-- Dog\n:::', description: 'UML class diagram', cursorOffset: -4 },
-      { name: 'Mermaid: State', icon: 'git-commit', insert: ':::mermaid\nstateDiagram-v2\n  [*] --> Idle\n  Idle --> Active : Start\n  Active --> Idle : Stop\n  Active --> Error : Failure\n  Error --> Idle : Reset\n  Error --> [*]\n:::', description: 'State machine', cursorOffset: -4 },
-      { name: 'Mermaid: ER Diagram', icon: 'database', insert: ':::mermaid\nerDiagram\n  CUSTOMER ||--o{ ORDER : places\n  ORDER ||--|{ LINE-ITEM : contains\n  CUSTOMER {\n    string name\n    string email\n  }\n  ORDER {\n    int orderNumber\n    date orderDate\n  }\n:::', description: 'Database schema', cursorOffset: -4 },
-      { name: 'Mermaid: Pie Chart', icon: 'pie-chart', insert: ':::mermaid\npie title Distribution\n  "Category A" : 45\n  "Category B" : 30\n  "Category C" : 15\n  "Category D" : 10\n:::', description: 'Pie chart', cursorOffset: -4 },
-    ];
+    const {openCommandPalette, showSlashMenu, hideSlashMenu, navigateSlashMenu, executeSelectedCommand} = createCommands({
+      document, slashMenu, getEditor: () => editor, authoringReference,
+      getDesignOptions: () => designSettings.options, lucideIcon, openDesignSettings,
+      state: {
+        get active() { return slashMenuActive; }, set active(value) { slashMenuActive = value; },
+        get start() { return slashMenuStart; }, set start(value) { slashMenuStart = value; },
+        get filtered() { return filteredCommands; }, set filtered(value) { filteredCommands = value; },
+      },
+      elements: {
+        palette: document.getElementById('command-palette'), search: document.getElementById('command-search'),
+        results: document.getElementById('command-results'), empty: document.getElementById('command-empty'),
+        close: document.getElementById('command-close'), open: document.getElementById('commands-btn'),
+      },
+    });
 
-    // Slash command functions
-    function showSlashMenu(searchText = '') {
-      // Update filtered commands in outer scope
-      filteredCommands = slashCommands.filter(cmd => 
-        cmd.name.toLowerCase().includes(searchText.toLowerCase())
-      );
-
-      if (filteredCommands.length === 0) {
-        hideSlashMenu();
-        return;
-      }
-
-      slashMenuIndex = 0;
-      slashMenu.innerHTML = filteredCommands.map((cmd, index) => `
-        <div class="slash-menu-item ${index === 0 ? 'selected' : ''}" data-index="${index}">
-          <div class="slash-menu-icon">${lucideIcon(cmd.icon)}</div>
-          <div class="slash-menu-content">
-            <div class="slash-menu-title">${cmd.name}</div>
-            <div class="slash-menu-desc">${cmd.description}</div>
-          </div>
-        </div>
-      `).join('');
-
-      // Position menu
-      const coords = editor.coordsAtPos(editor.state.selection.main.head);
-      if (coords) {
-        slashMenu.style.left = `${coords.left}px`;
-        slashMenu.style.top = `${coords.bottom + 5}px`;
-      }
-
-      slashMenu.classList.add('active');
-      slashMenuActive = true;
-
-      // Add click handlers
-      slashMenu.querySelectorAll('.slash-menu-item').forEach((item, index) => {
-        item.addEventListener('click', () => {
-          insertSlashCommand(filteredCommands[index]);
-        });
-      });
-    }
-
-    function hideSlashMenu() {
-      slashMenu.classList.remove('active');
-      slashMenuActive = false;
-      slashMenuStart = null;
-      slashMenuIndex = 0;
-      filteredCommands = [];
-    }
-
-    function navigateSlashMenu(direction) {
-      const items = slashMenu.querySelectorAll('.slash-menu-item');
-      if (items.length === 0) return;
-
-      items[slashMenuIndex].classList.remove('selected');
-      
-      if (direction === 'down') {
-        slashMenuIndex = (slashMenuIndex + 1) % items.length;
-      } else {
-        slashMenuIndex = (slashMenuIndex - 1 + items.length) % items.length;
-      }
-      
-      items[slashMenuIndex].classList.add('selected');
-      items[slashMenuIndex].scrollIntoView({ block: 'nearest' });
-    }
-
-    function insertSlashCommand(command) {
-      if (!command || slashMenuStart === null) return;
-
-      const { from, to } = { from: slashMenuStart, to: editor.state.selection.main.head };
-      const insert = command.insert;
-      const cursorOffset = command.cursorOffset || 0;
-
-      editor.dispatch({
-        changes: { from, to, insert },
-        selection: { anchor: from + insert.length + cursorOffset }
-      });
-
-      hideSlashMenu();
-    }
-
-    function executeSelectedCommand() {
-      if (filteredCommands.length === 0) return;
-      
-      // Use the currently selected index from the stored filtered commands
-      const command = filteredCommands[slashMenuIndex];
-      if (command) {
-        insertSlashCommand(command);
-      }
-    }
-
-    // Helper to render autocomplete items with icons
-    function renderAutocompleteItem(label, type, info, iconPreview = null) {
-      return (completion) => {
-        const container = document.createElement('div');
-        container.style.display = 'flex';
-        container.style.alignItems = 'center';
-        container.style.gap = '12px';
-        container.style.width = '100%';
-        
-        // Icon preview (for icon autocomplete)
-        if (iconPreview) {
-          const iconDiv = document.createElement('div');
-          iconDiv.className = 'autocomplete-icon';
-          iconDiv.innerHTML = iconPreview;
-          container.appendChild(iconDiv);
-        }
-        
-        // Label
-        const labelDiv = document.createElement('div');
-        labelDiv.className = 'autocomplete-label';
-        labelDiv.textContent = label;
-        container.appendChild(labelDiv);
-        
-        // Info/type badge
-        if (info) {
-          const infoDiv = document.createElement('div');
-          infoDiv.className = 'autocomplete-type';
-          infoDiv.textContent = info;
-          container.appendChild(infoDiv);
-        }
-        
-        return container;
-      };
-    }
-
-    // Smart autocomplete extension
-    function taildownAutocomplete(context) {
-      const word = context.matchBefore(/[\w-]+/);
-      const line = context.state.doc.lineAt(context.pos);
-      const textBefore = line.text.slice(0, context.pos - line.from);
-      
-      // Colon trigger - suggest ::: or inline elements
-      if (textBefore.endsWith(':') && !textBefore.endsWith('::')) {
-        const colonSuggestions = [
-          { 
-            label: ':::', 
-            insert: '::', 
-            info: 'component fence',
-            retrigger: true
-          },
-          { 
-            label: ':icon[]', 
-            insert: 'icon[]', 
-            info: 'inline icon',
-            retrigger: true,
-            cursorOffset: -1  // Place cursor between brackets
-          },
-          { 
-            label: ':badge[]', 
-            insert: 'badge[]', 
-            info: 'inline badge',
-            cursorOffset: -1  // Place cursor between brackets
-          },
-          { 
-            label: ':kbd[]', 
-            insert: 'kbd[]', 
-            info: 'keyboard key',
-            cursorOffset: -1  // Place cursor between brackets
-          }
-        ];
-        
-        return {
-          from: context.pos,
-          validFor: /^$/,
-          options: colonSuggestions.map(item => ({
-            label: item.label,
-            type: 'keyword',
-            info: item.info,
-            render: renderAutocompleteItem(item.label, 'keyword', item.info),
-            apply: (view, completion, from, to) => {
-              const cursorPos = from + item.insert.length + (item.cursorOffset || 0);
-              view.dispatch({
-                changes: { from, to, insert: item.insert },
-                selection: { anchor: cursorPos }
-              });
-              // Retrigger autocomplete after insertion
-              if (item.retrigger) {
-                setTimeout(() => {
-                  startCompletion(view);
-                }, 10);
-              }
-            }
-          }))
-        };
-      }
-      
-      // Component autocomplete - triggered after :::
-      if (textBefore.endsWith(':::')) {
-        return {
-          from: context.pos,
-          validFor: /^[\w-]*$/,  // Stay open while typing component names (letters, numbers, dashes)
-          options: componentNames.map(name => ({
-            label: name,
-            type: 'keyword',
-            info: 'component',
-            render: renderAutocompleteItem(name, 'keyword', 'component'),
-            apply: (view, completion, from, to) => {
-              // Insert component name, newlines, and closing fence
-              const fullInsert = `${name}\n\n:::`;
-              const cursorPos = from + name.length + 1; // Position after component name and first newline
-              
-              view.dispatch({
-                changes: { from, to, insert: fullInsert },
-                selection: { anchor: cursorPos }
-              });
-            }
-          }))
-        };
-      }
-      
-      // Attribute autocomplete - triggered after { or inside {}
-      const braceMatch = textBefore.match(/\{([^}]*)$/);
-      if (braceMatch) {
-        const typed = braceMatch[1];
-        const filtered = styleAttributes.filter(attr => 
-          attr.toLowerCase().includes(typed.toLowerCase())
-        );
-        
-        return {
-          from: context.pos - typed.length,
-          validFor: /^[\w-]*$/,  // Stay open while typing attributes
-          options: filtered.map(attr => ({
-            label: attr,
-            type: 'property',
-            info: 'style',
-            render: renderAutocompleteItem(attr, 'property', 'style'),
-            apply: attr
-          }))
-        };
-      }
-      
-      // Icon autocomplete - triggered after :icon[
-      const iconMatch = textBefore.match(/:icon\[([^\]]*)$/);
-      if (iconMatch) {
-        const typed = iconMatch[1];
-        const filtered = iconNames.filter(icon => 
-          icon.toLowerCase().includes(typed.toLowerCase())
-        );
-        
-        return {
-          from: context.pos - typed.length,
-          validFor: /^[\w-]*$/,  // Stay open while typing icon names
-          options: filtered.map(icon => {            
-            return {
-              label: icon,
-              type: 'variable',
-              info: 'icon',
-              render: renderAutocompleteItem(icon, 'variable', 'icon', lucideIcon(getIconPath(icon))),
-              apply: icon
-            };
-          })
-        };
-      }
-      
-      // Attribute autocomplete after icon name - :icon[name]{
-      const iconAttrMatch = textBefore.match(/:icon\[[^\]]+\]\{([^}]*)$/);
-      if (iconAttrMatch) {
-        const typed = iconAttrMatch[1];
-        const iconStyles = ['xs', 'small', 'large', 'xl', 'primary', 'secondary', 'success', 'warning', 'error', 'info', 'muted'];
-        const filtered = iconStyles.filter(attr => 
-          attr.toLowerCase().includes(typed.toLowerCase())
-        );
-        
-        return {
-          from: context.pos - typed.length,
-          validFor: /^[\w-]*$/,  // Stay open while typing icon styles
-          options: filtered.map(attr => ({
-            label: attr,
-            type: 'property',
-            info: 'icon-style',
-            render: renderAutocompleteItem(attr, 'property', 'icon-style'),
-            apply: attr
-          }))
-        };
-      }
-      
-      // Attribute autocomplete after badge text - :badge[text]{
-      const badgeAttrMatch = textBefore.match(/:badge\[[^\]]+\]\{([^}]*)$/);
-      if (badgeAttrMatch) {
-        const typed = badgeAttrMatch[1];
-        const badgeStyles = ['default', 'primary', 'secondary', 'success', 'warning', 'error', 'info', 'muted', 'sm', 'md', 'lg'];
-        const filtered = badgeStyles.filter(attr => 
-          attr.toLowerCase().includes(typed.toLowerCase())
-        );
-        
-        return {
-          from: context.pos - typed.length,
-          validFor: /^[\w-]*$/,  // Stay open while typing badge styles
-          options: filtered.map(attr => ({
-            label: attr,
-            type: 'property',
-            info: 'badge-style',
-            render: renderAutocompleteItem(attr, 'property', 'badge-style'),
-            apply: attr
-          }))
-        };
-      }
-      
-      // Platform hint autocomplete after kbd text - :kbd[keys]{
-      const kbdAttrMatch = textBefore.match(/:kbd\[[^\]]+\]\{([^}]*)$/);
-      if (kbdAttrMatch) {
-        const typed = kbdAttrMatch[1];
-        const platforms = ['mac', 'macos', 'windows', 'win'];
-        const filtered = platforms.filter(p => 
-          p.toLowerCase().includes(typed.toLowerCase())
-        );
-        
-        return {
-          from: context.pos - typed.length,
-          validFor: /^[\w-]*$/,  // Stay open while typing platforms
-          options: filtered.map(platform => ({
-            label: platform,
-            type: 'property',
-            info: 'platform',
-            render: renderAutocompleteItem(platform, 'property', 'platform'),
-            apply: platform
-          }))
-        };
-      }
-      
-      return null;
-    }
-
-    // Helper to get basic icon path for preview (simplified icons)
-    function getIconPath(iconName) {
-      const basicIcons = {
-        'check': 'check-circle',
-        'arrow': 'arrow-right',
-        'heart': 'heart',
-        'star': 'star',
-        'home': 'home',
-        'user': 'user',
-        'settings': 'settings',
-        'search': 'search',
-        'bell': 'bell',
-        'calendar': 'calendar',
-        'file': 'file',
-        'folder': 'folder',
-        'mail': 'mail',
-        'link': 'link',
-        'image': 'image',
-        'code': 'code',
-        'zap': 'lightbulb',
-      };
-      
-      // Try to map to known icon, or use first letter as fallback
-      return basicIcons[iconName] || iconName.split('-')[0] || 'code';
-    }
+    const taildownAutocomplete = createTaildownAutocomplete({
+      reference: () => authoringReference, iconNames: () => iconNames,
+      isCodePosition, startCompletion
+    });
 
     // Bubble Menu - Floating toolbar for text selection
     let bubbleMenuVisible = false;
@@ -1706,14 +1265,14 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     // Dark mode toggle functionality
     function initThemeToggle() {
       // Check for saved theme preference or default to light mode
-      const savedTheme = localStorage.getItem('taildown-editor-theme') || 'light';
+      const savedTheme = draftStore.readTheme();
       setTheme(savedTheme);
       updateThemeButton(savedTheme);
     }
 
     function setTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('taildown-editor-theme', theme);
+      draftStore.saveTheme(theme);
       
       // Update editor syntax highlighting if editor is initialized
       if (editor) {
@@ -1745,7 +1304,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
         {
           key: 'ArrowDown',
           run: (view) => {
-            if (slashMenuActive) {
+            if (slashMenuActive && filteredCommands.length) {
               navigateSlashMenu('down');
               return true;
             }
@@ -1755,7 +1314,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
         {
           key: 'ArrowUp',
           run: (view) => {
-            if (slashMenuActive) {
+            if (slashMenuActive && filteredCommands.length) {
               navigateSlashMenu('up');
               return true;
             }
@@ -1765,7 +1324,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
         {
           key: 'Tab',
           run: (view) => {
-            if (slashMenuActive) {
+            if (slashMenuActive && filteredCommands.length) {
               executeSelectedCommand();
               return true;
             }
@@ -1783,7 +1342,19 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
           }
         }
       ])),
-      // DOM event handlers for slash detection and filtering
+      // Read committed editor state, rather than the DOM input event's old state.
+      EditorView.updateListener.of((update) => {
+        if (!slashMenuActive || slashMenuStart === null || (!update.docChanged && !update.selectionSet)) return;
+        const pos = update.state.selection.main.head;
+        if (pos <= slashMenuStart || update.state.doc.sliceString(slashMenuStart, slashMenuStart + 1) !== '/') {
+          hideSlashMenu();
+        } else {
+          const query = update.state.doc.sliceString(slashMenuStart + 1, pos);
+          if (query.includes('\n')) hideSlashMenu();
+          else showSlashMenu(query);
+        }
+      }),
+      // DOM event handler only detects the initial slash key.
       EditorView.domEventHandlers({
         keydown(event, view) {
           // Detect slash key at start of line or after space
@@ -1793,26 +1364,15 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
             const textBefore = line.text.slice(0, pos - line.from);
             
             // Only trigger if at start of line or after whitespace
-            if (textBefore.trim() === '' || /\s$/.test(textBefore)) {
+            if ((textBefore.trim() === '' || /\s$/.test(textBefore)) && !isCodePosition(view.state.doc.toString(), pos)) {
               slashMenuStart = pos;
               // Wait for next frame to show menu after "/" is inserted
-              setTimeout(() => showSlashMenu(''), 0);
-            }
-          }
-          return false;
-        },
-        
-        input(event, view) {
-          // Update slash menu with search text
-          if (slashMenuActive && slashMenuStart !== null) {
-            const pos = view.state.selection.main.head;
-            const searchText = view.state.doc.sliceString(slashMenuStart + 1, pos);
-            
-            // Hide menu if user deletes the "/"
-            if (pos <= slashMenuStart) {
-              hideSlashMenu();
-            } else {
-              showSlashMenu(searchText);
+              setTimeout(() => {
+                if (slashMenuStart === null) return;
+                const end = view.state.selection.main.head;
+                if (end <= slashMenuStart || view.state.doc.sliceString(slashMenuStart, slashMenuStart + 1) !== '/') return;
+                showSlashMenu(view.state.doc.sliceString(slashMenuStart + 1, end));
+              }, 0);
             }
           }
           return false;
@@ -1824,7 +1384,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     function initEditor() {
       try {
         // Get saved theme to determine initial syntax highlighting
-        const savedTheme = localStorage.getItem('taildown-editor-theme') || 'light';
+        const savedTheme = draftStore.readTheme();
         const initialHighlightStyle = savedTheme === 'dark' ? taildownDarkHighlightStyle : taildownHighlightStyle;
 
         // Create editor with theme-aware syntax highlighting
@@ -1844,6 +1404,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
               maxRenderedOptions: 10,
               closeOnBlur: true,
               icons: false,  // We're using custom rendering
+              addToOptions: [{position: 20, render: renderIconCompletion}],
               defaultKeymap: false  // Disable default keymap (includes Enter)
             }),
             highlightSelectionMatches(),
@@ -1853,6 +1414,7 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
             bubbleMenuExtension, // Bubble menu for text selection
             // Custom autocomplete keybindings (Tab only, no Enter)
             Prec.highest(keymap.of([
+              { key: 'Ctrl-Space', run: startCompletion },
               {
                 key: 'Tab',
                 run: acceptCompletion  // Accept completion
@@ -1875,13 +1437,8 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
               }
             ])),
             keymap.of([
-              ...defaultKeymap,
-              ...historyKeymap,
-              ...foldKeymap,
-              ...closeBracketsKeymap,
-              ...searchKeymap,
-              ...lintKeymap,
-              // Custom keybindings
+              // Product shortcuts take precedence over CodeMirror defaults
+              // (Mod-Shift-k otherwise deletes the current line).
               { key: 'Ctrl-s', run: () => { saveFile(); return true; } },
               { key: 'Cmd-s', run: () => { saveFile(); return true; } },
               { key: 'Ctrl-o', run: () => { openFile(); return true; } },
@@ -1895,8 +1452,14 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
               { key: 'Cmd-b', run: () => { handleBubbleAction('bold'); return true; } },
               { key: 'Ctrl-i', run: () => { handleBubbleAction('italic'); return true; } },
               { key: 'Cmd-i', run: () => { handleBubbleAction('italic'); return true; } },
-              { key: 'Ctrl-k', run: () => { handleBubbleAction('link'); return true; } },
-              { key: 'Cmd-k', run: () => { handleBubbleAction('link'); return true; } },
+              { key: 'Mod-k', run: openCommandPalette },
+              { key: 'Mod-Shift-k', run: () => { handleBubbleAction('link'); return true; } },
+              ...defaultKeymap,
+              ...historyKeymap,
+              ...foldKeymap,
+              ...closeBracketsKeymap,
+              ...searchKeymap,
+              ...lintKeymap,
             ]),
             EditorView.updateListener.of((update) => {
               if (update.docChanged) {
@@ -1925,22 +1488,10 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
         // Add theme toggle event listener
         themeToggleBtn.addEventListener('click', toggleTheme);
 
-        // Try to restore from localStorage
-        const saved = localStorage.getItem('taildown-editor-content');
-        const savedFilename = localStorage.getItem('taildown-editor-filename');
-        if (saved) {
-          editor.dispatch({
-            changes: { from: 0, to: editor.state.doc.length, insert: saved }
-          });
-          if (savedFilename) {
-            currentFilename = savedFilename;
-            filenameDisplay.textContent = currentFilename;
-          }
-          // The editor's update listener will trigger updatePreview, so don't call it here
-        } else {
-          // Only call updatePreview if no saved content (template is already in editor)
-          updatePreview(editor.state.doc.toString());
-        }
+        restoreDraft({editor, draftStore, updatePreview, setFilename: filename => {
+          currentFilename = filename;
+          filenameDisplay.textContent = filenameDisplay.title = filename;
+        }});
 
         // Hide loading indicator
         loading.classList.add('hidden');
@@ -1952,608 +1503,20 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
       }
     }
 
-    // Mermaid dynamic loading
-    let mermaidLoaded = false;
-    let mermaidLoading = false;
-
-    /**
-     * Intelligently resolve Mermaid path based on context
-     * - file:// → Relative path to lib/mermaid.min.js
-     * - localhost/127.0.0.1 → Absolute path from root
-     * - Other domains → CDN fallback
-     */
-    function resolveMermaidPath() {
-      const protocol = window.location.protocol;
-      const hostname = window.location.hostname;
-      
-      if (protocol === 'file:') {
-        // For file:// protocol, use relative path
-        return './lib/mermaid.min.js';
-      } else if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1') {
-        // For localhost, use absolute path
-        const basePath = window.location.pathname.replace(/\/[^\/]*$/, '');
-        return `${basePath}/lib/mermaid.min.js`;
-      } else {
-        // For hosted/production, try relative first, fallback to CDN
-        return './lib/mermaid.min.js';
-      }
-    }
-
-    /**
-     * Load Mermaid on-demand when diagrams are detected
-     */
-    async function ensureMermaidLoaded() {
-      if (mermaidLoaded) return true;
-      if (mermaidLoading) {
-        // Wait for existing load
-        return new Promise(resolve => {
-          const check = setInterval(() => {
-            if (mermaidLoaded || !mermaidLoading) {
-              clearInterval(check);
-              resolve(mermaidLoaded);
-            }
-          }, 50);
-        });
-      }
-
-      mermaidLoading = true;
-      try {
-        const mermaidPath = resolveMermaidPath();
-        
-        // Use script tag loading (works with file:// protocol)
-        await new Promise((resolve, reject) => {
-          const script = document.createElement('script');
-          script.src = mermaidPath;
-          script.onload = () => {
-            // Initialize Mermaid (v11+ uses mermaid.default if ESM)
-            if (window.mermaid) {
-              const mermaidAPI = window.mermaid.default || window.mermaid;
-              // Mermaid v11+ doesn't need explicit initialize, just set config
-              if (typeof mermaidAPI === 'object' && mermaidAPI.run) {
-                mermaidLoaded = true;
-                console.log('✓ Mermaid loaded successfully');
-                resolve();
-              } else {
-                reject(new Error('Mermaid API not found'));
-              }
-            } else {
-              reject(new Error('Mermaid global not found'));
-            }
-          };
-          script.onerror = () => reject(new Error('Failed to load script'));
-          document.head.appendChild(script);
-        });
-      } catch (error) {
-        console.warn('⚠ Failed to load Mermaid:', error);
-        mermaidLoaded = false;
-      } finally {
-        mermaidLoading = false;
-      }
-      
-      return mermaidLoaded;
-    }
-
-    // Schedule preview update (debounced)
-    function scheduleUpdate() {
-      clearTimeout(updateTimeout);
-      updateTimeout = setTimeout(() => {
-        const content = editor.state.doc.toString();
-        updatePreview(content);
-        // Auto-save to localStorage
-        localStorage.setItem('taildown-editor-content', content);
-        localStorage.setItem('taildown-editor-filename', currentFilename);
-      }, 1000); // 1s debounce - only update when user pauses typing
-    }
-
-    // Update preview
-    async function updatePreview(source) {
-      try {
-        const startTime = performance.now();
-        
-        // Save scroll position before updating
-        let savedScrollTop = 0;
-        let savedScrollLeft = 0;
-        try {
-          const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
-          if (previewDoc && previewDoc.documentElement) {
-            savedScrollTop = previewDoc.documentElement.scrollTop || previewDoc.body.scrollTop || 0;
-            savedScrollLeft = previewDoc.documentElement.scrollLeft || previewDoc.body.scrollLeft || 0;
-          }
-        } catch (e) {
-          // Ignore if iframe not accessible yet
-        }
-        
-        // Check if source contains Mermaid diagrams (both :::mermaid and ```mermaid syntax)
-        const hasMermaid = /:::mermaid|```mermaid/i.test(source);
-        if (hasMermaid) {
-          await ensureMermaidLoaded();
-        }
-        
-        const result = await compile(source, {
-          inlineStyles: true,
-          inlineScripts: true,
-          darkMode: true,
-        });
-        const compileTime = performance.now() - startTime;
-
-        // Function to restore scroll position
-        const restoreScroll = () => {
-          try {
-            const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
-            if (previewDoc && previewDoc.documentElement) {
-              previewDoc.documentElement.scrollTop = savedScrollTop;
-              previewDoc.body.scrollTop = savedScrollTop;
-              previewDoc.documentElement.scrollLeft = savedScrollLeft;
-              previewDoc.body.scrollLeft = savedScrollLeft;
-            }
-          } catch (e) {
-            // Ignore if iframe not accessible
-          }
-        };
-
-        previewFrame.srcdoc = result.html;
-        statusBar.textContent = `✓ Compiled in ${compileTime.toFixed(0)}ms`;
-        statusBar.className = 'success';
-        
-        // Inject and render Mermaid diagrams if present and loaded
-        if (hasMermaid && mermaidLoaded) {
-          previewFrame.addEventListener('load', async () => {
-            try {
-              const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
-              // Taildown compiles :::mermaid as component divs, ```mermaid as code blocks
-              const mermaidComponents = previewDoc.querySelectorAll('[data-component="mermaid"], .component-mermaid');
-              const mermaidCodeBlocks = previewDoc.querySelectorAll('code.language-mermaid');
-              const mermaidBlocks = [...mermaidComponents, ...mermaidCodeBlocks];
-              
-              if (mermaidBlocks.length > 0) {
-                // Inject Mermaid script into the preview iframe
-                const mermaidPath = resolveMermaidPath();
-                const script = previewDoc.createElement('script');
-                script.src = mermaidPath;
-                
-                script.onload = async () => {
-                  try {
-                    // Get Mermaid from iframe context (handle both ESM and UMD)
-                    let iframeMermaid = previewDoc.defaultView.mermaid;
-                    
-                    if (!iframeMermaid) {
-                      console.warn('Mermaid not found in iframe');
-                      return;
-                    }
-                    
-                    // Handle ESM module format (with __esModule and default export)
-                    if (iframeMermaid.__esModule && iframeMermaid.default) {
-                      iframeMermaid = iframeMermaid.default;
-                    }
-                    
-                    // Render each diagram
-                    for (const block of mermaidBlocks) {
-                      // Get source based on element type
-                      const isComponent = block.hasAttribute('data-component') || block.classList.contains('component-mermaid');
-                      let source;
-                      
-                      if (isComponent) {
-                        // For :::mermaid components, source is in child <p> tag
-                        const pTag = block.querySelector('p');
-                        source = pTag ? pTag.textContent : block.textContent;
-                      } else {
-                        // For ```mermaid code blocks, source is direct text content
-                        source = block.textContent;
-                      }
-                      
-                      const id = 'mermaid-' + Math.random().toString(36).substr(2, 9);
-                      
-                      try {
-                        const { svg } = await iframeMermaid.render(id, source);
-                        
-                        if (isComponent) {
-                          // For components, replace the inner content but keep the container
-                          block.innerHTML = svg;
-                          block.classList.add('mermaid-rendered');
-                        } else {
-                          // For code blocks, replace the entire structure
-                          const container = previewDoc.createElement('div');
-                          container.className = 'mermaid-container';
-                          container.innerHTML = svg;
-                          block.parentElement.parentElement.replaceWith(container);
-                        }
-                      } catch (err) {
-                        console.warn('Mermaid render error:', err);
-                      }
-                    }
-                    
-                    // Restore scroll position after Mermaid rendering
-                    restoreScroll();
-                  } catch (err) {
-                    console.warn('Mermaid processing error:', err);
-                    restoreScroll();
-                  }
-                };
-                
-                script.onerror = () => {
-                  console.warn('Failed to load Mermaid script');
-                  restoreScroll();
-                };
-                
-                previewDoc.head.appendChild(script);
-              } else {
-                // No Mermaid blocks, just restore scroll
-                restoreScroll();
-              }
-            } catch (e) {
-              console.warn('Mermaid render failed:', e);
-              restoreScroll();
-            }
-          }, { once: true });
-        } else {
-          // No Mermaid at all, restore scroll after iframe loads
-          previewFrame.addEventListener('load', () => {
-            restoreScroll();
-          }, { once: true });
-        }
-      } catch (error) {
-        statusBar.textContent = `✗ Error: ${error.message}`;
-        statusBar.className = 'error';
-        console.error('Compilation error:', error);
-      }
-    }
-
-    // New document
-    function newDocument() {
-      if (confirm('Create new document? Any unsaved changes will be lost.')) {
-        // Start with a truly blank document
-        const blankContent = '# New Document\n\n';
-        editor.dispatch({
-          changes: { from: 0, to: editor.state.doc.length, insert: blankContent }
-        });
-        currentFilename = 'untitled.td';
-        currentFileHandle = null;
-        filenameDisplay.textContent = currentFilename;
-        localStorage.removeItem('taildown-editor-content');
-        localStorage.removeItem('taildown-editor-filename');
-      }
-    }
-
-    // Show welcome template
-    function showTemplate() {
-      const currentContent = editor.state.doc.toString();
-      const hasContent = currentContent.trim().length > 0 && currentContent !== '# New Document\n\n';
-      
-      if (hasContent && !confirm('Load welcome template? Any unsaved changes will be lost.')) {
-        return;
-      }
-      
-      editor.dispatch({
-        changes: { from: 0, to: editor.state.doc.length, insert: DEFAULT_TEMPLATE }
-      });
-      currentFilename = 'welcome.td';
-      currentFileHandle = null;
-      filenameDisplay.textContent = currentFilename;
-      // Don't clear localStorage - this is just a preview
-    }
-
-    // Open file
-    async function openFile() {
-      try {
-        if ('showOpenFilePicker' in window) {
-          // Modern File System API
-          const [fileHandle] = await window.showOpenFilePicker({
-            types: [{
-              description: 'Taildown Files',
-              accept: { 'text/plain': ['.td', '.taildown'] }
-            }],
-            multiple: false
-          });
-          const file = await fileHandle.getFile();
-          const content = await file.text();
-          
-          editor.dispatch({
-            changes: { from: 0, to: editor.state.doc.length, insert: content }
-          });
-          
-          currentFileHandle = fileHandle;
-          currentFilename = file.name;
-          filenameDisplay.textContent = currentFilename;
-          
-          statusBar.textContent = `✓ Opened ${currentFilename}`;
-          statusBar.className = 'success';
-        } else {
-          // Fallback: traditional file input
-          const input = document.createElement('input');
-          input.type = 'file';
-          input.accept = '.td,.taildown';
-          input.onchange = async (e) => {
-            const file = e.target.files[0];
-            if (file) {
-              const content = await file.text();
-              editor.dispatch({
-                changes: { from: 0, to: editor.state.doc.length, insert: content }
-              });
-              currentFilename = file.name;
-              currentFileHandle = null;
-              filenameDisplay.textContent = currentFilename;
-              statusBar.textContent = `✓ Opened ${currentFilename}`;
-              statusBar.className = 'success';
-            }
-          };
-          input.click();
-        }
-      } catch (error) {
-        if (error.name !== 'AbortError') {
-          statusBar.textContent = `✗ Error opening file: ${error.message}`;
-          statusBar.className = 'error';
-          console.error('Error opening file:', error);
-        }
-      }
-    }
-
-    // Save file
-    async function saveFile() {
-      try {
-        const content = editor.state.doc.toString();
-        
-        if (currentFileHandle && 'createWritable' in currentFileHandle) {
-          // File System API save
-          const writable = await currentFileHandle.createWritable();
-          await writable.write(content);
-          await writable.close();
-          statusBar.textContent = `✓ Saved ${currentFilename}`;
-          statusBar.className = 'success';
-        } else if ('showSaveFilePicker' in window) {
-          // Show save dialog
-          const fileHandle = await window.showSaveFilePicker({
-            types: [{
-              description: 'Taildown Files',
-              accept: { 'text/plain': ['.td'] }
-            }],
-            suggestedName: currentFilename
-          });
-          const writable = await fileHandle.createWritable();
-          await writable.write(content);
-          await writable.close();
-          currentFileHandle = fileHandle;
-          currentFilename = (await fileHandle.getFile()).name;
-          filenameDisplay.textContent = currentFilename;
-          statusBar.textContent = `✓ Saved ${currentFilename}`;
-          statusBar.className = 'success';
-        } else {
-          // Fallback: download
-          downloadFile(content, currentFilename);
-        }
-        
-        // Also save to localStorage
-        localStorage.setItem('taildown-editor-content', content);
-        localStorage.setItem('taildown-editor-filename', currentFilename);
-      } catch (error) {
-        if (error.name !== 'AbortError') {
-          statusBar.textContent = `✗ Error saving: ${error.message}`;
-          statusBar.className = 'error';
-          console.error('Error saving file:', error);
-        }
-      }
-    }
-
-    // Download file
-    function downloadFile(content, filename) {
-      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      a.click();
-      URL.revokeObjectURL(url);
-      statusBar.textContent = `✓ Downloaded ${filename}`;
-      statusBar.className = 'success';
-    }
-
-    // Export HTML
-    async function exportHTML() {
-      try {
-        const source = editor.state.doc.toString();
-        
-        // Check if source contains Mermaid diagrams
-        const hasMermaid = source.includes(':::mermaid');
-        
-        const result = await compile(source, {
-          inlineStyles: true,
-          inlineScripts: true,
-          darkMode: true,
-        });
-        
-        let finalHtml = result.html;
-        
-        // If Mermaid diagrams exist, get rendered SVGs from preview iframe
-        if (hasMermaid) {
-          const previewDoc = previewFrame.contentDocument;
-          if (previewDoc) {
-            const mermaidElements = previewDoc.querySelectorAll('[data-component="mermaid"], .component-mermaid');
-            
-            if (mermaidElements.length > 0) {
-              // Create a temporary div to parse the compiled HTML
-              const tempDiv = document.createElement('div');
-              tempDiv.innerHTML = finalHtml;
-              
-              // Find mermaid elements in the compiled HTML
-              const compiledMermaidElements = tempDiv.querySelectorAll('[data-component="mermaid"], .component-mermaid');
-              
-              // Replace each mermaid element with its rendered SVG
-              mermaidElements.forEach((renderedElement, index) => {
-                const svg = renderedElement.querySelector('svg');
-                if (svg && compiledMermaidElements[index]) {
-                  // Keep the wrapper div but replace its content with the rendered SVG
-                  compiledMermaidElements[index].innerHTML = svg.outerHTML;
-                }
-              });
-              
-              finalHtml = tempDiv.innerHTML;
-            }
-          }
-        }
-        
-        const htmlFilename = currentFilename.replace(/\.td$/, '.html');
-        downloadFile(finalHtml, htmlFilename);
-        statusBar.textContent = `✓ Exported ${htmlFilename}`;
-        statusBar.className = 'success';
-      } catch (error) {
-        statusBar.textContent = `✗ Export failed: ${error.message}`;
-        statusBar.className = 'error';
-        console.error('Export error:', error);
-      }
-    }
-
-    // Draggable divider
-    let startX = 0;
-    let startY = 0;
-    let startEditorPercent = 0;
-
-    divider.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      divider.classList.add('dragging');
-      
-      const container = document.getElementById('editor-container');
-      const isVertical = window.innerWidth <= 768;
-      
-      // Disable pointer events on iframe to prevent it from capturing mouse events
-      previewFrame.style.pointerEvents = 'none';
-      // Prevent text selection during drag
-      document.body.style.userSelect = 'none';
-      document.body.style.cursor = isVertical ? 'row-resize' : 'col-resize';
-      
-      // Store the starting position and current editor percentage
-      if (isVertical) {
-        startY = e.clientY;
-        const containerHeight = container.getBoundingClientRect().height;
-        const editorHeight = editorPane.getBoundingClientRect().height;
-        startEditorPercent = (editorHeight / containerHeight) * 100;
-      } else {
-        startX = e.clientX;
-        const containerWidth = container.getBoundingClientRect().width;
-        const editorWidth = editorPane.getBoundingClientRect().width;
-        startEditorPercent = (editorWidth / containerWidth) * 100;
-      }
-      
-      e.preventDefault();
+    const {updatePreview, scheduleUpdate} = createPreviewController({
+      compile, getDesignOptions: () => designSettings.options, getEditor: () => editor,
+      getFilename: () => currentFilename, draftStore, previewFrame, statusBar,
+      diagnostics: document.getElementById('diagnostics'), document,
     });
 
-    document.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      
-      const container = document.getElementById('editor-container');
-      const isVertical = window.innerWidth <= 768;
-      
-      if (isVertical) {
-        // Calculate the new percentage based on mouse movement
-        const containerHeight = container.getBoundingClientRect().height;
-        const deltaY = e.clientY - startY;
-        const deltaPercent = (deltaY / containerHeight) * 100;
-        const newPercent = startEditorPercent + deltaPercent;
-        
-        // Allow resizing between 15% and 85%
-        if (newPercent >= 15 && newPercent <= 85) {
-          editorPane.style.flex = `0 0 ${newPercent}%`;
-        }
-      } else {
-        // Calculate the new percentage based on mouse movement
-        const containerWidth = container.getBoundingClientRect().width;
-        const deltaX = e.clientX - startX;
-        const deltaPercent = (deltaX / containerWidth) * 100;
-        const newPercent = startEditorPercent + deltaPercent;
-        
-        // Allow resizing between 15% and 85%
-        if (newPercent >= 15 && newPercent <= 85) {
-          editorPane.style.flex = `0 0 ${newPercent}%`;
-        }
-      }
+    // New document and file operations
+    const {newDocument, showTemplate, openFile, saveFile, downloadFile, exportHTML} = createFileOperations({
+      state: fileState, getEditor: () => editor, window, document, statusBar, filenameDisplay,
+      draftStore, compile, getDesignOptions: () => designSettings.options, URL,
+      confirm: message => confirm(message), DEFAULT_TEMPLATE,
     });
 
-    document.addEventListener('mouseup', () => {
-      if (isDragging) {
-        isDragging = false;
-        divider.classList.remove('dragging');
-        
-        // Re-enable pointer events and restore cursor
-        previewFrame.style.pointerEvents = '';
-        document.body.style.userSelect = '';
-        document.body.style.cursor = '';
-      }
-    });
-
-    // Touch events for mobile support
-    divider.addEventListener('touchstart', (e) => {
-      isDragging = true;
-      divider.classList.add('dragging');
-      
-      const container = document.getElementById('editor-container');
-      const isVertical = window.innerWidth <= 768;
-      
-      // Disable pointer events on iframe to prevent it from capturing touch events
-      previewFrame.style.pointerEvents = 'none';
-      // Prevent text selection during drag
-      document.body.style.userSelect = 'none';
-      
-      const touch = e.touches[0];
-      
-      // Store the starting position and current editor percentage
-      if (isVertical) {
-        startY = touch.clientY;
-        const containerHeight = container.getBoundingClientRect().height;
-        const editorHeight = editorPane.getBoundingClientRect().height;
-        startEditorPercent = (editorHeight / containerHeight) * 100;
-      } else {
-        startX = touch.clientX;
-        const containerWidth = container.getBoundingClientRect().width;
-        const editorWidth = editorPane.getBoundingClientRect().width;
-        startEditorPercent = (editorWidth / containerWidth) * 100;
-      }
-      
-      e.preventDefault();
-    }, { passive: false });
-
-    document.addEventListener('touchmove', (e) => {
-      if (!isDragging) return;
-      
-      const container = document.getElementById('editor-container');
-      const isVertical = window.innerWidth <= 768;
-      const touch = e.touches[0];
-      
-      if (isVertical) {
-        // Calculate the new percentage based on touch movement
-        const containerHeight = container.getBoundingClientRect().height;
-        const deltaY = touch.clientY - startY;
-        const deltaPercent = (deltaY / containerHeight) * 100;
-        const newPercent = startEditorPercent + deltaPercent;
-        
-        // Allow resizing between 15% and 85%
-        if (newPercent >= 15 && newPercent <= 85) {
-          editorPane.style.flex = `0 0 ${newPercent}%`;
-        }
-      } else {
-        // Calculate the new percentage based on touch movement
-        const containerWidth = container.getBoundingClientRect().width;
-        const deltaX = touch.clientX - startX;
-        const deltaPercent = (deltaX / containerWidth) * 100;
-        const newPercent = startEditorPercent + deltaPercent;
-        
-        // Allow resizing between 15% and 85%
-        if (newPercent >= 15 && newPercent <= 85) {
-          editorPane.style.flex = `0 0 ${newPercent}%`;
-        }
-      }
-      
-      e.preventDefault();
-    }, { passive: false });
-
-    document.addEventListener('touchend', () => {
-      if (isDragging) {
-        isDragging = false;
-        divider.classList.remove('dragging');
-        
-        // Re-enable pointer events
-        previewFrame.style.pointerEvents = '';
-        document.body.style.userSelect = '';
-      }
-    });
-
+    initializeDivider({window, document, paneContainer: document.getElementById('editor-container'), divider, editorPane, previewFrame});
     // Button event listeners
     newBtn.addEventListener('click', newDocument);
     openBtn.addEventListener('click', openFile);
@@ -2573,15 +1536,9 @@ Built with :icon[heart]{error} using Taildown • Fully offline-capable • No t
     }
 
     // Warn before closing with unsaved changes
-    window.addEventListener('beforeunload', (e) => {
-      const current = editor?.state.doc.toString();
-      const saved = localStorage.getItem('taildown-editor-content');
-      if (current && current !== saved) {
-        e.preventDefault();
-        e.returnValue = '';
-      }
-    });
+    window.addEventListener('beforeunload', createBeforeUnloadHandler({
+      getContent: () => editor?.state.doc.toString(), getFilename: () => currentFilename, draftStore,
+    }));
   </script>
 </body>
 </html>
-

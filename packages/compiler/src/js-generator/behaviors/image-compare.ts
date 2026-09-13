@@ -34,9 +34,16 @@ imageCompareElements.forEach(container => {
   
   let isDragging = false;
   let position = 50; // Start at 50%
+  let previousCursor = '';
+  function finishDrag() {
+    if (!isDragging) return;
+    isDragging = false;
+    document.body.style.cursor = previousCursor;
+  }
   
   // Update slider position and clip
   function updatePosition(newPosition) {
+    if (!Number.isFinite(newPosition)) return;
     position = Math.max(0, Math.min(100, newPosition));
     
     if (isVertical) {
@@ -65,16 +72,21 @@ imageCompareElements.forEach(container => {
     
     if (isVertical) {
       rectDimension = rect.height;
+      if (rectDimension <= 0) return position;
       return ((clientPos - rect.top) / rectDimension) * 100;
     } else {
       rectDimension = rect.width;
+      if (rectDimension <= 0) return position;
       return ((clientPos - rect.left) / rectDimension) * 100;
     }
   }
   
   // Mouse events
   slider.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return;
     e.preventDefault();
+    slider.focus({preventScroll: true});
+    previousCursor = document.body.style.cursor;
     isDragging = true;
     console.log('[Taildown ImageCompare] Drag started');
     document.body.style.cursor = isVertical ? 'ns-resize' : 'ew-resize';
@@ -89,14 +101,14 @@ imageCompareElements.forEach(container => {
   
   document.addEventListener('mouseup', () => {
     if (isDragging) {
-      isDragging = false;
       console.log('[Taildown ImageCompare] Drag ended');
-      document.body.style.cursor = '';
+      finishDrag();
     }
   });
   
   // Touch events
   slider.addEventListener('touchstart', (e) => {
+    previousCursor = document.body.style.cursor;
     isDragging = true;
     console.log('[Taildown ImageCompare] Touch started');
   });
@@ -110,10 +122,13 @@ imageCompareElements.forEach(container => {
   
   document.addEventListener('touchend', () => {
     if (isDragging) {
-      isDragging = false;
+      finishDrag();
       console.log('[Taildown ImageCompare] Touch ended');
     }
   });
+  document.addEventListener('touchcancel', finishDrag);
+  window.addEventListener('blur', finishDrag);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) finishDrag(); });
   
   // Click/tap on container to move slider
   container.addEventListener('click', (e) => {

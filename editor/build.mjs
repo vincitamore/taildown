@@ -8,16 +8,35 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { build as bundleScript } from 'esbuild';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+export async function inlineEditorModule(template, resolveDir = __dirname) {
+  const modules = [...template.matchAll(/<script type="module">([\s\S]*?)<\/script>/g)];
+  if (modules.length !== 1) throw new Error('Expected exactly one editor module script.');
+  const result = await bundleScript({
+    stdin: { contents: modules[0][1], resolveDir, sourcefile: 'editor.js' },
+    bundle: true,
+    write: false,
+    format: 'esm',
+    platform: 'browser',
+    target: 'es2022',
+    minify: true,
+  });
+  // esbuild escapes HTML script delimiters in strings and comments. Keep the
+  // module inline instead of retaining a second, base64-encoded copy as a
+  // multi-megabyte import URL.
+  return template.replace(modules[0][0], () => `<script type="module">${result.outputFiles[0].text}</script>`);
+}
 
 async function build() {
   try {
     console.log('Building standalone Taildown editor...');
 
     // Read the ESM browser bundle
-    const bundlePath = path.join(__dirname, '../packages/compiler/dist/taildown-browser.js');
+    const bundlePath = path.join(__dirname, '../packages/compiler/dist/taildown-editor.js');
     if (!fs.existsSync(bundlePath)) {
       throw new Error('Browser bundle (ESM) not found. Run "pnpm build:browser" first.');
     }
@@ -29,16 +48,7 @@ async function build() {
     const template = fs.readFileSync(templatePath, 'utf8');
     console.log('✓ Loaded HTML template');
 
-    // Create a data URL from the bundle for inlining
-    // Base64 encoding ensures no escaping issues
-    const bundleBase64 = Buffer.from(bundle, 'utf8').toString('base64');
-    const dataUrl = `data:text/javascript;base64,${bundleBase64}`;
-    
-    // Replace the import statement with the data URL
-    const output = template.replace(
-      /import \* as Taildown from ['"][^'"]+taildown-browser\.js['"];/,
-      `import * as Taildown from '${dataUrl}';`
-    );
+    const output = await inlineEditorModule(template);
 
     // Ensure dist directory exists and clean it
     const distDir = path.join(__dirname, 'dist');
@@ -49,26 +59,19 @@ async function build() {
     }
     fs.mkdirSync(distDir, { recursive: true });
 
-    // Create lib subdirectory for external dependencies
-    const libDir = path.join(distDir, 'lib');
-    fs.mkdirSync(libDir, { recursive: true });
-
-    // Copy Mermaid bundle to lib/
-    const mermaidSrc = path.join(__dirname, '../packages/compiler/dist/mermaid.min.js');
-    const mermaidDest = path.join(libDir, 'mermaid.min.js');
-    if (fs.existsSync(mermaidSrc)) {
-      fs.copyFileSync(mermaidSrc, mermaidDest);
-      const mermaidSize = (fs.statSync(mermaidDest).size / 1024).toFixed(0);
-      console.log(`✓ Copied Mermaid bundle: ${mermaidSize}KB`);
-    } else {
-      console.warn('⚠ Mermaid bundle not found - diagrams will not render');
-    }
-
     // Write the standalone file
     const outputPath = path.join(distDir, 'editor.html');
     fs.writeFileSync(outputPath, output, 'utf8');
 
-    const outputSize = (output.length / 1024).toFixed(0);
+    const hostedTemplate = template
+      .replace('../packages/compiler/dist/taildown-worker-source.js', '../packages/compiler/dist/taildown-worker-hosted-source.js')
+      .replace('id="offline-editor" hidden', 'id="offline-editor"');
+    fs.writeFileSync(path.join(distDir, 'editor-hosted.html'), await inlineEditorModule(hostedTemplate), 'utf8');
+    const {diagramFile} = JSON.parse(fs.readFileSync(path.join(__dirname, '../packages/compiler/dist/hosted-assets.json'), 'utf8'));
+    fs.mkdirSync(path.join(distDir, 'assets'), {recursive:true});
+    fs.copyFileSync(path.join(__dirname, '../packages/compiler/dist', diagramFile), path.join(distDir, 'assets', diagramFile));
+
+    const outputSize = (Buffer.byteLength(output, 'utf8') / 1024).toFixed(0);
     console.log(`✓ Standalone editor created: ${outputSize}KB`);
     console.log(`  Output: ${outputPath}`);
     console.log('');
@@ -78,7 +81,7 @@ async function build() {
     console.log('To use:');
     console.log('  • Open editor/dist/editor.html in your browser');
     console.log('  • Or serve: npx serve editor/dist');
-    console.log('  • Works 100% offline, no dependencies!');
+    console.log('  • Editor and compiler work offline; remote document media requires its host.');
     console.log('');
     console.log('✨ Ready to ship!');
   } catch (error) {
@@ -87,5 +90,4 @@ async function build() {
   }
 }
 
-build();
-
+if (process.argv[1] && path.resolve(process.argv[1]) === __filename) build();

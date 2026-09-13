@@ -35,7 +35,7 @@
  * clickable as a link (<a> tag), following modern UX best practices.
  */
 
-import { defineComponent } from '../component-registry';
+import { defineComponent, registry } from '../component-registry';
 import type { ComponentDefinition } from '../component-registry';
 
 /**
@@ -47,13 +47,12 @@ export const cardComponent: ComponentDefinition = defineComponent({
   htmlElement: 'div',
   
   // Base classes applied to all cards
-  // Mobile-first: prevent horizontal scroll, allow natural wrapping
+  // Wrap long words while retaining room for focus outlines and child overlays.
   defaultClasses: [
     'rounded-lg',
     'p-6',
     'max-w-full',
-    'overflow-x-hidden', // Prevent horizontal scroll on mobile
-    'overflow-wrap-normal', // Don't break words mid-word - let them wrap naturally
+    'break-words',
   ],
   
   // Default variant if none specified
@@ -168,7 +167,6 @@ export const cardComponent: ComponentDefinition = defineComponent({
  * Call this during initialization
  */
 export function registerCardComponent() {
-  const { registry } = require('../component-registry');
   registry.register(cardComponent);
 }
 

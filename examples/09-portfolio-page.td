@@ -172,7 +172,7 @@ Form library with validation
 :::
 
 :::card {subtle-glass zoom-in interactive hover-lift}
-### :icon[tool]{info} tailwind-utils
+### :icon[wrench]{info} tailwind-utils
 Utility function collection
 
 :icon[star]{warning xs} 1.8K stars • :icon[download]{success xs} npm 50K/week

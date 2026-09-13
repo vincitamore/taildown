@@ -14,7 +14,7 @@
  * 3. Interactive: Click, focus, active states
  * 4. Loading: Pulse, spin, shimmer
  * 
- * See PHASE-2-IMPLEMENTATION-PLAN.md §4 for animation spec
+ * See tech-spec.md for current architecture and docs-site/ for authoring references.
  */
 
 /**
@@ -42,7 +42,7 @@ export const DURATION = {
   instant: 75,
   fast: 150,
   normal: 200,
-  slow: 4500,  // DEBUG: Even slower - 50% more (3000 * 1.5)
+  slow: 300,
   slower: 1000,
 } as const;
 

@@ -15,7 +15,9 @@
     "dist"
   ],
   "scripts": {
+    "clean": "node ../../scripts/clean.mjs --package",
     "build": "tsup",
+    "typecheck": "tsc --noEmit",
     "dev": "tsup --watch",
     "test": "vitest"
   },
@@ -31,6 +33,7 @@
   "dependencies": {
     "@taildown/compiler": "workspace:*",
     "@taildown/shared": "workspace:*",
+    "@types/mdast": "^4.0.0",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.0.0"
   },
@@ -40,4 +43,3 @@
     "vitest": "^2.1.8"
   }
 }
-

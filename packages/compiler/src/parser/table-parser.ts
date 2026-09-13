@@ -15,9 +15,15 @@
  * The attribute block {sortable zebra glass} is detected and applied to the table.
  */
 
-import type { Root, Table, Paragraph } from 'mdast';
-import { visit, SKIP } from 'unist-util-visit';
+import type { Root, Table, Parents } from 'mdast';
+import type {Root as HastRoot, Element, Properties} from 'hast';
+import { visit } from 'unist-util-visit';
 import { registry } from '../components/component-registry';
+import {expandStyleMappings} from '../resolver/style-resolver';
+
+declare module 'mdast' {
+  interface TableData { taildown?: { variants?: string[] }; }
+}
 
 /**
  * Parse table attributes from following paragraph
@@ -25,17 +31,17 @@ import { registry } from '../components/component-registry';
  * 
  * This is a remark plugin
  */
-export function parseTableAttributes() {
+export function parseTableAttributes(options: {styleMappings?: Record<string, string>} = {}) {
   return (tree: Root): void => {
-    parseTableAttributesImpl(tree);
+    parseTableAttributesImpl(tree, options.styleMappings);
   };
 }
 
 /**
  * Implementation of table attribute parsing
  */
-function parseTableAttributesImpl(tree: Root): void {
-  const tables: Array<{ node: Table; index: number; parent: any }> = [];
+function parseTableAttributesImpl(tree: Root, styleMappings?: Record<string, string>): void {
+  const tables: Array<{ node: Table; index: number; parent: Parents }> = [];
   
   // First pass: collect all tables
   visit(tree, 'table', (node, index, parent) => {
@@ -45,31 +51,29 @@ function parseTableAttributesImpl(tree: Root): void {
   });
   
   // Second pass: check for attribute paragraphs after tables OR attribute rows within tables
-  for (const { node: table, index: tableIndex, parent } of tables) {
+  // Work backwards so removing a following paragraph cannot shift a pending table's index.
+  for (const { node: table, index: tableIndex, parent } of tables.reverse()) {
     // Strategy 1: Check if last row of table contains only an attribute block
     // This handles cases where GFM parses the attribute line as a table row
-    const tbody = table.children.find((child: any) => child.type === 'tableRow' || 
-                                                       (child.type === 'element' && child.tagName === 'tbody'));
-    
     if (table.children && table.children.length > 0) {
-      const lastRow: any = table.children[table.children.length - 1];
+      const lastRow = table.children[table.children.length - 1];
       
       // Check if this is a table row with a single cell containing an attribute block
-      if (lastRow.type === 'tableRow' && lastRow.children && lastRow.children.length > 0) {
+      if (lastRow?.type === 'tableRow' && lastRow.children.length > 0) {
         const firstCell = lastRow.children[0];
         
-        if (firstCell.children && firstCell.children.length === 1) {
+        if (firstCell && firstCell.children.length === 1) {
           const cellContent = firstCell.children[0];
           
-          if (cellContent.type === 'text' && typeof cellContent.value === 'string') {
+          if (cellContent?.type === 'text') {
             const text = cellContent.value.trim();
             const attributeMatch = text.match(/^\{([^}]+)\}$/);
             
-            if (attributeMatch) {
+            if (attributeMatch?.[1]) {
               const attributeString = attributeMatch[1];
               
               // Split attributes into array
-              const attributes = attributeString.split(/\s+/).filter(Boolean);
+              const attributes = expandStyleMappings(attributeString.split(/\s+/).filter(Boolean), styleMappings);
               
               // Get table component from registry
               const tableComponent = registry.get('table');
@@ -82,8 +86,7 @@ function parseTableAttributesImpl(tree: Root): void {
               // Parse variants, sizes, and collect classes
               const classes: string[] = ['table-enhanced'];
               const variants: string[] = [];
-              let size: string | undefined;
-              
+
               for (const attr of attributes) {
                 // Check if it's a variant
                 if (tableComponent.variants[attr]) {
@@ -92,7 +95,6 @@ function parseTableAttributesImpl(tree: Root): void {
                 }
                 // Check if it's a size
                 else if (tableComponent.sizes[attr]) {
-                  size = attr;
                   classes.push(...tableComponent.sizes[attr]);
                 }
                 // Otherwise it's a generic class
@@ -112,7 +114,7 @@ function parseTableAttributesImpl(tree: Root): void {
               
               // Store parsed attributes
               table.data.hProperties.className = [
-                ...(table.data.hProperties.className || []),
+                ...(Array.isArray(table.data.hProperties.className) ? table.data.hProperties.className : typeof table.data.hProperties.className === 'string' ? table.data.hProperties.className.split(/\s+/).filter(Boolean) : []),
                 ...classes,
               ];
               
@@ -147,21 +149,21 @@ function parseTableAttributesImpl(tree: Root): void {
     if (nextIndex < parent.children.length) {
       const nextNode = parent.children[nextIndex];
       
-      if (nextNode.type === 'paragraph' && nextNode.children.length === 1) {
+      if (nextNode?.type === 'paragraph' && nextNode.children.length === 1) {
         const child = nextNode.children[0];
         
         // Check if it's a text node with attribute syntax
-        if (child.type === 'text' && typeof child.value === 'string') {
+        if (child?.type === 'text') {
           const text = child.value.trim();
           
           // Match attribute block pattern: {attr1 attr2 attr3}
           const attributeMatch = text.match(/^\{([^}]+)\}$/);
           
-          if (attributeMatch) {
+          if (attributeMatch?.[1]) {
             const attributeString = attributeMatch[1];
             
             // Split attributes into array
-            const attributes = attributeString.split(/\s+/).filter(Boolean);
+            const attributes = expandStyleMappings(attributeString.split(/\s+/).filter(Boolean), styleMappings);
             
             // Get table component from registry
             const tableComponent = registry.get('table');
@@ -174,8 +176,7 @@ function parseTableAttributesImpl(tree: Root): void {
             // Parse variants, sizes, and collect classes
             const classes: string[] = ['table-enhanced'];
             const variants: string[] = [];
-            let size: string | undefined;
-            
+
             for (const attr of attributes) {
               // Check if it's a variant
               if (tableComponent.variants[attr]) {
@@ -184,7 +185,6 @@ function parseTableAttributesImpl(tree: Root): void {
               }
               // Check if it's a size
               else if (tableComponent.sizes[attr]) {
-                size = attr;
                 classes.push(...tableComponent.sizes[attr]);
               }
               // Otherwise it's a generic class
@@ -204,7 +204,7 @@ function parseTableAttributesImpl(tree: Root): void {
             
             // Store parsed attributes
             table.data.hProperties.className = [
-              ...(table.data.hProperties.className || []),
+              ...(Array.isArray(table.data.hProperties.className) ? table.data.hProperties.className : typeof table.data.hProperties.className === 'string' ? table.data.hProperties.className.split(/\s+/).filter(Boolean) : []),
               ...classes,
             ];
             
@@ -232,33 +232,37 @@ function parseTableAttributesImpl(tree: Root): void {
   }
 }
 
+function classNames(value: Properties['className']): Array<string | number> {
+  return Array.isArray(value) ? value : typeof value === 'string' ? value.split(/\s+/).filter(Boolean) : [];
+}
+
 /**
  * Apply table variants to existing table nodes in HAST
  * This is called during HAST generation
  */
-export function applyTableVariants(table: any): void {
+export function applyTableVariants(table: Element): void {
   if (!table || table.tagName !== 'table') {
     return;
   }
   
   const properties = table.properties || {};
-  const classes = properties.className || [];
+  const classes = classNames(properties.className);
   
   // Check for sortable tables
   if (properties.dataSortable === 'true' || classes.includes('table-sortable')) {
     // Mark header cells as sortable
     if (table.children) {
       for (const child of table.children) {
-        if (child.tagName === 'thead' && child.children) {
+        if (child.type === 'element' && child.tagName === 'thead') {
           for (const row of child.children) {
-            if (row.tagName === 'tr' && row.children) {
+            if (row.type === 'element' && row.tagName === 'tr') {
               for (const cell of row.children) {
-                if (cell.tagName === 'th') {
+                if (cell.type === 'element' && cell.tagName === 'th') {
                   // Add sortable data attribute and classes
                   cell.properties = cell.properties || {};
                   cell.properties.dataSortable = 'true';
                   cell.properties.className = [
-                    ...(cell.properties.className || []),
+                    ...classNames(cell.properties.className),
                     'sortable-header',
                   ];
                   
@@ -301,7 +305,7 @@ export function applyTableVariants(table: any): void {
  * Applies interactive features and responsive wrappers
  */
 export function rehypeEnhanceTables() {
-  return (tree: any) => {
+  return (tree: HastRoot) => {
     visit(tree, 'element', (node, index, parent) => {
       if (node.tagName === 'table') {
         applyTableVariants(node);
@@ -310,12 +314,12 @@ export function rehypeEnhanceTables() {
         if (node.properties?.dataEnhanced === 'true' && parent && typeof index === 'number') {
           // Check if already wrapped
           const isAlreadyWrapped = 
-            parent.tagName === 'div' &&
-            parent.properties?.className?.includes('table-wrapper');
+            parent.type === 'element' && parent.tagName === 'div' &&
+            classNames(parent.properties.className).includes('table-wrapper');
           
           if (!isAlreadyWrapped) {
             // Create enhanced table wrapper
-            const wrapper = {
+            const wrapper: Element = {
               type: 'element',
               tagName: 'div',
               properties: {

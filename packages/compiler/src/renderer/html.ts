@@ -1,3 +1,4 @@
+import { generateMermaidScript } from './mermaid-runtime';
 /**
  * HTML Renderer for Taildown
  * Generates semantic HTML5 from AST
@@ -5,12 +6,14 @@
 
 import { unified } from 'unified';
 import { toHast } from 'mdast-util-to-hast';
-import type { State } from 'mdast-util-to-hast';
 import rehypeStringify from 'rehype-stringify';
-import type { Root } from 'mdast';
+import { minifyWhitespace } from 'hast-util-minify-whitespace';
+import type { Root as HastRoot, Element, ElementContent } from 'hast';
+import type { Code } from 'mdast';
+import type { MathNode } from '../parser/math-parser';
+import type {Node} from 'unist';
 import type { TaildownRoot, OpenGraphMetadata } from '@taildown/shared';
 import { renderIcons } from '../icons/icon-renderer';
-import { renderInlineBadges } from '../components/inline-badge-renderer';
 import { rehypeCodeMirror6 } from '../syntax-highlighting/rehype-codemirror6';
 import { rehypeCopyCode } from './rehype-copy-code';
 import { containerDirectiveHandler, wrapWithAttachments, prepopulateRegistries, renderDiff } from './component-handlers';
@@ -18,16 +21,20 @@ import type { TaildownNodeData } from '@taildown/shared';
 import { visit } from 'unist-util-visit';
 import { rehypeEnhanceTables } from '../parser/table-parser';
 
+declare module 'mdast' {
+  interface Code { isDiff?: boolean; }
+}
+
 /**
  * Rehype plugin to wrap tables in a scrollable container
  * This ensures tables work properly on mobile like code blocks do
  */
 function rehypeWrapTables() {
-  return (tree: any) => {
+  return (tree: HastRoot) => {
     visit(tree, 'element', (node, index, parent) => {
       if (node.tagName === 'table' && parent && typeof index === 'number') {
         // Create wrapper div
-        const wrapper = {
+        const wrapper: Element = {
           type: 'element',
           tagName: 'div',
           properties: {
@@ -48,7 +55,7 @@ function rehypeWrapTables() {
  * Adds data-tree-folder attribute to list items whose text ends with /
  */
 function rehypeMarkTreeFolders() {
-  return (tree: any) => {
+  return (tree: HastRoot) => {
     visit(tree, 'element', (node) => {
       // Find tree-container divs
       if (node.tagName === 'div' && 
@@ -59,9 +66,9 @@ function rehypeMarkTreeFolders() {
         visit(node, 'element', (liNode) => {
           if (liNode.tagName === 'li') {
             // Get text content of the list item (first text node)
-            const getFirstText = (n: any): string => {
+            const getFirstText = (n: ElementContent): string => {
               if (n.type === 'text') return n.value;
-              if (n.children && Array.isArray(n.children)) {
+              if (n.type === 'element') {
                 for (const child of n.children) {
                   if (child.type === 'text') return child.value;
                   const text = getFirstText(child);
@@ -92,8 +99,8 @@ function rehypeMarkTreeFolders() {
  * cannot use position: fixed properly.
  */
 function rehypePortalComponents() {
-  return (tree: any) => {
-    const portals: any[] = [];
+  return (tree: HastRoot) => {
+    const portals: Element[] = [];
     
     // First pass: collect all portal-target elements and remove from their parents
     visit(tree, 'element', (node, index, parent) => {
@@ -117,16 +124,15 @@ function rehypePortalComponents() {
     // Second pass: append portals to body (or root if no body found)
     if (portals.length > 0) {
       // Find body element
-      let bodyElement: any = null;
+      let target: Element | HastRoot = tree;
       visit(tree, 'element', (node) => {
         if (node.tagName === 'body') {
-          bodyElement = node;
+          target = node;
           return 'skip' as const;
         }
       });
       
       // Append portals to body or root
-      const target = bodyElement || tree;
       if (target.children && Array.isArray(target.children)) {
         target.children.push(...portals);
       }
@@ -138,20 +144,19 @@ function rehypePortalComponents() {
  * Walk HAST tree and wrap elements with modal/tooltip attachments
  * This processes data-modal-attach and data-tooltip-attach attributes
  */
-function processAttachments(node: any): any {
-  if (!node || typeof node !== 'object') {
-    return node;
-  }
-
+function processAttachments(node: ElementContent): ElementContent {
+  if (node.type !== 'element') return node;
   // Process children first (depth-first)
   if (node.children && Array.isArray(node.children)) {
-    node.children = node.children.map((child: any) => processAttachments(child));
+    node.children = node.children.map(processAttachments);
   }
 
   // Check if this element has attachment data attributes
   if (node.type === 'element' && node.properties) {
-    const modalContent = node.properties['data-modal-attach'];
-    const tooltipContent = node.properties['data-tooltip-attach'];
+    const modalValue = node.properties['data-modal-attach'];
+    const tooltipValue = node.properties['data-tooltip-attach'];
+    const modalContent = typeof modalValue === 'string' ? modalValue : undefined;
+    const tooltipContent = typeof tooltipValue === 'string' ? tooltipValue : undefined;
 
     if (modalContent || tooltipContent) {
       // Remove the data attributes (they're only for processing)
@@ -178,78 +183,83 @@ function processAttachments(node: any): any {
  * @param ast - Taildown AST
  * @returns HAST tree
  */
-export async function astToHast(ast: TaildownRoot): Promise<any> {
-  // Pre-pass: Populate modal/tooltip registries BEFORE converting to HAST
-  // This ensures ID-referenced modals/tooltips can be looked up during conversion
-  prepopulateRegistries(ast as Root);
-  
-  // Convert MDAST to HAST using default handlers + our custom component handler
-  const hast = toHast(ast as Root, { 
-    allowDangerousHtml: false,
-    handlers: {
-      // @ts-expect-error - containerDirective is our custom node type
-      containerDirective: containerDirectiveHandler,
-      // Math handler for LaTeX equations
-      // @ts-expect-error - math is our custom node type
-      math: (state: any, node: any) => {
-        // Math nodes have MathML stored in node.mathML
-        return {
-          type: 'element',
-          tagName: node.data.hName || 'span',
-          properties: node.data.hProperties || {},
-          children: [{
-            type: 'raw',
-            value: node.mathML || ''
-          }]
-        };
-      },
-      // Code handler for diff blocks and explicit mermaid handling
-      code: (state: any, node: any) => {
-        // Handle diff blocks with custom rendering
-        if (node.isDiff && node.data?.hProperties?.['data-component'] === 'diff') {
-          return renderDiff(state, node);
-        }
-        
-        // For mermaid blocks, explicitly create the structure for client-side rendering
-        if (node.lang === 'mermaid') {
+export function astToHast(ast: TaildownRoot): Promise<HastRoot> {
+  // Retain the asynchronous public contract, including rejection on conversion errors.
+  return new Promise(resolve => {
+    // Pre-pass: Populate modal/tooltip registries BEFORE converting to HAST
+    // This ensures ID-referenced modals/tooltips can be looked up during conversion
+    prepopulateRegistries(ast);
+
+    // Convert MDAST to HAST using default handlers + our custom component handler
+    const hast = toHast(ast, {
+      allowDangerousHtml: false,
+      handlers: {
+        containerDirective: containerDirectiveHandler,
+        // Math handler for LaTeX equations
+        math: (_state, node: MathNode) => {
+          // Math nodes have MathML stored in node.mathML
+          return {
+            type: 'element',
+            tagName: node.data?.hName || 'span',
+            properties: node.data?.hProperties || {},
+            children: [{
+              type: 'raw',
+              value: node.mathML || ''
+            }]
+          };
+        },
+        // Code handler for diff blocks and explicit mermaid handling
+        code: (state, node: Code) => {
+          // Handle diff blocks with custom rendering
+          if (node.isDiff && node.data?.hProperties?.['data-component'] === 'diff') {
+            return renderDiff(state, node);
+          }
+
+          // For mermaid blocks, explicitly create the structure for client-side rendering
+          if (node.lang === 'mermaid') {
+            return {
+              type: 'element',
+              tagName: 'pre',
+              properties: { className: ['code-block', 'mermaid-block'] },
+              children: [
+                {
+                  type: 'element',
+                  tagName: 'code',
+                  properties: { className: ['language-mermaid'] },
+                  children: [{ type: 'text', value: node.value || '' }]
+                }
+              ]
+            };
+          }
+
+          // For all other code blocks, create standard structure
+          // (will be processed by rehypeCodeMirror6 for syntax highlighting)
           return {
             type: 'element',
             tagName: 'pre',
-            properties: { className: ['code-block', 'mermaid-block'] },
+            properties: { className: ['code-block'] },
             children: [
               {
                 type: 'element',
                 tagName: 'code',
-                properties: { className: ['language-mermaid'] },
+                properties: { className: node.lang ? [`language-${node.lang}`] : [] },
                 children: [{ type: 'text', value: node.value || '' }]
               }
             ]
           };
         }
-        
-        // For all other code blocks, create standard structure
-        // (will be processed by rehypeCodeMirror6 for syntax highlighting)
-        return {
-          type: 'element',
-          tagName: 'pre',
-          properties: { className: ['code-block'] },
-          children: [
-            {
-              type: 'element',
-              tagName: 'code',
-              properties: { className: node.lang ? [`language-${node.lang}`] : [] },
-              children: [{ type: 'text', value: node.value || '' }]
-            }
-          ]
-        };
       }
-    }
+    });
+
+    // Walk the HAST tree and process modal/tooltip attachments
+    if (hast.type !== 'root') throw new Error('Document conversion must produce a root');
+    hast.children = hast.children.map(child => child.type === 'element' ? processAttachments(child) : child);
+    resolve(hast);
   });
-  
-  // Walk the HAST tree and process modal/tooltip attachments
-  const processedHast = processAttachments(hast);
-  
-  return processedHast;
+}
+
+function isHastRoot(node: Node): node is HastRoot {
+  return node.type === 'root' && 'children' in node && Array.isArray(node.children);
 }
 
 /**
@@ -270,10 +280,9 @@ export async function renderHTML(ast: TaildownRoot, minify: boolean = false): Pr
 
   // Convert HAST to HTML string
   const processor = unified()
+    .use(rehypeCopyCode) // Capture original text before highlighting replaces it with HTML
     .use(rehypeCodeMirror6) // CodeMirror6-based syntax highlighting
-    .use(rehypeCopyCode) // Add copy buttons to code blocks
     .use(renderIcons) // Render icon nodes as SVG
-    .use(renderInlineBadges) // Render inline badge nodes
     .use(rehypeWrapTables) // Wrap tables in scrollable container
     .use(rehypeEnhanceTables) // Add enhanced table features (sortable, zebra, glass, etc.)
     .use(rehypeMarkTreeFolders) // Mark folder items in tree components
@@ -285,20 +294,31 @@ export async function renderHTML(ast: TaildownRoot, minify: boolean = false): Pr
     });
 
   // Run transformers (renderIcons), then stringify
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
-  const transformedHast = await processor.run(hast as any);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
-  const result = processor.stringify(transformedHast as any);
-
+  const transformedHast = await processor.run(hast);
+  if (!isHastRoot(transformedHast)) throw new Error('HTML transforms must preserve the document root');
   if (minify) {
-    // Basic minification: remove extra whitespace
-    return result
-      .replace(/>\s+</g, '><')
-      .replace(/\s+/g, ' ')
-      .trim();
+    // Operate on HTML nodes, never serialized HTML: preformatted text, raw
+    // syntax highlighting, and attribute values must survive byte-for-byte.
+    const codeContents: Array<{ node: Element; children: ElementContent[] }> = [];
+    visit(transformedHast, 'element', (node) => {
+      if (node.tagName === 'code') {
+        codeContents.push({ node, children: structuredClone(node.children) });
+      }
+    });
+    minifyWhitespace(transformedHast);
+    // Inline code has normal whitespace in the HTML UA stylesheet, but its
+    // source text is still meaningful when selected and copied.
+    for (const { node, children } of codeContents) node.children = children;
   }
+  const result = processor.stringify(transformedHast);
 
-  return result as string;
+  return result;
+}
+
+/** Escape document metadata in both HTML text and quoted attributes. */
+function escapeHTML(value: string): string {
+  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 /**
@@ -330,107 +350,20 @@ export async function renderHTMLDocument(
   const styleTag = options.inlineStyles && options.css
     ? `<style>${options.css}</style>`
     : options.css
-    ? `<link rel="stylesheet" href="${options.cssFilename || 'styles.css'}">`
+    ? `<link rel="stylesheet" href="${escapeHTML(options.cssFilename || 'styles.css')}">`
     : '';
 
   const scriptTag = options.hasInteractiveComponents
     ? options.inlineScripts && options.js
       ? `<script>${options.js}</script>`
-      : `<script src="${options.jsFilename || 'script.js'}" defer></script>`
+      : `<script src="${escapeHTML(options.jsFilename || 'script.js')}" defer></script>`
     : '';
 
-  // Generate Mermaid.js inline bundle if diagrams detected (tree-shaken)
-  let mermaidScript = '';
-  if (options.hasMermaid) {
-    try {
-      // Read Mermaid.js from node_modules
-      const { readFileSync } = await import('fs');
-      const { resolve, dirname } = await import('path');
-      const { fileURLToPath } = await import('url');
-      
-      // Get the directory of this module
-      const __filename = fileURLToPath(import.meta.url);
-      const __dirname = dirname(__filename);
-      
-      // Find mermaid in @taildown/compiler's node_modules
-      // From dist/ (packages/compiler/dist) go up one level to packages/compiler/ then to node_modules/
-      // Use UMD build (mermaid.min.js) which is fully self-contained, not ESM which has chunk dependencies
-      const mermaidPath = resolve(__dirname, '../node_modules/mermaid/dist/mermaid.min.js');
-      const mermaidCode = readFileSync(mermaidPath, 'utf-8');
-      
-      mermaidScript = `
-  <script>
-    // Inline Mermaid.js UMD build for self-contained offline support
-    ${mermaidCode}
-  </script>
-  <script type="module">
-    // Mermaid is now available as a global variable
-    
-    // Initialize Mermaid with theme support
-    const isDark = document.documentElement.classList.contains('dark');
-    mermaid.initialize({ 
-      startOnLoad: false, // We'll manually trigger rendering
-      theme: isDark ? 'dark' : 'default',
-      securityLevel: 'loose',
-      flowchart: { useMaxWidth: true },
-      sequence: { useMaxWidth: true },
-      gantt: { useMaxWidth: true }
-    });
-    
-    // Render all mermaid diagrams
-    document.addEventListener('DOMContentLoaded', async () => {
-      const mermaidBlocks = document.querySelectorAll('code.language-mermaid');
-      
-      for (const block of mermaidBlocks) {
-        const source = block.textContent;
-        const pre = block.parentElement;
-        
-        try {
-          // Render the diagram
-          const { svg } = await mermaid.render('mermaid-' + Math.random().toString(36).substr(2, 9), source);
-          
-          // Replace the code block with the rendered SVG
-          const container = document.createElement('div');
-          container.className = 'mermaid-container';
-          container.innerHTML = svg;
-          pre.replaceWith(container);
-        } catch (error) {
-          console.error('Mermaid rendering error:', error);
-          // Keep the code block on error
-        }
-      }
-    });
-    
-    // Re-render on theme change
-    const observer = new MutationObserver(async () => {
-      const isDark = document.documentElement.classList.contains('dark');
-      mermaid.initialize({ 
-        startOnLoad: false,
-        theme: isDark ? 'dark' : 'default'
-      });
-      
-      // Re-render all diagrams
-      const containers = document.querySelectorAll('.mermaid-container');
-      for (const container of containers) {
-        // Store original source in data attribute on first render
-        // For now, just reload the page or accept theme won't update live
-        // TODO: Store diagram source for re-rendering
-      }
-    });
-    observer.observe(document.documentElement, { 
-      attributes: true, 
-      attributeFilter: ['class'] 
-    });
-  </script>`;
-    } catch (error) {
-      // Mermaid.js not installed or not found - graceful fallback
-      console.warn('Mermaid.js not found in node_modules. Diagrams will show as code blocks.');
-    }
-  }
+  const mermaidScript = options.hasMermaid ? await generateMermaidScript() : '';
 
   // Generate meta description tag
   const descriptionTag = options.description
-    ? `<meta name="description" content="${options.description}">`
+    ? `<meta name="description" content="${escapeHTML(options.description)}">`
     : '';
 
   // Generate Open Graph meta tags
@@ -438,36 +371,36 @@ export async function renderHTMLDocument(
   if (options.openGraph) {
     const og = options.openGraph;
     if (og.title) {
-      ogTags += `\n  <meta property="og:title" content="${og.title}">`;
+      ogTags += `\n  <meta property="og:title" content="${escapeHTML(og.title)}">`;
     }
     if (og.description) {
-      ogTags += `\n  <meta property="og:description" content="${og.description}">`;
+      ogTags += `\n  <meta property="og:description" content="${escapeHTML(og.description)}">`;
     }
     if (og.type) {
-      ogTags += `\n  <meta property="og:type" content="${og.type}">`;
+      ogTags += `\n  <meta property="og:type" content="${escapeHTML(og.type)}">`;
     }
     if (og.url) {
-      ogTags += `\n  <meta property="og:url" content="${og.url}">`;
+      ogTags += `\n  <meta property="og:url" content="${escapeHTML(og.url)}">`;
     }
     if (og.image) {
-      ogTags += `\n  <meta property="og:image" content="${og.image}">`;
+      ogTags += `\n  <meta property="og:image" content="${escapeHTML(og.image)}">`;
     }
     if (og.imageAlt) {
-      ogTags += `\n  <meta property="og:image:alt" content="${og.imageAlt}">`;
+      ogTags += `\n  <meta property="og:image:alt" content="${escapeHTML(og.imageAlt)}">`;
     }
     if (og.siteName) {
-      ogTags += `\n  <meta property="og:site_name" content="${og.siteName}">`;
+      ogTags += `\n  <meta property="og:site_name" content="${escapeHTML(og.siteName)}">`;
     }
     // Add Twitter Card tags for better Twitter sharing
     if (og.image) {
       ogTags += `\n  <meta name="twitter:card" content="summary_large_image">`;
-      ogTags += `\n  <meta name="twitter:image" content="${og.image}">`;
+      ogTags += `\n  <meta name="twitter:image" content="${escapeHTML(og.image)}">`;
     }
     if (og.title) {
-      ogTags += `\n  <meta name="twitter:title" content="${og.title}">`;
+      ogTags += `\n  <meta name="twitter:title" content="${escapeHTML(og.title)}">`;
     }
     if (og.description) {
-      ogTags += `\n  <meta name="twitter:description" content="${og.description}">`;
+      ogTags += `\n  <meta name="twitter:description" content="${escapeHTML(og.description)}">`;
     }
   }
 
@@ -476,7 +409,7 @@ export async function renderHTMLDocument(
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${options.title || 'Taildown Document'}</title>${descriptionTag ? '\n  ' + descriptionTag : ''}${ogTags}
+  <title>${escapeHTML(options.title || 'Taildown Document')}</title>${descriptionTag ? '\n  ' + descriptionTag : ''}${ogTags}
   ${styleTag}
   ${scriptTag}${mermaidScript}
 </head>
@@ -486,9 +419,14 @@ export async function renderHTMLDocument(
 </html>`;
 
   if (options.minify) {
-    return html.replace(/>\s+</g, '><').replace(/\s+/g, ' ').trim();
+    // Only omit whitespace owned by this document wrapper. Embedded scripts
+    // retain their line breaks (including those terminating // comments).
+    return '<!DOCTYPE html><html lang="en"><head>' +
+      '<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+      `<title>${escapeHTML(options.title || 'Taildown Document')}</title>` +
+      descriptionTag + ogTags + styleTag + scriptTag + mermaidScript +
+      `</head><body>${bodyHTML}</body></html>`;
   }
 
   return html;
 }
-

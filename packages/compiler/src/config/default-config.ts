@@ -32,10 +32,10 @@ export const DEFAULT_CONFIG: TaildownConfig = {
         300: '#93c5fd',
         400: '#60a5fa',
         500: '#82a0ff',
-        600: '#6a8eef',
-        700: '#527bde',
-        800: '#3b69cd',
-        900: '#2356bc',
+        600: '#4b6bcc',
+        700: '#3857b4',
+        800: '#274594',
+        900: '#193775',
         950: '#172554',
       },
 
@@ -85,6 +85,22 @@ export const DEFAULT_CONFIG: TaildownConfig = {
         800: '#1f2937',
         900: '#111827',
         950: '#030712',
+      },
+
+      // Cool neutral scale for surfaces and borders.
+      slate: {
+        DEFAULT: '#64748b',
+        50: '#f8fafc',
+        100: '#f1f5f9',
+        200: '#e2e8f0',
+        300: '#cbd5e1',
+        400: '#94a3b8',
+        500: '#64748b',
+        600: '#475569',
+        700: '#334155',
+        800: '#1e293b',
+        900: '#0f172a',
+        950: '#020617',
       },
 
       // Semantic colors (single values)
@@ -357,7 +373,7 @@ export const DEFAULT_CONFIG: TaildownConfig = {
  * Get default config (exported for testing and inspection)
  */
 export function getDefaultConfig(): TaildownConfig {
-  return JSON.parse(JSON.stringify(DEFAULT_CONFIG)); // Deep clone
+  return structuredClone(DEFAULT_CONFIG);
 }
 
 /**

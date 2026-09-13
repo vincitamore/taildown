@@ -8,7 +8,7 @@
  * - WCAG AA compliant contrast ratios
  * - Smooth transitions between themes
  * 
- * See PHASE-2-IMPLEMENTATION-PLAN.md for dark mode spec
+ * See tech-spec.md for current architecture and docs-site/ for authoring references.
  */
 
 import type { TaildownConfig } from '../config/config-schema';
@@ -67,20 +67,20 @@ export function getLightModeColors(config: TaildownConfig): LightModeColors {
     ring: config.theme?.colors?.primary?.DEFAULT || '#3b82f6',
     
     primary: config.theme?.colors?.primary?.DEFAULT || '#3b82f6',
-    primaryForeground: '#ffffff',
+    primaryForeground: '#15202b',
     secondary: config.theme?.colors?.secondary?.DEFAULT || '#8b5cf6',
     secondaryForeground: '#ffffff',
     accent: config.theme?.colors?.accent?.DEFAULT || '#ec4899',
     accentForeground: '#ffffff',
     
     success: config.theme?.colors?.success || '#10b981',
-    successForeground: '#ffffff',
+    successForeground: '#111827',
     warning: config.theme?.colors?.warning || '#f59e0b',
-    warningForeground: '#ffffff',
+    warningForeground: '#111827',
     error: config.theme?.colors?.error || '#ef4444',
-    errorForeground: '#ffffff',
+    errorForeground: '#111827',
     info: config.theme?.colors?.info || '#82a0ff',
-    infoForeground: '#ffffff',
+    infoForeground: '#111827',
     
     card: '#ffffff',
     cardForeground: config.theme?.colors?.gray?.[900] || '#111827',
@@ -102,20 +102,20 @@ export function getDarkModeColors(config: TaildownConfig): DarkModeColors {
     ring: '#60a5fa',        // Focus ring (keep bright for visibility)
     
     primary: config.theme?.colors?.primary?.[500] || '#3b82f6',
-    primaryForeground: '#f5f5f5',
+    primaryForeground: '#15202b',
     secondary: config.theme?.colors?.secondary?.[600] || '#9333ea',
     secondaryForeground: '#f5f5f5',
     accent: config.theme?.colors?.accent?.[500] || '#ec4899',
     accentForeground: '#f5f5f5',
     
     success: config.theme?.colors?.success || '#10b981',
-    successForeground: '#15202b',  // Dark text on bright success
+    successForeground: '#111827',  // Dark text on bright success
     warning: config.theme?.colors?.warning || '#f59e0b',
-    warningForeground: '#15202b',  // Dark text on bright warning
+    warningForeground: '#111827',  // Dark text on bright warning
     error: config.theme?.colors?.error || '#ef4444',
-    errorForeground: '#ffffff',
+    errorForeground: '#111827',
     info: config.theme?.colors?.info || '#82a0ff',
-    infoForeground: '#ffffff',
+    infoForeground: '#111827',
     
     card: '#192734',        // Slightly lighter than background for depth
     cardForeground: '#f5f5f5',
@@ -128,10 +128,22 @@ export function getDarkModeColors(config: TaildownConfig): DarkModeColors {
 export function generateColorPaletteCSS(config: TaildownConfig): string {
   const light = getLightModeColors(config);
   const dark = getDarkModeColors(config);
+  const textColors = (isDark: boolean) => (['primary', 'secondary', 'accent'] as const).map(name => {
+    const fallback = {primary: ['#4b6bcc','#3957b5','#a3b9ff','#c1ceff'], secondary: ['#9333ea','#7e22ce','#c084fc','#d8b4fe'], accent: ['#db2777','#be185d','#f472b6','#f9a8d4']}[name];
+    const palette = config.theme?.colors?.[name];
+    return `  --${name}-text: ${palette?.[isDark ? 400 : 600] ?? fallback[isDark ? 2 : 0]};\n  --${name}-text-hover: ${palette?.[isDark ? 300 : 700] ?? fallback[isDark ? 3 : 1]};`;
+  }).join('\n');
   
   return `
 /* Color Palette - Light Mode */
 :root {
+${textColors(false)}
+  --success-text: #047857;
+  --warning-text: #92400e;
+  --error-text: #b91c1c;
+  --info-text: #1d4ed8;
+  --inline-code-text: #be185d;
+  --inline-code-background: #f3f4f6;
   --background: ${light.background};
   --foreground: ${light.foreground};
   --muted: ${light.muted};
@@ -141,6 +153,7 @@ export function generateColorPaletteCSS(config: TaildownConfig): string {
   --ring: ${light.ring};
   
   --primary: ${light.primary};
+  --link: ${config.theme?.colors?.primary?.[600] || '#2563eb'};
   --primary-foreground: ${light.primaryForeground};
   --secondary: ${light.secondary};
   --secondary-foreground: ${light.secondaryForeground};
@@ -162,6 +175,13 @@ export function generateColorPaletteCSS(config: TaildownConfig): string {
 
 /* Color Palette - Dark Mode */
 .dark {
+${textColors(true)}
+  --success-text: #34d399;
+  --warning-text: #fbbf24;
+  --error-text: #f87171;
+  --info-text: #60a5fa;
+  --inline-code-text: #f9a8d4;
+  --inline-code-background: #253747;
   --background: ${dark.background};
   --foreground: ${dark.foreground};
   --muted: ${dark.muted};
@@ -171,6 +191,7 @@ export function generateColorPaletteCSS(config: TaildownConfig): string {
   --ring: ${dark.ring};
   
   --primary: ${dark.primary};
+  --link: ${dark.primary};
   --primary-foreground: ${dark.primaryForeground};
   --secondary: ${dark.secondary};
   --secondary-foreground: ${dark.secondaryForeground};
@@ -207,19 +228,19 @@ export function generateColorPaletteCSS(config: TaildownConfig): string {
 .text-foreground { color: var(--foreground); }
 .text-muted-foreground { color: var(--muted-foreground); }
 .text-card-foreground { color: var(--card-foreground); }
-.text-primary { color: var(--primary); }
+.text-primary { color: var(--primary-text); }
 .text-primary-foreground { color: var(--primary-foreground); }
-.text-secondary { color: var(--secondary); }
+.text-secondary { color: var(--secondary-text); }
 .text-secondary-foreground { color: var(--secondary-foreground); }
-.text-accent { color: var(--accent); }
+.text-accent { color: var(--accent-text); }
 .text-accent-foreground { color: var(--accent-foreground); }
-.text-success { color: var(--success); }
+.text-success { color: var(--success-text); }
 .text-success-foreground { color: var(--success-foreground); }
-.text-warning { color: var(--warning); }
+.text-warning { color: var(--warning-text); }
 .text-warning-foreground { color: var(--warning-foreground); }
-.text-error { color: var(--error); }
+.text-error { color: var(--error-text); }
 .text-error-foreground { color: var(--error-foreground); }
-.text-info { color: var(--info); }
+.text-info { color: var(--info-text); }
 .text-info-foreground { color: var(--info-foreground); }
 
 /* CSS Variable utilities - border colors */

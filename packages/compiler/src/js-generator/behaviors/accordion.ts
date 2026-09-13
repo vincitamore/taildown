@@ -11,7 +11,8 @@ export const accordionBehavior: ComponentBehavior = {
   size: 1000, // ~1KB
   code: `// Accordion Component
 getComponents('accordion').forEach(accordion => {
-  const items = Array.from(accordion.querySelectorAll('[data-accordion-item]'));
+  const items = Array.from(accordion.querySelectorAll('[data-accordion-item]'))
+    .filter(item => item.closest('[data-component="accordion"]') === accordion);
   
   items.forEach((item, index) => {
     const trigger = item.querySelector('[data-accordion-trigger]');
@@ -40,6 +41,7 @@ getComponents('accordion').forEach(accordion => {
     
     // Keyboard handler
     trigger.addEventListener('keydown', (e) => {
+      if (e.target !== trigger) return;
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         toggle();

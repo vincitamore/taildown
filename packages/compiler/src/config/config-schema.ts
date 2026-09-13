@@ -5,76 +5,11 @@
  * This file defines the complete configuration structure for Taildown,
  * including theme, components, output settings, and validation rules.
  * 
- * See PHASE-2-IMPLEMENTATION-PLAN.md §3 for configuration system design
+ * See tech-spec.md for current architecture and docs-site/ for authoring references.
  */
 
-/**
- * Color scale configuration
- * Standard Tailwind-style color scale with shades 50-900
- */
-export interface ColorScale {
-  /** Default shade (typically 500 or 600) */
-  DEFAULT?: string;
-  
-  /** Lightest shade */
-  50?: string;
-  100?: string;
-  200?: string;
-  300?: string;
-  400?: string;
-  500?: string;
-  600?: string;
-  700?: string;
-  800?: string;
-  900?: string;
-  
-  /** Darkest shade */
-  950?: string;
-}
-
-/**
- * Color configuration
- * Defines the complete color palette for the theme
- */
-export interface ColorConfig {
-  /** Primary brand color */
-  primary: ColorScale;
-  
-  /** Secondary brand color */
-  secondary: ColorScale;
-  
-  /** Accent color for CTAs */
-  accent: ColorScale;
-  
-  /** Gray scale for neutral elements */
-  gray?: ColorScale;
-  
-  /** Semantic colors */
-  success?: string;
-  warning?: string;
-  error?: string;
-  info?: string;
-  
-  /** Additional custom colors */
-  [key: string]: ColorScale | string | undefined;
-}
-
-/**
- * Font configuration
- */
-export interface FontConfig {
-  /** Sans-serif font stack */
-  sans?: string;
-  
-  /** Serif font stack */
-  serif?: string;
-  
-  /** Monospace font stack */
-  mono?: string;
-  
-  /** Additional custom fonts */
-  [key: string]: string | undefined;
-}
+import type {ColorScale, ColorConfig, ColorOverrides, FontConfig, ComponentsConfig} from '@taildown/shared';
+export type {ColorScale, ColorConfig, ColorOverrides, FontConfig, ComponentVariant, ComponentConfig, ComponentsConfig} from '@taildown/shared';
 
 /**
  * Glassmorphism configuration
@@ -137,64 +72,6 @@ export interface ThemeConfig {
 }
 
 /**
- * Component variant definition
- */
-export interface ComponentVariant {
-  /** CSS classes for this variant */
-  classes: string[];
-  
-  /** Description of the variant */
-  description?: string;
-}
-
-/**
- * Component configuration
- */
-export interface ComponentConfig {
-  /** Default variant to use when none specified */
-  defaultVariant?: string;
-  
-  /** Additional CSS classes to always apply */
-  defaultClasses?: string[];
-  
-  /** Variant definitions */
-  variants?: Record<string, ComponentVariant>;
-  
-  /** Size definitions */
-  sizes?: Record<string, ComponentVariant>;
-}
-
-/**
- * Components configuration
- * Defines behavior and styling for all components
- */
-export interface ComponentsConfig {
-  /** Card component */
-  card?: ComponentConfig;
-  
-  /** Button component */
-  button?: ComponentConfig;
-  
-  /** Alert component */
-  alert?: ComponentConfig;
-  
-  /** Badge component */
-  badge?: ComponentConfig;
-  
-  /** Avatar component */
-  avatar?: ComponentConfig;
-  
-  /** Grid component */
-  grid?: ComponentConfig;
-  
-  /** Container component */
-  container?: ComponentConfig;
-  
-  /** Additional custom components */
-  [key: string]: ComponentConfig | undefined;
-}
-
-/**
  * Output configuration
  * Controls how Taildown generates output files
  */
@@ -221,7 +98,7 @@ export interface PluginConfig {
   name: string;
   
   /** Plugin options */
-  options?: Record<string, any>;
+  options?: Record<string, unknown>;
 }
 
 /**
@@ -247,8 +124,8 @@ export interface TaildownConfig {
  * Allows users to specify only what they want to override
  */
 export type PartialTaildownConfig = {
-  theme?: Partial<ThemeConfig> & {
-    colors?: Partial<ColorConfig>;
+  theme?: {
+    colors?: ColorOverrides;
     fonts?: Partial<FontConfig>;
     glass?: Partial<GlassConfig>;
     animations?: Partial<AnimationConfig>;
@@ -262,22 +139,17 @@ export type PartialTaildownConfig = {
 /**
  * Type guard to check if value is a ColorScale
  */
-export function isColorScale(value: any): value is ColorScale {
-  return (
-    typeof value === 'object' &&
-    value !== null &&
-    (value.DEFAULT !== undefined ||
-      value[50] !== undefined ||
-      value[100] !== undefined ||
-      value[500] !== undefined ||
-      value[600] !== undefined)
-  );
+export function isColorScale(value: unknown): value is ColorScale {
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) return false;
+  const shades = new Set(['DEFAULT', '50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950']);
+  const entries = Object.entries(value);
+  return entries.some(([shade, color]) => shades.has(shade) && typeof color === 'string') &&
+    entries.every(([shade, color]) => !shades.has(shade) || color === undefined || typeof color === 'string');
 }
-
 /**
  * Type guard to check if value is a color string
  */
-export function isColorString(value: any): value is string {
+export function isColorString(value: unknown): boolean {
   return typeof value === 'string' && /^#[0-9a-fA-F]{6}$/.test(value);
 }
 
@@ -304,12 +176,12 @@ export function validateColorConfig(colors: ColorConfig): string[] {
     if (isColorScale(value)) {
       // Validate hex colors in scale
       for (const [shade, hex] of Object.entries(value)) {
-        if (hex && !isColorString(hex)) {
+        if (hex !== undefined && !isColorString(hex)) {
           errors.push(`Invalid color value for ${name}.${shade}: ${hex}`);
         }
       }
-    } else if (typeof value === 'string' && !isColorString(value)) {
-      errors.push(`Invalid color value for ${name}: ${value}`);
+    } else if (value !== undefined && !isColorString(value)) {
+      errors.push(`Invalid color value for ${name}: ${String(value)}`);
     }
   }
 
@@ -324,6 +196,13 @@ export function validateThemeConfig(theme: ThemeConfig): string[] {
 
   // Validate colors
   errors.push(...validateColorConfig(theme.colors));
+
+  // Font stacks are CSS values, not declarations or markup.
+  for (const [name, value] of Object.entries(theme.fonts)) {
+    if (typeof value !== 'string' || !value.trim() || (/[;{}<>\r\n]/.test(value) || value.includes('\u0000'))) {
+      errors.push(`Invalid font stack for ${name}: use a non-empty font-family value without declarations or markup`);
+    }
+  }
 
   // Validate glass config
   if (theme.glass.opacity < 0 || theme.glass.opacity > 100) {
@@ -355,6 +234,11 @@ export function validateConfig(config: TaildownConfig): {
     errors.push('Missing required field: theme');
   } else {
     errors.push(...validateThemeConfig(config.theme));
+  }
+
+  for (const key of ['minify', 'inlineStyles', 'darkMode', 'sourceMaps'] as const) {
+    const value = config.output?.[key];
+    if (value !== undefined && typeof value !== 'boolean') errors.push(`output.${key} must be a boolean`);
   }
 
   return {

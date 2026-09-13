@@ -4,6 +4,8 @@
  */
 
 import type { Root, Node, Data } from 'mdast';
+import type {ColorOverrides, FontConfig} from './theme';
+import type {ComponentsConfig} from './components';
 
 /**
  * Open Graph meta tags for social media sharing
@@ -35,6 +37,8 @@ export interface OpenGraphMetadata {
  * Compilation options for Taildown compiler
  */
 export interface CompileOptions {
+  /** Per-document palette and font overrides, merged with the default theme. */
+  theme?: {colors?: ColorOverrides; fonts?: FontConfig};
   /** Inline CSS in HTML output (default: false) */
   inlineStyles?: boolean;
 
@@ -53,17 +57,19 @@ export interface CompileOptions {
   /** Include source maps (default: false) */
   sourceMaps?: boolean;
 
-  /** Auto-fix common syntax errors (default: true) */
+  /** @deprecated Retained for compatibility. Source is parsed without rewriting. */
   autoFix?: boolean;
 
-  /** Log syntax fixes to console (default: false) */
+  /** @deprecated Retained for compatibility. No automatic syntax rewrites occur. */
   logSyntaxFixes?: boolean;
 
   /** Enable dark mode in generated output (default: true) */
   darkMode?: boolean;
 
-  /** Custom component definitions */
+  /** Per-document custom components. Keys must match names; registered names cannot be replaced. */
   components?: Record<string, ComponentDefinition>;
+  /** Per-document defaults, variants and sizes for registered or custom components. */
+  componentConfig?: ComponentsConfig;
 
   /** Custom style mappings (plain English to CSS classes) */
   styleMappings?: Record<string, string>;

@@ -1,3 +1,4 @@
+import {attachmentKeyboard, attachmentDescendant} from './attachment-keyboard';
 /**
  * Tooltip Component Behavior
  * 
@@ -10,15 +11,8 @@ export const tooltipBehavior: ComponentBehavior = {
   name: 'tooltip',
   size: 1800, // ~1.8KB (increased due to positioning logic and event handling)
   code: `// Tooltip Component with intelligent positioning and hover persistence
-// Prevent all tooltip triggers with href="#" from jumping to top
-document.querySelectorAll('[data-tooltip-trigger][href="#"]').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  });
-});
-
-document.querySelectorAll('[data-tooltip-trigger]').forEach(trigger => {
+const tooltipOwners = new WeakMap();
+document.querySelectorAll('[data-tooltip-trigger]').forEach((trigger, index) => {
   const tooltipId = trigger.getAttribute('aria-describedby');
   let tooltip = tooltipId ? document.getElementById(tooltipId) : null;
   
@@ -30,13 +24,21 @@ document.querySelectorAll('[data-tooltip-trigger]').forEach(trigger => {
   }
   
   if (!tooltip) return;
+  if (!tooltip.id) {
+    let id = 'taildown-tooltip-' + index;
+    while (document.getElementById(id)) id += '-next';
+    tooltip.id = id;
+  }
+  trigger.setAttribute('aria-describedby', tooltip.id);
   
   let isVisible = false;
   let hideTimeout = null;
   let isHoveringTooltip = false;
+  let isHoveringTrigger = false;
   
   // Position tooltip near trigger with viewport edge detection
   function positionTooltip() {
+    if (tooltipOwners.get(tooltip) !== trigger) return;
     const triggerRect = trigger.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
     const gap = 8;
@@ -64,50 +66,46 @@ document.querySelectorAll('[data-tooltip-trigger]').forEach(trigger => {
       left = viewportWidth - tooltipRect.width - gap;
     }
     
+    top = Math.max(gap, Math.min(top, viewportHeight - tooltipRect.height - gap));
+    left = Math.max(gap, left);
     tooltip.style.top = top + 'px';
     tooltip.style.left = left + 'px';
   }
   
   // Show tooltip
   function show() {
-    if (isVisible) return;
-    
     clearTimeout(hideTimeout);
+    if (isVisible && tooltipOwners.get(tooltip) === trigger) return;
+    tooltipOwners.set(tooltip, trigger);
     isVisible = true;
     tooltip.hidden = false;
     tooltip.style.display = 'block';
     tooltip.style.opacity = '0';
     
-    // Position first, then fade in
-    requestAnimationFrame(() => {
-      positionTooltip();
-      requestAnimationFrame(() => {
-        tooltip.style.opacity = '1';
-      });
-    });
+    positionTooltip();
+    tooltip.style.opacity = '1';
   }
   
   // Hide tooltip with delay
   function hide(immediate = false) {
     clearTimeout(hideTimeout);
-    const delay = immediate ? 0 : 150;
-    
-    hideTimeout = setTimeout(() => {
-      if (isHoveringTooltip) return;
-      
+    const close = () => {
+      if (tooltipOwners.get(tooltip) !== trigger) { isVisible = false; return; }
+      if (!immediate && (isHoveringTooltip || isHoveringTrigger || document.activeElement === trigger)) return;
       isVisible = false;
+      tooltipOwners.delete(tooltip);
       tooltip.style.opacity = '0';
-      
-      setTimeout(() => {
-        tooltip.hidden = true;
-        tooltip.style.display = 'none';
-      }, 200);
-    }, delay);
+      tooltip.hidden = true;
+      tooltip.style.display = 'none';
+    };
+    if (immediate) close();
+    else hideTimeout = setTimeout(close, 150);
   }
   
+  ${attachmentKeyboard}
   // Trigger mouse events
-  trigger.addEventListener('mouseenter', show);
-  trigger.addEventListener('mouseleave', () => hide(false));
+  trigger.addEventListener('mouseenter', () => { isHoveringTrigger = true; show(); });
+  trigger.addEventListener('mouseleave', () => { isHoveringTrigger = false; hide(false); });
   
   // Tooltip hover persistence
   tooltip.addEventListener('mouseenter', () => {
@@ -121,14 +119,24 @@ document.querySelectorAll('[data-tooltip-trigger]').forEach(trigger => {
   });
   
   // Focus events
-  trigger.addEventListener('focus', show);
+  trigger.addEventListener('focus', () => { if (trigger.matches(':focus-visible')) show(); });
   trigger.addEventListener('blur', () => hide(false));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && isVisible) hide(true);
+  });
   
   // Click to toggle (mobile and desktop)
-  trigger.addEventListener('click', (e) => {
-    e.preventDefault(); // Always prevent default to avoid # jumps
-    e.stopPropagation(); // Stop event bubbling
-    if (isVisible) {
+  trigger.addEventListener('click', (event) => {
+    ${attachmentDescendant}
+    // A tooltip enhances real links without taking ownership of navigation.
+    const link = trigger.closest('a[href]');
+    if (link && link.getAttribute('href') !== '#') {
+      hide(true);
+      return;
+    }
+    event.preventDefault(); // Placeholder help links must not jump to the page top.
+    event.stopPropagation(); // Stop event bubbling
+    if (isVisible && tooltipOwners.get(tooltip) === trigger) {
       hide(true);
     } else {
       show();
@@ -136,9 +144,9 @@ document.querySelectorAll('[data-tooltip-trigger]').forEach(trigger => {
   });
   
   // Re-position on scroll/resize
-  window.addEventListener('scroll', () => {
+  document.addEventListener('scroll', () => {
     if (isVisible) positionTooltip();
-  });
+  }, true);
   
   window.addEventListener('resize', () => {
     if (isVisible) positionTooltip();

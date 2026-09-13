@@ -198,8 +198,7 @@
             "rounded-lg",
             "p-6",
             "max-w-full",
-            "overflow-x-hidden",
-            "overflow-wrap-normal",
+            "break-words",
             "glass-effect",
             "glass-subtle",
             "shadow-sm"
@@ -293,8 +292,7 @@
             "rounded-lg",
             "p-6",
             "max-w-full",
-            "overflow-x-hidden",
-            "overflow-wrap-normal",
+            "break-words",
             "glass-effect",
             "glass-subtle",
             "shadow-sm"
@@ -369,8 +367,7 @@
             "rounded-lg",
             "p-6",
             "max-w-full",
-            "overflow-x-hidden",
-            "overflow-wrap-normal",
+            "break-words",
             "glass-effect",
             "glass-subtle",
             "shadow-sm"
@@ -511,8 +508,7 @@
                 "rounded-lg",
                 "p-6",
                 "max-w-full",
-                "overflow-x-hidden",
-                "overflow-wrap-normal",
+                "break-words",
                 "glass-effect",
                 "glass-subtle",
                 "shadow-sm"
@@ -563,8 +559,7 @@
                 "rounded-lg",
                 "p-6",
                 "max-w-full",
-                "overflow-x-hidden",
-                "overflow-wrap-normal",
+                "break-words",
                 "glass-effect",
                 "glass-subtle",
                 "shadow-sm"
@@ -615,8 +610,7 @@
                 "rounded-lg",
                 "p-6",
                 "max-w-full",
-                "overflow-x-hidden",
-                "overflow-wrap-normal",
+                "break-words",
                 "glass-effect",
                 "glass-subtle",
                 "shadow-sm"
@@ -651,8 +645,7 @@
             "rounded-lg",
             "p-6",
             "max-w-full",
-            "overflow-x-hidden",
-            "overflow-wrap-normal",
+            "break-words",
             "glass-effect",
             "glass-subtle",
             "shadow-sm"

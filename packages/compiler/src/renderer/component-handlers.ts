@@ -15,13 +15,25 @@
  */
 
 import type { State } from 'mdast-util-to-hast';
-import type { Element } from 'hast';
+import type { Element, ElementContent, Properties } from 'hast';
 import type { ContainerDirectiveNode } from '../parser/directive-types';
 import type { TaildownNodeData } from '@taildown/shared';
 import { visit } from 'unist-util-visit';
-import type { Root } from 'mdast';
+import type { Root, Code } from 'mdast';
+import type {DiffLine} from '../parser/diff-parser';
 import { toHast } from 'mdast-util-to-hast';
 import { registry, registryInitialized } from '../components/component-registry';
+import { progressValues } from '../components/progress-values';
+import {mergeClasses} from '../resolver/merge-classes';
+
+/** Presentation belongs to the dialog surface, never the full-screen backdrop. */
+function modalSurfaceClasses(node: ContainerDirectiveNode): string[] {
+  const resolved = node.data?.hProperties?.className;
+  return mergeClasses([
+    'modal-content', 'w-full', 'max-h-[90vh]', 'overflow-y-auto', 'relative',
+    ...(Array.isArray(resolved) ? resolved : resolved ? [resolved] : registry.get('modal')?.defaultClasses ?? []),
+  ]);
+}
 
 // Global registry of defined modal/tooltip blocks (ID -> content)
 const modalRegistry = new Map<string, Element>();
@@ -54,7 +66,7 @@ export function prepopulateRegistries(ast: Root): void {
   renderedTooltipIds.clear();
   
   // Visit all containerDirective nodes
-  visit(ast, 'containerDirective', (node: any) => {
+  visit(ast, 'containerDirective', (node) => {
     const componentName = node.name;
     const idAttr = node.attributes?.id || node.attributes?.['#'];
     
@@ -63,9 +75,9 @@ export function prepopulateRegistries(ast: Root): void {
     // For modals and tooltips with IDs, convert their content to HAST and store
     if (componentName === 'modal') {
       // Convert children to HAST
-      const hastChildren = node.children?.map((child: any) => {
+      const hastChildren = node.children.map((child) => {
         return toHast(child, { allowDangerousHtml: false });
-      }).filter(Boolean) || [];
+      }).filter((child): child is ElementContent => child.type !== 'root' && child.type !== 'doctype');
       
       const modalElement: Element = {
         type: 'element',
@@ -76,9 +88,9 @@ export function prepopulateRegistries(ast: Root): void {
       modalRegistry.set(idAttr, modalElement);
     } else if (componentName === 'tooltip') {
       // Convert children to HAST
-      const hastChildren = node.children?.map((child: any) => {
+      const hastChildren = node.children.map((child) => {
         return toHast(child, { allowDangerousHtml: false });
-      }).filter(Boolean) || [];
+      }).filter((child): child is ElementContent => child.type !== 'root' && child.type !== 'doctype');
       
       const tooltipElement: Element = {
         type: 'element',
@@ -121,11 +133,32 @@ export function wrapWithAttachments(element: Element, nodeData?: TaildownNodeDat
   return wrapped;
 }
 
+function containsInteractiveContent(element: Element): boolean {
+  return element.children.some(child => child.type === 'element' && (
+    ['a', 'button', 'input', 'select', 'textarea', 'summary'].includes(child.tagName) ||
+    child.properties.tabIndex !== undefined || containsInteractiveContent(child)
+  ));
+}
+
+/** Give attachment-only controls native-button-equivalent keyboard semantics. */
+function attachmentProperties(element: Element): Properties {
+  const properties = {...element.properties};
+  const native = ['button', 'input', 'select', 'textarea', 'summary'].includes(element.tagName)
+    || (element.tagName === 'a' && properties.href !== undefined);
+  if (!native) {
+    properties.tabIndex ??= 0;
+    properties.role ??= containsInteractiveContent(element) ? 'group' : 'button';
+    const iconName = properties['data-icon'];
+    if (typeof iconName === 'string') properties.ariaLabel ??= iconName.replaceAll('-', ' ');
+  }
+  return properties;
+}
+
 /**
  * Wrap element with tooltip functionality
  * Supports inline content: tooltip="text" or ID reference: tooltip="#id"
  */
-function wrapWithTooltip(triggerElement: Element, content: string, state?: State): Element {
+function wrapWithTooltip(triggerElement: Element, content: string, _state?: State): Element {
   // Safety check
   if (!triggerElement || triggerElement.type !== 'element') {
     console.warn('[Taildown] Invalid trigger element for tooltip, skipping attachment');
@@ -143,7 +176,7 @@ function wrapWithTooltip(triggerElement: Element, content: string, state?: State
     return {
       ...triggerElement,
       properties: {
-        ...(triggerElement.properties || {}),
+        ...attachmentProperties(triggerElement),
         'aria-describedby': tooltipId,
         'data-tooltip-trigger': 'true'
       }
@@ -169,7 +202,7 @@ function wrapWithTooltip(triggerElement: Element, content: string, state?: State
   const enhancedTrigger: Element = {
     ...triggerElement,
     properties: {
-      ...(triggerElement.properties || {}),
+      ...attachmentProperties(triggerElement),
       'aria-describedby': tooltipId,
       'data-tooltip-trigger': 'true'
     }
@@ -180,7 +213,7 @@ function wrapWithTooltip(triggerElement: Element, content: string, state?: State
   // Check if content has block-level elements
   const contentChildren = tooltipContent.type === 'element' ? tooltipContent.children : [tooltipContent];
   const hasBlockContent = contentChildren.some(child => 
-    child.type === 'element' && ['p', 'ul', 'ol', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre'].includes((child as Element).tagName || '')
+    child.type === 'element' && ['p', 'ul', 'ol', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre'].includes(child.tagName || '')
   );
   
   const tooltipEl: Element = {
@@ -221,6 +254,10 @@ export function clearRegistries() {
  * Supports inline content: modal="text" or ID reference: modal="#id"
  */
 function wrapWithModal(triggerElement: Element, content: string): Element {
+  // Tooltip wrappers only carry layout; both attachments belong to the control.
+  if (triggerElement.properties?.style === 'display: contents;' && triggerElement.children[0]?.type === 'element') {
+    return {...triggerElement, children: [wrapWithModal(triggerElement.children[0], content), ...triggerElement.children.slice(1)]};
+  }
   // Safety check
   if (!triggerElement || triggerElement.type !== 'element') {
     console.warn('[Taildown] Invalid trigger element for modal, skipping attachment');
@@ -234,7 +271,7 @@ function wrapWithModal(triggerElement: Element, content: string): Element {
   const enhancedTrigger: Element = {
     ...triggerElement,
     properties: {
-      ...(triggerElement.properties || {}),
+      ...attachmentProperties(triggerElement),
       'data-modal-trigger': modalId,
       'aria-haspopup': 'dialog'
     }
@@ -346,8 +383,8 @@ export function renderTabs(state: State, node: ContainerDirectiveNode): Element 
   const children = state.all(node);
   
   // Parse structure: find headings and content
-  const tabs: { label: Element; content: Element[] }[] = [];
-  let currentTab: { label: Element; content: Element[] } | null = null;
+  const tabs: { label: Element; content: ElementContent[] }[] = [];
+  let currentTab: { label: Element; content: ElementContent[] } | null = null;
   
   for (const child of children) {
     if (child.type === 'element' && (child.tagName === 'h2' || child.tagName === 'h3')) {
@@ -394,11 +431,15 @@ export function renderTabs(state: State, node: ContainerDirectiveNode): Element 
   }
   
   // Build tab structure with modern glass styling
+  const tabsId = `tabs-${node.position?.start.offset ?? Math.random().toString(36).slice(2)}`;
   const tabButtons: Element[] = tabs.map((tab, index) => ({
     type: 'element',
     tagName: 'button',
     properties: {
       role: 'tab',
+      id: `${tabsId}-tab-${index}`,
+      ariaControls: `${tabsId}-panel-${index}`,
+      type: 'button',
       ariaSelected: index === 0 ? 'true' : 'false',
       tabIndex: index === 0 ? 0 : -1,
       className: ['tab-button']
@@ -411,10 +452,12 @@ export function renderTabs(state: State, node: ContainerDirectiveNode): Element 
     tagName: 'div',
     properties: {
       role: 'tabpanel',
+      id: `${tabsId}-panel-${index}`,
+      ariaLabelledBy: `${tabsId}-tab-${index}`,
       hidden: index !== 0,
       className: ['tab-panel']
     },
-    children: tab.content
+    children: [{type: 'element', tagName: 'h3', properties: {className: ['tab-print-label']}, children: tab.label.children}, ...tab.content]
   }));
   
   // Merge with existing classes from component definition
@@ -452,7 +495,7 @@ export function renderTabs(state: State, node: ContainerDirectiveNode): Element 
  * H2 headings act as timeline milestones
  */
 export function renderTimeline(state: State, node: ContainerDirectiveNode): Element {
-  const children = state.all(node as any);
+  const children = state.all(node);
   
   // Get component classes from the node (already resolved by component processor)
   const containerClasses = Array.isArray(node.data?.hProperties?.className) 
@@ -460,16 +503,16 @@ export function renderTimeline(state: State, node: ContainerDirectiveNode): Elem
     : [];
   
   // Find milestone headings (marked by parser) and group content
-  const milestones: { heading: Element; content: Element[]; state: string }[] = [];
-  let currentMilestone: { heading: Element; content: Element[]; state: string } | null = null;
+  const milestones: { heading: Element; content: ElementContent[]; state: string }[] = [];
+  let currentMilestone: { heading: Element; content: ElementContent[]; state: string } | null = null;
   
   for (const child of children) {
     // Check if this is an H2 milestone heading (marked by parser)
     if (child.type === 'element' && child.tagName === 'h2') {
       // Check for timelineMilestone data (set by parser)
-      const element = child as Element;
-      const milestoneData = (element.properties as any)?.['data-timeline-state'];
-      const isMilestone = (element.properties as any)?.['data-is-milestone'];
+      const element = child;
+      const milestoneData = element.properties['data-timeline-state'];
+      const isMilestone = element.properties['data-is-milestone'];
       
       if (milestoneData || isMilestone) {
         // Save previous milestone
@@ -478,11 +521,11 @@ export function renderTimeline(state: State, node: ContainerDirectiveNode): Elem
         }
         
         // Start new milestone
-        const state = milestoneData || 'pending';
+        const state = typeof milestoneData === 'string' && milestoneData ? milestoneData : 'pending';
         currentMilestone = {
           heading: element,
           content: [],
-          state: state as string
+          state
         };
       } else if (currentMilestone) {
         // Not a milestone heading, add to current milestone content
@@ -500,7 +543,7 @@ export function renderTimeline(state: State, node: ContainerDirectiveNode): Elem
   }
   
   // Build timeline structure
-  const milestoneElements: Element[] = milestones.map((milestone, index) => {
+  const milestoneElements: Element[] = milestones.map<Element>((milestone, index) => {
     // Determine icon based on state
     const iconMap: Record<string, string> = {
       completed: '✓',
@@ -568,7 +611,7 @@ export function renderTimeline(state: State, node: ContainerDirectiveNode): Elem
                 className: ['timeline-body']
               },
               children: milestone.content
-            }] : [])
+            } satisfies Element] : [])
           ]
         }
       ]
@@ -589,19 +632,20 @@ export function renderTimeline(state: State, node: ContainerDirectiveNode): Elem
 
 export function renderSteps(state: State, node: ContainerDirectiveNode): Element {
   const children = state.all(node);
+  const introduction: ElementContent[] = [];
   
   // Find step headings and group content
-  const steps: { heading: Element; content: Element[]; number: number; state: string }[] = [];
-  let currentStep: { heading: Element; content: Element[]; number: number; state: string } | null = null;
+  const steps: { heading: Element; content: ElementContent[]; number: number; state: string }[] = [];
+  let currentStep: { heading: Element; content: ElementContent[]; number: number; state: string } | null = null;
   
   for (const child of children) {
     // Check if this is a step heading (marked by parser)
     if (child.type === 'element' && (child.tagName === 'h2' || child.tagName === 'h3')) {
       // Check for step marker attributes
-      const stepNumber = (child.properties as any)?.['data-step-number'];
-      const stepState = (child.properties as any)?.['data-step-state'] || 'pending';
+      const stepNumber = child.properties['data-step-number'];
+      const stepState = child.properties['data-step-state'];
       
-      if (stepNumber) {
+      if (stepNumber && (typeof stepNumber === 'number' || typeof stepNumber === 'string')) {
         // Save previous step
         if (currentStep) {
           steps.push(currentStep);
@@ -611,16 +655,20 @@ export function renderSteps(state: State, node: ContainerDirectiveNode): Element
         currentStep = {
           heading: child,
           content: [],
-          number: typeof stepNumber === 'number' ? stepNumber : parseInt(stepNumber as string, 10),
-          state: stepState as string
+          number: typeof stepNumber === 'number' ? stepNumber : parseInt(stepNumber, 10),
+          state: typeof stepState === 'string' && stepState ? stepState : 'pending'
         };
       } else if (currentStep) {
         // Not a step heading, add to current step content
         currentStep.content.push(child);
+      } else {
+        introduction.push(child);
       }
     } else if (currentStep) {
       // Add to current step content
       currentStep.content.push(child);
+    } else {
+      introduction.push(child);
     }
   }
   
@@ -630,7 +678,7 @@ export function renderSteps(state: State, node: ContainerDirectiveNode): Element
   }
   
   // Build step structure
-  const stepElements: Element[] = steps.map((step, index) => {
+  const stepElements: Element[] = steps.map<Element>((step, index) => {
     return {
       type: 'element',
       tagName: 'div',
@@ -679,7 +727,8 @@ export function renderSteps(state: State, node: ContainerDirectiveNode): Element
               type: 'element',
               tagName: 'h3',
               properties: {
-                className: ['step-title']
+                ...step.heading.properties,
+                className: ['step-title', ...(Array.isArray(step.heading.properties.className) ? step.heading.properties.className : typeof step.heading.properties.className === 'string' ? step.heading.properties.className.split(/\s+/) : [])]
               },
               children: step.heading.children
             },
@@ -691,7 +740,7 @@ export function renderSteps(state: State, node: ContainerDirectiveNode): Element
                 className: ['step-body']
               },
               children: step.content
-            }] : [])
+            } satisfies Element] : [])
           ]
         }
       ]
@@ -706,10 +755,12 @@ export function renderSteps(state: State, node: ContainerDirectiveNode): Element
     type: 'element',
     tagName: 'div',
     properties: {
+      ...node.data?.hProperties,
+      id: node.attributes?.id || node.attributes?.['#'] || node.data?.hProperties?.id,
       className: [...existingClasses],
       'data-component': dataComponent
     },
-    children: stepElements
+    children: [...introduction, ...stepElements]
   };
 }
 
@@ -719,16 +770,25 @@ export function renderSteps(state: State, node: ContainerDirectiveNode): Element
  */
 export function renderAccordion(state: State, node: ContainerDirectiveNode): Element {
   const children = state.all(node);
+  const explicitSections = children.some(child => child.type === 'element' && child.tagName === 'hr');
   
-  // Split by hr elements
-  const sections: Element[][] = [];
-  let currentSection: Element[] = [];
+  // A leading bold heading begins a section; hr keeps legacy section syntax.
+  const sections: ElementContent[][] = [];
+  let currentSection: ElementContent[] = [];
   
   for (const child of children) {
     if (child.type === 'element' && child.tagName === 'hr') {
       if (currentSection.length > 0) {
         sections.push(currentSection);
         currentSection = [];
+      }
+    } else if (!explicitSections && child.type === 'element' && child.tagName === 'p' && child.children[0]?.type === 'element' && child.children[0].tagName === 'strong') {
+      if (currentSection.length > 0) sections.push(currentSection);
+      currentSection = [child.children[0]];
+      const body = child.children.slice(1);
+      if (body[0]?.type === 'text') body[0] = {...body[0], value: body[0].value.replace(/^\r?\n/, '')};
+      if (body.some(part => part.type !== 'text' || part.value.trim())) {
+        currentSection.push({...child, children: body});
       }
     } else {
       currentSection.push(child);
@@ -745,6 +805,24 @@ export function renderAccordion(state: State, node: ContainerDirectiveNode): Ele
   }
   
   // Build accordion items
+  const accordionId = `accordion-${node.position?.start.offset ?? Math.random().toString(36).slice(2)}`;
+  // Buttons may contain phrasing content, but never another interactive control.
+  const labelContent = (part: ElementContent): ElementContent => {
+    if (part.type !== 'element') return part;
+    if (part.tagName === 'img') return {type: 'text', value: String(part.properties.alt ?? '')};
+    if (part.tagName === 'svg' && part.properties['data-icon']) {
+      return {type: 'element', tagName: 'svg', properties: {
+        className: part.properties.className,
+        'data-icon': part.properties['data-icon']
+      }, children: []};
+    }
+    return {
+      type: 'element',
+      tagName: /^(strong|em|code|span|small|sub|sup|del|s|b|i|u|br|mark)$/.test(part.tagName) ? part.tagName : 'span',
+      properties: part.properties.className ? {className: part.properties.className} : {},
+      children: part.children.map(labelContent)
+    };
+  };
   const items: Element[] = sections.map((sectionContent, index) => {
     // First element is trigger, rest is content
     const trigger = sectionContent[0] || {
@@ -754,6 +832,7 @@ export function renderAccordion(state: State, node: ContainerDirectiveNode): Ele
       children: [{ type: 'text', value: `Item ${index + 1}` }]
     };
     const content = sectionContent.slice(1);
+    const label = labelContent(trigger);
     
     return {
       type: 'element',
@@ -768,11 +847,14 @@ export function renderAccordion(state: State, node: ContainerDirectiveNode): Ele
           tagName: 'button',
           properties: {
             'data-accordion-trigger': '',
+            type: 'button',
+            id: `${accordionId}-trigger-${index}`,
+            ariaControls: `${accordionId}-panel-${index}`,
             ariaExpanded: index === 0 ? 'true' : 'false',
             className: ['accordion-trigger', 'flex', 'flex-1', 'items-center', 'justify-between', 'py-4', 'font-medium', 'transition-all', 'text-left', 'w-full', 'text-sm']
           },
           children: [
-            trigger,
+            label,
             {
               type: 'element',
               tagName: 'svg',
@@ -803,6 +885,9 @@ export function renderAccordion(state: State, node: ContainerDirectiveNode): Ele
           tagName: 'div',
           properties: {
             'data-accordion-content': '',
+            id: `${accordionId}-panel-${index}`,
+            role: 'region',
+            ariaLabelledBy: `${accordionId}-trigger-${index}`,
             hidden: index !== 0,
             className: ['accordion-content', 'overflow-hidden', 'text-sm', 'transition-all', 'data-[state=closed]:animate-accordion-up', 'data-[state=open]:animate-accordion-down', 'pb-4', 'pt-0']
           },
@@ -834,8 +919,8 @@ export function renderCarousel(state: State, node: ContainerDirectiveNode): Elem
   const children = state.all(node);
   
   // Split by hr elements to create slides
-  const slides: Element[][] = [];
-  let currentSlide: Element[] = [];
+  const slides: ElementContent[][] = [];
+  let currentSlide: ElementContent[] = [];
   
   for (const child of children) {
     if (child.type === 'element' && child.tagName === 'hr') {
@@ -900,7 +985,8 @@ export function renderCarousel(state: State, node: ContainerDirectiveNode): Elem
     tagName: 'div',
     properties: {
       className: existingClasses,
-      'data-component': dataComponent
+      'data-component': dataComponent,
+      ...(node.data?.component?.attributes.includes('autoplay') ? {'data-autoplay': ''} : {}),
     },
     children: [
       {
@@ -948,7 +1034,7 @@ export function renderCarousel(state: State, node: ContainerDirectiveNode): Elem
  * Render image comparison slider component
  * Creates before/after image comparison with draggable slider
  */
-export function renderImageCompare(state: State, node: ContainerDirectiveNode): Element {
+export function renderImageCompare(_state: State, node: ContainerDirectiveNode): Element {
   const hProps = node.data?.hProperties || {};
   const existingClasses = hProps.className || [];
   const dataComponent = hProps['data-component'] || 'compare-images';
@@ -1023,7 +1109,7 @@ export function renderImageCompare(state: State, node: ContainerDirectiveNode): 
                     ],
                   },
                   children: [{ type: 'text', value: 'Before' }],
-                },
+                } satisfies Element,
               ]
             : []),
         ],
@@ -1077,7 +1163,7 @@ export function renderImageCompare(state: State, node: ContainerDirectiveNode): 
                     ],
                   },
                   children: [{ type: 'text', value: 'After' }],
-                },
+                } satisfies Element,
               ]
             : []),
         ],
@@ -1194,45 +1280,57 @@ export function renderImageCompare(state: State, node: ContainerDirectiveNode): 
 }
 
 /**
- * Render code diff component
- * Supports both unified diff format and side-by-side before/after comparison
+ * Decode the parser's serialized diff lines without leaking JSON's untyped result.
  */
-export function renderDiff(state: State, node: any): Element {
+function decodeDiffLines(value: unknown): DiffLine[] {
+  let decoded: unknown = value || [];
+  if (typeof decoded === 'string') {
+    try {
+      decoded = JSON.parse(decoded);
+    } catch {
+      return [];
+    }
+  }
+  if (!Array.isArray(decoded)) throw new TypeError('Diff lines must be an array');
+  return decoded.map((line: unknown): DiffLine => {
+    if (typeof line !== 'object' || line === null || !('type' in line) ||
+        !('content' in line) || typeof line.content !== 'string') {
+      throw new TypeError('Invalid diff line');
+    }
+    const type = line.type;
+    if (type !== 'added' && type !== 'removed' && type !== 'unchanged' && type !== 'info') {
+      throw new TypeError('Invalid diff line type');
+    }
+    const oldLineNumber = 'oldLineNumber' in line ? line.oldLineNumber : undefined;
+    const newLineNumber = 'newLineNumber' in line ? line.newLineNumber : undefined;
+    if ((oldLineNumber !== undefined && typeof oldLineNumber !== 'number') ||
+        (newLineNumber !== undefined && typeof newLineNumber !== 'number')) {
+      throw new TypeError('Invalid diff line number');
+    }
+    return {type, content: line.content, oldLineNumber, newLineNumber};
+  });
+}
+
+/** Render unified or side-by-side code diffs. */
+export function renderDiff(_state: State, node: Code | ContainerDirectiveNode): Element {
   const hProps = node.data?.hProperties || {};
-  const existingClasses = hProps.className || [];
+  const existingClasses = Array.isArray(hProps.className) ? hProps.className : typeof hProps.className === 'string' ? hProps.className.split(/\s+/).filter(Boolean) : [];
   const diffFormat = hProps.diffFormat || 'unified';
-  
-  // Escape HTML in code to prevent XSS
-  const escapeHtml = (text: string): string => {
-    return text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-  };
   
   if (diffFormat === 'unified') {
     // Unified diff format with +/- line markers
     // Parse JSON if it's a string
-    let lines = hProps.diffLines || [];
-    if (typeof lines === 'string') {
-      try {
-        lines = JSON.parse(lines);
-      } catch (e) {
-        lines = [];
-      }
-    }
+    const lines = decodeDiffLines(hProps.diffLines);
     
-    const lineElements = lines.map((line: any) => {
+    const lineElements = lines.map<Element>((line) => {
       const lineClasses = ['diff-line'];
       
       if (line.type === 'added') {
-        lineClasses.push('diff-line-added', 'bg-green-50', 'dark:bg-green-900/20');
+        lineClasses.push('diff-line-added');
       } else if (line.type === 'removed') {
-        lineClasses.push('diff-line-removed', 'bg-red-50', 'dark:bg-red-900/20');
+        lineClasses.push('diff-line-removed');
       } else if (line.type === 'info') {
-        lineClasses.push('diff-line-info', 'bg-blue-50', 'dark:bg-blue-900/20', 'font-semibold');
+        lineClasses.push('diff-line-info');
       } else {
         lineClasses.push('diff-line-unchanged');
       }
@@ -1245,28 +1343,28 @@ export function renderDiff(state: State, node: any): Element {
         },
         children: [
           // Line numbers
-          line.oldLineNumber !== undefined ? {
+          {
             type: 'element',
             tagName: 'span',
             properties: {
-              className: ['diff-line-number', 'select-none', 'text-slate-400', 'dark:text-slate-600'],
+              className: ['diff-line-number', 'select-none', 'text-muted-foreground'],
             },
             children: [{
               type: 'text',
-              value: String(line.oldLineNumber),
+              value: line.oldLineNumber === undefined ? '' : String(line.oldLineNumber),
             }],
-          } : null,
-          line.newLineNumber !== undefined ? {
+          },
+          {
             type: 'element',
             tagName: 'span',
             properties: {
-              className: ['diff-line-number', 'select-none', 'text-slate-400', 'dark:text-slate-600'],
+              className: ['diff-line-number', 'select-none', 'text-muted-foreground'],
             },
             children: [{
               type: 'text',
-              value: String(line.newLineNumber),
+              value: line.newLineNumber === undefined ? '' : String(line.newLineNumber),
             }],
-          } : null,
+          },
           // Line content
           {
             type: 'element',
@@ -1279,7 +1377,7 @@ export function renderDiff(state: State, node: any): Element {
               value: line.content,
             }],
           },
-        ].filter(Boolean),
+        ],
       };
     });
     
@@ -1303,6 +1401,7 @@ export function renderDiff(state: State, node: any): Element {
               tagName: 'code',
               properties: {
                 className: ['diff-code', 'block'],
+                'data-code-source': node.type === 'code' ? node.value : undefined,
               },
               children: lineElements,
             },
@@ -1312,12 +1411,12 @@ export function renderDiff(state: State, node: any): Element {
     };
   } else {
     // Side-by-side format with before/after panes
-    const beforeCode = hProps.beforeCode || '';
-    const afterCode = hProps.afterCode || '';
-    const language = hProps.language || '';
+    const beforeCode = typeof hProps.beforeCode === 'string' ? hProps.beforeCode : '';
+    const afterCode = typeof hProps.afterCode === 'string' ? hProps.afterCode : '';
+    const language = typeof hProps.language === 'string' ? hProps.language : '';
     
     // Render before pane (text nodes will be highlighted by rehype plugin)
-    const beforePane = {
+    const beforePane: Element = {
       type: 'element',
       tagName: 'div',
       properties: {
@@ -1359,7 +1458,7 @@ export function renderDiff(state: State, node: any): Element {
     };
     
     // Render after pane (text nodes will be highlighted by rehype plugin)
-    const afterPane = {
+    const afterPane: Element = {
       type: 'element',
       tagName: 'div',
       properties: {
@@ -1428,7 +1527,6 @@ export function renderDiff(state: State, node: any): Element {
 export function renderModal(state: State, node: ContainerDirectiveNode): Element {
   const children = state.all(node);
   
-  const existingClasses = node.data?.hProperties?.className || [];
   const dataComponent = node.data?.hProperties?.['data-component'] || node.name;
   const modalId = `modal-${Math.random().toString(36).substr(2, 9)}`;
   
@@ -1470,7 +1568,7 @@ export function renderModal(state: State, node: ContainerDirectiveNode): Element
             type: 'element',
             tagName: 'div',
             properties: {
-              className: ['modal-content', 'glass-subtle', 'rounded-2xl', 'shadow-3xl', 'max-w-2xl', 'w-full', 'max-h-[90vh]', 'overflow-y-auto', 'relative', 'p-12', 'border', 'border-white/20']
+              className: modalSurfaceClasses(node)
             },
             children: [
               {
@@ -1531,6 +1629,7 @@ export function renderTooltip(state: State, node: ContainerDirectiveNode): Eleme
         properties: {
           'data-tooltip-trigger': '',
           type: 'button',
+          'aria-label': 'More information',
           className: ['tooltip-trigger', 'inline-flex', 'items-center', 'justify-center', 'w-6', 'h-6', 'rounded-full', 'bg-blue-100', 'text-blue-600', 'cursor-help', 'hover:bg-blue-200', 'transition-all', 'text-sm', 'font-bold']
         },
         children: [{ type: 'text', value: 'i' }]
@@ -1595,7 +1694,7 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
           type: 'element',
           tagName: 'div',
           properties: {
-            className: ['modal-content', 'glass-subtle', 'rounded-2xl', 'shadow-3xl', 'max-w-2xl', 'w-full', 'max-h-[90vh]', 'overflow-y-auto', 'relative']
+            className: modalSurfaceClasses(node)
           },
           children: [
             // Close button
@@ -1639,7 +1738,7 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
               type: 'element',
               tagName: 'div',
               properties: {
-                className: ['modal-body', 'p-8', 'pt-10']
+                className: ['modal-body']
               },
               children: content
             }
@@ -1680,6 +1779,15 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
       return renderSteps(state, node);
     case 'timeline':
       return renderTimeline(state, node);
+    case 'progress':
+      return renderProgress(state, node);
+    case 'details':
+      return renderDetails(state, node);
+    case 'definitions': {
+      const result = renderGenericComponent(state, node);
+      result.children = definitionPairs(result.children);
+      return result;
+    }
     case 'accordion':
       return renderAccordion(state, node);
     case 'carousel':
@@ -1698,10 +1806,94 @@ export function containerDirectiveHandler(state: State, node: ContainerDirective
   }
 }
 
+/** Preserve rich label content outside the native, presentational-only bar. */
+function renderProgress(state: State, node: ContainerDirectiveNode): Element {
+  const bar = renderGenericComponent(state, node);
+  const label = bar.children;
+  const classes = bar.properties.className;
+  const values = progressValues(node.attributes ?? {}, [...(node.data?.component?.attributes ?? []), ...(Array.isArray(classes) ? classes.map(String) : [])]);
+  bar.tagName = 'progress';
+  bar.children = [];
+  delete bar.properties.value;
+  delete bar.properties.indeterminate;
+  bar.properties.max = values.max;
+  if (values.value !== undefined) bar.properties.value = values.value;
+  const children: ElementContent[] = [];
+  if (label.length) {
+    const labelId = `progress-label-${Math.random().toString(36).slice(2)}`;
+    children.push({type: 'element', tagName: 'div', properties: {id: labelId, className: ['progress-label']}, children: label});
+    if (!String(bar.properties['aria-label'] ?? '').trim()) delete bar.properties['aria-label'];
+    if (!String(bar.properties['aria-labelledby'] ?? '').trim()) delete bar.properties['aria-labelledby'];
+    if (!bar.properties['aria-label'] && !bar.properties['aria-labelledby']) bar.properties['aria-labelledby'] = labelId;
+  }
+  children.push(bar);
+  return {type: 'element', tagName: 'div', properties: {className: ['progress-field']}, children};
+}
+
 /**
- * Generic component renderer for non-interactive components
- * Handles card, alert, grid, container, and other standard components
+ * Native disclosure: promote a leading title without losing body content.
  */
+function renderDetails(state: State, node: ContainerDirectiveNode): Element {
+  const result = renderGenericComponent(state, node);
+  const titleIndex = result.children.findIndex(child => child.type !== 'text' || child.value.trim() !== '');
+  const title = result.children[titleIndex];
+  let summary: Element = {type: 'element', tagName: 'summary', properties: {}, children: [{type: 'text', value: 'Details'}]};
+  if (title?.type === 'element' && title.children.length > 0 && (title.tagName === 'p' || /^h[1-6]$/.test(title.tagName))) {
+    // Paragraph attributes move to summary; a heading remains a heading inside
+    // summary so its level, ID, styling, and inline formatting survive intact.
+    summary = title.tagName === 'p'
+      ? {...title, tagName: 'summary'}
+      : {...summary, children: [title]};
+    result.children.splice(titleIndex, 1);
+  }
+  result.children.unshift(summary);
+  if (node.data?.component?.attributes.includes('open') || Object.hasOwn(node.attributes ?? {}, 'open')) {
+    result.properties.open = true;
+  }
+  return result;
+}
+
+function definitionPairs(children: ElementContent[]): ElementContent[] {
+  const output: ElementContent[] = [];
+  let description: Element | undefined;
+  for (const child of children) {
+    if (child.type !== 'element' || child.tagName !== 'p') {
+      if (child.type === 'text' && !child.value.trim()) continue;
+      if (description) description.children.push(child);
+      else output.push(child);
+      continue;
+    }
+    const lines: ElementContent[][] = [[]];
+    for (const inline of child.children) {
+      if (inline.type !== 'text') { lines[lines.length - 1]!.push(inline); continue; }
+      inline.value.split('\n').forEach((value, index) => {
+        if (index) lines.push([]);
+        if (value) lines[lines.length - 1]!.push({type: 'text', value});
+      });
+    }
+    for (const line of lines) {
+      const first = line[0];
+      const following = line[1];
+      const lastTerm = first?.type === 'element' ? first.children.at(-1) : undefined;
+      const marked = following?.type === 'text' && /^\s*\{term\}\s*$/.test(following.value);
+      const colon = lastTerm?.type === 'text' && /:\s*$/.test(lastTerm.value);
+      if (first?.type === 'element' && first.tagName === 'strong' && (marked || colon)) {
+        const term = first.children.map(part => part === lastTerm && colon && part.type === 'text'
+          ? {...part, value: part.value.replace(/:\s*$/, '')} : part);
+        output.push({type: 'element', tagName: 'dt', properties: {}, children: term});
+        description = {type: 'element', tagName: 'dd', properties: {}, children: marked ? line.slice(2) : line.slice(1)};
+        output.push(description);
+      } else if (description) {
+        const content = line.map((part, index) => index === 0 && part.type === 'text'
+          ? {...part, value: part.value.replace(/^\s*:\s?/, '')} : part);
+        if (description.children.length) description.children.push({type: 'text', value: '\n'});
+        description.children.push(...content);
+      } else output.push({type: 'element', tagName: 'p', properties: child.properties, children: line});
+    }
+  }
+  return output;
+}
+
 function renderGenericComponent(state: State, node: ContainerDirectiveNode): Element {
   const componentName = node.name;
   const attributes = node.attributes || {};
@@ -1726,21 +1918,21 @@ function renderGenericComponent(state: State, node: ContainerDirectiveNode): Ele
       // Handle variant attribute
       const variant = attributes.variant || attributes.type;
       if (variant && component.variants[variant]) {
-        classes.push(...component.variants[variant]);
+        classes.push(...(component.variants[variant] ?? []));
       } else if (component.defaultVariant && component.variants[component.defaultVariant]) {
-        classes.push(...component.variants[component.defaultVariant]);
+        classes.push(...(component.variants[component.defaultVariant] ?? []));
       }
       
       // Handle size attribute  
       const size = attributes.size || attributes.cols;
       if (size && component.sizes[size]) {
-        classes.push(...component.sizes[size]);
+        classes.push(...(component.sizes[size] ?? []));
       }
     }
     
     // Add any additional classes from attributes
     if (attributes.class || attributes.className) {
-      const additionalClasses = (attributes.class || attributes.className).split(/\s+/);
+      const additionalClasses = (attributes.class || attributes.className || '').split(/\s+/);
       classes.push(...additionalClasses);
     }
   }
@@ -1753,20 +1945,21 @@ function renderGenericComponent(state: State, node: ContainerDirectiveNode): Ele
   const inlineComponents = ['badge'];
   if (inlineComponents.includes(componentName)) {
     // If there's exactly one child and it's a paragraph, unwrap it
-    if (children.length === 1 && children[0].type === 'element' && children[0].tagName === 'p') {
-      children = children[0].children || [];
+    const onlyChild = children.length === 1 ? children[0] : undefined;
+    if (onlyChild?.type === 'element' && onlyChild.tagName === 'p') {
+      children = onlyChild.children;
     }
   }
   
   // Determine HTML element (use component definition or default to div)
   // ENHANCEMENT: If href attribute is present, render as <a> tag for clickable components
-  let tagName = component?.htmlElement || 'div';
+  let tagName = node.data?.hName || component?.htmlElement || 'div';
   if (attributes.href && tagName === 'div') {
     tagName = 'a';
   }
   
   // Filter out semantic attributes that shouldn't become HTML attributes
-  const htmlAttributes: Record<string, any> = {};
+  const htmlAttributes: Properties = {};
   const semanticAttributes = new Set(['variant', 'type', 'size', 'cols', 'class', 'className']);
   
   for (const [key, value] of Object.entries(attributes)) {
@@ -1776,22 +1969,22 @@ function renderGenericComponent(state: State, node: ContainerDirectiveNode): Ele
   }
   
   // Build the element properties
-  const properties: Record<string, any> = {
+  const properties: Properties = {
     className: classes.length > 0 ? classes : undefined,
     ...htmlAttributes
   };
   
   // Add data-component attribute for components that have interactive behaviors
   // This allows JavaScript behaviors to be attached (e.g., navbar scroll effect)
-  if (component) {
+  if (component || node.data?.component) {
     properties['data-component'] = componentName;
   }
   
   // For clickable components (rendered as <a> tags), ensure proper link styling
   if (tagName === 'a') {
     // Remove default link underline and add cursor-pointer for component links
-    if (properties.className) {
-      const classArray = Array.isArray(properties.className) ? properties.className : [properties.className];
+    if (classes.length > 0) {
+      const classArray = [...classes];
       if (!classArray.includes('no-underline')) {
         classArray.push('no-underline');
       }

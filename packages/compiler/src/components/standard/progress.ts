@@ -7,14 +7,15 @@ import { defineComponent } from '../component-registry';
 
 export const progressComponent = defineComponent({
   name: 'progress',
-  htmlElement: 'div',
-  defaultClasses: ['progress', 'w-full', 'bg-muted', 'rounded-full', 'overflow-hidden'],
+  htmlElement: 'progress',
+  defaultClasses: ['progress', 'w-full', 'text-primary', 'bg-muted', 'rounded-full', 'overflow-hidden'],
   variants: {
     default: [],
-    striped: ['bg-gradient-to-r'],
-    animated: ['animate-pulse'],
-    indeterminate: ['animate-pulse'],
+    striped: ['progress-striped'],
+    animated: ['progress-animated'],
+    indeterminate: ['progress-indeterminate'],
   },
+  defaultSize: 'md',
   sizes: {
     xs: ['h-1'],
     sm: ['h-2'],

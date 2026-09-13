@@ -1,6 +1,6 @@
 # :icon[code-2]{primary lg} Syntax Highlighting Showcase {massive center primary}
 
-This example demonstrates the comprehensive CodeMirror6 syntax highlighting implementation for Taildown's complex nested structures. {xl center muted relaxed-lines}
+Explore how Taildown fences display component structure, styling attributes, and inline syntax. {xl center muted relaxed-lines}
 
 ---
 
@@ -22,11 +22,11 @@ This card demonstrates multiple features:
 :::
 ```
 
-The above code block shows how every syntax element gets highlighted while the actual content text remains clean and readable.
+Compare the component delimiters, attribute words, icon names, and prose in the code block above.
 
 ## Complex Nested Structures {xl-bold}
 
-Our highlighting handles deep nesting perfectly:
+Nested containers retain their source indentation and delimiters:
 
 ```taildown
 :::container
@@ -220,62 +220,62 @@ Third slide with the final content and [call-to-action](#){button success large}
 
 ## Real-World Complex Example {xl-bold}
 
-Here's a comprehensive example showing all features working together:
+This illustrative project page combines cards, links, and a modal. The fenced source is displayed for study; it does not run the interactions.
 
 ```taildown
 :::container
 # :icon[zap]{warning lg} Product Features {massive center primary}
 
-Discover what makes our product amazing with perfect syntax highlighting. {xl center muted relaxed-lines}
+Explore the project, review its examples, and plan your next document. {xl center muted relaxed-lines}
 
 :::grid
 :::card {light-glass slide-up interactive hover-lift}
 ### :icon[rocket]{primary lg} Fast Performance
-Lightning-fast compilation in milliseconds with CodeMirror6 highlighting.
+Compile a document and inspect its generated HTML.
 
 [Learn More :icon[arrow-right]{xs}](#){button primary modal="Performance details here"}
 :::
 
 :::card {light-glass slide-up interactive hover-lift}  
 ### :icon[palette]{success lg} Beautiful Design
-Gorgeous styling with zero configuration and professional highlighting.
+Combine theme colors, spacing, and surface treatments.
 
 [View Examples :icon[eye]{xs}](#){button secondary tooltip="See live examples"}
 :::
 
 :::card {light-glass slide-up interactive hover-lift}
 ### :icon[smartphone]{info lg} Responsive
-Mobile-first design with syntax highlighting that works everywhere.
+Review the page at both narrow and desktop widths.
 
 [Try Demo :icon[play]{xs}](#){button success}
 :::
 :::
 
 :::card {heavy-glass fade-in}
-## :icon[crown]{warning} Premium Features {xl-bold center}
+## :icon[crown]{warning} Project Resources {xl-bold center}
 
-Unlock the full potential with our premium tier and advanced highlighting. {large center muted}
+Choose a starting point and adapt it to your content. {large center muted}
 
-- :icon[check]{success} Advanced component highlighting
+- :icon[check]{success} Component reference
 - :icon[check]{success} Custom theme support  
-- :icon[check]{success} Obsidian plugin compatibility
-- :icon[check]{success} Professional token types
+- :icon[check]{success} Editable Taildown source
+- :icon[check]{success} Compiled HTML examples
 
-[Upgrade Now :icon[crown]{xs}](#){button primary huge modal="#upgrade-modal"}
+[Explore Resources :icon[crown]{xs}](#){button primary huge modal="#upgrade-modal"}
 
 :::modal{id="upgrade-modal"}
-# :icon[crown]{warning} Upgrade to Premium {xl-bold center}
+# :icon[crown]{warning} Explore the Resources {xl-bold center}
 
-Get access to exclusive features and enhanced syntax highlighting.
+Keep the source and exported page together as you refine your document.
 
 **What's included:**
-- All premium component highlighting
-- Custom theme builder with live preview
-- Priority email support  
-- Obsidian plugin early access
-- Advanced documentation with examples
+- Component usage examples
+- Design settings in the browser editor
+- Authoring reference
+- Offline editor download
+- Source-checkout build instructions
 
-[Subscribe :icon[credit-card]{xs}](#){button primary large}
+[Continue :icon[arrow-right]{xs}](#){button primary large}
 [Maybe Later](#){button ghost}
 :::
 :::
@@ -284,16 +284,16 @@ Get access to exclusive features and enhanced syntax highlighting.
 
 ---
 
-## Syntax Highlighting Verification {xl-bold center}
+## Reading the Highlighted Source {xl-bold center}
 
 :::alert {success}
-:icon[check-circle]{success lg} **Highlighting Coverage Confirmed**
+:icon[check-circle]{success lg} **One Taildown parser across editor and exports**
 :::
 
 :::card
-This example file demonstrates that our CodeMirror6 implementation provides comprehensive syntax highlighting for:
+Use the examples above to inspect these syntax groups:
 
-- :icon[check]{success xs} **Component blocks** - All variants and nesting levels
+- :icon[check]{success xs} **Component blocks** - Names, delimiters, and nested containers
 - :icon[check]{success xs} **Inline attributes** - Typography, layout, effects, colors
 - :icon[check]{success xs} **Icon syntax** - Names, sizes, colors, combinations  
 - :icon[check]{success xs} **Plain English keywords** - Natural language styling
@@ -302,11 +302,11 @@ This example file demonstrates that our CodeMirror6 implementation provides comp
 - :icon[check]{success xs} **Complex nesting** - Multiple levels with proper context
 - :icon[check]{success xs} **Real-world patterns** - Practical usage examples
 
-**Result**: Only content text remains unhighlighted - all syntax elements receive appropriate professional styling that matches modern editor standards.
+Highlighting distinguishes source structure; it does not validate component behavior or guarantee a finished design. Compile the source and review the rendered result separately.
 :::
 
 :::card {light-glass center}
-### :icon[trophy]{warning lg} Mission Accomplished {xl-bold}
+### :icon[trophy]{warning lg} Try an Edit {xl-bold}
 
-The CodeMirror6 syntax highlighting system is working perfectly and ready for both current use and future Obsidian plugin development! {large muted}
+Open this source in the editor, change an attribute or nested component, and compare the preview with an HTML export. Taildown fences use the shared editor parser; other code languages use the highlighter available in the Node or browser build. {large muted}
 :::

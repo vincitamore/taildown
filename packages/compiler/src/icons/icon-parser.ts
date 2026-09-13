@@ -1,3 +1,5 @@
+import { parseAttributeValues } from '../parser/attribute-values';
+import type {Node} from 'unist';
 /**
  * Icon Parser for Taildown
  * Parses :icon[name]{classes} syntax and creates icon nodes
@@ -8,13 +10,15 @@
  * :icon[home]{.text-blue-500 .w-8} - Icon with CSS classes
  * :icon[search]{primary large} - Icon with semantic styling
  * 
- * See PHASE-2-IMPLEMENTATION-PLAN.md §3 for icon system design
+ * See tech-spec.md for current architecture and docs-site/ for authoring references.
  */
 
 import { visit } from 'unist-util-visit';
-import type { Root, Text, Paragraph } from 'mdast';
+import type { Root, Text } from 'mdast';
 import type { Plugin } from 'unified';
-import type { TaildownNodeData } from '@taildown/shared';
+import type { CompilationWarning, TaildownNodeData } from '@taildown/shared';
+import { textSlicePosition } from '../parser/text-position';
+import { hasLucideIcon } from './lucide-icons';
 import { resolveAttributes, type ResolverContext } from '../resolver/style-resolver';
 import { DEFAULT_CONFIG } from '../config/default-config';
 
@@ -29,18 +33,31 @@ import { DEFAULT_CONFIG } from '../config/default-config';
  */
 const ICON_REGEX = /:icon\[([a-z0-9-]+)\](?:\{([^}]+)\})?/g;
 
+// Icon dimensions are independent of the text-size shorthands. Resolve them
+// into ordinary width/height utilities so later explicit dimensions can win.
+export const ICON_SIZES: Readonly<Record<string, number>> = {
+  tiny: 12, xs: 16, sm: 20, small: 20, md: 24, medium: 24,
+  lg: 32, large: 32, xl: 40, '2xl': 48, huge: 64,
+};
+
 /**
  * Icon node type
  * Represents an icon in the AST
  */
-export interface IconNode {
+export interface IconNode extends Node {
   type: 'icon';
   name: string;
-  classes: string[];
+  classes?: string[];
   data?: TaildownNodeData;
 }
 
+declare module 'mdast' {
+ interface PhrasingContentMap {icon: IconNode}
+ interface RootContentMap {icon: IconNode}
+}
+
 interface IconPluginOptions {
+  warnings?: CompilationWarning[];
   /** Resolver context for plain English resolution */
   resolverContext?: ResolverContext;
 }
@@ -70,6 +87,12 @@ function parseIconAttributes(
     } else {
       // Plain English shorthand
       rawAttributes.push(token);
+      const separator = token.lastIndexOf(':');
+      const keyword = token.slice(separator + 1);
+      const prefix = token.slice(0, separator + 1);
+      const custom = resolverContext?.styleMappings && Object.hasOwn(resolverContext.styleMappings, token);
+      const size = !custom && Object.hasOwn(ICON_SIZES, keyword) ? ICON_SIZES[keyword] : undefined;
+      if (size !== undefined) rawAttributes.push(`${prefix}w-${size / 4}`, `${prefix}h-${size / 4}`);
     }
   }
 
@@ -89,15 +112,20 @@ function parseIconAttributes(
  * @param resolverContext - Context for resolving attributes
  * @returns Array of text fragments and icon nodes
  */
+interface IconFragment {
+  type: 'text' | 'icon';
+  start: number;
+  end: number;
+  value?: string;
+  icon?: {name: string; attributes: string};
+}
+
 function extractIconsFromText(
   text: string,
-  resolverContext?: ResolverContext
-): Array<{ type: 'text' | 'icon'; value?: string; icon?: { name: string; classes: string[] } }> {
-  const results: Array<{ 
-    type: 'text' | 'icon'; 
-    value?: string; 
-    icon?: { name: string; classes: string[] } 
-  }> = [];
+  node?: Text,
+  source?: string,
+): IconFragment[] {
+  const results: IconFragment[] = [];
   
   let lastIndex = 0;
   let match: RegExpExecArray | null;
@@ -106,11 +134,14 @@ function extractIconsFromText(
   ICON_REGEX.lastIndex = 0;
 
   while ((match = ICON_REGEX.exec(text)) !== null) {
+    const position = node && textSlicePosition(node, match.index, ICON_REGEX.lastIndex, source);
+    const rawStart = position?.start.offset;
+    if (source !== undefined && rawStart !== undefined && !source.slice(rawStart).startsWith(':icon[')) continue;
     // Add text before icon
     if (match.index > lastIndex) {
       const textBefore = text.substring(lastIndex, match.index);
       if (textBefore) {
-        results.push({ type: 'text', value: textBefore });
+        results.push({ type: 'text', value: textBefore, start: lastIndex, end: match.index });
       }
     }
 
@@ -119,10 +150,11 @@ function extractIconsFromText(
     const attributeBlock = match[2] || '';
     
     if (iconName) {
-      const classes = parseIconAttributes(attributeBlock, resolverContext);
       results.push({
         type: 'icon',
-        icon: { name: iconName, classes },
+        start: match.index,
+        end: ICON_REGEX.lastIndex,
+        icon: { name: iconName, attributes: attributeBlock },
       });
     }
 
@@ -133,7 +165,7 @@ function extractIconsFromText(
   if (lastIndex < text.length) {
     const textAfter = text.substring(lastIndex);
     if (textAfter) {
-      results.push({ type: 'text', value: textAfter });
+      results.push({ type: 'text', value: textAfter, start: lastIndex, end: text.length });
     }
   }
 
@@ -153,7 +185,8 @@ export const parseIcons: Plugin<[IconPluginOptions?], Root> = (options) => {
     darkMode: false,
   };
 
-  return (tree) => {
+  return (tree, file) => {
+    const source = typeof file.value === 'string' && file.value.length > 0 ? file.value : undefined;
     // Visit all text nodes and replace icon syntax
     visit(tree, 'text', (node: Text, index, parent) => {
       if (!parent || index === null || index === undefined) {
@@ -163,6 +196,7 @@ export const parseIcons: Plugin<[IconPluginOptions?], Root> = (options) => {
       const text = node.value;
       
       // Check if text contains icon syntax
+      ICON_REGEX.lastIndex = 0;
       if (!ICON_REGEX.test(text)) {
         return;
       }
@@ -171,34 +205,49 @@ export const parseIcons: Plugin<[IconPluginOptions?], Root> = (options) => {
       ICON_REGEX.lastIndex = 0;
 
       // Extract icons and text fragments
-      const fragments = extractIconsFromText(text, resolverContext);
+      const fragments = extractIconsFromText(text, node, source);
 
-      if (fragments.length === 0) {
+      if (!fragments.some(fragment => fragment.type === 'icon')) {
         return;
       }
 
       // Replace the text node with fragments
-      const newNodes: any[] = [];
+      const newNodes: (Text | IconNode)[] = [];
       
       for (const fragment of fragments) {
+        const position = textSlicePosition(node, fragment.start, fragment.end, source);
         if (fragment.type === 'text' && fragment.value) {
           newNodes.push({
             type: 'text',
             value: fragment.value,
+            position,
           });
         } else if (fragment.type === 'icon' && fragment.icon) {
+          const metadata = parseAttributeValues(fragment.icon.attributes, options?.warnings, position?.start);
+          const classes = parseIconAttributes(metadata.cleanedBlock, resolverContext);
           // Create icon node
-          const iconNode: any = {
+          const iconNode: IconNode = {
             type: 'icon',
             name: fragment.icon.name,
+            position,
             data: {
               hName: 'svg',
               hProperties: {
-                className: ['icon', `icon-${fragment.icon.name}`, ...fragment.icon.classes],
+                className: ['icon', `icon-${fragment.icon.name}`, ...classes],
                 'data-icon': fragment.icon.name,
+                ...(metadata.id ? {id: metadata.id} : {}),
+                ...(metadata.tooltip ? {'data-tooltip-attach': metadata.tooltip} : {}),
+                ...(metadata.modal ? {'data-modal-attach': metadata.modal} : {}),
               },
             },
           };
+          if (!hasLucideIcon(fragment.icon.name)) {
+            options?.warnings?.push({
+              type: 'parse',
+              message: `Unknown icon: ${fragment.icon.name}`,
+              ...(position ? {line: position.start.line, column: position.start.column} : {}),
+            });
+          }
           newNodes.push(iconNode);
         }
       }

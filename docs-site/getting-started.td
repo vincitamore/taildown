@@ -1,5 +1,5 @@
 :::navbar
-# Taildown
+[Taildown](index.html){.navbar-brand}
 
 [Home](index.html) [Getting Started](getting-started.html) [Syntax Guide](syntax-guide.html) [Components](components.html) [Plain English](plain-english.html) [Live Editor](editor.html)
 :::
@@ -12,20 +12,32 @@
 
 ---
 
-## Installation {large-bold primary}
+## Start Writing {bold primary}
 
 :::tabs
-## npm (Coming Soon)
+## Browser Editor
 
-```bash
-# Global installation
-npm install -g taildown
+Open the editor, replace the sample with your own document, and use **Export HTML** to save the compiled page. No installation is required.
 
-# Or use npx
-npx taildown compile document.td
-```
+For offline authoring, choose **Offline editor** in the toolbar and save the complete editor HTML file. Open that file locally to write and render diagrams without a connection. The hosted editor loads its diagram engine on first use to keep ordinary documents faster to open; exported diagram pages still include everything they need.
 
-## Clone Repository
+The editor keeps a browser recovery copy of your draft when storage is available. If browser settings or a full quota prevent recovery, a notice appears and editing still works. Use **Save** or **Download** to keep a file copy; browser recovery is not a substitute for one.
+
+When compilation notices appear, expand the notice list to read them. Select a reported line and column to move the editor cursor to that source location. Inline attribute notices point to the affected heading, paragraph, or link.
+
+To print or save a PDF, open the exported HTML in your browser and choose **Print**. The print layout shows every tab panel, accordion answer, details section, and carousel slide; paused scroll animations are made visible. Long code wraps, controls are hidden, and the page uses dark text on white paper. Details panels return to their previous open/closed state afterward. Print the exported document rather than the editor interface; modal overlays and tooltips are not included.
+
+[Open the Live Editor](editor.html){button primary}
+
+Use **Save** to keep the editable Taildown source as well as your exported HTML.
+
+Use **Insert** or **Ctrl+K** (**Cmd+K** on Mac) to search component and formatting commands. Search by name or description, use the arrow keys to choose, then press **Enter** to insert at your selection. **Escape** cancels without changing your source. Components without a prepared example insert an empty block for you to fill using the [component reference](components.html). Link formatting uses **Ctrl/Cmd+Shift+K**.
+
+Cards, alerts, callouts, tabs, accordions, details, statistics, steps, definitions, carousels, timelines, avatars, breadcrumbs, pagination, sidebars, skeletons, and footnotes include editable starter examples. Try **Tabs** to get two populated panels, **Steps** for a three-stage process, **Carousel** for three navigable slides, or **Timeline** for completed, current, and upcoming milestones. These examples work offline and can be restyled with the same attributes as any other Taildown source.
+
+## Command Line
+
+Install Node.js and the repository's declared pnpm version, **8.11.0**, then run:
 
 ```bash
 # Clone the repository
@@ -33,23 +45,18 @@ git clone https://github.com/vincitamore/taildown.git
 cd taildown
 
 # Install dependencies
-pnpm install
+pnpm install --frozen-lockfile
 
 # Build all packages
 pnpm build
 ```
 
-## Manual Setup
-
-1. Download the latest release from GitHub
-2. Extract to your preferred location
-3. Run `pnpm install` in the extracted directory
-4. Run `pnpm build` to compile packages
+Run the commands below from this repository directory. The browser editor is also available if you prefer to work without a local toolchain.
 :::
 
 ---
 
-## Your First Document {large-bold primary}
+## Your First Document {bold primary}
 
 Create a file named `my-first-document.td`:
 
@@ -59,7 +66,7 @@ Create a file named `my-first-document.td`:
 Welcome to Taildown! {large muted center}
 
 :::card {light-glass slide-up}
-## Your First Card {medium-bold}
+## Your First Card {bold}
 
 This is a card with glassmorphism and a slide-up animation!
 
@@ -73,7 +80,7 @@ This is a card with glassmorphism and a slide-up animation!
 
 ---
 
-## Compile Your Document {large-bold primary}
+## Compile Your Document {bold primary}
 
 :::card {elevated padded}
 ### Basic Compilation
@@ -94,21 +101,22 @@ pnpm taildown compile my-first-document.td --separate
 This creates:
 - `my-first-document.html` - HTML file
 - `my-first-document.css` - Separate CSS file
+- `my-first-document.js` - JavaScript for enabled interactive features
 
 ### Custom Output
 
 ```bash
-pnpm taildown compile my-first-document.td -o output/index.html --css output/styles.css
+pnpm taildown compile my-first-document.td --separate -o output/index.html --css output/styles.css
 ```
 :::
 
 ---
 
-## Understanding the Output {large-bold primary}
+## Understanding the Output {bold primary}
 
 :::grid {2}
 :::card {light-glass}
-### :icon[file]{primary} HTML Output {medium-bold}
+### :icon[file]{primary} HTML Output {bold}
 
 - Semantic HTML5 structure
 - Proper heading hierarchy
@@ -133,7 +141,7 @@ pnpm taildown compile my-first-document.td -o output/index.html --css output/sty
 :::
 
 :::card {light-glass}
-### :icon[palette]{accent} CSS Output {medium-bold}
+### :icon[palette]{accent} CSS Output {bold}
 
 - Tailwind-inspired utilities
 - CSS custom properties for themes
@@ -157,7 +165,7 @@ pnpm taildown compile my-first-document.td -o output/index.html --css output/sty
 
 ---
 
-## Basic Syntax Overview {large-bold primary}
+## Basic Syntax Overview {bold primary}
 
 :::tabs
 ## Plain English Styling
@@ -200,7 +208,7 @@ Use `:::component` syntax for component blocks:
 
 ```taildown
 :::card {elevated hover-lift}
-## Card Title {large-bold}
+## Card Title {bold}
 
 Card content with automatic styling.
 
@@ -240,7 +248,7 @@ All glass effects include:
 
 ---
 
-## Dark Mode Guide {large-bold primary}
+## Dark Mode Guide {bold primary}
 
 :::card {heavy-glass padded}
 ### :icon[moon]{accent huge} Dark Mode is Automatic {large-bold center}
@@ -283,7 +291,123 @@ All components automatically adapt to dark mode!
 
 ---
 
-## Next Steps {large-bold primary center}
+## Project configuration in the CLI
+
+The CLI searches its current working directory for `taildown.config.js`, `.mjs`, or `.cjs` (also `.taildownrc.js` / `.mjs`). Use JavaScript configuration files you trust: loading them executes their module code.
+
+```javascript
+// taildown.config.mjs
+export default {
+  theme: {
+    colors: { primary: { DEFAULT: '#86bba1', 600: '#25644a', 400: '#86efac' } },
+    fonts: { serif: 'Georgia, serif' }
+  },
+  output: { minify: true, inlineStyles: false }
+};
+```
+
+```bash
+node packages/cli/dist/cli.js compile notes.td
+node packages/cli/dist/cli.js compile notes.td --inline --no-minify
+node packages/cli/dist/cli.js compile notes.td --config alternate.mjs
+node packages/cli/dist/cli.js compile notes.td --no-config
+```
+
+An explicit configuration path resolves against the working directory. Command-line flags override configuration: `--inline` embeds CSS/JS, `--separate` writes companion assets, and `--minify` / `--no-minify` control minification. Without an explicit `output.inlineStyles` setting, the CLI keeps its default single-file output. `output.darkMode: false` or `theme.darkMode.enabled: false` disables the generated theme switcher.
+
+Palette, font, component preset, minification, asset-layout, and dark-mode enablement settings are connected. Glass, animation, dark-mode method/transition, plugin, and source-map settings are not yet connected to the CLI; non-default values produce an error. Invalid configuration and conflicting output paths stop the build before existing exports or the configuration file are overwritten.
+
+## Customizing your design {bold primary}
+
+The examples below use the compiler API. You can also copy their `theme`, `styleMappings`, `components`, and `componentConfig` objects into the browser editor's **Design settings** JSON. Include only those design objects, without JavaScript declarations or compiler output flags. See the [editor design settings guide](syntax-guide.html) for import, export, and recovery details. Settings apply across documents in this browser workspace; save a separate settings JSON alongside your `.td` source to reproduce the design elsewhere.
+
+### Custom shorthands in the compiler API
+
+When using `@taildown/compiler` programmatically, pass `styleMappings` to give a document its own vocabulary. Values are whitespace-separated style tokens; mappings expand once before normal style resolution. They can replace a built-in shorthand for that compilation, and do not change other documents or literal code examples.
+
+```javascript
+import { compile } from '@taildown/compiler';
+
+const result = await compile('# A quieter heading {editorial}', {
+  inlineStyles: true,
+  inlineScripts: true,
+  styleMappings: {
+    editorial: 'text-4xl font-semibold text-primary-600'
+  }
+});
+```
+
+In the browser editor, open **Design settings** from **Command-K**, add the same `styleMappings` object to the JSON, then choose **Apply settings**. Custom aliases become available in attribute completion and apply to previews and exports. The [plain-English reference](plain-english.html) lists the built-in vocabulary.
+
+### Custom components
+
+Define reusable containers with `components`. Each key must match its definition's `name`; choose a new name instead of replacing a registered component. `htmlElement` defaults to `div`, and `defaultClasses` contains CSS utility names. Normal Taildown attributes can override those defaults. Definitions belong to the compilation and never change other documents.
+
+```javascript
+import { compile, getAuthoringReference } from '@taildown/compiler';
+
+const options = {
+  inlineStyles: true,
+  inlineScripts: true,
+  components: {
+    editorial: {
+      name: 'editorial',
+      htmlElement: 'article',
+      defaultClasses: ['p-8', 'rounded-lg', 'text-lg']
+    }
+  }
+};
+
+const result = await compile(
+  ':::editorial\n## A considered idea\n\nYour content here.\n:::',
+  options
+);
+const reference = await getAuthoringReference(options);
+```
+
+The generated HTML includes the component's markup and styling. Keep the definitions alongside the `.td` source for recompilation. Custom names also work in inline style attributes, such as `# Title {editorial small}`, where they apply classes while preserving the original Markdown element.
+
+Authoring integrations can pass the same options to `getAuthoringReference` to receive custom component names, insertable examples, and custom style names. In the browser editor, add the `components` object to **Design settings** and apply it. Custom components then appear in the **Command-K** insertion menu and attribute completion. These definitions provide presentation and semantic containers; JavaScript behaviors remain those of the built-in components nested inside them.
+
+### Component presets {#component-presets}
+
+Use `componentConfig` to give registered or custom components document-specific defaults, variants, and sizes. Additional default classes preserve the component's structure; a named variant or size replaces that name's class list. Explicit attributes still override defaults in source order.
+
+```javascript
+const componentConfig = {
+  card: {
+    defaultVariant: 'editorial',
+    defaultSize: 'roomy',
+    variants: { editorial: { classes: ['font-serif', 'border'] } },
+    sizes: { roomy: { classes: ['p-8'] } }
+  }
+};
+const result = await compile(':::card\nYour idea\n:::', { componentConfig });
+const reference = await getAuthoringReference({ componentConfig });
+```
+
+Both calls use the same definitions. The reference includes `editorial` and `roomy` for attribute completion; other documents retain their defaults. Unknown component names and missing default variants or sizes produce errors. In a CLI configuration file, put this object under `components`. In the browser editor, use `componentConfig` in **Design settings**, then choose **Apply settings**; configured variants and sizes become available in attribute completion.
+
+## A document's palette and fonts
+
+Pass `theme.colors` and `theme.fonts` to `compile()` to give a document its own palette and font stacks. These values merge with defaults and stay local to that compilation. Fonts must already be available to the browser; a font stack does not download or embed a font file.
+
+```javascript
+const result = await compile('# Field notes {serif primary}', {
+  inlineStyles: true,
+  inlineScripts: true,
+  theme: {
+    colors: { primary: { DEFAULT: '#86bba1', 600: '#25644a', 700: '#184832' } },
+    fonts: { sans: 'Verdana, sans-serif', serif: 'Georgia, serif', mono: 'Consolas, monospace' }
+  }
+});
+```
+
+Use `{sans}`, `{serif}`, or `{mono}` to choose a font family for a block. The editor offers these in style completion and the Insert / Ctrl/Cmd+K menu. Numbered palette utilities such as `text-primary-600`, their hover states, and responsive forms use the same document palette. Semantic text uses readable palette shades: light-mode primary text uses 600 and dark-mode primary text uses 400; override those shades when designing both themes.
+
+Node applications can load a configuration with `loadConfig` from `@taildown/compiler/config`, then pass `{theme: {colors: config.theme.colors, fonts: config.theme.fonts}}` to `compile()`. The API's `theme` option covers colors and fonts. The CLI applies these through project configuration as described above; the browser editor accepts the same `theme` object in **Design settings**. Its typography buttons prepare Modern, Editorial, or Technical font choices; **Apply settings** activates the prepared design.
+
+## Next Steps {bold primary center}
 
 :::grid {3}
 :::card {elevated zoom-in hover-lift}
@@ -311,7 +435,7 @@ Complete reference of all styling shorthands.
 
 **Components** {large-bold center}
 
-Explore all 18+ built-in components.
+Explore the built-in component reference.
 
 [Browse Components](components.html){button info}
 :::

@@ -1,5 +1,4 @@
 import type { Root as MdastRoot } from 'mdast';
-import { unified } from 'unified';
 import { parse as parseTaildown } from '@taildown/compiler';
 import type {
   LintRule,
@@ -45,9 +44,9 @@ export class Linter {
   /**
    * Lint a Taildown source file
    */
-  lint(source: string, filePath: string = 'unknown.td'): LintResult {
+  async lint(source: string, filePath: string = 'unknown.td'): Promise<LintResult> {
     // Parse source to MDAST
-    const ast = this.parse(source);
+    const ast = await this.parse(source);
     const lines = source.split('\n');
     const messages: LintMessage[] = [];
 
@@ -59,7 +58,7 @@ export class Linter {
 
       // Override severity if configured
       const severity: Severity =
-        typeof ruleConfig === 'string' && ruleConfig !== 'off'
+        typeof ruleConfig === 'string'
           ? ruleConfig
           : rule.severity;
 
@@ -121,66 +120,54 @@ export class Linter {
   /**
    * Auto-fix issues in source
    */
-  fix(source: string, filePath: string = 'unknown.td'): FixResult {
+  async fix(source: string, filePath: string = 'unknown.td'): Promise<FixResult> {
     let currentSource = source;
-    let currentAst = this.parse(currentSource);
+    let currentAst = await this.parse(currentSource);
     let fixCount = 0;
-    const appliedRules = new Set<string>();
+    const failures: LintMessage[] = [];
 
-    // Apply fixes from each fixable rule
     for (const [ruleName, rule] of this.rules) {
-      if (!rule.fixable || !rule.fix) continue;
-
-      // Check if rule is enabled
-      const ruleConfig = this.config.rules[ruleName];
-      if (ruleConfig === 'off') continue;
-
-      // Create context
-      const lines = currentSource.split('\n');
+      if (!rule.fixable || !rule.fix || this.config.rules[ruleName] === 'off') continue;
       const context: RuleContext = {
-        ast: currentAst,
+        // A failed or unsupported custom fix must not mutate the next rule's AST.
+        ast: structuredClone(currentAst),
         source: currentSource,
         filePath,
-        lines,
-        report: () => {}, // No reporting during fix
+        lines: currentSource.split('\n'),
+        report: () => {},
       };
-
       try {
         const transform = rule.fix(context);
-        if (transform) {
-          // Apply the transformation
-          if (transform.source) {
-            currentSource = transform.source;
-            currentAst = this.parse(currentSource);
-          } else if (transform.ast) {
-            currentAst = transform.ast;
-            // Serialize AST back to source if needed
-          }
-          fixCount++;
-          appliedRules.add(ruleName);
+        if (!transform) continue;
+        if (typeof transform.source !== 'string') {
+          throw new Error('Fixes must return source text; AST-only fixes cannot be serialized');
         }
+        if (transform.source === currentSource) continue;
+        const nextAst = await this.parse(transform.source);
+        currentSource = transform.source;
+        currentAst = nextAst;
+        fixCount++;
       } catch (error) {
-        // Skip rule that fails during fix
-        console.error(`Rule '${ruleName}' failed during fix:`, error);
+        failures.push({
+          severity: 'error', rule: ruleName, line: 1, column: 1, fixable: false,
+          message: `Rule '${ruleName}' failed during fix: ${error instanceof Error ? error.message : String(error)}`,
+        });
       }
     }
 
-    // Lint the fixed source to get remaining issues
-    const lintResult = this.lint(currentSource, filePath);
-
+    const lintResult = await this.lint(currentSource, filePath);
     return {
       original: source,
       fixed: currentSource,
-      modified: fixCount > 0,
+      modified: currentSource !== source,
       fixCount,
-      messages: lintResult.messages,
+      messages: [...failures, ...lintResult.messages].sort((a, b) => a.line - b.line || a.column - b.column),
     };
   }
-
   /**
    * Parse Taildown source to MDAST
    */
-  private parse(source: string): MdastRoot {
+  private parse(source: string): Promise<MdastRoot> {
     return parseTaildown(source);
   }
 

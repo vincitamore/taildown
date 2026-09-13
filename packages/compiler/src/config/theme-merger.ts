@@ -17,7 +17,7 @@ import type {
   TaildownConfig,
   PartialTaildownConfig,
   ColorConfig,
-  ColorScale,
+  ColorOverrides,
   ComponentsConfig,
   ComponentConfig,
 } from './config-schema';
@@ -25,57 +25,15 @@ import { isColorScale } from './config-schema';
 import { DEFAULT_CONFIG } from './default-config';
 
 /**
- * Deep merge two objects
- * User values take precedence over defaults
- * 
- * @param target - Default values
- * @param source - User overrides
- * @returns Merged object
- */
-function deepMerge<T extends Record<string, any>>(target: T, source: Partial<T>): T {
-  const result = { ...target };
-
-  for (const key in source) {
-    const sourceValue = source[key];
-    const targetValue = result[key];
-
-    if (sourceValue === undefined) {
-      // Undefined means use default - skip
-      continue;
-    }
-
-    if (sourceValue === null) {
-      // Null means explicitly clear - set to null
-      result[key] = null as any;
-      continue;
-    }
-
-    // Check if both are objects (not arrays, not null)
-    if (
-      isPlainObject(sourceValue) &&
-      isPlainObject(targetValue)
-    ) {
-      // Recursively merge objects
-      result[key] = deepMerge(targetValue, sourceValue);
-    } else {
-      // Primitive, array, or function - replace entirely
-      result[key] = sourceValue;
-    }
-  }
-
-  return result;
-}
-
-/**
  * Check if value is a plain object (not array, not null, not Date, etc.)
  */
-function isPlainObject(value: any): value is Record<string, any> {
+function isPlainObject(value: unknown): value is Record<string, unknown> {
   if (typeof value !== 'object' || value === null) {
     return false;
   }
 
   // Check if it's a plain object (not Array, Date, etc.)
-  const proto = Object.getPrototypeOf(value);
+  const proto: unknown = Object.getPrototypeOf(value);
   return proto === null || proto === Object.prototype;
 }
 
@@ -85,7 +43,7 @@ function isPlainObject(value: any): value is Record<string, any> {
  */
 function mergeColors(
   defaultColors: ColorConfig,
-  userColors?: Partial<ColorConfig>
+  userColors?: ColorOverrides
 ): ColorConfig {
   if (!userColors) {
     return defaultColors;
@@ -100,12 +58,17 @@ function mergeColors(
 
     const defaultValue = defaultColors[name];
 
-    if (isColorScale(userValue) && isColorScale(defaultValue)) {
+    if (typeof userValue === 'string' && isColorScale(defaultValue)) {
+      // A single-color override intentionally supplies every semantic shade.
+      merged[name] = Object.fromEntries(Object.keys(defaultValue).map(shade => [shade, userValue]));
+    } else if (isColorScale(userValue) && isColorScale(defaultValue)) {
       // Both are color scales - merge them
       merged[name] = { ...defaultValue, ...userValue };
     } else {
       // One or both are strings, or new color - replace entirely
-      merged[name] = userValue;
+      merged[name] = typeof userValue === 'object' && userValue !== null
+        ? { ...userValue }
+        : userValue;
     }
   }
 
@@ -116,6 +79,19 @@ function mergeColors(
  * Merge component configurations
  * Handles variants, sizes, and default classes specially
  */
+function snapshotComponent(config: ComponentConfig): ComponentConfig {
+  const snapshot = { ...config };
+  if (config.defaultClasses) snapshot.defaultClasses = [...config.defaultClasses];
+  for (const key of ['variants', 'sizes'] as const) {
+    if (config[key]) {
+      snapshot[key] = Object.fromEntries(Object.entries(config[key]).map(([name, variant]) => [
+        name, { ...variant, classes: [...variant.classes] },
+      ]));
+    }
+  }
+  return snapshot;
+}
+
 function mergeComponents(
   defaultComponents: ComponentsConfig,
   userComponents?: ComponentsConfig
@@ -126,15 +102,16 @@ function mergeComponents(
 
   const merged: ComponentsConfig = { ...defaultComponents };
 
-  for (const [componentName, userConfig] of Object.entries(userComponents)) {
-    if (!userConfig) {
+  for (const [componentName, inputConfig] of Object.entries(userComponents)) {
+    if (!inputConfig) {
       continue;
     }
+    const userConfig = snapshotComponent(inputConfig);
 
     const defaultConfig = defaultComponents[componentName];
 
     if (!defaultConfig) {
-      // New component - add as-is
+      // New component - retain an independent snapshot
       merged[componentName] = userConfig;
       continue;
     }
@@ -142,6 +119,7 @@ function mergeComponents(
     // Merge component configuration
     merged[componentName] = {
       defaultVariant: userConfig.defaultVariant ?? defaultConfig.defaultVariant,
+      defaultSize: userConfig.defaultSize ?? defaultConfig.defaultSize,
       defaultClasses: userConfig.defaultClasses ?? defaultConfig.defaultClasses,
       variants: {
         ...defaultConfig.variants,
@@ -178,7 +156,7 @@ export function mergeConfig(
   userConfig: PartialTaildownConfig
 ): TaildownConfig {
   // Start with defaults
-  const merged: TaildownConfig = JSON.parse(JSON.stringify(defaultConfig));
+  const merged = structuredClone(defaultConfig);
 
   // Merge theme if provided
   if (userConfig.theme) {
@@ -222,7 +200,7 @@ export function mergeConfig(
 
   // Merge components if provided
   if (userConfig.components) {
-    merged.components = mergeComponents(merged.components!, userConfig.components);
+    merged.components = mergeComponents(merged.components ?? {}, userConfig.components);
   }
 
   // Merge output config
@@ -264,36 +242,10 @@ export function extractDifferences(
   defaultConfig: TaildownConfig,
   userConfig: TaildownConfig
 ): Partial<TaildownConfig> {
-  const differences: any = {};
-
-  function compareObjects(path: string, defaultObj: any, userObj: any) {
-    for (const key in userObj) {
-      const defaultValue = defaultObj?.[key];
-      const userValue = userObj[key];
-
-      if (JSON.stringify(defaultValue) !== JSON.stringify(userValue)) {
-        // Values differ
-        const fullPath = path ? `${path}.${key}` : key;
-        
-        // Store the difference
-        const keys = fullPath.split('.');
-        let current = differences;
-        
-        for (let i = 0; i < keys.length - 1; i++) {
-          if (!current[keys[i]]) {
-            current[keys[i]] = {};
-          }
-          current = current[keys[i]];
-        }
-        
-        current[keys[keys.length - 1]] = userValue;
-      }
-    }
-  }
-
-  compareObjects('', defaultConfig, userConfig);
-  
-  return differences;
+  return Object.fromEntries(
+    Object.entries(userConfig).filter(([key, value]) =>
+      JSON.stringify(defaultConfig[key as keyof TaildownConfig]) !== JSON.stringify(value))
+  );
 }
 
 /**
@@ -318,10 +270,10 @@ export function getCustomizationSummary(config: TaildownConfig): string[] {
   const summary: string[] = [];
   const diff = extractDifferences(DEFAULT_CONFIG, config);
 
-  function traverse(obj: any, path: string = '') {
-    for (const key in obj) {
+  function traverse(obj: object, path: string = '') {
+    for (const [key, value] of Object.entries(obj)) {
       const fullPath = path ? `${path}.${key}` : key;
-      const value = obj[key];
+
 
       if (isPlainObject(value)) {
         traverse(value, fullPath);

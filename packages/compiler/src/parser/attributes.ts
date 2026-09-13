@@ -1,3 +1,4 @@
+import { parseAttributeValues } from './attribute-values';
 /**
  * Inline Attribute Parser for Taildown
  * See SYNTAX.md §2 for inline attribute specification
@@ -5,7 +6,7 @@
  */
 
 import { visit } from 'unist-util-visit';
-import type { Root, Heading, Paragraph, Link, Text } from 'mdast';
+import type { Root, Heading, Paragraph, Link } from 'mdast';
 import type { Plugin } from 'unified';
 import type { CompilationWarning, TaildownNodeData } from '@taildown/shared';
 import { ATTRIBUTE_BLOCK_REGEX, CLASS_NAME_REGEX } from '@taildown/shared';
@@ -33,7 +34,10 @@ interface AttributePluginOptions {
  */
 function extractAttributesFromText(
   text: string,
-  resolverContext?: ResolverContext
+  resolverContext?: ResolverContext,
+  afterLink = false,
+  warnings: CompilationWarning[] = [],
+  position?: {line: number; column: number}
 ): {
   classes: string[];
   remainingText: string;
@@ -42,7 +46,7 @@ function extractAttributesFromText(
   tooltip?: string;
 } {
   // Try to match attribute block at the END first (standard case)
-  let match = text.match(ATTRIBUTE_BLOCK_REGEX);
+  const match = afterLink ? null : text.match(ATTRIBUTE_BLOCK_REGEX);
   let attributeBlockRaw: string | null = null;
   let remainingAfterRemoval: string = text;
 
@@ -50,7 +54,7 @@ function extractAttributesFromText(
     attributeBlockRaw = match[1].trim();
     // Remove trailing attribute block from text
     remainingAfterRemoval = text.replace(ATTRIBUTE_BLOCK_REGEX, '').trimEnd();
-  } else {
+  } else if (afterLink) {
     // Fallback: Match attribute block at the START (common after links)
     // CRITICAL FIX: Match the block but preserve the space after it
     // Pattern: optional whitespace + { + content + } (but DON'T consume trailing space)
@@ -74,32 +78,7 @@ function extractAttributesFromText(
     return { classes: [], remainingText: remainingAfterRemoval };
   }
   
-  // Extract key-value attributes (modal="..." tooltip="...") and ID (#anchor-id)
-  const kvAttrs: { id?: string; modal?: string; tooltip?: string } = {};
-  let cleanedBlock = attributeBlock;
-  
-  // Match modal="..." or modal='...' FIRST (before extracting IDs)
-  const modalMatch = attributeBlock.match(/modal=["']([^"']+)["']/);
-  if (modalMatch) {
-    kvAttrs.modal = modalMatch[1];
-    cleanedBlock = cleanedBlock.replace(modalMatch[0], '').trim();
-  }
-  
-  // Match tooltip="..." or tooltip='...' FIRST (before extracting IDs)
-  const tooltipMatch = attributeBlock.match(/tooltip=["']([^"']+)["']/);
-  if (tooltipMatch) {
-    kvAttrs.tooltip = tooltipMatch[1];
-    cleanedBlock = cleanedBlock.replace(tooltipMatch[0], '').trim();
-  }
-  
-  // Match #anchor-id (ID syntax) - AFTER removing quoted values
-  // This prevents #id inside tooltip="#id" from being extracted as anchor
-  // ID must start with letter or underscore, can contain letters, numbers, hyphens, underscores
-  const idMatch = cleanedBlock.match(/#([a-zA-Z_][\w-]*)/);
-  if (idMatch) {
-    kvAttrs.id = idMatch[1];
-    cleanedBlock = cleanedBlock.replace(idMatch[0], '').trim();
-  }
+  const {cleanedBlock, ...kvAttrs} = parseAttributeValues(attributeBlock, warnings, position);
 
   // Phase 2: Extract both CSS classes and plain English
   // - ID anchors start with hash: #anchor-id (extracted above)
@@ -133,7 +112,7 @@ function extractAttributesFromText(
   // Scan for component names, preferring the last one (noun position)
   for (let i = rawAttributes.length - 1; i >= 0; i--) {
     const token = rawAttributes[i];
-    if (registry.get(token)) {
+    if (token !== undefined && (resolverContext?.components?.has(token) || registry.get(token))) {
       componentToken = token;
       componentIndex = i;
       break; // Found the component (scanning backwards, so first match is last in array)
@@ -147,6 +126,8 @@ function extractAttributesFromText(
       ...rawAttributes.slice(componentIndex + 1)
     ];
     const result = resolveComponentClasses(componentToken, modifiers, {
+      componentDefinition: resolverContext?.components?.get(componentToken),
+      styleMappings: resolverContext?.styleMappings,
       includeDefaults: true,
       warnOnUnknown: false,
     });
@@ -188,12 +169,15 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
       const nextSibling = parent.children[index + 1];
 
       if (nextSibling && nextSibling.type === 'text') {
-        const textNode = nextSibling as Text;
+        const textNode = nextSibling;
         
         // Extract attributes including modal/tooltip attachments and ID
         const { classes, remainingText, id, modal, tooltip } = extractAttributesFromText(
           textNode.value,
-          resolverContext
+          resolverContext,
+          true,
+          options?.warnings,
+          node.position ? {line: node.position.start.line, column: node.position.start.column} : undefined
         );
 
         // Update text node
@@ -228,10 +212,13 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
       const lastChild = node.children[node.children.length - 1];
 
       if (lastChild && lastChild.type === 'text') {
-        const textNode = lastChild as Text;
+        const textNode = lastChild;
         const { classes, remainingText, id, modal, tooltip } = extractAttributesFromText(
           textNode.value,
-          resolverContext
+          resolverContext,
+          false,
+          options?.warnings,
+          node.position ? {line: node.position.start.line, column: node.position.start.column} : undefined
         );
 
         // Update text content
@@ -267,10 +254,13 @@ export const extractInlineAttributes: Plugin<[AttributePluginOptions?], Root> = 
       const lastChild = node.children[node.children.length - 1];
 
       if (lastChild && lastChild.type === 'text') {
-        const textNode = lastChild as Text;
+        const textNode = lastChild;
         const { classes, remainingText, id, modal, tooltip } = extractAttributesFromText(
           textNode.value,
-          resolverContext
+          resolverContext,
+          false,
+          options?.warnings,
+          node.position ? {line: node.position.start.line, column: node.position.start.column} : undefined
         );
 
         textNode.value = remainingText;

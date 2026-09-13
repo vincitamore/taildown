@@ -586,9 +586,6 @@
           },
           "data": {
             "hProperties": {
-              "className": [
-                "id=\"my-tooltip\""
-              ],
               "data-tooltip-attach": "Helpful tip"
             }
           }

@@ -1027,6 +1027,8 @@ This is a **detailed tooltip** with full markdown support including `code` and *
 **Syntax Rules**:
 - `tooltip="text"` - Inline content (brief help text)
 - `tooltip="#id"` - Reference to `:::tooltip{id="..."}` block
+
+Icon attribute blocks accept the same `tooltip`, `modal`, and `#id` metadata as other inline elements, alongside icon styles and sizes. Icon and plain-text attachment controls enter the keyboard tab order; Enter/Space activate them, and Escape dismisses tooltips. Existing links and buttons retain their native semantics.
 - Shows on hover (desktop) or click (mobile/touch)
 - Automatically positioned relative to trigger
 - Fade in/out animations
@@ -1242,7 +1244,7 @@ Content
 
 Rules from Section 2.2 apply, except:
 - Attributes appear on same line as fence open, after component name
-- One space required between component name and attribute block
+- Horizontal whitespace between the component name and attribute block is optional: both `:::card {padded}` and `:::card{padded}` are valid. An empty block (`:::card{}`) uses the component defaults.
 
 **Rule 3.2.4 - Component Nesting**: Components MAY be nested:
 ```taildown
@@ -1300,6 +1302,21 @@ No indent
 ```
 All three are equivalent; indentation is for readability only.
 
+**Rule 3.3.3 - Markdown Containers**: Components can appear inside blockquotes and list items. Keep the Markdown container prefix on component content and closing fences:
+
+```taildown
+> :::card
+> Quoted content
+> :::
+
+- :::card
+  List item content
+  :::
+- Next item
+```
+
+Each quote or list item owns its component nesting. An unclosed component ends at that container boundary and reports a warning; it cannot consume another list item. A standalone unprefixed closing fence can end an outer component immediately after a list or quote. Fenced code and escaped fences remain literal.
+
 ### 3.4 Standard Components **[REQUIRED]**
 
 Taildown includes 28 standard components out of the box:
@@ -1321,7 +1338,7 @@ Taildown includes 28 standard components out of the box:
 | **Feedback Components** | | |
 | `alert` | Contextual messages | Color-coded alerts (info, success, warning, error) |
 | `badge` | Status indicators | Inline labels with semantic colors |
-| `progress` | Progress indicator | Progress bars and spinners |
+| `progress` | Completion status | Native determinate or indeterminate progress indicator |
 | **Content Components** | | |
 | `details` | Progressive disclosure | Native HTML5 `<details>` element with glass styling |
 | `callout` | Semantic admonitions | Color-coded callouts (note, tip, warning, danger, success, info, error) |
@@ -1343,6 +1360,36 @@ Taildown includes 28 standard components out of the box:
 
 **Note**: Component default classes are defined in implementation, not syntax spec.
 
+#### Progress Indicators
+
+A `progress` component renders a native progress indicator. Its body is retained as the visible label, including inline formatting:
+
+```taildown
+:::progress {value="35" max="100"}
+Preparing **report**
+:::
+```
+
+- `max` defaults to `100` and must be finite and greater than zero.
+- `value`, when present, must be finite and satisfy `0 <= value <= max`. Zero is a valid determinate value.
+- An omitted `value` produces indeterminate progress. The `indeterminate` flag also selects this mode; if a value was supplied, it is overridden with a compilation warning.
+- Invalid numeric values produce a warning with a source location and fall back to indeterminate progress.
+- Quote attribute values: use `value="35"`, not `value=35`.
+- Sizes are `xs`, `sm`, `md` (default), `lg`, and `xl`. Variants are `default`, `striped`, `animated`, and `indeterminate`. Presentation uses theme colors and respects reduced motion.
+
+Provide a useful name for the operation. The body provides a visible label; when there is no body, supply `aria-label` or `aria-labelledby` pointing to an existing label. Taildown does not advance progress automatically.
+
+```taildown
+:::progress
+Waiting for the next observation
+:::
+
+:::progress {value="3" max="8" sm aria-label="Chapters reviewed"}
+:::
+```
+
+See the [live progress reference](docs-site/components.td#progress) for examples.
+
 ### 3.4A Content Components **[REQUIRED]**
 
 Content components added in v0.1.1 for better content organization:
@@ -1359,9 +1406,9 @@ Taildown is a markup language for creating beautiful UIs.
 :::
 
 :::details {elevated open}
-**Installation**
+**Build from source**
 
-Run: `pnpm install @taildown/cli`
+From the repository checkout, run `pnpm install --frozen-lockfile`, then `pnpm build`.
 :::
 ```
 
@@ -1371,10 +1418,9 @@ Run: `pnpm install @taildown/cli`
 
 **Features**:
 - Zero JavaScript (native HTML5)
-- Full ARIA accessibility
+- Native disclosure semantics
 - Keyboard navigation (Enter/Space)
-- Smooth CSS animations
-- First bold text becomes summary
+- The leading paragraph or heading becomes the summary, preserving inline formatting. Without either, the summary is "Details" and all content remains in the body.
 
 #### 3.4A.2 Callout Component
 
@@ -1846,8 +1892,6 @@ Here is a sentence with a footnote.[^1]
 
 Another sentence with a different note.[^note-id]
 
-You can also use inline footnotes.^[This is an inline note]
-
 [^1]: This is the first footnote.
 [^note-id]: This is another footnote with a custom ID.
 ```
@@ -1859,7 +1903,7 @@ You can also use inline footnotes.^[This is an inline note]
 - Backlinks (↩ symbol) from definition to reference
 - Multiple references to same footnote supported (↩², ↩³, etc.)
 - Hover preview popup showing footnote content
-- Smooth scroll to footnote definition on click
+- Scroll to the footnote definition on click, using immediate scrolling when reduced motion is preferred.
 
 **Examples:**
 
@@ -1901,8 +1945,8 @@ Modern physics builds on both theories.[^modern]
 
 **Accessibility:**
 
-- Semantic ARIA attributes (`role="doc-footnote"`, `role="doc-backlink"`)
-- Screen readers announce "footnote 1", "return to reference"
+- References describe their destination through `aria-describedby="footnote-label"`; backlinks have an `aria-label` naming the reference.
+- Repeated references receive distinct IDs and return links.
 - Keyboard accessible (Tab to focus, Enter to follow)
 - Focus visible indicators
 
@@ -3327,6 +3371,12 @@ Attributes should be stored in node metadata, following rehype conventions:
 ---
 
 ## 11. Version History
+
+### Revival corrections (2026-09-11)
+
+- Component attribute blocks allow optional horizontal whitespace, consistent with the compact ID-reference examples (§3.2.3).
+- Link attributes consume only the block following the link, preserving the whitespace after it. Paragraph/heading attributes remain trailing attributes (§2.2.5).
+- The fixture runner now compares every AST fixture, including integration, plain-English, icons and advanced attachments. Nonempty semantic attributes are compared. The enhanced-table fixture has executable rendered assertions; passing the suite proves these covered cases, not exhaustive language or browser conformance.
 
 ### v0.1.1 (2025-10-11) - Content Components Update
 

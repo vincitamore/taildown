@@ -21,7 +21,7 @@
  */
 
 import { visit } from 'unist-util-visit';
-import type { Root, ListItem, List, Text, Paragraph } from 'mdast';
+import type { Root, ListItem, List, Nodes } from 'mdast';
 import type { Plugin } from 'unified';
 
 /**
@@ -35,47 +35,13 @@ type TaskState = 'todo' | 'done' | 'in-progress' | 'blocked';
 type TaskPriority = 'high' | 'medium' | 'low' | undefined;
 
 /**
- * Enhanced task data
- */
-interface TaskData {
-  state: TaskState;
-  priority?: TaskPriority;
-  assignee?: string;
-  checked: boolean;
-}
-
-/**
- * Parse task state from checkbox marker
- */
-function parseTaskState(text: string): { state: TaskState; checked: boolean } | null {
-  // Match checkbox at start of text: [ ], [x], [~], [-]
-  const match = text.match(/^\s*\[([ x~-])\]/i);
-  if (!match) return null;
-  
-  const marker = match[1].toLowerCase();
-  
-  switch (marker) {
-    case ' ':
-      return { state: 'todo', checked: false };
-    case 'x':
-      return { state: 'done', checked: true };
-    case '~':
-      return { state: 'in-progress', checked: false };
-    case '-':
-      return { state: 'blocked', checked: false };
-    default:
-      return null;
-  }
-}
-
-/**
  * Extract priority from text content
  * Looks for {high}, {medium}, {low} anywhere in text
  */
 function extractPriority(text: string): { priority?: TaskPriority; cleanText: string } {
   const priorityMatch = text.match(/\{(high|medium|low)\}/i);
   
-  if (priorityMatch) {
+  if (priorityMatch?.[1]) {
     const priority = priorityMatch[1].toLowerCase() as TaskPriority;
     const cleanText = text.replace(/\{(high|medium|low)\}/gi, '').trim();
     return { priority, cleanText };
@@ -107,10 +73,11 @@ function getListItemText(item: ListItem): { text: string; cleanText: string; cus
   let text = '';
   let customState: 'in-progress' | 'blocked' | undefined;
   
-  function extractText(node: any): void {
+  function extractText(node: Nodes): void {
+    if (node.type === 'list') return;
     if (node.type === 'text') {
       text += node.value;
-    } else if (node.children) {
+    } else if ('children' in node) {
       for (const child of node.children) {
         extractText(child);
       }
@@ -126,21 +93,21 @@ function getListItemText(item: ListItem): { text: string; cleanText: string; cus
   // Check if first paragraph/text starts with [~] or [-]
   const firstChild = item.children?.[0];
   if (firstChild?.type === 'paragraph') {
-    const firstTextNode = (firstChild as Paragraph).children?.[0];
+    const firstTextNode = firstChild.children?.[0];
     if (firstTextNode?.type === 'text') {
-      const textValue = (firstTextNode as Text).value;
+      const textValue = firstTextNode.value;
       if (textValue.startsWith('[~]')) {
         customState = 'in-progress';
         // Remove the marker from the text
-        (firstTextNode as Text).value = textValue.substring(3).trim();
+        firstTextNode.value = textValue.substring(3).trim();
         // Mark item as checked so GFM structures it properly
-        (item as any).checked = false;
+        item.checked = false;
       } else if (textValue.startsWith('[-]')) {
         customState = 'blocked';
         // Remove the marker from the text
-        (firstTextNode as Text).value = textValue.substring(3).trim();
+        firstTextNode.value = textValue.substring(3).trim();
         // Mark item as checked so GFM structures it properly
-        (item as any).checked = false;
+        item.checked = false;
       }
     }
   }
@@ -163,7 +130,7 @@ export const parseEnhancedTaskList: Plugin<[], Root> = () => {
       
       for (const item of listNode.children) {
         if (item.type !== 'listItem') continue;
-        const listItem = item as ListItem;
+        const listItem = item;
         
         // Check for GFM task items
         if (typeof listItem.checked === 'boolean') {
@@ -174,9 +141,9 @@ export const parseEnhancedTaskList: Plugin<[], Root> = () => {
         // Check for custom state markers [~] or [-]
         const firstChild = listItem.children?.[0];
         if (firstChild?.type === 'paragraph') {
-          const firstTextNode = (firstChild as Paragraph).children?.[0];
+          const firstTextNode = firstChild.children?.[0];
           if (firstTextNode?.type === 'text') {
-            const textValue = (firstTextNode as Text).value;
+            const textValue = firstTextNode.value;
             if (textValue.startsWith('[~]') || textValue.startsWith('[-]')) {
               hasCustomStateMarkers = true;
               break;
@@ -197,7 +164,7 @@ export const parseEnhancedTaskList: Plugin<[], Root> = () => {
       
       // Add task list classes
       const existingClasses = listNode.data.hProperties.className || [];
-      const classes = Array.isArray(existingClasses) ? existingClasses : [existingClasses];
+      const classes = Array.isArray(existingClasses) ? existingClasses.map(String) : typeof existingClasses === 'string' ? existingClasses.split(/\s+/).filter(Boolean) : [];
       
       if (!classes.includes('task-list')) {
         classes.push('task-list');
@@ -217,10 +184,10 @@ export const parseEnhancedTaskList: Plugin<[], Root> = () => {
       for (const item of listNode.children) {
         if (item.type !== 'listItem') continue;
         
-        const listItem = item as ListItem;
+        const listItem = item;
         
         // Get item text and check for custom state markers
-        const { text: itemText, cleanText, customState } = getListItemText(listItem);
+        const { text: _itemText, cleanText, customState } = getListItemText(listItem);
         
         let state: TaskState;
         let checked: boolean;
@@ -240,7 +207,7 @@ export const parseEnhancedTaskList: Plugin<[], Root> = () => {
         
         // Extract priority and assignee from clean text
         const { priority, cleanText: textAfterPriority } = extractPriority(cleanText);
-        const { assignee, cleanText: finalText } = extractAssignee(textAfterPriority);
+        const { assignee, cleanText: _finalText } = extractAssignee(textAfterPriority);
         
         // Store enhanced data in list item
         if (!listItem.data) {

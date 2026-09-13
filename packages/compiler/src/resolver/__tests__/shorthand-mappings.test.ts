@@ -10,7 +10,6 @@ import {
   getShorthandsByCategory,
   hasShorthand,
   getShorthand,
-  type ShorthandMapping,
 } from '../shorthand-mappings';
 
 describe('Shorthand Mappings', () => {
@@ -183,11 +182,11 @@ describe('Shorthand Mappings', () => {
     });
 
     it('should have semantic state colors', () => {
-      expect(SHORTHAND_MAPPINGS.muted).toBe('text-gray-500');
-      expect(SHORTHAND_MAPPINGS.success).toBe('text-green-600');
-      expect(SHORTHAND_MAPPINGS.warning).toBe('text-yellow-600');
-      expect(SHORTHAND_MAPPINGS.error).toBe('text-red-600');
-      expect(SHORTHAND_MAPPINGS.info).toBe('text-blue-600');
+      expect(SHORTHAND_MAPPINGS.muted).toBe('text-muted-foreground');
+      expect(SHORTHAND_MAPPINGS.success).toBe('text-success');
+      expect(SHORTHAND_MAPPINGS.warning).toBe('text-warning');
+      expect(SHORTHAND_MAPPINGS.error).toBe('text-error');
+      expect(SHORTHAND_MAPPINGS.info).toBe('text-info');
     });
 
     it('should have natural combination shorthands', () => {
@@ -199,15 +198,15 @@ describe('Shorthand Mappings', () => {
     });
 
     it('should have size + color combinations', () => {
-      expect(SHORTHAND_MAPPINGS['large-muted']).toEqual(['text-lg', 'text-gray-500']);
-      expect(SHORTHAND_MAPPINGS['small-muted']).toEqual(['text-sm', 'text-gray-500']);
+      expect(SHORTHAND_MAPPINGS['large-muted']).toEqual(['text-lg', 'text-muted-foreground']);
+      expect(SHORTHAND_MAPPINGS['small-muted']).toEqual(['text-sm', 'text-muted-foreground']);
     });
 
     it('should have semantic background pairs', () => {
-      expect(SHORTHAND_MAPPINGS['primary-bg']).toEqual(['bg-blue-600', 'text-white']);
-      expect(SHORTHAND_MAPPINGS['success-bg']).toEqual(['bg-green-600', 'text-white']);
-      expect(SHORTHAND_MAPPINGS['warning-bg']).toEqual(['bg-yellow-600', 'text-white']);
-      expect(SHORTHAND_MAPPINGS['error-bg']).toEqual(['bg-red-600', 'text-white']);
+      expect(typeof SHORTHAND_MAPPINGS['primary-bg']).toBe('function');
+      expect(SHORTHAND_MAPPINGS['success-bg']).toEqual(['bg-success', 'text-success-foreground']);
+      expect(SHORTHAND_MAPPINGS['warning-bg']).toEqual(['bg-warning', 'text-warning-foreground']);
+      expect(SHORTHAND_MAPPINGS['error-bg']).toEqual(['bg-error', 'text-error-foreground']);
       expect(SHORTHAND_MAPPINGS['muted-bg']).toEqual(['bg-gray-100', 'text-gray-700']);
     });
 

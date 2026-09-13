@@ -1,30 +1,57 @@
-#!/usr/bin/env node
 /**
  * Documentation Site Build Script
  * Compiles all .td files in docs-site to HTML
  */
 
-import { compile } from '../packages/compiler/dist/index.js';
-import { promises as fs } from 'fs';
-import { join, basename, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { createRequire } from 'node:module';
+import { promises as defaultFs, realpathSync } from 'fs';
+import { join, basename, dirname, relative, resolve } from 'path';
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath, pathToFileURL } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const DOCS_DIR = __dirname;
+const PROJECT_DIR = dirname(DOCS_DIR);
+
+/**
+ * @typedef {{html: string, metadata: {warnings: {line?: number, message: string}[]}}} PageResult
+ * @typedef {(source: string, options: import('../packages/shared/src/types').CompileOptions) => Promise<PageResult>} Compiler
+ * @typedef {{name: string, isDirectory(): boolean, isFile(): boolean}} BuildEntry
+ * @typedef {{readFile(path: string, encoding: 'utf8' | 'utf-8'): Promise<string>, readdir(path: string, options: {withFileTypes: true}): Promise<BuildEntry[]>, rm(path: string, options: {recursive: boolean, force: boolean}): Promise<unknown>, mkdir(path: string, options: {recursive: boolean}): Promise<unknown>, cp(source: string, target: string, options: {recursive: boolean}): Promise<unknown>, copyFile(source: string, target: string): Promise<unknown>, writeFile(path: string, content: string, encoding?: 'utf-8'): Promise<unknown>}} BuildFileSystem
+ * @typedef {(command: string, args: string[], options: {cwd: string, stdio: 'inherit'}) => unknown} RunCommand
+ * @typedef {Pick<import('../packages/shared/src/types').CompileOptions, 'title' | 'description' | 'openGraph'>} PageMetadata
+ */
+
+/**
+ * Build dependencies before importing their compiler module.
+ * @param {{fs?: Pick<BuildFileSystem, 'readFile'>, run?: RunCommand, projectDir?: string, resolvePackage?: (specifier: string) => string, importCompiler?: (url: string) => Promise<{compile: Compiler}>}} dependencies
+ */
+export async function loadCompiler({fs = defaultFs, run = execFileSync, projectDir = PROJECT_DIR, resolvePackage = createRequire(import.meta.url).resolve, importCompiler = url => import(url)} = {}) {
+  const packagePath = resolvePackage('tsup/package.json');
+  const packageInfo = JSON.parse(await fs.readFile(packagePath, 'utf8'));
+  if (typeof packageInfo?.bin?.tsup !== 'string') throw new Error('tsup CLI entry is missing');
+  const cliPath = join(dirname(packagePath), packageInfo.bin.tsup);
+  for (const name of ['shared', 'compiler']) {
+    run(process.execPath, [cliPath], {cwd: join(projectDir, 'packages', name), stdio: 'inherit'});
+  }
+  // Import only after building: an eager import caches the previous compiler.
+  return (await importCompiler(pathToFileURL(join(projectDir, 'packages/compiler/dist/index.js')).href)).compile;
+}
+const escapeHtml = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 
 // Base URL for the documentation site (update this when deployed)
-const BASE_URL = 'https://taildown.dev';
+const BASE_URL = 'https://www.taildown.dev';
 
 // Page metadata configuration
 const PAGE_METADATA = {
   'index.td': {
-    title: 'Taildown - Write markdown. Get magic.',
-    description: 'The markup language that transforms plain English into stunning, interactive web pages - zero configuration required.',
+    title: 'Taildown - Markdown that becomes a website.',
+    description: 'Create interactive documents with Markdown, plain-English styling, and composable components. Start in the browser and export a page you can keep.',
     openGraph: {
-      title: 'Taildown - Write markdown. Get magic.',
-      description: 'The markup language that transforms plain English into stunning, interactive web pages - zero configuration required.',
+      title: 'Taildown - Markdown that becomes a website.',
+      description: 'Create interactive documents with Markdown, plain-English styling, and composable components. Start in the browser and export a page you can keep.',
       type: 'website',
       url: `${BASE_URL}/`,
       image: `${BASE_URL}/1759672632566.jpg`,
@@ -60,10 +87,10 @@ const PAGE_METADATA = {
   },
   'components.td': {
     title: 'Components - Taildown',
-    description: 'Explore Taildown\'s 18+ built-in components including cards, tabs, accordions, modals, carousels, and more.',
+    description: 'Explore Taildown\'s built-in components including cards, tabs, accordions, modals, carousels, and more.',
     openGraph: {
       title: 'Components - Taildown',
-      description: 'Explore Taildown\'s 18+ built-in components including cards, tabs, accordions, modals, carousels, and more.',
+      description: 'Explore Taildown\'s built-in components including cards, tabs, accordions, modals, carousels, and more.',
       type: 'article',
       url: `${BASE_URL}/components.html`,
       image: `${BASE_URL}/1759672632566.jpg`,
@@ -81,6 +108,28 @@ const PAGE_METADATA = {
       url: `${BASE_URL}/plain-english.html`,
       image: `${BASE_URL}/1759672632566.jpg`,
       imageAlt: 'Taildown - Modern markup language with glassmorphism and dark mode',
+      siteName: 'Taildown'
+    }
+  },
+  'infinity-at-origin-v2.td': {
+    title: 'Infinity at the Origin - Taildown',
+    description: 'An example mathematical article exploring a hyperreal framework for dynamics across scales.',
+    openGraph: {
+      title: 'Infinity at the Origin - Taildown',
+      description: 'An example mathematical article exploring a hyperreal framework for dynamics across scales.',
+      type: 'article',
+      url: `${BASE_URL}/infinity-at-origin-v2.html`,
+      siteName: 'Taildown'
+    }
+  },
+  'principle-of-transformative-representation.td': {
+    title: 'The Principle of Transformative Representation - Taildown',
+    description: 'An example article about extending mathematical systems through changes of representation.',
+    openGraph: {
+      title: 'The Principle of Transformative Representation - Taildown',
+      description: 'An example article about extending mathematical systems through changes of representation.',
+      type: 'article',
+      url: `${BASE_URL}/principle-of-transformative-representation.html`,
       siteName: 'Taildown'
     }
   },
@@ -116,6 +165,14 @@ const PAGE_METADATA_STATIC = {
   }
 };
 
+/**
+ * Importing this module never starts a build. Each builder owns its compiler state.
+ * @param {{fs?: BuildFileSystem, run?: RunCommand, compilerLoader?: () => Promise<Compiler>, docsDir?: string, outputDir?: string, projectDir?: string, pageMetadata?: Record<string, PageMetadata>, staticMetadata?: Record<string, PageMetadata>, logger?: Pick<Console, 'log' | 'error'>}} dependencies
+ */
+export function createDocsBuilder({fs = defaultFs, run = execFileSync, docsDir = DOCS_DIR, outputDir = join(docsDir, 'dist'), projectDir = dirname(docsDir), pageMetadata = PAGE_METADATA, staticMetadata = PAGE_METADATA_STATIC, logger = console, compilerLoader = () => loadCompiler({fs, run, projectDir})} = {}) {
+ const DOCS_DIR = resolve(docsDir), OUTPUT_DIR = resolve(outputDir), PROJECT_DIR = resolve(projectDir);
+ /** @type {Compiler} */
+ let compile;
 async function findTdFiles(dir) {
   const files = [];
   const items = await fs.readdir(dir, { withFileTypes: true });
@@ -125,7 +182,7 @@ async function findTdFiles(dir) {
     
     if (item.isDirectory()) {
       // Skip node_modules and hidden directories
-      if (item.name.startsWith('.') || item.name === 'node_modules') {
+      if (item.name.startsWith('.') || ['node_modules', 'dist'].includes(item.name)) {
         continue;
       }
       files.push(...await findTdFiles(fullPath));
@@ -139,21 +196,21 @@ async function findTdFiles(dir) {
 
 async function compileTdFile(filePath) {
   const fileName = basename(filePath);
-  console.log(`Compiling: ${fileName}`);
+  logger.log(`Compiling: ${fileName}`);
   
   try {
     // Read source file
     const source = await fs.readFile(filePath, 'utf-8');
     
     // Get metadata for this page
-    const metadata = PAGE_METADATA[fileName] || {
+    const metadata = pageMetadata[fileName] || {
       title: 'Taildown Document',
       description: 'A beautiful document created with Taildown',
       openGraph: {
         title: 'Taildown Document',
         description: 'A beautiful document created with Taildown',
         type: 'website',
-        url: BASE_URL,
+        url: `${BASE_URL}/${fileName.replace(/\.td$/, '')}`,
         image: `${BASE_URL}/1759672632566.jpg`,
         imageAlt: 'Taildown - Modern markup language with glassmorphism and dark mode',
         siteName: 'Taildown'
@@ -162,9 +219,10 @@ async function compileTdFile(filePath) {
     
     // Compile with dark mode enabled and Open Graph metadata
     const result = await compile(source, {
+      autoFix: false,          // Build the authored source without silent corrections
       inlineStyles: true,      // Embed CSS in HTML
       inlineScripts: true,     // Embed JS in HTML (for dark mode)
-      minify: false,           // Keep readable for debugging
+      minify: true,            // Compact markup while preserving code whitespace
       darkMode: true,          // Enable dark mode
       title: metadata.title,
       description: metadata.description,
@@ -183,14 +241,18 @@ async function compileTdFile(filePath) {
     });
     
     // Write HTML output
-    const htmlPath = filePath.replace('.td', '.html');
+    const htmlPath = join(OUTPUT_DIR, relative(DOCS_DIR, filePath).replace(/\.td$/, '.html'));
+    await fs.mkdir(dirname(htmlPath), {recursive: true});
+    if (result.metadata.warnings.length) {
+      throw new Error(result.metadata.warnings.map(warning => `Line ${warning.line ?? '?'}: ${warning.message}`).join('\n'));
+    }
     await fs.writeFile(htmlPath, result.html);
     
-    console.log(`  ✓ Created: ${basename(htmlPath)}`);
+    logger.log(`  ✓ Created: ${basename(htmlPath)}`);
     
     return { success: true, file: fileName };
   } catch (error) {
-    console.error(`  ✗ Error compiling ${fileName}:`, error.message);
+    logger.error(`  ✗ Error compiling ${fileName}:`, error.message);
     return { success: false, file: fileName, error: error.message };
   }
 }
@@ -200,15 +262,18 @@ async function compileTdFile(filePath) {
  */
 async function updateStaticHtml(filePath, metadata) {
   try {
-    let html = await fs.readFile(filePath, 'utf-8');
-
-    // Ensure <head> exists
-    if (!html.includes('<head')) {
-      return; // skip files without a standard head
+    const originalHtml = await fs.readFile(filePath, 'utf-8');
+    const headStart = originalHtml.indexOf('<head');
+    const headEnd = originalHtml.indexOf('</head>', headStart);
+    if (headStart < 0 || headEnd < 0) {
+      throw new Error('Missing HTML head');
     }
+    // The editor embeds the compiler, including HTML templates. Only mutate
+    // the real document head; never replace metadata strings inside its runtime.
+    let html = originalHtml.slice(headStart, headEnd + 7);
 
     // Replace <title>
-    const safeTitle = metadata.title ?? 'Taildown';
+    const safeTitle = escapeHtml(metadata.title ?? 'Taildown');
     if (/<title>[\s\S]*?<\/title>/.test(html)) {
       html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${safeTitle}</title>`);
     } else {
@@ -225,19 +290,19 @@ async function updateStaticHtml(filePath, metadata) {
     const description = metadata.description || og.description || '';
 
     const tags = [];
-    if (description) tags.push(`  <meta name="description" content="${description}">`);
-    if (og.title) tags.push(`  <meta property="og:title" content="${og.title}">`);
-    if (og.description) tags.push(`  <meta property="og:description" content="${og.description}">`);
-    if (og.type) tags.push(`  <meta property="og:type" content="${og.type}">`);
-    if (og.url) tags.push(`  <meta property="og:url" content="${og.url}">`);
-    if (og.image) tags.push(`  <meta property="og:image" content="${og.image}">`);
-    if (og.imageAlt) tags.push(`  <meta property="og:image:alt" content="${og.imageAlt}">`);
-    if (og.siteName) tags.push(`  <meta property="og:site_name" content="${og.siteName}">`);
+    if (description) tags.push(`  <meta name="description" content="${escapeHtml(description)}">`);
+    if (og.title) tags.push(`  <meta property="og:title" content="${escapeHtml(og.title)}">`);
+    if (og.description) tags.push(`  <meta property="og:description" content="${escapeHtml(og.description)}">`);
+    if (og.type) tags.push(`  <meta property="og:type" content="${escapeHtml(og.type)}">`);
+    if (og.url) tags.push(`  <meta property="og:url" content="${escapeHtml(og.url)}">`);
+    if (og.image) tags.push(`  <meta property="og:image" content="${escapeHtml(og.image)}">`);
+    if (og.imageAlt) tags.push(`  <meta property="og:image:alt" content="${escapeHtml(og.imageAlt)}">`);
+    if (og.siteName) tags.push(`  <meta property="og:site_name" content="${escapeHtml(og.siteName)}">`);
 
     if (og.image) tags.push(`  <meta name="twitter:card" content="summary_large_image">`);
-    if (og.image) tags.push(`  <meta name="twitter:image" content="${og.image}">`);
-    if (og.title) tags.push(`  <meta name="twitter:title" content="${og.title}">`);
-    if (og.description) tags.push(`  <meta name="twitter:description" content="${og.description}">`);
+    if (og.image) tags.push(`  <meta name="twitter:image" content="${escapeHtml(og.image)}">`);
+    if (og.title) tags.push(`  <meta name="twitter:title" content="${escapeHtml(og.title)}">`);
+    if (og.description) tags.push(`  <meta name="twitter:description" content="${escapeHtml(og.description)}">`);
 
     if (tags.length > 0) {
       // Insert after <title> if present, else right after <head>
@@ -248,49 +313,73 @@ async function updateStaticHtml(filePath, metadata) {
       }
     }
 
-    await fs.writeFile(filePath, html, 'utf-8');
-    console.log(`  ✓ Updated metadata: ${basename(filePath)}`);
+    await fs.writeFile(filePath, originalHtml.slice(0, headStart) + html + originalHtml.slice(headEnd + 7), 'utf-8');
+    logger.log(`  ✓ Updated metadata: ${basename(filePath)}`);
   } catch (err) {
-    // Non-fatal: just report and continue
-    console.warn(`  ⚠︎ Skipped metadata update for ${basename(filePath)}: ${err.message}`);
+    throw new Error(`Metadata update failed for ${basename(filePath)}`, {cause: err});
   }
 }
 
 async function main() {
-  console.log('🚀 Building Taildown Documentation Site\n');
-  console.log('📁 Searching for .td files...\n');
+  logger.log('🚀 Building Taildown Documentation Site\n');
+  if (dirname(OUTPUT_DIR) !== DOCS_DIR || basename(OUTPUT_DIR) !== 'dist') throw new Error('Invalid output directory');
+  await fs.rm(OUTPUT_DIR, {recursive: true, force: true});
+  await fs.mkdir(OUTPUT_DIR, {recursive: true});
+  compile = await compilerLoader();
+  run(process.execPath, ['build-browser.mjs'], {cwd: join(PROJECT_DIR, 'packages/compiler'), stdio: 'inherit'});
+  run(process.execPath, ['editor/build.mjs'], {cwd: PROJECT_DIR, stdio: 'inherit'});
+  await fs.copyFile(join(PROJECT_DIR, 'editor/dist/editor-hosted.html'), join(OUTPUT_DIR, 'editor.html'));
+  await fs.copyFile(join(PROJECT_DIR, 'editor/dist/editor.html'), join(OUTPUT_DIR, 'offline-editor.html'));
+  await fs.cp(join(PROJECT_DIR, 'editor/dist/assets'), join(OUTPUT_DIR, 'assets'), {recursive:true});
+  for (const asset of ['1759672632566.jpg', 'dynamic_regularization.png', 'grid_transformation.png', 'scale_correspondence.png', 'scale_shape_decomposition.png', 'favicon']) {
+    await fs.cp(join(DOCS_DIR, asset), join(OUTPUT_DIR, asset), {recursive: true});
+  }
+  logger.log('📁 Searching for .td files...\n');
   
   const tdFiles = await findTdFiles(DOCS_DIR);
   
   if (tdFiles.length === 0) {
-    console.log('No .td files found!');
-    return;
+    throw new Error('No .td files found');
   }
   
-  console.log(`Found ${tdFiles.length} file(s) to compile:\n`);
+  logger.log(`Found ${tdFiles.length} file(s) to compile:\n`);
   
-  const results = await Promise.all(tdFiles.map(compileTdFile));
+  const results = [];
+  for (const file of tdFiles.sort()) results.push(await compileTdFile(file));
   
   const successful = results.filter(r => r.success).length;
   const failed = results.filter(r => !r.success).length;
   
-  console.log('\n' + '='.repeat(50));
-  console.log(`✅ Successfully compiled: ${successful} file(s)`);
+  logger.log('\n' + '='.repeat(50));
+  logger.log(`✅ Successfully compiled: ${successful} file(s)`);
   if (failed > 0) {
-    console.log(`❌ Failed to compile: ${failed} file(s)`);
+    logger.log(`❌ Failed to compile: ${failed} file(s)`);
   }
-  console.log('='.repeat(50));
+  logger.log('='.repeat(50));
   
-  // Update metadata for static HTML files (e.g., editor.html)
-  for (const [staticName, meta] of Object.entries(PAGE_METADATA_STATIC)) {
-    await updateStaticHtml(join(DOCS_DIR, staticName), meta);
+  if (failed > 0) throw new Error(`Failed to compile ${failed} documentation pages`);
+
+  // Update metadata for the freshly built editor.
+  for (const [staticName, meta] of Object.entries(staticMetadata)) {
+    await updateStaticHtml(join(OUTPUT_DIR, staticName), meta);
   }
 
-  console.log('\n📦 Documentation site built successfully!');
-  console.log(`   Open docs-site/index.html in your browser\n`);
+  logger.log('\n📦 Documentation site built successfully!');
+  logger.log(`   Open docs-site/dist/index.html in your browser\n`);
 }
 
-main().catch(error => {
+return {main};
+}
+
+function isDirectInvocation() {
+  if (!process.argv[1]) return false;
+  try { return realpathSync(resolve(process.argv[1])) === realpathSync(__filename); }
+  catch { return false; }
+}
+
+if (isDirectInvocation()) {
+ createDocsBuilder().main().catch(error => {
   console.error('Build failed:', error);
-  process.exit(1);
-});
+  process.exitCode = 1;
+ });
+}

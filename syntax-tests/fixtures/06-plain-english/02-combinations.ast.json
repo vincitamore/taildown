@@ -279,7 +279,7 @@
         "hProperties": {
           "className": [
             "text-lg",
-            "text-gray-500"
+            "text-muted-foreground"
           ]
         }
       }
@@ -296,7 +296,7 @@
         "hProperties": {
           "className": [
             "text-sm",
-            "text-gray-500"
+            "text-muted-foreground"
           ]
         }
       }
@@ -338,7 +338,8 @@
         "hProperties": {
           "className": [
             "text-lg",
-            "text-blue-600"
+            "text-primary",
+            "hover:text-primary-hover"
           ]
         }
       }
@@ -380,7 +381,7 @@
         "hProperties": {
           "className": [
             "text-lg",
-            "text-green-600"
+            "text-success"
           ]
         }
       }
@@ -433,7 +434,8 @@
       "data": {
         "hProperties": {
           "className": [
-            "bg-blue-600",
+            "bg-primary-600",
+            "hover:bg-primary-700",
             "text-white"
           ]
         }
@@ -450,8 +452,8 @@
       "data": {
         "hProperties": {
           "className": [
-            "bg-green-600",
-            "text-white"
+            "bg-success",
+            "text-success-foreground"
           ]
         }
       }
@@ -547,7 +549,8 @@
         "hProperties": {
           "className": [
             "font-bold",
-            "text-blue-600"
+            "text-primary",
+            "hover:text-primary-hover"
           ]
         }
       }
@@ -564,7 +567,7 @@
         "hProperties": {
           "className": [
             "font-bold",
-            "text-gray-500"
+            "text-muted-foreground"
           ]
         }
       }
@@ -581,7 +584,7 @@
         "hProperties": {
           "className": [
             "italic",
-            "text-gray-500"
+            "text-muted-foreground"
           ]
         }
       }
@@ -659,7 +662,6 @@
             "component-card",
             "rounded-lg",
             "max-w-full",
-            "overflow-x-hidden",
             "break-words",
             "glass-effect",
             "glass-subtle",
@@ -718,7 +720,6 @@
             "rounded-lg",
             "p-6",
             "max-w-full",
-            "overflow-x-hidden",
             "break-words",
             "glass-effect",
             "glass-subtle",
@@ -810,10 +811,8 @@
           "className": [
             "taildown-component",
             "component-card",
-            "rounded-lg",
             "p-6",
             "max-w-full",
-            "overflow-x-hidden",
             "break-words",
             "glass-effect",
             "glass-subtle",
@@ -868,7 +867,6 @@
             "component-card",
             "p-6",
             "max-w-full",
-            "overflow-x-hidden",
             "break-words",
             "bg-card",
             "text-card-foreground",

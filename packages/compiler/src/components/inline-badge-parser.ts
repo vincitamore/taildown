@@ -1,7 +1,14 @@
+import type {Node} from 'unist';
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
-import type { Root, Text } from 'mdast';
+import type { Root, Text, Data } from 'mdast';
 import { resolveComponentClasses } from '../components/variant-system';
+
+interface BadgeNode extends Node {type: 'badge'; children: Text[]; data?: Data}
+declare module 'mdast' {
+ interface PhrasingContentMap {badge: BadgeNode}
+ interface RootContentMap {badge: BadgeNode}
+}
 
 // Matches :badge[text]{optional attributes}
 const INLINE_BADGE_REGEX = /:badge\[([^\]]+)\](?:\{([^}]+)\})?/g;
@@ -15,12 +22,12 @@ function parseAttributes(input?: string): string[] {
     .filter(Boolean);
 }
 
-export const parseInlineBadges: Plugin<[], Root> = () => {
+export const parseInlineBadges: Plugin<[{styleMappings?: Record<string, string>}?], Root> = (options) => {
   return (tree: Root) => {
     visit(tree, 'text', (node: Text, index, parent) => {
-      if (!parent || typeof node.value !== 'string' || !node.value.includes(':badge[')) return;
+      if (!parent || index === undefined || typeof node.value !== 'string' || !node.value.includes(':badge[')) return;
 
-      const parts: any[] = [];
+      const parts: (Text | BadgeNode)[] = [];
       let lastIndex = 0;
       const value = node.value;
       let match: RegExpExecArray | null;
@@ -28,6 +35,7 @@ export const parseInlineBadges: Plugin<[], Root> = () => {
       INLINE_BADGE_REGEX.lastIndex = 0;
       while ((match = INLINE_BADGE_REGEX.exec(value)) !== null) {
         const [full, label, attrsRaw] = match;
+        if (label === undefined) continue;
         const start = match.index;
         const end = start + full.length;
 
@@ -39,11 +47,12 @@ export const parseInlineBadges: Plugin<[], Root> = () => {
         // Resolve classes via component registry/variant system
         const modifiers = parseAttributes(attrsRaw);
         const result = resolveComponentClasses('badge', modifiers, {
+          styleMappings: options?.styleMappings,
           includeDefaults: true,
           warnOnUnknown: false,
         });
 
-        const badgeNode: any = {
+        const badgeNode: BadgeNode = {
           type: 'badge',
           data: {
             hName: 'span',
@@ -66,8 +75,8 @@ export const parseInlineBadges: Plugin<[], Root> = () => {
 
       if (parts.length > 0) {
         // Replace the single text node with multiple nodes
-        parent.children.splice(index as number, 1, ...parts);
-        return index! + parts.length;
+        parent.children.splice(index, 1, ...parts);
+        return index + parts.length;
       }
     });
   };

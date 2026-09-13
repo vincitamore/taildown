@@ -1,5 +1,5 @@
 import { visit } from 'unist-util-visit';
-import type { ContainerDirective, Heading } from 'mdast';
+import type { ContainerDirectiveNode as ContainerDirective } from '@taildown/compiler';
 import { BaseRule } from './BaseRule';
 import type { RuleContext, FixTransform } from '../types';
 
@@ -17,7 +17,7 @@ export class TabsHeadingLevelRule extends BaseRule {
   readonly fixable = true;
 
   check(context: RuleContext): void {
-    const { ast, source } = context;
+    const { ast } = context;
 
     visit(ast, 'containerDirective', (node: ContainerDirective) => {
       if (node.name !== 'tabs') return;
@@ -26,7 +26,7 @@ export class TabsHeadingLevelRule extends BaseRule {
       const children = node.children || [];
       for (const child of children) {
         if (child.type === 'heading') {
-          const heading = child as Heading;
+          const heading = child;
           
           // Only h2 (depth 2) and h3 (depth 3) are valid
           if (heading.depth > 3) {
@@ -53,7 +53,7 @@ export class TabsHeadingLevelRule extends BaseRule {
   }
 
   fix(context: RuleContext): FixTransform | null {
-    let { source } = context;
+    const { source } = context;
     let modified = false;
     const lines = source.split('\n');
 
@@ -64,19 +64,20 @@ export class TabsHeadingLevelRule extends BaseRule {
       const children = node.children || [];
       for (const child of children) {
         if (child.type === 'heading') {
-          const heading = child as Heading;
+          const heading = child;
           
           if (heading.depth > 3 && heading.position) {
             // Get the line (0-indexed in array, 1-indexed in position)
             const lineIndex = heading.position.start.line - 1;
             const line = lines[lineIndex];
+            if (line === undefined) continue;
             
             // Replace #### or higher with ###
             const hashes = '#'.repeat(heading.depth);
-            const regex = new RegExp(`^${hashes}\\s+`);
+            const regex = new RegExp(`^(\\s*)${hashes}(?=\\s)`);
             
             if (regex.test(line)) {
-              lines[lineIndex] = line.replace(regex, '### ');
+              lines[lineIndex] = line.replace(regex, '$1###');
               modified = true;
             }
           }

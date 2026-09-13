@@ -5,11 +5,16 @@
 
 import { visit } from 'unist-util-visit';
 import type { TaildownRoot, TaildownNodeData } from '@taildown/shared';
+import type {Nodes as HastNode} from 'hast';
 import { generateIconCSS } from '../icons/icon-renderer';
 import { generateGlassmorphismCSS } from '../themes/glassmorphism';
 import { generateAnimationCSS } from '../themes/animations';
 import { createThemeResolver } from '../themes/theme-resolver';
 import { getDefaultConfig } from '../config/default-config';
+import { PRINT_CSS } from './print';
+import type {TaildownConfig} from '../config/config-schema';
+
+const DEFAULT_COLORS = getDefaultConfig().theme.colors;
 
 /**
  * Tailwind CSS utility class definitions
@@ -62,6 +67,8 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'w-16': 'width: 4rem;',
   'w-20': 'width: 5rem;',
   'w-full': 'width: 100%;',
+  'h-1': 'height: 0.25rem;',
+  'h-3': 'height: 0.75rem;',
   'h-2': 'height: 0.5rem;',
   'h-4': 'height: 1rem;',
   'h-6': 'height: 1.5rem;',
@@ -70,6 +77,7 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'h-12': 'height: 3rem;',
   'h-16': 'height: 4rem;',
   'h-20': 'height: 5rem;',
+  'h-32': 'height: 8rem;',
   'min-h-[400px]': 'min-height: 400px;',
   'max-h-[35vh]': 'max-height: 35vh;',
   'max-h-[40vh]': 'max-height: 40vh;',
@@ -86,6 +94,7 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'max-w-6xl': 'max-width: 72rem;',
   'max-w-4xl': 'max-width: 56rem;',
   'max-w-2xl': 'max-width: 42rem;',
+  'max-w-md': 'max-width: 28rem;',
   'max-w-screen-2xl': 'max-width: 1536px;',
   'max-w-full': 'max-width: 100%;',
   'min-w-[200px]': 'min-width: 200px;',
@@ -180,6 +189,7 @@ const TAILWIND_UTILITIES: Record<string, string> = {
     'box-shadow: 0 35px 60px -15px rgb(0 0 0 / 0.3);',
 
   // Transitions
+  'transition-none': 'transition-property: none;',
   transition:
     'transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;',
   'transition-all':
@@ -349,6 +359,8 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'text-sm': 'font-size: 0.875rem; line-height: 1.25rem;',
   'text-base': 'font-size: 1rem; line-height: 1.5rem;',
   'text-lg': 'font-size: 1.125rem; line-height: 1.75rem;',
+  'leading-tight': 'line-height: 1.25;',
+  'leading-normal': 'line-height: 1.5;',
   'text-xl': 'font-size: 1.25rem; line-height: 1.75rem;',
   'text-2xl': 'font-size: 1.5rem; line-height: 2rem;',
   'text-3xl': 'font-size: 1.875rem; line-height: 2.25rem;',
@@ -362,6 +374,7 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'font-extrabold': 'font-weight: 800;',
 
   // Text color - Gray scale
+  'text-muted-foreground': 'color: var(--muted-foreground);',
   'text-gray-400': 'color: rgb(156 163 175);',
   'text-gray-500': 'color: rgb(107 114 128);',
   'text-gray-600': 'color: rgb(75 85 99);',
@@ -370,9 +383,15 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'text-gray-900': 'color: rgb(17 24 39);',
 
   // Text color - Primary (Blue)
-  'text-primary-500': 'color: rgb(130 160 255);',
-  'text-primary-600': 'color: rgb(106 142 239);',
-  'text-primary-700': 'color: rgb(82 123 222);',
+  'text-primary': 'color: var(--primary-text);',
+  'text-primary-hover': 'color: var(--primary-text-hover);',
+  'text-secondary': 'color: var(--secondary-text);',
+  'text-secondary-hover': 'color: var(--secondary-text-hover);',
+  'text-accent': 'color: var(--accent-text);',
+  'text-accent-hover': 'color: var(--accent-text-hover);',
+  'text-primary-500': `color: ${DEFAULT_COLORS.primary[500]};`,
+  'text-primary-600': `color: ${DEFAULT_COLORS.primary[600]};`,
+  'text-primary-700': `color: ${DEFAULT_COLORS.primary[700]};`,
   'text-blue-500': 'color: rgb(59 130 246);',
   'text-blue-600': 'color: rgb(37 99 235);',
   'text-blue-700': 'color: rgb(29 78 216);',
@@ -394,6 +413,19 @@ const TAILWIND_UTILITIES: Record<string, string> = {
   'text-pink-500': 'color: rgb(236 72 153);',
   'text-pink-600': 'color: rgb(219 39 119);',
   'text-pink-700': 'color: rgb(190 24 93);',
+
+  'text-success': 'color: var(--success-text);',
+  'text-success-foreground': 'color: var(--success-foreground);',
+  'bg-success': 'background-color: var(--success);',
+  'text-warning': 'color: var(--warning-text);',
+  'text-warning-foreground': 'color: var(--warning-foreground);',
+  'bg-warning': 'background-color: var(--warning);',
+  'text-error': 'color: var(--error-text);',
+  'text-error-foreground': 'color: var(--error-foreground);',
+  'bg-error': 'background-color: var(--error);',
+  'text-info': 'color: var(--info-text);',
+  'text-info-foreground': 'color: var(--info-foreground);',
+  'bg-info': 'background-color: var(--info);',
 
   // Text color - Success (Green)
   'text-success-500': 'color: rgb(34 197 94);',
@@ -493,11 +525,11 @@ export function collectClasses(ast: TaildownRoot): Set<string> {
  * @param hast - HAST node
  * @returns Set of unique class names
  */
-export function collectClassesFromHast(hast: any): Set<string> {
+export function collectClassesFromHast(hast: HastNode): Set<string> {
   const classes = new Set<string>();
   
-  function traverse(node: any) {
-    if (node.properties?.className) {
+  function traverse(node: HastNode) {
+    if (node.type === 'element' && node.properties.className) {
       const classNames = Array.isArray(node.properties.className)
         ? node.properties.className
         : [node.properties.className];
@@ -512,7 +544,7 @@ export function collectClassesFromHast(hast: any): Set<string> {
       }
     }
     
-    if (node.children) {
+    if (node.type === 'element' || node.type === 'root') {
       for (const child of node.children) {
         traverse(child);
       }
@@ -533,18 +565,58 @@ export function collectClassesFromHast(hast: any): Set<string> {
 /**
  * Generate theme CSS (dark mode, color palette)
  */
-function generateThemeCSS(): string {
-  const config = getDefaultConfig();
+function generateThemeCSS(config: TaildownConfig): string {
   const themeResolver = createThemeResolver(config);
   return themeResolver.generateThemeCSS();
 }
 
-export function generateCSS(classes: Set<string>, minify: boolean = false): string {
+export function generateCSS(classes: Set<string>, minify: boolean = false, config: TaildownConfig = getDefaultConfig()): string {
+  const utilities = {...TAILWIND_UTILITIES};
+  for (const [name, color] of Object.entries(config.theme.colors)) {
+    if (!/^[a-z][a-z0-9-]*$/.test(name)) continue;
+    for (const [shade, value] of Object.entries(typeof color === 'string' ? {DEFAULT: color} : color ?? {})) {
+      if (!value) continue;
+      const suffix = shade === 'DEFAULT' ? name : `${name}-${shade}`;
+      if (shade === 'DEFAULT' && ['primary','secondary','accent','success','warning','error','info'].includes(name)) continue;
+      utilities[`text-${suffix}`] = `color: ${value};`;
+      utilities[`bg-${suffix}`] = `background-color: ${value};`;
+      utilities[`border-${suffix}`] = `border-color: ${value};`;
+    }
+  }
+  for (const [name, font] of Object.entries(config.theme.fonts)) {
+    if (font && /^[a-z][a-z0-9-]*$/.test(name)) utilities[`font-${name}`] = `font-family: ${font};`;
+  }
+  // Resolve opacity on known colors before applying state/theme/breakpoint variants.
+  // color-mix also preserves semantic CSS variables and existing alpha channels.
+  for (const className of classes) {
+    const base = className.split(':').pop()!;
+    if (utilities[base]) continue;
+    const match = base.match(/^((?:text|bg|border)-[^/]+)\/(\d{1,3})$/);
+    if (!match || Number(match[2]) > 100) continue;
+    const declaration = utilities[match[1]!]?.match(/^(color|background-color|border-color):\s*(.+);$/);
+    if (declaration) utilities[base] = `${declaration[1]}: color-mix(in srgb, ${declaration[2]} ${Number(match[2])}%, transparent);`;
+  }
   const cssRules: string[] = [];
+  cssRules.push(`:root { --font-sans: ${config.theme.fonts.sans}; --font-serif: ${config.theme.fonts.serif}; --font-mono: ${config.theme.fonts.mono}; }`);
 
   // Add base reset/normalization
   cssRules.push(`
 /* Taildown Generated Styles */
+.carousel-play-toggle {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 2;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--background);
+  color: var(--foreground);
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.carousel-play-toggle:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 *, ::before, ::after {
   box-sizing: border-box;
   border-width: 0;
@@ -553,6 +625,10 @@ export function generateCSS(classes: Set<string>, minify: boolean = false): stri
 }
 
 html {
+  --document-gutter: 1rem;
+  --navbar-offset: 0px;
+  --navbar-anchor-offset: 0px;
+  scroll-padding-top: calc(var(--navbar-anchor-offset) + var(--document-gutter));
   /* Prevent horizontal scroll at root level */
   overflow-x: hidden;
   width: 100%;
@@ -570,11 +646,11 @@ html:focus-within {
 
 body {
   margin: 0;
-  padding: 1rem;
-  padding-top: 120px; /* Increased space for fixed navbar on mobile when it wraps */
-  font-family: system-ui, -apple-system, sans-serif;
-  line-height: 1.5;
-  font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
+  padding: var(--document-gutter);
+  padding-top: calc(var(--document-gutter) + var(--navbar-offset));
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  line-height: 1.65;
+  font-size: clamp(1rem, 0.5vw + 0.75rem, 1.125rem);
   min-height: 100vh;
   /* Use CSS variables for theming */
   background-color: var(--background);
@@ -582,9 +658,14 @@ body {
   /* Prevent horizontal scroll on body */
   overflow-x: hidden;
   width: 100%;
-  /* Smooth anchor scrolling offset for fixed navbar */
-  scroll-padding-top: 120px;
   /* DO NOT use transform on body - it breaks position:fixed children! */
+}
+
+/* A compact heading rhythm; explicit typography utilities still take priority. */
+:where(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 /* Zero-config responsive images - beautiful by default */
@@ -599,29 +680,26 @@ a {
   text-decoration: none;
 }
 
+/* Linked containers retain their surrounding theme; explicit color utilities win. */
+:where(a.taildown-component) {
+  color: inherit;
+}
+
 /* Regular plain text links (no classes) - for documentation links only */
-p > a:not([class]),
-li > a:not([class]),
-td > a:not([class]),
-th > a:not([class]) {
-  color: var(--primary);
-  text-decoration: none;
+:where(p, li, td, th) > a:not([class]) {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 500;
 }
 
-p > a:not([class]):hover,
-li > a:not([class]):hover,
-td > a:not([class]):hover,
-th > a:not([class]):hover {
-  opacity: 0.85;
+:where(p, li, td, th) > a:not([class]):hover {
+  text-decoration-thickness: 2px;
 }
 
-p > a:not([class]):active,
-li > a:not([class]):active,
-td > a:not([class]):active,
-th > a:not([class]):active {
-  opacity: 0.7;
+:where(p, li, td, th) > a:not([class]):active {
+  text-decoration-thickness: 2px;
 }
 
 /* Button spacing - zero-config beauty for inline buttons */
@@ -629,29 +707,20 @@ th > a:not([class]):active {
   margin: 0.5rem;
 }
 
-/* Offset anchor targets for fixed navbar */
-/* Account for fixed navbar when jumping to anchor links */
-:target {
-  scroll-margin-top: 120px; /* Matches mobile body padding-top */
+/* Reserve a baseline before the runtime measures wrapped navigation. */
+html:has(.navbar:not(.navbar-sticky)) {
+  --navbar-offset: 56px;
+  --navbar-anchor-offset: 56px;
 }
 
-/* Reduce scroll margin on larger screens where navbar doesn't wrap */
-@media (min-width: 640px) {
-  :target {
-    scroll-margin-top: 80px;
-  }
-  
-  body {
-    scroll-padding-top: 80px;
-  }
+html:has(.navbar-sticky) {
+  --navbar-anchor-offset: 56px;
 }
 
 /* Increase body padding on larger screens */
-/* Medium screens and up - reduce body top padding as navbar is single line */
 @media (min-width: 640px) {
-  body {
-    padding: 2rem;
-    padding-top: 80px; /* Reduced padding as navbar doesn't wrap on larger screens */
+  html {
+    --document-gutter: 2rem;
   }
   
   /* Increase navbar padding and gap on larger screens */
@@ -742,6 +811,38 @@ li:has(> .icon:first-child) {
 .task-done input[type="checkbox"] + * {
   text-decoration: line-through;
   color: var(--muted-foreground);
+}
+
+/* Native progress keeps the authored label outside the bar. */
+.progress-field { margin-block: 1rem; min-width: 0; }
+.progress-label { margin-bottom: .5rem; font-size: .875rem; }
+.progress-label > :first-child { margin-top: 0; }
+.progress-label > :last-child { margin-bottom: 0; }
+:where(progress.progress) { display: block; appearance: none; border: 0; }
+progress.progress::-webkit-progress-bar { background: inherit; border-radius: inherit; }
+progress.progress::-webkit-progress-value { background: currentColor; border-radius: inherit; }
+progress.progress::-moz-progress-bar { background: currentColor; border-radius: inherit; }
+progress.progress-striped::-webkit-progress-value {
+  background-image: repeating-linear-gradient(135deg, transparent 0 8px, rgba(255,255,255,.25) 8px 16px);
+}
+progress.progress-striped::-moz-progress-bar {
+  background-image: repeating-linear-gradient(135deg, transparent 0 8px, rgba(255,255,255,.25) 8px 16px);
+}
+progress.progress-animated { animation: progress-pulse 2s ease-in-out infinite; }
+progress.progress:indeterminate {
+  background-image: linear-gradient(90deg, transparent, currentColor, transparent);
+  background-size: 45% 100%;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  animation: progress-travel 1.8s ease-in-out infinite alternate;
+}
+progress.progress:indeterminate::-webkit-progress-bar { background: transparent; }
+progress.progress:indeterminate::-moz-progress-bar { background: transparent; }
+@keyframes progress-travel { to { background-position: 100% 0; } }
+@keyframes progress-pulse { 50% { opacity: .6; } }
+@media (prefers-reduced-motion: reduce) {
+  progress.progress-animated, progress.progress:indeterminate { animation: none; }
+  progress.progress:indeterminate { background-position: 50% 0; }
 }
 
 /* In-progress [~] - blue with icon */
@@ -966,7 +1067,7 @@ body > *:last-child {
 
 /* Add breathing room to components */
 /* EXCEPT fixed/sticky positioned components like navbar */
-.taildown-component:not(.navbar) {
+:where(.taildown-component:not(.navbar)) {
   margin-bottom: 1.5rem;
 }
 
@@ -981,15 +1082,15 @@ body > *:last-child {
 
 /* Inline code */
 code {
-  background-color: rgba(30, 41, 59, 0.05);
-  color: rgb(219, 39, 119);
+  background-color: var(--inline-code-background);
+  color: var(--inline-code-text);
   padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Fira Code', monospace;
+  font-family: var(--font-mono, monospace);
   font-size: 0.875em;
   font-weight: 500;
   /* Mobile-friendly: break long paths/strings to prevent overflow */
-  word-break: break-all;
+  word-break: normal;
   overflow-wrap: anywhere;
 }
 
@@ -1245,7 +1346,7 @@ pre > code {
   padding: 1.5rem 1.5rem 1.5rem 1.5rem;
   background: transparent;
   color: #e2e8f0;
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Fira Code', monospace;
+  font-family: var(--font-mono, monospace);
   font-size: inherit;
   font-weight: 400;
   line-height: inherit;
@@ -1706,10 +1807,6 @@ tbody tr:hover td:first-child {
 
 /* Code in tables */
 td code {
-  background: rgba(30, 41, 59, 0.05);
-  color: #db2777;
-  padding: 0.125rem 0.375rem;
-  border-radius: 0.25rem;
   font-size: 0.8125em;
   white-space: nowrap;
 }
@@ -1999,21 +2096,21 @@ td svg.icon {
 }
 
 /* Override for height-set containers */
-.image-compare.h-\[280px\]::before,
-.image-compare.h-\[450px\]::before,
-.image-compare.h-\[580px\]::before,
-.image-compare.h-\[700px\]::before,
+.image-compare.h-\\[280px\\]::before,
+.image-compare.h-\\[450px\\]::before,
+.image-compare.h-\\[580px\\]::before,
+.image-compare.h-\\[700px\\]::before,
 .image-compare.h-full::before {
   padding-bottom: 0;
 }
 
 /* Ensure viewport constraints work */
-.image-compare.max-h-\[35vh\],
-.image-compare.max-h-\[40vh\],
-.image-compare.max-h-\[55vh\],
-.image-compare.max-h-\[60vh\],
-.image-compare.max-h-\[70vh\],
-.image-compare.max-h-\[80vh\] {
+.image-compare.max-h-\\[35vh\\],
+.image-compare.max-h-\\[40vh\\],
+.image-compare.max-h-\\[55vh\\],
+.image-compare.max-h-\\[60vh\\],
+.image-compare.max-h-\\[70vh\\],
+.image-compare.max-h-\\[80vh\\] {
   /* Height is constrained by max-h utility */
 }
 
@@ -2169,14 +2266,14 @@ td svg.icon {
 }
 
 /* Size-specific adjustments */
-.image-compare.h-\[280px\] .image-compare-handle,
-.image-compare.max-h-\[35vh\] .image-compare-handle {
+.image-compare.h-\\[280px\\] .image-compare-handle,
+.image-compare.max-h-\\[35vh\\] .image-compare-handle {
   width: 36px;
   height: 36px;
 }
 
-.image-compare.h-\[700px\] .image-compare-handle,
-.image-compare.max-h-\[80vh\] .image-compare-handle {
+.image-compare.h-\\[700px\\] .image-compare-handle,
+.image-compare.max-h-\\[80vh\\] .image-compare-handle {
   width: 56px;
   height: 56px;
 }
@@ -2256,6 +2353,7 @@ td svg.icon {
 .diff-line-number {
   display: inline-block;
   width: 3rem;
+  flex-shrink: 0;
   text-align: right;
   padding-right: 1rem;
   padding-left: 0.5rem;
@@ -2297,9 +2395,14 @@ td svg.icon {
 
 /* Info/header lines (blue) */
 .diff-line-info {
-  color: var(--info);
+  color: var(--foreground);
+  background-color: rgba(59, 130, 246, 0.08);
   font-weight: 600;
   border-left: 3px solid var(--info);
+}
+
+.dark .diff-line-info {
+  background-color: rgba(59, 130, 246, 0.15);
 }
 
 /* Side-by-side diff visual styling */
@@ -2399,7 +2502,7 @@ td svg.icon {
   padding: 0;
   border: none;
   border-radius: 0;
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Fira Code', monospace;
+  font-family: var(--font-mono, monospace);
   position: relative;
 }
 
@@ -2609,15 +2712,47 @@ ${generateGlassmorphismCSS()}
 
 ${generateAnimationCSS()}
 
-${generateThemeCSS()}
+${generateThemeCSS(config)}
 `);
 
   // Generate utility classes
   const utilityRules: string[] = [];
   const mediaQueries: Map<string, string[]> = new Map();
 
-  for (const className of classes) {
-    let cssDeclarations = TAILWIND_UTILITIES[className];
+  // Broad utilities must precede their longhands (p-* before px-* before pl-*,
+  // text size before line-height, transition before duration). Class merging
+  // removes overridden declarations; this order preserves partial overrides.
+  // Never let a different element's first use decide the document's cascade.
+  const shorthandWidth: Record<string, number> = {
+    padding: 4, margin: 4, inset: 4, 'border-radius': 4,
+    'border-width': 4, 'border-style': 4, 'border-color': 4,
+    border: 12, 'border-top': 3, 'border-right': 3, 'border-bottom': 3, 'border-left': 3,
+    gap: 2, overflow: 2, flex: 3, 'flex-flow': 2,
+    transition: 4, animation: 8, background: 8, 'text-decoration': 4,
+  };
+  const declarationWidth = (className: string): number => {
+    const base = className.split(':').pop() ?? className;
+    const declarations = utilities[className] ?? utilities[base] ?? '';
+    return [...declarations.matchAll(/(?:^|[;{])\s*([\w-]+)\s*:/g)]
+      .reduce((width, match) => width + (shorthandWidth[match[1] ?? ''] ?? 1), 0);
+  };
+  const orderedClasses = [...classes].sort((a, b) =>
+    declarationWidth(b) - declarationWidth(a) || a.localeCompare(b, 'en'));
+  for (const className of orderedClasses) {
+    let cssDeclarations = utilities[className];
+
+    if (!cssDeclarations) {
+      const responsive = className.match(/^(sm|md|lg|xl|2xl):(.+)$/);
+      const breakpoints: Record<string, number> = { sm: 640, md: 768, lg: 1024, xl: 1280, '2xl': 1536 };
+      // Explicit breakpoint columns are literal counts, unlike adaptive bare grids.
+      const columns = responsive?.[2]?.match(/^grid-cols-([1-5])$/);
+      const base = columns
+        ? `grid-template-columns: repeat(${columns[1]}, minmax(0, 1fr));`
+        : responsive?.[2] ? utilities[responsive[2]] : undefined;
+      if (responsive?.[1] && base && !base.startsWith('@media')) {
+        cssDeclarations = `@media (min-width: ${breakpoints[responsive[1]]}px) { ${base} }`;
+      }
+    }
 
     // Helper function to escape CSS special characters
     const escapeCSS = (str: string) => str
@@ -2629,10 +2764,34 @@ ${generateThemeCSS()}
       .replace(/\//g, '\\/')
       .replace(/\./g, '\\.');
 
+    // Explicit dark variants compose with interaction and breakpoint prefixes.
+    // Keep the complete authored class as the selector, regardless of prefix order.
+    if (!cssDeclarations && className.split(':').includes('dark')) {
+      const parts = className.split(':');
+      const baseClass = parts.pop()!;
+      const breakpoints: Record<string, number> = { sm: 640, md: 768, lg: 1024, xl: 1280, '2xl': 1536 };
+      const states: Record<string, string> = { hover: 'hover', active: 'active', focus: 'focus', 'focus-visible': 'focus-visible', disabled: 'disabled', last: 'last-child' };
+      if (parts.every(part => part === 'dark' || part in breakpoints || part in states)) {
+        const widths = parts.filter(part => part in breakpoints).map(part => breakpoints[part]!);
+        const columns = widths.length ? baseClass.match(/^grid-cols-([1-5])$/) : null;
+        const base = columns ? `grid-template-columns: repeat(${columns[1]}, minmax(0, 1fr));` : utilities[baseClass];
+        if (base && !base.startsWith('@media')) {
+          const pseudos = parts.filter(part => part in states).map(part => `:${states[part]}`).join('');
+          const rule = `.dark .${escapeCSS(className)}${pseudos} { ${base} }`;
+          if (widths.length) {
+            const query = `(min-width: ${Math.max(...widths)}px)`;
+            if (!mediaQueries.has(query)) mediaQueries.set(query, []);
+            mediaQueries.get(query)!.push(rule);
+          } else utilityRules.push(rule);
+          continue;
+        }
+      }
+    }
+
     // Handle hover: prefix dynamically
     if (!cssDeclarations && className.startsWith('hover:')) {
       const baseClass = className.substring(6); // Remove 'hover:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
+      const baseDeclarations = utilities[baseClass];
       if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
         // Generate hover variant
         const escapedClassName = escapeCSS(className);
@@ -2644,7 +2803,7 @@ ${generateThemeCSS()}
     // Handle active: prefix dynamically
     if (!cssDeclarations && className.startsWith('active:')) {
       const baseClass = className.substring(7); // Remove 'active:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
+      const baseDeclarations = utilities[baseClass];
       if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
         // Generate active variant
         const escapedClassName = escapeCSS(className);
@@ -2656,7 +2815,7 @@ ${generateThemeCSS()}
     // Handle focus-visible: prefix dynamically
     if (!cssDeclarations && className.startsWith('focus-visible:')) {
       const baseClass = className.substring(14); // Remove 'focus-visible:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
+      const baseDeclarations = utilities[baseClass];
       if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
         const escapedClassName = escapeCSS(className);
         utilityRules.push(`.${escapedClassName}:focus-visible { ${baseDeclarations} }`);
@@ -2667,7 +2826,7 @@ ${generateThemeCSS()}
     // Handle disabled: prefix dynamically
     if (!cssDeclarations && className.startsWith('disabled:')) {
       const baseClass = className.substring(9); // Remove 'disabled:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
+      const baseDeclarations = utilities[baseClass];
       if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
         const escapedClassName = escapeCSS(className);
         utilityRules.push(`.${escapedClassName}:disabled { ${baseDeclarations} }`);
@@ -2678,7 +2837,7 @@ ${generateThemeCSS()}
     // Handle last: prefix dynamically
     if (!cssDeclarations && className.startsWith('last:')) {
       const baseClass = className.substring(5); // Remove 'last:' prefix
-      const baseDeclarations = TAILWIND_UTILITIES[baseClass];
+      const baseDeclarations = utilities[baseClass];
       if (baseDeclarations && !baseDeclarations.startsWith('@media')) {
         const escapedClassName = escapeCSS(className);
         utilityRules.push(`.${escapedClassName}:last-child { ${baseDeclarations} }`);
@@ -2709,8 +2868,75 @@ ${generateThemeCSS()}
 
   cssRules.push(utilityRules.join('\n'));
 
+  // Add responsive grid rules for mobile-first behavior
+  // These ensure grids gracefully scale from 1 column on mobile to full column count on larger screens
+  if (classes.has('grid-cols-2')) {
+    cssRules.push(`
+/* grid-cols-2: 1 column on mobile, 2 on tablet+ */
+@media (min-width: 640px) {
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+`);
+  }
+
+  if (classes.has('grid-cols-3')) {
+    cssRules.push(`
+/* grid-cols-3: 1 column on mobile, 3 on tablet+ */
+@media (min-width: 768px) {
+  .grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+`);
+  }
+
+  if (classes.has('grid-cols-4')) {
+    cssRules.push(`
+/* grid-cols-4: 1 column on mobile, 2 on small, 3 on tablet, 4 on desktop */
+@media (min-width: 640px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 768px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+`);
+  }
+
+  if (classes.has('grid-cols-5')) {
+    cssRules.push(`
+/* grid-cols-5: 1 column on mobile, 2 on small, 3 on tablet, 5 on extra-large */
+@media (min-width: 640px) {
+  .grid-cols-5 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 768px) {
+  .grid-cols-5 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1280px) {
+  .grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+`);
+  }
+
   // Add media queries
-  for (const [mediaQuery, rules] of mediaQueries) {
+  const breakpointWidth = (query: string) => Number(query.match(/min-width:\s*(\d+(?:\.\d+)?)px/)?.[1] ?? 0);
+  for (const [mediaQuery, rules] of [...mediaQueries].sort(([a], [b]) => breakpointWidth(a) - breakpointWidth(b))) {
     cssRules.push(`@media ${mediaQuery} {\n  ${rules.join('\n  ')}\n}`);
   }
 
@@ -2726,20 +2952,22 @@ ${generateThemeCSS()}
 }
 
 /* Card Component */
-.component-card {
-  /* Additional card-specific styles */
+:where(.component-card) > :where(:first-child) {
+  margin-top: 0;
 }
 
-.component-card .component-card {
-  padding: 1rem;
+:where(.component-card) > :where(:last-child) {
+  margin-bottom: 0;
 }
 
-.component-card .component-card .component-card {
-  padding: 0.75rem;
+:where(.component-card) :where(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
-.component-card .component-card .component-card .component-card {
-  padding: 0.5rem;
+:where(.component-card) :where(p, li) {
+  line-height: 1.65;
 }
 
 .component-grid {
@@ -2747,18 +2975,9 @@ ${generateThemeCSS()}
   align-items: stretch;
 }
 
-/* Make all direct children of grid stretch to full height */
-.component-grid > * {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Ensure cards in grids stretch to equal heights */
-.component-grid .component-card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+/* CSS grid already stretches its items; preserve each child's own layout. */
+:where(.component-grid > *) {
+  margin-bottom: 0;
 }
 
 .component-container {
@@ -2917,7 +3136,7 @@ ${generateThemeCSS()}
 }
 
 .tab-button[aria-selected="true"] {
-  color: var(--primary);
+  color: var(--primary-text);
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
               0 1px 2px -1px rgba(0, 0, 0, 0.1),
@@ -2995,7 +3214,7 @@ ${generateThemeCSS()}
 
 .tabs-pills .tab-button[aria-selected="true"] {
   background: var(--primary);
-  color: white;
+  color: var(--primary-foreground);
 }
 
 /* ========================================
@@ -3183,6 +3402,15 @@ ${generateThemeCSS()}
   display: inline-flex;
   align-items: center;
   position: relative;
+  min-height: 44px;
+}
+
+/* A linked brand keeps the page heading hierarchy for the document itself. */
+.navbar a.navbar-brand {
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  opacity: 1;
 }
 
 .navbar a:hover {
@@ -3204,7 +3432,8 @@ ${generateThemeCSS()}
 .navbar a.active {
   opacity: 1;
   font-weight: 600;
-  color: var(--primary);
+  color: var(--link);
+  background: var(--card);
 }
 
 /* Mobile optimization for navbar */
@@ -3341,9 +3570,7 @@ ${generateThemeCSS()}
   padding: 1rem 1.25rem;
   border-radius: 0.75rem;
   border: 1px solid;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
+  display: block;
   margin-bottom: 1.5rem;
   transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -3352,57 +3579,61 @@ ${generateThemeCSS()}
 .alert-info {
   background: rgba(59, 130, 246, 0.1);
   border-color: rgba(59, 130, 246, 0.3);
-  color: var(--info);
+  color: var(--info-text);
 }
 
 .dark .alert-info {
   background: rgba(59, 130, 246, 0.15);
   border-color: rgba(59, 130, 246, 0.4);
-  color: #60a5fa;
+  color: var(--info-text);
 }
 
 /* Success variant */
 .alert-success {
   background: rgba(16, 185, 129, 0.1);
   border-color: rgba(16, 185, 129, 0.3);
-  color: var(--success);
+  color: var(--success-text);
 }
 
 .dark .alert-success {
   background: rgba(16, 185, 129, 0.15);
   border-color: rgba(16, 185, 129, 0.4);
-  color: #34d399;
+  color: var(--success-text);
 }
 
 /* Warning variant */
 .alert-warning {
   background: rgba(245, 158, 11, 0.1);
   border-color: rgba(245, 158, 11, 0.3);
-  color: var(--warning);
+  color: var(--warning-text);
 }
 
 .dark .alert-warning {
   background: rgba(245, 158, 11, 0.15);
   border-color: rgba(245, 158, 11, 0.4);
-  color: #fbbf24;
+  color: var(--warning-text);
 }
 
 /* Error variant */
 .alert-error {
   background: rgba(239, 68, 68, 0.1);
   border-color: rgba(239, 68, 68, 0.3);
-  color: var(--error);
+  color: var(--error-text);
 }
 
 .dark .alert-error {
   background: rgba(239, 68, 68, 0.15);
   border-color: rgba(239, 68, 68, 0.4);
-  color: #f87171;
+  color: var(--error-text);
 }
 
 /* Alert content */
 .alert > * {
   margin: 0;
+}
+
+.alert > * + * {
+  margin-top: 0.75rem;
 }
 
 /* Alert with icons */
@@ -3622,32 +3853,33 @@ ${generateThemeCSS()}
 }
 
 /* Summary element - the clickable header */
-.details-component summary {
+.details-component > summary {
+  position: relative;
   cursor: pointer;
   font-weight: 600;
   list-style: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.125rem 0;
-  color: var(--foreground);
+  display: block;
+  padding: 0.125rem 1.75rem 0.125rem 0;
   user-select: none;
   outline: none;
   transition: color 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Remove default disclosure triangle across browsers */
-.details-component summary::-webkit-details-marker {
+.details-component > summary::-webkit-details-marker {
   display: none;
 }
 
-.details-component summary::marker {
+.details-component > summary::marker {
   display: none;
 }
 
 /* Add custom chevron icon with smooth rotation */
-.details-component summary::after {
+.details-component > summary::after {
   content: '▶';
+  position: absolute;
+  right: 0;
+  top: 0.4em;
   display: inline-block;
   width: 1rem;
   height: 1rem;
@@ -3655,21 +3887,19 @@ ${generateThemeCSS()}
   color: var(--muted-foreground);
   font-size: 0.75rem;
   transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1), color 200ms cubic-bezier(0.4, 0, 0.2, 1);
-  margin-left: auto;
-  padding-left: 0.5rem;
 }
 
 /* Hover effect on summary */
-.details-component summary:hover {
+.details-component > summary:hover {
   color: var(--primary);
 }
 
-.details-component summary:hover::after {
+.details-component > summary:hover::after {
   color: var(--primary);
 }
 
 /* Rotate chevron when open */
-.details-component[open] summary::after {
+.details-component[open] > summary::after {
   transform: rotate(90deg);
 }
 
@@ -3704,7 +3934,7 @@ ${generateThemeCSS()}
 }
 
 /* Focus states for accessibility */
-.details-component summary:focus-visible {
+.details-component > summary:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
   border-radius: 0.25rem;
@@ -3717,14 +3947,24 @@ ${generateThemeCSS()}
     font-size: 0.875rem;
   }
   
-  .details-component summary {
+  .details-component > summary {
     font-size: 0.9375rem;
   }
 }
 
 /* Dark mode adjustments */
-.dark .details-component summary::after {
+.dark .details-component > summary::after {
   color: var(--muted-foreground);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .details-component,
+  .details-component > summary,
+  .details-component > summary::after,
+  .details-component > *:not(summary) {
+    animation: none;
+    transition: none;
+  }
 }
 
 /* ========================================
@@ -4436,7 +4676,7 @@ blockquote::before {
   font-size: 3rem;
   color: var(--primary);
   opacity: 0.2;
-  font-family: Georgia, serif;
+  font-family: var(--font-serif, Georgia, serif);
   line-height: 1;
 }
 
@@ -5310,12 +5550,20 @@ mark,
 .carousel-prev,
 .carousel-next {
   position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 10;
   background: var(--background);
+  color: var(--foreground);
   border: 1px solid var(--border);
   cursor: pointer;
   outline: none;
 }
+.carousel-prev { left: 1rem; }
+.carousel-next { right: 1rem; }
+.carousel-prev:focus-visible,
+.carousel-next:focus-visible,
+.carousel-indicator:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 
 .carousel-prev:hover,
 .carousel-next:hover {
@@ -5396,11 +5644,9 @@ mark,
 .modal-content {
   position: relative;
   z-index: 9999;
-  max-width: 42rem;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  border-radius: 1rem;
   animation: modalSlideIn 300ms cubic-bezier(0.16, 1, 0.3, 1);
   /* Subtle inner border for glassmorphism depth */
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -5429,6 +5675,10 @@ mark,
 
 /* Modal close button - positioned outside content */
 .modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: var(--foreground);
   z-index: 10000 !important;
   cursor: pointer;
   transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -5482,6 +5732,7 @@ mark,
 .tooltip-content,
 .tooltip-popup {
   position: fixed !important; /* Fixed relative to viewport, positioned by JS */
+  margin: 0;
   z-index: 10000 !important; /* Above modals */
   color: white;
   padding: 0.75rem 1rem;
@@ -5502,6 +5753,8 @@ mark,
     0 0 0 1px rgba(255, 255, 255, 0.05) inset;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
   max-width: min(90vw, 28rem);
+  max-height: calc(100vh - 16px);
+  overflow: auto;
   width: max-content;
   white-space: normal;
   word-wrap: break-word;
@@ -5574,9 +5827,6 @@ mark,
 }
 
 .tooltip-content code {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 0.125rem 0.375rem;
-  border-radius: 0.25rem;
   font-size: 0.8125rem;
 }
 
@@ -5861,8 +6111,8 @@ mark,
   position: relative;
   padding: 0.75rem 1rem;
   margin: 0.5rem 0;
-  background: white;
-  border: 2px solid rgb(229 231 235);
+  background: var(--card);
+  border: 2px solid var(--border);
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
   transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -6026,7 +6276,7 @@ mark,
 .flow-timeline li {
   border-left-width: 4px;
   border-left-color: rgb(59 130 246);
-  background: linear-gradient(to right, rgb(239 246 255), white);
+  background: linear-gradient(to right, var(--muted), var(--card));
 }
 
 .flow-timeline li::before {
@@ -6037,14 +6287,14 @@ mark,
   width: 0.75rem;
   height: 0.75rem;
   background: rgb(59 130 246);
-  border: 3px solid white;
+  border: 3px solid var(--card);
   border-radius: 50%;
   box-shadow: 0 0 0 2px rgb(59 130 246);
 }
 
 /* Minimal flow - clean styling */
 .flow-minimal li {
-  border: 1px solid rgb(229 231 235);
+  border: 1px solid var(--border);
   background: transparent;
   box-shadow: none;
 }
@@ -6072,9 +6322,9 @@ mark,
 }
 
 .flow-glass li {
-  background: rgba(255, 255, 255, 0.6);
+  background: color-mix(in srgb, var(--card) 75%, transparent);
   backdrop-filter: blur(8px);
-  border-color: rgba(255, 255, 255, 0.4);
+  border-color: var(--border);
 }
 
 /* Mobile optimization for horizontal flows */
@@ -6205,13 +6455,15 @@ a[data-footnote-ref]:after {
 }
 
 /* Footnote definition */
-li[role="doc-footnote"] {
+li[role="doc-footnote"],
+[data-footnotes] > ol > li {
   scroll-margin-top: 2rem;
   transition: background-color 0.3s ease;
 }
 
 /* Highlight target footnote when navigating via anchor */
-li[role="doc-footnote"]:target {
+li[role="doc-footnote"]:target,
+[data-footnotes] > ol > li:target {
   background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.1);
   padding: 0.5rem;
   margin-left: -0.5rem;
@@ -6229,7 +6481,8 @@ li[role="doc-footnote"]:target {
 }
 
 /* Backlink (return to content) */
-.footnote-backlink {
+.footnote-backlink,
+[data-footnote-backref] {
   font-size: 1.25em;
   text-decoration: none;
   color: var(--muted);
@@ -6238,7 +6491,8 @@ li[role="doc-footnote"]:target {
   display: inline-block;
 }
 
-.footnote-backlink:hover {
+.footnote-backlink:hover,
+[data-footnote-backref]:hover {
   color: var(--primary);
   transform: translateX(-2px);
 }
@@ -6251,7 +6505,10 @@ li[role="doc-footnote"]:target {
   border: 1px solid var(--border);
   border-radius: 0.5rem;
   padding: 0.75rem 1rem;
-  max-width: 24rem;
+  max-width: min(24rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  overflow: hidden;
+  overflow-wrap: anywhere;
   box-shadow: 
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -6519,162 +6776,29 @@ li[role="doc-footnote"]:target {
   min-height: 0;
 }
 
-/* Intelligent text scaling for cards: Scale down to fit, never wrap mid-word */
-.card h1, .card h2, .card h3, .card h4, .card h5, .card h6,
-.card .huge-bold, .card .large-bold, .card .medium-bold {
-  /* Dynamic font sizing: scales down on small screens, grows on large screens */
-  font-size: clamp(0.875rem, 4vw, 2rem);
-  /* Wrap at word boundaries only, never mid-word */
-  overflow-wrap: normal;
-  word-break: normal;
-  /* Prefer balanced line breaks when wrapping is necessary */
-  text-wrap: balance;
-  /* Allow hyphens as last resort for very long words */
-  hyphens: auto;
-}
-
-/* For interactive nav cards - EXTREMELY aggressive scaling to fit grid cells */
-.grid .card h1, .grid .card h2, .grid .card h3,
-.grid .card h4, .grid .card h5, .grid .card h6,
-.grid .card .huge-bold, .grid .card .large-bold,
-.grid .card .text-4xl, .grid .card .text-3xl, .grid .card .text-2xl,
-.grid .card p.text-4xl, .grid .card p.text-3xl,
-.card.hover-lift h1, .card.hover-lift h2, .card.hover-lift h3,
-.card.hover-lift .huge-bold, .card.hover-lift .large-bold,
-.card.hover-lift .text-4xl, .card.hover-lift .text-3xl {
-  /* ULTRA aggressive scaling: 10px minimum to prevent overflow clipping */
-  font-size: clamp(0.625rem, 1.2vw + 0.3rem, 1.5rem) !important;
-  line-height: 1.3 !important;
-  /* Allow text to wrap and break if absolutely necessary to prevent overflow */
-  white-space: normal;
-  overflow-wrap: break-word; /* Break words if they're too long */
-  word-break: normal; /* Prefer breaking at word boundaries */
-  /* Balance lines for aesthetically pleasing wraps */
-  text-wrap: balance;
-  /* Use hyphens as visual indicator when breaking */
-  hyphens: auto;
-}
-
-/* MOBILE + TABLET: Force scaled text for 2-column grids to prevent clipping */
-@media (max-width: 768px) {
-  .grid.grid-cols-2 .card .text-4xl,
-  .grid.grid-cols-2 .card .text-3xl,
-  .grid.grid-cols-2 .card .text-2xl,
-  .grid.grid-cols-2 .card p.text-4xl,
-  .grid.grid-cols-2 .card p.text-3xl,
-  .grid.grid-cols-2 .card h1,
-  .grid.grid-cols-2 .card h2,
-  .grid.grid-cols-2 .card h3 {
-    font-size: 1.125rem !important; /* 18px for tablet */
-    line-height: 1.3 !important;
-  }
-}
-
-/* MOBILE ONLY: Even smaller text */
-@media (max-width: 640px) {
-  .grid.grid-cols-2 .card .text-4xl,
-  .grid.grid-cols-2 .card p.text-4xl {
-    font-size: 0.95rem !important; /* ~15px on mobile */
-    line-height: 1.2 !important;
-  }
-}
-
-/* Reduce card padding on mobile for grid layouts */
-@media (max-width: 640px) {
-  .grid .card,
-  .grid > .card {
-    padding: 0.75rem !important; /* Even more reduced */
-  }
-}
-
-/* Even tighter padding for very small screens */
-@media (max-width: 400px) {
-  .grid .card,
-  .grid > .card {
-    padding: 0.5rem !important; /* Maximum reduction */
-  }
-  
-  .grid .card .text-4xl,
-  .grid .card p.text-4xl,
-  .grid .card h1 {
-    font-size: 0.875rem !important; /* 14px for very small screens */
-  }
-}
-
-/* Regular card text - allow natural wrapping */
-.card p, .card li, .card .muted {
-  overflow-wrap: normal;
-  word-break: normal;
-  text-wrap: pretty; /* Modern CSS for optimal line breaks */
-}
 `);
 
-  // Add responsive grid rules for mobile-first behavior
-  // These ensure grids gracefully scale from 1 column on mobile to full column count on larger screens
-  if (classes.has('grid-cols-2')) {
+  cssRules.push(PRINT_CSS);
+  if (classes.has('component-avatar')) {
     cssRules.push(`
-/* grid-cols-2: 1 column on mobile, 2 on tablet+ */
-@media (min-width: 640px) {
-  .grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
+:where(.component-avatar) > p {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+:where(.component-avatar) > img,
+:where(.component-avatar) > p > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin: 0;
 }
 `);
   }
-  
-  if (classes.has('grid-cols-3')) {
-    cssRules.push(`
-/* grid-cols-3: 1 column on mobile, 3 on tablet+ */
-@media (min-width: 768px) {
-  .grid-cols-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
-}
-`);
-  }
-  
-  if (classes.has('grid-cols-4')) {
-    cssRules.push(`
-/* grid-cols-4: 1 column on mobile, 2 on small, 3 on tablet, 4 on desktop */
-@media (min-width: 640px) {
-  .grid-cols-4 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-@media (min-width: 768px) {
-  .grid-cols-4 {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
-}
-@media (min-width: 1024px) {
-  .grid-cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  }
-}
-`);
-  }
-  
-  if (classes.has('grid-cols-5')) {
-    cssRules.push(`
-/* grid-cols-5: 1 column on mobile, 2 on small, 3 on tablet, 5 on extra-large */
-@media (min-width: 640px) {
-  .grid-cols-5 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-@media (min-width: 768px) {
-  .grid-cols-5 {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
-}
-@media (min-width: 1280px) {
-  .grid-cols-5 {
-    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-  }
-}
-`);
-  }
-
   const css = cssRules.join('\n');
 
   if (minify) {
@@ -6699,4 +6823,3 @@ export function renderCSS(ast: TaildownRoot, minify: boolean = false): string {
   const classes = collectClasses(ast);
   return generateCSS(classes, minify);
 }
-

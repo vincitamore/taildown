@@ -12,6 +12,7 @@
  */
 
 import type { ResolverContext } from './style-resolver';
+import { resolveSemanticColor } from './semantic-colors';
 
 /**
  * Shorthand mapping can be:
@@ -29,6 +30,9 @@ export type ShorthandMapping =
  * Organized by category for maintainability
  */
 export const SHORTHAND_MAPPINGS: Record<string, ShorthandMapping> = {
+  sans: 'font-sans',
+  serif: 'font-serif',
+  mono: 'font-mono',
   // ========================================
   // TYPOGRAPHY - Sizes
   // ========================================
@@ -321,12 +325,12 @@ export const SHORTHAND_MAPPINGS: Record<string, ShorthandMapping> = {
   // ========================================
   // STATE COLORS (Semantic)
   // ========================================
-  muted: 'text-gray-500',
+  muted: 'text-muted-foreground',
   'dark:muted': 'dark:text-gray-400',
-  success: 'text-green-600',
-  warning: 'text-yellow-600',
-  error: 'text-red-600',
-  info: 'text-blue-600',
+  success: 'text-success',
+  warning: 'text-warning',
+  error: 'text-error',
+  info: 'text-info',
 
   // ========================================
   // NATURAL COMBINATIONS (Phase 2+)
@@ -341,26 +345,26 @@ export const SHORTHAND_MAPPINGS: Record<string, ShorthandMapping> = {
   'large-light': ['text-lg', 'font-light'],
   
   // Size + Color combinations
-  'large-muted': ['text-lg', 'text-gray-500'],
-  'small-muted': ['text-sm', 'text-gray-500'],
-  'large-primary': ['text-lg', 'text-blue-600'],
-  'large-success': ['text-lg', 'text-green-600'],
-  'large-warning': ['text-lg', 'text-yellow-600'],
-  'large-error': ['text-lg', 'text-red-600'],
+  'large-muted': ['text-lg', 'text-muted-foreground'],
+  'small-muted': ['text-sm', 'text-muted-foreground'],
+  'large-primary': (context) => ['text-lg', ...(resolveSemanticColor('primary', context) ?? [])],
+  'large-success': ['text-lg', 'text-success'],
+  'large-warning': ['text-lg', 'text-warning'],
+  'large-error': ['text-lg', 'text-error'],
   
   // Background + Text semantic pairs
-  'primary-bg': ['bg-blue-600', 'text-white'],
-  'secondary-bg': ['bg-gray-600', 'text-white'],
-  'success-bg': ['bg-green-600', 'text-white'],
-  'warning-bg': ['bg-yellow-600', 'text-white'],
-  'error-bg': ['bg-red-600', 'text-white'],
-  'info-bg': ['bg-blue-600', 'text-white'],
+  'primary-bg': (context) => [...(resolveSemanticColor('bg-primary', context) ?? []), 'text-white'],
+  'secondary-bg': (context) => [...(resolveSemanticColor('bg-secondary', context) ?? []), 'text-white'],
+  'success-bg': ['bg-success', 'text-success-foreground'],
+  'warning-bg': ['bg-warning', 'text-warning-foreground'],
+  'error-bg': ['bg-error', 'text-error-foreground'],
+  'info-bg': ['bg-info', 'text-info-foreground'],
   'muted-bg': ['bg-gray-100', 'text-gray-700'],
   
   // Common natural phrases
-  'bold-primary': ['font-bold', 'text-blue-600'],
-  'bold-muted': ['font-bold', 'text-gray-500'],
-  'italic-muted': ['italic', 'text-gray-500'],
+  'bold-primary': (context) => ['font-bold', ...(resolveSemanticColor('primary', context) ?? [])],
+  'bold-muted': ['font-bold', 'text-muted-foreground'],
+  'italic-muted': ['italic', 'text-muted-foreground'],
 };
 
 /**
@@ -378,6 +382,7 @@ export function getAllShorthands(): string[] {
 export function getShorthandsByCategory(): Record<string, string[]> {
   return {
     typography: [
+      'sans', 'serif', 'mono',
       'xs',
       'small',
       'base',

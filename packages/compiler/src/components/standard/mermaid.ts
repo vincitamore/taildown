@@ -1,4 +1,4 @@
-import type { ComponentDefinition } from '../../types/component-types.js';
+import type { ComponentDefinition } from '../component-registry';
 
 /**
  * Mermaid Diagram Component
@@ -10,7 +10,7 @@ import type { ComponentDefinition } from '../../types/component-types.js';
  * ```
  *
  * Features:
- * - Server-side rendering (zero runtime JS)
+ * - Client-side SVG rendering with the exported Mermaid runtime
  * - All diagram types supported (flowchart, sequence, class, state, gantt, pie, git, etc.)
  * - Responsive SVG output
  * - Theme-aware (light/dark)
@@ -58,34 +58,19 @@ export const mermaidComponent: ComponentDefinition = {
     centered: ['mx-auto'],
     compact: ['p-4'],
 
-    // Size variants
+  },
+  htmlElement: 'div',
+  defaultSize: 'lg',
+  sizes: {
     sm: ['max-w-[400px]'],
     md: ['max-w-[600px]'],
     lg: ['max-w-[800px]'],
     xl: ['max-w-[1000px]'],
     full: ['w-full'],
+    small: ['max-w-[400px]'],
+    medium: ['max-w-[600px]'],
+    large: ['max-w-[800px]'],
   },
-
-  // Default variant combinations
-  defaults: {
-    size: 'lg',
-  },
-
-  // Semantic class aliases
-  classAliases: {
-    shadow: 'elevated',
-    blur: 'glass',
-    center: 'centered',
-    small: 'sm',
-    medium: 'md',
-    large: 'lg',
-  },
-
-  metadata: {
-    description: 'Renders diagrams using Mermaid syntax',
-    allowNesting: false,
-    requiredAttributes: [],
-    optionalAttributes: ['theme', 'scale'],
-  },
+  description: 'Renders diagrams using Mermaid syntax',
+  hasChildren: true,
 };
-

@@ -1,7 +1,7 @@
 {
   "buildCommand": "node build.mjs",
-  "outputDirectory": ".",
-  "installCommand": "cd .. && pnpm install && pnpm build",
+  "outputDirectory": "dist",
+  "installCommand": "cd .. && pnpm install --frozen-lockfile && pnpm build",
   "framework": null,
   "cleanUrls": true,
   "redirects": [

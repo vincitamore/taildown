@@ -15,7 +15,7 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist"
+    "clean": "node ../../scripts/clean.mjs --package"
   },
   "dependencies": {
     "@taildown/compiler": "workspace:*",
