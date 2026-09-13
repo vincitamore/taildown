@@ -170,7 +170,7 @@ Valid:   {modal="#welcome-modal" class="custom"}
 - Only ONE anchor ID is allowed per attribute block (first one wins)
 - Anchor IDs MAY be combined with styling attributes
 - Generated HTML will have `id="..."` attribute for native browser navigation
-- Scroll targets automatically account for sticky navbar offset (`:target { scroll-margin-top: 80px; }`)
+- Scroll targets account for the measured fixed/sticky navbar height.
 
 **Valid anchor ID examples:**
 ```taildown

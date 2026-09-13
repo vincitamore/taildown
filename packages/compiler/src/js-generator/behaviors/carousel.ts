@@ -53,6 +53,13 @@ getComponents('carousel').forEach(carousel => {
       indicator.setAttribute('aria-current', isActive ? 'true' : 'false');
     });
     
+    // Reveal the selected dot inside its own strip without scrolling the page.
+    const selected = indicators[index];
+    if (selected && selected.parentElement) {
+      const strip = selected.parentElement;
+      if (strip.scrollWidth > strip.clientWidth) strip.scrollLeft = selected.offsetLeft - (strip.clientWidth - selected.offsetWidth) / 2;
+    }
+
     // Update buttons (enable/disable based on position if not looping)
     if (prevBtn) prevBtn.disabled = false;
     if (nextBtn) nextBtn.disabled = false;

@@ -71,3 +71,47 @@ it('tracks wrapped fixed navigation without double-counting sticky flow', () => 
     dom.window.close();
   }
 });
+it('collapses mobile navigation without rebuilding links and restores desktop access', () => {
+  const dom = new JSDOM(
+    '<nav class="navbar"><h1>Project</h1><p><a href="#one">First</a> <a href="#two">Second</a></p></nav>',
+    { url: 'https://taildown.test/', runScripts: 'outside-only' }
+  );
+  try {
+    const media = Object.assign(new dom.window.EventTarget(), { matches: true });
+    dom.window.matchMedia = () => media as unknown as MediaQueryList;
+    const original = dom.window.document.querySelector('a');
+    dom.window.eval(navbarBehavior.code);
+    const toggle = dom.window.document.querySelector<HTMLButtonElement>('.navbar-menu-toggle')!;
+    const links = dom.window.document.querySelector<HTMLElement>('.navbar-links')!;
+    expect(links.inert).toBe(true);
+    toggle.click();
+    expect(links.inert).toBe(false);
+    expect(toggle.getAttribute('aria-expanded')).toBe('true');
+    expect(links.querySelector('a')).toBe(original);
+    toggle.dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    expect(links.inert).toBe(true);
+    expect(dom.window.document.activeElement).toBe(toggle);
+    media.matches = false;
+    media.dispatchEvent(new dom.window.Event('change'));
+    expect(links.inert).toBe(false);
+  } finally {
+    dom.window.close();
+  }
+});
+it('keeps a brand visible when it shares a paragraph with navigation links', () => {
+  const dom = new JSDOM(
+    '<nav class="navbar"><p><a class="navbar-brand" href="/">Project</a> <a href="#one">First</a> <a href="#two">Second</a></p></nav>',
+    { url: 'https://taildown.test/', runScripts: 'outside-only' }
+  );
+  try {
+    dom.window.matchMedia = () =>
+      Object.assign(new dom.window.EventTarget(), { matches: true }) as unknown as MediaQueryList;
+    dom.window.eval(navbarBehavior.code);
+    expect(dom.window.document.querySelector('.navbar > .navbar-brand')?.textContent).toBe(
+      'Project'
+    );
+    expect(dom.window.document.querySelectorAll('.navbar-links a')).toHaveLength(2);
+  } finally {
+    dom.window.close();
+  }
+});

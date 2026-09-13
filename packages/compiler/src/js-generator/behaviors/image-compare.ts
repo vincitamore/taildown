@@ -24,6 +24,11 @@ imageCompareElements.forEach(container => {
   console.log('[Taildown ImageCompare] Initializing image comparison', container);
   const slider = container.querySelector('[data-compare-slider]');
   const afterImage = container.querySelector('[data-compare-after]');
+  const before = container.querySelector('.image-compare-before img');
+  const preserveAspect = () => {
+    if (before && before.naturalWidth > 0 && before.naturalHeight > 0) container.style.setProperty('--image-compare-ratio', before.naturalWidth + ' / ' + before.naturalHeight);
+  };
+  if (before) {before.addEventListener('load', preserveAspect); preserveAspect();}
   const orientation = container.getAttribute('data-orientation') || 'horizontal';
   const isVertical = orientation === 'vertical';
   

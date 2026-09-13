@@ -16,6 +16,16 @@ Open `editor/dist/editor.html` in a modern browser. This file contains the edito
 
 For UI development, edit the template or modules in `editor/`, then rebuild and open `editor/dist/editor.html`. The source template imports TypeScript and built compiler modules; it is a build input and cannot be served directly as a browser application.
 
+## Install and work offline
+
+The hosted editor can be installed from **File → Install app** when the browser offers installation, or from the browser's install/add-to-home-screen menu. It launches directly into the editor in its own window and supports either orientation. After **Editor ready offline** appears, the editor, compiler, diagram runtime and downloadable offline editor are available without a network connection. Remote media authored into a document still depends on its original host.
+
+**File → Update app** appears when a new version is ready. Close other Taildown editor windows first. The editor saves the current source and applied design before requesting the update; it will not reload if draft storage fails or Design settings are still open. Closing and reopening all editor windows also allows the browser to activate an already downloaded update. Keep source downloads as durable backups: browser storage can be cleared by the user or operating system.
+
+On supported browsers, **File → Share source** sends the current document through the system share sheet. An installed Taildown editor can receive plain text or Taildown/Markdown/text files from Android sharing. Shared content is stored locally and opens a review dialog. **Download current & open** backs up the current source before importing the selected file; **Cancel** keeps the incoming files under **File → Shared files**, and **Discard shared copy** removes an unwanted item. Each share accepts up to 10 files totaling 8 MB, with at most 10 pending shares. Desktop browsers supporting PWA file handlers can also launch the editor with `.td`, `.tdown`, `.taildown` or `.md` files. Other browsers retain File → Open and Download source.
+
+The service worker handles only the editor and its declared assets, leaving ordinary documentation navigation on the network. `editor/build-pwa.mjs` generates a content-addressed shell after the documentation build finishes; `editor/service-worker.js` owns its offline and activation behavior. Opening the portable HTML file does not register a service worker.
+
 ## Authoring
 
 - **Insert / Ctrl+K / Cmd+K:** Search formatting actions and compiler-derived component starters. Use arrows to choose, Enter to insert, and Escape to close. The palette also opens Design settings.
@@ -29,6 +39,12 @@ Preview compilation and browser draft recovery run after a one-second pause in t
 Compilation normally runs in a background worker so it does not block editing. The editor also obtains its icon previews from that worker, keeping a single copy of the complete icon library in the download. If workers cannot start, the editor uses the same compiler on the main thread. Both paths support the complete offline editor.
 
 Section links such as `[Read more](#details)` navigate within the preview when the document contains that ID. They keep their ordinary fragment URLs in downloaded HTML.
+
+### Phones and narrow windows
+
+At phone widths, **Edit** and **Preview** each use the available workspace. Switching views preserves the document and preview. Long source lines wrap; **Undo**, **Redo** and **Find** are available below the editor. **Insert**, **Save** and **Design** remain directly accessible, while **File** contains opening, source downloads, HTML export and the welcome template.
+
+Selecting a compilation notice returns to the source view before focusing its location. Wider windows retain the resizable side-by-side layout. Browser file capabilities determine whether Save writes through a file picker or downloads a source file.
 
 ### Shortcuts
 
@@ -98,6 +114,10 @@ To distribute the offline editor, share `editor/dist/editor.html`. To host the s
 - `editor/icons.ts`: toolbar and completion SVG rendering from compiler-supplied icon data.
 - `editor/preview.ts`: debounced compilation, stale-result guards, diagnostics navigation, preview fragment navigation and scroll restoration.
 - `editor/divider.ts`: responsive split-pane resizing with pointer and keyboard controls.
+- `editor/mobile.ts`: mobile pane navigation, focus boundaries and zoom-aware viewport sizing.
+- `editor/pwa.ts`: installation prompts and updates gated on durable drafts and open dialogs.
+- `editor/incoming.ts`: system sharing and incoming file review with source backup before replacement.
+- `editor/service-worker.js` and `editor/build-pwa.mjs`: content-addressed offline shell and local shared-file intake.
 - `editor/recovery.ts`: restores saved drafts and checks for unsaved changes before closing.
 - `editor/files.ts`: open/save/download/export operations, document identity checks, and per-handle write queues.
 - `editor/design-settings.js`: design JSON validation and persistence.

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
   <title>Taildown Live Editor</title>
   
   <!-- Modern Monospace Font -->
@@ -733,43 +733,43 @@
     }
 
     /* Responsive: Stack vertically on small screens */
+    #file-menu-toggle, #mobile-navigation, #mobile-editing-actions { display: none; }
+    #document-info { display: contents; }
+    #file-actions { display: contents; }
+    #toolbar #help-btn { width: auto; height: auto; border-radius: 8px; padding: 8px 18px; }
     @media (max-width: 768px) {
-      #editor-container {
-        flex-direction: column;
-      }
-
-      #editor-pane {
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
-      }
-
-      #divider {
-        width: 100%;
-        height: 5px;
-        cursor: row-resize;
-      }
-
-      #divider::before {
-        width: 40px;
-        height: 3px;
-      }
-
-      #toolbar {
-        flex-wrap: wrap;
-        height: auto;
-        padding: 12px;
-        gap: 8px;
-      }
-
-      #toolbar button {
-        font-size: 13px;
-        padding: 7px 14px;
-      }
-
-      #filename-display,
-      #status {
-        font-size: 12px;
-      }
+      body { height: var(--mobile-viewport-height, 100dvh); padding-bottom: env(safe-area-inset-bottom); }
+      #toolbar { position: relative; display: grid; grid-template-columns: auto auto auto 1fr; min-height: 60px; padding: max(8px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 8px max(12px, env(safe-area-inset-left)); gap: 8px; }
+      #toolbar button { min-width: 44px; min-height: 44px; padding: 8px 12px; font-size: 14px; }
+      #file-menu-toggle { display: block; }
+      #file-actions { position: absolute; display: flex; flex-direction: column; top: 100%; left: 12px; right: 12px; z-index: 30; max-height: calc(var(--mobile-viewport-height, 100dvh) - 130px); overflow: auto; padding: 8px; gap: 4px; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-primary); box-shadow: var(--shadow-xl); }
+      #file-actions[hidden] { display: none; }
+      #file-actions button { width: 100%; text-align: left; box-shadow: none; }
+      #document-info { display: flex; grid-column: 1 / -1; align-items: center; gap: 8px; min-width: 0; }
+      #filename-display { margin: 0; padding: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+      #status { margin: 0; padding: 2px 6px; max-width: 55%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; }
+      #mobile-editing-actions { display: flex; gap: 8px; padding: 4px 12px; background: var(--bg-primary); border-top: 1px solid var(--border-color); flex-shrink: 0; }
+      #mobile-editing-actions button { flex: 1; min-height: 44px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-secondary); color: var(--text-primary); font: inherit; font-size: 14px; }
+      #mobile-editing-actions button:disabled { opacity: .45; }
+      body[data-mobile-view="preview"] #mobile-editing-actions { display: none; }
+      .cm-search { display: flex; flex-wrap: wrap; gap: 6px; }
+      .cm-search input, .cm-search button { min-height: 44px; font-size: 16px; max-width: 100%; }
+      #mobile-navigation { display: flex; flex-shrink: 0; padding: 4px 12px 8px; gap: 8px; background: var(--bg-primary); border-bottom: 1px solid var(--border-color); }
+      #mobile-navigation button { flex: 1; min-height: 44px; border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); background: var(--bg-secondary); font: inherit; font-size: 14px; cursor: pointer; }
+      #mobile-navigation button[aria-pressed="true"] { color: var(--accent); background: var(--accent-light); border-color: var(--accent); font-weight: 650; }
+      #mobile-navigation button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+      #editor-container { flex-direction: column; }
+      #editor-pane, #preview-pane { flex: 1 1 100% !important; min-width: 0; min-height: 0; border: 0; }
+      #divider, body[data-mobile-view="edit"] #preview-pane, body[data-mobile-view="preview"] #editor-pane { display: none; }
+      .cm-editor .cm-content { font-size: 16px; }
+      #command-search, #design-settings textarea { font-size: 16px !important; }
+      #command-palette { max-height: calc(var(--mobile-viewport-height, 100dvh) - 24px); margin: 12px auto; }
+      #command-results { max-height: calc(var(--mobile-viewport-height, 100dvh) - 120px); }
+      #command-close, #command-results .slash-menu-item { min-height: 44px; min-width: 44px; }
+      #design-settings { max-height: calc(var(--mobile-viewport-height, 100dvh) - 24px); }
+      #design-settings button { min-height: 44px; }
+      #bubble-menu button { min-width: 44px; min-height: 44px; }
+      #bubble-menu { max-width: calc(100vw - 20px); flex-wrap: wrap; }
     }
 
     /* Print styles */
@@ -798,6 +798,16 @@
         transition-duration: 0.01ms !important;
       }
     }
+    #toolbar button[hidden] { display: none; }
+    #incoming-dialog { width: min(40rem, calc(100vw - 24px)); max-height: calc(var(--mobile-viewport-height, 100dvh) - 24px); margin: auto; padding: 20px; overflow: auto; border: 1px solid var(--border-color); border-radius: 16px; background: var(--bg-primary); color: var(--text-primary); }
+    #incoming-dialog::backdrop { background: rgb(15 23 42 / 55%); }
+    #incoming-dialog p { line-height: 1.6; margin: 12px 0; }
+    #incoming-choice { width: 100%; min-height: 44px; font-size: 16px; margin: 8px 0; background: var(--bg-secondary); color: var(--text-primary); }
+    #incoming-preview { max-height: 180px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; padding: 12px; background: var(--bg-secondary); font-size: 14px; }
+    .incoming-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .incoming-actions button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-secondary); color: var(--text-primary); }
+    #app-status:empty { display: none; }
+    #app-status { padding: 4px 12px; font-size: 12px; background: var(--bg-secondary); color: var(--text-secondary); flex-shrink: 0; }
     #design-settings { background: var(--bg-primary); color: var(--text-primary); }
     #design-settings::backdrop { background: rgb(15 23 42 / 55%); }
     #design-settings h2 { margin: 0 0 0.75rem; font-size: 1.375rem; }
@@ -832,7 +842,7 @@
     <div id="command-empty" role="status" hidden>No matching commands.</div>
   </dialog>
 
-  <dialog id="design-settings" aria-labelledby="design-title" style="width: min(42rem, calc(100vw - 2rem)); max-height: 85vh; overflow: auto; padding: 1.5rem; border: 1px solid #94a3b8; border-radius: 1rem;">
+  <dialog id="design-settings" aria-labelledby="design-title" style="width: min(42rem, calc(100vw - 2rem)); max-height: min(85dvh, calc(var(--mobile-viewport-height, 100dvh) - 24px)); overflow: auto; padding: 1.5rem; border: 1px solid #94a3b8; border-radius: 1rem;">
     <h2 id="design-title">Design settings</h2>
     <p>Advanced settings for this browser workspace. Apply a custom palette, fonts, style aliases, or components to previews and HTML exports. These settings also apply when you open another document.</p>
     <p id="typography-label">Choose a typography starting point</p>
@@ -851,6 +861,16 @@
       <button id="design-close" type="button">Close</button>
     </div>
   </dialog>
+  <dialog id="incoming-dialog" aria-labelledby="incoming-title">
+    <h2 id="incoming-title">Open shared source</h2>
+    <p>Your current source will download as a backup before opening the selected document. Cancel keeps shared files available in File → Shared files.</p>
+    <label for="incoming-choice">Document</label>
+    <select id="incoming-choice"></select>
+    <pre id="incoming-preview" aria-label="Shared source preview"></pre>
+    <p id="incoming-status" role="status"></p>
+    <div class="incoming-actions"><button id="incoming-cancel" type="button">Cancel</button><button id="incoming-discard" type="button">Discard shared copy</button><button id="incoming-accept" type="button">Download current &amp; open</button></div>
+  </dialog>
+
 
   <!-- Bubble Menu -->
   <div id="bubble-menu">
@@ -863,18 +883,31 @@
   </div>
 
   <div id="toolbar">
-    <button id="new-btn" title="Create new document (Ctrl+N)">New</button>
+    <button id="file-menu-toggle" aria-expanded="false" aria-controls="file-actions">File</button>
+    <div id="file-actions">
+      <button id="new-btn" title="Create new document (Ctrl+N)">New</button>
+      <button id="open-btn" title="Open file (Ctrl+O)">Open</button>
+      <button id="download-btn" title="Download .td file">Download source</button>
+      <button id="export-btn" title="Export HTML (Ctrl+E)">Export HTML</button>
+      <button id="share-source" hidden>Share source</button>
+      <button id="incoming-open" hidden>Shared files</button>
+      <button id="install-app" hidden>Install app</button>
+      <button id="update-app" hidden>Update app</button>
+      <button id="offline-editor" hidden title="Download the complete editor for offline use">Offline editor</button>
+      <button id="help-btn" title="Show welcome template" aria-label="Load welcome template">Template</button>
+    </div>
     <button id="commands-btn" title="Insert a component or format (Ctrl/Cmd+K)">Insert</button>
-    <button id="open-btn" title="Open file (Ctrl+O)">Open</button>
     <button id="save-btn" title="Save file (Ctrl+S)">Save</button>
-    <button id="download-btn" title="Download .td file">Download</button>
-    <button id="export-btn" title="Export HTML (Ctrl+E)">Export HTML</button>
-    <button id="offline-editor" hidden title="Download the complete editor for offline use">Offline editor</button>
-    <button id="help-btn" title="Show welcome template">?</button>
-    <button id="theme-toggle-btn" title="Toggle dark mode" style="margin-left: auto;"></button>
-    <span id="filename-display">untitled.td</span>
-    <span id="status" role="status" aria-live="polite"></span>
+    <button id="theme-toggle-btn" title="Toggle dark mode" aria-label="Toggle dark mode" style="margin-left: auto;"></button>
+    <div id="document-info"><span id="filename-display">untitled.td</span>
+    <span id="status" role="status" aria-live="polite"></span></div>
   </div>
+  <p id="app-status" role="status" aria-live="polite"></p>
+  <nav id="mobile-navigation" aria-label="Editor views and design">
+    <button id="mobile-edit" aria-pressed="true" aria-controls="editor-pane">Edit</button>
+    <button id="mobile-preview" aria-pressed="false" aria-controls="preview-pane">Preview</button>
+    <button id="mobile-design">Design</button>
+  </nav>
 
   <details id="diagnostics" hidden style="padding: 0.5rem 1rem; max-height: 25vh; overflow: auto;"><summary></summary><ul></ul></details>
   <div id="design-recovery-warning" role="status" hidden style="padding: 0.5rem 1rem; font-size: 0.875rem;">Design settings could not be restored. Defaults are active. Open Design settings from Command-K to recover a saved copy.</div>
@@ -884,9 +917,13 @@
     <div id="editor-pane"></div>
     <div id="divider" role="separator" tabindex="0" aria-label="Editor pane size" aria-controls="editor-pane" aria-valuemin="15" aria-valuemax="85" aria-valuenow="50" aria-orientation="vertical"></div>
     <div id="preview-pane">
-      <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin"></iframe>
+      <iframe title="Document preview" id="preview-frame" sandbox="allow-scripts allow-same-origin"></iframe>
     </div>
   </div>
+
+  <nav id="mobile-editing-actions" aria-label="Editing actions">
+    <button id="mobile-undo" disabled>Undo</button><button id="mobile-redo" disabled>Redo</button><button id="mobile-find">Find</button>
+  </nav>
 
   <script type="module">
     // Import Taildown bundle from relative path (development)
@@ -901,6 +938,9 @@
     import {createPreviewController} from './preview.ts';
     import {restoreDraft, createBeforeUnloadHandler} from './recovery.ts';
     import {initializeDivider} from './divider.ts';
+    import {initializePwa} from './pwa.ts';
+    import {initializeIncoming} from './incoming.ts';
+    import {initializeMobileEditor} from './mobile.ts';
     import {createDraftStore} from './draft-store.js';
     import {createDesignSettings, typographyChoices, prepareTypography, parseDesignSettings} from './design-settings.js';
     
@@ -915,6 +955,7 @@
       highlightActiveLineGutter,
       history,
       historyKeymap,
+      undo, redo, undoDepth, redoDepth, openSearchPanel,
       defaultKeymap,
       indentWithTab,
       searchKeymap,
@@ -1076,7 +1117,13 @@ Browser recovery keeps your latest draft when storage is available. Save or down
       designJSON.focus();
     }
     document.getElementById('design-close').addEventListener('click', () => designDialog.close());
-    designDialog.addEventListener('close', () => editor?.focus());
+    designDialog.addEventListener('close', () => {
+      if (document.getElementById('editor-pane').inert) {
+        document.getElementById('mobile-design').focus();
+      } else {
+        editor?.focus();
+      }
+    });
     document.getElementById('design-reset').addEventListener('click', () => {
       designJSON.value = '{}';
       designMessage.textContent = 'Defaults are ready. Apply settings to use them.';
@@ -1176,15 +1223,28 @@ Browser recovery keeps your latest draft when storage is available. Save or down
         return;
       }
 
-      // Position menu above the selection, centered
-      const menuWidth = 200; // Approximate width
-      const left = (startCoords.left + endCoords.left) / 2 - menuWidth / 2;
-      const top = startCoords.top - 45; // 45px above the selection
-
-      bubbleMenu.style.left = `${Math.max(10, left)}px`;
-      bubbleMenu.style.top = `${Math.max(10, top)}px`;
+      // Measure the actual controls so zoom and touch sizing cannot clip them.
+      const viewport = window.visualViewport;
+      bubbleMenu.style.maxWidth = `${(viewport?.width ?? innerWidth) - 20}px`;
+      bubbleMenu.style.maxHeight = `${(viewport?.height ?? innerHeight) - 20}px`;
+      bubbleMenu.style.overflow = 'auto';
       bubbleMenu.classList.add('active');
+      const bounds = bubbleMenu.getBoundingClientRect();
+      const minLeft = (viewport?.offsetLeft ?? 0) + 10;
+      const minTop = (viewport?.offsetTop ?? 0) + 10;
+      const maxLeft = minLeft + (viewport?.width ?? innerWidth) - bounds.width - 20;
+      const maxTop = minTop + (viewport?.height ?? innerHeight) - bounds.height - 20;
+      const left = (startCoords.left + endCoords.left - bounds.width) / 2;
+      const top = startCoords.top - bounds.height - 8;
+      bubbleMenu.style.left = `${Math.max(minLeft, Math.min(left, maxLeft))}px`;
+      bubbleMenu.style.top = `${Math.max(minTop, Math.min(top, maxTop))}px`;
       bubbleMenuVisible = true;
+    }
+
+    for (const event of ['resize', 'scroll']) {
+      window.visualViewport?.addEventListener(event, () => {
+        if (bubbleMenuVisible) showBubbleMenu();
+      });
     }
 
     // Hide bubble menu
@@ -1261,6 +1321,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
 
     // Syntax highlighting compartment - allows dynamic theme switching
     const syntaxHighlightCompartment = new Compartment();
+    const mobileWrapping = new Compartment();
 
     // Dark mode toggle functionality
     function initThemeToggle() {
@@ -1392,6 +1453,11 @@ Browser recovery keeps your latest draft when storage is available. Save or down
           doc: DEFAULT_TEMPLATE,
           extensions: [
             lineNumbers(),
+            mobileWrapping.of(window.matchMedia('(max-width: 768px)').matches ? EditorView.lineWrapping : []),
+            EditorView.updateListener.of(update => {
+              document.getElementById('mobile-undo').disabled = undoDepth(update.state) === 0;
+              document.getElementById('mobile-redo').disabled = redoDepth(update.state) === 0;
+            }),
             highlightActiveLineGutter(),
             history(),
             foldGutter(),
@@ -1493,6 +1559,11 @@ Browser recovery keeps your latest draft when storage is available. Save or down
           filenameDisplay.textContent = filenameDisplay.title = filename;
         }});
 
+        initializeIncoming({
+          getCurrent: () => ({content: editor.state.doc.toString(), name: currentFilename}),
+          download: downloadFile,
+          openDocument: (content, name) => {importDocument(content, name); document.getElementById('mobile-edit').click();},
+        });
         // Hide loading indicator
         loading.classList.add('hidden');
 
@@ -1510,12 +1581,17 @@ Browser recovery keeps your latest draft when storage is available. Save or down
     });
 
     // New document and file operations
-    const {newDocument, showTemplate, openFile, saveFile, downloadFile, exportHTML} = createFileOperations({
+    const {newDocument, showTemplate, openFile, saveFile, downloadFile, exportHTML, importDocument} = createFileOperations({
       state: fileState, getEditor: () => editor, window, document, statusBar, filenameDisplay,
       draftStore, compile, getDesignOptions: () => designSettings.options, URL,
       confirm: message => confirm(message), DEFAULT_TEMPLATE,
     });
 
+    initializeMobileEditor({window, document, focusEditor: () => editor?.focus(), openDesign: openDesignSettings,
+      setMobile: mobile => editor?.dispatch({effects: mobileWrapping.reconfigure(mobile ? EditorView.lineWrapping : [])}),
+      undo: () => { if (editor) {undo(editor); editor.focus();} },
+      redo: () => { if (editor) {redo(editor); editor.focus();} },
+      find: () => { if (editor) openSearchPanel(editor); }});
     initializeDivider({window, document, paneContainer: document.getElementById('editor-container'), divider, editorPane, previewFrame});
     // Button event listeners
     newBtn.addEventListener('click', newDocument);
@@ -1535,6 +1611,19 @@ Browser recovery keeps your latest draft when storage is available. Save or down
       initEditor();
     }
 
+    initializePwa({
+      saveDraft: () => {
+        if (!editor) return false;
+        try { localStorage.setItem('taildown-editor-design', JSON.stringify(designSettings.options)); }
+        catch { return false; }
+        return draftStore.save(editor.state.doc.toString(), currentFilename);
+      },
+      canReload: () => !designDialog.open && !document.getElementById('incoming-dialog').open,
+    });
+    // Mobile app suspension need not fire beforeunload; save synchronously when hidden.
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden' && editor) draftStore.save(editor.state.doc.toString(), currentFilename);
+    });
     // Warn before closing with unsaved changes
     window.addEventListener('beforeunload', createBeforeUnloadHandler({
       getContent: () => editor?.state.doc.toString(), getFilename: () => currentFilename, draftStore,

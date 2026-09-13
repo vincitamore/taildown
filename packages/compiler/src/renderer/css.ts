@@ -2089,7 +2089,7 @@ td svg.icon {
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
-  touch-action: none; /* Prevent default touch behaviors */
+  touch-action: auto; /* Scrolling stays available away from the comparison handle. */
 }
 
 /* Ensure proper aspect ratio (16:9 by default for landscape images) */
@@ -2116,6 +2116,13 @@ td svg.icon {
 .image-compare.max-h-\\[70vh\\],
 .image-compare.max-h-\\[80vh\\] {
   /* Height is constrained by max-h utility */
+}
+
+@media (max-width: 768px) {
+  .image-compare:is([class~="h-[280px]"], [class~="h-[450px]"], [class~="h-[580px]"], [class~="h-[700px]"]) {
+    height: auto;
+    aspect-ratio: var(--image-compare-ratio, 16 / 9);
+  }
 }
 
 /* Before and After image containers */
@@ -2164,6 +2171,8 @@ td svg.icon {
   transform: translateY(-50%);
   cursor: ns-resize;
 }
+
+.image-compare-slider { touch-action: none; }
 
 /* Slider handle (circle with arrows) */
 .image-compare-handle {
@@ -2285,8 +2294,8 @@ td svg.icon {
 /* Mobile optimizations */
 @media (max-width: 640px) {
   .image-compare-handle {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
   }
   
   .image-compare-label {
@@ -2337,6 +2346,8 @@ td svg.icon {
 }
 
 .diff-unified .diff-pre {
+  margin: 0;
+  box-shadow: none;
   background: var(--background);
   border: none;
   border-radius: 0;
@@ -2345,6 +2356,8 @@ td svg.icon {
 .diff-unified .diff-code {
   display: flex;
   flex-direction: column;
+  color: var(--foreground);
+  padding: 1rem 0;
 }
 
 /* Diff line styles for unified format */
@@ -2407,6 +2420,10 @@ td svg.icon {
 
 .dark .diff-line-info {
   background-color: rgba(59, 130, 246, 0.15);
+}
+
+@media (max-width: 768px) {
+  .diff-unified .diff-line-number { width: 2rem; padding-left: 0.25rem; padding-right: 0.5rem; margin-right: 0.5rem; }
 }
 
 /* Side-by-side diff visual styling */
@@ -2541,13 +2558,15 @@ td svg.icon {
   color: var(--foreground);
 }
 
-.diff-pane .code-copy-btn {
+.diff-unified .code-copy-btn,
+.code-diff .code-copy-btn {
   color: var(--foreground);
   background: var(--background);
   border-color: var(--border);
 }
 
-.diff-pane .code-copy-btn:hover {
+.diff-unified .code-copy-btn:hover,
+.code-diff .code-copy-btn:hover {
   background: var(--muted);
   border-color: var(--foreground);
 }
@@ -3029,6 +3048,7 @@ ${generateThemeCSS(config)}
  * ======================================== */
 
 .component-tabs {
+  min-width: 0;
   width: 100%;
   margin-bottom: 1.5rem;
 }
@@ -3137,8 +3157,12 @@ ${generateThemeCSS(config)}
 
 @media (max-width: 640px) {
   .tab-button {
-    font-size: 0.813rem;
-    padding: 0.5rem 1rem;
+    min-height: 44px;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    font-size: 0.875rem;
+    padding: 0.625rem 1rem;
   }
 }
 
@@ -3575,6 +3599,36 @@ ${generateThemeCSS(config)}
     font-size: 0.8125rem;
     padding: 0.375rem 0.75rem;
   }
+}
+
+.navbar-menu-toggle { display: none; }
+.navbar-links { display: contents; }
+@media (max-width: 768px) {
+  .navbar.navbar-enhanced { flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 8px 16px; }
+  .navbar-enhanced > :is(h1,h2,h3,p,.navbar-brand) { width: auto; margin: 0; min-width: 0; }
+  .navbar-menu-toggle { display: inline-flex; align-items: center; justify-content: center; min-width: 64px; min-height: 44px; margin-left: auto; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; color: var(--foreground); background: var(--background); font: inherit; cursor: pointer; }
+  .navbar-menu-toggle:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+  .navbar-enhanced > .navbar-links { display: none; flex-basis: 100%; max-height: 60dvh; overflow: auto; }
+  .navbar-menu-open > .navbar-links { display: block; }
+  .navbar-links p { display: flex; flex-direction: column; align-items: stretch; gap: 4px; margin: 0; }
+  .navbar-links a { display: flex; align-items: center; min-height: 44px; font-size: 0.9375rem; }
+}
+
+/* Navigation owns layout even when Markdown wraps links in a paragraph. */
+.pagination, .breadcrumb { flex-wrap: wrap; }
+.pagination > p, .breadcrumb > p { display: contents; }
+.pagination a { display: inline-flex; align-items: center; justify-content: center; min-width: 40px; min-height: 40px; max-width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border); border-radius: 8px; color: var(--foreground); background: var(--background); font: inherit; line-height: 1.3; text-decoration: none; overflow-wrap: anywhere; }
+.pagination-rounded a { border-radius: 999px; }
+.pagination a[aria-current="page"] { background: var(--primary); color: var(--primary-foreground); border-color: var(--primary); }
+.pagination a:hover { background: var(--muted); color: var(--foreground); }
+.pagination a:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+@media (pointer: coarse) {
+  .pagination a, .breadcrumb a { min-height: 44px; display: inline-flex; align-items: center; }
+  .table-sortable th.sortable-header { height: 44px; }
+}
+@media (max-width: 640px) {
+  a.inline-block { max-width: calc(100% - 1rem); }
+  .button-group a { margin-inline: 0; max-width: 100%; }
 }
 
 /* ========================================
@@ -5638,6 +5692,31 @@ mark,
   opacity: 0.5;
 }
 
+/* Put phone controls beneath content so arrows never cover authored text. */
+@media (max-width: 768px) {
+  [data-component="carousel"] { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; gap: 4px; padding-bottom: 4px; }
+  [data-component="carousel"] .carousel-card { box-shadow: none; }
+  [data-component="carousel"] > .carousel-track { grid-column: 1 / -1; }
+  [data-component="carousel"] > :is(.carousel-prev, .carousel-next, .carousel-indicators, .carousel-play-toggle) { position: static; transform: none; align-self: center; justify-self: center; }
+  [data-component="carousel"] > .carousel-prev { grid-column: 1; grid-row: 2; min-width: 44px; min-height: 44px; }
+  [data-component="carousel"] > .carousel-next { grid-column: 3; grid-row: 2; min-width: 44px; min-height: 44px; }
+  [data-component="carousel"] > .carousel-indicators { grid-column: 2; grid-row: 2; min-width: 0; max-width: 100%; overflow-x: auto; }
+  [data-component="carousel"] > .carousel-play-toggle { grid-column: 1 / -1; grid-row: 3; min-height: 44px; }
+}
+
+/* Keep the visible dots small while giving each one a separate touch target. */
+@media (pointer: coarse) {
+  .carousel-indicators { gap: 0; bottom: 4px; max-width: calc(100% - 24px); overflow-x: auto; }
+  .carousel-indicator[aria-current] { position: relative; flex: 0 0 44px; width: 44px; height: 44px; background: transparent; opacity: 1; }
+  .carousel-indicator::after { content: ''; position: absolute; width: 8px; height: 8px; left: 50%; top: 50%; transform: translate(-50%, -50%); border-radius: 999px; background: var(--muted-foreground); }
+  .carousel-indicator[aria-current="true"]::after { width: 24px; background: var(--foreground); }
+  .tab-button { min-height: 44px; }
+  [data-tooltip-trigger]:has(svg) { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
+  .details-component > summary { min-height: 44px; display: flex; align-items: center; }
+  .code-copy-btn { min-height: 44px; top: 4px; }
+  pre::before { height: 52px; }
+}
+
 /* ========================================
  * MODAL COMPONENT
  * ======================================== */
@@ -5708,6 +5787,8 @@ mark,
   cursor: pointer;
   transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+@media (pointer: coarse) { .modal-close { min-width: 44px; min-height: 44px; } }
 
 .modal-close:hover {
   transform: scale(1.1) rotate(90deg);
@@ -5893,85 +5974,11 @@ mark,
   line-height: 1.6;
 }
 
-/* VS Code variant - clean tree with box-drawing characters */
-.tree-vscode li {
-  padding-left: 1.5rem;
-  position: relative;
-  line-height: 1.5;
-  margin: 0.125rem 0;
-}
-
-/* Box-drawing characters for root level items */
-.tree-vscode > ul > li::before {
-  content: '├── ';
-  position: absolute;
-  left: 0;
-  color: rgb(156 163 175);
-  font-weight: 300;
-  display: block;
-}
-
-.tree-vscode > ul > li:last-child::before {
-  content: '└── ';
-}
-
-.tree-vscode > ul > li::after {
-  display: none;
-}
-
-/* Nested level 1 (direct children of root) */
-.tree-vscode > ul > li > ul > li::before {
-  content: '│   ├── ';
-  position: absolute;
-  left: -1.5rem;
-  color: rgb(156 163 175);
-  font-weight: 300;
-  display: block;
-}
-
-.tree-vscode > ul > li > ul > li:last-child::before {
-  content: '│   └── ';
-}
-
-.tree-vscode > ul > li > ul > li::after {
-  display: none;
-}
-
-/* Nested level 2 */
-.tree-vscode > ul > li > ul > li > ul > li::before {
-  content: '│   │   ├── ';
-  position: absolute;
-  left: -3rem;
-  color: rgb(156 163 175);
-  font-weight: 300;
-  display: block;
-}
-
-.tree-vscode > ul > li > ul > li > ul > li:last-child::before {
-  content: '│   │   └── ';
-}
-
-.tree-vscode > ul > li > ul > li > ul > li::after {
-  display: none;
-}
-
-/* Nested level 3 */
-.tree-vscode > ul > li > ul > li > ul > li > ul > li::before {
-  content: '│   │   │   ├── ';
-  position: absolute;
-  left: -4.5rem;
-  color: rgb(156 163 175);
-  font-weight: 300;
-  display: block;
-}
-
-.tree-vscode > ul > li > ul > li > ul > li > ul > li:last-child::before {
-  content: '│   │   │   └── ';
-}
-
-.tree-vscode > ul > li > ul > li > ul > li > ul > li::after {
-  display: none;
-}
+/* Continuous indentation guides work at every nesting depth. */
+.tree-vscode ul { margin-left: 0.5rem; padding-left: 1rem; border-left: 1px solid var(--border); }
+.tree-vscode li { white-space: nowrap; padding-left: 0; position: relative; line-height: 1.5; margin: 0.25rem 0; }
+.tree-vscode li::before { content: ''; position: absolute; left: -1rem; top: 0.75em; width: 0.65rem; border-top: 1px solid var(--border); }
+.tree-vscode li::after { display: none; }
 
 /* Folder and file visual distinction */
 .tree-vscode li:has(ul) {

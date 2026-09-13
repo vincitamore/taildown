@@ -31,9 +31,10 @@ export {
   defaultKeymap,
   history,
   historyKeymap,
+  undo, redo, undoDepth, redoDepth,
   indentWithTab
 } from '@codemirror/commands';
-export { searchKeymap, highlightSelectionMatches } from '@codemirror/search';
+export { searchKeymap, highlightSelectionMatches, openSearchPanel } from '@codemirror/search';
 export { autocompletion, completionKeymap, startCompletion, acceptCompletion, closeCompletion, moveCompletionSelection, closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete';
 export { indentOnInput, bracketMatching, foldGutter, foldKeymap } from '@codemirror/language';
 export { lintKeymap } from '@codemirror/lint';

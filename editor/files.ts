@@ -161,6 +161,18 @@ export function createFileOperations({
     }
   }
 
+  // The incoming-content review owns consent and backup; never inherit an old file handle.
+  function importDocument(content: string, name: string) {
+    state.documentVersion++;
+    state.handle = null;
+    state.filename = name;
+    filenameDisplay.textContent = filenameDisplay.title = name;
+    getEditor().dispatch({changes: {from: 0, to: getEditor().state.doc.length, insert: content}});
+    draftStore.save(content, name);
+    statusBar.textContent = `Opened ${name}`;
+    statusBar.className = 'success';
+  }
+
   // Save file
   async function writeFileSnapshot(fileHandle: WritableFileHandle, content: string) {
     const previous = pendingFileWrites.get(fileHandle) || Promise.resolve();
@@ -269,5 +281,5 @@ export function createFileOperations({
     }
   }
 
-  return { newDocument, showTemplate, openFile, saveFile, downloadFile, exportHTML };
+  return { newDocument, showTemplate, openFile, saveFile, downloadFile, exportHTML, importDocument };
 }

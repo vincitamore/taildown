@@ -364,6 +364,8 @@ async function main() {
     await updateStaticHtml(join(OUTPUT_DIR, staticName), meta);
   }
 
+  run(process.execPath, ['editor/build-pwa.mjs', OUTPUT_DIR], {cwd: PROJECT_DIR, stdio: 'inherit'});
+
   logger.log('\n📦 Documentation site built successfully!');
   logger.log(`   Open docs-site/dist/index.html in your browser\n`);
 }
