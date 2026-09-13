@@ -91,4 +91,4 @@ Run `pnpm test` for watch mode. Build and browser checks depend on the changed s
 
 ## License
 
-MIT, as declared in the package manifests. Taildown uses open-source projects including unified/remark, Lucide, CodeMirror, Shiki, Mermaid, and Temml; their licenses continue to apply to those dependencies.
+[MIT](LICENSE). Taildown uses open-source projects including unified/remark, Lucide, CodeMirror, Shiki, Mermaid, and Temml; their licenses continue to apply to those dependencies.
