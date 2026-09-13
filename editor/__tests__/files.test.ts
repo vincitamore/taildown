@@ -319,3 +319,30 @@ it('opens through the native picker and saves back through that file handle', as
   expect(h.downloads).toHaveLength(0);
   expect(h.storage.save).toHaveBeenCalledWith('Updated', 'native.td');
 });
+it('imported source never writes through the previously opened file handle', async () => {
+  const h = harness();
+  const createWritable = vi.fn();
+  h.api.setHandle({ name: 'original.td', createWritable });
+  h.api.importDocument('Shared source', 'incoming.td');
+  await h.api.saveFile();
+  expect(createWritable).not.toHaveBeenCalled();
+  expect(h.downloads[0]?.download).toBe('incoming.td');
+  expect(h.storage.save).toHaveBeenCalledWith('Shared source', 'incoming.td');
+});
+it('a pending file read cannot overwrite a newly accepted shared document', async () => {
+  const h = harness();
+  await h.api.openFile();
+  let finish!: (content: string) => void;
+  const pending = h.selectFile({
+    name: 'late.td',
+    text: () =>
+      new Promise((resolve) => {
+        finish = resolve;
+      }),
+  });
+  h.api.importDocument('Shared source', 'incoming.td');
+  finish('Late read');
+  await pending;
+  expect(h.editor.state.doc.toString()).toBe('Shared source');
+  expect(h.display.textContent).toBe('incoming.td');
+});

@@ -22,6 +22,8 @@ The hosted editor can be installed from **File → Install app** when the browse
 
 **File → Update app** appears when a new version is ready. Close other Taildown editor windows first. The editor saves the current source and applied design before requesting the update; it will not reload if draft storage fails or Design settings are still open. Closing and reopening all editor windows also allows the browser to activate an already downloaded update. Keep source downloads as durable backups: browser storage can be cleared by the user or operating system.
 
+On supported browsers, **File → Share source** sends the current document through the system share sheet. An installed Taildown editor can receive plain text or Taildown/Markdown/text files from Android sharing. Shared content is stored locally and opens a review dialog. **Download current & open** backs up the current source before importing the selected file; **Cancel** keeps the incoming files under **File → Shared files**, and **Discard shared copy** removes an unwanted item. Each share accepts up to 10 files totaling 8 MB, with at most 10 pending shares. Desktop browsers supporting PWA file handlers can also launch the editor with `.td`, `.tdown`, `.taildown` or `.md` files. Other browsers retain File → Open and Download source.
+
 The service worker handles only the editor and its declared assets, leaving ordinary documentation navigation on the network. `editor/build-pwa.mjs` generates a content-addressed shell after the documentation build finishes; `editor/service-worker.js` owns its offline and activation behavior. Opening the portable HTML file does not register a service worker.
 
 ## Authoring

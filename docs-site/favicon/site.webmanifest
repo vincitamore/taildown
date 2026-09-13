@@ -33,5 +33,44 @@
       "name": "Open editor",
       "url": "/editor"
     }
+  ],
+  "share_target": {
+    "action": "/editor-share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "files",
+          "accept": [
+            "text/plain",
+            "text/markdown",
+            ".td",
+            ".tdown",
+            ".taildown",
+            ".md",
+            ".txt"
+          ]
+        }
+      ]
+    }
+  },
+  "file_handlers": [
+    {
+      "action": "/editor",
+      "accept": {
+        "text/plain": [
+          ".td",
+          ".tdown",
+          ".taildown"
+        ],
+        "text/markdown": [
+          ".md"
+        ]
+      }
+    }
   ]
 }

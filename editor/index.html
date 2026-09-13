@@ -799,6 +799,13 @@
       }
     }
     #toolbar button[hidden] { display: none; }
+    #incoming-dialog { width: min(40rem, calc(100vw - 24px)); max-height: calc(var(--mobile-viewport-height, 100dvh) - 24px); margin: auto; padding: 20px; overflow: auto; border: 1px solid var(--border-color); border-radius: 16px; background: var(--bg-primary); color: var(--text-primary); }
+    #incoming-dialog::backdrop { background: rgb(15 23 42 / 55%); }
+    #incoming-dialog p { line-height: 1.6; margin: 12px 0; }
+    #incoming-choice { width: 100%; min-height: 44px; font-size: 16px; margin: 8px 0; background: var(--bg-secondary); color: var(--text-primary); }
+    #incoming-preview { max-height: 180px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; padding: 12px; background: var(--bg-secondary); font-size: 14px; }
+    .incoming-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .incoming-actions button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-secondary); color: var(--text-primary); }
     #app-status:empty { display: none; }
     #app-status { padding: 4px 12px; font-size: 12px; background: var(--bg-secondary); color: var(--text-secondary); flex-shrink: 0; }
     #design-settings { background: var(--bg-primary); color: var(--text-primary); }
@@ -854,6 +861,16 @@
       <button id="design-close" type="button">Close</button>
     </div>
   </dialog>
+  <dialog id="incoming-dialog" aria-labelledby="incoming-title">
+    <h2 id="incoming-title">Open shared source</h2>
+    <p>Your current source will download as a backup before opening the selected document. Cancel keeps shared files available in File → Shared files.</p>
+    <label for="incoming-choice">Document</label>
+    <select id="incoming-choice"></select>
+    <pre id="incoming-preview" aria-label="Shared source preview"></pre>
+    <p id="incoming-status" role="status"></p>
+    <div class="incoming-actions"><button id="incoming-cancel" type="button">Cancel</button><button id="incoming-discard" type="button">Discard shared copy</button><button id="incoming-accept" type="button">Download current &amp; open</button></div>
+  </dialog>
+
 
   <!-- Bubble Menu -->
   <div id="bubble-menu">
@@ -872,6 +889,8 @@
       <button id="open-btn" title="Open file (Ctrl+O)">Open</button>
       <button id="download-btn" title="Download .td file">Download source</button>
       <button id="export-btn" title="Export HTML (Ctrl+E)">Export HTML</button>
+      <button id="share-source" hidden>Share source</button>
+      <button id="incoming-open" hidden>Shared files</button>
       <button id="install-app" hidden>Install app</button>
       <button id="update-app" hidden>Update app</button>
       <button id="offline-editor" hidden title="Download the complete editor for offline use">Offline editor</button>
@@ -920,6 +939,7 @@
     import {restoreDraft, createBeforeUnloadHandler} from './recovery.ts';
     import {initializeDivider} from './divider.ts';
     import {initializePwa} from './pwa.ts';
+    import {initializeIncoming} from './incoming.ts';
     import {initializeMobileEditor} from './mobile.ts';
     import {createDraftStore} from './draft-store.js';
     import {createDesignSettings, typographyChoices, prepareTypography, parseDesignSettings} from './design-settings.js';
@@ -1524,6 +1544,11 @@ Browser recovery keeps your latest draft when storage is available. Save or down
           filenameDisplay.textContent = filenameDisplay.title = filename;
         }});
 
+        initializeIncoming({
+          getCurrent: () => ({content: editor.state.doc.toString(), name: currentFilename}),
+          download: downloadFile,
+          openDocument: (content, name) => {importDocument(content, name); document.getElementById('mobile-edit').click();},
+        });
         // Hide loading indicator
         loading.classList.add('hidden');
 
@@ -1541,7 +1566,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
     });
 
     // New document and file operations
-    const {newDocument, showTemplate, openFile, saveFile, downloadFile, exportHTML} = createFileOperations({
+    const {newDocument, showTemplate, openFile, saveFile, downloadFile, exportHTML, importDocument} = createFileOperations({
       state: fileState, getEditor: () => editor, window, document, statusBar, filenameDisplay,
       draftStore, compile, getDesignOptions: () => designSettings.options, URL,
       confirm: message => confirm(message), DEFAULT_TEMPLATE,
@@ -1578,7 +1603,7 @@ Browser recovery keeps your latest draft when storage is available. Save or down
         catch { return false; }
         return draftStore.save(editor.state.doc.toString(), currentFilename);
       },
-      canReload: () => !designDialog.open,
+      canReload: () => !designDialog.open && !document.getElementById('incoming-dialog').open,
     });
     // Mobile app suspension need not fire beforeunload; save synchronously when hidden.
     document.addEventListener('visibilitychange', () => {

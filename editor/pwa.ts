@@ -67,7 +67,7 @@ export function initializePwa({
       update.addEventListener('click', () => {
         if (!registration.waiting) return;
         if (!canReload()) {
-          status.textContent = 'Apply or close Design settings before updating.';
+          status.textContent = 'Close open dialogs before updating.';
           return;
         }
         if (!saveDraft()) {
