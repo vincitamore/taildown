@@ -6077,8 +6077,8 @@ mark,
   position: relative;
   padding: 0.75rem 1rem;
   margin: 0.5rem 0;
-  background: white;
-  border: 2px solid rgb(229 231 235);
+  background: var(--card);
+  border: 2px solid var(--border);
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
   transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -6242,7 +6242,7 @@ mark,
 .flow-timeline li {
   border-left-width: 4px;
   border-left-color: rgb(59 130 246);
-  background: linear-gradient(to right, rgb(239 246 255), white);
+  background: linear-gradient(to right, var(--muted), var(--card));
 }
 
 .flow-timeline li::before {
@@ -6253,14 +6253,14 @@ mark,
   width: 0.75rem;
   height: 0.75rem;
   background: rgb(59 130 246);
-  border: 3px solid white;
+  border: 3px solid var(--card);
   border-radius: 50%;
   box-shadow: 0 0 0 2px rgb(59 130 246);
 }
 
 /* Minimal flow - clean styling */
 .flow-minimal li {
-  border: 1px solid rgb(229 231 235);
+  border: 1px solid var(--border);
   background: transparent;
   box-shadow: none;
 }
@@ -6288,9 +6288,9 @@ mark,
 }
 
 .flow-glass li {
-  background: rgba(255, 255, 255, 0.6);
+  background: color-mix(in srgb, var(--card) 75%, transparent);
   backdrop-filter: blur(8px);
-  border-color: rgba(255, 255, 255, 0.4);
+  border-color: var(--border);
 }
 
 /* Mobile optimization for horizontal flows */
