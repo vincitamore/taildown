@@ -39,7 +39,15 @@ export function initializePwa({
       });
   });
   navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (requestedUpdate) location.reload();
+    if (!requestedUpdate) return;
+    requestedUpdate = false;
+    update.hidden = true;
+    // Activation is asynchronous; edits or a dialog may have arrived since the click.
+    if (canReload() && saveDraft()) {
+      location.reload();
+    } else {
+      status.textContent = 'Update ready. Save your work and reload when you are ready.';
+    }
   });
   navigator.serviceWorker.addEventListener('message', (event) => {
     const data: unknown = event.data;

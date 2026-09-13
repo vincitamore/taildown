@@ -8,7 +8,8 @@ afterEach(() => {
   windows.splice(0).forEach((cleanup) => cleanup());
 });
 async function setup(saveDraft = vi.fn(() => true), canReload = vi.fn(() => true)) {
-  vi.stubGlobal('location', { protocol: 'https:', reload: vi.fn() });
+  const reload = vi.fn();
+  vi.stubGlobal('location', { protocol: 'https:', reload });
   document.head.innerHTML = '<link rel="manifest" href="/manifest.json">';
   document.body.innerHTML =
     '<button id="install-app" hidden></button><button id="update-app" hidden></button><p id="app-status"></p>';
@@ -30,6 +31,7 @@ async function setup(saveDraft = vi.fn(() => true), canReload = vi.fn(() => true
   await vi.waitFor(() => expect(serviceWorker.register).toHaveBeenCalled());
   await vi.waitFor(() => expect(document.getElementById('update-app')?.hidden).toBe(false));
   return {
+    reload,
     saveDraft,
     registration,
     serviceWorker,
@@ -65,3 +67,27 @@ it('persists source before activation and permits retry after another window blo
   update.click();
   expect(registration.waiting.postMessage).toHaveBeenCalledTimes(2);
 });
+it('persists edits made during activation before reloading', async () => {
+  const { update, serviceWorker, saveDraft, reload } = await setup();
+  update.click();
+  serviceWorker.dispatchEvent(new Event('controllerchange'));
+  expect(saveDraft).toHaveBeenCalledTimes(2);
+  expect(reload).toHaveBeenCalledOnce();
+  expect(saveDraft.mock.invocationCallOrder[1]).toBeLessThan(
+    reload.mock.invocationCallOrder[0]!
+  );
+});
+it.each(['storage', 'dialog'])(
+  'keeps the page open if %s changes during activation',
+  async (failure) => {
+    const save = vi.fn(() => true);
+    const canReload = vi.fn(() => true);
+    const { update, serviceWorker, reload } = await setup(save, canReload);
+    update.click();
+    if (failure === 'storage') save.mockReturnValue(false);
+    else canReload.mockReturnValue(false);
+    serviceWorker.dispatchEvent(new Event('controllerchange'));
+    expect(reload).not.toHaveBeenCalled();
+    expect(document.getElementById('app-status')?.textContent).toContain('Save your work');
+  }
+);
