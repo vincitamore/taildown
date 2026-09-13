@@ -1224,9 +1224,12 @@ Browser recovery keeps your latest draft when storage is available. Save or down
       }
 
       // Measure the actual controls so zoom and touch sizing cannot clip them.
+      const viewport = window.visualViewport;
+      bubbleMenu.style.maxWidth = `${(viewport?.width ?? innerWidth) - 20}px`;
+      bubbleMenu.style.maxHeight = `${(viewport?.height ?? innerHeight) - 20}px`;
+      bubbleMenu.style.overflow = 'auto';
       bubbleMenu.classList.add('active');
       const bounds = bubbleMenu.getBoundingClientRect();
-      const viewport = window.visualViewport;
       const minLeft = (viewport?.offsetLeft ?? 0) + 10;
       const minTop = (viewport?.offsetTop ?? 0) + 10;
       const maxLeft = minLeft + (viewport?.width ?? innerWidth) - bounds.width - 20;
@@ -1236,6 +1239,12 @@ Browser recovery keeps your latest draft when storage is available. Save or down
       bubbleMenu.style.left = `${Math.max(minLeft, Math.min(left, maxLeft))}px`;
       bubbleMenu.style.top = `${Math.max(minTop, Math.min(top, maxTop))}px`;
       bubbleMenuVisible = true;
+    }
+
+    for (const event of ['resize', 'scroll']) {
+      window.visualViewport?.addEventListener(event, () => {
+        if (bubbleMenuVisible) showBubbleMenu();
+      });
     }
 
     // Hide bubble menu
