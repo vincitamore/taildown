@@ -16,7 +16,7 @@ Component defaults can be customized per document with the compiler's `component
 
 ## Quick Navigation {#nav bold primary}
 
-Jump directly to any component category, or visit [Avatar](#avatar), [Breadcrumb](#breadcrumb), [Pagination](#pagination), [Sidebar](#sidebar), [Skeleton](#skeleton), and [Footnotes](#footnotes).
+Jump directly to any component category, or visit [Container](#container), [Tree](#tree), [Flow](#flow), [Code Diff](#diff), [Avatar](#avatar), [Breadcrumb](#breadcrumb), [Pagination](#pagination), [Sidebar](#sidebar), [Skeleton](#skeleton), and [Footnotes](#footnotes).
 
 :::grid {2}
 :::card {subtle-glass padded center hover-lift href="#layout"}
@@ -81,6 +81,24 @@ Video Embeds
 ## Layout Components {#layout huge-bold center primary}
 
 **Organize and structure your content beautifully.**
+
+---
+
+### Container {#container bold primary}
+
+Use a container to center a section and limit its reading width. It adds horizontal padding, not columns; combine it with a grid when the content also needs a column layout.
+
+Widths are `narrow` (42rem), `normal` (56rem), `wide` (72rem, the default), `extra-wide` (1536px), and `full` (100% maximum width). Size aliases `sm`, `md`, `lg`, and `xl` correspond to the first four widths. These are maximums: the container still fits its parent.
+
+```taildown
+:::container {narrow}
+A focused reading column gives a short passage room to breathe.
+:::
+```
+
+:::container {narrow id="container-reference-example"}
+A focused reading column gives a short passage room to breathe. Use a wider container for a dashboard or a grid of related items.
+:::
 
 ---
 
@@ -551,6 +569,38 @@ More content
 - First tab automatically active
 - Supports all markdown and components
 - Mobile-responsive wrapping
+
+#### Pills and Minimal Tabs {bold}
+
+Use `{pills}` for rounded tab controls or `{minimal}` for a quieter underline treatment. The heading-to-panel structure and keyboard behavior stay the same.
+
+```taildown
+:::tabs {pills}
+## Read
+Start with the main idea.
+
+## Practice
+Try it with your own content.
+:::
+```
+
+:::tabs {pills}
+## Read
+Start with the main idea.
+
+## Practice
+Try it with your own content.
+:::
+
+Change the opening line to `:::tabs {minimal}` for this presentation:
+
+:::tabs {minimal}
+## Overview
+A restrained style works well inside a documentation page.
+
+## Notes
+Keep secondary information close to its context.
+:::
 
 [Back to top](#top){badge primary}
 
@@ -2313,6 +2363,60 @@ https://vimeo.com/VIDEO_ID
 
 ---
 
+### Tree {#tree bold primary}
+
+Write a nested Markdown list to display a directory or another hierarchy. End a directory name with `/` to mark it as a folder, including an empty folder. This is a styled list: it does not read your filesystem or create expandable controls.
+
+Choose `vscode`, `minimal`, `boxed`, `rounded`, `colored`, `dark`, or `glass`, or omit the variant for the default connecting-line style. Sizes are `sm`, `md`, and `lg`.
+
+```taildown
+:::tree {vscode sm}
+- field-guide/
+  - notes/
+    - morning.td
+  - drafts/
+  - index.td
+:::
+```
+
+:::tree {vscode sm id="tree-reference-example"}
+- field-guide/
+  - notes/
+    - morning.td
+  - drafts/
+  - index.td
+:::
+
+### Flow {#flow bold primary}
+
+Use a Markdown list for a small process diagram. The default is vertical; `horizontal` places steps across the available width and wraps when needed. Use `stepped` for numbered steps. Other presentations are `branching`, `timeline`, `minimal`, `dark`, and `glass`; sizes are `sm`, `md`, and `lg`.
+
+Flow is a visual arrangement of your list, not an executable workflow. Use [Mermaid](#mermaid) when you need explicitly connected nodes and labeled relationships.
+
+```taildown
+:::flow {horizontal sm}
+- Observe
+- Record
+- Refine
+:::
+```
+
+:::flow {horizontal sm id="flow-reference-example"}
+- Observe
+- Record
+- Refine
+:::
+
+For a vertical numbered sequence, use `stepped`:
+
+:::flow {stepped sm}
+- Gather the material
+- Find a clear structure
+- Review the result
+:::
+
+---
+
 ### Enhanced Table {#table bold primary}
 
 **GFM tables supercharged with sorting, zebra striping, glass effects, and sticky headers.**
@@ -2430,6 +2534,54 @@ Click any header to sort the data:
 - :icon[check]{success} **ARIA Support** - `aria-sort` attributes for screen readers
 
 [Back to top](#top){badge primary}
+
+---
+
+### Code Diff {#diff bold primary}
+
+Show an existing patch in a fenced `diff` block. Lines beginning with `-` are removed, `+` lines are added, and a leading space marks unchanged context. Hunk headers provide the starting line numbers.
+
+````taildown
+```diff
+@@ -1,2 +1,2 @@
+-const greeting = "Hello";
++const greeting = "Welcome";
+ render(greeting);
+```
+````
+
+```diff
+@@ -1,2 +1,2 @@
+-const greeting = "Hello";
++const greeting = "Welcome";
+ render(greeting);
+```
+
+For separate Before and After columns, place two code fences inside `:::diff`. Label them `before` and `after`; either side may be empty to show a complete addition or removal. The source form determines the layout: a `diff` fence is unified, while a Before/After pair renders two columns.
+
+````taildown
+:::diff {side-by-side}
+```before
+const label = "Save";
+```
+
+```after
+const label = "Save draft";
+```
+:::
+````
+
+:::diff {side-by-side}
+```before
+const label = "Save";
+```
+
+```after
+const label = "Save draft";
+```
+:::
+
+Keep the actual source in these fences. Taildown displays the comparison; it does not apply a patch to files.
 
 ---
 
@@ -3938,6 +4090,7 @@ A supporting observation belongs in a note.[^reference-example]
 ### :icon[layout]{primary} Layout Components
 - :icon[check]{success} **Card** - Content containers with glass effects
 - :icon[check]{success} **Grid** - Equal-height column layouts
+- :icon[check]{success} **[Container](#container)** - Centered reading and layout widths
 - :icon[check]{success} **Button Group** - Intelligent button layout
 :::
 
@@ -3975,6 +4128,9 @@ A supporting observation belongs in a note.[^reference-example]
 
 :::card {light-glass padded}
 ### :icon[table]{success} Data & Visualization
+- :icon[check]{success} **[Tree](#tree)** - Directory and hierarchy lists
+- :icon[check]{success} **[Flow](#flow)** - List-based process diagrams
+- :icon[check]{success} **[Code Diff](#diff)** - Unified patches and Before/After comparisons
 - :icon[check]{success} **Enhanced Table** - Sortable, zebra, glass effects
 - :icon[check]{success} **Image Comparison** - Interactive before/after slider
 - :icon[check]{success} **Mermaid Diagrams** - Flowcharts, sequence, Gantt, and more

@@ -2361,9 +2361,14 @@ td svg.icon {
 
 /* Info/header lines (blue) */
 .diff-line-info {
-  color: var(--info);
+  color: var(--foreground);
+  background-color: rgba(59, 130, 246, 0.08);
   font-weight: 600;
   border-left: 3px solid var(--info);
+}
+
+.dark .diff-line-info {
+  background-color: rgba(59, 130, 246, 0.15);
 }
 
 /* Side-by-side diff visual styling */

@@ -975,7 +975,9 @@ after: /img/after.jpg
 
 ---
 
-## Complete Component List {#component-list bold primary}
+## Selected Component Quick Reference {#component-list bold primary}
+
+This table covers common starting points. The [component reference](components.html) includes the broader library, live examples, and detailed usage; see [Container](components.html#container), [Tree](components.html#tree), [Flow](components.html#flow), and [Code Diff](components.html#diff) for additional layouts and visualizations.
 
 | Component | Purpose | Usage | Variants |
 |-----------|---------|-------|----------|

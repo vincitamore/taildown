@@ -1318,11 +1318,11 @@ export function renderDiff(_state: State, node: Code | ContainerDirectiveNode): 
       const lineClasses = ['diff-line'];
       
       if (line.type === 'added') {
-        lineClasses.push('diff-line-added', 'bg-green-50', 'dark:bg-green-900/20');
+        lineClasses.push('diff-line-added');
       } else if (line.type === 'removed') {
-        lineClasses.push('diff-line-removed', 'bg-red-50', 'dark:bg-red-900/20');
+        lineClasses.push('diff-line-removed');
       } else if (line.type === 'info') {
-        lineClasses.push('diff-line-info', 'bg-blue-50', 'dark:bg-blue-900/20', 'font-semibold');
+        lineClasses.push('diff-line-info');
       } else {
         lineClasses.push('diff-line-unchanged');
       }
