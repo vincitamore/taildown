@@ -3097,13 +3097,6 @@ ${generateThemeCSS(config)}
   transform: translateZ(0);
 }
 
-/* Mobile: Full width for better touch targets */
-@media (max-width: 768px) {
-  .tabs-list {
-    width: 100%;
-  }
-}
-
 .dark .tabs-list {
   background: rgba(15, 23, 42, 0.5);
   border-color: rgba(255, 255, 255, 0.1);
