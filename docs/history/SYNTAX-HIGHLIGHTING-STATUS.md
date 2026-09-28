@@ -9,7 +9,7 @@
 
 ### Status: INSTALLED - NEEDS TESTING
 
-**Location**: `C:\Users\ncutech\.vscode\extensions\taildown-syntax-0.2.0`
+**Location**: `~/.vscode/extensions/taildown-syntax-0.2.0`
 
 **Implementation**:
 - ✓ Created TextMate grammar (`.vscode/extensions/taildown/syntaxes/taildown.tmLanguage.json`)
